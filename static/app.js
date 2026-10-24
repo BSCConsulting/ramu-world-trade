@@ -1,12 +1,166 @@
 // World of Trade — iOS Native-Feel PWA Engine (iPhone 15 Optimized)
-// 95%+ Enterprise Grade UI, Kinetic Motions & Statutory Infographics
+// 95%+ Enterprise Grade UI, Kinetic Motions & 5 Refined Editorial Themes
 
+// ==================== THEME ENGINE DEFINITION ====================
+const THEMES = {
+  'warm-sand': {
+    name: 'Warm Sand',
+    shortName: 'Warm Sand',
+    emoji: '🏜️',
+    dot: '#C25E34',
+    accent: '#C25E34',
+    chartGrid: 'rgba(194, 94, 52, 0.10)',
+    chartTick: '#6B5C51',
+    chartColors: ['#C25E34', '#9A6B38', '#475569', '#2D6A4F', '#D97706', '#DC2626']
+  },
+  'editorial-ivory': {
+    name: 'Editorial Ivory',
+    shortName: 'Ivory',
+    emoji: '📰',
+    dot: '#9E2A2B',
+    accent: '#9E2A2B',
+    chartGrid: 'rgba(0, 0, 0, 0.08)',
+    chartTick: '#575553',
+    chartColors: ['#9E2A2B', '#334155', '#B45309', '#047857', '#6D28D9', '#BE123C']
+  },
+  'oxford-alabaster': {
+    name: 'Oxford Alabaster',
+    shortName: 'Oxford',
+    emoji: '🏛️',
+    dot: '#1E40AF',
+    accent: '#1E40AF',
+    chartGrid: 'rgba(30, 64, 175, 0.08)',
+    chartTick: '#475569',
+    chartColors: ['#1E40AF', '#0D9488', '#D97706', '#7C3AED', '#E11D48', '#2563EB']
+  },
+  'kyoto-tea': {
+    name: 'Kyoto Tea Paper',
+    shortName: 'Kyoto',
+    emoji: '🌿',
+    dot: '#2D6A4F',
+    accent: '#2D6A4F',
+    chartGrid: 'rgba(45, 106, 79, 0.10)',
+    chartTick: '#4E6353',
+    chartColors: ['#2D6A4F', '#52796F', '#84A98C', '#B5838D', '#D4A373', '#E76F51']
+  },
+  'cashmere-bronze': {
+    name: 'Cashmere & Bronze',
+    shortName: 'Cashmere',
+    emoji: '☕',
+    dot: '#9A6B38',
+    accent: '#9A6B38',
+    chartGrid: 'rgba(154, 107, 56, 0.10)',
+    chartTick: '#6B5C51',
+    chartColors: ['#9A6B38', '#78350F', '#B45309', '#065F46', '#1E3A8A', '#991B1B']
+  },
+  'midnight-oled': {
+    name: 'Midnight OLED',
+    shortName: 'Midnight',
+    emoji: '🌑',
+    dot: '#3F3F46',
+    accent: '#F59E0B',
+    chartGrid: 'rgba(255, 255, 255, 0.06)',
+    chartTick: '#A1A1AA',
+    chartColors: ['#F59E0B', '#10B981', '#3B82F6', '#8B5CF6', '#EC4899', '#EF4444']
+  }
+};
+
+let currentTheme = 'kyoto-tea';
 let currentChart = null;
 let lastChartData = null;
 let currentTab = 'apps';
 let mandiSecondsLeft = 2 * 3600 + 44 * 60 + 18;
 let ewaySecondsLeft = 18 * 3600 + 32 * 60 + 5;
 let currentRawMarkdown = "";
+
+// ==================== THEME CONTROLLER FUNCTIONS ====================
+function applyTheme(themeKey) {
+  if (!THEMES[themeKey]) themeKey = 'kyoto-tea';
+  currentTheme = themeKey;
+  const t = THEMES[themeKey];
+
+  // Apply theme class to <body>
+  document.body.className = `theme-${themeKey} h-full overflow-x-hidden flex flex-col font-sans`;
+
+  // Update header trigger button
+  const btnEmoji = document.getElementById('theme-btn-emoji');
+  const btnLabel = document.getElementById('theme-btn-label');
+  if (btnEmoji) btnEmoji.textContent = t.emoji;
+  if (btnLabel) btnLabel.textContent = t.shortName;
+
+  // Update active state in header dropdown
+  document.querySelectorAll('.theme-option-row').forEach(row => {
+    if (row.getAttribute('data-theme') === themeKey) {
+      row.classList.add('active');
+    } else {
+      row.classList.remove('active');
+    }
+  });
+
+  // Update Tab 5 Settings Cards (theme-card)
+  document.querySelectorAll('.theme-card').forEach(card => {
+    if (card.getAttribute('data-theme') === themeKey) {
+      card.style.borderColor = 'var(--accent)';
+      card.classList.add('ring-2', 'ring-offset-1');
+    } else {
+      card.style.borderColor = 'var(--card-border)';
+      card.classList.remove('ring-2', 'ring-offset-1');
+    }
+  });
+
+  // Update Tab 5 System Diagnostics label
+  const diag = document.getElementById('diag-theme-label');
+  if (diag) diag.textContent = `${t.emoji} ${t.name}`;
+
+  // Update active bottom nav icon highlight
+  const activeNav = document.getElementById(`nav-btn-${currentTab}`);
+  if (activeNav) activeNav.style.color = 'var(--accent)';
+
+  // Persist preference to localStorage
+  localStorage.setItem('wot_editorial_theme', themeKey);
+
+  // Dynamically re-render chart to adapt grid lines and ticks
+  if (currentChart && lastChartData) {
+    renderChart(lastChartData);
+  }
+}
+
+function selectTheme(themeKey) {
+  applyTheme(themeKey);
+  closeThemeDropdown();
+  showToast(`Theme: ${THEMES[themeKey].name}`, THEMES[themeKey].emoji);
+}
+
+function toggleThemeDropdown(event) {
+  if (event) event.stopPropagation();
+  const dd = document.getElementById('theme-dropdown');
+  if (!dd) return;
+  if (dd.classList.contains('hidden')) {
+    dd.classList.remove('hidden');
+    setTimeout(() => {
+      dd.classList.remove('scale-95', 'opacity-0');
+      dd.classList.add('scale-100', 'opacity-100');
+    }, 10);
+  } else {
+    closeThemeDropdown();
+  }
+}
+
+function closeThemeDropdown() {
+  const dd = document.getElementById('theme-dropdown');
+  if (dd && !dd.classList.contains('hidden')) {
+    dd.classList.remove('scale-100', 'opacity-100');
+    dd.classList.add('scale-95', 'opacity-0');
+    setTimeout(() => dd.classList.add('hidden'), 200);
+  }
+}
+
+// Click outside handler to dismiss dropdown
+window.addEventListener('click', (e) => {
+  if (!e.target.closest('#theme-dropdown') && !e.target.closest('#theme-btn')) {
+    closeThemeDropdown();
+  }
+});
 
 // 1. PRIMARY NATIVE 5-TAB CONTROLLER (Radar, Agenda, Refund, Clocks, System)
 function switchNativeTab(tabName) {
@@ -19,12 +173,10 @@ function switchNativeTab(tabName) {
     if (section && navBtn) {
       if (t === tabName) {
         section.classList.remove('hidden');
-        navBtn.classList.remove('text-neutral-500');
-        navBtn.classList.add('text-amber-400');
+        navBtn.style.color = 'var(--accent)';
       } else {
         section.classList.add('hidden');
-        navBtn.classList.remove('text-amber-400');
-        navBtn.classList.add('text-neutral-500');
+        navBtn.style.color = 'var(--text-dim)';
       }
     }
   });
@@ -249,18 +401,30 @@ function updateTradeFlowInfographic(classification) {
   }
 }
 
-// 8. OLED HIGH-CONTRAST CHART ENGINE (Super Retina XDR with Line/Bar Toggles)
+// 8. DYNAMIC THEME-ADAPTED CHART ENGINE (Super Retina XDR with Line/Bar Toggles)
 function toggleChartType(type) {
   if (!lastChartData) return;
   const btnBar = document.getElementById('btn-chart-bar');
   const btnLine = document.getElementById('btn-chart-line');
 
   if (type === 'bar') {
-    btnBar.className = "px-2.5 py-1 rounded-lg bg-white/15 text-white text-[10px] font-bold font-mono active:scale-95 shadow";
-    btnLine.className = "px-2.5 py-1 rounded-lg bg-transparent text-neutral-400 text-[10px] font-bold font-mono active:scale-95";
+    if (btnBar) {
+      btnBar.style.background = 'var(--accent)';
+      btnBar.style.color = '#ffffff';
+    }
+    if (btnLine) {
+      btnLine.style.background = 'transparent';
+      btnLine.style.color = 'var(--text-dim)';
+    }
   } else {
-    btnLine.className = "px-2.5 py-1 rounded-lg bg-white/15 text-white text-[10px] font-bold font-mono active:scale-95 shadow";
-    btnBar.className = "px-2.5 py-1 rounded-lg bg-transparent text-neutral-400 text-[10px] font-bold font-mono active:scale-95";
+    if (btnLine) {
+      btnLine.style.background = 'var(--accent)';
+      btnLine.style.color = '#ffffff';
+    }
+    if (btnBar) {
+      btnBar.style.background = 'transparent';
+      btnBar.style.color = 'var(--text-dim)';
+    }
   }
 
   renderChart({
@@ -282,7 +446,8 @@ function renderChart(chartData) {
     chartTitleEl.textContent = chartData.title;
   }
 
-  const oledColors = ['#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899', '#ef4444'];
+  const t = THEMES[currentTheme] || THEMES['kyoto-tea'];
+  const palette = t.chartColors || ['#2D6A4F', '#52796F', '#84A98C', '#B5838D', '#D4A373', '#E76F51'];
   const isLine = chartData.type === 'line';
 
   currentChart = new Chart(ctx, {
@@ -291,13 +456,13 @@ function renderChart(chartData) {
       labels: chartData.labels || [],
       datasets: (chartData.datasets || []).map((ds, idx) => ({
         ...ds,
-        backgroundColor: ds.backgroundColor || (isLine ? 'transparent' : oledColors[idx % oledColors.length]),
-        borderColor: ds.borderColor || (isLine ? (oledColors[idx % oledColors.length]) : undefined),
+        backgroundColor: ds.backgroundColor || (isLine ? 'transparent' : palette[idx % palette.length]),
+        borderColor: ds.borderColor || (isLine ? (palette[idx % palette.length]) : undefined),
         borderWidth: isLine ? 2.5 : 0,
         borderRadius: isLine ? 0 : 8,
         pointRadius: isLine ? 3.5 : 0,
         pointHoverRadius: isLine ? 6 : 0,
-        pointBackgroundColor: isLine ? (oledColors[idx % oledColors.length]) : undefined
+        pointBackgroundColor: isLine ? (palette[idx % palette.length]) : undefined
       }))
     },
     options: {
@@ -308,7 +473,7 @@ function renderChart(chartData) {
           display: true,
           position: 'top',
           labels: { 
-            color: '#d4d4d8', 
+            color: t.chartTick, 
             font: { family: "'Plus Jakarta Sans', sans-serif", size: 10, weight: '700' }, 
             boxWidth: 8,
             boxHeight: 8,
@@ -316,7 +481,7 @@ function renderChart(chartData) {
           }
         },
         tooltip: {
-          backgroundColor: '#18181b',
+          backgroundColor: 'rgba(20, 20, 20, 0.95)',
           borderColor: 'rgba(255, 255, 255, 0.1)',
           borderWidth: 1,
           padding: 10,
@@ -327,12 +492,12 @@ function renderChart(chartData) {
       },
       scales: {
         x: {
-          ticks: { color: '#a1a1aa', font: { family: "'Plus Jakarta Sans', sans-serif", size: 9 } },
+          ticks: { color: t.chartTick, font: { family: "'Plus Jakarta Sans', sans-serif", size: 9 } },
           grid: { display: false }
         },
         y: {
-          ticks: { color: '#a1a1aa', font: { family: "'JetBrains Mono', monospace", size: 9 } },
-          grid: { color: 'rgba(255, 255, 255, 0.05)' }
+          ticks: { color: t.chartTick, font: { family: "'JetBrains Mono', monospace", size: 9 } },
+          grid: { color: t.chartGrid }
         }
       }
     }
@@ -502,8 +667,30 @@ function resetEwayTimer() {
 
 setInterval(updateTimers, 1000);
 
-// Search input listener for clear button
+// Global Window Bindings for Inline HTML Handlers
+window.applyTheme = applyTheme;
+window.selectTheme = selectTheme;
+window.toggleThemeDropdown = toggleThemeDropdown;
+window.closeThemeDropdown = closeThemeDropdown;
+window.switchNativeTab = switchNativeTab;
+window.setQuery = setQuery;
+window.clearSearchInput = clearSearchInput;
+window.handleSearch = handleSearch;
+window.handleCalculate = handleCalculate;
+window.toggleChartType = toggleChartType;
+window.openBottomSheet = openBottomSheet;
+window.closeBottomSheet = closeBottomSheet;
+window.copyOutputMarkdown = copyOutputMarkdown;
+window.shareOrPrintReport = shareOrPrintReport;
+window.resetEwayTimer = resetEwayTimer;
+
+// DOM Initialization
 window.addEventListener('DOMContentLoaded', () => {
+  // 1. Initialize Active Editorial Theme from localStorage
+  const savedTheme = localStorage.getItem('wot_editorial_theme') || 'kyoto-tea';
+  applyTheme(savedTheme);
+
+  // 2. Search input listener for clear button
   const input = document.getElementById('query-input');
   const clearBtn = document.getElementById('clear-btn');
   if (input && clearBtn) {
@@ -516,6 +703,6 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Initial Load: Default trade pulse query
+  // 3. Initial Load: Default trade pulse query
   setQuery("What are India's overall trade totals and deficit?");
 });
