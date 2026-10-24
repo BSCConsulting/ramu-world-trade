@@ -19,7 +19,7 @@ from incentives_calculator import incentives_calculator
 from cache import init_db, CACHE_DB_PATH
 import sqlite3
 
-STATIC_DIR = BASE_DIR / "static"
+STATIC_DIR = BASE_DIR / "public" if (BASE_DIR / "public").exists() else BASE_DIR / "static"
 STATIC_DIR.mkdir(exist_ok=True)
 
 class TradeAppRequestHandler(SimpleHTTPRequestHandler):

@@ -1,0 +1,272 @@
+"""Vercel Serverless Function entry point for World of Trade API.
+Handles /api/health, /api/query, /api/calculate, and /api/history.
+Built using 100% Python standard library BaseHTTPRequestHandler.
+"""
+import os
+import sys
+import json
+import urllib.parse
+from http.server import BaseHTTPRequestHandler
+from pathlib import Path
+
+# Add project root to sys.path so root modules can be imported
+ROOT_DIR = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT_DIR))
+
+# Ensure VERCEL environment variable is recognized
+os.environ["VERCEL"] = "1"
+
+from triangulator import engine
+from classifier import classifier
+from incentives_calculator import incentives_calculator
+from cache import init_db, CACHE_DB_PATH
+import sqlite3
+
+class handler(BaseHTTPRequestHandler):
+    def _send_json(self, data: dict, status: int = 200):
+        body = json.dumps(data).encode("utf-8")
+        self.send_response(status)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def do_OPTIONS(self):
+        self.send_response(204)
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.end_headers()
+
+    def do_GET(self):
+        parsed = urllib.parse.urlparse(self.path)
+        path = parsed.path.rstrip("/")
+        if path.endswith("/health"):
+            self._send_json({"status": "ok", "app": "World of Trade", "tier": "100% Free", "deployment": "Vercel Serverless"})
+        elif path.endswith("/history"):
+            self._handle_history()
+        else:
+            self._send_json({"status": "ok", "message": "World of Trade API is active"}, status=200)
+
+    def do_POST(self):
+        parsed = urllib.parse.urlparse(self.path)
+        path = parsed.path.rstrip("/")
+        content_length = int(self.headers.get("Content-Length", 0))
+        body = self.rfile.read(content_length).decode("utf-8") if content_length > 0 else "{}"
+        
+        try:
+            payload = json.loads(body)
+        except Exception:
+            payload = {}
+
+        if path.endswith("/query"):
+            self._handle_query(payload)
+        elif path.endswith("/calculate"):
+            self._handle_calculate(payload)
+        else:
+            self._send_json({"error": f"API endpoint not found: {self.path}"}, status=404)
+
+    def _handle_query(self, payload: dict):
+        query = payload.get("query", "").strip()
+        if not query:
+            self._send_json({"error": "Empty query"}, status=400)
+            return
+
+        # 1. Classification
+        classification = classifier.classify(query)
+
+        # 2. Check for incentives query
+        q_lower = query.lower()
+        incentives_keywords = ["incentive", "incentives", "rodtep", "drawback", "refund", "rebate", "cash refund", "profit"]
+        curr_tokens = ["lakh", "crore", "$", "rs", "₹", "usd", "dollar", "dollars", "eur", "euro", "aed", "dirham", "gbp", "pound"]
+        order_tokens = ["order", "consignment", "export order", "shipment", "cargo"]
+        is_incentive = any(k in q_lower for k in incentives_keywords) or (any(c in q_lower for c in curr_tokens) and any(w in q_lower for w in order_tokens))
+
+        if is_incentive:
+            calc_data = incentives_calculator.calculate(query)
+            formatted_text = incentives_calculator.format_report(calc_data)
+            self._send_json({
+                "type": "incentive_calculation",
+                "classification": {
+                    "flow": classification["trade_flow"],
+                    "sector": classification["primary_sector"]["name"] if classification["primary_sector"] else "General Exports",
+                    "domain": "Physical Merchandise Trade & Customs Rebates",
+                    "partner": classification.get("detected_country")
+                },
+                "formatted_markdown": formatted_text,
+                "calculation": calc_data,
+                "chart_data": {
+                    "labels": ["Consignment Value", "RoDTEP Refund", "Duty Drawback", "Total Cash In Bank"],
+                    "values": [calc_data["order_value_inr"], calc_data["rodtep_inr"], calc_data["drawback_inr"], calc_data["total_direct_cash_inr"]]
+                }
+            })
+            return
+
+        # 3. Standard Triangulated Query
+        formatted_text = engine.answer_question(query)
+
+        # Chart generation logic
+        chart_data = None
+        matched_country = classification.get("detected_country")
+        detected_odop = classification.get("detected_odop")
+        detected_hs = classification.get("detected_hs_line")
+
+        if detected_odop:
+            chart_data = {
+                "title": f"ODOP District: {detected_odop['district']} ({detected_odop['odop_product']})",
+                "type": "bar",
+                "labels": ["Target Markets (Indexed)", "Value Chain Readiness", "Mandi Linkage"],
+                "datasets": [{
+                    "label": "Maturity Index (%)",
+                    "data": [92, 88, 95],
+                    "backgroundColor": ["#f59e0b", "#10b981", "#3b82f6"]
+                }]
+            }
+        elif detected_hs:
+            rod = detected_hs.get("rodtep_rate_pct", 0.0)
+            dbk = detected_hs.get("duty_drawback_pct", 0.0)
+            chart_data = {
+                "title": f"Statutory Remission Rates: HS {detected_hs['hs_code']}",
+                "type": "bar",
+                "labels": ["RoDTEP Rate (%)", "Duty Drawback (%)", "Total Cash Relief (%)"],
+                "datasets": [{
+                    "label": "Incentive Percentage (%)",
+                    "data": [rod, dbk, round(rod + dbk, 2)],
+                    "backgroundColor": ["#3b82f6", "#10b981", "#f59e0b"]
+                }]
+            }
+        elif matched_country:
+            partner = engine.store.get_trading_partner(matched_country)
+            ex = partner["export_data"]["value_usd_billion"] if partner["export_data"] else 0
+            im = partner["import_data"]["value_usd_billion"] if partner["import_data"] else 0
+            chart_data = {
+                "title": f"India - {matched_country} Bilateral Trade (USD Billion)",
+                "type": "bar",
+                "labels": ["India's Exports (FOB)", f"{matched_country} Exports to India (CIF)"],
+                "datasets": [{
+                    "label": "USD Billion",
+                    "data": [ex, im],
+                    "backgroundColor": ["#10b981", "#ef4444"]
+                }]
+            }
+        elif "top export" in q_lower or "what does india export" in q_lower:
+            items = engine.store.get_top_export_commodities(5)
+            chart_data = {
+                "title": "Top Indian Export Sectors (USD Billion)",
+                "type": "bar",
+                "labels": [it["commodity"].split("(")[0].strip() for it in items],
+                "datasets": [{
+                    "label": "USD Billion",
+                    "data": [it["value_usd_billion"] for it in items],
+                    "backgroundColor": ["#3b82f6", "#10b981", "#8b5cf6", "#f59e0b", "#ec4899"]
+                }]
+            }
+        elif "top import" in q_lower or "what does india import" in q_lower:
+            items = engine.store.get_top_import_commodities(5)
+            chart_data = {
+                "title": "Top Indian Import Sectors (USD Billion)",
+                "type": "bar",
+                "labels": [it["commodity"].split("(")[0].strip() for it in items],
+                "datasets": [{
+                    "label": "USD Billion",
+                    "data": [it["value_usd_billion"] for it in items],
+                    "backgroundColor": ["#ef4444", "#f97316", "#eab308", "#6366f1", "#14b8a6"]
+                }]
+            }
+        elif any(k in q_lower for k in ["trend", "history", "historical", "growth", "over time", "multi-year", "timeseries", "year by year"]):
+            ts_path = ROOT_DIR / "data" / "historical_timeseries.json"
+            if ts_path.exists():
+                with open(ts_path, "r", encoding="utf-8") as f:
+                    ts = json.load(f)
+                chart_data = {
+                    "title": "India Trade 6-Year Trajectory: Goods vs Services (USD Billion)",
+                    "type": "line",
+                    "labels": ts["years"],
+                    "datasets": [
+                        {
+                            "label": "Merchandise Exports (FOB)",
+                            "data": ts["merchandise_exports_usd_billion"],
+                            "borderColor": "#10b981",
+                            "backgroundColor": "rgba(16, 185, 129, 0.15)",
+                            "fill": True,
+                            "tension": 0.3
+                        },
+                        {
+                            "label": "Merchandise Imports (CIF)",
+                            "data": ts["merchandise_imports_usd_billion"],
+                            "borderColor": "#ef4444",
+                            "backgroundColor": "rgba(239, 68, 68, 0.15)",
+                            "fill": True,
+                            "tension": 0.3
+                        },
+                        {
+                            "label": "Services Surplus (RBI)",
+                            "data": ts["services_surplus_usd_billion"],
+                            "borderColor": "#3b82f6",
+                            "backgroundColor": "rgba(59, 130, 246, 0.15)",
+                            "fill": True,
+                            "tension": 0.3
+                        }
+                    ]
+                }
+        else:
+            totals = engine.store.get_totals("FY2023-24")
+            services = engine.store.get_services_trade("FY2023-24")
+            chart_data = {
+                "title": "India Foreign Trade: Goods Deficit vs Services Surplus (USD Billion)",
+                "type": "bar",
+                "labels": ["Merchandise Deficit", "Services Surplus", "Net Trade Balance"],
+                "datasets": [{
+                    "label": "USD Billion",
+                    "data": [totals["trade_deficit_usd_billion"], services["net_services_surplus_usd_billion"], round(totals["trade_deficit_usd_billion"] + services["net_services_surplus_usd_billion"], 2)],
+                    "backgroundColor": ["#ef4444", "#10b981", "#f59e0b"]
+                }]
+            }
+
+        self._send_json({
+            "type": "trade_query",
+            "classification": {
+                "flow": classification["trade_flow"],
+                "sector": classification["primary_sector"]["name"] if classification["primary_sector"] else "All Industry Sectors",
+                "domain": ", ".join([d["name"] for d in classification["detected_domains"][:2]]),
+                "partner": classification.get("detected_country")
+            },
+            "formatted_markdown": formatted_text,
+            "chart_data": chart_data
+        })
+
+    def _handle_calculate(self, payload: dict):
+        query = payload.get("query", "")
+        amount = payload.get("amount")
+        product = payload.get("product", "")
+        search_str = f"{query} {product} {amount if amount else ''}"
+        calc_res = incentives_calculator.calculate(search_str)
+        report_md = incentives_calculator.format_report(calc_res)
+        self._send_json({
+            "calculation": calc_res,
+            "formatted_markdown": report_md
+        })
+
+    def _handle_history(self):
+        history = []
+        try:
+            init_db()
+            with sqlite3.connect(CACHE_DB_PATH) as conn:
+                cursor = conn.cursor()
+                cursor.execute("""
+                    SELECT query_text, primary_source, datetime(timestamp, 'unixepoch', 'localtime')
+                    FROM query_history
+                    ORDER BY id DESC LIMIT 10
+                """)
+                for row in cursor.fetchall():
+                    history.append({
+                        "query": row[0],
+                        "source": row[1],
+                        "time": row[2]
+                    })
+        except Exception:
+            pass
+        self._send_json({"history": history})

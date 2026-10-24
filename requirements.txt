@@ -1,0 +1,3 @@
+# World of Trade - India Statutory Trade Intelligence
+# Built with 100% Python Standard Library (urllib, http.server, sqlite3, json, re)
+# No external pip dependencies required.

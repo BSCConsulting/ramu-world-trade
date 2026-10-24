@@ -30,6 +30,11 @@ load_env()
 
 DATA_GOV_IN_API_KEY = os.getenv("DATA_GOV_IN_API_KEY", "")
 DATA_GOV_IN_BASE_URL = os.getenv("DATA_GOV_IN_BASE_URL", "https://api.data.gov.in/resource")
-CACHE_DB_PATH = BASE_DIR / "trade_cache.db"
+IS_VERCEL = bool(os.getenv("VERCEL") or os.getenv("AWS_LAMBDA_FUNCTION_NAME"))
+CACHE_DB_PATH = Path("/tmp/trade_cache.db") if IS_VERCEL else BASE_DIR / "trade_cache.db"
 DATA_DIR = BASE_DIR / "data"
-DATA_DIR.mkdir(exist_ok=True)
+try:
+    DATA_DIR.mkdir(exist_ok=True)
+except Exception:
+    pass
+
