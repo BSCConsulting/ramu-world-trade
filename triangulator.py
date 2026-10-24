@@ -126,12 +126,21 @@ class TriangulationEngine:
         matched_country = classification.get("detected_country")
         primary_sector = classification.get("primary_sector")
 
-        # 0. Export Incentives & Cash Refund Calculation (RoDTEP, Drawback, Rebate)
         incentives_keywords = ["incentive", "incentives", "rodtep", "drawback", "refund", "rebate", "cash refund", "cash benefit", "cash back", "subsidy", "profit"]
-        is_incentive_query = any(k in q_lower for k in incentives_keywords) or (("lakh" in q_lower or "crore" in q_lower or "$" in q_lower or "rs" in q_lower or "₹" in q_lower) and ("export" in q_lower or "order" in q_lower or "consignment" in q_lower))
+        curr_tokens = ["lakh", "crore", "$", "rs", "₹", "usd", "dollar", "dollars", "eur", "euro", "aed", "dirham", "gbp", "pound"]
+        order_tokens = ["order", "consignment", "export order", "shipment", "cargo"]
+        is_incentive_query = any(k in q_lower for k in incentives_keywords) or (any(c in q_lower for c in curr_tokens) and any(w in q_lower for w in order_tokens))
         if is_incentive_query:
             calc_res = incentives_calculator.calculate(question)
             return banner + incentives_calculator.format_report(calc_res)
+
+        # 0B. ODOP District Match (One District One Product 765 registry)
+        if classification.get("detected_odop"):
+            return banner + self._format_odop_response(classification["detected_odop"])
+
+        # 0C. Granular 8-Digit ITC-HS Line Match
+        if classification.get("detected_hs_line"):
+            return banner + self._format_granular_hs_response(classification["detected_hs_line"])
 
         # 1. Partner country matching
         if matched_country and ("export" in q_lower or "import" in q_lower or "trade" in q_lower or "compare" in q_lower or "with" in q_lower or "to" in q_lower or "from" in q_lower or len(question.split()) <= 4):
@@ -402,5 +411,89 @@ class TriangulationEngine:
         ]
         return "\n".join(out)
 
+    def _format_odop_response(self, odop: Dict[str, Any]) -> str:
+        dist = odop.get("district", "Unknown District")
+        state = odop.get("state", "India")
+        prod = odop.get("odop_product", "Local Craft / Crop")
+        hs = odop.get("hs_code", "N/A")
+        chapter = odop.get("hs_chapter", "")
+        potential = odop.get("export_potential", "High Potential")
+        markets = ", ".join(odop.get("key_international_markets", ["Global GCC / Asian Markets"]))
+        mandi = odop.get("nearby_apmc_mandi", "District Wholesale Mandi")
+        epc = odop.get("primary_epc", "District Industries Centre / EPC")
+
+        out = [
+            f"### Official One District One Product (ODOP) Profile: {dist} ({state})",
+            "",
+            "| Dimension | District Statutory Specification |",
+            "| :--- | :--- |",
+            f"| **District & State** | **{dist}, {state}** |",
+            f"| **Designated ODOP Product** | **{prod}** |",
+            f"| **ITC-HS Tariff Line** | `{hs}` (Chapter {chapter}) |",
+            f"| **Export Potential Rating** | **{potential}** |",
+            f"| **Key Target Export Markets** | {markets} |",
+            f"| **APMC Mandi / Sourcing Hub** | **{mandi}** |",
+            f"| **Lead Export Promotion Council** | {epc} |",
+            "",
+            "#### District Export Hub Action Plan & Policy Insights:",
+            f"- **Statutory Designation**: Under DGFT's *Districts as Export Hubs (DEH)* and DPIIT ODOP initiatives, {dist} has priority clearance channels and testing infrastructure.",
+            f"- **Local Value Chain Integration**: Farm/artisan aggregated cargo routes through **{mandi}**, requiring e-Way bill compliance for inter-state transit to gateway ports (Nhava Sheva / Chennai / Mundra).",
+            "",
+            "```text",
+            "═══════════════════════════════════════════════════════════════════════════",
+            "                      STATUTORY AUDIT PROOF BADGE                           ",
+            "═══════════════════════════════════════════════════════════════════════════",
+            "Governing Authority  : Department for Promotion of Industry and Internal Trade (DPIIT)",
+            "National Policy      : Foreign Trade Policy (FTP 2023) - Districts as Export Hubs",
+            "Product Standard     : Geographic Indication (GI) / 8-Digit ITC-HS Classification",
+            "Verification Portal  : https://www.odop.dpiit.gov.in / https://www.dgft.gov.in",
+            "═══════════════════════════════════════════════════════════════════════════",
+            "```"
+        ]
+        return "\n".join(out)
+
+    def _format_granular_hs_response(self, hs_line: Dict[str, Any]) -> str:
+        hs_code = hs_line.get("hs_code", "N/A")
+        desc = hs_line.get("description", "Customs Tariff Item")
+        ch = hs_line.get("hs_chapter", "")
+        sector = hs_line.get("sector", "General Merchandise")
+        role = hs_line.get("trade_role", "Standard Tariff Line")
+        rodtep = hs_line.get("rodtep_rate_pct", 0.0)
+        drawback = hs_line.get("duty_drawback_pct", 0.0)
+        partners = ", ".join(hs_line.get("top_markets") or hs_line.get("top_sources") or ["Global"])
+
+        out = [
+            f"### ITC-HS 8-Digit Tariff Line Profile: {hs_code}",
+            "",
+            "| Statutory Attribute | Classification Details |",
+            "| :--- | :--- |",
+            f"| **ITC-HS Tariff Code** | **`{hs_code}`** |",
+            f"| **Statutory Description** | **{desc}** |",
+            f"| **Harmonized Chapter** | Chapter {ch} |",
+            f"| **Industrial Sector** | {sector} |",
+            f"| **National Trade Role** | **{role}** |",
+            f"| **RoDTEP Export Remission** | **{rodtep}%** (DGFT Appendix 4R Gazette) |",
+            f"| **All Industry Duty Drawback** | **{drawback}%** (CBIC Schedule) |",
+            f"| **Combined Cash Relief** | **{round(rodtep + drawback, 2)}%** direct refund on FOB value |",
+            f"| **Key Partner Economies** | {partners} |",
+            "",
+            "#### Statutory Compliance & Policy Highlights:",
+            "- **Classification System**: Administered under the *Customs Tariff Act, 1975*, aligned with WCO 6-digit Harmonized System with Indian 8-digit national breakouts.",
+            f"- **Cash Liquidity Advantage**: Exporters of `{hs_code}` can claim electronic scrips and DBK directly into their verified bank account via ICEGATE within 72 hours of EGM filing.",
+            "",
+            "```text",
+            "═══════════════════════════════════════════════════════════════════════════",
+            "                      STATUTORY AUDIT PROOF BADGE                           ",
+            "═══════════════════════════════════════════════════════════════════════════",
+            "Classification System: Indian Trade Classification based on Harmonized System (ITC-HS)",
+            "Tariff Custodian     : Central Board of Indirect Taxes and Customs (CBIC) & DGFT",
+            "Statutory Basis      : Customs Tariff Act, 1975 & Finance Act 2024",
+            "Verification Portal  : https://www.cbic.gov.in / https://tradestat.commerce.gov.in",
+            "═══════════════════════════════════════════════════════════════════════════",
+            "```"
+        ]
+        return "\n".join(out)
+
 # Singleton engine instance
 engine = TriangulationEngine()
+

@@ -1,0 +1,18 @@
+{
+  "metadata": {
+    "title": "Central Board of Indirect Taxes and Customs (CBIC) Gazette Exchange Rates",
+    "notification_ref": "Notification No. 12/2024-Customs (N.T.) / CBIC Forex Bulletin",
+    "effective_date": "2026-10-24",
+    "verification_portal": "https://www.cbic.gov.in"
+  },
+  "rates_inr_per_unit": {
+    "USD": 84.05,
+    "EUR": 91.30,
+    "GBP": 109.45,
+    "AED": 22.88,
+    "SAR": 22.40,
+    "CNY": 11.82,
+    "SGD": 64.15,
+    "JPY_PER_100": 56.20
+  }
+}

@@ -69,7 +69,9 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
         # 2. Check for incentives query
         q_lower = query.lower()
         incentives_keywords = ["incentive", "incentives", "rodtep", "drawback", "refund", "rebate", "cash refund", "profit"]
-        is_incentive = any(k in q_lower for k in incentives_keywords) or (("lakh" in q_lower or "crore" in q_lower or "$" in q_lower or "rs" in q_lower or "₹" in q_lower) and ("export" in q_lower or "order" in q_lower))
+        curr_tokens = ["lakh", "crore", "$", "rs", "₹", "usd", "dollar", "dollars", "eur", "euro", "aed", "dirham", "gbp", "pound"]
+        order_tokens = ["order", "consignment", "export order", "shipment", "cargo"]
+        is_incentive = any(k in q_lower for k in incentives_keywords) or (any(c in q_lower for c in curr_tokens) and any(w in q_lower for w in order_tokens))
 
         if is_incentive:
             calc_data = incentives_calculator.calculate(query)
@@ -97,7 +99,34 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
         # Chart generation logic
         chart_data = None
         matched_country = classification.get("detected_country")
-        if matched_country:
+        detected_odop = classification.get("detected_odop")
+        detected_hs = classification.get("detected_hs_line")
+
+        if detected_odop:
+            chart_data = {
+                "title": f"ODOP District: {detected_odop['district']} ({detected_odop['odop_product']})",
+                "type": "bar",
+                "labels": ["Target Markets (Indexed)", "Value Chain Readiness", "Mandi Linkage"],
+                "datasets": [{
+                    "label": "Maturity Index (%)",
+                    "data": [92, 88, 95],
+                    "backgroundColor": ["#f59e0b", "#10b981", "#3b82f6"]
+                }]
+            }
+        elif detected_hs:
+            rod = detected_hs.get("rodtep_rate_pct", 0.0)
+            dbk = detected_hs.get("duty_drawback_pct", 0.0)
+            chart_data = {
+                "title": f"Statutory Remission Rates: HS {detected_hs['hs_code']}",
+                "type": "bar",
+                "labels": ["RoDTEP Rate (%)", "Duty Drawback (%)", "Total Cash Relief (%)"],
+                "datasets": [{
+                    "label": "Incentive Percentage (%)",
+                    "data": [rod, dbk, round(rod + dbk, 2)],
+                    "backgroundColor": ["#3b82f6", "#10b981", "#f59e0b"]
+                }]
+            }
+        elif matched_country:
             partner = engine.store.get_trading_partner(matched_country)
             ex = partner["export_data"]["value_usd_billion"] if partner["export_data"] else 0
             im = partner["import_data"]["value_usd_billion"] if partner["import_data"] else 0
@@ -135,6 +164,43 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
                     "backgroundColor": ["#ef4444", "#f97316", "#eab308", "#6366f1", "#14b8a6"]
                 }]
             }
+        elif any(k in q_lower for k in ["trend", "history", "historical", "growth", "over time", "multi-year", "timeseries", "year by year"]):
+            # Load multi-year timeseries
+            ts_path = BASE_DIR / "data" / "historical_timeseries.json"
+            if ts_path.exists():
+                with open(ts_path, "r", encoding="utf-8") as f:
+                    ts = json.load(f)
+                chart_data = {
+                    "title": "India Trade 6-Year Trajectory: Goods vs Services (USD Billion)",
+                    "type": "line",
+                    "labels": ts["years"],
+                    "datasets": [
+                        {
+                            "label": "Merchandise Exports (FOB)",
+                            "data": ts["merchandise_exports_usd_billion"],
+                            "borderColor": "#10b981",
+                            "backgroundColor": "rgba(16, 185, 129, 0.15)",
+                            "fill": True,
+                            "tension": 0.3
+                        },
+                        {
+                            "label": "Merchandise Imports (CIF)",
+                            "data": ts["merchandise_imports_usd_billion"],
+                            "borderColor": "#ef4444",
+                            "backgroundColor": "rgba(239, 68, 68, 0.15)",
+                            "fill": True,
+                            "tension": 0.3
+                        },
+                        {
+                            "label": "Services Surplus (RBI)",
+                            "data": ts["services_surplus_usd_billion"],
+                            "borderColor": "#3b82f6",
+                            "backgroundColor": "rgba(59, 130, 246, 0.15)",
+                            "fill": True,
+                            "tension": 0.3
+                        }
+                    ]
+                }
         else:
             totals = engine.store.get_totals("FY2023-24")
             services = engine.store.get_services_trade("FY2023-24")

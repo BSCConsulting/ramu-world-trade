@@ -1,0 +1,228 @@
+{
+  "metadata": {
+    "title": "Directorate General of Foreign Trade (DGFT) Master ITC-HS Taxonomy",
+    "classification_standard": "Indian Trade Classification based on Harmonized System (8-digit)",
+    "updated_at": "2026-10-24",
+    "verification_portal": "https://tradestat.commerce.gov.in"
+  },
+  "chapters_summary": {
+    "01-05": "Live animals, meat, fish and marine products",
+    "06-14": "Vegetable products, coffee, tea, spices, cereals",
+    "15": "Animal or vegetable fats and edible oils",
+    "16-24": "Prepared foodstuffs, beverages, tobacco",
+    "25-27": "Mineral products, coal, petroleum oils, LNG",
+    "28-38": "Chemicals, pharmaceuticals, fertilizers, cosmetics",
+    "39-40": "Plastics and rubber products",
+    "41-43": "Raw hides, skins and leather goods",
+    "44-49": "Wood, cork, paper and printed books",
+    "50-63": "Textiles, yarns, fabrics and readymade garments",
+    "64-67": "Footwear, headgear, umbrellas and artificial flowers",
+    "68-71": "Articles of stone, ceramic tiles, glass, gems and jewellery",
+    "72-83": "Base metals, iron, steel, copper, aluminum, fasteners",
+    "84-85": "Nuclear reactors, machinery, electrical and electronics, smartphones",
+    "86-89": "Vehicles, aircraft, vessels and transport equipment",
+    "90-97": "Optical, medical instruments, clocks, musical instruments, furniture, toys"
+  },
+  "tariff_lines": [
+    {
+      "hs_code": "8517 13 00",
+      "description": "Smartphones (Cellular telephones)",
+      "hs_chapter": "85",
+      "sector": "Electronics & High-Tech",
+      "trade_role": "High Growth Export (PLI Scheme driven)",
+      "top_markets": ["USA", "UAE", "Netherlands", "UK", "Italy"],
+      "rodtep_rate_pct": 0.8,
+      "duty_drawback_pct": 1.5
+    },
+    {
+      "hs_code": "8542 31 00",
+      "description": "Electronic Integrated Circuits: Processors and controllers",
+      "hs_chapter": "85",
+      "sector": "Electronics & High-Tech",
+      "trade_role": "Major Capital Good Import",
+      "top_sources": ["China", "Hong Kong", "Taiwan", "South Korea", "Singapore"],
+      "rodtep_rate_pct": 0.5,
+      "duty_drawback_pct": 1.0
+    },
+    {
+      "hs_code": "8471 30 10",
+      "description": "Portable automatic data processing machines (Laptops/Notebooks)",
+      "hs_chapter": "84",
+      "sector": "Engineering & Capital Goods",
+      "trade_role": "Major Import",
+      "top_sources": ["China", "Singapore", "Hong Kong", "USA"],
+      "rodtep_rate_pct": 0.5,
+      "duty_drawback_pct": 1.0
+    },
+    {
+      "hs_code": "2709 00 00",
+      "description": "Petroleum oils and oils obtained from bituminous minerals, crude",
+      "hs_chapter": "27",
+      "sector": "Energy & Hydrocarbons",
+      "trade_role": "India's #1 National Import by Value (>26% of all imports)",
+      "top_sources": ["Russia", "Iraq", "Saudi Arabia", "UAE", "USA"],
+      "rodtep_rate_pct": 0.0,
+      "duty_drawback_pct": 0.0
+    },
+    {
+      "hs_code": "2710 12 19",
+      "description": "Motor Spirit (Petrol / Gasoline) for automotive use",
+      "hs_chapter": "27",
+      "sector": "Energy & Hydrocarbons",
+      "trade_role": "India's #1 Value Export Sector (Refined Fuels)",
+      "top_markets": ["Netherlands", "UAE", "Singapore", "USA", "Australia"],
+      "rodtep_rate_pct": 0.0,
+      "duty_drawback_pct": 0.0
+    },
+    {
+      "hs_code": "7102 39 10",
+      "description": "Diamonds cut or otherwise worked but not mounted or set",
+      "hs_chapter": "71",
+      "sector": "Gems & Jewellery",
+      "trade_role": "Major Value-Addition Re-Export (Surat Cluster)",
+      "top_markets": ["USA", "Hong Kong", "UAE", "Belgium", "Israel"],
+      "rodtep_rate_pct": 0.5,
+      "duty_drawback_pct": 1.5
+    },
+    {
+      "hs_code": "7113 19 10",
+      "description": "Jewellery of gold, set with precious or semi-precious stones",
+      "hs_chapter": "71",
+      "sector": "Gems & Jewellery",
+      "trade_role": "Heritage Export (High demand in Gulf & USA)",
+      "top_markets": ["UAE", "USA", "Hong Kong", "Singapore", "UK"],
+      "rodtep_rate_pct": 0.5,
+      "duty_drawback_pct": 1.8
+    },
+    {
+      "hs_code": "3004 90 99",
+      "description": "Other Medicaments consisting of mixed or unmixed products for retail sale",
+      "hs_chapter": "30",
+      "sector": "Pharmaceuticals & Life Sciences",
+      "trade_role": "Trade Surplus 'Pharmacy of the World'",
+      "top_markets": ["USA", "UK", "South Africa", "Netherlands", "Brazil"],
+      "rodtep_rate_pct": 1.0,
+      "duty_drawback_pct": 1.8
+    },
+    {
+      "hs_code": "3002 41 10",
+      "description": "Vaccines for human medicine (Covid, Measles, Polio)",
+      "hs_chapter": "30",
+      "sector": "Pharmaceuticals & Life Sciences",
+      "trade_role": "Global Vaccine Provider (Serum Institute / Bharat Biotech)",
+      "top_markets": ["Global UNICEF / WHO Supplies", "USA", "UK", "Africa"],
+      "rodtep_rate_pct": 1.0,
+      "duty_drawback_pct": 2.0
+    },
+    {
+      "hs_code": "1006 30 20",
+      "description": "Basmati Rice (Semi-milled or wholly milled, polished or glazed)",
+      "hs_chapter": "10",
+      "sector": "Agriculture, Marine & Food",
+      "trade_role": "Top Agricultural Export Earner (>USD 5 Billion annually)",
+      "top_markets": ["Saudi Arabia", "Iran", "Iraq", "UAE", "USA", "Yemen"],
+      "rodtep_rate_pct": 1.0,
+      "duty_drawback_pct": 0.5
+    },
+    {
+      "hs_code": "0306 17 20",
+      "description": "Vannamei Shrimp (Frozen, in shell or peeled)",
+      "hs_chapter": "03",
+      "sector": "Agriculture, Marine & Food",
+      "trade_role": "Major Coastal Aquaculture Export",
+      "top_markets": ["USA", "China", "European Union", "Japan", "Vietnam"],
+      "rodtep_rate_pct": 2.5,
+      "duty_drawback_pct": 2.8
+    },
+    {
+      "hs_code": "0307 51 00",
+      "description": "Octopus (Live, fresh or chilled or frozen)",
+      "hs_chapter": "03",
+      "sector": "Agriculture, Marine & Food",
+      "trade_role": "Specialized Marine Cephalopod Export",
+      "top_markets": ["Japan", "Spain", "Italy", "China"],
+      "rodtep_rate_pct": 2.5,
+      "duty_drawback_pct": 2.8
+    },
+    {
+      "hs_code": "0910 30 20",
+      "description": "Turmeric Powder (Curcuma) in consumer packs",
+      "hs_chapter": "09",
+      "sector": "Agriculture, Marine & Food",
+      "trade_role": "High Value-Added Spice Export",
+      "top_markets": ["UAE", "USA", "Bangladesh", "Malaysia", "UK"],
+      "rodtep_rate_pct": 1.5,
+      "duty_drawback_pct": 1.2
+    },
+    {
+      "hs_code": "0904 21 10",
+      "description": "Dried Red Chillies (Whole with stalks / stalkless)",
+      "hs_chapter": "09",
+      "sector": "Agriculture, Marine & Food",
+      "trade_role": "World's Largest Producer & Exporter (Guntur Hub)",
+      "top_markets": ["China", "Vietnam", "Thailand", "Malaysia", "Sri Lanka"],
+      "rodtep_rate_pct": 1.5,
+      "duty_drawback_pct": 1.2
+    },
+    {
+      "hs_code": "0902 40 10",
+      "description": "Black Tea in bulk packaging (Orthodox / CTC)",
+      "hs_chapter": "09",
+      "sector": "Agriculture, Marine & Food",
+      "trade_role": "Traditional Plantation Export",
+      "top_markets": ["Russia", "Iran", "UAE", "USA", "UK", "Germany"],
+      "rodtep_rate_pct": 1.2,
+      "duty_drawback_pct": 1.0
+    },
+    {
+      "hs_code": "6109 10 00",
+      "description": "T-shirts, singlets and other vests of cotton, knitted or crocheted",
+      "hs_chapter": "61",
+      "sector": "Textiles, Apparel & Footwear",
+      "trade_role": "Mass Employment Apparel Export (Tirupur Cluster)",
+      "top_markets": ["USA", "Germany", "UK", "France", "UAE"],
+      "rodtep_rate_pct": 2.5,
+      "duty_drawback_pct": 3.2
+    },
+    {
+      "hs_code": "5701 10 10",
+      "description": "Handmade knotted carpets and rugs of wool or fine animal hair",
+      "hs_chapter": "57",
+      "sector": "Textiles, Apparel & Footwear",
+      "trade_role": "Traditional Artisan GI Export (Bhadohi/Mirzapur)",
+      "top_markets": ["USA", "Germany", "UK", "Australia", "Canada"],
+      "rodtep_rate_pct": 2.5,
+      "duty_drawback_pct": 3.0
+    },
+    {
+      "hs_code": "6403 91 90",
+      "description": "Footwear covering the ankle with outer soles of rubber and uppers of leather",
+      "hs_chapter": "64",
+      "sector": "Textiles, Apparel & Footwear",
+      "trade_role": "High Value Finished Leather Goods (Agra / Ambur)",
+      "top_markets": ["USA", "Germany", "UK", "Italy", "France"],
+      "rodtep_rate_pct": 3.0,
+      "duty_drawback_pct": 4.0
+    },
+    {
+      "hs_code": "7318 15 00",
+      "description": "Other screws and bolts, threaded, with or without nuts or washers",
+      "hs_chapter": "73",
+      "sector": "Engineering & Capital Goods",
+      "trade_role": "High Volume Industrial Fasteners Export",
+      "top_markets": ["USA", "Germany", "UK", "Netherlands", "Poland"],
+      "rodtep_rate_pct": 1.4,
+      "duty_drawback_pct": 2.0
+    },
+    {
+      "hs_code": "7418 10 22",
+      "description": "Artistic brassware and decorative brass home furnishings",
+      "hs_chapter": "74",
+      "sector": "Handicrafts & Metal Art",
+      "trade_role": "GI Artisan Export (Moradabad Brassware Hub)",
+      "top_markets": ["USA", "UK", "Germany", "Canada", "UAE"],
+      "rodtep_rate_pct": 2.0,
+      "duty_drawback_pct": 3.0
+    }
+  ]
+}

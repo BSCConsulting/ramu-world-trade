@@ -229,6 +229,7 @@
       {"country": "Singapore", "rank": 8, "value_usd_billion": 21.2, "share_pct": 3.1},
       {"country": "South Korea", "rank": 9, "value_usd_billion": 21.1, "share_pct": 3.1},
       {"country": "Switzerland", "rank": 10, "value_usd_billion": 21.0, "share_pct": 3.1},
+      {"country": "United Kingdom", "rank": 14, "value_usd_billion": 8.4, "share_pct": 1.2},
       {"country": "Netherlands", "rank": 24, "value_usd_billion": 5.1, "share_pct": 0.8}
     ]
   },

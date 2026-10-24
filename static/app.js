@@ -111,15 +111,19 @@ function renderChart(chartData) {
   // Pure OLED High Contrast Palette
   const oledColors = ['#ff9f0a', '#30d158', '#0a84ff', '#bf5af2', '#ff453a'];
 
+  const isLine = chartData.type === 'line';
   currentChart = new Chart(ctx, {
     type: chartData.type || 'bar',
     data: {
       labels: chartData.labels || [],
       datasets: (chartData.datasets || []).map(ds => ({
         ...ds,
-        backgroundColor: ds.backgroundColor || oledColors,
-        borderRadius: 8,
-        borderWidth: 0
+        backgroundColor: ds.backgroundColor || (isLine ? 'transparent' : oledColors),
+        borderColor: ds.borderColor || (isLine ? '#ff9f0a' : undefined),
+        borderWidth: isLine ? 2.5 : 0,
+        borderRadius: isLine ? 0 : 8,
+        pointRadius: isLine ? 3 : 0,
+        pointHoverRadius: isLine ? 5 : 0
       }))
     },
     options: {

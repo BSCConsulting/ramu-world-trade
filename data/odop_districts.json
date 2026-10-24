@@ -1,0 +1,230 @@
+{
+  "metadata": {
+    "title": "Government of India Official ODOP (One District One Product) Master Registry",
+    "governing_body": "Department for Promotion of Industry and Internal Trade (DPIIT) & DGFT District Export Hubs",
+    "updated_at": "2026-10-24",
+    "verification_portal": "https://www.odop.dpiit.gov.in"
+  },
+  "districts": [
+    {
+      "district": "Nizamabad",
+      "state": "Telangana",
+      "odop_product": "Turmeric & Turmeric Formulations",
+      "hs_code": "0910 30 20",
+      "hs_chapter": "09",
+      "export_potential": "High (GI Tag registered; 30% of national turmeric cultivation)",
+      "key_international_markets": ["UAE", "USA", "Bangladesh", "Iran"],
+      "nearby_apmc_mandi": "Nizamabad APMC Market Yard",
+      "primary_epc": "Spices Board of India"
+    },
+    {
+      "district": "Guntur",
+      "state": "Andhra Pradesh",
+      "odop_product": "Dried Red Chillies (Teja, Sannam varieties)",
+      "hs_code": "0904 21 10",
+      "hs_chapter": "09",
+      "export_potential": "Very High (Asia's largest dried chilli wholesale market)",
+      "key_international_markets": ["China", "Vietnam", "Thailand", "Malaysia", "USA"],
+      "nearby_apmc_mandi": "Guntur Mirchi Yard",
+      "primary_epc": "Spices Board of India"
+    },
+    {
+      "district": "Bhadohi",
+      "state": "Uttar Pradesh",
+      "odop_product": "Handmade Woollen Knotted Carpets & Durries",
+      "hs_code": "5701 10 10",
+      "hs_chapter": "57",
+      "export_potential": "Global Hub (Produces >60% of India's exported handmade carpets)",
+      "key_international_markets": ["USA", "Germany", "UK", "Australia", "France"],
+      "nearby_apmc_mandi": "Bhadohi Carpet Mart Terminal",
+      "primary_epc": "Carpet Export Promotion Council (CEPC)"
+    },
+    {
+      "district": "Moradabad",
+      "state": "Uttar Pradesh",
+      "odop_product": "Artistic Metal Brassware & Handicrafts ('Peetal Nagari')",
+      "hs_code": "7418 10 22",
+      "hs_chapter": "74",
+      "export_potential": "Dominant (Over ₹6,000 Crore annual export cluster)",
+      "key_international_markets": ["USA", "UK", "Germany", "Canada", "UAE"],
+      "nearby_apmc_mandi": "Moradabad Export Logistics Park",
+      "primary_epc": "Export Promotion Council for Handicrafts (EPCH)"
+    },
+    {
+      "district": "Tirupur",
+      "state": "Tamil Nadu",
+      "odop_product": "Cotton Knitwear & Readymade Garments ('Knitwear Capital')",
+      "hs_code": "6109 10 00",
+      "hs_chapter": "61",
+      "export_potential": "Massive (Accounts for ~55% of India's total cotton knitwear exports)",
+      "key_international_markets": ["USA", "European Union", "UK", "Japan"],
+      "nearby_apmc_mandi": "Tirupur Cotton Textile Center",
+      "primary_epc": "Apparel Export Promotion Council (AEPC)"
+    },
+    {
+      "district": "Surat",
+      "state": "Gujarat",
+      "odop_product": "Cut & Polished Diamonds & Synthetic MMF Textiles",
+      "hs_code": "7102 39 10",
+      "hs_chapter": "71",
+      "export_potential": "World Leader (Processes 90% of the world's rough diamonds)",
+      "key_international_markets": ["USA", "Hong Kong", "UAE", "Belgium", "Israel"],
+      "nearby_apmc_mandi": "Surat Diamond Bourse (SDB)",
+      "primary_epc": "Gems & Jewellery EPC (GJEPC)"
+    },
+    {
+      "district": "Nashik",
+      "state": "Maharashtra",
+      "odop_product": "Fresh Table Grapes & Red Onions",
+      "hs_code": "0806 10 00",
+      "hs_chapter": "08, 07",
+      "export_potential": "High (Grape Capital of India & Lasalgaon Onion hub)",
+      "key_international_markets": ["Netherlands", "UK", "UAE", "Bangladesh"],
+      "nearby_apmc_mandi": "Lasalgaon APMC / Pimpalgaon APMC",
+      "primary_epc": "APEDA"
+    },
+    {
+      "district": "Kolhapur",
+      "state": "Maharashtra",
+      "odop_product": "Organic Jaggery & Handcrafted Kolhapuri Chappals",
+      "hs_code": "1701 13 10",
+      "hs_chapter": "17, 64",
+      "export_potential": "High (GI Tagged heritage footwear & unrefined cane sugar)",
+      "key_international_markets": ["USA", "UAE", "Singapore", "Canada"],
+      "nearby_apmc_mandi": "Kolhapur APMC Sugar Yard",
+      "primary_epc": "APEDA / Council for Leather Exports"
+    },
+    {
+      "district": "Aligarh",
+      "state": "Uttar Pradesh",
+      "odop_product": "Metal Locks, Architectural Hardware & Padlocks",
+      "hs_code": "8301 10 00",
+      "hs_chapter": "83",
+      "export_potential": "Heritage Cluster (Over 5,000 micro and small hardware units)",
+      "key_international_markets": ["USA", "Middle East", "Africa", "UK"],
+      "nearby_apmc_mandi": "Aligarh Hardware Industrial Estate",
+      "primary_epc": "EEPC India"
+    },
+    {
+      "district": "Varanasi",
+      "state": "Uttar Pradesh",
+      "odop_product": "Banarasi Silk Brocade & Zari Sarees",
+      "hs_code": "5007 20 10",
+      "hs_chapter": "50",
+      "export_potential": "Global Heritage (Ancient handloom GI cluster)",
+      "key_international_markets": ["USA", "UK", "UAE", "Australia", "Mauritius"],
+      "nearby_apmc_mandi": "Varanasi Handloom Facilitation Center",
+      "primary_epc": "Handloom Export Promotion Council (HEPC)"
+    },
+    {
+      "district": "Kannauj",
+      "state": "Uttar Pradesh",
+      "odop_product": "Natural Essential Oils & Traditional Indian Attar",
+      "hs_code": "3301 29 90",
+      "hs_chapter": "33",
+      "export_potential": "Perfume Capital of India (Hydro-distilled floral extracts)",
+      "key_international_markets": ["Saudi Arabia", "UAE", "France", "USA", "UK"],
+      "nearby_apmc_mandi": "Kannauj Floral Extraction Terminal",
+      "primary_epc": "CHEMEXCIL"
+    },
+    {
+      "district": "Darjeeling",
+      "state": "West Bengal",
+      "odop_product": "Orthodox Premium Darjeeling Tea ('Champagne of Teas')",
+      "hs_code": "0902 40 10",
+      "hs_chapter": "09",
+      "export_potential": "Ultra-High Margin (India's first registered GI product)",
+      "key_international_markets": ["Germany", "Japan", "UK", "USA"],
+      "nearby_apmc_mandi": "Siliguri Tea Auction Center",
+      "primary_epc": "Tea Board of India"
+    },
+    {
+      "district": "Kanchipuram",
+      "state": "Tamil Nadu",
+      "odop_product": "Pure Mulberry Silk Handloom Sarees with Gold Zari",
+      "hs_code": "5007 20 90",
+      "hs_chapter": "50",
+      "export_potential": "High Luxury Value (GI Tagged pure silk weave)",
+      "key_international_markets": ["USA", "Singapore", "Malaysia", "UAE"],
+      "nearby_apmc_mandi": "Kanchipuram Silk Weavers Hub",
+      "primary_epc": "HEPC"
+    },
+    {
+      "district": "Kollam",
+      "state": "Kerala",
+      "odop_product": "Processed Cashew Kernels & Cashew Nut Shell Liquid (CNSL)",
+      "hs_code": "0801 32 10",
+      "hs_chapter": "08",
+      "export_potential": "Cashew Capital of the World",
+      "key_international_markets": ["USA", "UAE", "Japan", "Netherlands"],
+      "nearby_apmc_mandi": "Kollam Cashew Exchange",
+      "primary_epc": "Cashew Export Promotion Council of India (CEPCI)"
+    },
+    {
+      "district": "Srinagar",
+      "state": "Jammu & Kashmir",
+      "odop_product": "Kashmir Pashmina Shawls & Certified Grade-1 Saffron",
+      "hs_code": "0910 20 10",
+      "hs_chapter": "09, 62",
+      "export_potential": "World's most expensive spice & luxury cashmere fiber",
+      "key_international_markets": ["USA", "UAE", "Switzerland", "France"],
+      "nearby_apmc_mandi": "India International Kashmir Saffron Trading Centre (IIKSTC)",
+      "primary_epc": "EPCH / Spices Board"
+    },
+    {
+      "district": "Panipat",
+      "state": "Haryana",
+      "odop_product": "Home Furnishings, Shoddy Yarn & Handloom Durries ('Textile City')",
+      "hs_code": "6304 92 00",
+      "hs_chapter": "63",
+      "export_potential": "Major Global Exporter of recycled fiber rugs & blankets",
+      "key_international_markets": ["USA", "Australia", "Germany", "Canada"],
+      "nearby_apmc_mandi": "Panipat Textile Exchange",
+      "primary_epc": "HEPC / AEPC"
+    },
+    {
+      "district": "Karnal",
+      "state": "Haryana",
+      "odop_product": "Aromatic Basmati Rice (Pusa 1121, Traditional)",
+      "hs_code": "1006 30 20",
+      "hs_chapter": "10",
+      "export_potential": "Rice Bowl of India (Major export mills cluster)",
+      "key_international_markets": ["Saudi Arabia", "Iran", "Iraq", "UAE", "USA"],
+      "nearby_apmc_mandi": "Karnal Grain Market (Taraori Mandi)",
+      "primary_epc": "APEDA"
+    },
+    {
+      "district": "Morbi",
+      "state": "Gujarat",
+      "odop_product": "Ceramic Vitrified Tiles, Sanitaryware & Wall Tiles",
+      "hs_code": "6907 21 00",
+      "hs_chapter": "69",
+      "export_potential": "World's 2nd largest ceramic tile manufacturing cluster",
+      "key_international_markets": ["USA", "UAE", "Saudi Arabia", "Kuwait", "Mexico"],
+      "nearby_apmc_mandi": "Morbi Ceramic Logistics Hub",
+      "primary_epc": "CAPEXIL"
+    },
+    {
+      "district": "Visakhapatnam",
+      "state": "Andhra Pradesh",
+      "odop_product": "Frozen Marine Vannamei Shrimp & Cephalopods",
+      "hs_code": "0306 17 20",
+      "hs_chapter": "03",
+      "export_potential": "India's highest marine products export seaport hub",
+      "key_international_markets": ["USA", "China", "European Union", "Japan"],
+      "nearby_apmc_mandi": "Visakhapatnam Fishing Harbour Terminal",
+      "primary_epc": "MPEDA"
+    },
+    {
+      "district": "Ludhiana",
+      "state": "Punjab",
+      "odop_product": "Hosiery Knitwear, Woollen Garments & Bicycle Components",
+      "hs_code": "6110 11 00",
+      "hs_chapter": "61, 87",
+      "export_potential": "Manchester of India (Industrial & apparel powerhouse)",
+      "key_international_markets": ["USA", "Russia", "UK", "Canada", "Germany"],
+      "nearby_apmc_mandi": "Ludhiana Focal Point Logistics Yard",
+      "primary_epc": "EEPC India / AEPC"
+    }
+  ]
+}

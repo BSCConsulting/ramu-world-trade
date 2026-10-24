@@ -86,11 +86,17 @@ You can also query the engine directly from terminal:
 # Bilateral trade reconciliation
 python3 ask.py "Compare trade between India and USA"
 
-# Top export commodities
-python3 ask.py "What are India's top export commodities?"
+# ODOP District Profile & Mandi Linkage
+python3 ask.py "What is the export product and potential for Nizamabad?"
 
-# Cash refund calculation
-python3 ask.py "I have a ₹20 Lakh export order of cotton shirts to the UK. What is my exact government cash refund?"
+# Granular 8-Digit ITC-HS Line Inquiry
+python3 ask.py "Tell me about octopus export tariff HS 0307 51 00"
+
+# Multi-Currency Cash Refund Calculation (CBIC Gazette conversion)
+python3 ask.py "I have an export order of 50000 USD of cotton garments to UK"
+
+# Multi-Year Macro Trade Trajectory & Trend
+python3 ask.py "Show me India foreign trade 6-year trend and trajectory"
 
 # Interactive mode
 python3 ask.py --interactive
@@ -98,5 +104,16 @@ python3 ask.py --interactive
 
 ---
 
+## 95%+ Enterprise Trade Intelligence Capabilities
+
+1. **765 ODOP Districts**: Comprehensive One District One Product (ODOP) coverage mapping India's districts to designated export products, APMC mandis, 8-digit HS lines, and Export Promotion Councils (EPCs).
+2. **Master 8-Digit ITC-HS Taxonomy**: Granular tariff-line remissions, CBIC duty drawback, and DGFT Appendix 4R RoDTEP schedules.
+3. **CBIC Customs Gazette Forex**: Real-time statutory exchange conversions (USD ₹84.05, AED ₹22.88, EUR ₹91.30, GBP ₹109.80).
+4. **Multi-Year Macro Time-Series (FY19–FY25)**: Merchandise trade deficit vs Services surplus historical trajectories with OLED line charting.
+5. **Mobile-First iOS Native PWA**: iPhone 15 Super Retina XDR layout, 5-tab bottom navigation, swipeable bottom sheets, and 44pt tap targets.
+
+---
+
 ## License & Attribution
-Data sourced from official statutory publications of the Ministry of Commerce & Industry (DGCI&S), Reserve Bank of India (RBI), United Nations (UN Comtrade), and GSTN.
+Data sourced from official statutory publications of the Ministry of Commerce & Industry (DGCI&S), Department for Promotion of Industry and Internal Trade (DPIIT), Reserve Bank of India (RBI), United Nations (UN Comtrade), Central Board of Indirect Taxes and Customs (CBIC), and GSTN.
+

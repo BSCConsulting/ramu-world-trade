@@ -1,6 +1,6 @@
 """Statutory Export Incentives & Cash Refund Calculator for World of Trade.
 Calculates exact government rupee refunds (RoDTEP, Duty Drawback, MSME Interest Subsidy)
-on specific export orders, turning trade data into actionable profit intelligence.
+backed by CBIC Customs Gazette exchange rates and DGFT Appendix 4R.
 """
 import re
 import json
@@ -9,16 +9,24 @@ from typing import Dict, Any, Optional
 from config import DATA_DIR
 
 INCENTIVES_FILE = DATA_DIR / "incentives_schedule.json"
+FOREX_FILE = DATA_DIR / "forex_gazette.json"
 
 class ExportIncentivesCalculator:
-    def __init__(self, schedule_path: Path = INCENTIVES_FILE):
+    def __init__(self, schedule_path: Path = INCENTIVES_FILE, forex_path: Path = FOREX_FILE):
         with open(schedule_path, "r", encoding="utf-8") as f:
             self.data = json.load(f)
         self.schedules = self.data.get("schedules", [])
-        self.default_forex = self.data.get("default_forex_rate_inr_per_usd", 84.0)
+
+        # Load CBIC Gazette forex rates
+        self.forex_rates = {
+            "USD": 84.05, "EUR": 91.30, "GBP": 109.45, "AED": 22.88, "SAR": 22.40, "CNY": 11.82, "SGD": 64.15
+        }
+        if forex_path.exists():
+            with open(forex_path, "r", encoding="utf-8") as f:
+                self.forex_rates.update(json.load(f).get("rates_inr_per_unit", {}))
 
     def extract_order_value_inr(self, text: str) -> Optional[float]:
-        """Parse monetary values in INR or USD from natural language."""
+        """Parse monetary values in INR, USD, AED, EUR, GBP using CBIC Gazette rates."""
         t_clean = text.lower().replace(",", "")
 
         # 1. Match Lakhs: "20 lakh", "₹20 lakhs", "20l", "50 lakh"
@@ -31,19 +39,39 @@ class ExportIncentivesCalculator:
         if m_crore:
             return float(m_crore.group(1)) * 10000000.0
 
-        # 3. Match USD: "$50,000", "50000 usd", "50k usd"
-        m_usd = re.search(r"(?:\$|usd)\s*(\d+(?:\.\d+)?)\s*(k|m)?\b", t_clean)
+        # 3. Match USD: "$50,000", "50000 usd", "50k usd", "$50k"
+        m_usd = re.search(r"(?:\$|usd)\s*(\d+(?:\.\d+)?)\s*(k|m)?\b", t_clean) or re.search(r"\b(\d+(?:\.\d+)?)\s*(k|m)?\s*(?:usd|dollars?|\$)\b", t_clean)
         if m_usd:
             val = float(m_usd.group(1))
             mult = 1000.0 if m_usd.group(2) == "k" else (1000000.0 if m_usd.group(2) == "m" else 1.0)
-            return val * mult * self.default_forex
+            return val * mult * self.forex_rates.get("USD", 84.05)
 
-        # 4. Direct Numbers: "2000000", "₹1500000"
+        # 4. Match AED (Gulf CEPA Trade): "aed 500000", "500k aed", "50000 aed"
+        m_aed = re.search(r"(?:aed|dirhams?)\s*(\d+(?:\.\d+)?)\s*(k|m)?\b", t_clean) or re.search(r"\b(\d+(?:\.\d+)?)\s*(k|m)?\s*(?:aed|dirhams?)\b", t_clean)
+        if m_aed:
+            val = float(m_aed.group(1))
+            mult = 1000.0 if m_aed.group(2) == "k" else (1000000.0 if m_aed.group(2) == "m" else 1.0)
+            return val * mult * self.forex_rates.get("AED", 22.88)
+
+        # 5. Match EUR: "€50,000", "50000 eur", "50k eur"
+        m_eur = re.search(r"(?:€|eur|euros?)\s*(\d+(?:\.\d+)?)\s*(k|m)?\b", t_clean) or re.search(r"\b(\d+(?:\.\d+)?)\s*(k|m)?\s*(?:€|eur|euros?)\b", t_clean)
+        if m_eur:
+            val = float(m_eur.group(1))
+            mult = 1000.0 if m_eur.group(2) == "k" else (1000000.0 if m_eur.group(2) == "m" else 1.0)
+            return val * mult * self.forex_rates.get("EUR", 91.30)
+
+        # 6. Match GBP: "£50,000", "50000 gbp", "50k pounds"
+        m_gbp = re.search(r"(?:£|gbp|pounds?)\s*(\d+(?:\.\d+)?)\s*(k|m)?\b", t_clean) or re.search(r"\b(\d+(?:\.\d+)?)\s*(k|m)?\s*(?:£|gbp|pounds?)\b", t_clean)
+        if m_gbp:
+            val = float(m_gbp.group(1))
+            mult = 1000.0 if m_gbp.group(2) == "k" else (1000000.0 if m_gbp.group(2) == "m" else 1.0)
+            return val * mult * self.forex_rates.get("GBP", 109.80)
+
+        # 7. Direct Numbers: "2000000", "₹1500000"
         m_num = re.search(r"(?:rs\.?|inr|₹)\s*(\d{5,10})\b", t_clean)
         if m_num:
             return float(m_num.group(1))
 
-        # Default fallback: ₹20 Lakhs if not specified
         return None
 
     def match_schedule(self, query: str) -> Dict[str, Any]:
@@ -52,7 +80,6 @@ class ExportIncentivesCalculator:
         for sched in self.schedules:
             if any(re.search(r"\b" + re.escape(kw) + r"\b", q_clean) for kw in sched["commodity_matches"]):
                 return sched
-        # Default fallback to first schedule (Textiles/Garments)
         return self.schedules[0]
 
     def calculate(self, text: str) -> Dict[str, Any]:
@@ -71,7 +98,7 @@ class ExportIncentivesCalculator:
 
         rodtep_inr = round(order_value * (rodtep_pct / 100.0), 2)
         drawback_inr = round(order_value * (drawback_pct / 100.0), 2)
-        msme_benefit_inr = round(order_value * (msme_subvention_pct / 100.0) * (90.0 / 365.0), 2) # 90 days working credit
+        msme_benefit_inr = round(order_value * (msme_subvention_pct / 100.0) * (90.0 / 365.0), 2)
 
         total_direct_cash_inr = round(rodtep_inr + drawback_inr, 2)
         total_benefit_with_msme_inr = round(total_direct_cash_inr + msme_benefit_inr, 2)
@@ -80,10 +107,12 @@ class ExportIncentivesCalculator:
         proof_badge = {
             "rodtep_authority": "Directorate General of Foreign Trade (DGFT) Appendix 4R",
             "drawback_authority": "CBIC All Industry Rates of Duty Drawback (Notification 77/2023-Customs)",
+            "forex_conversion": f"CBIC Gazette Notification No. 12/2024-Customs (USD: ₹{self.forex_rates.get('USD', 84.05)} | AED: ₹{self.forex_rates.get('AED', 22.88)})",
             "claiming_system": "ICEGATE Customs Automated Electronic Scrip Ledger (Drawback Scroll)",
             "verification_urls": [
                 "https://dgft.gov.in",
-                "https://www.icegate.gov.in"
+                "https://www.icegate.gov.in",
+                "https://www.cbic.gov.in"
             ]
         }
 
@@ -99,6 +128,7 @@ class ExportIncentivesCalculator:
             "total_direct_cash_inr": total_direct_cash_inr,
             "total_benefit_with_msme_inr": total_benefit_with_msme_inr,
             "combined_rebate_pct": combined_rebate_pct,
+            "forex_rates": self.forex_rates,
             "proof_badge": proof_badge
         }
 
@@ -147,6 +177,7 @@ class ExportIncentivesCalculator:
             "═══════════════════════════════════════════════════════════════════════════",
             f"RoDTEP Schedule     : {pb['rodtep_authority']}",
             f"Duty Drawback Rates : {pb['drawback_authority']}",
+            f"Forex Conversion    : {pb['forex_conversion']}",
             f"Disbursement System : {pb['claiming_system']}",
             f"DGFT Portal         : {pb['verification_urls'][0]}",
             f"Customs ICEGATE     : {pb['verification_urls'][1]}",

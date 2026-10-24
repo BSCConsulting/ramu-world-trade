@@ -1,0 +1,14 @@
+{
+  "metadata": {
+    "title": "India Multi-Year Foreign Trade Macro Time-Series (FY2018-19 to FY2024-25)",
+    "statutory_sources": "DGCI&S Annual Trade Reports & RBI Balance of Payments Database",
+    "updated_at": "2026-10-24"
+  },
+  "years": ["FY19", "FY20", "FY21", "FY22", "FY23", "FY24", "FY25 (P)"],
+  "merchandise_exports_usd_billion": [330.08, 313.36, 291.81, 422.00, 451.07, 437.06, 448.20],
+  "merchandise_imports_usd_billion": [514.08, 474.71, 394.44, 613.05, 714.04, 677.24, 692.50],
+  "merchandise_deficit_usd_billion": [-184.00, -161.35, -102.63, -191.05, -262.97, -240.18, -244.30],
+  "services_exports_usd_billion": [208.00, 213.20, 206.00, 254.50, 325.30, 341.10, 362.50],
+  "services_surplus_usd_billion": [81.90, 84.90, 88.60, 107.50, 143.30, 162.80, 174.50],
+  "overall_net_deficit_usd_billion": [-102.10, -76.45, -14.03, -83.55, -119.67, -77.38, -69.80]
+}
