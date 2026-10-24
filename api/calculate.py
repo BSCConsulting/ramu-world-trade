@@ -11,12 +11,11 @@ from api.index import handler as BaseHandler
 
 class handler(BaseHandler):
     def do_POST(self):
-        content_length = int(self.headers.get("Content-Length", 0))
-        body = self.rfile.read(content_length).decode("utf-8") if content_length > 0 else "{}"
-        try:
-            payload = json.loads(body)
-        except Exception:
-            payload = {}
+        payload, err = self._parse_json_body()
+        if err:
+            status = 413 if "Payload Too Large" in err else 400
+            self._send_json({"error": err}, status=status)
+            return
         self._handle_calculate(payload)
 
     def do_OPTIONS(self):

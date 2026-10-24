@@ -23,8 +23,39 @@ STATIC_DIR = BASE_DIR / "public" if (BASE_DIR / "public").exists() else BASE_DIR
 STATIC_DIR.mkdir(exist_ok=True)
 
 class TradeAppRequestHandler(SimpleHTTPRequestHandler):
+    MAX_PAYLOAD_BYTES = 1_048_576  # 1 MB strict upper bound to prevent DoS
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=str(STATIC_DIR), **kwargs)
+
+    def end_headers(self):
+        # Inject standard OWASP security headers on all responses
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("X-Frame-Options", "DENY")
+        self.send_header("X-XSS-Protection", "1; mode=block")
+        self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
+        self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+        super().end_headers()
+
+    def _parse_json_body(self):
+        try:
+            cl_header = self.headers.get("Content-Length")
+            if not cl_header:
+                return {}, None
+            content_length = int(cl_header)
+            if content_length < 0:
+                return None, "Invalid Content-Length header"
+            if content_length > self.MAX_PAYLOAD_BYTES:
+                return None, "Payload Too Large (Max 1MB allowed)"
+            body_bytes = self.rfile.read(content_length)
+            body_str = body_bytes.decode("utf-8", errors="replace").replace("\x00", "")
+            return json.loads(body_str), None
+        except ValueError:
+            return None, "Malformed Content-Length or payload encoding"
+        except json.JSONDecodeError:
+            return None, "Malformed JSON syntax"
+        except Exception:
+            return None, "Request parsing failure"
 
     def do_GET(self):
         parsed = urllib.parse.urlparse(self.path)
@@ -42,13 +73,11 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
 
     def do_POST(self):
         parsed = urllib.parse.urlparse(self.path)
-        content_length = int(self.headers.get("Content-Length", 0))
-        body = self.rfile.read(content_length).decode("utf-8") if content_length > 0 else "{}"
-        
-        try:
-            payload = json.loads(body)
-        except Exception:
-            payload = {}
+        payload, err = self._parse_json_body()
+        if err:
+            status = 413 if "Payload Too Large" in err else 400
+            self._send_json({"error": err}, status=status)
+            return
 
         if parsed.path == "/api/query":
             self._handle_query(payload)
@@ -58,7 +87,7 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
             self.send_error(404, "API endpoint not found")
 
     def _handle_query(self, payload: dict):
-        query = payload.get("query", "").strip()
+        query = str(payload.get("query", ""))[:2000].strip()
         if not query:
             self._send_json({"error": "Empty query"}, status=400)
             return
@@ -228,34 +257,40 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
         })
 
     def _handle_calculate(self, payload: dict):
-        query = payload.get("query", "")
+        query = str(payload.get("query", ""))[:1000].strip()
         amount = payload.get("amount") or payload.get("invoice_amount")
-        product = payload.get("product", "")
+        product = str(payload.get("product", ""))[:500].strip()
         quantity = payload.get("quantity")
-        unit = payload.get("unit")
+        unit = str(payload.get("unit", ""))[:20].strip() if payload.get("unit") else None
         
         explicit_val = None
         if amount:
             try:
-                explicit_val = float(str(amount).replace(",", "").replace("₹", "").replace("$", ""))
+                clean_amt = float(str(amount).replace(",", "").replace("₹", "").replace("$", ""))
+                if 0 <= clean_amt <= 1e15:
+                    explicit_val = clean_amt
             except Exception:
                 pass
 
         qty_val = None
         if quantity:
             try:
-                qty_val = float(str(quantity).replace(",", ""))
+                clean_qty = float(str(quantity).replace(",", ""))
+                if 0 <= clean_qty <= 1e12:
+                    qty_val = clean_qty
             except Exception:
                 pass
 
-        search_str = f"{query} {product} {amount if amount else ''}"
-        calc_res = incentives_calculator.calculate(search_str, explicit_value=explicit_val, quantity=qty_val, unit=unit)
-        report_md = incentives_calculator.format_report(calc_res)
-        
-        self._send_json({
-            "calculation": calc_res,
-            "formatted_markdown": report_md
-        })
+        search_str = f"{query} {product} {amount if amount else ''}"[:1500]
+        try:
+            calc_res = incentives_calculator.calculate(search_str, explicit_value=explicit_val, quantity=qty_val, unit=unit)
+            report_md = incentives_calculator.format_report(calc_res)
+            self._send_json({
+                "calculation": calc_res,
+                "formatted_markdown": report_md
+            })
+        except Exception:
+            self._send_json({"error": "Unable to compute statutory calculation for the given input."}, status=400)
 
     def _handle_history(self):
         init_db()

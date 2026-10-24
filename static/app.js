@@ -283,6 +283,57 @@ function shareOrPrintReport() {
   }
 }
 
+// ==================== SECURITY: HTML ESCAPING & DOM SANITIZATION ====================
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function sanitizeHtml(dirty) {
+  if (!dirty) return '';
+  try {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(dirty, 'text/html');
+    
+    // Remove active script and embedding tags
+    const dangerousTags = ['script', 'iframe', 'object', 'embed', 'form', 'base', 'meta', 'link', 'style', 'input', 'textarea', 'button'];
+    dangerousTags.forEach(tag => {
+      doc.body.querySelectorAll(tag).forEach(el => el.remove());
+    });
+
+    // Strip inline event listeners (on*) and javascript: / data: protocols
+    const allEls = doc.body.querySelectorAll('*');
+    allEls.forEach(el => {
+      Array.from(el.attributes).forEach(attr => {
+        const attrName = attr.name.toLowerCase();
+        const attrVal = attr.value.toLowerCase().trim();
+        if (attrName.startsWith('on') || attrVal.startsWith('javascript:') || attrVal.startsWith('vbscript:') || attrVal.startsWith('data:text/html')) {
+          el.removeAttribute(attr.name);
+        }
+      });
+      // Enforce rel="noopener noreferrer" and protocol safety on links
+      if (el.tagName === 'A') {
+        const href = (el.getAttribute('href') || '').toLowerCase().trim();
+        if (href.startsWith('javascript:') || href.startsWith('data:')) {
+          el.removeAttribute('href');
+        }
+        if (el.getAttribute('target') === '_blank') {
+          el.setAttribute('rel', 'noopener noreferrer');
+        }
+      }
+    });
+
+    return doc.body.innerHTML;
+  } catch (e) {
+    return escapeHtml(dirty);
+  }
+}
+
 // 6. MAIN CONVERSATIONAL SEARCH & TRIANGULATION
 async function handleSearch(event) {
   if (event) event.preventDefault();
@@ -377,10 +428,10 @@ async function handleSearch(event) {
       }
     }
 
-    // Render High-Contrast Markdown
+    // Render Sanitized High-Contrast Markdown (XSS Hardened)
     if (data.formatted_markdown) {
       currentRawMarkdown = data.formatted_markdown;
-      outputEl.innerHTML = marked.parse(data.formatted_markdown);
+      outputEl.innerHTML = sanitizeHtml(marked.parse(data.formatted_markdown));
     }
 
     // Render OLED Optimized Chart
@@ -390,7 +441,7 @@ async function handleSearch(event) {
     }
 
   } catch (err) {
-    outputEl.innerHTML = `<div class="p-4 bg-red-950/60 border border-red-800 text-red-200 rounded-2xl text-xs font-mono">Error connecting to statutory gateway: ${err.message}</div>`;
+    outputEl.innerHTML = `<div class="p-4 bg-red-950/60 border border-red-800 text-red-200 rounded-2xl text-xs font-mono">Error connecting to statutory gateway: ${escapeHtml(err.message)}</div>`;
   } finally {
     clearTimeout(t1);
     clearTimeout(t2);
@@ -625,21 +676,21 @@ function openBottomSheet(type) {
             <span class="text-[10px] text-amber-400 font-bold uppercase tracking-wider block">1. Physical Customs Records</span>
             <p class="text-xs text-white font-bold">DGCI&S Ministry of Commerce & Industry</p>
             <p class="text-[11px] text-neutral-400 leading-normal">Free on Board (FOB) valuation at Indian sea ports and air cargo terminals.</p>
-            <a href="https://tradestat.commerce.gov.in" target="_blank" class="text-amber-400 text-[11px] font-semibold underline block mt-1">tradestat.commerce.gov.in &rarr;</a>
+            <a href="https://tradestat.commerce.gov.in" target="_blank" rel="noopener noreferrer" class="text-amber-400 text-[11px] font-semibold underline block mt-1">tradestat.commerce.gov.in &rarr;</a>
           </div>
 
           <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/[0.06] space-y-1">
             <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider block">2. Balance of Payments (BoP)</span>
             <p class="text-xs text-white font-bold">Reserve Bank of India (RBI DBIE)</p>
             <p class="text-[11px] text-neutral-400 leading-normal">IMF BPM6 standard banking records tracking foreign currency inflows.</p>
-            <a href="https://dbie.rbi.org.in" target="_blank" class="text-emerald-400 text-[11px] font-semibold underline block mt-1">dbie.rbi.org.in &rarr;</a>
+            <a href="https://dbie.rbi.org.in" target="_blank" rel="noopener noreferrer" class="text-emerald-400 text-[11px] font-semibold underline block mt-1">dbie.rbi.org.in &rarr;</a>
           </div>
 
           <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/[0.06] space-y-1">
             <span class="text-[10px] text-blue-400 font-bold uppercase tracking-wider block">3. Partner Mirror Declarations</span>
             <p class="text-xs text-white font-bold">United Nations Comtrade Database</p>
             <p class="text-[11px] text-neutral-400 leading-normal">Foreign CIF import declarations reconciled within the 6%–9% maritime freight spread.</p>
-            <a href="https://comtradeplus.un.org" target="_blank" class="text-blue-400 text-[11px] font-semibold underline block mt-1">comtradeplus.un.org &rarr;</a>
+            <a href="https://comtradeplus.un.org" target="_blank" rel="noopener noreferrer" class="text-blue-400 text-[11px] font-semibold underline block mt-1">comtradeplus.un.org &rarr;</a>
           </div>
         </div>
 
