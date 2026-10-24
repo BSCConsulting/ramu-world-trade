@@ -1,0 +1,168 @@
+{
+  "corridors": [
+    {
+      "country": "United States (USA)",
+      "code": "US",
+      "flag": "\ud83c\uddfa\ud83c\uddf8",
+      "bilateral_trade_usd": "$118.3B",
+      "india_exports_usd": "$77.5B",
+      "gaps": [
+        {
+          "commodity": "Technical Textiles & Geo-Textiles",
+          "hs_code": "5911.90.00",
+          "us_total_imports_usd": "$4,200M",
+          "india_share_pct": 3.8,
+          "untapped_headroom_usd": "$850M",
+          "odop_districts": "Surat (Gujarat) \u2022 Coimbatore (Tamil Nadu)",
+          "opportunity_rationale": "US supply chain shifts away from non-compliant synthetic fibers; 0% customs duty on select technical fabric items under GSP/MTB.",
+          "nearest_icd": "ICD Sachin / ICD Irugur"
+        },
+        {
+          "commodity": "Dehydrated Garlic & Onion Powder",
+          "hs_code": "0712.20.00",
+          "us_total_imports_usd": "$680M",
+          "india_share_pct": 4.2,
+          "untapped_headroom_usd": "$160M",
+          "odop_districts": "Mahuva & Bhavnagar (Gujarat) \u2022 Nashik (Maharashtra)",
+          "opportunity_rationale": "India produces 2nd largest global onion harvest; high solids white onion varieties in Mahuva yield superior drying ratio.",
+          "nearest_icd": "ICD Pipavav / ICD Nashik"
+        },
+        {
+          "commodity": "Cast Iron Pipe Fittings & Flanges",
+          "hs_code": "7307.19.00",
+          "us_total_imports_usd": "$2,100M",
+          "india_share_pct": 4.5,
+          "untapped_headroom_usd": "$420M",
+          "odop_districts": "Howrah (West Bengal) \u2022 Coimbatore (Tamil Nadu)",
+          "opportunity_rationale": "US Infrastructure Act mandates domestic or allied casting procurement; Howrah foundries offer 22% lower cost than European suppliers.",
+          "nearest_icd": "Kolkata Port / ICD Irugur"
+        }
+      ]
+    },
+    {
+      "country": "United Arab Emirates (UAE)",
+      "code": "AE",
+      "flag": "\ud83c\udde6\ud83c\uddea",
+      "bilateral_trade_usd": "$84.0B",
+      "india_exports_usd": "$35.6B",
+      "gaps": [
+        {
+          "commodity": "Curcumin Extracts & High-Oleoresin Turmeric",
+          "hs_code": "0910.30.20",
+          "us_total_imports_usd": "$340M",
+          "india_share_pct": 4.8,
+          "untapped_headroom_usd": "$95M",
+          "odop_districts": "Nizamabad (Telangana) \u2022 Erode (Tamil Nadu)",
+          "opportunity_rationale": "India-UAE CEPA grants 0% duty on certified CoO; surging demand in Dubai pharmaceutical and nutra packaging hubs.",
+          "nearest_icd": "ICD Sanathnagar / ICD Erode"
+        },
+        {
+          "commodity": "Pre-Cooked Frozen Flatbreads (Parathas/Roti)",
+          "hs_code": "1905.90.90",
+          "us_total_imports_usd": "$480M",
+          "india_share_pct": 3.9,
+          "untapped_headroom_usd": "$110M",
+          "odop_districts": "Ahmedabad (Gujarat) \u2022 Indore (Madhya Pradesh)",
+          "opportunity_rationale": "High Indian diaspora & GCC retail food service demand; 100% duty-free under CEPA Annex 2A.",
+          "nearest_icd": "ICD Sabarmati / ICD Tihi"
+        }
+      ]
+    },
+    {
+      "country": "Germany",
+      "code": "DE",
+      "flag": "\ud83c\udde9\ud83c\uddea",
+      "bilateral_trade_usd": "$33.2B",
+      "india_exports_usd": "$10.1B",
+      "gaps": [
+        {
+          "commodity": "Architectural Handcrafted Brass & Bronze Fittings",
+          "hs_code": "7418.10.22",
+          "us_total_imports_usd": "$780M",
+          "india_share_pct": 3.1,
+          "untapped_headroom_usd": "$140M",
+          "odop_districts": "Moradabad (Uttar Pradesh) \u2022 Jamnagar (Gujarat)",
+          "opportunity_rationale": "German green building regulations prioritize recyclable architectural hardware; traditional Indian brassware offers unique artisanal finishes.",
+          "nearest_icd": "ICD Moradabad / ICD Jamnagar"
+        },
+        {
+          "commodity": "Organic Herbal Infusions & Moringa Powder",
+          "hs_code": "1211.90.29",
+          "us_total_imports_usd": "$520M",
+          "india_share_pct": 4.0,
+          "untapped_headroom_usd": "$85M",
+          "odop_districts": "Dindigul (Tamil Nadu) \u2022 Theni (Tamil Nadu)",
+          "opportunity_rationale": "EU Green Deal organic certification compliance yields 35% premium over conventional tea lines.",
+          "nearest_icd": "ICD Madurai"
+        }
+      ]
+    },
+    {
+      "country": "Saudi Arabia",
+      "code": "SA",
+      "flag": "\ud83c\uddf8\ud83c\udde6",
+      "bilateral_trade_usd": "$52.8B",
+      "india_exports_usd": "$11.5B",
+      "gaps": [
+        {
+          "commodity": "Basmati Rice 1121 Steam & Sella",
+          "hs_code": "1006.30.20",
+          "us_total_imports_usd": "$1,450M",
+          "india_share_pct": 68.0,
+          "untapped_headroom_usd": "$280M",
+          "odop_districts": "Karnal (Haryana) \u2022 Amritsar (Punjab)",
+          "opportunity_rationale": "High direct consumption; expanding packaging from bulk 50kg bags to 5kg retail packs doubles net export margin.",
+          "nearest_icd": "ICD Panipat / ICD Amritsar"
+        },
+        {
+          "commodity": "Ceramic Glazed Floor & Wall Tiles",
+          "hs_code": "6907.21.00",
+          "us_total_imports_usd": "$920M",
+          "india_share_pct": 4.9,
+          "untapped_headroom_usd": "$210M",
+          "odop_districts": "Morbi (Gujarat)",
+          "opportunity_rationale": "Saudi Vision 2030 giga-projects (NEOM, Red Sea Project) driving multi-million sqm ceramic tile procurement.",
+          "nearest_icd": "Mundra Port (Direct Sea Corridor)"
+        }
+      ]
+    },
+    {
+      "country": "Vietnam",
+      "code": "VN",
+      "flag": "\ud83c\uddfb\ud83c\uddf3",
+      "bilateral_trade_usd": "$15.4B",
+      "india_exports_usd": "$5.8B",
+      "gaps": [
+        {
+          "commodity": "Frozen Deboned Buffalo Meat (Halal)",
+          "hs_code": "0202.30.00",
+          "us_total_imports_usd": "$850M",
+          "india_share_pct": 14.2,
+          "untapped_headroom_usd": "$240M",
+          "odop_districts": "Aligarh (Uttar Pradesh) \u2022 Hyderabad (Telangana)",
+          "opportunity_rationale": "Re-export and regional processing hub; certified APEDA-registered abattoirs offer lean, disease-free meat.",
+          "nearest_icd": "ICD Dadri / ICD Hyderabad"
+        }
+      ]
+    },
+    {
+      "country": "United Kingdom (UK)",
+      "code": "GB",
+      "flag": "\ud83c\uddec\ud83c\udde7",
+      "bilateral_trade_usd": "$22.5B",
+      "india_exports_usd": "$12.9B",
+      "gaps": [
+        {
+          "commodity": "Knitted Cotton Apparels & Babywear",
+          "hs_code": "6111.20.00",
+          "us_total_imports_usd": "$1,600M",
+          "india_share_pct": 4.4,
+          "untapped_headroom_usd": "$290M",
+          "odop_districts": "Tirupur (Tamil Nadu)",
+          "opportunity_rationale": "RoSCTL rebate of 4.05% + proposed India-UK FTA tariff reductions will unlock level playing field with Bangladesh.",
+          "nearest_icd": "ICD Tirupur"
+        }
+      ]
+    }
+  ]
+}

@@ -367,6 +367,7 @@
     /* Modal Overlay Display Control */
     #deal-memo-modal.hidden,
     #entity-dossier-modal.hidden,
+    #invoice-modal.hidden,
     #bottom-sheet.hidden,
     #bottom-sheet-backdrop.hidden {
       display: none !important;
@@ -750,6 +751,45 @@
         </div>
       </div>
 
+      <!-- Bilateral Opportunity Arbitrage Radar (Target Markets & ODOP Sourcing) -->
+      <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-base">🌐</span>
+            <h2 class="text-base font-extrabold tracking-tight">Bilateral Opportunity Arbitrage Radar</h2>
+          </div>
+          <span class="text-[10px] border px-2.5 py-0.5 rounded-full font-mono font-bold uppercase" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">Target Markets</span>
+        </div>
+        <p class="text-xs" style="color: var(--text-muted);">Identify high-demand commodities where partner country imports billions from the world, but India holds &lt;5% market share.</p>
+
+        <!-- Partner Country Corridor Selector -->
+        <div class="flex gap-1.5 overflow-x-auto pb-1 text-[11px] font-bold no-scrollbar">
+          <button type="button" onclick="selectTradeGapCountry('US')" id="gap-btn-US" class="gap-corridor-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🇺🇸 USA</button>
+          <button type="button" onclick="selectTradeGapCountry('AE')" id="gap-btn-AE" class="gap-corridor-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇦🇪 UAE</button>
+          <button type="button" onclick="selectTradeGapCountry('DE')" id="gap-btn-DE" class="gap-corridor-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇩🇪 Germany</button>
+          <button type="button" onclick="selectTradeGapCountry('SA')" id="gap-btn-SA" class="gap-corridor-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇸🇦 Saudi Arabia</button>
+          <button type="button" onclick="selectTradeGapCountry('VN')" id="gap-btn-VN" class="gap-corridor-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇻🇳 Vietnam</button>
+          <button type="button" onclick="selectTradeGapCountry('GB')" id="gap-btn-GB" class="gap-corridor-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇬🇧 UK</button>
+        </div>
+
+        <!-- Corridor Trade Metrics Summary Bar -->
+        <div class="grid grid-cols-2 gap-2 p-2.5 rounded-xl border text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div>
+            <span class="text-[10px] block" style="color: var(--text-dim);">Total Bilateral Trade:</span>
+            <span id="gap-corridor-total" class="font-extrabold font-mono text-sm" style="color: var(--accent);">$118.3B</span>
+          </div>
+          <div>
+            <span class="text-[10px] block" style="color: var(--text-dim);">India Direct Exports:</span>
+            <span id="gap-corridor-exports" class="font-extrabold font-mono text-sm" style="color: var(--text-main);">$77.5B</span>
+          </div>
+        </div>
+
+        <!-- Dynamic Opportunity Gap Cards Container -->
+        <div id="trade-gaps-container" class="space-y-3 pt-1">
+          <!-- Injected via renderTradeGaps() -->
+        </div>
+      </div>
+
     </section>
 
     <!-- ==================== TAB 2: AGENDA (Operating Timetable) ==================== -->
@@ -986,6 +1026,109 @@
         </div>
         <span id="legal-copy-status" class="text-[10px] font-mono text-center block text-[#10B981] font-bold h-3"></span>
       </div>
+
+      <!-- Counterparty Due Diligence & Fraud Red-Flag Screener -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-base">🛡️</span>
+            <span class="text-xs font-extrabold uppercase tracking-wider">Buyer Due Diligence & Fraud Screener</span>
+          </div>
+          <span id="buyer-risk-badge" class="text-[10px] px-2.5 py-0.5 rounded-full font-mono font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">0 Flags • Low Risk</span>
+        </div>
+        <p class="text-[11px]" style="color: var(--text-muted);">Adversarial 10-point counterparty screener to detect non-payment fraud, advance-fee scams, and shell entities.</p>
+
+        <!-- 10-Point Checklist Grid -->
+        <div class="space-y-1.5 text-xs">
+          <label class="flex items-start gap-2 p-2 rounded-xl border cursor-pointer active:scale-[0.99] transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <input type="checkbox" onchange="toggleFraudFlag(this)" class="fraud-flag-cb mt-0.5 rounded accent-[#C25E34]" />
+            <div>
+              <span class="font-bold text-[11px] block">1. Company website domain registered &lt; 6 months ago</span>
+              <span class="text-[10px]" style="color: var(--text-dim);">Check WHOIS creation date; recent domains correlate with pop-up scam entities.</span>
+            </div>
+          </label>
+          <label class="flex items-start gap-2 p-2 rounded-xl border cursor-pointer active:scale-[0.99] transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <input type="checkbox" onchange="toggleFraudFlag(this)" class="fraud-flag-cb mt-0.5 rounded accent-[#C25E34]" />
+            <div>
+              <span class="font-bold text-[11px] block">2. Uses free public webmail (@gmail, @yahoo) for commercial orders</span>
+              <span class="text-[10px]" style="color: var(--text-dim);">Legitimate buyers maintain corporate email domains matched to active trade license.</span>
+            </div>
+          </label>
+          <label class="flex items-start gap-2 p-2 rounded-xl border cursor-pointer active:scale-[0.99] transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <input type="checkbox" onchange="toggleFraudFlag(this)" class="fraud-flag-cb mt-0.5 rounded accent-[#C25E34]" />
+            <div>
+              <span class="font-bold text-[11px] block">3. Cannot provide active VAT TRN / Chamber of Commerce registration</span>
+              <span class="text-[10px]" style="color: var(--text-dim);">UAE VAT TRN or US EIN / State Registry Certificate must verify exact legal name.</span>
+            </div>
+          </label>
+          <label class="flex items-start gap-2 p-2 rounded-xl border cursor-pointer active:scale-[0.99] transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <input type="checkbox" onchange="toggleFraudFlag(this)" class="fraud-flag-cb mt-0.5 rounded accent-[#C25E34]" />
+            <div>
+              <span class="font-bold text-[11px] block">4. Insists on Open Account / DA 60-90 Days without ECGC cover</span>
+              <span class="text-[10px]" style="color: var(--text-dim);">Refusal to accept LC at Sight or 30% advance deposit indicates high default risk.</span>
+            </div>
+          </label>
+          <label class="flex items-start gap-2 p-2 rounded-xl border cursor-pointer active:scale-[0.99] transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <input type="checkbox" onchange="toggleFraudFlag(this)" class="fraud-flag-cb mt-0.5 rounded accent-[#C25E34]" />
+            <div>
+              <span class="font-bold text-[11px] block">5. Buyer destination country listed under FATF Grey List or high currency rationing</span>
+              <span class="text-[10px]" style="color: var(--text-dim);">Severe forex shortages trigger central bank allocation holds, blocking rupee conversion.</span>
+            </div>
+          </label>
+        </div>
+
+        <!-- Prescribed Contractual Payment Shield -->
+        <div id="fraud-shield-prescription" class="p-3 rounded-xl border space-y-1.5 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-dim);">Prescribed Commercial Payment Protocol:</span>
+          <p id="fraud-shield-text" class="font-bold" style="color: #10B981;">Standard Exim terms: Irrevocable LC at Sight or 20% Advance + 80% CAD with ECGC policy.</p>
+        </div>
+      </div>
+
+      <!-- Customs Dispute & Show Cause Notice (SCN) Defense Playbook -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-base">⚖️</span>
+            <span class="text-xs font-extrabold uppercase tracking-wider">Customs Dispute & SCN Defense Playbook</span>
+          </div>
+          <span class="text-[9px] font-mono px-2 py-0.5 rounded-full border" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">Customs Act 1962</span>
+        </div>
+        <p class="text-[11px]" style="color: var(--text-muted);">Statutory defense rights, precedent rulings, and rebuttal frameworks for port seizures and classification queries.</p>
+
+        <!-- Section Selector Tabs -->
+        <div class="grid grid-cols-3 gap-1.5 text-xs font-mono font-bold">
+          <button type="button" onclick="selectScnSection('sec-124')" id="scn-btn-124" class="scn-tab-btn py-2 px-1 rounded-xl border text-center active:scale-95 transition-all" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">Sec 124 (SCN)</button>
+          <button type="button" onclick="selectScnSection('sec-110a')" id="scn-btn-110a" class="scn-tab-btn py-2 px-1 rounded-xl border text-center active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">Sec 110A (Release)</button>
+          <button type="button" onclick="selectScnSection('sec-28')" id="scn-btn-28" class="scn-tab-btn py-2 px-1 rounded-xl border text-center active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">Sec 28 (Recovery)</button>
+        </div>
+
+        <div id="scn-details-card" class="p-3.5 rounded-xl border space-y-2.5 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between">
+            <span id="scn-title" class="font-extrabold font-mono text-xs" style="color: var(--accent);">Section 124 — Show Cause Notice (SCN) Rebuttal</span>
+            <span id="scn-severity" class="text-[9px] px-2 py-0.5 rounded-full font-bold font-mono" style="background: rgba(239, 68, 68, 0.15); color: #EF4444;">High Severity</span>
+          </div>
+
+          <div class="space-y-1.5 text-[11px]">
+            <div>
+              <span class="font-bold block" style="color: var(--text-dim);">Allegation Trigger:</span>
+              <p id="scn-trigger" class="pt-0.5">Customs Appraiser raises SCN alleging willful misclassification of ITC-HS code to claim higher RoDTEP/Drawback or avoid anti-dumping duty.</p>
+            </div>
+            <div>
+              <span class="font-bold block" style="color: var(--text-dim);">Statutory Exporter Rights:</span>
+              <p id="scn-rights" class="pt-0.5">1. Right to reasonable opportunity in writing (30 days minimum).<br>2. Mandatory personal hearing under Sec 122A.<br>3. Cross-examination of chemical test reports.</p>
+            </div>
+            <div>
+              <span class="font-bold block" style="color: var(--text-dim);">Landmark Supreme Court Precedent:</span>
+              <p id="scn-precedent" class="pt-0.5 italic text-[#10B981]">Northern Plastic Ltd vs Collector of Customs (1998 SC): Mere claim for an alternative classification does not amount to deliberate misdeclaration or fraud unless physical composition was masked.</p>
+            </div>
+          </div>
+
+          <button type="button" onclick="copyScnDraftNotice()" class="w-full py-2.5 px-3 rounded-xl border font-bold text-xs flex items-center justify-center gap-1.5 active:scale-95 transition-transform" style="background: var(--card-bg); border-color: var(--card-border);">
+            <span>📋 Copy Statutory Formal Reply Draft</span>
+          </button>
+          <span id="scn-copy-status" class="text-[10px] font-mono text-center block text-[#10B981] font-bold h-3"></span>
+        </div>
+      </div>
     </section>
 
     <!-- ==================== TAB 3: SCRATCHPAD (10x Export Cash Calculator) ==================== -->
@@ -1146,6 +1289,78 @@
             <span>💼 View & Export 1-Page Deal Memo</span>
             <span>&rarr;</span>
           </button>
+          <button type="button" onclick="openInvoiceModal()" class="w-full py-3 rounded-xl border text-xs font-extrabold uppercase tracking-wider active:scale-95 transition-transform flex items-center justify-center gap-2" style="background: var(--card-bg); border-color: var(--accent); color: var(--accent);">
+            <span>📋 Build Statutory Commercial Invoice & Packing List</span>
+            <span>&rarr;</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Container Stuffing & Freight Volumetric (CBM / TEU) Optimizer -->
+      <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-base">📦</span>
+            <h2 class="text-base font-extrabold tracking-tight">Container Stuffing & CBM Optimizer</h2>
+          </div>
+          <span class="text-[10px] border px-2.5 py-0.5 rounded-full font-mono font-bold uppercase" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">Logistics Math</span>
+        </div>
+        <p class="text-xs" style="color: var(--text-muted);">Calculate volumetric weight (CBM), carton packaging density, and avoid paying for shipped dead air.</p>
+
+        <!-- Container Standard Selector -->
+        <div class="grid grid-cols-3 gap-1.5 text-xs font-mono font-bold">
+          <button type="button" onclick="selectContainerType('20ft')" id="cbm-btn-20ft" class="cbm-tab-btn py-2 px-1 rounded-xl border text-center active:scale-95 transition-all" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">20ft Dry (33 CBM)</button>
+          <button type="button" onclick="selectContainerType('40hc')" id="cbm-btn-40hc" class="cbm-tab-btn py-2 px-1 rounded-xl border text-center active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">40ft HC (76 CBM)</button>
+          <button type="button" onclick="selectContainerType('40rf')" id="cbm-btn-40rf" class="cbm-tab-btn py-2 px-1 rounded-xl border text-center active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">40ft Reefer (67 CBM)</button>
+        </div>
+
+        <!-- Carton Dimension Inputs -->
+        <div class="grid grid-cols-3 gap-2 text-xs">
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Length (cm):</label>
+            <input type="number" id="cbm-len" value="50" oninput="calculateContainerStuffing()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Width (cm):</label>
+            <input type="number" id="cbm-width" value="40" oninput="calculateContainerStuffing()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Height (cm):</label>
+            <input type="number" id="cbm-height" value="30" oninput="calculateContainerStuffing()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Gross Weight / Box (kg):</label>
+            <input type="number" id="cbm-box-wt" value="18" oninput="calculateContainerStuffing()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Consignment Cartons:</label>
+            <input type="number" id="cbm-box-qty" value="450" oninput="calculateContainerStuffing()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" />
+          </div>
+        </div>
+
+        <!-- Volumetric Metrics Result Grid -->
+        <div class="grid grid-cols-2 gap-2 p-3 rounded-xl border text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div>
+            <span class="text-[10px] block" style="color: var(--text-dim);">Total Consignment Volume:</span>
+            <span id="cbm-res-vol" class="font-extrabold font-mono text-sm" style="color: var(--accent);">27.0 CBM</span>
+            <span id="cbm-res-vol-pct" class="text-[9px] block text-[#10B981] font-bold">81.8% Container Filled</span>
+          </div>
+          <div>
+            <span class="text-[10px] block" style="color: var(--text-dim);">Total Cargo Weight:</span>
+            <span id="cbm-res-wt" class="font-extrabold font-mono text-sm" style="color: var(--text-main);">8,100 kg</span>
+            <span id="cbm-res-wt-status" class="text-[9px] block text-[#10B981] font-bold">✓ Within Road Limit (&lt;28 MT)</span>
+          </div>
+        </div>
+
+        <div class="p-2.5 rounded-xl border flex items-center justify-between text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div>
+            <span class="text-[10px] block" style="color: var(--text-dim);">Ocean Freight Optimization:</span>
+            <span id="cbm-res-est-freight" class="text-xs font-extrabold font-mono" style="color: var(--accent);">~$1,450 USD total (~$3.22 / carton)</span>
+          </div>
+          <span class="px-2 py-0.5 rounded-full text-[9px] font-bold font-mono" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">Optimal Pack</span>
         </div>
       </div>
     </section>
@@ -1457,7 +1672,66 @@
             <p><span class="font-bold" style="color: var(--text-dim);">Operating Model:</span> <span id="cp-model" class="font-medium">Connect verified ODOP district manufacturers with overseas buyers or domestic export houses without holding inventory or taking title.</span></p>
             <p><span class="font-bold" style="color: var(--text-dim);">Protection Shield:</span> <span id="cp-shield" class="font-medium">Execute 1-tap NCNDA + Bank IMFPA before disclosing factory identities or pricing. Commission wired on LC liquidation.</span></p>
             <p><span class="font-bold" style="color: var(--text-dim);">Legal Prerequisites:</span> <span id="cp-legal" class="font-medium">Proprietorship / LLP + GSTIN (for commission invoicing) + Current Bank Account. (No IEC required for domestic brokerage).</span></p>
-            <p><span class="font-bold" style="color: var(--text-dim);">First 30 Days Action:</span> <span id="cp-milestone" class="font-medium" style="color: var(--accent);">Pick 1 ODOP cluster (e.g. Guntur chillies), visit 3 packhouses, obtain verified FOB quotes, and pitch to UAE/Vietnam importers on LinkedIn & Trade Leads.</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Daily Ground-Trade Forensic Case Studies & Simulations -->
+      <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-base">🔬</span>
+            <h2 class="text-base font-extrabold tracking-tight">Daily Ground-Trade Forensic Case Studies</h2>
+          </div>
+          <span class="text-[10px] border px-2.5 py-0.5 rounded-full font-mono font-bold uppercase" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">4 Ground Truths</span>
+        </div>
+        <p class="text-xs" style="color: var(--text-muted);">Real-world micro-level trade friction dissections: port rejections, LC disputes, zero-capital brokerage, and PFMS refund freezes.</p>
+
+        <!-- Case Study Selector Pills -->
+        <div class="flex gap-1.5 overflow-x-auto pb-1 text-[11px] font-bold no-scrollbar">
+          <button type="button" onclick="selectCaseStudy('case-agri-aflatoxin')" id="cs-btn-case-agri-aflatoxin" class="cs-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">1. Guntur Spices (JNPT Hold)</button>
+          <button type="button" onclick="selectCaseStudy('case-banking-ucp600')" id="cs-btn-case-banking-ucp600" class="cs-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">2. Dubai Bank (LC Dispute)</button>
+          <button type="button" onclick="selectCaseStudy('case-broker-zero-capital')" id="cs-btn-case-broker-zero-capital" class="cs-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">3. Moradabad Brass (₹0 Broker)</button>
+          <button type="button" onclick="selectCaseStudy('case-customs-pfms')" id="cs-btn-case-customs-pfms" class="cs-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">4. Tirupur Garments (PFMS Scroll)</button>
+        </div>
+
+        <!-- Forensic Case Study Card Body -->
+        <div id="case-study-details-card" class="p-4 rounded-2xl border space-y-3 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-start justify-between gap-2 border-b pb-2.5" style="border-color: var(--card-border);">
+            <div>
+              <span id="cs-sector-badge" class="text-[9px] font-mono uppercase tracking-wider px-2 py-0.5 rounded border" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">Agricultural & Spices</span>
+              <h3 id="cs-title" class="text-sm font-extrabold pt-1" style="color: var(--text-main);">Guntur Red Chilli JNPT Port Detention: Aflatoxin &gt; 10 ppb Crisis</h3>
+              <span id="cs-route" class="text-[10px] block" style="color: var(--text-muted);">Consignment: ₹38,50,000 (20ft FCL • 14 MT) &bull; Destination: Rotterdam, Netherlands</span>
+            </div>
+            <span id="cs-tag-badge" class="px-2 py-0.5 rounded-full text-[9px] font-bold font-mono flex-shrink-0" style="background: rgba(239, 68, 68, 0.15); color: #EF4444;">Quality & Customs Hold</span>
+          </div>
+
+          <div class="space-y-2 text-[11px]">
+            <div>
+              <span class="font-bold uppercase text-[10px] block" style="color: #EF4444;">1. The Ground Trigger:</span>
+              <p id="cs-trigger" class="pt-0.5">Pre-shipment sampling by buyer nominated surveyor at JNPT CFS reported total Aflatoxin at 12.4 ppb, exceeding the EU statutory threshold of 10 ppb.</p>
+            </div>
+            <div>
+              <span class="font-bold uppercase text-[10px] block" style="color: #F59E0B;">2. The Commercial Bottleneck:</span>
+              <p id="cs-bottleneck" class="pt-0.5">Shipping line issued detention notice; container moved to CFS holding bay incurring ₹7,500/day ground rent and ₹12,000/day reefer plug-in fees. Buyer threatened to cancel LC.</p>
+            </div>
+            <div>
+              <span class="font-bold uppercase text-[10px] block" style="color: var(--accent);">3. Forensic Resolution Protocol:</span>
+              <div id="cs-resolution-steps" class="space-y-1 pt-1">
+                <p>1. Invoked Spices Board of India Mandatory Export Quality Sampling protocol under Spices Board Act 1986.</p>
+                <p>2. Commissioned emergency re-test with Vimta Labs NABL Accredited laboratory TC-5012 using HPLC-FLD fluorescence method.</p>
+                <p>3. Result confirmed batch split: 80% was sub-5 ppb, but outer 20 bags absorbed moisture during monsoon road haulage.</p>
+                <p>4. Executed on-dock de-stuffing, segregated contaminated bags, replaced with buffer inventory from cold storage in Navi Mumbai, and re-stuffed within 48 hours.</p>
+              </div>
+            </div>
+            <div class="p-2.5 rounded-xl border" style="background: var(--card-bg); border-color: var(--card-border);">
+              <span class="font-bold uppercase text-[10px] block" style="color: var(--text-dim);">Statutory Legal Defense:</span>
+              <p id="cs-statutory-defense" class="pt-0.5 italic text-[#10B981]">Spices Board Circular SEC/EXP/AFL/2023 &amp; DGFT Notification No. 12/2015-2020: Proof of sorting and re-inspection certificate accepted for customs port clearance.</p>
+            </div>
+            <div class="flex items-center justify-between pt-1 border-t" style="border-color: var(--card-border);">
+              <span class="text-[10px] font-bold" style="color: var(--text-dim);">Financial Outcome:</span>
+              <span id="cs-financial-outcome" class="font-extrabold font-mono text-[11px]" style="color: #10B981;">Demurrage capped at ₹39,000 (3 days). Saved ₹38.5L consignment from rejection.</span>
+            </div>
           </div>
         </div>
       </div>
@@ -1704,6 +1978,148 @@
       <div class="pt-2 border-t" style="border-color: var(--card-border);">
         <button type="button" onclick="closeEntityDossierModal()" class="w-full py-2.5 rounded-xl border text-xs font-bold active:scale-95 transition-transform" style="background: var(--accent); color: #ffffff;">
           <span>Back to Directory</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- ==================== STATUTORY PROFORMA INVOICE & PACKING LIST GENERATOR MODAL ==================== -->
+  <div id="invoice-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-3">
+    <div class="glass-panel w-full max-w-2xl max-h-[94vh] rounded-3xl p-5 shadow-2xl flex flex-col space-y-3.5 overflow-hidden animate-slide-up" style="background: var(--dropdown-bg); border-color: var(--card-border);">
+      <div class="flex items-center justify-between border-b pb-3" style="border-color: var(--card-border);">
+        <div class="flex items-center gap-2">
+          <span class="text-base">📋</span>
+          <div>
+            <span class="text-[9px] font-mono uppercase tracking-widest px-2 py-0.5 rounded border" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">DGFT &amp; Customs Compliant</span>
+            <h3 class="text-base font-extrabold font-mono pt-0.5">Commercial Invoice &amp; Packing List</h3>
+          </div>
+        </div>
+        <button onclick="closeInvoiceModal()" class="w-8 h-8 rounded-full border flex items-center justify-center font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">✕</button>
+      </div>
+
+      <div id="invoice-print-area" class="overflow-y-auto space-y-3 text-xs pr-1 ios-scroll">
+        <!-- Exporter & Consignee Details Grid -->
+        <div class="grid grid-cols-2 gap-2">
+          <div class="p-3 rounded-xl border space-y-1.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-dim);">1. Exporter / Consignor Details</span>
+            <div>
+              <label class="block text-[9px] font-bold" style="color: var(--text-muted);">Company Legal Name:</label>
+              <input type="text" id="inv-exp-name" value="Bharat Global Exim LLP" class="w-full border rounded-lg p-1.5 text-xs focus:outline-none" />
+            </div>
+            <div class="grid grid-cols-2 gap-1.5">
+              <div>
+                <label class="block text-[9px] font-bold" style="color: var(--text-muted);">GSTIN:</label>
+                <input type="text" id="inv-exp-gstin" value="27AAACB1234D1Z5" class="w-full border rounded-lg p-1.5 text-[11px] font-mono focus:outline-none" />
+              </div>
+              <div>
+                <label class="block text-[9px] font-bold" style="color: var(--text-muted);">IEC Code:</label>
+                <input type="text" id="inv-exp-iec" value="0312045678" class="w-full border rounded-lg p-1.5 text-[11px] font-mono focus:outline-none" />
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-1.5">
+              <div>
+                <label class="block text-[9px] font-bold" style="color: var(--text-muted);">AD Code:</label>
+                <input type="text" id="inv-exp-ad" value="0210045" class="w-full border rounded-lg p-1.5 text-[11px] font-mono focus:outline-none" />
+              </div>
+              <div>
+                <label class="block text-[9px] font-bold" style="color: var(--text-muted);">LUT No. (Rule 96A):</label>
+                <input type="text" id="inv-exp-lut" value="AD270324001928K" class="w-full border rounded-lg p-1.5 text-[11px] font-mono focus:outline-none" />
+              </div>
+            </div>
+          </div>
+
+          <div class="p-3 rounded-xl border space-y-1.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-dim);">2. Buyer / Consignee Details</span>
+            <div>
+              <label class="block text-[9px] font-bold" style="color: var(--text-muted);">Buyer Entity Name:</label>
+              <input type="text" id="inv-buy-name" value="Al-Madina General Trading LLC" class="w-full border rounded-lg p-1.5 text-xs focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-[9px] font-bold" style="color: var(--text-muted);">Destination Port / Country:</label>
+              <input type="text" id="inv-buy-port" value="Jebel Ali Port, Dubai, UAE" class="w-full border rounded-lg p-1.5 text-xs focus:outline-none" />
+            </div>
+            <div class="grid grid-cols-2 gap-1.5">
+              <div>
+                <label class="block text-[9px] font-bold" style="color: var(--text-muted);">Invoice No:</label>
+                <input type="text" id="inv-number" value="EXP/2024-25/084" class="w-full border rounded-lg p-1.5 text-[11px] font-mono focus:outline-none" />
+              </div>
+              <div>
+                <label class="block text-[9px] font-bold" style="color: var(--text-muted);">Incoterms 2020:</label>
+                <select id="inv-incoterm" class="w-full border rounded-lg p-1.5 text-[11px] font-mono focus:outline-none">
+                  <option value="FOB">FOB JNPT</option>
+                  <option value="CIF">CIF Jebel Ali</option>
+                  <option value="EXW">EXW Factory</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Line Item Section -->
+        <div class="p-3 rounded-xl border space-y-2" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-bold uppercase tracking-wider" style="color: var(--text-dim);">3. Commodity Description &amp; Customs Valuation</span>
+            <span class="text-[9px] font-mono font-bold text-[#10B981]">Export Under LUT (0% IGST)</span>
+          </div>
+
+          <div class="grid grid-cols-12 gap-1.5 text-[10px] font-bold" style="color: var(--text-dim);">
+            <div class="col-span-5">Product Description</div>
+            <div class="col-span-2">ITC-HS</div>
+            <div class="col-span-2 text-right">Qty</div>
+            <div class="col-span-3 text-right">Amount (₹)</div>
+          </div>
+
+          <div class="grid grid-cols-12 gap-1.5 items-center text-xs">
+            <div class="col-span-5">
+              <input type="text" id="inv-item-desc" value="100% Combed Cotton Bio-Washed T-Shirts" class="w-full border rounded-lg p-1.5 text-xs focus:outline-none" />
+            </div>
+            <div class="col-span-2">
+              <input type="text" id="inv-item-hs" value="6109.10.00" class="w-full border rounded-lg p-1.5 text-xs font-mono focus:outline-none" />
+            </div>
+            <div class="col-span-2">
+              <input type="number" id="inv-item-qty" value="10000" oninput="updateInvoiceCalculations()" class="w-full border rounded-lg p-1.5 text-xs font-mono text-right focus:outline-none" />
+            </div>
+            <div class="col-span-3">
+              <input type="number" id="inv-item-total" value="5000000" oninput="updateInvoiceCalculations()" class="w-full border rounded-lg p-1.5 text-xs font-mono font-bold text-right focus:outline-none" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Packing List Dimensions & Weights -->
+        <div class="p-3 rounded-xl border space-y-2" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-dim);">4. Packing List &amp; Container Stuffing Summary</span>
+          <div class="grid grid-cols-4 gap-2 text-xs">
+            <div>
+              <span class="text-[9px] block font-bold" style="color: var(--text-muted);">Total Packages:</span>
+              <span id="inv-pkg-count" class="font-bold font-mono">200 Cartons</span>
+            </div>
+            <div>
+              <span class="text-[9px] block font-bold" style="color: var(--text-muted);">Net Weight:</span>
+              <span id="inv-net-wt" class="font-bold font-mono">3,600 kg</span>
+            </div>
+            <div>
+              <span class="text-[9px] block font-bold" style="color: var(--text-muted);">Gross Weight:</span>
+              <span id="inv-gross-wt" class="font-bold font-mono">3,950 kg</span>
+            </div>
+            <div>
+              <span class="text-[9px] block font-bold" style="color: var(--text-muted);">Total Volume:</span>
+              <span id="inv-volume-cbm" class="font-bold font-mono text-[#10B981]">14.2 CBM</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Statutory Declaration -->
+        <div class="p-2.5 rounded-xl border text-[10px]" style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-muted);">
+          <p class="italic">"We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct. Export is undertaken under Letter of Undertaking (LUT) without payment of IGST under Rule 96A of CGST Rules 2017."</p>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-2 pt-2 border-t" style="border-color: var(--card-border);">
+        <button type="button" onclick="printInvoiceDocument()" class="flex-1 py-3 rounded-xl border font-bold text-xs flex items-center justify-center gap-2 active:scale-95 transition-transform" style="background: var(--accent); color: #ffffff;">
+          <span>🖨️ Print / Save DGFT Invoice PDF</span>
+        </button>
+        <button type="button" onclick="closeInvoiceModal()" class="px-5 py-3 rounded-xl border font-bold text-xs active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <span>Close</span>
         </button>
       </div>
     </div>

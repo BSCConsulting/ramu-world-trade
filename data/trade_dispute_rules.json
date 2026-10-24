@@ -1,0 +1,53 @@
+{
+  "sections": [
+    {
+      "id": "sec-124",
+      "section": "Section 124 \u2014 Show Cause Notice (SCN) Rebuttal",
+      "act": "Customs Act, 1962",
+      "severity": "High (Threat of Confiscation & Penalty)",
+      "trigger": "Customs Appraiser raises SCN alleging willful misclassification of ITC-HS code to claim higher RoDTEP/Drawback or avoid anti-dumping duty.",
+      "statutory_rights": [
+        "1. Right to reasonable opportunity of making representation in writing (30 days minimum).",
+        "2. Mandatory right to personal hearing before the Adjudicating Authority under Section 122A.",
+        "3. Cross-examination of chemical examination test reports and port surveyor notes."
+      ],
+      "landmark_precedents": [
+        "Northern Plastic Ltd vs Collector of Customs (1998 SC): Mere claim for an alternative classification does not amount to deliberate misdeclaration or fraud unless physical composition was masked.",
+        "Uniworth Textiles Ltd vs CCE (2013 SC): Extended period of limitation cannot be invoked unless positive act of suppression with intent to evade duty is proved by department."
+      ],
+      "action_playbook": "1. Do not accept summary verbal rejection. Request formal SCN with relied-upon documents (RUDs).\n2. Submit technical manufacturer literature, NABL test certificate, and World Customs Organization (WCO) Explanatory Notes.\n3. File application under Section 110A for provisional release of consignment on nominal PD Bond so container does not incur port demurrage."
+    },
+    {
+      "id": "sec-110a",
+      "section": "Section 110A \u2014 Provisional Release of Seized Cargo",
+      "act": "Customs Act, 1962",
+      "severity": "Time-Critical (Demurrage Containment)",
+      "trigger": "Customs detains or seizes export/import consignment at port pending chemical analysis or valuation query.",
+      "statutory_rights": [
+        "1. Any goods seized under Section 110 may be released to the owner on taking a bond in proper form with security.",
+        "2. Circular No. 35/2017-Customs mandates provisional release must be decided within 3 working days of application."
+      ],
+      "landmark_precedents": [
+        "Mala Petrochemicals vs Union of India (2017 Del HC): Port authorities and customs cannot hold cargo indefinitely when importer/exporter offers adequate security bond.",
+        "Navshikha Chemicals vs Commissioner (2012 SC): Delay in releasing perishable/seasonal goods constitutes undue harassment; provisional release is a statutory right, not discretionary favor."
+      ],
+      "action_playbook": "1. File Form for Provisional Release under Section 110A within 24 hours of detention notice.\n2. Submit Provisional Duty (PD) Bond with 10%-20% Bank Guarantee covering differential duty.\n3. Move cargo immediately to Customs Bonded Warehouse (Section 49) to halt shipping line daily container demurrage."
+    },
+    {
+      "id": "sec-28",
+      "section": "Section 28 \u2014 Duty Recovery / Short-Levy Query",
+      "act": "Customs Act, 1962",
+      "severity": "Financial Liability (Retroactive Demand)",
+      "trigger": "Notice issued by Directorate of Revenue Intelligence (DRI) or Customs Audit alleging duty was short-levied or erroneously refunded (e.g. Drawback/RoDTEP clawback).",
+      "statutory_rights": [
+        "1. Normal limitation period is 2 years from relevant date (5 years only if fraud/collusion is specifically proven).",
+        "2. Right to inspect pre-audit working sheets and CBIC classification circulars."
+      ],
+      "landmark_precedents": [
+        "Canon India Pvt Ltd vs Commissioner of Customs (2021 SC): Only the Proper Officer of customs who cleared the goods has jurisdiction to issue Section 28 notice; DRI lacks jurisdiction unless specifically empowered.",
+        "Cosmic Dye Chemical vs CCE (1995 SC): Bona fide belief of exporter based on published trade notices negates charge of suppression."
+      ],
+      "action_playbook": "1. Audit jurisdictional competence of the issuing authority under Canon India doctrine.\n2. Verify that shipping bill had Let Export Order (LEO) duly granted without tampering.\n3. Establish that statutory claim conformed strictly to DGFT Appendix 4R published on date of export."
+    }
+  ]
+}

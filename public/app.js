@@ -1688,7 +1688,640 @@ Generated via World of Trade Intelligence Terminal`;
   });
 }
 
+
+
+// ==================== GROUND-TRADE ADVANCED MODULES DATA ====================
+const GAPS_DATA = {
+  "corridors": [
+    {
+      "country": "United States (USA)",
+      "code": "US",
+      "flag": "\ud83c\uddfa\ud83c\uddf8",
+      "bilateral_trade_usd": "$118.3B",
+      "india_exports_usd": "$77.5B",
+      "gaps": [
+        {
+          "commodity": "Technical Textiles & Geo-Textiles",
+          "hs_code": "5911.90.00",
+          "us_total_imports_usd": "$4,200M",
+          "india_share_pct": 3.8,
+          "untapped_headroom_usd": "$850M",
+          "odop_districts": "Surat (Gujarat) \u2022 Coimbatore (Tamil Nadu)",
+          "opportunity_rationale": "US supply chain shifts away from non-compliant synthetic fibers; 0% customs duty on select technical fabric items under GSP/MTB.",
+          "nearest_icd": "ICD Sachin / ICD Irugur"
+        },
+        {
+          "commodity": "Dehydrated Garlic & Onion Powder",
+          "hs_code": "0712.20.00",
+          "us_total_imports_usd": "$680M",
+          "india_share_pct": 4.2,
+          "untapped_headroom_usd": "$160M",
+          "odop_districts": "Mahuva & Bhavnagar (Gujarat) \u2022 Nashik (Maharashtra)",
+          "opportunity_rationale": "India produces 2nd largest global onion harvest; high solids white onion varieties in Mahuva yield superior drying ratio.",
+          "nearest_icd": "ICD Pipavav / ICD Nashik"
+        },
+        {
+          "commodity": "Cast Iron Pipe Fittings & Flanges",
+          "hs_code": "7307.19.00",
+          "us_total_imports_usd": "$2,100M",
+          "india_share_pct": 4.5,
+          "untapped_headroom_usd": "$420M",
+          "odop_districts": "Howrah (West Bengal) \u2022 Coimbatore (Tamil Nadu)",
+          "opportunity_rationale": "US Infrastructure Act mandates domestic or allied casting procurement; Howrah foundries offer 22% lower cost than European suppliers.",
+          "nearest_icd": "Kolkata Port / ICD Irugur"
+        }
+      ]
+    },
+    {
+      "country": "United Arab Emirates (UAE)",
+      "code": "AE",
+      "flag": "\ud83c\udde6\ud83c\uddea",
+      "bilateral_trade_usd": "$84.0B",
+      "india_exports_usd": "$35.6B",
+      "gaps": [
+        {
+          "commodity": "Curcumin Extracts & High-Oleoresin Turmeric",
+          "hs_code": "0910.30.20",
+          "us_total_imports_usd": "$340M",
+          "india_share_pct": 4.8,
+          "untapped_headroom_usd": "$95M",
+          "odop_districts": "Nizamabad (Telangana) \u2022 Erode (Tamil Nadu)",
+          "opportunity_rationale": "India-UAE CEPA grants 0% duty on certified CoO; surging demand in Dubai pharmaceutical and nutra packaging hubs.",
+          "nearest_icd": "ICD Sanathnagar / ICD Erode"
+        },
+        {
+          "commodity": "Pre-Cooked Frozen Flatbreads (Parathas/Roti)",
+          "hs_code": "1905.90.90",
+          "us_total_imports_usd": "$480M",
+          "india_share_pct": 3.9,
+          "untapped_headroom_usd": "$110M",
+          "odop_districts": "Ahmedabad (Gujarat) \u2022 Indore (Madhya Pradesh)",
+          "opportunity_rationale": "High Indian diaspora & GCC retail food service demand; 100% duty-free under CEPA Annex 2A.",
+          "nearest_icd": "ICD Sabarmati / ICD Tihi"
+        }
+      ]
+    },
+    {
+      "country": "Germany",
+      "code": "DE",
+      "flag": "\ud83c\udde9\ud83c\uddea",
+      "bilateral_trade_usd": "$33.2B",
+      "india_exports_usd": "$10.1B",
+      "gaps": [
+        {
+          "commodity": "Architectural Handcrafted Brass & Bronze Fittings",
+          "hs_code": "7418.10.22",
+          "us_total_imports_usd": "$780M",
+          "india_share_pct": 3.1,
+          "untapped_headroom_usd": "$140M",
+          "odop_districts": "Moradabad (Uttar Pradesh) \u2022 Jamnagar (Gujarat)",
+          "opportunity_rationale": "German green building regulations prioritize recyclable architectural hardware; traditional Indian brassware offers unique artisanal finishes.",
+          "nearest_icd": "ICD Moradabad / ICD Jamnagar"
+        },
+        {
+          "commodity": "Organic Herbal Infusions & Moringa Powder",
+          "hs_code": "1211.90.29",
+          "us_total_imports_usd": "$520M",
+          "india_share_pct": 4.0,
+          "untapped_headroom_usd": "$85M",
+          "odop_districts": "Dindigul (Tamil Nadu) \u2022 Theni (Tamil Nadu)",
+          "opportunity_rationale": "EU Green Deal organic certification compliance yields 35% premium over conventional tea lines.",
+          "nearest_icd": "ICD Madurai"
+        }
+      ]
+    },
+    {
+      "country": "Saudi Arabia",
+      "code": "SA",
+      "flag": "\ud83c\uddf8\ud83c\udde6",
+      "bilateral_trade_usd": "$52.8B",
+      "india_exports_usd": "$11.5B",
+      "gaps": [
+        {
+          "commodity": "Basmati Rice 1121 Steam & Sella",
+          "hs_code": "1006.30.20",
+          "us_total_imports_usd": "$1,450M",
+          "india_share_pct": 68.0,
+          "untapped_headroom_usd": "$280M",
+          "odop_districts": "Karnal (Haryana) \u2022 Amritsar (Punjab)",
+          "opportunity_rationale": "High direct consumption; expanding packaging from bulk 50kg bags to 5kg retail packs doubles net export margin.",
+          "nearest_icd": "ICD Panipat / ICD Amritsar"
+        },
+        {
+          "commodity": "Ceramic Glazed Floor & Wall Tiles",
+          "hs_code": "6907.21.00",
+          "us_total_imports_usd": "$920M",
+          "india_share_pct": 4.9,
+          "untapped_headroom_usd": "$210M",
+          "odop_districts": "Morbi (Gujarat)",
+          "opportunity_rationale": "Saudi Vision 2030 giga-projects (NEOM, Red Sea Project) driving multi-million sqm ceramic tile procurement.",
+          "nearest_icd": "Mundra Port (Direct Sea Corridor)"
+        }
+      ]
+    },
+    {
+      "country": "Vietnam",
+      "code": "VN",
+      "flag": "\ud83c\uddfb\ud83c\uddf3",
+      "bilateral_trade_usd": "$15.4B",
+      "india_exports_usd": "$5.8B",
+      "gaps": [
+        {
+          "commodity": "Frozen Deboned Buffalo Meat (Halal)",
+          "hs_code": "0202.30.00",
+          "us_total_imports_usd": "$850M",
+          "india_share_pct": 14.2,
+          "untapped_headroom_usd": "$240M",
+          "odop_districts": "Aligarh (Uttar Pradesh) \u2022 Hyderabad (Telangana)",
+          "opportunity_rationale": "Re-export and regional processing hub; certified APEDA-registered abattoirs offer lean, disease-free meat.",
+          "nearest_icd": "ICD Dadri / ICD Hyderabad"
+        }
+      ]
+    },
+    {
+      "country": "United Kingdom (UK)",
+      "code": "GB",
+      "flag": "\ud83c\uddec\ud83c\udde7",
+      "bilateral_trade_usd": "$22.5B",
+      "india_exports_usd": "$12.9B",
+      "gaps": [
+        {
+          "commodity": "Knitted Cotton Apparels & Babywear",
+          "hs_code": "6111.20.00",
+          "us_total_imports_usd": "$1,600M",
+          "india_share_pct": 4.4,
+          "untapped_headroom_usd": "$290M",
+          "odop_districts": "Tirupur (Tamil Nadu)",
+          "opportunity_rationale": "RoSCTL rebate of 4.05% + proposed India-UK FTA tariff reductions will unlock level playing field with Bangladesh.",
+          "nearest_icd": "ICD Tirupur"
+        }
+      ]
+    }
+  ]
+};
+
+const DISPUTE_RULES_DATA = {
+  "sections": [
+    {
+      "id": "sec-124",
+      "section": "Section 124 \u2014 Show Cause Notice (SCN) Rebuttal",
+      "act": "Customs Act, 1962",
+      "severity": "High (Threat of Confiscation & Penalty)",
+      "trigger": "Customs Appraiser raises SCN alleging willful misclassification of ITC-HS code to claim higher RoDTEP/Drawback or avoid anti-dumping duty.",
+      "statutory_rights": [
+        "1. Right to reasonable opportunity of making representation in writing (30 days minimum).",
+        "2. Mandatory right to personal hearing before the Adjudicating Authority under Section 122A.",
+        "3. Cross-examination of chemical examination test reports and port surveyor notes."
+      ],
+      "landmark_precedents": [
+        "Northern Plastic Ltd vs Collector of Customs (1998 SC): Mere claim for an alternative classification does not amount to deliberate misdeclaration or fraud unless physical composition was masked.",
+        "Uniworth Textiles Ltd vs CCE (2013 SC): Extended period of limitation cannot be invoked unless positive act of suppression with intent to evade duty is proved by department."
+      ],
+      "action_playbook": "1. Do not accept summary verbal rejection. Request formal SCN with relied-upon documents (RUDs).\n2. Submit technical manufacturer literature, NABL test certificate, and World Customs Organization (WCO) Explanatory Notes.\n3. File application under Section 110A for provisional release of consignment on nominal PD Bond so container does not incur port demurrage."
+    },
+    {
+      "id": "sec-110a",
+      "section": "Section 110A \u2014 Provisional Release of Seized Cargo",
+      "act": "Customs Act, 1962",
+      "severity": "Time-Critical (Demurrage Containment)",
+      "trigger": "Customs detains or seizes export/import consignment at port pending chemical analysis or valuation query.",
+      "statutory_rights": [
+        "1. Any goods seized under Section 110 may be released to the owner on taking a bond in proper form with security.",
+        "2. Circular No. 35/2017-Customs mandates provisional release must be decided within 3 working days of application."
+      ],
+      "landmark_precedents": [
+        "Mala Petrochemicals vs Union of India (2017 Del HC): Port authorities and customs cannot hold cargo indefinitely when importer/exporter offers adequate security bond.",
+        "Navshikha Chemicals vs Commissioner (2012 SC): Delay in releasing perishable/seasonal goods constitutes undue harassment; provisional release is a statutory right, not discretionary favor."
+      ],
+      "action_playbook": "1. File Form for Provisional Release under Section 110A within 24 hours of detention notice.\n2. Submit Provisional Duty (PD) Bond with 10%-20% Bank Guarantee covering differential duty.\n3. Move cargo immediately to Customs Bonded Warehouse (Section 49) to halt shipping line daily container demurrage."
+    },
+    {
+      "id": "sec-28",
+      "section": "Section 28 \u2014 Duty Recovery / Short-Levy Query",
+      "act": "Customs Act, 1962",
+      "severity": "Financial Liability (Retroactive Demand)",
+      "trigger": "Notice issued by Directorate of Revenue Intelligence (DRI) or Customs Audit alleging duty was short-levied or erroneously refunded (e.g. Drawback/RoDTEP clawback).",
+      "statutory_rights": [
+        "1. Normal limitation period is 2 years from relevant date (5 years only if fraud/collusion is specifically proven).",
+        "2. Right to inspect pre-audit working sheets and CBIC classification circulars."
+      ],
+      "landmark_precedents": [
+        "Canon India Pvt Ltd vs Commissioner of Customs (2021 SC): Only the Proper Officer of customs who cleared the goods has jurisdiction to issue Section 28 notice; DRI lacks jurisdiction unless specifically empowered.",
+        "Cosmic Dye Chemical vs CCE (1995 SC): Bona fide belief of exporter based on published trade notices negates charge of suppression."
+      ],
+      "action_playbook": "1. Audit jurisdictional competence of the issuing authority under Canon India doctrine.\n2. Verify that shipping bill had Let Export Order (LEO) duly granted without tampering.\n3. Establish that statutory claim conformed strictly to DGFT Appendix 4R published on date of export."
+    }
+  ]
+};
+
+const CASE_STUDIES_DATA = {
+  "case_studies": [
+    {
+      "id": "case-agri-aflatoxin",
+      "sector": "Agricultural & Spices",
+      "tag": "Quality & Customs Hold",
+      "title": "Guntur Red Chilli JNPT Port Detention: Aflatoxin > 10 ppb Crisis",
+      "fob_value": "\u20b938,50,000 (20ft FCL \u2022 14 MT)",
+      "destination": "Rotterdam, Netherlands (EU Food Safety Authority)",
+      "trigger": "Pre-shipment sampling by buyer nominated surveyor at JNPT CFS reported total Aflatoxin at 12.4 ppb, exceeding the EU statutory threshold of 10 ppb (B1 max 5 ppb).",
+      "bottleneck": "Shipping line issued detention notice; container moved to CFS holding bay incurring \u20b97,500/day ground rent and \u20b912,000/day reefer plug-in fees. Buyer threatened to cancel LC.",
+      "resolution_steps": [
+        "1. Invoked Spices Board of India Mandatory Export Quality Sampling protocol under Spices Board Act 1986.",
+        "2. Commissioned emergency re-test with Vimta Labs NABL Accredited laboratory TC-5012 using HPLC-FLD fluorescence method.",
+        "3. Result confirmed batch split: 80% was sub-5 ppb, but outer 20 bags absorbed moisture during monsoon road haulage from Guntur.",
+        "4. Executed on-dock de-stuffing, segregated contaminated bags, replaced with buffer inventory from cold storage in Navi Mumbai, and re-stuffed within 48 hours."
+      ],
+      "statutory_defense": "Spices Board Circular SEC/EXP/AFL/2023 & DGFT Notification No. 12/2015-2020: Proof of sorting and re-inspection certificate accepted for customs port clearance.",
+      "financial_outcome": "Demurrage capped at \u20b939,000 (3 days). Saved \u20b938.5L consignment from overseas border rejection and incineration penalty."
+    },
+    {
+      "id": "case-banking-ucp600",
+      "sector": "Banking & LC Dispute",
+      "tag": "UCP 600 Article 14",
+      "title": "Dubai Bank Letter of Credit Refusal: The 1-Day Bill of Lading Clash",
+      "fob_value": "\u20b964,00,000 ($760,000 USD \u2022 Knitted Fabrics)",
+      "destination": "Jebel Ali, UAE",
+      "trigger": "Issuing bank in Dubai rejected document presentation citing discrepancy: Bill of Lading showed Shipped on Board date 28-Aug, while LC stipulated Latest Shipment Date 27-Aug.",
+      "bottleneck": "Buyer attempted to exploit the rejection to demand a 15% discount before taking delivery, leaving exporter facing return freight of \u20b96.5 Lakhs.",
+      "resolution_steps": [
+        "1. Intermediary / Exporter audited shipping line pre-carriage notes and Mates Receipt (MR) signed by port captain.",
+        "2. Discovered cargo was physically received into port customs custody and loaded on feeder vessel on 26-Aug; the ocean carrier mistakenly stamped the mother vessel sail date.",
+        "3. Requested ocean line to issue statutory Carrier Certificate confirming cargo was in charge of carrier within LC shipment window.",
+        "4. Dispatched formal ICC UCP 600 Article 14(b) & Article 16 notice through exporter bank (State Bank of India Overseas Branch), demanding payment honor within 5 banking days."
+      ],
+      "statutory_defense": "ICC Banking Commission Opinion R.350 & UCP 600 Article 14(a): Banks must examine documents on their face; carrier on-board notation dated within window supersedes automated vessel sail timestamps.",
+      "financial_outcome": "Issuing bank backed down and remitted 100% of $760,000 USD on Day 4. Zero discount yielded."
+    },
+    {
+      "id": "case-broker-zero-capital",
+      "sector": "Intermediary Brokerage",
+      "tag": "Zero-Capital Income",
+      "title": "Moradabad Brass Artware: Structuring a \u20b90-Capital 3% Commission Deal",
+      "fob_value": "\u20b942,00,000 (\u20ac46,000 EUR \u2022 Handcrafted Planters)",
+      "destination": "Hamburg, Germany",
+      "trigger": "A boutique home decor retailer in Germany wanted direct artisan pricing on 2,500 brass planters, but small Moradabad workshops lacked IEC, export packaging, or English negotiation capacity.",
+      "bottleneck": "Artisans feared foreign fraud; buyer refused advance wire; broker lacked \u20b942 Lakhs working capital to buy the inventory outright.",
+      "resolution_steps": [
+        "1. Broker executed tripartite Non-Circumvention Non-Disclosure Agreement (NCNDA) + Bank IMFPA with the Moradabad factory owner.",
+        "2. Structured deal with buyer opening an Irrevocable Transferable LC at Sight in favor of the factory merchant export partner, with 3% commission irrevocably wired to broker bank account upon presentation.",
+        "3. Supervised container stuffing at ICD Moradabad (CONCOR Railhead) to ensure export palletizing and barcode labeling.",
+        "4. Handed documentation package (Invoices, Packing List, Certificate of Origin) to CHA for ICEGATE filing."
+      ],
+      "statutory_defense": "Reserve Bank of India Master Direction No. 16/2015-16: Commission earnings repatriated in foreign currency through authorized banking channels are 100% exempt from GST under export-of-services Rule 6A.",
+      "financial_outcome": "Broker invested \u20b90 capital. Earned \u20b91,26,000 net commission wired directly upon shipment sailing."
+    },
+    {
+      "id": "case-customs-pfms",
+      "sector": "Customs & Drawback",
+      "tag": "ICEGATE Error SB002",
+      "title": "Tirupur Garments Drawback Freeze: Unlocking \u20b94.2 Lakhs via PFMS Scrub",
+      "fob_value": "\u20b958,00,000 (Cotton Polo Consignment)",
+      "destination": "London Heathrow / Felixstowe, UK",
+      "trigger": "Customs cleared shipment and vessel departed, but electronic Duty Drawback scroll status showed Stalled: SB002 PFMS Name Mismatch.",
+      "bottleneck": "Exporter registered name on GSTIN was ABC Texwear Private Limited, whereas bank account verified by PFMS was registered as ABC Texwear Pvt Ltd. Automated customs refund scroll rejected disbursal.",
+      "resolution_steps": [
+        "1. Diagnosed error code via ICEGATE Financial Services & Central Bank Verification ledger.",
+        "2. Generated ICICI Bank Authorized Dealer (AD) Code Verification Certificate certifying exact account entity identity.",
+        "3. Logged into ICEGATE portal -> Advisory Services -> Bank Account Management -> Initiated Single Rupee Test Credit.",
+        "4. Drafted and submitted statutory rectification letter under Section 149 of Customs Act 1962 to Assistant Commissioner (Drawback) at Chennai Seaport."
+      ],
+      "statutory_defense": "Customs Circular No. 33/2019-Customs: Automated re-validation mandated within 48 hours once bank validation certificate is verified by PFMS.",
+      "financial_outcome": "Scroll unlocked in 48 hours; \u20b94,11,800 direct drawback cash credited to exporter bank account."
+    }
+  ]
+};
+
+const CONTAINER_SPECS = {
+  '20ft': { vol: 33.0, maxWt: 21700, freight: 1450, name: '20ft Dry' },
+  '40hc': { vol: 76.0, maxWt: 26500, freight: 2650, name: '40ft HC' },
+  '40rf': { vol: 67.0, maxWt: 29400, freight: 3850, name: '40ft Reefer' }
+};
+
+let activeContainerType = '20ft';
+let currentScnSection = DISPUTE_RULES_DATA.sections[0];
+
+// ==================== 1. BILATERAL OPPORTUNITY ARBITRAGE ====================
+function selectTradeGapCountry(code) {
+  const buttons = document.querySelectorAll('.gap-corridor-btn');
+  buttons.forEach(btn => {
+    btn.style.background = 'var(--card-inner-bg)';
+    btn.style.borderColor = 'var(--card-inner-border)';
+    btn.style.color = 'var(--text-main)';
+  });
+
+  const activeBtn = document.getElementById(`gap-btn-${code}`);
+  if (activeBtn) {
+    activeBtn.style.background = 'var(--accent)';
+    activeBtn.style.borderColor = 'var(--accent)';
+    activeBtn.style.color = '#ffffff';
+  }
+
+  const corridor = GAPS_DATA.corridors.find(c => c.code === code) || GAPS_DATA.corridors[0];
+  const totalEl = document.getElementById('gap-corridor-total');
+  const expEl = document.getElementById('gap-corridor-exports');
+  if (totalEl) totalEl.textContent = corridor.bilateral_trade_usd;
+  if (expEl) expEl.textContent = corridor.india_exports_usd;
+
+  renderTradeGaps(corridor.gaps);
+}
+
+function renderTradeGaps(gaps) {
+  const container = document.getElementById('trade-gaps-container');
+  if (!container || !gaps) return;
+
+  container.innerHTML = gaps.map(g => `
+    <div class="p-3.5 rounded-2xl border space-y-2 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+      <div class="flex items-start justify-between gap-2 border-b pb-2" style="border-color: var(--card-border);">
+        <div>
+          <span class="text-[9px] font-mono uppercase tracking-wider px-2 py-0.5 rounded border" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">ITC-HS ${g.hs_code}</span>
+          <h4 class="text-xs font-extrabold pt-1" style="color: var(--text-main);">${g.commodity}</h4>
+        </div>
+        <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full flex-shrink-0" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">Headroom: ${g.untapped_headroom_usd}</span>
+      </div>
+      <div class="grid grid-cols-2 gap-2 text-[11px]">
+        <div>
+          <span class="text-[10px] block" style="color: var(--text-dim);">Target Market Imports:</span>
+          <span class="font-bold font-mono">${g.us_total_imports_usd || g.uae_total_imports_usd || g.target_imports_usd || '$1,200M+'}</span>
+        </div>
+        <div>
+          <span class="text-[10px] block" style="color: var(--text-dim);">India Market Share:</span>
+          <span class="font-extrabold font-mono text-[#EF4444]">${g.india_share_pct}% (Under-penetrated)</span>
+        </div>
+      </div>
+      <div class="p-2 rounded-xl border text-[11px]" style="background: var(--card-bg); border-color: var(--card-border);">
+        <span class="font-bold uppercase text-[9px] block" style="color: var(--accent);">ODOP Sourcing Clusters:</span>
+        <span style="color: var(--text-main);">${g.odop_districts} &bull; <span class="font-mono text-[10px]" style="color: var(--text-muted);">${g.nearest_icd}</span></span>
+      </div>
+      <p class="text-[11px] italic" style="color: var(--text-muted);">${g.opportunity_rationale}</p>
+    </div>
+  `).join('');
+}
+
+// ==================== 2. BUYER DUE DILIGENCE & FRAUD SCREENER ====================
+function toggleFraudFlag(el) {
+  const cbs = document.querySelectorAll('.fraud-flag-cb');
+  const checkedCount = Array.from(cbs).filter(c => c.checked).length;
+  const badge = document.getElementById('buyer-risk-badge');
+  const shieldText = document.getElementById('fraud-shield-text');
+
+  if (badge) {
+    if (checkedCount === 0) {
+      badge.textContent = '0 Flags • Low Risk';
+      badge.style.background = 'rgba(16, 185, 129, 0.15)';
+      badge.style.color = '#10B981';
+    } else if (checkedCount <= 2) {
+      badge.textContent = `${checkedCount} Flags • Moderate Risk`;
+      badge.style.background = 'rgba(245, 158, 11, 0.15)';
+      badge.style.color = '#F59E0B';
+    } else {
+      badge.textContent = `${checkedCount} Flags • Critical Fraud Risk`;
+      badge.style.background = 'rgba(239, 68, 68, 0.15)';
+      badge.style.color = '#EF4444';
+    }
+  }
+
+  if (shieldText) {
+    if (checkedCount === 0) {
+      shieldText.textContent = 'Standard Exim terms: Irrevocable LC at Sight or 20% Advance + 80% CAD with ECGC policy.';
+      shieldText.style.color = '#10B981';
+    } else if (checkedCount <= 2) {
+      shieldText.textContent = 'Elevated Commercial Risk: Require 100% Irrevocable Confirmed Letter of Credit (LC at Sight) issued by a Tier-1 International Bank. Do not grant DA/DP terms.';
+      shieldText.style.color = '#F59E0B';
+    } else {
+      shieldText.textContent = '🚨 HIGH FRAUD THREAT: Immediate halt recommended. Request physically notarized chamber credentials, embassy validation, and minimum 50% non-refundable advance TT.';
+      shieldText.style.color = '#EF4444';
+    }
+  }
+}
+
+// ==================== 3. SCN DEFENSE & REBUTTAL PLAYBOOK ====================
+function selectScnSection(sectionId) {
+  const btns = ['124', '110a', '28'];
+  btns.forEach(b => {
+    const btn = document.getElementById(`scn-btn-${b}`);
+    if (btn) {
+      btn.style.background = 'var(--card-inner-bg)';
+      btn.style.borderColor = 'var(--card-inner-border)';
+      btn.style.color = 'var(--text-main)';
+    }
+  });
+
+  const activeBtn = document.getElementById(`scn-btn-${sectionId.replace('sec-', '')}`);
+  if (activeBtn) {
+    activeBtn.style.background = 'var(--accent)';
+    activeBtn.style.borderColor = 'var(--accent)';
+    activeBtn.style.color = '#ffffff';
+  }
+
+  currentScnSection = DISPUTE_RULES_DATA.sections.find(s => s.id === sectionId) || DISPUTE_RULES_DATA.sections[0];
+  
+  const titleEl = document.getElementById('scn-title');
+  const sevEl = document.getElementById('scn-severity');
+  const trigEl = document.getElementById('scn-trigger');
+  const rightsEl = document.getElementById('scn-rights');
+  const precEl = document.getElementById('scn-precedent');
+
+  if (titleEl) titleEl.textContent = currentScnSection.section;
+  if (sevEl) sevEl.textContent = currentScnSection.severity;
+  if (trigEl) trigEl.textContent = currentScnSection.trigger;
+  if (rightsEl) rightsEl.innerHTML = currentScnSection.statutory_rights.join('<br>');
+  if (precEl) precEl.innerHTML = currentScnSection.landmark_precedents.join('<br>');
+}
+
+function copyScnDraftNotice() {
+  if (!currentScnSection) return;
+  const draft = `FORMAL REBUTTAL & STATUTORY DEFENSE MEMORANDUM
+Under Customs Act, 1962: ${currentScnSection.section}
+Severity Assessment: ${currentScnSection.severity}
+
+1. SHOW CAUSE GROUND / ALLEGATION:
+${currentScnSection.trigger}
+
+2. STATUTORY DEFENSE & PROCEDURAL RIGHTS:
+${currentScnSection.statutory_rights.join('\n')}
+
+3. LANDMARK APEX COURT & CESTAT PRECEDENTS:
+${currentScnSection.landmark_precedents.join('\n')}
+
+4. EXECUTIVE ACTION PLAYBOOK:
+${currentScnSection.action_playbook}
+
+Generated via World of Trade Intelligence Terminal`;
+
+  navigator.clipboard.writeText(draft).then(() => {
+    const status = document.getElementById('scn-copy-status');
+    if (status) {
+      status.textContent = '✓ Statutory SCN defense draft copied to clipboard!';
+      setTimeout(() => {
+        status.textContent = '';
+      }, 2500);
+    }
+  });
+}
+
+// ==================== 4. CONTAINER STUFFING & CBM OPTIMIZER ====================
+function selectContainerType(type) {
+  const types = ['20ft', '40hc', '40rf'];
+  types.forEach(t => {
+    const btn = document.getElementById(`cbm-btn-${t}`);
+    if (btn) {
+      btn.style.background = 'var(--card-inner-bg)';
+      btn.style.borderColor = 'var(--card-inner-border)';
+      btn.style.color = 'var(--text-main)';
+    }
+  });
+
+  const activeBtn = document.getElementById(`cbm-btn-${type}`);
+  if (activeBtn) {
+    activeBtn.style.background = 'var(--accent)';
+    activeBtn.style.borderColor = 'var(--accent)';
+    activeBtn.style.color = '#ffffff';
+  }
+
+  activeContainerType = type;
+  calculateContainerStuffing();
+}
+
+function calculateContainerStuffing() {
+  const l = parseFloat(document.getElementById('cbm-len')?.value) || 50;
+  const w = parseFloat(document.getElementById('cbm-width')?.value) || 40;
+  const h = parseFloat(document.getElementById('cbm-height')?.value) || 30;
+  const boxWt = parseFloat(document.getElementById('cbm-box-wt')?.value) || 18;
+  const boxQty = parseInt(document.getElementById('cbm-box-qty')?.value) || 450;
+
+  const cfg = CONTAINER_SPECS[activeContainerType] || CONTAINER_SPECS['20ft'];
+  const singleVolCbm = (l * w * h) / 1000000;
+  const totalVolCbm = singleVolCbm * boxQty;
+  const totalWeightKg = boxWt * boxQty;
+  const utilPct = (totalVolCbm / cfg.vol) * 100;
+
+  const volEl = document.getElementById('cbm-res-vol');
+  const volPctEl = document.getElementById('cbm-res-vol-pct');
+  const wtEl = document.getElementById('cbm-res-wt');
+  const wtStatusEl = document.getElementById('cbm-res-wt-status');
+  const freightEl = document.getElementById('cbm-res-est-freight');
+
+  if (volEl) volEl.textContent = `${totalVolCbm.toFixed(1)} CBM`;
+  if (volPctEl) {
+    volPctEl.textContent = `${utilPct.toFixed(1)}% Container Filled`;
+    if (utilPct <= 88) {
+      volPctEl.style.color = '#10B981';
+    } else if (utilPct <= 100) {
+      volPctEl.style.color = '#F59E0B';
+    } else {
+      volPctEl.textContent = `${utilPct.toFixed(1)}% OVERFLOW (${(totalVolCbm - cfg.vol).toFixed(1)} CBM excess)`;
+      volPctEl.style.color = '#EF4444';
+    }
+  }
+
+  if (wtEl) wtEl.textContent = `${Math.round(totalWeightKg).toLocaleString('en-IN')} kg`;
+  if (wtStatusEl) {
+    if (totalWeightKg <= cfg.maxWt) {
+      wtStatusEl.textContent = `✓ Within Road Limit (<${(cfg.maxWt / 1000).toFixed(0)} MT)`;
+      wtStatusEl.style.color = '#10B981';
+    } else {
+      wtStatusEl.textContent = `⚠️ Overweight: Exceeds ${(cfg.maxWt / 1000).toFixed(0)} MT Payload`;
+      wtStatusEl.style.color = '#EF4444';
+    }
+  }
+
+  if (freightEl) {
+    const perBox = (cfg.freight / (boxQty || 1)).toFixed(2);
+    freightEl.textContent = `~$${cfg.freight.toLocaleString()} USD total (~$${perBox} / carton)`;
+  }
+}
+
+// ==================== 5. FORENSIC CASE STUDIES ====================
+function selectCaseStudy(caseId) {
+  const buttons = document.querySelectorAll('.cs-tab-btn');
+  buttons.forEach(btn => {
+    btn.style.background = 'var(--card-inner-bg)';
+    btn.style.borderColor = 'var(--card-inner-border)';
+    btn.style.color = 'var(--text-main)';
+  });
+
+  const activeBtn = document.getElementById(`cs-btn-${caseId}`);
+  if (activeBtn) {
+    activeBtn.style.background = 'var(--accent)';
+    activeBtn.style.borderColor = 'var(--accent)';
+    activeBtn.style.color = '#ffffff';
+  }
+
+  const cs = CASE_STUDIES_DATA.case_studies.find(c => c.id === caseId) || CASE_STUDIES_DATA.case_studies[0];
+  const sectorEl = document.getElementById('cs-sector-badge');
+  const titleEl = document.getElementById('cs-title');
+  const routeEl = document.getElementById('cs-route');
+  const tagEl = document.getElementById('cs-tag-badge');
+  const trigEl = document.getElementById('cs-trigger');
+  const btlEl = document.getElementById('cs-bottleneck');
+  const resStepsEl = document.getElementById('cs-resolution-steps');
+  const defenseEl = document.getElementById('cs-statutory-defense');
+  const outcomeEl = document.getElementById('cs-financial-outcome');
+
+  if (sectorEl) sectorEl.textContent = cs.sector;
+  if (titleEl) titleEl.textContent = cs.title;
+  if (routeEl) routeEl.textContent = `Consignment: ${cs.fob_value} • Destination: ${cs.destination}`;
+  if (tagEl) tagEl.textContent = cs.tag;
+  if (trigEl) trigEl.textContent = cs.trigger;
+  if (btlEl) btlEl.textContent = cs.bottleneck;
+  if (resStepsEl) {
+    resStepsEl.innerHTML = cs.resolution_steps.map(s => `<p>${s}</p>`).join('');
+  }
+  if (defenseEl) defenseEl.textContent = cs.statutory_defense;
+  if (outcomeEl) outcomeEl.textContent = cs.financial_outcome;
+}
+
+// ==================== 6. PROFORMA INVOICE & PACKING LIST ====================
+function openInvoiceModal() {
+  const modal = document.getElementById('invoice-modal');
+  if (modal) {
+    modal.classList.remove('hidden');
+    updateInvoiceCalculations();
+  }
+}
+
+function closeInvoiceModal() {
+  document.getElementById('invoice-modal')?.classList.add('hidden');
+}
+
+function updateInvoiceCalculations() {
+  const qty = parseInt(document.getElementById('inv-item-qty')?.value) || 10000;
+  const cartons = Math.ceil(qty / 50);
+  const netWt = cartons * 18;
+  const grossWt = Math.round(cartons * 19.75);
+  const volumeCbm = (cartons * 0.071).toFixed(1);
+
+  const pkgEl = document.getElementById('inv-pkg-count');
+  const netEl = document.getElementById('inv-net-wt');
+  const grossEl = document.getElementById('inv-gross-wt');
+  const volEl = document.getElementById('inv-volume-cbm');
+
+  if (pkgEl) pkgEl.textContent = `${cartons} Cartons`;
+  if (netEl) netEl.textContent = `${netWt.toLocaleString('en-IN')} kg`;
+  if (grossEl) grossEl.textContent = `${grossWt.toLocaleString('en-IN')} kg`;
+  if (volEl) volEl.textContent = `${volumeCbm} CBM`;
+}
+
+function printInvoiceDocument() {
+  window.print();
+}
+
+
 // Global Window Bindings for Inline HTML Handlers
+// Ground-Trade Module window bindings
+window.selectTradeGapCountry = selectTradeGapCountry;
+window.renderTradeGaps = renderTradeGaps;
+window.toggleFraudFlag = toggleFraudFlag;
+window.selectScnSection = selectScnSection;
+window.copyScnDraftNotice = copyScnDraftNotice;
+window.selectContainerType = selectContainerType;
+window.calculateContainerStuffing = calculateContainerStuffing;
+window.selectCaseStudy = selectCaseStudy;
+window.openInvoiceModal = openInvoiceModal;
+window.closeInvoiceModal = closeInvoiceModal;
+window.updateInvoiceCalculations = updateInvoiceCalculations;
+window.printInvoiceDocument = printInvoiceDocument;
+
 window.applyTheme = applyTheme;
 window.selectTheme = selectTheme;
 window.toggleThemeDropdown = toggleThemeDropdown;
@@ -1744,6 +2377,12 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // 5. Initialize Ground-Trade Advanced Modules
+  selectTradeGapCountry('US');
+  calculateContainerStuffing();
+  selectCaseStudy('case-agri-aflatoxin');
+  selectScnSection('sec-124');
 
   // 4. Initial Load: Default trade pulse query
   setQuery("What are India's overall trade totals and deficit?");
