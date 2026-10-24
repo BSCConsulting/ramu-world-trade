@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-black">
+<html lang="en" class="h-full bg-[#08090a]">
 <head>
   <meta charset="UTF-8">
   <!-- iPhone 15 Super Retina XDR Viewport & PWA Configuration -->
@@ -7,11 +7,16 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="World of Trade">
-  <meta name="theme-color" content="#000000">
+  <meta name="theme-color" content="#08090a">
   <meta name="format-detection" content="telephone=no">
   <link rel="manifest" href="/manifest.json">
   
-  <title>World of Trade — India</title>
+  <title>World of Trade — India Statutory Intelligence Terminal</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -20,14 +25,35 @@
   <!-- Marked.js for Markdown rendering -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            dark: {
+              bg: '#08090a',
+              surface: '#111215',
+              card: '#16171c',
+              border: 'rgba(255, 255, 255, 0.08)',
+              subtle: 'rgba(255, 255, 255, 0.04)',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
   <style>
-    /* Apple San Francisco Typography & Native Feel */
     :root {
       --sat: env(safe-area-inset-top, 48px);
       --sab: env(safe-area-inset-bottom, 20px);
     }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       -webkit-tap-highlight-color: transparent;
@@ -36,68 +62,109 @@
       touch-action: pan-y;
       overscroll-behavior-y: contain;
     }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-feature-settings: "tnum" 1, "zero" 1;
+    }
     /* iOS Momentum Scrolling */
     .ios-scroll {
       -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
-    /* Glassmorphism & High-Contrast OLED Borders */
-    .ios-card {
-      background-color: #121214;
+    .ios-scroll::-webkit-scrollbar {
+      display: none;
+    }
+    /* Ambient Mesh Lighting */
+    .ambient-bg {
+      background: 
+        radial-gradient(ellipse 80% 40% at 50% -15%, rgba(245, 158, 11, 0.12), transparent 70%),
+        radial-gradient(circle 350px at 10% 25%, rgba(16, 185, 129, 0.06), transparent 70%),
+        radial-gradient(circle 350px at 90% 75%, rgba(59, 130, 246, 0.06), transparent 70%),
+        #08090a;
+    }
+    /* Glassmorphism Panels */
+    .glass-panel {
+      background: rgba(18, 19, 24, 0.75);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
       border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.06);
     }
-    .ios-blur {
-      background-color: rgba(18, 18, 20, 0.85);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+    .glass-card {
+      background: rgba(22, 23, 28, 0.68);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.04);
     }
-    /* Bottom Sheet Transition */
-    #bottom-sheet {
-      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+    .glass-card-interactive {
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    #bottom-sheet.open {
-      transform: translateY(0);
+    .glass-card-interactive:active {
+      transform: scale(0.98);
+      border-color: rgba(245, 158, 11, 0.4);
     }
-    #bottom-sheet.closed {
-      transform: translateY(100%);
+    /* Pulse Shimmer for Loading Pipeline */
+    .shimmer-active {
+      background: linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.02) 100%);
+      background-size: 200% 100%;
+      animation: shimmer 1.8s infinite;
     }
-    /* Safe Area Padding Utilities */
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    /* Safe Area Insets */
     .pt-safe-top {
-      padding-top: max(env(safe-area-inset-top), 50px);
+      padding-top: max(env(safe-area-inset-top), 48px);
     }
     .pb-safe-nav {
-      padding-bottom: calc(env(safe-area-inset-bottom, 20px) + 76px);
+      padding-bottom: max(calc(env(safe-area-inset-bottom) + 80px), 100px);
     }
     .pb-safe-bottom {
       padding-bottom: max(env(safe-area-inset-bottom), 16px);
     }
+    /* Floating Toast */
+    #toast {
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
   </style>
 </head>
-<body class="bg-black text-white h-full overflow-x-hidden flex flex-col">
+<body class="ambient-bg text-white h-full overflow-x-hidden flex flex-col font-sans">
 
-  <!-- TOP HEADER (Clean, Uncluttered, Clears iPhone 15 Dynamic Island) -->
-  <header class="pt-safe-top px-4 pb-3 bg-black/90 backdrop-blur-xl border-b border-neutral-900 sticky top-0 z-40 flex items-center justify-between">
-    <div class="flex items-center space-x-2.5">
-      <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-600 flex items-center justify-center shadow-md shadow-orange-500/20 active:scale-95 transition-transform">
-        <svg class="w-4 h-4 text-black font-bold" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+  <!-- TOP HEADER (Clean, Uncluttered, Clears Dynamic Island) -->
+  <header class="pt-safe-top px-4 pb-3.5 bg-[#08090a]/80 backdrop-blur-2xl border-b border-white/[0.06] sticky top-0 z-40 flex items-center justify-between">
+    <div class="flex items-center space-x-3">
+      <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-amber-500 via-orange-500 to-amber-600 flex items-center justify-center shadow-lg shadow-orange-500/20 ring-1 ring-white/20 active:scale-95 transition-transform">
+        <svg class="w-5 h-5 text-black font-extrabold" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
         </svg>
       </div>
       <div>
-        <h1 class="text-base font-bold tracking-tight text-white flex items-center gap-1.5">
-          World of Trade
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-        </h1>
-        <p class="text-[10px] text-neutral-400 font-medium">India Statutory Intelligence &bull; 100% Free</p>
+        <div class="flex items-center gap-1.5">
+          <h1 class="text-base font-extrabold tracking-tight text-white">World of Trade</h1>
+          <span class="inline-flex items-center px-1.5 py-0.2 rounded-md bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[9px] font-bold font-mono tracking-wide uppercase">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse mr-1"></span>
+            Live
+          </span>
+        </div>
+        <p class="text-[10px] text-neutral-400 font-medium tracking-tight">India Statutory Commerce &bull; 100% Free</p>
       </div>
     </div>
 
-    <!-- Active Indicator Pill -->
-    <div class="flex items-center">
-      <button onclick="openBottomSheet('audit')" class="min-h-[44px] min-w-[44px] flex items-center justify-center px-2.5 py-1.5 rounded-full bg-neutral-900 border border-neutral-800 text-neutral-300 text-xs font-semibold active:scale-95 transition-transform">
-        <span>Verified</span>
-        <svg class="w-3.5 h-3.5 ml-1 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
+    <!-- Header Actions (Verified Badge & Share) -->
+    <div class="flex items-center space-x-2">
+      <button onclick="shareOrPrintReport()" title="Export / Share Report" class="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-2xl bg-white/[0.05] border border-white/[0.08] text-neutral-300 active:scale-95 transition-transform hover:bg-white/[0.08]">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+        </svg>
+      </button>
+
+      <button onclick="openBottomSheet('audit')" class="min-h-[44px] px-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold active:scale-95 transition-transform flex items-center gap-1.5 shadow-sm">
+        <svg class="w-3.5 h-3.5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
           <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
         </svg>
+        <span>Audit Seal</span>
       </button>
     </div>
   </header>
@@ -108,109 +175,188 @@
     <!-- ==================== TAB 1: APPS (Trade Intelligence & Radar) ==================== -->
     <section id="tab-apps" class="space-y-4">
       
-      <!-- Native iOS Search Bar (Min 44pt Touch Target) -->
-      <div class="ios-card rounded-2xl p-3 shadow-lg">
+      <!-- Native Search Terminal with Glowing Gradient Focus -->
+      <div class="glass-panel rounded-3xl p-3.5 shadow-2xl relative overflow-hidden">
         <form onsubmit="handleSearch(event)" class="relative flex items-center">
-          <svg class="w-5 h-5 text-neutral-400 absolute left-3.5 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 text-neutral-400 absolute left-4 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>
           <input 
             type="text" 
             id="query-input" 
             placeholder="Ask any trade question in plain English..." 
-            class="w-full bg-black border border-neutral-800 rounded-xl pl-10 pr-20 py-3 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-amber-500 min-h-[44px]"
+            class="w-full bg-black/60 border border-white/10 rounded-2xl pl-11 pr-24 py-3.5 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 min-h-[48px] transition-all"
             autocomplete="off"
             autocorrect="off"
           />
-          <button 
-            type="submit" 
-            id="submit-btn" 
-            class="absolute right-1.5 px-3 py-2 bg-gradient-to-r from-amber-500 to-orange-600 text-black font-bold text-xs rounded-lg active:scale-95 transition-transform min-h-[36px] min-w-[44px] flex items-center justify-center shadow"
-          >
-            <span>Ask</span>
-          </button>
+          <div class="absolute right-2 flex items-center space-x-1.5">
+            <button 
+              type="button" 
+              onclick="clearSearchInput()" 
+              id="clear-btn" 
+              class="hidden w-7 h-7 rounded-full bg-white/10 text-neutral-400 hover:text-white flex items-center justify-center text-xs"
+            >
+              ✕
+            </button>
+            <button 
+              type="submit" 
+              id="submit-btn" 
+              class="px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-black font-extrabold text-xs rounded-xl active:scale-95 transition-transform min-h-[38px] flex items-center justify-center shadow-lg shadow-orange-500/20"
+            >
+              <span>Ask</span>
+            </button>
+          </div>
         </form>
 
         <!-- Horizontal Scrollable Quick Suggestion Chips (Thumb-zone friendly) -->
-        <div class="mt-3 flex overflow-x-auto space-x-2 pb-1 ios-scroll no-scrollbar">
-          <button onclick="setQuery('Export product and potential for Nizamabad')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl bg-amber-500/15 border border-amber-500/30 text-xs font-semibold text-amber-300 active:scale-95 transition-transform flex items-center">
-            📍 Nizamabad (Turmeric ODOP)
+        <div class="mt-3.5 flex overflow-x-auto space-x-2 pb-1 ios-scroll no-scrollbar">
+          <button onclick="setQuery('Export product and potential for Nizamabad')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs font-semibold text-amber-300 active:scale-95 transition-transform flex items-center gap-1">
+            📍 <span>Nizamabad (Turmeric ODOP)</span>
           </button>
-          <button onclick="setQuery('What is the ODOP export profile of Guntur?')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl bg-amber-500/15 border border-amber-500/30 text-xs font-semibold text-amber-300 active:scale-95 transition-transform flex items-center">
-            🌶️ Guntur (Mirchi ODOP)
+          <button onclick="setQuery('What is the ODOP export profile of Guntur?')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs font-semibold text-amber-300 active:scale-95 transition-transform flex items-center gap-1">
+            🌶️ <span>Guntur (Mirchi ODOP)</span>
           </button>
-          <button onclick="setQuery('Moradabad brassware export potential and hub')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl bg-amber-500/15 border border-amber-500/30 text-xs font-semibold text-amber-300 active:scale-95 transition-transform flex items-center">
-            🏺 Moradabad (Brassware)
+          <button onclick="setQuery('Show me India foreign trade 6-year trend and trajectory')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl bg-blue-500/10 border border-blue-500/30 text-xs font-semibold text-blue-300 active:scale-95 transition-transform flex items-center gap-1">
+            📈 <span>6-Year Macro Trend</span>
           </button>
-          <button onclick="setQuery('Bhadohi carpets export potential')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl bg-amber-500/15 border border-amber-500/30 text-xs font-semibold text-amber-300 active:scale-95 transition-transform flex items-center">
-            🧶 Bhadohi (Handmade Carpets)
+          <button onclick="setQuery('Tell me about octopus export tariff HS 0307 51 00')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl bg-purple-500/10 border border-purple-500/30 text-xs font-semibold text-purple-300 active:scale-95 transition-transform flex items-center gap-1">
+            🐙 <span>HS 0307 (Octopus)</span>
           </button>
-          <button onclick="setQuery('Show me India foreign trade 6-year trend and trajectory')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl bg-blue-500/15 border border-blue-500/30 text-xs font-semibold text-blue-300 active:scale-95 transition-transform flex items-center">
-            📈 6-Year Macro Trend
+          <button onclick="setQuery('Compare trade between India and USA')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl bg-white/[0.05] border border-white/[0.08] text-xs font-medium text-neutral-200 active:scale-95 transition-transform flex items-center gap-1">
+            🇺🇸 <span>India ↔ USA (FOB/CIF)</span>
           </button>
-          <button onclick="setQuery('Tell me about octopus export tariff HS 0307 51 00')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl bg-purple-500/15 border border-purple-500/30 text-xs font-semibold text-purple-300 active:scale-95 transition-transform flex items-center">
-            🐙 HS 0307 (Octopus)
+          <button onclick="setQuery('How much goods do we buy from China versus sell to them?')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl bg-white/[0.05] border border-white/[0.08] text-xs font-medium text-neutral-200 active:scale-95 transition-transform flex items-center gap-1">
+            🇨🇳 <span>China Deficit</span>
           </button>
-          <button onclick="setQuery('Compare trade between India and USA')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl bg-neutral-900 border border-neutral-800 text-xs font-medium text-neutral-200 active:scale-95 transition-transform flex items-center">
-            🇺🇸 India ↔ USA (FOB/CIF)
-          </button>
-          <button onclick="setQuery('How much goods do we buy from China versus sell to them?')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl bg-neutral-900 border border-neutral-800 text-xs font-medium text-neutral-200 active:scale-95 transition-transform flex items-center">
-            🇨🇳 China Deficit
-          </button>
-          <button onclick="setQuery('What are India\'s top export commodities?')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl bg-neutral-900 border border-neutral-800 text-xs font-medium text-neutral-200 active:scale-95 transition-transform flex items-center">
-            🏆 Top 10 Exports
-          </button>
-          <button onclick="setQuery('What are our medicine and pharma exports, and who buys them?')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl bg-neutral-900 border border-neutral-800 text-xs font-medium text-neutral-200 active:scale-95 transition-transform flex items-center">
-            💊 Pharma Exports
-          </button>
-          <button onclick="setQuery('Tell me about truck freight moving between states from eway bills')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl bg-neutral-900 border border-neutral-800 text-xs font-medium text-neutral-200 active:scale-95 transition-transform flex items-center">
-            🚛 Domestic e-Way Cargo
+          <button onclick="setQuery('What are India\'s top export commodities?')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl bg-white/[0.05] border border-white/[0.08] text-xs font-medium text-neutral-200 active:scale-95 transition-transform flex items-center gap-1">
+            🏆 <span>Top 10 Exports</span>
           </button>
         </div>
       </div>
 
-      <!-- Auto-Classification Live Pill -->
-      <div id="classification-card" class="hidden ios-card rounded-2xl p-3.5 border-l-4 border-l-amber-500 space-y-2">
+      <!-- Multi-Stage Statutory Pipeline Shimmer (Shows during execution) -->
+      <div id="pipeline-loader" class="hidden glass-card rounded-2xl p-4 space-y-3 border-amber-500/30 shimmer-active">
         <div class="flex items-center justify-between text-xs">
-          <span class="text-neutral-400 font-semibold uppercase tracking-wider text-[10px]">Auto-Classified Intent</span>
-          <span id="class-flow" class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 font-bold text-[10px]">General Trade</span>
+          <span class="font-bold text-amber-400 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+            Statutory Triangulation Engine Active
+          </span>
+          <span id="pipeline-step-count" class="font-mono text-[10px] text-neutral-400">Step 1 of 3</span>
         </div>
-        <div class="grid grid-cols-2 gap-2 text-xs">
-          <div>
-            <span class="text-neutral-500 block text-[10px]">Sector</span>
-            <span id="class-sector" class="text-neutral-200 font-semibold truncate block">--</span>
+        <div class="space-y-2">
+          <div id="pipeline-step-1" class="flex items-center gap-2 text-xs text-neutral-300">
+            <span class="w-4 h-4 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-[10px] font-bold">1</span>
+            <span>Querying DGCI&S 8-digit ITC-HS & ODOP registry...</span>
           </div>
-          <div>
-            <span class="text-neutral-500 block text-[10px]">Domain</span>
-            <span id="class-domain" class="text-neutral-200 font-semibold truncate block">--</span>
+          <div id="pipeline-step-2" class="flex items-center gap-2 text-xs text-neutral-500">
+            <span class="w-4 h-4 rounded-full bg-neutral-800 text-neutral-500 flex items-center justify-center text-[10px] font-bold">2</span>
+            <span>Reconciling mirror trade valuation (FOB export vs CIF import spread)...</span>
+          </div>
+          <div id="pipeline-step-3" class="flex items-center gap-2 text-xs text-neutral-500">
+            <span class="w-4 h-4 rounded-full bg-neutral-800 text-neutral-500 flex items-center justify-center text-[10px] font-bold">3</span>
+            <span>Validating CBIC Gazette forex & ICEGATE electronic scrip ledger...</span>
           </div>
         </div>
       </div>
 
-      <!-- Visual Trade Chart (Chart.js) -->
-      <div class="ios-card rounded-2xl p-4 shadow-lg space-y-2">
-        <div class="flex items-center justify-between">
-          <h2 id="chart-title" class="text-xs font-bold uppercase tracking-wider text-neutral-400">Trade Distribution</h2>
-          <span class="text-[10px] text-neutral-500">DGCI&S &bull; RBI &bull; UN</span>
+      <!-- Auto-Classification Live Pill Card -->
+      <div id="classification-card" class="hidden glass-card rounded-2xl p-4 border-l-4 border-l-amber-500 space-y-2.5">
+        <div class="flex items-center justify-between text-xs">
+          <span class="text-neutral-400 font-bold uppercase tracking-wider text-[10px]">Auto-Classified Intent</span>
+          <span id="class-flow" class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 font-bold text-[10px]">General Trade</span>
         </div>
-        <div class="relative h-48 w-full flex items-center justify-center">
+        <div class="grid grid-cols-2 gap-3 text-xs">
+          <div class="p-2 rounded-xl bg-black/40 border border-white/[0.05]">
+            <span class="text-neutral-500 block text-[10px] font-medium">Commodity Sector</span>
+            <span id="class-sector" class="text-neutral-200 font-bold truncate block pt-0.5">--</span>
+          </div>
+          <div class="p-2 rounded-xl bg-black/40 border border-white/[0.05]">
+            <span class="text-neutral-500 block text-[10px] font-medium">Statutory Domain</span>
+            <span id="class-domain" class="text-neutral-200 font-bold truncate block pt-0.5">--</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Infographic: 4-Stage Trade Flow Corridor -->
+      <div id="trade-flow-infographic" class="glass-card rounded-2xl p-4 shadow-xl space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-1.5">
+            <span class="text-xs font-extrabold uppercase tracking-wider text-neutral-300">Statutory Trade Corridor</span>
+            <span class="text-[9px] px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-400 font-mono font-bold">Flow 360°</span>
+          </div>
+          <span class="text-[10px] text-neutral-500 font-mono">GSTN &bull; ICEGATE &bull; UN</span>
+        </div>
+
+        <!-- Horizontal Flow Pipeline -->
+        <div class="grid grid-cols-4 gap-1.5 pt-1">
+          <!-- Stage 1: Origin Mandi/Cluster -->
+          <div class="p-2 rounded-xl bg-white/[0.03] border border-white/[0.06] text-center space-y-1">
+            <div class="w-6 h-6 rounded-lg bg-amber-500/20 text-amber-400 mx-auto flex items-center justify-center text-xs font-bold">1</div>
+            <span class="text-[10px] font-bold text-neutral-200 block truncate" id="flow-origin">Mandi / Hub</span>
+            <span class="text-[8px] text-neutral-500 uppercase block">Harvest / Mill</span>
+          </div>
+
+          <!-- Stage 2: e-Way Bill Inter-State Corridor -->
+          <div class="p-2 rounded-xl bg-white/[0.03] border border-white/[0.06] text-center space-y-1">
+            <div class="w-6 h-6 rounded-lg bg-emerald-500/20 text-emerald-400 mx-auto flex items-center justify-center text-xs font-bold">2</div>
+            <span class="text-[10px] font-bold text-neutral-200 block truncate" id="flow-transit">e-Way Transit</span>
+            <span class="text-[8px] text-neutral-500 uppercase block">Rule 138 GST</span>
+          </div>
+
+          <!-- Stage 3: Port Customs (FOB Valuation) -->
+          <div class="p-2 rounded-xl bg-white/[0.03] border border-white/[0.06] text-center space-y-1">
+            <div class="w-6 h-6 rounded-lg bg-blue-500/20 text-blue-400 mx-auto flex items-center justify-center text-xs font-bold">3</div>
+            <span class="text-[10px] font-bold text-neutral-200 block truncate" id="flow-port">Port (FOB)</span>
+            <span class="text-[8px] text-neutral-500 uppercase block">ICEGATE Scroll</span>
+          </div>
+
+          <!-- Stage 4: Partner CIF Destination -->
+          <div class="p-2 rounded-xl bg-white/[0.03] border border-white/[0.06] text-center space-y-1">
+            <div class="w-6 h-6 rounded-lg bg-purple-500/20 text-purple-400 mx-auto flex items-center justify-center text-xs font-bold">4</div>
+            <span class="text-[10px] font-bold text-neutral-200 block truncate" id="flow-dest">Global CIF</span>
+            <span class="text-[8px] text-neutral-500 uppercase block">UN Comtrade</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual Trade Chart Terminal (Chart.js) -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 id="chart-title" class="text-xs font-extrabold uppercase tracking-wider text-neutral-300">Trade Distribution</h2>
+            <p class="text-[10px] text-neutral-500 font-medium">Statutory DGCI&S, RBI & UN Comtrade figures</p>
+          </div>
+          <div class="flex items-center space-x-1" id="chart-toggle-controls">
+            <button onclick="toggleChartType('bar')" id="btn-chart-bar" class="px-2 py-1 rounded-lg bg-white/10 text-white text-[10px] font-bold font-mono active:scale-95">Bar</button>
+            <button onclick="toggleChartType('line')" id="btn-chart-line" class="px-2 py-1 rounded-lg bg-transparent text-neutral-400 text-[10px] font-bold font-mono active:scale-95">Line</button>
+          </div>
+        </div>
+        <div class="relative h-52 w-full flex items-center justify-center pt-2">
           <canvas id="trade-chart"></canvas>
         </div>
       </div>
 
       <!-- Reconciled Statutory Intelligence Output -->
-      <div class="ios-card rounded-2xl p-4 shadow-lg space-y-3">
-        <div class="flex items-center justify-between border-b border-neutral-800 pb-2">
-          <h2 class="text-sm font-bold text-white flex items-center gap-1.5">
-            <span>Statutory Intelligence</span>
-          </h2>
-          <button onclick="openBottomSheet('audit')" class="text-xs text-amber-400 font-medium active:scale-95 transition-transform">
-            View Audit Badge &rarr;
-          </button>
+      <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3">
+        <div class="flex items-center justify-between border-b border-white/[0.08] pb-3">
+          <div class="flex items-center gap-2">
+            <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
+            <h2 class="text-xs font-extrabold text-white uppercase tracking-wider">
+              Statutory Intelligence & Audit Ledger
+            </h2>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button onclick="copyOutputMarkdown()" title="Copy Full Audit Certificate" class="px-2.5 py-1 rounded-lg bg-white/[0.06] text-neutral-300 text-[11px] font-semibold active:scale-95 transition-transform flex items-center gap-1 hover:bg-white/10">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+              </svg>
+              <span>Copy</span>
+            </button>
+          </div>
         </div>
         
-        <div id="markdown-output" class="text-xs text-neutral-300 leading-relaxed space-y-3">
-          <p class="text-neutral-500 italic py-4 text-center">Tap a quick pill above or ask any question to inspect triangulated records.</p>
+        <div id="markdown-output" class="text-xs text-neutral-300 leading-relaxed space-y-3 font-normal">
+          <p class="text-neutral-500 italic py-6 text-center">Tap a quick pill above or ask any question to inspect triangulated records.</p>
         </div>
       </div>
 
@@ -218,52 +364,54 @@
 
     <!-- ==================== TAB 2: AGENDA (Trade Sessions & Timetable) ==================== -->
     <section id="tab-agenda" class="hidden space-y-4">
-      <div class="ios-card rounded-2xl p-4 shadow-lg space-y-3">
-        <h2 class="text-base font-bold text-white flex items-center gap-2">
-          <span>National Trade Operating Agenda</span>
-          <span class="text-[10px] bg-blue-500/20 text-blue-400 border border-blue-500/30 px-2 py-0.5 rounded-full font-bold">Today</span>
-        </h2>
+      <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3">
+        <div class="flex items-center justify-between">
+          <h2 class="text-base font-extrabold text-white flex items-center gap-2">
+            <span>National Trade Operating Agenda</span>
+          </h2>
+          <span class="text-[10px] bg-blue-500/20 text-blue-300 border border-blue-500/30 px-2.5 py-0.5 rounded-full font-mono font-bold uppercase">Today</span>
+        </div>
         <p class="text-xs text-neutral-400">Standard operating cycles for mandis, customs clearance, and foreign exchange fixing.</p>
 
         <div class="space-y-3 pt-2">
           <!-- Session 1 -->
-          <div class="p-3 rounded-xl bg-neutral-900 border border-neutral-800 space-y-1">
+          <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/[0.06] space-y-1.5">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-amber-400">06:00 – 11:30 IST</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-semibold">Active Window</span>
+              <span class="text-xs font-bold font-mono text-amber-400">06:00 – 11:30 IST</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold font-mono">LIVE NOW</span>
             </div>
-            <h3 class="text-sm font-semibold text-white">APMC Mandi Wholesale Auctions</h3>
-            <p class="text-xs text-neutral-400">Primary physical market arrivals and modal price bidding across 3,000+ national APMC mandis (Agmarknet).</p>
+            <h3 class="text-sm font-bold text-white">APMC Mandi Wholesale Auctions</h3>
+            <p class="text-xs text-neutral-400 leading-normal">Primary physical market arrivals and modal price bidding across 3,000+ national APMC mandis (Agmarknet).</p>
           </div>
 
           <!-- Session 2 -->
-          <div class="p-3 rounded-xl bg-neutral-900 border border-neutral-800 space-y-1">
+          <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/[0.06] space-y-1.5">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-blue-400">13:30 IST</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-neutral-800 text-neutral-400">Daily Fixing</span>
+              <span class="text-xs font-bold font-mono text-blue-400">13:30 IST</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-white/[0.06] text-neutral-400 font-mono">Daily Fixing</span>
             </div>
-            <h3 class="text-sm font-semibold text-white">RBI Reference Rate Bulletin</h3>
-            <p class="text-xs text-neutral-400">Reserve Bank of India official benchmark conversion rate published for USD, EUR, GBP, JPY.</p>
+            <h3 class="text-sm font-bold text-white">RBI Reference Rate Bulletin</h3>
+            <p class="text-xs text-neutral-400 leading-normal">Reserve Bank of India official benchmark conversion rate published for USD, EUR, GBP, JPY.</p>
           </div>
 
           <!-- Session 3 -->
-          <div class="p-3 rounded-xl bg-neutral-900 border border-neutral-800 space-y-1">
+          <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/[0.06] space-y-1.5">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-purple-400">16:00 – 20:00 IST</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-neutral-800 text-neutral-400">Automated</span>
+              <span class="text-xs font-bold font-mono text-purple-400">16:00 – 20:00 IST</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-white/[0.06] text-neutral-400 font-mono">Automated</span>
             </div>
-            <h3 class="text-sm font-semibold text-white">ICEGATE EDI Drawback Scroll Disbursal</h3>
-            <p class="text-xs text-neutral-400">Indian Customs automated electronic scroll generation for direct cash export refunds to linked bank accounts.</p>
+            <h3 class="text-sm font-bold text-white">ICEGATE EDI Drawback Scroll Disbursal</h3>
+            <p class="text-xs text-neutral-400 leading-normal">Indian Customs automated electronic scroll generation for direct cash export refunds to linked bank accounts.</p>
           </div>
 
           <!-- Session 4 -->
-          <div class="p-3 rounded-xl bg-neutral-900 border border-neutral-800 space-y-1">
+          <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/[0.06] space-y-1.5">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-orange-400">21:00 – 05:00 IST</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-neutral-800 text-neutral-400">Night Corridor</span>
+              <span class="text-xs font-bold font-mono text-orange-400">21:00 – 05:00 IST</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-white/[0.06] text-neutral-400 font-mono">Night Corridor</span>
             </div>
-            <h3 class="text-sm font-semibold text-white">Inter-State Truck Freight Peak Transit</h3>
-            <p class="text-xs text-neutral-400">Highest volume transit window for commercial vehicles moving with active GST e-Way bills across state borders.</p>
+            <h3 class="text-sm font-bold text-white">Inter-State Truck Freight Peak Transit</h3>
+            <p class="text-xs text-neutral-400 leading-normal">Highest volume transit window for commercial vehicles moving with active GST e-Way bills across state borders.</p>
           </div>
         </div>
       </div>
@@ -271,19 +419,19 @@
 
     <!-- ==================== TAB 3: SCRATCHPAD (10x Export Cash Calculator) ==================== -->
     <section id="tab-scratchpad" class="hidden space-y-4">
-      <div class="ios-card rounded-2xl p-4 shadow-lg space-y-3">
+      <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5">
         <div class="flex items-center justify-between">
-          <h2 class="text-base font-bold text-white flex items-center gap-2">
+          <h2 class="text-base font-extrabold text-white flex items-center gap-2">
             <span>Export Cash & RoDTEP Scratchpad</span>
           </h2>
-          <span class="text-[10px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full font-bold">10x Profit Tool</span>
+          <span class="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-bold font-mono">10x Profit Tool</span>
         </div>
-        <p class="text-xs text-neutral-400">Calculate exact statutory cash refunds (RoDTEP + Duty Drawback) on any export consignment.</p>
+        <p class="text-xs text-neutral-400">Compute exact rupee cash refunds (RoDTEP + Duty Drawback) on any export consignment using CBIC Gazette rates.</p>
 
         <form onsubmit="handleCalculate(event)" class="space-y-3 pt-1">
           <div>
-            <label class="block text-[11px] font-semibold text-neutral-300 mb-1">Export Commodity Sector:</label>
-            <select id="calc-product" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-3 py-3 text-white text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none min-h-[44px]">
+            <label class="block text-[11px] font-bold text-neutral-300 mb-1.5 uppercase tracking-wide">Export Commodity Sector:</label>
+            <select id="calc-product" class="w-full bg-black/60 border border-white/10 rounded-2xl px-3.5 py-3.5 text-white text-xs focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 focus:outline-none min-h-[48px]">
               <option value="cotton shirts and readymade garments">Cotton T-Shirts & Garments (HS 6109)</option>
               <option value="frozen vannamei shrimp and seafood">Frozen Shrimp & Marine Seafood (HS 0306)</option>
               <option value="turmeric powder and packaged spices">Turmeric Powder & Spices (HS 0910)</option>
@@ -296,144 +444,153 @@
           </div>
 
           <div>
-            <label class="block text-[11px] font-semibold text-neutral-300 mb-1">Consignment FOB Value:</label>
+            <label class="block text-[11px] font-bold text-neutral-300 mb-1.5 uppercase tracking-wide">Consignment FOB Value (Multi-Currency):</label>
             <input 
               type="text" 
               id="calc-amount" 
-              placeholder="e.g. 20 Lakhs, ₹50,00,000, or $50k" 
-              value="20 Lakhs" 
-              class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-3.5 py-3 text-white text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none min-h-[44px] font-mono"
+              placeholder="e.g. 50000 USD, 20 Lakhs, or 200k AED" 
+              value="50000 USD" 
+              class="w-full bg-black/60 border border-white/10 rounded-2xl px-4 py-3.5 text-white text-sm focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 focus:outline-none min-h-[48px] font-mono"
             />
           </div>
 
           <button 
             type="submit" 
-            class="w-full min-h-[44px] py-3 bg-gradient-to-r from-amber-500 to-orange-600 text-black font-bold text-xs rounded-xl shadow-lg active:scale-95 transition-transform flex items-center justify-center space-x-1"
+            class="w-full min-h-[48px] py-3.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-black font-extrabold text-xs rounded-2xl shadow-lg shadow-emerald-500/20 active:scale-95 transition-transform flex items-center justify-center space-x-1.5"
           >
-            <span>Compute Statutory Cash Refund</span>
+            <span>⚡ Compute Bank Cash Deposit</span>
           </button>
         </form>
       </div>
 
-      <!-- Calculated Real-Time Metric Cards -->
+      <!-- Calculated Real-Time Metric Cards (Kinetic Counters) -->
       <div id="calc-results-area" class="space-y-3">
+        <!-- RoDTEP vs Drawback Grid -->
         <div class="grid grid-cols-2 gap-3">
-          <div class="ios-card rounded-2xl p-3.5 space-y-1">
-            <span class="text-neutral-500 text-[10px] uppercase font-semibold">RoDTEP Scrip</span>
-            <span id="card-rodtep" class="text-lg font-bold text-amber-400 font-mono block">₹0</span>
-            <span id="card-rodtep-pct" class="text-[10px] text-amber-500">2.5% refund</span>
+          <div class="glass-card rounded-2xl p-4 space-y-1 border-amber-500/20">
+            <span class="text-neutral-400 text-[10px] uppercase font-bold tracking-wider">RoDTEP Scrip</span>
+            <span id="card-rodtep" class="text-xl font-extrabold text-amber-400 font-mono block">₹0</span>
+            <span id="card-rodtep-pct" class="text-[10px] text-amber-500 font-mono">2.5% rebate</span>
           </div>
 
-          <div class="ios-card rounded-2xl p-3.5 space-y-1">
-            <span class="text-neutral-500 text-[10px] uppercase font-semibold">Duty Drawback</span>
-            <span id="card-drawback" class="text-lg font-bold text-emerald-400 font-mono block">₹0</span>
-            <span id="card-drawback-pct" class="text-[10px] text-emerald-500">3.2% scroll</span>
+          <div class="glass-card rounded-2xl p-4 space-y-1 border-emerald-500/20">
+            <span class="text-neutral-400 text-[10px] uppercase font-bold tracking-wider">Duty Drawback</span>
+            <span id="card-drawback" class="text-xl font-extrabold text-emerald-400 font-mono block">₹0</span>
+            <span id="card-drawback-pct" class="text-[10px] text-emerald-500 font-mono">3.2% scroll</span>
           </div>
         </div>
 
-        <!-- Big Total Direct Cash Card -->
-        <div class="rounded-2xl p-4 bg-gradient-to-br from-emerald-950/80 to-neutral-950 border border-emerald-500/30 shadow-lg space-y-1">
+        <!-- Big Total Direct Cash Card (Bloomberg Terminal Style) -->
+        <div class="rounded-3xl p-5 bg-gradient-to-br from-emerald-950/90 via-[#0d1612] to-[#08090a] border border-emerald-500/40 shadow-2xl space-y-2 relative overflow-hidden">
           <div class="flex items-center justify-between">
-            <span class="text-emerald-400 text-[11px] uppercase font-bold tracking-wider">Total Cash Deposited into Bank</span>
-            <span id="card-margin-boost" class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-[10px]">+5.7% Margin Boost</span>
+            <span class="text-emerald-400 text-[11px] uppercase font-extrabold tracking-wider">Net Cash Deposited into Bank</span>
+            <span id="card-margin-boost" class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-extrabold font-mono text-[10px] border border-emerald-500/30">+5.7% Margin Boost</span>
           </div>
-          <span id="card-total-cash" class="text-2xl font-black text-white font-mono block">₹0</span>
-          <button onclick="openBottomSheet('claiming')" class="text-xs text-emerald-400 font-medium pt-1 block active:scale-95 transition-transform">
-            View 3-Step ICEGATE Claiming Guide &rarr;
-          </button>
+          <span id="card-total-cash" class="text-3xl font-black text-white font-mono tracking-tight block">₹0</span>
+          
+          <div class="pt-2 flex items-center justify-between border-t border-emerald-500/20">
+            <span class="text-[10px] text-neutral-400">Disbursed via ICEGATE EDI scroll</span>
+            <button onclick="openBottomSheet('claiming')" class="text-xs text-emerald-400 font-bold active:scale-95 transition-transform flex items-center gap-1">
+              <span>Claiming Steps &rarr;</span>
+            </button>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- ==================== TAB 4: TIMER (Market Sessions & Countdown) ==================== -->
     <section id="tab-timer" class="hidden space-y-4">
-      <div class="ios-card rounded-2xl p-4 shadow-lg space-y-3">
+      <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5">
         <div class="flex items-center justify-between">
-          <h2 class="text-base font-bold text-white">Live Trade Countdown Clocks</h2>
-          <span class="text-[10px] bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded font-semibold">Active</span>
+          <h2 class="text-base font-extrabold text-white">Live Trade Countdown Clocks</h2>
+          <span class="text-[10px] bg-amber-500/20 text-amber-400 px-2.5 py-0.5 rounded-full font-bold font-mono">Active</span>
         </div>
-        <p class="text-xs text-neutral-400">Real-time timers for market auction windows and customs clearance scrolls.</p>
+        <p class="text-xs text-neutral-400">Real-time synchronized countdowns for mandi auctions and GST e-Way validity windows.</p>
 
         <!-- Timer 1: Mandi Auction Window -->
-        <div class="p-4 rounded-xl bg-neutral-900 border border-neutral-800 space-y-2">
+        <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.06] space-y-2.5">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-semibold text-neutral-300">🌾 APMC Mandi Auction Session</span>
-            <span class="text-[10px] text-emerald-400 font-mono font-bold">LIVE</span>
+            <span class="text-xs font-bold text-neutral-200">🌾 APMC Mandi Auction Session</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-400 font-mono font-bold">LIVE</span>
           </div>
           <div class="text-3xl font-black text-white font-mono tracking-wider" id="mandi-timer">
             02:44:18
           </div>
-          <div class="w-full bg-neutral-800 h-1.5 rounded-full overflow-hidden">
-            <div class="bg-amber-500 h-full w-2/3 rounded-full"></div>
+          <div class="w-full bg-white/[0.08] h-2 rounded-full overflow-hidden">
+            <div class="bg-gradient-to-r from-amber-500 to-orange-500 h-full w-2/3 rounded-full"></div>
           </div>
           <p class="text-[10px] text-neutral-500">Closes at 11:30 IST for primary wholesale price index calculation.</p>
         </div>
 
         <!-- Timer 2: e-Way Bill Expiry Countdown -->
-        <div class="p-4 rounded-xl bg-neutral-900 border border-neutral-800 space-y-2">
+        <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.06] space-y-2.5">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-semibold text-neutral-300">🚛 Active e-Way Bill Validity</span>
-            <button onclick="resetEwayTimer()" class="text-[10px] text-neutral-400 hover:text-white font-mono underline">Reset 24h</button>
+            <span class="text-xs font-bold text-neutral-200">🚛 Active e-Way Bill Validity</span>
+            <button onclick="resetEwayTimer()" class="text-[10px] text-amber-400 hover:text-white font-mono font-bold underline">Reset 24h</button>
           </div>
           <div class="text-3xl font-black text-amber-400 font-mono tracking-wider" id="eway-timer">
             18:32:05
           </div>
-          <div class="w-full bg-neutral-800 h-1.5 rounded-full overflow-hidden">
-            <div class="bg-emerald-500 h-full w-3/4 rounded-full"></div>
+          <div class="w-full bg-white/[0.08] h-2 rounded-full overflow-hidden">
+            <div class="bg-gradient-to-r from-emerald-500 to-teal-500 h-full w-3/4 rounded-full"></div>
           </div>
-          <p class="text-[10px] text-neutral-500">1 day per 200 km rule under GST Rule 138. Avoids border detention.</p>
+          <p class="text-[10px] text-neutral-500">1 day per 200 km rule under GST Rule 138. Prevents checkpoint detention.</p>
         </div>
       </div>
     </section>
 
     <!-- ==================== TAB 5: PROFILE (Settings & Diagnostics) ==================== -->
     <section id="tab-profile" class="hidden space-y-4">
-      <div class="ios-card rounded-2xl p-4 shadow-lg space-y-3">
-        <h2 class="text-base font-bold text-white">System Diagnostics & Environment</h2>
+      <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5">
+        <h2 class="text-base font-extrabold text-white">System Diagnostics & Environment</h2>
         
-        <div class="space-y-2.5 pt-1 text-xs">
-          <div class="flex items-center justify-between p-2.5 rounded-xl bg-neutral-900">
-            <span class="text-neutral-400">Target Device</span>
-            <span class="font-bold text-white font-mono">iPhone 15 (393 × 852)</span>
+        <div class="space-y-2 pt-1 text-xs">
+          <div class="flex items-center justify-between p-3 rounded-2xl bg-white/[0.03] border border-white/[0.05]">
+            <span class="text-neutral-400 font-medium">Target Display</span>
+            <span class="font-extrabold text-white font-mono">iPhone 15 (393 × 852 OLED)</span>
           </div>
-          <div class="flex items-center justify-between p-2.5 rounded-xl bg-neutral-900">
-            <span class="text-neutral-400">Display Profile</span>
-            <span class="font-bold text-emerald-400">Super Retina XDR (OLED)</span>
+          <div class="flex items-center justify-between p-3 rounded-2xl bg-white/[0.03] border border-white/[0.05]">
+            <span class="text-neutral-400 font-medium">Deployment Engine</span>
+            <span class="font-extrabold text-emerald-400 font-mono">Vercel Serverless / Python</span>
           </div>
-          <div class="flex items-center justify-between p-2.5 rounded-xl bg-neutral-900">
-            <span class="text-neutral-400">data.gov.in API Key</span>
-            <span class="font-bold text-white font-mono truncate max-w-[140px]">579b...853d (Live)</span>
+          <div class="flex items-center justify-between p-3 rounded-2xl bg-white/[0.03] border border-white/[0.05]">
+            <span class="text-neutral-400 font-medium">ODOP District Coverage</span>
+            <span class="font-extrabold text-amber-400 font-mono">765 Districts (100% Pan-India)</span>
           </div>
-          <div class="flex items-center justify-between p-2.5 rounded-xl bg-neutral-900">
-            <span class="text-neutral-400">Local Cache DB</span>
-            <span class="font-bold text-amber-400 font-mono">trade_cache.db (SQLite)</span>
+          <div class="flex items-center justify-between p-3 rounded-2xl bg-white/[0.03] border border-white/[0.05]">
+            <span class="text-neutral-400 font-medium">ITC-HS Master Tariff</span>
+            <span class="font-extrabold text-blue-400 font-mono">8-Digit National Breakouts</span>
           </div>
-          <div class="flex items-center justify-between p-2.5 rounded-xl bg-neutral-900">
-            <span class="text-neutral-400">Total User Charges</span>
-            <span class="font-bold text-emerald-400">₹0.00 / $0.00 (100% Free)</span>
+          <div class="flex items-center justify-between p-3 rounded-2xl bg-white/[0.03] border border-white/[0.05]">
+            <span class="text-neutral-400 font-medium">CBIC Gazette Forex</span>
+            <span class="font-extrabold text-white font-mono">USD ₹84.05 &bull; AED ₹22.88</span>
+          </div>
+          <div class="flex items-center justify-between p-3 rounded-2xl bg-white/[0.03] border border-white/[0.05]">
+            <span class="text-neutral-400 font-medium">User Cloud Fees</span>
+            <span class="font-extrabold text-emerald-400 font-mono">₹0.00 / $0.00 (100% Free)</span>
           </div>
         </div>
       </div>
 
-      <!-- Official Statutory Directories Reference -->
-      <div class="ios-card rounded-2xl p-4 shadow-lg space-y-2">
-        <h3 class="text-xs font-bold text-neutral-400 uppercase tracking-wider">Statutory Authorities</h3>
+      <!-- Statutory Portal Directory -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl space-y-2.5">
+        <h3 class="text-xs font-bold text-neutral-400 uppercase tracking-wider">Statutory Portals</h3>
         <div class="space-y-1.5 text-xs">
-          <a href="https://tradestat.commerce.gov.in" target="_blank" class="flex items-center justify-between p-2.5 rounded-xl bg-neutral-900 active:scale-95 transition-transform text-neutral-200">
+          <a href="https://tradestat.commerce.gov.in" target="_blank" class="flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/[0.05] active:scale-95 transition-transform text-neutral-200 hover:text-white">
             <span>DGCI&S Ministry of Commerce</span>
-            <span class="text-neutral-500">&rarr;</span>
+            <span class="text-neutral-500 font-mono">&rarr;</span>
           </a>
-          <a href="https://dbie.rbi.org.in" target="_blank" class="flex items-center justify-between p-2.5 rounded-xl bg-neutral-900 active:scale-95 transition-transform text-neutral-200">
-            <span>Reserve Bank of India (BoP)</span>
-            <span class="text-neutral-500">&rarr;</span>
+          <a href="https://dbie.rbi.org.in" target="_blank" class="flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/[0.05] active:scale-95 transition-transform text-neutral-200 hover:text-white">
+            <span>Reserve Bank of India (BoP Database)</span>
+            <span class="text-neutral-500 font-mono">&rarr;</span>
           </a>
-          <a href="https://ewaybillgst.gov.in" target="_blank" class="flex items-center justify-between p-2.5 rounded-xl bg-neutral-900 active:scale-95 transition-transform text-neutral-200">
+          <a href="https://ewaybillgst.gov.in" target="_blank" class="flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/[0.05] active:scale-95 transition-transform text-neutral-200 hover:text-white">
             <span>GSTN e-Way Bill Network</span>
-            <span class="text-neutral-500">&rarr;</span>
+            <span class="text-neutral-500 font-mono">&rarr;</span>
           </a>
-          <a href="https://dgft.gov.in" target="_blank" class="flex items-center justify-between p-2.5 rounded-xl bg-neutral-900 active:scale-95 transition-transform text-neutral-200">
-            <span>DGFT RoDTEP Schedules</span>
-            <span class="text-neutral-500">&rarr;</span>
+          <a href="https://www.icegate.gov.in" target="_blank" class="flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/[0.05] active:scale-95 transition-transform text-neutral-200 hover:text-white">
+            <span>CBIC Customs ICEGATE Portal</span>
+            <span class="text-neutral-500 font-mono">&rarr;</span>
           </a>
         </div>
       </div>
@@ -442,35 +599,34 @@
   </main>
 
   <!-- ==================== MOBILE BOTTOM SHEET MODAL ==================== -->
-  <div id="bottom-sheet-backdrop" onclick="closeBottomSheet()" class="fixed inset-0 bg-black/75 backdrop-blur-md z-50 hidden transition-opacity opacity-0"></div>
+  <div id="bottom-sheet-backdrop" onclick="closeBottomSheet()" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden transition-opacity opacity-0"></div>
   
-  <div id="bottom-sheet" class="fixed inset-x-0 bottom-0 bg-[#161618] border-t border-neutral-800 rounded-t-3xl z-50 transform translate-y-full transition-transform duration-300 max-h-[85vh] flex flex-col pb-safe-bottom">
+  <div id="bottom-sheet" class="fixed inset-x-0 bottom-0 bg-[#121318] border-t border-white/10 rounded-t-[32px] z-50 transform translate-y-full transition-transform duration-300 max-h-[85vh] flex flex-col pb-safe-bottom shadow-2xl">
     <!-- Drag Handle Indicator Pill -->
-    <div class="w-12 h-1.5 bg-neutral-600 rounded-full mx-auto my-3 cursor-pointer" onclick="closeBottomSheet()"></div>
+    <div class="w-12 h-1.5 bg-neutral-600 rounded-full mx-auto my-3.5 cursor-pointer" onclick="closeBottomSheet()"></div>
     
-    <div class="px-5 pb-3 flex items-center justify-between border-b border-neutral-800">
-      <h3 id="bottom-sheet-title" class="text-base font-bold text-white">Statutory Audit Trail</h3>
-      <button onclick="closeBottomSheet()" class="min-h-[44px] min-w-[44px] flex items-center justify-center text-neutral-400 hover:text-white text-sm font-semibold active:scale-95 transition-transform">
-        Done
-      </button>
-    </div>
-
-    <div id="bottom-sheet-content" class="p-5 ios-scroll overflow-y-auto space-y-3 text-xs text-neutral-300">
-      <!-- Dynamic Bottom Sheet Content injected here -->
+    <!-- Dynamic Sheet Content -->
+    <div id="bottom-sheet-content" class="px-5 pb-6 overflow-y-auto ios-scroll space-y-4 text-xs text-neutral-300">
+      <!-- Injected dynamically via openBottomSheet() -->
     </div>
   </div>
 
-  <!-- ==================== FIXED iOS BOTTOM NAVIGATION TAB BAR ==================== -->
-  <!-- Ergonomic Thumb-Zone Architecture: 5 primary tabs with 44pt minimum touch target -->
-  <nav class="fixed bottom-0 inset-x-0 bg-black/95 backdrop-blur-2xl border-t border-neutral-900 z-40 pb-safe-bottom">
-    <div class="max-w-md mx-auto grid grid-cols-5 h-16">
+  <!-- ==================== FLOATING TOAST NOTIFICATION ==================== -->
+  <div id="toast" class="fixed top-14 inset-x-0 mx-auto w-max max-w-[90vw] px-4 py-2.5 rounded-full bg-white text-black text-xs font-bold shadow-2xl z-50 transform -translate-y-24 opacity-0 pointer-events-none flex items-center space-x-2">
+    <span id="toast-icon">✓</span>
+    <span id="toast-text">Copied to clipboard</span>
+  </div>
+
+  <!-- ==================== FIXED 5-TAB BOTTOM NAVIGATION BAR (Thumb Zone) ==================== -->
+  <nav class="fixed bottom-0 inset-x-0 bg-[#08090a]/85 backdrop-blur-2xl border-t border-white/[0.08] z-40 pb-safe-bottom pt-2">
+    <div class="grid grid-cols-5 h-14 max-w-md mx-auto px-1">
       
       <!-- Tab 1: Apps -->
       <button onclick="switchNativeTab('apps')" id="nav-btn-apps" class="flex flex-col items-center justify-center min-h-[44px] text-amber-400 active:scale-95 transition-transform">
         <svg class="w-5 h-5 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
         </svg>
-        <span class="text-[10px] font-semibold tracking-tight">Apps</span>
+        <span class="text-[10px] font-bold tracking-tight">Radar</span>
       </button>
 
       <!-- Tab 2: Agenda -->
@@ -478,15 +634,18 @@
         <svg class="w-5 h-5 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
         </svg>
-        <span class="text-[10px] font-semibold tracking-tight">Agenda</span>
+        <span class="text-[10px] font-bold tracking-tight">Agenda</span>
       </button>
 
-      <!-- Tab 3: Scratchpad -->
+      <!-- Tab 3: Scratchpad (10x Profit Tool) -->
       <button onclick="switchNativeTab('scratchpad')" id="nav-btn-scratchpad" class="flex flex-col items-center justify-center min-h-[44px] text-neutral-500 active:scale-95 transition-transform">
-        <svg class="w-5 h-5 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-        </svg>
-        <span class="text-[10px] font-semibold tracking-tight">Scratchpad</span>
+        <div class="relative">
+          <svg class="w-5 h-5 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+          </svg>
+          <span class="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-emerald-400"></span>
+        </div>
+        <span class="text-[10px] font-bold tracking-tight">Refund</span>
       </button>
 
       <!-- Tab 4: Timer -->
@@ -494,7 +653,7 @@
         <svg class="w-5 h-5 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
         </svg>
-        <span class="text-[10px] font-semibold tracking-tight">Timer</span>
+        <span class="text-[10px] font-bold tracking-tight">Clocks</span>
       </button>
 
       <!-- Tab 5: Profile -->
@@ -502,7 +661,7 @@
         <svg class="w-5 h-5 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
         </svg>
-        <span class="text-[10px] font-semibold tracking-tight">Profile</span>
+        <span class="text-[10px] font-bold tracking-tight">System</span>
       </button>
 
     </div>
