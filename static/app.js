@@ -72,6 +72,8 @@ let currentTab = 'apps';
 let mandiSecondsLeft = 2 * 3600 + 44 * 60 + 18;
 let ewaySecondsLeft = 18 * 3600 + 32 * 60 + 5;
 let currentRawMarkdown = "";
+let currentDealMemo = null;
+let activeEntityCategory = 'all';
 
 // ==================== THEME CONTROLLER FUNCTIONS ====================
 function applyTheme(themeKey) {
@@ -588,6 +590,15 @@ async function handleCalculate(event) {
     if (scripNetEl) scripNetEl.textContent = `₹${Math.round(c.scrip_net_cash_inr || 0).toLocaleString('en-IN')}`;
     if (aaEl) aaEl.textContent = `₹${Math.round(c.advance_auth_saving_inr || 0).toLocaleString('en-IN')}`;
 
+    // Commercial Deal Memo capture & preview update
+    if (c.commercial_deal_memo) {
+      currentDealMemo = c.commercial_deal_memo;
+      const memoProfitEl = document.getElementById('memo-preview-profit');
+      const memoCreditEl = document.getElementById('memo-preview-credit');
+      if (memoProfitEl) memoProfitEl.textContent = `₹${Math.round(currentDealMemo.net_commercial_profit_inr).toLocaleString('en-IN')}`;
+      if (memoCreditEl) memoCreditEl.textContent = `₹${Math.round(currentDealMemo.bank_packing_credit_inr).toLocaleString('en-IN')}`;
+    }
+
   } catch (err) {
     console.error("Calculation error:", err);
   }
@@ -980,6 +991,646 @@ function updateDistrictDeepDive(distName) {
   if (labEl) labEl.textContent = d.lab;
 }
 
+// ==================== PHASE 1: HIGH-TRUST TRADE ENTITIES DATASET ====================
+const ENTITIES_DATA = [
+  {
+    id: "ENT-001",
+    name: "Apex Maritime Logistics & CHA",
+    category: "Customs Broker (CHA)",
+    ports: ["JNPT / Nhava Sheva", "Mumbai Port (MBPT)"],
+    city: "Navi Mumbai",
+    state: "Maharashtra",
+    contact_person: "Rajesh V. Mhatre (Director - Customs EDI)",
+    phone: "+91 98201 44812",
+    email: "operations@apexmaritime-cha.in",
+    website: "https://apexmaritime-cha.in",
+    license: "CHA/BOM/EDI/1408/2012",
+    specialties: ["Engineering Goods (Ch 84, 85)", "Textiles & Garments (Ch 61, 62)", "Chemicals (Ch 29)"],
+    volume: "18,500+ TEUs cleared annually",
+    track_record: "99.4% first-time clearance; 0 unresolved show cause notices",
+    complementary: ["Bonded Warehouse (35,000 sq ft Dronagiri)", "Fleet of 42 GPS container trailers", "Reefer plug points"],
+    verified: true,
+    dgft_status: "Clean / Active (No DEL listing)"
+  },
+  {
+    id: "ENT-002",
+    name: "Kutch Container Freight & Logistics",
+    category: "Customs Broker (CHA)",
+    ports: ["Mundra Port", "Kandla / Deendayal Port"],
+    city: "Gandhidham",
+    state: "Gujarat",
+    contact_person: "Bhavin K. Patel (Head of Port Operations)",
+    phone: "+91 98795 22104",
+    email: "bhavin.patel@kutchfreight.co.in",
+    website: "https://kutchfreight.co.in",
+    license: "CHA/MUN/EDI/0892/2016",
+    specialties: ["Agri Commodities (Ch 08, 09, 10)", "Ceramics & Tiles (Ch 69)", "Minerals & Ores (Ch 25)"],
+    volume: "24,000+ TEUs / bulk handled annually",
+    track_record: "Average Mundra dwell clearance: 14 hours; APEDA phytosanitary desk on-site",
+    complementary: ["Grain fumigation chamber", "Weighbridge & 15,000 MT warehouse", "Rail siding to ICD Morbi"],
+    verified: true,
+    dgft_status: "Clean / Active"
+  },
+  {
+    id: "ENT-003",
+    name: "Coromandel Coastal Clearances & CFS",
+    category: "Customs Broker (CHA)",
+    ports: ["Chennai Port", "Kattupalli Port", "Ennore Port"],
+    city: "Chennai",
+    state: "Tamil Nadu",
+    contact_person: "S. Ramanathan (Chief Customs Executive)",
+    phone: "+91 94440 81290",
+    email: "ramanathan@coromandelcfs.com",
+    website: "https://coromandelcfs.com",
+    license: "CHA/MAA/EDI/2103/2008",
+    specialties: ["Auto Components (Ch 87)", "Leather & Footwear (Ch 42, 64)", "Electronic Hardware (Ch 85)"],
+    volume: "15,200+ TEUs annually",
+    track_record: "AEO-T2 certified broker; green-channel automated assessment expert",
+    complementary: ["Customs Bonded CFS (Ennore Expressway)", "Dangerous Goods (IMDG) handling", "Daily shuttle to ICD Whitefield"],
+    verified: true,
+    dgft_status: "Clean / Active"
+  },
+  {
+    id: "ENT-004",
+    name: "Snowman Agro Cold Chain & Packhouse",
+    category: "Cold Chain / CFS Operator",
+    ports: ["JNPT / Nhava Sheva", "Cochin Port"],
+    city: "Panvel / Navi Mumbai",
+    state: "Maharashtra",
+    contact_person: "Vikramaditya Sengupta (Head - Cold Chain Exim)",
+    phone: "+91 98112 77093",
+    email: "agro.exports@snowmancold.in",
+    website: "https://snowmancold.in",
+    license: "Cold Chain Operator & Packhouse",
+    specialties: ["Fresh Mangoes & Grapes (Ch 08)", "Seafood & Shrimps (Ch 03)", "Pharma Active Ingredients (Ch 30)"],
+    volume: "4,200 Reefer containers handled annually",
+    track_record: "APEDA & EIC recognized export packhouse; hot water immersion facility",
+    complementary: ["Reefer fleet (-25°C to +15°C)", "Pre-cooling chambers (100 MT/day)", "Direct rail reefer to JNPT terminal"],
+    verified: true,
+    dgft_status: "Clean / Active"
+  },
+  {
+    id: "ENT-005",
+    name: "SGS India Testing & Inspection Laboratories",
+    category: "Accredited Inspection & Testing Agency",
+    ports: ["JNPT", "Mundra", "Chennai", "Kolkata", "Tirupur", "Guntur"],
+    city: "Pan-India",
+    state: "National Network",
+    contact_person: "Dr. Arindam Mukherjee (Director - Agri & Food Testing)",
+    phone: "+91 22 6640 8888",
+    email: "in.trade.inspection@sgs.com",
+    website: "https://www.sgs.com/en-in",
+    license: "NABL TC-5421 / EIC Approved",
+    specialties: ["Food & Agricultural Products", "Textile Chemical Testing (REACH / Oeko-Tex)", "Metal & Mineral Assaying"],
+    volume: "65,000+ Certificates of Analysis (CoA) issued annually",
+    track_record: "Direct API upload of test certificates to FSSAI & ICEGATE e-SANCHIT",
+    complementary: ["Pre-shipment Container Inspection", "Loading Supervision & Weight Certification", "Factory Compliance Auditing"],
+    verified: true,
+    dgft_status: "Accredited Testing & Inspection Agency"
+  },
+  {
+    id: "ENT-006",
+    name: "Vimta Labs Ltd (Food, Agri & Pharma Analytical)",
+    category: "Accredited Inspection & Testing Agency",
+    ports: ["Hyderabad ICD", "Chennai Port", "Vizag Port"],
+    city: "Hyderabad",
+    state: "Telangana",
+    contact_person: "K. V. Subba Rao (VP - Quality & Regulatory)",
+    phone: "+91 40 6740 4040",
+    email: "exports.testing@vimta.com",
+    website: "https://www.vimta.com",
+    license: "NABL TC-5012 / US FDA Inspected",
+    specialties: ["Pesticide Residue Analysis (GC-MS/MS)", "Aflatoxin Testing (Spices/Grains)", "Heavy Metal Profiling (ICP-MS)"],
+    volume: "45,000+ Samples tested annually for EU, US & Japan compliance",
+    track_record: "APEDA certified sampling network across Guntur, Chittoor & Ratnagiri",
+    complementary: ["Shelf-life stability studies", "US FDA / EU Nutrition Labeling", "Organic certification validation"],
+    verified: true,
+    dgft_status: "NABL & APEDA Accredited"
+  },
+  {
+    id: "ENT-007",
+    name: "APEDA (Agri & Processed Food Export Dev Authority)",
+    category: "Export Promotion Council (EPC)",
+    ports: ["All Indian Ports & Air Cargo Complexes"],
+    city: "New Delhi (HQ) + Regional Offices",
+    state: "Govt. of India",
+    contact_person: "Nodal Officer - Trade Facilitation Desk",
+    phone: "+91 11 4148 6013",
+    email: "headq@apeda.gov.in",
+    website: "https://apeda.gov.in",
+    license: "Statutory Export Body under APEDA Act 1985",
+    specialties: ["Fresh Fruits & Vegetables", "Basmati & Non-Basmati Rice", "Processed Foods & Dairy", "Organic Produce"],
+    volume: "US$ 25+ Billion agricultural exports facilitated annually",
+    track_record: "Online RCMC issuance within 48h; Phytosanitary certificate integration with Plant Quarantine",
+    complementary: ["Financial Assistance Schemes (40% Packhouse subsidies)", "Buyer-Seller Meets (BSMs) in Gulf & EU", "HortiNet traceability"],
+    verified: true,
+    dgft_status: "Government Statutory Authority"
+  },
+  {
+    id: "ENT-008",
+    name: "FIEO (Federation of Indian Export Organisations)",
+    category: "Export Promotion Council (EPC)",
+    ports: ["Apex Body for All Indian Exporters"],
+    city: "New Delhi (HQ) + 12 Chapter Offices",
+    state: "Ministry of Commerce & Industry",
+    contact_person: "Deputy Director General - Dispute Resolution",
+    phone: "+91 11 4604 2222",
+    email: "fieo@fieo.org",
+    website: "https://www.fieo.org",
+    license: "Apex Body set up by Ministry of Commerce",
+    specialties: ["Multi-Sector RCMC (Merchandise & Services)", "Certificate of Origin (Preferential / Non-Preferential)", "Trade Disputes"],
+    volume: "Over 35,000 active member exporters across India",
+    track_record: "Official facilitator for DGFT RoDTEP review and RoSCTL representations",
+    complementary: ["Global Trade Helpdesk", "Free Trade Agreement (FTA) utilization cell", "International trade delegations"],
+    verified: true,
+    dgft_status: "Government Recognized Apex Trade Body"
+  }
+];
+
+function renderEntityDirectory(list) {
+  const container = document.getElementById('entities-cards-container');
+  if (!container) return;
+
+  if (!list || list.length === 0) {
+    container.innerHTML = `
+      <div class="p-4 rounded-2xl border text-center text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-muted);">
+        No trade entities found matching your search.
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = list.map(e => `
+    <div class="p-3.5 rounded-2xl border space-y-2 text-xs transition-all hover:border-[var(--accent)]" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+      <div class="flex items-start justify-between gap-2">
+        <div>
+          <span class="text-[9px] font-mono px-2 py-0.5 rounded border" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">${e.category}</span>
+          <h4 class="font-extrabold text-xs pt-1" style="color: var(--text-main);">${e.name}</h4>
+          <span class="text-[10px] block" style="color: var(--text-muted);">${e.city}, ${e.state} &bull; Ports: ${e.ports.join(', ')}</span>
+        </div>
+        <span class="px-2 py-0.5 rounded-full text-[9px] font-bold font-mono flex-shrink-0" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">✓ Verified</span>
+      </div>
+
+      <div class="flex items-center justify-between pt-1 border-t text-[11px]" style="border-color: var(--card-border);">
+        <div class="flex items-center gap-3">
+          <a href="tel:${e.phone.replace(/\\s+/g, '')}" class="font-bold flex items-center gap-1 active:scale-95" style="color: var(--accent);">
+            <span>📞 Call</span>
+          </a>
+          <a href="mailto:${e.email}" class="font-bold flex items-center gap-1 active:scale-95" style="color: var(--text-dim);">
+            <span>✉️ Email</span>
+          </a>
+        </div>
+        <button onclick="viewEntityDossier('${e.id}')" class="px-2.5 py-1 rounded-xl border text-[10px] font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--accent);">
+          360° Dossier &rarr;
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterEntityCategory(category) {
+  activeEntityCategory = category;
+  document.querySelectorAll('.ent-pill-btn').forEach(btn => {
+    btn.style.background = 'var(--card-inner-bg)';
+    btn.style.borderColor = 'var(--card-inner-border)';
+    btn.style.color = 'var(--text-main)';
+  });
+
+  const catMap = {
+    'all': 'ent-filter-all',
+    'Customs Broker (CHA)': 'ent-filter-cha',
+    'Cold Chain / CFS Operator': 'ent-filter-cfs',
+    'Accredited Inspection & Testing Agency': 'ent-filter-lab',
+    'Export Promotion Council (EPC)': 'ent-filter-epc'
+  };
+
+  const activeBtn = document.getElementById(catMap[category] || 'ent-filter-all');
+  if (activeBtn) {
+    activeBtn.style.background = 'var(--accent)';
+    activeBtn.style.color = '#ffffff';
+  }
+
+  const query = (document.getElementById('entity-search-input')?.value || '').toLowerCase();
+  let filtered = category === 'all' ? ENTITIES_DATA : ENTITIES_DATA.filter(e => e.category === category);
+  if (query) {
+    filtered = filtered.filter(e => 
+      e.name.toLowerCase().includes(query) ||
+      e.city.toLowerCase().includes(query) ||
+      e.ports.some(p => p.toLowerCase().includes(query)) ||
+      e.specialties.some(s => s.toLowerCase().includes(query))
+    );
+  }
+  renderEntityDirectory(filtered);
+}
+
+function searchEntities(query) {
+  const q = query.toLowerCase().trim();
+  let filtered = activeEntityCategory === 'all' ? ENTITIES_DATA : ENTITIES_DATA.filter(e => e.category === activeEntityCategory);
+  if (q) {
+    filtered = filtered.filter(e => 
+      e.name.toLowerCase().includes(q) ||
+      e.city.toLowerCase().includes(q) ||
+      e.ports.some(p => p.toLowerCase().includes(q)) ||
+      e.specialties.some(s => s.toLowerCase().includes(q))
+    );
+  }
+  renderEntityDirectory(filtered);
+}
+
+function viewEntityDossier(id) {
+  const e = ENTITIES_DATA.find(x => x.id === id);
+  if (!e) return;
+
+  document.getElementById('ed-category').textContent = e.category;
+  document.getElementById('ed-name').textContent = e.name;
+  document.getElementById('ed-contact-person').textContent = e.contact_person;
+  
+  const phoneEl = document.getElementById('ed-phone-link');
+  if (phoneEl) {
+    phoneEl.textContent = e.phone;
+    phoneEl.href = `tel:${e.phone.replace(/\\s+/g, '')}`;
+  }
+
+  const emailEl = document.getElementById('ed-email-link');
+  if (emailEl) {
+    emailEl.textContent = e.email;
+    emailEl.href = `mailto:${e.email}`;
+  }
+
+  const webEl = document.getElementById('ed-website-link');
+  if (webEl) webEl.href = e.website;
+
+  document.getElementById('ed-ports').textContent = `${e.ports.join(', ')} • ${e.city}, ${e.state}`;
+  document.getElementById('ed-license').textContent = e.license;
+  document.getElementById('ed-volume').textContent = e.volume;
+  document.getElementById('ed-track-record').textContent = e.track_record;
+  document.getElementById('ed-dgft').textContent = e.dgft_status;
+
+  const tagsContainer = document.getElementById('ed-complementary-tags');
+  if (tagsContainer) {
+    tagsContainer.innerHTML = e.complementary.map(c => `
+      <span class="px-2 py-1 rounded-lg border text-[10px] font-medium" style="background: var(--dropdown-bg); border-color: var(--card-border); color: var(--text-main);">${c}</span>
+    `).join('');
+  }
+
+  document.getElementById('entity-dossier-modal').classList.remove('hidden');
+}
+
+function closeEntityDossierModal() {
+  document.getElementById('entity-dossier-modal').classList.add('hidden');
+}
+
+// ==================== PHASE 2: INCOTERMS 2020 & ECGC RISK ====================
+const INCOTERMS_DATA = {
+  'EXW': {
+    title: 'EXW (Ex Works - Named Place)',
+    suitability: 'Zero Logistics Risk (Domestic Selling)',
+    seller: 'Export Packaging only. Goods made available at factory gate.',
+    buyer: 'All freight, origin THC, export customs clearance, ocean shipping, import duties and delivery.',
+    risk: 'Transfers at seller factory door as soon as cargo is placed at buyer disposal.'
+  },
+  'FOB': {
+    title: 'FOB (Free On Board - Named Port)',
+    suitability: 'Standard Exim (Optimal Balance)',
+    seller: 'Export Packaging, Factory Loading, Inland Port Freight, Export Clearance & Origin THC.',
+    buyer: 'International Ocean / Air Freight, Marine Insurance, Destination Port Clearance & Tariffs.',
+    risk: 'Transfers when goods are securely loaded on board the vessel at departure port.'
+  },
+  'CIF': {
+    title: 'CIF (Cost, Insurance & Freight - Destination Port)',
+    suitability: 'High Margin (Seller Arranges Freight)',
+    seller: 'Export Packaging, Inland Freight, Export Clearance, Origin THC, Ocean Freight & Marine Insurance.',
+    buyer: 'Destination Port Handling, Import Customs Clearance, Local Tariffs, and inland delivery.',
+    risk: 'Risk transfers on board vessel at origin port; seller pays freight & insurance to destination port.'
+  },
+  'DDP': {
+    title: 'DDP (Delivered Duty Paid - Buyer Door)',
+    suitability: 'Maximum Premium (Full Turnkey Delivery)',
+    seller: 'All costs end-to-end: Packaging, Inland Freight, Export Clearance, Ocean Freight, Marine Insurance, Import Customs Duties & Destination Delivery.',
+    buyer: 'Unloading cargo at final facility.',
+    risk: 'Transfers only when goods arrive cleared for import at buyer designated warehouse.'
+  }
+};
+
+function selectIncoterm(term) {
+  document.querySelectorAll('.inco-tab-btn').forEach(btn => {
+    btn.style.background = 'var(--card-inner-bg)';
+    btn.style.color = 'var(--text-main)';
+  });
+  const activeBtn = document.getElementById(`inco-btn-${term}`);
+  if (activeBtn) {
+    activeBtn.style.background = 'var(--accent-light)';
+    activeBtn.style.color = 'var(--accent)';
+  }
+
+  const d = INCOTERMS_DATA[term] || INCOTERMS_DATA['FOB'];
+  document.getElementById('inco-title').textContent = d.title;
+  document.getElementById('inco-suitability').textContent = d.suitability;
+  document.getElementById('inco-seller').textContent = d.seller;
+  document.getElementById('inco-buyer').textContent = d.buyer;
+  document.getElementById('inco-risk').textContent = d.risk;
+}
+
+const ECGC_COUNTRY_DATA = {
+  'AE': {
+    name: 'United Arab Emirates (UAE)',
+    badge: 'Tier A2 • 0.35% Premium',
+    badgeColor: '#10B981',
+    terms: 'Letter of Credit (LC) at Sight, or Documents Against Acceptance (DA 30-60 Days) with ECGC Buyer Cover',
+    caution: 'Ensure buyer trade license in DED or Free Zone is active. Verify VAT TRN prior to consignment release.'
+  },
+  'US': {
+    name: 'United States (USA)',
+    badge: 'Tier A1 • 0.25% Premium',
+    badgeColor: '#10B981',
+    terms: 'Open Account (30-60 Days) or CAD (Cash Against Documents)',
+    caution: 'Verify US FDA Prior Notice and Lacey Act / CPSC compliance to avoid CBP border hold.'
+  },
+  'GB': {
+    name: 'United Kingdom (UK)',
+    badge: 'Tier A1 • 0.28% Premium',
+    badgeColor: '#10B981',
+    terms: 'CAD or 30-Day Irrevocable LC',
+    caution: 'UK REACH and BTOM (Border Target Operating Model) sanitary requirements on agri/food items.'
+  },
+  'SA': {
+    name: 'Saudi Arabia',
+    badge: 'Tier A2 • 0.38% Premium',
+    badgeColor: '#10B981',
+    terms: 'Irrevocable LC at Sight or 30% Advance + 70% against B/L copy',
+    caution: 'SABER / SASO certificate of conformity mandatory before shipment departure.'
+  },
+  'VN': {
+    name: 'Vietnam',
+    badge: 'Tier A2 • 0.42% Premium',
+    badgeColor: '#10B981',
+    terms: '30% Advance + 70% CAD / LC at Sight',
+    caution: 'High demand for Guntur dry chillies and seafood. Phytosanitary certificate must state absence of prohibited weed seeds.'
+  },
+  'BD': {
+    name: 'Bangladesh',
+    badge: 'Tier B2 • 1.15% Premium (Forex Alert)',
+    badgeColor: '#F59E0B',
+    terms: '100% Confirmed Irrevocable LC from Tier-1 Bank (e.g. Standard Chartered / HSBC Dhaka) or 100% Advance',
+    caution: 'Forex scarcity; local bank LCs frequently face deferred settlement delays. Insist on international confirmation.'
+  },
+  'NG': {
+    name: 'Nigeria',
+    badge: 'Tier C1 • 2.40% Premium (High Risk)',
+    badgeColor: '#EF4444',
+    terms: '100% Advance Wire Transfer (T/T in USD/EUR) or Confirmed LC with Prime European/US Bank Confirmation',
+    caution: 'Form M requirement; severe CBN forex rationing; strict SONCAP product inspection mandatory.'
+  }
+};
+
+function updateEcgcCountry(code) {
+  const d = ECGC_COUNTRY_DATA[code] || ECGC_COUNTRY_DATA['AE'];
+  document.getElementById('ecgc-country-name').textContent = d.name;
+  
+  const badgeEl = document.getElementById('ecgc-risk-badge');
+  if (badgeEl) {
+    badgeEl.textContent = d.badge;
+    badgeEl.style.color = d.badgeColor;
+  }
+  document.getElementById('ecgc-payment-terms').textContent = d.terms;
+  document.getElementById('ecgc-caution-points').textContent = d.caution;
+}
+
+function copyNcndaAgreement() {
+  const name = document.getElementById('legal-intermediary-name')?.value || 'Trade Link International';
+  const comm = document.getElementById('legal-commission-pct')?.value || '2.5';
+  const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  const text = `NON-CIRCUMVENTION, NON-DISCLOSURE & WORKING AGREEMENT (NCNDA)
+Incorporating International Chamber of Commerce (ICC 500/600) Standards
+
+WHEREAS, the undersigned Intermediary / Trade Consultant (${name}) possesses proprietary source contacts, verified supplier networks, and trade relationship intelligence;
+
+AND WHEREAS, the Client / Buyer desires to procure merchandise originating from India;
+
+NOW THEREFORE, IT IS MUTUALLY AGREED:
+1. NON-CIRCUMVENTION: The Parties agree not to circumvent, avoid, bypass, or obviate each other directly or indirectly, nor avoid payments of fees or commissions in any transaction involving contacts, suppliers, buyers, or sources revealed by the Intermediary.
+2. CONFIDENTIALITY: All trade details, pricing structures, supplier identities, and logistical contacts disclosed shall remain confidential for a period of five (5) years.
+3. COMMISSIONS: In consideration of the business transacted, the Intermediary shall be protected and paid a verified commission fee of ${comm}% on the total FOB value of all shipments arising directly or indirectly from introductions made herein.
+4. JURISDICTION: This Agreement shall be governed by the laws of India and subject to the exclusive jurisdiction of the Courts of Mumbai / New Delhi.
+
+IN WITNESS WHEREOF, the Parties execute this NCNDA on ${today}.
+Intermediary: ${name}
+Signature / Stamp: ______________________`;
+
+  navigator.clipboard.writeText(text).then(() => {
+    const status = document.getElementById('legal-copy-status');
+    if (status) {
+      status.textContent = '✓ Statutory ICC NCNDA copied to clipboard!';
+      setTimeout(() => { status.textContent = ''; }, 3500);
+    }
+  });
+}
+
+function copyImfpaAgreement() {
+  const name = document.getElementById('legal-intermediary-name')?.value || 'Trade Link International';
+  const comm = document.getElementById('legal-commission-pct')?.value || '2.5';
+  const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  const text = `IRREVOCABLE MASTER FEE PROTECTION AGREEMENT (IMFPA)
+Bank-Enforceable Commission Mandate
+
+TO: The Paying Bank / Paymaster
+TRANSACTION REF: WOT-EXPORT-${Date.now().toString().slice(-6)}
+
+We, the undersigned Buyer/Seller, hereby irrevocably and unconditionally guarantee to pay the designated Intermediary / Mandate (${name}) a non-negotiable fee of ${comm}% on the gross FOB value of every consignment, tranche, or partial delivery shipped under this Contract.
+
+PAYMENT INSTRUCTION:
+1. The commission fee shall be paid simultaneously upon negotiation and liquidation of the export Letter of Credit or wire transfer receipt.
+2. This Fee Protection Agreement is irrevocable, non-transferable, and assignable to the Intermediary's designated bank account without any right of set-off or counter-claim.
+
+EXECUTED BY AUTHORIZED SIGNATORY ON ${today}.
+Intermediary: ${name}
+Designated Bank: State Bank of India / HDFC Bank
+Signature / Stamp: ______________________`;
+
+  navigator.clipboard.writeText(text).then(() => {
+    const status = document.getElementById('legal-copy-status');
+    if (status) {
+      status.textContent = '✓ Bank-Enforceable IMFPA copied to clipboard!';
+      setTimeout(() => { status.textContent = ''; }, 3500);
+    }
+  });
+}
+
+// ==================== PHASE 3: CAREER PERSONA TRACKS ====================
+const CAREER_PERSONAS_DATA = {
+  'broker': {
+    title: 'Commission Sourcing Agent / Trade Broker',
+    capital: 'Capital Required: ₹0 (Zero Capital)',
+    income: '1.5% - 3.0% Comm.',
+    model: 'Connect verified ODOP district manufacturers with overseas buyers or domestic export houses without holding inventory or taking title.',
+    shield: 'Execute 1-tap NCNDA + Bank IMFPA before disclosing factory identities or pricing. Commission wired on LC liquidation.',
+    legal: 'Proprietorship / LLP + GSTIN (for commission invoicing) + Current Bank Account. (No IEC required for domestic brokerage).',
+    milestone: 'Pick 1 ODOP cluster (e.g. Guntur chillies), visit 3 packhouses, obtain verified FOB quotes, and pitch to UAE/Vietnam importers on LinkedIn & Trade Leads.'
+  },
+  'exporter': {
+    title: 'Merchant Exporter (Physical Cargo Trading)',
+    capital: 'Capital Required: ₹2L - ₹10L (or Back-to-Back LC)',
+    income: '15% - 28% Net Margin',
+    model: 'Procure merchandise from Indian factories at domestic prices, handle export customs, and export under your own brand/invoice.',
+    shield: '100% Irrevocable Confirmed LC at Sight + ECGC Small Exporter Policy + Marine All-Risk insurance.',
+    legal: 'Import Export Code (IEC) from DGFT + GSTIN + RCMC (APEDA/FIEO) + Authorized Dealer (AD) Code registration at port of export.',
+    milestone: 'Execute first 1-container trial order (e.g. 20ft container of textiles or spices) utilizing 60% bank packing credit.'
+  },
+  'consultant': {
+    title: 'Trade & Customs Compliance Consultant',
+    capital: 'Capital Required: ₹0 (Knowledge-as-a-Service)',
+    income: '₹25,000 - ₹1,50,000 / month retainer',
+    model: 'Provide compliance advisory to SMEs: ICEGATE error resolution (SB001-SB006), RoDTEP scrip liquidation, and duty drawback recovery.',
+    shield: 'Consulting Retainer Agreement + Success-fee share (10%-20% of stuck drawback recovered).',
+    legal: 'Proprietorship + Professional GST registration + LinkedIn thought leadership presence.',
+    milestone: 'Resolve 1 stuck duty drawback or PFMS mismatch for a local exporter using the World of Trade ICEGATE Error Decoder.'
+  },
+  'aggregator': {
+    title: 'ODOP Cluster Aggregator & Consortium Lead',
+    capital: 'Capital Required: ₹5L - ₹15L (Working Capital)',
+    income: '18% - 32% Consolidated Spread',
+    model: 'Consolidate small artisan or farmer batches in ODOP clusters into Full Container Loads (FCL), unlocking volume freight discounts.',
+    shield: 'Farmer Producer Company (FPC) tie-up + APEDA packhouse subsidy (40%) + Inland Container Depot (ICD) railhead pooling.',
+    legal: 'Private Limited / FPO registration + APEDA / Spices Board RCMC + Quality testing tie-up with accredited NABL lab.',
+    milestone: 'Pool 5 small weaver/farmer batches in Varanasi or Nizamabad into a single 20ft container for Middle East export.'
+  },
+  'coach': {
+    title: 'Practical Ground-Trade Coach & Trainer',
+    capital: 'Capital Required: ₹0 (EdTech / Coaching)',
+    income: '₹15,000 - ₹50,000 per student batch',
+    model: 'Teach non-academic, ground-level trade mechanics to aspiring entrepreneurs: duty trees, shipping bills, demurrage prevention, and buyer verification.',
+    shield: 'Live interactive case studies powered by World of Trade terminal and simulated ICEGATE scenarios.',
+    legal: 'Sole Proprietorship + Digital training portal / Community platform (WhatsApp/Telegram masterminds).',
+    milestone: 'Host a weekend masterclass on "How to Clear Customs & Claim RoDTEP Cash Without Middlemen".'
+  },
+  'institutional': {
+    title: 'Institutional Trade Lead & Council Executive',
+    capital: 'Capital Required: ₹0 (High-Impact Career Track)',
+    income: '₹18L - ₹45L Annual CTC / Corporate Roles',
+    model: 'Lead international trade desks, supply chain procurement, or trade policy advocacy at EPCs (FIEO, APEDA, EEPC) or multinational trading houses.',
+    shield: 'Deep mastery of bilateral FTAs, non-tariff TBT/SPS regulations, and multilateral trade flows.',
+    legal: 'Professional credentials + demonstrable mastery of DGCI&S, Comtrade, and RBI balance of payments data.',
+    milestone: 'Prepare a strategic policy brief on India-UAE CEPA utilization for an export promotion body using World of Trade data.'
+  }
+};
+
+function selectCareerPersona(key) {
+  document.querySelectorAll('.persona-tab-btn').forEach(btn => {
+    btn.style.background = 'var(--card-inner-bg)';
+    btn.style.borderColor = 'var(--card-inner-border)';
+    btn.style.color = 'var(--text-main)';
+  });
+
+  const activeBtn = document.getElementById(`persona-btn-${key}`);
+  if (activeBtn) {
+    activeBtn.style.background = 'var(--accent)';
+    activeBtn.style.color = '#ffffff';
+  }
+
+  const d = CAREER_PERSONAS_DATA[key] || CAREER_PERSONAS_DATA['broker'];
+  document.getElementById('cp-title').textContent = d.title;
+  document.getElementById('cp-capital').textContent = d.capital;
+  document.getElementById('cp-target-income').textContent = d.income;
+  document.getElementById('cp-model').textContent = d.model;
+  document.getElementById('cp-shield').textContent = d.shield;
+  document.getElementById('cp-legal').textContent = d.legal;
+  document.getElementById('cp-milestone').textContent = d.milestone;
+}
+
+// ==================== PHASE 3: 1-PAGE COMMERCIAL DEAL MEMO ====================
+function openDealMemoModal() {
+  const modal = document.getElementById('deal-memo-modal');
+  if (!modal) return;
+
+  const m = currentDealMemo || {
+    deal_id: "WOT-DM-05000",
+    commodity: "Cotton T-shirts & Readymade Knitted Garments",
+    hs_code: "6109.10.00",
+    fob_value_inr: 5000000,
+    procurement_cost_inr: 3600000,
+    inland_and_cha_cost_inr: 225000,
+    gross_trade_margin_inr: 1175000,
+    statutory_government_rebate_inr: 272500,
+    net_commercial_profit_inr: 1447500,
+    net_margin_pct: 28.95,
+    capital_required_inr: 1440000,
+    bank_packing_credit_inr: 2160000,
+    milestone_schedule: [
+      { day: "Day 1-3", action: "Contract & 1-tap NCNDA execution; Proforma Invoice with confirmed LC issuance" },
+      { day: "Day 4-12", action: "Batch procurement from verified ODOP cluster supplier base" },
+      { day: "Day 13-16", action: "NABL lab sampling & Certificate of Analysis (CoA) generation" },
+      { day: "Day 17-21", action: "Container stuffing, certified weighbridge VGM slip & Rule 138 e-Way Bill" },
+      { day: "Day 22-25", action: "Port gate in at Gateway Port; LEO customs clearance" },
+      { day: "Day 26-28", action: "Vessel sails; negotiable On-Board Bill of Lading (B/L) issued" },
+      { day: "Day 29-33", action: "ICEGATE EDI automatically dispatches Duty Drawback direct to bank" },
+      { day: "Day 34-45", action: "RoDTEP/RoSCTL electronic scrip generated on customs ledger" },
+      { day: "Day 60-75", action: "Authorized Dealer bank realizes export remittance and logs e-BRC / EDPMS" }
+    ]
+  };
+
+  document.getElementById('dm-deal-id').textContent = m.deal_id;
+  document.getElementById('dm-commodity').textContent = m.commodity;
+  document.getElementById('dm-hs').textContent = `ITC-HS: ${m.hs_code} • FOB Export Consignment`;
+  document.getElementById('dm-fob').textContent = `₹${Math.round(m.fob_value_inr).toLocaleString('en-IN')}`;
+  document.getElementById('dm-prod').textContent = `₹${Math.round(m.procurement_cost_inr).toLocaleString('en-IN')}`;
+  document.getElementById('dm-inland').textContent = `₹${Math.round(m.inland_and_cha_cost_inr).toLocaleString('en-IN')}`;
+  document.getElementById('dm-rebate').textContent = `+₹${Math.round(m.statutory_government_rebate_inr).toLocaleString('en-IN')}`;
+  document.getElementById('dm-margin-pct').textContent = `${m.net_margin_pct}% Net`;
+  document.getElementById('dm-profit').textContent = `₹${Math.round(m.net_commercial_profit_inr).toLocaleString('en-IN')}`;
+  document.getElementById('dm-margin-money').textContent = `₹${Math.round(m.capital_required_inr).toLocaleString('en-IN')}`;
+  document.getElementById('dm-packing-credit').textContent = `₹${Math.round(m.bank_packing_credit_inr).toLocaleString('en-IN')}`;
+
+  const msContainer = document.getElementById('dm-milestones-container');
+  if (msContainer && m.milestone_schedule) {
+    msContainer.innerHTML = m.milestone_schedule.map(s => `
+      <div class="flex items-start gap-2">
+        <span class="font-mono font-bold flex-shrink-0" style="color: var(--accent);">${s.day}:</span>
+        <span style="color: var(--text-main);">${s.action}</span>
+      </div>
+    `).join('');
+  }
+
+  modal.classList.remove('hidden');
+}
+
+function closeDealMemoModal() {
+  document.getElementById('deal-memo-modal')?.classList.add('hidden');
+}
+
+function copyDealMemoText() {
+  const m = currentDealMemo;
+  if (!m) return;
+  const text = `EXECUTIVE COMMERCIAL DEAL MEMO
+Deal Reference: ${m.deal_id}
+Commodity: ${m.commodity} (ITC-HS: ${m.hs_code})
+Consignment FOB Value: ₹${Math.round(m.fob_value_inr).toLocaleString('en-IN')}
+
+FINANCIAL FEASIBILITY:
+- Procurement & Sourcing (72%): ₹${Math.round(m.procurement_cost_inr).toLocaleString('en-IN')}
+- Inland Freight & CHA Port Clearances: ₹${Math.round(m.inland_and_cha_cost_inr).toLocaleString('en-IN')}
+- Statutory Government Cash Rebates: +₹${Math.round(m.statutory_government_rebate_inr).toLocaleString('en-IN')}
+- Net Commercial Profit: ₹${Math.round(m.net_commercial_profit_inr).toLocaleString('en-IN')}
+- Net Margin: ${m.net_margin_pct}% Net
+
+BANK PACKING CREDIT ALLOCATION:
+- Promoter Margin Money (40%): ₹${Math.round(m.capital_required_inr).toLocaleString('en-IN')}
+- Bank Packing Credit Eligible (60%): ₹${Math.round(m.bank_packing_credit_inr).toLocaleString('en-IN')}
+- Cash Cycle: 75 Days (Procurement to Inward Bank Remittance)
+
+RISK MITIGATION:
+- ECGC Comprehensive Small Exporter Policy (90% commercial default cover)
+- Irrevocable Confirmed Letter of Credit at Sight (UCP 600 rules)
+- Institute Cargo Clauses (A) Marine All-Risk Policy
+
+Generated via World of Trade Intelligence Terminal`;
+
+  navigator.clipboard.writeText(text).then(() => {
+    alert("Deal Memo copied to clipboard!");
+  });
+}
+
 // Global Window Bindings for Inline HTML Handlers
 window.applyTheme = applyTheme;
 window.selectTheme = selectTheme;
@@ -1001,6 +1652,19 @@ window.decodeIcegateError = decodeIcegateError;
 window.calculateFtaValueAddition = calculateFtaValueAddition;
 window.copyBreakdownNotice = copyBreakdownNotice;
 window.updateDistrictDeepDive = updateDistrictDeepDive;
+// New Phase 1, 2, 3 bindings
+window.filterEntityCategory = filterEntityCategory;
+window.searchEntities = searchEntities;
+window.viewEntityDossier = viewEntityDossier;
+window.closeEntityDossierModal = closeEntityDossierModal;
+window.selectIncoterm = selectIncoterm;
+window.updateEcgcCountry = updateEcgcCountry;
+window.copyNcndaAgreement = copyNcndaAgreement;
+window.copyImfpaAgreement = copyImfpaAgreement;
+window.selectCareerPersona = selectCareerPersona;
+window.openDealMemoModal = openDealMemoModal;
+window.closeDealMemoModal = closeDealMemoModal;
+window.copyDealMemoText = copyDealMemoText;
 
 // DOM Initialization
 window.addEventListener('DOMContentLoaded', () => {
@@ -1008,7 +1672,10 @@ window.addEventListener('DOMContentLoaded', () => {
   const savedTheme = localStorage.getItem('wot_editorial_theme') || 'kyoto-tea';
   applyTheme(savedTheme);
 
-  // 2. Search input listener for clear button
+  // 2. Render initial Entity Directory
+  renderEntityDirectory(ENTITIES_DATA);
+
+  // 3. Search input listener for clear button
   const input = document.getElementById('query-input');
   const clearBtn = document.getElementById('clear-btn');
   if (input && clearBtn) {
@@ -1021,6 +1688,6 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 3. Initial Load: Default trade pulse query
+  // 4. Initial Load: Default trade pulse query
   setQuery("What are India's overall trade totals and deficit?");
 });

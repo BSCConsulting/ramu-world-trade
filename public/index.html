@@ -829,6 +829,97 @@
           <span id="fta-coo-status" class="px-2.5 py-1 rounded-full text-[10px] font-bold font-mono" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">✓ QUALIFIES FOR 0% DUTY</span>
         </div>
       </div>
+
+      <!-- Phase 2: Deal Structuring, Risk Shield & Incoterms 2020 -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-extrabold uppercase tracking-wider">Incoterms 2020 Cost & Risk Allocator</span>
+          <span class="text-[9px] font-mono px-2 py-0.5 rounded-full border" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">ICC Paris Rules</span>
+        </div>
+        <p class="text-[11px]" style="color: var(--text-muted);">Compare cost liability and risk transfer points across major export trade terms.</p>
+        
+        <div class="grid grid-cols-4 gap-1.5 text-xs font-mono font-bold">
+          <button type="button" onclick="selectIncoterm('EXW')" id="inco-btn-EXW" class="inco-tab-btn py-2 px-1 rounded-xl border text-center active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">EXW</button>
+          <button type="button" onclick="selectIncoterm('FOB')" id="inco-btn-FOB" class="inco-tab-btn py-2 px-1 rounded-xl border text-center active:scale-95 transition-all" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">FOB</button>
+          <button type="button" onclick="selectIncoterm('CIF')" id="inco-btn-CIF" class="inco-tab-btn py-2 px-1 rounded-xl border text-center active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">CIF</button>
+          <button type="button" onclick="selectIncoterm('DDP')" id="inco-btn-DDP" class="inco-tab-btn py-2 px-1 rounded-xl border text-center active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">DDP</button>
+        </div>
+
+        <div id="incoterm-details-card" class="p-3 rounded-xl border space-y-2 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between">
+            <span id="inco-title" class="font-extrabold font-mono text-sm" style="color: var(--accent);">FOB (Free On Board)</span>
+            <span id="inco-suitability" class="text-[10px] px-2 py-0.5 rounded-full font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">Standard Exim</span>
+          </div>
+          <div class="text-[11px] space-y-1">
+            <p><span class="font-bold" style="color: var(--text-dim);">Seller Pays:</span> <span id="inco-seller">Export Packaging, Factory Loading, Inland Port Freight, Export Clearance, Origin THC</span></p>
+            <p><span class="font-bold" style="color: var(--text-dim);">Buyer Pays:</span> <span id="inco-buyer">Ocean / Air Freight, Marine Insurance, Destination Port Handling, Import Clearance & Duties</span></p>
+            <p><span class="font-bold" style="color: var(--text-dim);">Risk Transfers:</span> <span id="inco-risk" class="font-medium text-[#10B981]">When goods are securely loaded on board the vessel at port.</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ECGC Country Risk & Payment Terms Screener -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-extrabold uppercase tracking-wider">ECGC Country Risk & Buyer Payment Screener</span>
+          <span class="text-[9px] font-mono px-2 py-0.5 rounded-full border" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">Credit Shield</span>
+        </div>
+        <p class="text-[11px]" style="color: var(--text-muted);">Prevent foreign buyer default and select safe payment terms based on ECGC sovereign risk tiers.</p>
+        
+        <div>
+          <label class="block text-[10px] font-bold mb-1 uppercase tracking-wider" style="color: var(--text-dim);">Select Buyer Destination Country:</label>
+          <select id="ecgc-country-select" onchange="updateEcgcCountry(this.value)" class="w-full border rounded-xl p-2.5 text-xs focus:outline-none min-h-[44px]">
+            <option value="AE">United Arab Emirates (UAE) — Tier A2 (Low Risk)</option>
+            <option value="US">United States (USA) — Tier A1 (Very Low Risk)</option>
+            <option value="GB">United Kingdom (UK) — Tier A1 (Very Low Risk)</option>
+            <option value="SA">Saudi Arabia — Tier A2 (Low Risk)</option>
+            <option value="VN">Vietnam — Tier A2 (Low Risk)</option>
+            <option value="BD">Bangladesh — Tier B2 (Forex Alert / L/C Delays)</option>
+            <option value="NG">Nigeria — Tier C1 (High Commercial Risk)</option>
+          </select>
+        </div>
+
+        <div id="ecgc-result-card" class="p-3 rounded-xl border space-y-2 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between">
+            <span id="ecgc-country-name" class="font-extrabold text-xs" style="color: var(--accent);">United Arab Emirates (UAE)</span>
+            <span id="ecgc-risk-badge" class="px-2 py-0.5 rounded-full font-mono text-[10px] font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">Tier A2 &bull; 0.35% Premium</span>
+          </div>
+          <div class="text-[11px] space-y-1">
+            <p><span class="font-bold" style="color: var(--text-dim);">Recommended Terms:</span> <span id="ecgc-payment-terms" class="font-medium">Letter of Credit (LC) at Sight, or Documents Against Acceptance (DA 30-60 Days) with ECGC Buyer Cover</span></p>
+            <p><span class="font-bold" style="color: var(--text-dim);">Caution Protocol:</span> <span id="ecgc-caution-points" class="font-medium" style="color: var(--text-muted);">Ensure buyer trade license in DED or Free Zone is active. Verify VAT TRN prior to consignment release.</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Middleman & Sourcing Agent Anti-Bypass Protection Suite -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-extrabold uppercase tracking-wider">Broker & Consultant Anti-Bypass Suite</span>
+          <span class="text-[9px] font-mono px-2 py-0.5 rounded-full border" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">NCNDA &bull; IMFPA</span>
+        </div>
+        <p class="text-[11px]" style="color: var(--text-muted);">Protect your deal introductions, prevent circumvention by buyers/suppliers, and secure bank-enforceable commissions.</p>
+        
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Your Entity / Intermediary Name:</label>
+            <input type="text" id="legal-intermediary-name" value="Trade Link International" class="w-full border rounded-xl p-2.5 text-xs focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Commission Fee (% on FOB):</label>
+            <input type="number" id="legal-commission-pct" value="2.5" step="0.1" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 pt-1 text-xs">
+          <button type="button" onclick="copyNcndaAgreement()" class="py-2.5 px-3 rounded-xl border font-bold flex items-center justify-center gap-1.5 active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <span>📋 Copy ICC NCNDA</span>
+          </button>
+          <button type="button" onclick="copyImfpaAgreement()" class="py-2.5 px-3 rounded-xl border font-bold flex items-center justify-center gap-1.5 active:scale-95 transition-transform" style="background: var(--accent); color: #ffffff;">
+            <span>💼 Copy Bank IMFPA</span>
+          </button>
+        </div>
+        <span id="legal-copy-status" class="text-[10px] font-mono text-center block text-[#10B981] font-bold h-3"></span>
+      </div>
     </section>
 
     <!-- ==================== TAB 3: SCRATCHPAD (10x Export Cash Calculator) ==================== -->
@@ -962,6 +1053,33 @@
             <span id="card-aa-savings" class="text-sm font-extrabold font-mono block" style="color: var(--accent);">₹0</span>
             <span class="text-[9px] block leading-tight" style="color: var(--text-muted);">Duty-free raw material saving</span>
           </div>
+        </div>
+
+        <!-- 1-Tap Commercial Deal Memo Trigger -->
+        <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3" style="border: 1px solid var(--accent-border) !important;">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-extrabold uppercase tracking-wider flex items-center gap-1.5" style="color: var(--accent);">
+              <span>📄 1-Tap Executive Deal Memo</span>
+            </span>
+            <span class="text-[9px] font-mono px-2 py-0.5 rounded-full border" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">Bank & Investor Ready</span>
+          </div>
+          <p class="text-[11px]" style="color: var(--text-muted);">Converts this calculation into a bank-ready financial feasibility report with unit economics, packing credit sizing, and 75-day cash cycle.</p>
+          
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              <span class="text-[9px] block" style="color: var(--text-dim);">Est. Commercial Profit:</span>
+              <span id="memo-preview-profit" class="text-xs font-extrabold font-mono text-[#10B981]">₹0</span>
+            </div>
+            <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              <span class="text-[9px] block" style="color: var(--text-dim);">Bank Packing Credit:</span>
+              <span id="memo-preview-credit" class="text-xs font-extrabold font-mono" style="color: var(--accent);">₹0</span>
+            </div>
+          </div>
+
+          <button type="button" onclick="openDealMemoModal()" class="w-full py-3 rounded-xl border text-xs font-extrabold uppercase tracking-wider active:scale-95 transition-transform flex items-center justify-center gap-2" style="background: var(--accent); color: #ffffff;">
+            <span>💼 View & Export 1-Page Deal Memo</span>
+            <span>&rarr;</span>
+          </button>
         </div>
       </div>
     </section>
@@ -1150,6 +1268,36 @@
         </div>
       </div>
 
+      <!-- Phase 1: High-Trust Trade Directory & 360° Entity Dossier -->
+      <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5">
+        <div class="flex items-center justify-between">
+          <h2 class="text-base font-extrabold flex items-center gap-2">
+            <span>High-Trust Entity Directory</span>
+          </h2>
+          <span class="text-[10px] border px-2.5 py-0.5 rounded-full font-mono font-bold" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">360° Dossiers</span>
+        </div>
+        <p class="text-xs" style="color: var(--text-muted);">Direct phone numbers, emails, websites, port specializations, and complementary business intelligence for verified trade counterparties.</p>
+
+        <!-- Category Filter Pills -->
+        <div class="flex gap-1.5 overflow-x-auto pb-1 text-[11px] font-bold no-scrollbar">
+          <button type="button" onclick="filterEntityCategory('all')" id="ent-filter-all" class="ent-pill-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">All Entities (8)</button>
+          <button type="button" onclick="filterEntityCategory('Customs Broker (CHA)')" id="ent-filter-cha" class="ent-pill-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">Customs Brokers (CHA)</button>
+          <button type="button" onclick="filterEntityCategory('Cold Chain / CFS Operator')" id="ent-filter-cfs" class="ent-pill-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">Cold Storage / CFS</button>
+          <button type="button" onclick="filterEntityCategory('Accredited Inspection & Testing Agency')" id="ent-filter-lab" class="ent-pill-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">NABL Testing Labs</button>
+          <button type="button" onclick="filterEntityCategory('Export Promotion Council (EPC)')" id="ent-filter-epc" class="ent-pill-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">Export Councils (EPC)</button>
+        </div>
+
+        <!-- Entity Search Box -->
+        <div>
+          <input type="text" id="entity-search-input" oninput="searchEntities(this.value)" placeholder="Search by name, port (JNPT, Mundra, Chennai), or product chapter..." class="w-full border rounded-2xl p-2.5 text-xs focus:outline-none min-h-[44px]" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);" />
+        </div>
+
+        <!-- Entities List Container -->
+        <div id="entities-cards-container" class="space-y-2.5 max-h-[380px] overflow-y-auto pr-0.5">
+          <!-- Rendered dynamically via JS -->
+        </div>
+      </div>
+
       <!-- ODOP District Sourcing Deep-Dive Explorer -->
       <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3">
         <div class="flex items-center justify-between">
@@ -1205,6 +1353,45 @@
               <span class="font-bold flex-shrink-0" style="color: var(--text-dim);">🔬 Testing Lab:</span>
               <span id="dd-lab" class="font-medium">Spices Board Quality Evaluation Lab, Hyderabad (NABL TC-5421)</span>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 3: Trade Career & Monetization Pathways -->
+      <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5">
+        <div class="flex items-center justify-between">
+          <h2 class="text-base font-extrabold flex items-center gap-2">
+            <span>Career & Business Monetization Tracks</span>
+          </h2>
+          <span class="text-[10px] border px-2.5 py-0.5 rounded-full font-mono font-bold" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">6 Playbooks</span>
+        </div>
+        <p class="text-xs" style="color: var(--text-muted);">Step-by-step commercial roadmaps and legal setups tailored to your capital and operational persona.</p>
+
+        <!-- Persona Selection Pills -->
+        <div class="flex gap-1.5 overflow-x-auto pb-1 text-[11px] font-bold no-scrollbar">
+          <button type="button" onclick="selectCareerPersona('broker')" id="persona-btn-broker" class="persona-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">1. Sourcing Broker</button>
+          <button type="button" onclick="selectCareerPersona('exporter')" id="persona-btn-exporter" class="persona-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">2. Merchant Exporter</button>
+          <button type="button" onclick="selectCareerPersona('consultant')" id="persona-btn-consultant" class="persona-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">3. Trade Consultant</button>
+          <button type="button" onclick="selectCareerPersona('aggregator')" id="persona-btn-aggregator" class="persona-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">4. ODOP Aggregator</button>
+          <button type="button" onclick="selectCareerPersona('coach')" id="persona-btn-coach" class="persona-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">5. Practical Coach</button>
+          <button type="button" onclick="selectCareerPersona('institutional')" id="persona-btn-institutional" class="persona-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">6. Institutional Lead</button>
+        </div>
+
+        <!-- Persona Details Card -->
+        <div id="career-persona-details" class="p-3.5 rounded-2xl border space-y-2.5 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between border-b pb-2" style="border-color: var(--card-border);">
+            <div>
+              <span id="cp-title" class="font-extrabold text-sm block" style="color: var(--accent);">Commission Sourcing Agent / Trade Broker</span>
+              <span id="cp-capital" class="text-[10px] font-mono font-bold text-[#10B981]">Capital Required: ₹0 (Zero Capital)</span>
+            </div>
+            <span id="cp-target-income" class="px-2.5 py-1 rounded-full font-mono text-[10px] font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">1.5% - 3.0% Comm.</span>
+          </div>
+
+          <div class="space-y-2 pt-0.5 text-[11px]">
+            <p><span class="font-bold" style="color: var(--text-dim);">Operating Model:</span> <span id="cp-model" class="font-medium">Connect verified ODOP district manufacturers with overseas buyers or domestic export houses without holding inventory or taking title.</span></p>
+            <p><span class="font-bold" style="color: var(--text-dim);">Protection Shield:</span> <span id="cp-shield" class="font-medium">Execute 1-tap NCNDA + Bank IMFPA before disclosing factory identities or pricing. Commission wired on LC liquidation.</span></p>
+            <p><span class="font-bold" style="color: var(--text-dim);">Legal Prerequisites:</span> <span id="cp-legal" class="font-medium">Proprietorship / LLP + GSTIN (for commission invoicing) + Current Bank Account. (No IEC required for domestic brokerage).</span></p>
+            <p><span class="font-bold" style="color: var(--text-dim);">First 30 Days Action:</span> <span id="cp-milestone" class="font-medium" style="color: var(--accent);">Pick 1 ODOP cluster (e.g. Guntur chillies), visit 3 packhouses, obtain verified FOB quotes, and pitch to UAE/Vietnam importers on LinkedIn & Trade Leads.</span></p>
           </div>
         </div>
       </div>
@@ -1331,6 +1518,130 @@
 
     </div>
   </nav>
+
+  <!-- ==================== EXECUTIVE DEAL MEMO MODAL ==================== -->
+  <div id="deal-memo-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-3">
+    <div class="glass-panel w-full max-w-lg max-h-[92vh] rounded-3xl p-5 shadow-2xl flex flex-col space-y-3.5 overflow-hidden animate-slide-up" style="background: var(--dropdown-bg); border-color: var(--card-border);">
+      <div class="flex items-center justify-between border-b pb-3" style="border-color: var(--card-border);">
+        <div>
+          <span class="text-[9px] font-mono uppercase tracking-widest px-2 py-0.5 rounded border" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">Commercial Deal Memo</span>
+          <h3 id="dm-deal-id" class="text-base font-extrabold font-mono pt-1">WOT-DM-00000</h3>
+        </div>
+        <button onclick="closeDealMemoModal()" class="w-8 h-8 rounded-full border flex items-center justify-center font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">✕</button>
+      </div>
+
+      <div id="deal-memo-print-area" class="overflow-y-auto space-y-3 text-xs pr-1 ios-scroll">
+        <!-- Commodity & Classification Header -->
+        <div class="p-3 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <span class="text-[10px] uppercase font-bold block" style="color: var(--text-dim);">Consignment Commodity:</span>
+          <span id="dm-commodity" class="font-bold text-sm block" style="color: var(--text-main);">Cotton T-shirts & Readymade Knitted Garments</span>
+          <span id="dm-hs" class="text-[10px] font-mono block pt-0.5" style="color: var(--accent);">ITC-HS: 6109.10.00 &bull; FOB Export Consignment</span>
+        </div>
+
+        <!-- Financial Feasibility Matrix -->
+        <div class="p-3 rounded-2xl border space-y-2" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <span class="text-[10px] uppercase font-bold block" style="color: var(--text-dim);">Financial Feasibility & Unit Economics (INR):</span>
+          <div class="grid grid-cols-2 gap-2 text-[11px]">
+            <div><span style="color: var(--text-muted);">Consignment FOB:</span> <span id="dm-fob" class="font-mono font-bold block">₹50,00,000</span></div>
+            <div><span style="color: var(--text-muted);">Sourcing / Production (72%):</span> <span id="dm-prod" class="font-mono font-bold block">₹36,00,000</span></div>
+            <div><span style="color: var(--text-muted);">Inland Freight & CHA (4.5%):</span> <span id="dm-inland" class="font-mono font-bold block">₹2,25,000</span></div>
+            <div><span style="color: var(--text-muted);">Statutory Cash Rebates:</span> <span id="dm-rebate" class="font-mono font-bold text-[#10B981] block">+₹2,72,500</span></div>
+          </div>
+          <div class="pt-2 border-t flex items-center justify-between" style="border-color: var(--card-border);">
+            <div>
+              <span class="text-[10px] block" style="color: var(--text-dim);">Net Commercial Margin:</span>
+              <span id="dm-margin-pct" class="text-sm font-extrabold font-mono text-[#10B981]">28.95% Net</span>
+            </div>
+            <div class="text-right">
+              <span class="text-[10px] block" style="color: var(--text-dim);">Net Cash Profit:</span>
+              <span id="dm-profit" class="text-sm font-extrabold font-mono" style="color: var(--accent);">₹14,47,500</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bank Financing & Working Capital Allocation -->
+        <div class="p-3 rounded-2xl border space-y-2" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <span class="text-[10px] uppercase font-bold block" style="color: var(--text-dim);">Bank Working Capital & Packing Credit:</span>
+          <div class="grid grid-cols-2 gap-2 text-[11px]">
+            <div><span style="color: var(--text-muted);">Promoter Margin (40%):</span> <span id="dm-margin-money" class="font-mono font-bold block">₹14,40,000</span></div>
+            <div><span style="color: var(--text-muted);">Bank Packing Credit (60%):</span> <span id="dm-packing-credit" class="font-mono font-bold text-accent block" style="color: var(--accent);">₹21,60,000</span></div>
+          </div>
+          <p class="text-[10px]" style="color: var(--text-muted);">Cash conversion cycle: <strong>75 Days</strong> from raw material procurement to bank realization.</p>
+        </div>
+
+        <!-- Risk Hedging Trio -->
+        <div class="p-3 rounded-2xl border space-y-1.5 text-[11px]" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <span class="text-[10px] uppercase font-bold block" style="color: var(--text-dim);">Deal Risk Hedging Protocol:</span>
+          <p>🛡️ <strong>ECGC Cover:</strong> Small Exporter Comprehensive Policy (90% commercial default protection).</p>
+          <p>🏦 <strong>Payment Structuring:</strong> Irrevocable Confirmed Letter of Credit (LC) at Sight under UCP 600.</p>
+          <p>🚢 <strong>Marine Transit:</strong> Institute Cargo Clauses (A) All-Risk transit insurance.</p>
+        </div>
+
+        <!-- 75-Day Execution Milestones -->
+        <div class="p-3 rounded-2xl border space-y-2 text-[11px]" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <span class="text-[10px] uppercase font-bold block" style="color: var(--text-dim);">Execution Milestones (Day 1 - 75):</span>
+          <div id="dm-milestones-container" class="space-y-1.5 text-[10px]">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Action Buttons -->
+      <div class="grid grid-cols-2 gap-2 pt-2 border-t" style="border-color: var(--card-border);">
+        <button type="button" onclick="copyDealMemoText()" class="py-2.5 px-3 rounded-xl border text-xs font-bold active:scale-95 transition-transform flex items-center justify-center gap-1.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <span>📋 Copy Deal Memo</span>
+        </button>
+        <button type="button" onclick="window.print()" class="py-2.5 px-3 rounded-xl border text-xs font-bold active:scale-95 transition-transform flex items-center justify-center gap-1.5" style="background: var(--accent); color: #ffffff;">
+          <span>🖨️ Print / Save PDF</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 360° ENTITY DOSSIER MODAL ==================== -->
+  <div id="entity-dossier-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-3">
+    <div class="glass-panel w-full max-w-lg max-h-[90vh] rounded-3xl p-5 shadow-2xl flex flex-col space-y-3.5 overflow-hidden animate-slide-up" style="background: var(--dropdown-bg); border-color: var(--card-border);">
+      <div class="flex items-center justify-between border-b pb-3" style="border-color: var(--card-border);">
+        <div>
+          <span id="ed-category" class="text-[9px] font-mono uppercase tracking-widest px-2 py-0.5 rounded border" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">Customs Broker (CHA)</span>
+          <h3 id="ed-name" class="text-base font-extrabold pt-1">Apex Maritime Logistics & CHA</h3>
+        </div>
+        <button onclick="closeEntityDossierModal()" class="w-8 h-8 rounded-full border flex items-center justify-center font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">✕</button>
+      </div>
+
+      <div class="overflow-y-auto space-y-3 text-xs pr-1 ios-scroll">
+        <div class="p-3 rounded-2xl border space-y-1.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <span class="text-[10px] uppercase font-bold block" style="color: var(--text-dim);">Direct Contact Information:</span>
+          <p><span class="font-bold">Contact Person:</span> <span id="ed-contact-person">Rajesh V. Mhatre (Director)</span></p>
+          <p><span class="font-bold">Phone / WhatsApp:</span> <a id="ed-phone-link" href="#" class="font-mono font-bold" style="color: var(--accent);">+91 98201 44812</a></p>
+          <p><span class="font-bold">Direct Email:</span> <a id="ed-email-link" href="#" class="font-mono" style="color: var(--accent);">operations@apexmaritime-cha.in</a></p>
+          <p><span class="font-bold">Website:</span> <a id="ed-website-link" href="#" target="_blank" class="font-mono underline" style="color: var(--text-dim);">Visit Portal &rarr;</a></p>
+          <p><span class="font-bold">Location / Port:</span> <span id="ed-ports">JNPT / Nhava Sheva &bull; Navi Mumbai, Maharashtra</span></p>
+        </div>
+
+        <div class="p-3 rounded-2xl border space-y-1.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <span class="text-[10px] uppercase font-bold block" style="color: var(--text-dim);">License & Statutory Standing:</span>
+          <p><span class="font-bold">License / Accreditation:</span> <span id="ed-license" class="font-mono">CHA/BOM/EDI/1408/2012</span></p>
+          <p><span class="font-bold">Historical Volume:</span> <span id="ed-volume">18,500+ TEUs cleared annually</span></p>
+          <p><span class="font-bold">Track Record:</span> <span id="ed-track-record">99.4% first-time clearance; 0 unresolved show cause notices</span></p>
+          <p><span class="font-bold">DGFT Status:</span> <span id="ed-dgft" class="text-[#10B981] font-bold">Clean / Active (No DEL listing)</span></p>
+        </div>
+
+        <div class="p-3 rounded-2xl border space-y-2" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <span class="text-[10px] uppercase font-bold block" style="color: var(--text-dim);">360° Complementary Business Infrastructure:</span>
+          <div id="ed-complementary-tags" class="flex flex-wrap gap-1.5">
+            <!-- Injected dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-2 border-t" style="border-color: var(--card-border);">
+        <button type="button" onclick="closeEntityDossierModal()" class="w-full py-2.5 rounded-xl border text-xs font-bold active:scale-95 transition-transform" style="background: var(--accent); color: #ffffff;">
+          <span>Back to Directory</span>
+        </button>
+      </div>
+    </div>
+  </div>
 
   <script src="/app.js"></script>
 </body>

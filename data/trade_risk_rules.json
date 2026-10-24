@@ -1,0 +1,180 @@
+{
+  "ecgc_country_risk": [
+    {
+      "country": "United Arab Emirates (UAE)",
+      "code": "AE",
+      "risk_tier": "A2",
+      "risk_category": "Low Risk",
+      "premium_rate_pct": 0.35,
+      "recommended_payment_terms": "Letter of Credit (LC) at Sight, or Documents Against Acceptance (DA 30-60 Days) with ECGC Buyer Cover",
+      "caution_points": "Ensure buyer trade license in DED or Free Zone is active. Verify VAT TRN prior to consignment release."
+    },
+    {
+      "country": "United States (USA)",
+      "code": "US",
+      "risk_tier": "A1",
+      "risk_category": "Very Low Risk",
+      "premium_rate_pct": 0.25,
+      "recommended_payment_terms": "Open Account (30-60 Days) or CAD (Cash Against Documents)",
+      "caution_points": "Verify US FDA Prior Notice and Lacey Act / CPSC compliance to avoid CBP border hold."
+    },
+    {
+      "country": "United Kingdom (UK)",
+      "code": "GB",
+      "risk_tier": "A1",
+      "risk_category": "Very Low Risk",
+      "premium_rate_pct": 0.28,
+      "recommended_payment_terms": "CAD or 30-Day Irrevocable LC",
+      "caution_points": "UK REACH and BTOM (Border Target Operating Model) sanitary requirements on agri/food items."
+    },
+    {
+      "country": "Saudi Arabia",
+      "code": "SA",
+      "risk_tier": "A2",
+      "risk_category": "Low Risk",
+      "premium_rate_pct": 0.38,
+      "recommended_payment_terms": "Irrevocable LC at Sight or 30% Advance + 70% against B/L copy",
+      "caution_points": "SABER / SASO certificate of conformity mandatory before shipment departure."
+    },
+    {
+      "country": "Bangladesh",
+      "code": "BD",
+      "risk_tier": "B2",
+      "risk_category": "Moderate Risk (Forex Scarcity Alert)",
+      "premium_rate_pct": 1.15,
+      "recommended_payment_terms": "100% Confirmed Irrevocable LC from Tier-1 Bank (e.g. Standard Chartered, HSBC Dhaka) or 100% Advance",
+      "caution_points": "High dollar shortage; local bank LCs frequently face deferred settlement delays. Insist on international bank confirmation."
+    },
+    {
+      "country": "Nigeria",
+      "code": "NG",
+      "risk_tier": "C1",
+      "risk_category": "High Commercial & Political Risk",
+      "premium_rate_pct": 2.4,
+      "recommended_payment_terms": "100% Advance Wire Transfer (T/T in USD/EUR) or Irrevocable Confirmed LC with Prime European/US Bank Confirmation",
+      "caution_points": "Form M requirement; severe CBN forex rationing; strict SONCAP product inspection mandatory."
+    },
+    {
+      "country": "Vietnam",
+      "code": "VN",
+      "risk_tier": "A2",
+      "risk_category": "Low Risk",
+      "premium_rate_pct": 0.42,
+      "recommended_payment_terms": "30% Advance + 70% CAD / LC at Sight",
+      "caution_points": "High demand for Guntur dry chillies and seafood. Phytosanitary certificate must strictly state absence of prohibited weed seeds."
+    }
+  ],
+  "incoterms_2020": [
+    {
+      "term": "EXW (Ex Works)",
+      "fullName": "Ex Works (Named Place of Delivery)",
+      "seller_pays": [
+        "Export Packaging"
+      ],
+      "buyer_pays": [
+        "Loading at Seller's Premises",
+        "Inland Origin Freight",
+        "Export Customs Clearance",
+        "Port Terminal Handling (THC)",
+        "Ocean / Air Freight",
+        "Marine Insurance",
+        "Destination Port Clearance",
+        "Import Duties & Taxes",
+        "Final Delivery"
+      ],
+      "risk_transfer_point": "At Seller's warehouse / factory door once goods are made available.",
+      "suitability": "Best for domestic manufacturers with zero export expertise; buyer handles all international logistics.",
+      "margin_impact": "Lowest seller margin, zero freight markups, but zero logistics risk."
+    },
+    {
+      "term": "FOB (Free On Board)",
+      "fullName": "Free On Board (Named Port of Shipment)",
+      "seller_pays": [
+        "Export Packaging",
+        "Factory Loading",
+        "Inland Freight to Port",
+        "Export Customs Clearance",
+        "Port Terminal Handling Charges (THC Origin)",
+        "Stowing Onboard Vessel"
+      ],
+      "buyer_pays": [
+        "Ocean / Air Freight",
+        "Marine Insurance",
+        "Destination Port THC",
+        "Import Clearance & Duties",
+        "Delivery to Final Destination"
+      ],
+      "risk_transfer_point": "When the goods are securely on board the vessel at the designated port of shipment.",
+      "suitability": "The gold standard for containerized Indian exports. Exporter retains control of domestic clearance and drawback incentives.",
+      "margin_impact": "Optimal balance of risk and margin. Exporter claims 100% RoDTEP/Drawback on FOB invoice value."
+    },
+    {
+      "term": "CIF (Cost, Insurance & Freight)",
+      "fullName": "Cost, Insurance & Freight (Named Port of Destination)",
+      "seller_pays": [
+        "Export Packaging",
+        "Factory Loading",
+        "Inland Freight to Port",
+        "Export Customs Clearance",
+        "Origin THC",
+        "International Ocean Freight to Destination Port",
+        "Marine Transit Insurance (Minimum Clause C)"
+      ],
+      "buyer_pays": [
+        "Destination Port Handling / Unloading",
+        "Import Customs Clearance & Tariffs",
+        "Delivery to Inland Destination"
+      ],
+      "risk_transfer_point": "Risk transfers to buyer on board vessel at origin port, but seller pays freight and insurance to destination port.",
+      "suitability": "Ideal for overseas buyers who want landed price at their seaport (e.g. Jebel Ali, Rotterdam, Los Angeles).",
+      "margin_impact": "High margin opportunity: Exporter can negotiate bulk freight rates with forwarders and retain freight spread profit."
+    },
+    {
+      "term": "DDP (Delivered Duty Paid)",
+      "fullName": "Delivered Duty Paid (Named Place of Destination)",
+      "seller_pays": [
+        "All costs end-to-end: Packaging, Loading, Inland Freight, Export Clearance, Origin THC, Ocean Freight, Marine Insurance, Destination Port Handling, Import Customs Duties & Local VAT/GST, Delivery to Buyer Door"
+      ],
+      "buyer_pays": [
+        "Unloading at final destination facility (unless contracted otherwise)"
+      ],
+      "risk_transfer_point": "When goods are placed at the disposal of the buyer, cleared for import, at the designated final facility.",
+      "suitability": "E-commerce, D2C overseas warehouses, or high-margin Fortune 500 buyers demanding complete turnkey delivery.",
+      "margin_impact": "Maximum margin premium (15%-25%), but highest financial risk: Exporter is liable for destination customs delays and unexpected demurrage."
+    }
+  ],
+  "ucp600_lc_discrepancies": [
+    {
+      "code": "LC-DISC-01",
+      "issue": "Stale Bill of Lading (Presented Post 21 Days)",
+      "rule": "UCP 600 Article 14(c)",
+      "risk": "Bank rejects document presentation. Buyer receives cargo without payment.",
+      "prevention": "Ensure CHA presents original negotiable B/L to negotiating bank within 14-18 days of on-board date."
+    },
+    {
+      "code": "LC-DISC-02",
+      "issue": "Goods Description Mismatch on Commercial Invoice",
+      "rule": "UCP 600 Article 18(c)",
+      "risk": "Commercial invoice description must correspond verbatim with the exact wording in the LC.",
+      "prevention": "Copy-paste the exact commodity description from Field 45A of MT700 Swift into the commercial invoice."
+    },
+    {
+      "code": "LC-DISC-03",
+      "issue": "Unauthorized Partial Shipment or Transshipment",
+      "rule": "UCP 600 Article 31 & 32",
+      "risk": "If Field 43P or 43T says 'NOT ALLOWED' and vessel performs transshipment at Colombo/Singapore, documents are voided.",
+      "prevention": "Demand 'TRANSSHIPMENT ALLOWED' in LC terms or book direct non-stop container service."
+    },
+    {
+      "code": "LC-DISC-04",
+      "issue": "Inconsistent Gross & Net Weight Across Documents",
+      "rule": "UCP 600 Article 14(d)",
+      "risk": "Weight mismatch between B/L, Packing List, and Certificate of Origin causes instant discrepancy fee ($75-$150) or dishonor.",
+      "prevention": "Reconcile certified weighbridge slip across all export documents before submission."
+    }
+  ],
+  "legal_agreements": {
+    "ncnda_template": "NON-CIRCUMVENTION, NON-DISCLOSURE & WORKING AGREEMENT (NCNDA)\nIncorporating ICC Publication 500/600 Standards\n\nWHEREAS, the undersigned Intermediary / Trade Consultant ({intermediary_name}) possesses proprietary source contacts, verified supplier networks, and trade relationship intelligence relating to {commodity_name};\n\nAND WHEREAS, the Buyer/Client ({client_name}) desires to procure {commodity_name} originating from India;\n\nNOW THEREFORE, IT IS MUTUALLY AGREED:\n1. NON-CIRCUMVENTION: The Parties agree not to circumvent, avoid, bypass, or obviate each other directly or indirectly, nor avoid payments of fees or commissions in any transaction involving contacts, suppliers, buyers, or sources revealed by the Intermediary.\n2. CONFIDENTIALITY: All trade details, pricing structures, supplier identities, and logistical contacts disclosed shall remain confidential for a period of five (5) years.\n3. COMMISSIONS: In consideration of the business transacted, the Intermediary shall be protected and paid a verified commission fee of {commission_rate}% on the total FOB value of all shipments arising directly or indirectly from introductions made herein.\n4. JURISDICTION: This Agreement shall be governed by the laws of India and subject to the exclusive jurisdiction of the Courts of {city_jurisdiction}.\n\nIN WITNESS WHEREOF, the Parties execute this NCNDA on {current_date}.",
+    "imfpa_template": "IRREVOCABLE MASTER FEE PROTECTION AGREEMENT (IMFPA)\nBank-Enforceable Commission Mandate\n\nTO: The Paying Bank / Paymaster\nTRANSACTION REF: {transaction_ref}\nCOMMODITY: {commodity_name} | ESTIMATED SHIPMENT VALUE: {shipment_fob_inr}\n\nWe, the undersigned Buyer/Seller, hereby irrevocably and unconditionally guarantee to pay the designated Intermediary / Mandate ({intermediary_name}) a non-negotiable fee of {commission_rate}% on the gross FOB value of every consignment, tranche, or partial delivery shipped under Contract {contract_ref}.\n\nPAYMENT INSTRUCTION:\n1. The commission fee of INR {commission_amount_inr} shall be paid simultaneously upon negotiation and liquidation of the export Letter of Credit or wire transfer receipt.\n2. This Fee Protection Agreement is irrevocable, non-transferable, and assignable to the Intermediary's designated bank account ({bank_account_no}, IFSC: {ifsc_code}) without any right of set-off or counter-claim.\n\nEXECUTED BY AUTHORIZED SIGNATORY ON {current_date}."
+  }
+}

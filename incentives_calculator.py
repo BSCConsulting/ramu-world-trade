@@ -172,7 +172,59 @@ class ExportIncentivesCalculator:
             "total_benefit_with_msme_inr": total_benefit_with_msme_inr,
             "combined_rebate_pct": combined_rebate_pct,
             "forex_rates": self.forex_rates,
-            "proof_badge": proof_badge
+            "proof_badge": proof_badge,
+            "commercial_deal_memo": self.generate_commercial_deal_memo({
+                "order_value_inr": order_value,
+                "schedule": schedule,
+                "scheme_name": scheme_name,
+                "rodtep_inr": rodtep_inr,
+                "drawback_inr": drawback_inr,
+                "total_direct_cash_inr": total_direct_cash_inr,
+                "combined_rebate_pct": combined_rebate_pct
+            })
+        }
+
+    def generate_commercial_deal_memo(self, r: Dict[str, Any]) -> Dict[str, Any]:
+        """Generate a complete 1-page commercial feasibility and bank deal memo."""
+        fob = r["order_value_inr"]
+        s = r["schedule"]
+        tot_cash = r["total_direct_cash_inr"]
+        prod_cost = round(fob * 0.72, 2)
+        inland_logistics = round(fob * 0.045, 2)
+        gross_trade_margin = round(fob - prod_cost - inland_logistics, 2)
+        net_profit_with_incentives = round(gross_trade_margin + tot_cash, 2)
+        net_margin_pct = round((net_profit_with_incentives / fob) * 100.0, 2)
+
+        return {
+            "deal_id": f"WOT-DM-{int(fob % 100000):05d}",
+            "commodity": s.get("description", "Merchandise Cargo"),
+            "hs_code": s.get("hs_code_8digit", s.get("hs_code", "0000 00 00")),
+            "fob_value_inr": fob,
+            "procurement_cost_inr": prod_cost,
+            "inland_and_cha_cost_inr": inland_logistics,
+            "gross_trade_margin_inr": gross_trade_margin,
+            "statutory_government_rebate_inr": tot_cash,
+            "net_commercial_profit_inr": net_profit_with_incentives,
+            "net_margin_pct": net_margin_pct,
+            "cash_cycle_days": 75,
+            "capital_required_inr": round(prod_cost * 0.40, 2),  # 40% margin funding with 60% bank packing credit
+            "bank_packing_credit_inr": round(prod_cost * 0.60, 2),
+            "risk_mitigation": {
+                "buyer_insolvency": "ECGC Comprehensive Small Exporter Policy (90% commercial default cover)",
+                "payment_structure": "Irrevocable Confirmed LC at Sight under ICC UCP 600 rules",
+                "transit_loss": "Institute Cargo Clauses (A) Marine All-Risk Policy including War & SRCC"
+            },
+            "milestone_schedule": [
+                {"day": "Day 1-3", "action": "Contract & 1-tap NCNDA execution; Proforma Invoice with confirmed LC issuance"},
+                {"day": "Day 4-12", "action": f"Batch procurement from {s.get('sector', 'ODOP cluster')} supplier base"},
+                {"day": "Day 13-16", "action": "NABL lab sampling & Certificate of Analysis (CoA) generation"},
+                {"day": "Day 17-21", "action": "Container stuffing, certified weighbridge VGM slip & Rule 138 e-Way Bill"},
+                {"day": "Day 22-25", "action": f"Port gate in at {s.get('nearest_icd', 'Gateway Port')}; LEO customs clearance"},
+                {"day": "Day 26-28", "action": "Vessel sails; negotiable On-Board Bill of Lading (B/L) issued"},
+                {"day": "Day 29-33", "action": "ICEGATE EDI automatically dispatches Duty Drawback direct to bank"},
+                {"day": "Day 34-45", "action": "RoDTEP/RoSCTL electronic scrip generated on customs ledger"},
+                {"day": "Day 60-75", "action": "Authorized Dealer bank realizes export remittance and logs e-BRC / EDPMS"}
+            ]
         }
 
     def format_report(self, r: Dict[str, Any]) -> str:

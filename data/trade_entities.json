@@ -1,0 +1,247 @@
+[
+  {
+    "id": "ENT-001",
+    "name": "Apex Maritime Logistics & CHA",
+    "category": "Customs Broker (CHA)",
+    "ports": [
+      "JNPT / Nhava Sheva",
+      "Mumbai Port (MBPT)"
+    ],
+    "city": "Navi Mumbai",
+    "state": "Maharashtra",
+    "contact_person": "Rajesh V. Mhatre (Director - Customs EDI)",
+    "phone": "+91 98201 44812",
+    "email": "operations@apexmaritime-cha.in",
+    "website": "https://apexmaritime-cha.in",
+    "cha_license_no": "CHA/BOM/EDI/1408/2012",
+    "specialties": [
+      "Engineering Goods (Ch 84, 85)",
+      "Textiles & Garments (Ch 61, 62)",
+      "Chemicals (Ch 29)"
+    ],
+    "historical_volume_teu": "18,500+ TEUs cleared annually",
+    "icegate_track_record": "99.4% first-time clearance; 0 unresolved show cause notices",
+    "complementary_businesses": [
+      "In-house Bonded Warehouse (35,000 sq ft at Dronagiri)",
+      "Fleet of 42 GPS-enabled container trailers",
+      "Reefer plug points"
+    ],
+    "verified": true,
+    "dgft_status": "Clean / Active (No DEL listing)"
+  },
+  {
+    "id": "ENT-002",
+    "name": "Kutch Container Freight & Logistics (Adani Mundra)",
+    "category": "Customs Broker (CHA)",
+    "ports": [
+      "Mundra Port",
+      "Kandla / Deendayal Port"
+    ],
+    "city": "Gandhidham",
+    "state": "Gujarat",
+    "contact_person": "Bhavin K. Patel (Head of Port Operations)",
+    "phone": "+91 98795 22104",
+    "email": "bhavin.patel@kutchfreight.co.in",
+    "website": "https://kutchfreight.co.in",
+    "cha_license_no": "CHA/MUN/EDI/0892/2016",
+    "specialties": [
+      "Agricultural Commodities (Ch 08, 09, 10)",
+      "Ceramics & Tiles (Ch 69)",
+      "Minerals & Ores (Ch 25)"
+    ],
+    "historical_volume_teu": "24,000+ TEUs / bulk handled annually",
+    "icegate_track_record": "Average Mundra dwell clearance: 14 hours; APEDA phytosanitary desk on-site",
+    "complementary_businesses": [
+      "Grain fumigation chamber",
+      "Weighbridge & 15,000 MT bulk warehouse",
+      "Rail siding connectivity to ICD Morbi"
+    ],
+    "verified": true,
+    "dgft_status": "Clean / Active"
+  },
+  {
+    "id": "ENT-003",
+    "name": "Coromandel Coastal Clearances & CFS",
+    "category": "Customs Broker (CHA)",
+    "ports": [
+      "Chennai Port",
+      "Kattupalli Port",
+      "Ennore Port"
+    ],
+    "city": "Chennai",
+    "state": "Tamil Nadu",
+    "contact_person": "S. Ramanathan (Chief Customs Executive)",
+    "phone": "+91 94440 81290",
+    "email": "ramanathan@coromandelcfs.com",
+    "website": "https://coromandelcfs.com",
+    "cha_license_no": "CHA/MAA/EDI/2103/2008",
+    "specialties": [
+      "Auto Components (Ch 87)",
+      "Leather & Footwear (Ch 42, 64)",
+      "Electronic Hardware (Ch 85)"
+    ],
+    "historical_volume_teu": "15,200+ TEUs annually",
+    "icegate_track_record": "AEO-T2 certified broker; green-channel automated assessment expert",
+    "complementary_businesses": [
+      "Customs Bonded CFS (Ennore Expressway)",
+      "Dangerous Goods (IMDG) certified handling",
+      "Daily shuttle to ICD Whitefield"
+    ],
+    "verified": true,
+    "dgft_status": "Clean / Active"
+  },
+  {
+    "id": "ENT-004",
+    "name": "Snowman Agro Cold Chain & Packhouse",
+    "category": "Cold Chain / CFS Operator",
+    "ports": [
+      "JNPT / Nhava Sheva",
+      "Cochin Port"
+    ],
+    "city": "Panvel / Navi Mumbai",
+    "state": "Maharashtra",
+    "contact_person": "Vikramaditya Sengupta (Head - Cold Chain Exim)",
+    "phone": "+91 98112 77093",
+    "email": "agro.exports@snowmancold.in",
+    "website": "https://snowmancold.in",
+    "cha_license_no": "N/A (Cold Chain / CFS Operator)",
+    "specialties": [
+      "Fresh Mangoes & Grapes (Ch 08)",
+      "Seafood & Shrimps (Ch 03)",
+      "Pharma Active Ingredients (Ch 30)"
+    ],
+    "historical_volume_teu": "4,200 Reefer containers handled annually",
+    "icegate_track_record": "APEDA & EIC recognized export packhouse; hot water immersion facility",
+    "complementary_businesses": [
+      "Reefer fleet (-25\u00b0C to +15\u00b0C)",
+      "Pre-cooling chambers (100 MT/day)",
+      "Direct rail reefer to JNPT terminal"
+    ],
+    "verified": true,
+    "dgft_status": "Clean / Active"
+  },
+  {
+    "id": "ENT-005",
+    "name": "SGS India Testing & Inspection Laboratories",
+    "category": "Accredited Inspection & Testing Agency",
+    "ports": [
+      "JNPT",
+      "Mundra",
+      "Chennai",
+      "Kolkata",
+      "Tirupur",
+      "Guntur"
+    ],
+    "city": "Mumbai / Pan-India",
+    "state": "Pan-India",
+    "contact_person": "Dr. Arindam Mukherjee (Director - Agri & Food Testing)",
+    "phone": "+91 22 6640 8888",
+    "email": "in.trade.inspection@sgs.com",
+    "website": "https://www.sgs.com/en-in",
+    "cha_license_no": "NABL Accredited Lab TC-5421 / EIC Approved",
+    "specialties": [
+      "Food & Agricultural Products",
+      "Textile Chemical Testing (REACH / Oeko-Tex)",
+      "Metal & Mineral Assaying"
+    ],
+    "historical_volume_teu": "65,000+ Certificates of Analysis (CoA) issued annually",
+    "icegate_track_record": "Direct API upload of test certificates to FSSAI & ICEGATE e-SANCHIT",
+    "complementary_businesses": [
+      "Pre-shipment Container Inspection",
+      "Loading Supervision & Weight Certification",
+      "Factory Compliance Auditing"
+    ],
+    "verified": true,
+    "dgft_status": "Accredited Inspection Agency"
+  },
+  {
+    "id": "ENT-006",
+    "name": "Vimta Labs Ltd (Food, Agri & Pharma Analytical)",
+    "category": "Accredited Inspection & Testing Agency",
+    "ports": [
+      "Hyderabad ICD",
+      "Chennai Port",
+      "Vizag Port"
+    ],
+    "city": "Hyderabad",
+    "state": "Telangana",
+    "contact_person": "K. V. Subba Rao (VP - Quality & Regulatory)",
+    "phone": "+91 40 6740 4040",
+    "email": "exports.testing@vimta.com",
+    "website": "https://www.vimta.com",
+    "cha_license_no": "NABL TC-5012 / US FDA Inspected / APEDA Recognized",
+    "specialties": [
+      "Pesticide Residue Analysis (GC-MS/MS, LC-MS/MS)",
+      "Aflatoxin & Ochratoxin Testing (Spices/Grains)",
+      "Heavy Metal Profiling (ICP-MS)"
+    ],
+    "historical_volume_teu": "45,000+ Samples tested annually for EU, US & Japan compliance",
+    "icegate_track_record": "APEDA certified sampling officer network across Guntur, Chittoor & Ratnagiri",
+    "complementary_businesses": [
+      "Shelf-life stability studies",
+      "Nutrition labeling for US FDA / EU standards",
+      "Organic certification validation"
+    ],
+    "verified": true,
+    "dgft_status": "NABL & APEDA Accredited"
+  },
+  {
+    "id": "ENT-007",
+    "name": "APEDA (Agricultural & Processed Food Products Export Development Authority)",
+    "category": "Export Promotion Council (EPC)",
+    "ports": [
+      "All Indian Ports & Air Cargo Complexes"
+    ],
+    "city": "New Delhi (HQ) + Regional Offices (Mumbai, Bangalore, Hyderabad, Kolkata)",
+    "state": "Ministry of Commerce & Industry, Govt. of India",
+    "contact_person": "Nodal Officer - Trade Facilitation & RCMC Desk",
+    "phone": "+91 11 4148 6013",
+    "email": "headq@apeda.gov.in",
+    "website": "https://apeda.gov.in",
+    "cha_license_no": "Statutory Export Body under APEDA Act 1985",
+    "specialties": [
+      "Fresh Fruits & Vegetables (Mango, Banana, Grape)",
+      "Basmati & Non-Basmati Rice",
+      "Processed Foods & Dairy",
+      "Spices & Floriculture"
+    ],
+    "historical_volume_teu": "US$ 25+ Billion agricultural exports facilitated annually",
+    "icegate_track_record": "Online RCMC issuance within 48h; Phytosanitary certificate integration with Plant Quarantine",
+    "complementary_businesses": [
+      "Financial Assistance Schemes (Packhouse subsidies up to 40%)",
+      "Buyer-Seller Meets (BSMs) in Gulf & EU",
+      "HortiNet traceability system"
+    ],
+    "verified": true,
+    "dgft_status": "Government Statutory Authority"
+  },
+  {
+    "id": "ENT-008",
+    "name": "FIEO (Federation of Indian Export Organisations)",
+    "category": "Export Promotion Council (EPC)",
+    "ports": [
+      "Apex Body for All Indian Exporters"
+    ],
+    "city": "New Delhi (HQ) + 12 Chapter Offices across India",
+    "state": "Apex Exporters Body (MoC&I)",
+    "contact_person": "Deputy Director General - Dispute Resolution & Trade Advisory",
+    "phone": "+91 11 4604 2222",
+    "email": "fieo@fieo.org",
+    "website": "https://www.fieo.org",
+    "cha_license_no": "Apex Body set up jointly by Ministry of Commerce and Private Trade",
+    "specialties": [
+      "Multi-Sector RCMC (Merchandise & Services)",
+      "Certificate of Origin (Non-Preferential & Preferential)",
+      "Trade Disputes with Foreign Buyers"
+    ],
+    "historical_volume_teu": "Over 35,000 active member exporters across India",
+    "icegate_track_record": "Official facilitator for DGFT RoDTEP review and RoSCTL representation",
+    "complementary_businesses": [
+      "Global Trade Helpdesk",
+      "Free Trade Agreement (FTA) utilization cell",
+      "International trade delegation leader"
+    ],
+    "verified": true,
+    "dgft_status": "Government Recognized Apex Trade Body"
+  }
+]
