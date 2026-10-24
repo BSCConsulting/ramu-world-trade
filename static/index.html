@@ -328,6 +328,73 @@
     #toast {
       transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
+
+    /* ==================== CORE CSS & DEFENSIVE FALLBACKS ==================== */
+    /* Prevents layout collapse if CDN is delayed or during print/PDF export */
+    .hidden {
+      display: none !important;
+    }
+    svg {
+      max-width: 100%;
+      height: auto;
+      box-sizing: border-box;
+    }
+    .w-3 { width: 0.75rem !important; }
+    .h-3 { height: 0.75rem !important; }
+    .w-3\.5 { width: 0.875rem !important; }
+    .h-3\.5 { height: 0.875rem !important; }
+    .w-4 { width: 1rem !important; }
+    .h-4 { height: 1rem !important; }
+    .w-5 { width: 1.25rem !important; }
+    .h-5 { height: 1.25rem !important; }
+    .w-6 { width: 1.5rem !important; }
+    .h-6 { height: 1.5rem !important; }
+    .w-7 { width: 1.75rem !important; }
+    .h-7 { height: 1.75rem !important; }
+    .w-8 { width: 2rem !important; }
+    .h-8 { height: 2rem !important; }
+    .w-9 { width: 2.25rem !important; }
+    .h-9 { height: 2.25rem !important; }
+    .w-10 { width: 2.5rem !important; }
+    .h-10 { height: 2.5rem !important; }
+
+    header svg, nav svg, button svg, form svg {
+      max-width: 24px !important;
+      max-height: 24px !important;
+      flex-shrink: 0;
+    }
+
+    /* Fixed Modal Overlay Positioning */
+    #deal-memo-modal:not(.hidden),
+    #entity-dossier-modal:not(.hidden),
+    #bottom-sheet:not(.hidden) {
+      position: fixed !important;
+      inset: 0 !important;
+      z-index: 50 !important;
+      display: flex !important;
+    }
+
+    /* Print & PDF Export Optimization */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+      header,
+      nav,
+      #bottom-nav,
+      #theme-dropdown,
+      .no-print {
+        display: none !important;
+      }
+      .hidden {
+        display: none !important;
+      }
+      svg {
+        max-width: 20px !important;
+        max-height: 20px !important;
+      }
+    }
   </style>
 </head>
 <body class="theme-kyoto-tea h-full overflow-x-hidden flex flex-col font-sans">
@@ -336,7 +403,7 @@
   <header class="pt-safe-top px-4 pb-3.5 border-b sticky top-0 z-40 flex items-center justify-between">
     <div class="flex items-center space-x-2.5">
       <div class="w-9 h-9 rounded-2xl flex items-center justify-center shadow-lg active:scale-95 transition-transform" style="background: var(--accent); color: #ffffff;">
-        <svg class="w-5 h-5 font-extrabold" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <svg class="w-5 h-5 font-extrabold" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
         </svg>
       </div>
@@ -366,7 +433,7 @@
         >
           <span id="theme-btn-emoji">🌿</span>
           <span id="theme-btn-label" class="text-[11px] font-bold">Kyoto</span>
-          <svg class="w-3 h-3 opacity-60" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <svg class="w-3 h-3 opacity-60" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
           </svg>
         </button>
@@ -445,14 +512,14 @@
 
       <!-- Share Action -->
       <button onclick="shareOrPrintReport()" title="Export / Share Report" class="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-2xl border active:scale-95 transition-transform" style="background: var(--card-bg); border-color: var(--card-border);">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <svg class="w-4 h-4" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
         </svg>
       </button>
 
       <!-- Audit Badge -->
       <button onclick="openBottomSheet('audit')" class="min-h-[44px] px-3 rounded-2xl border text-xs font-bold active:scale-95 transition-transform flex items-center gap-1.5 shadow-sm" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">
-        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+        <svg class="w-3.5 h-3.5" width="14" height="14" fill="currentColor" viewBox="0 0 20 20">
           <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
         </svg>
         <span class="hidden sm:inline">Audit</span> Seal
@@ -469,7 +536,7 @@
       <!-- Native Search Terminal with Glowing Focus -->
       <div class="glass-panel rounded-3xl p-3.5 shadow-xl relative overflow-hidden">
         <form onsubmit="handleSearch(event)" class="relative flex items-center">
-          <svg class="w-5 h-5 absolute left-4 pointer-events-none" style="color: var(--text-dim);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 absolute left-4 pointer-events-none" width="20" height="20" style="color: var(--text-dim);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>
           <input 
@@ -1475,7 +1542,7 @@
       
       <!-- Tab 1: Apps -->
       <button onclick="switchNativeTab('apps')" id="nav-btn-apps" class="flex flex-col items-center justify-center min-h-[44px] active:scale-95 transition-transform" style="color: var(--accent);">
-        <svg class="w-5 h-5 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <svg class="w-5 h-5 mb-1" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
         </svg>
         <span class="text-[10px] font-bold tracking-tight">Radar</span>
@@ -1483,7 +1550,7 @@
 
       <!-- Tab 2: Agenda -->
       <button onclick="switchNativeTab('agenda')" id="nav-btn-agenda" class="flex flex-col items-center justify-center min-h-[44px] active:scale-95 transition-transform" style="color: var(--text-dim);">
-        <svg class="w-5 h-5 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <svg class="w-5 h-5 mb-1" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
         </svg>
         <span class="text-[10px] font-bold tracking-tight">Agenda</span>
@@ -1492,7 +1559,7 @@
       <!-- Tab 3: Scratchpad (10x Profit Tool) -->
       <button onclick="switchNativeTab('scratchpad')" id="nav-btn-scratchpad" class="flex flex-col items-center justify-center min-h-[44px] active:scale-95 transition-transform" style="color: var(--text-dim);">
         <div class="relative">
-          <svg class="w-5 h-5 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 mb-1" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
           </svg>
           <span class="absolute -top-1 -right-1 w-2 h-2 rounded-full" style="background: var(--accent);"></span>
@@ -1502,7 +1569,7 @@
 
       <!-- Tab 4: Timer -->
       <button onclick="switchNativeTab('timer')" id="nav-btn-timer" class="flex flex-col items-center justify-center min-h-[44px] active:scale-95 transition-transform" style="color: var(--text-dim);">
-        <svg class="w-5 h-5 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <svg class="w-5 h-5 mb-1" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
         </svg>
         <span class="text-[10px] font-bold tracking-tight">Clocks</span>
@@ -1510,7 +1577,7 @@
 
       <!-- Tab 5: Profile -->
       <button onclick="switchNativeTab('profile')" id="nav-btn-profile" class="flex flex-col items-center justify-center min-h-[44px] active:scale-95 transition-transform" style="color: var(--text-dim);">
-        <svg class="w-5 h-5 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <svg class="w-5 h-5 mb-1" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
         </svg>
         <span class="text-[10px] font-bold tracking-tight">System</span>
