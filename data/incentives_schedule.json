@@ -1,0 +1,122 @@
+{
+  "metadata": {
+    "title": "Government of India Statutory Export Incentives & Rebate Schedules",
+    "updated_at": "2026-10-24",
+    "authorities": [
+      {
+        "name": "DGFT (Directorate General of Foreign Trade)",
+        "scheme": "RoDTEP (Remission of Duties and Taxes on Exported Products) - Appendix 4R",
+        "url": "https://dgft.gov.in"
+      },
+      {
+        "name": "CBIC (Central Board of Indirect Taxes and Customs)",
+        "scheme": "All Industry Rates of Duty Drawback (DBK)",
+        "url": "https://www.cbic.gov.in"
+      },
+      {
+        "name": "RBI & Ministry of Commerce",
+        "scheme": "Interest Equalization Scheme (IES) for MSME Exporters",
+        "url": "https://www.rbi.org.in"
+      }
+    ]
+  },
+  "default_forex_rate_inr_per_usd": 84.0,
+  "schedules": [
+    {
+      "sector": "Textiles & Garments",
+      "commodity_matches": ["shirt", "cotton", "garment", "tshirt", "t-shirt", "cloth", "apparel", "dress", "textile"],
+      "hs_chapter": "61, 62",
+      "hs_code": "6109 10 00",
+      "description": "Cotton T-shirts, Shirts & Readymade Garments",
+      "rodtep_rate_pct": 2.5,
+      "duty_drawback_pct": 3.2,
+      "msme_interest_subvention_pct": 3.0,
+      "dgft_notification": "DGFT Appendix 4R / CBIC Notification 77/2023-Customs",
+      "claiming_portal": "ICEGATE Customs Automated Electronic Scrip Ledger"
+    },
+    {
+      "sector": "Marine Products",
+      "commodity_matches": ["shrimp", "fish", "marine", "prawn", "seafood", "frozen shrimp"],
+      "hs_chapter": "03",
+      "hs_code": "0306 17 20",
+      "description": "Frozen Vannamei / Black Tiger Shrimp",
+      "rodtep_rate_pct": 2.5,
+      "duty_drawback_pct": 2.8,
+      "msme_interest_subvention_pct": 3.0,
+      "dgft_notification": "DGFT Notification 53/2023 / MPEDA Export Standard",
+      "claiming_portal": "ICEGATE EDI & MPEDA Single Window"
+    },
+    {
+      "sector": "Spices & Agro-Commodities",
+      "commodity_matches": ["turmeric", "spice", "spices", "chili", "chilli", "pepper", "cumin", "coriander"],
+      "hs_chapter": "09",
+      "hs_code": "0910 30 20",
+      "description": "Turmeric Powder & Value-Added Spices",
+      "rodtep_rate_pct": 1.5,
+      "duty_drawback_pct": 1.2,
+      "msme_interest_subvention_pct": 3.0,
+      "dgft_notification": "DGFT Public Notice Appendix 4R Spices Schedule",
+      "claiming_portal": "ICEGATE & Spices Board CRES"
+    },
+    {
+      "sector": "Engineering & Metal Fasteners",
+      "commodity_matches": ["machinery", "engineering", "fastener", "steel", "tools", "nuts", "bolts", "auto parts", "valves"],
+      "hs_chapter": "84, 73",
+      "hs_code": "7318 15 00",
+      "description": "Industrial Fasteners, Steel Screws & Engine Components",
+      "rodtep_rate_pct": 1.4,
+      "duty_drawback_pct": 2.0,
+      "msme_interest_subvention_pct": 3.0,
+      "dgft_notification": "DGFT Engineering Schedule Appendix 4R / EEPC Master Circular",
+      "claiming_portal": "ICEGATE Electronic Ledger"
+    },
+    {
+      "sector": "Handicrafts & Brassware",
+      "commodity_matches": ["brass", "brassware", "handicraft", "handicrafts", "moradabad", "metal art", "statue"],
+      "hs_chapter": "74",
+      "hs_code": "7418 10 22",
+      "description": "Artistic Brassware & Domestic Metal Artware",
+      "rodtep_rate_pct": 2.0,
+      "duty_drawback_pct": 3.0,
+      "msme_interest_subvention_pct": 3.0,
+      "dgft_notification": "CBIC Customs Drawback Schedule & DGFT Handicrafts Table",
+      "claiming_portal": "ICEGATE Customs"
+    },
+    {
+      "sector": "Leather Goods & Footwear",
+      "commodity_matches": ["leather", "shoe", "shoes", "footwear", "wallet", "bag", "belt"],
+      "hs_chapter": "64, 42",
+      "hs_code": "6403 91 90",
+      "description": "Leather Footwear & Travel Goods",
+      "rodtep_rate_pct": 3.0,
+      "duty_drawback_pct": 4.0,
+      "msme_interest_subvention_pct": 3.0,
+      "dgft_notification": "DGFT Appendix 4R / CLE (Council for Leather Exports)",
+      "claiming_portal": "ICEGATE System"
+    },
+    {
+      "sector": "Pharmaceutical Formulations",
+      "commodity_matches": ["pharma", "medicine", "drug", "tablet", "capsule", "syrup", "vaccine", "formulation"],
+      "hs_chapter": "30",
+      "hs_code": "3004 90 99",
+      "description": "Medicaments consisting of mixed or unmixed products for retail sale",
+      "rodtep_rate_pct": 1.0,
+      "duty_drawback_pct": 1.8,
+      "msme_interest_subvention_pct": 3.0,
+      "dgft_notification": "DGFT Pharma Master Schedule & Pharmexcil Advisory",
+      "claiming_portal": "ICEGATE Single Window"
+    },
+    {
+      "sector": "Electronics & Hardware",
+      "commodity_matches": ["electronic", "phone", "smartphone", "mobile", "pcb", "charger", "circuit"],
+      "hs_chapter": "85",
+      "hs_code": "8517 13 00",
+      "description": "Smartphones & Electronic Assemblies",
+      "rodtep_rate_pct": 0.8,
+      "duty_drawback_pct": 1.5,
+      "msme_interest_subvention_pct": 3.0,
+      "dgft_notification": "DGFT Appendix 4R / MeitY PLI Incentive Linked Schedule",
+      "claiming_portal": "ICEGATE System"
+    }
+  ]
+}

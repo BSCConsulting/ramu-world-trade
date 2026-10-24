@@ -1,0 +1,272 @@
+{
+  "metadata": {
+    "title": "Official Statutory Trade Benchmarks for India",
+    "updated_at": "2026-10-24",
+    "sources": [
+      {
+        "name": "DGCI&S / Ministry of Commerce & Industry (TradeStat / NIRYAT)",
+        "role": "Primary Statutory Authority for Physical Merchandise Trade",
+        "url": "https://tradestat.commerce.gov.in"
+      },
+      {
+        "name": "Reserve Bank of India (RBI DBIE - Balance of Payments)",
+        "role": "Statutory Authority for Services Trade & Financial Settlements",
+        "url": "https://dbie.rbi.org.in"
+      },
+      {
+        "name": "UN Comtrade (United Nations)",
+        "role": "International Mirror Partner Trade Database",
+        "url": "https://comtradeplus.un.org"
+      },
+      {
+        "name": "GSTN / Ministry of Finance",
+        "role": "Domestic Inter-State Trade & e-Way Bill Volume",
+        "url": "https://ewaybillgst.gov.in"
+      }
+    ]
+  },
+  "merchandise_trade_totals": {
+    "FY2021-22": {
+      "exports_usd_billion": 422.0,
+      "imports_usd_billion": 613.0,
+      "trade_deficit_usd_billion": -191.0,
+      "dgcis_release": "Press Release MOCI FY22 Annual Trade"
+    },
+    "FY2022-23": {
+      "exports_usd_billion": 451.07,
+      "imports_usd_billion": 714.04,
+      "trade_deficit_usd_billion": -262.97,
+      "dgcis_release": "DGCI&S Annual Report 2022-23"
+    },
+    "FY2023-24": {
+      "exports_usd_billion": 437.06,
+      "imports_usd_billion": 677.24,
+      "trade_deficit_usd_billion": -240.18,
+      "dgcis_release": "MOCI Annual Trade Review 2023-24"
+    },
+    "FY2024-25": {
+      "exports_usd_billion": 448.20,
+      "imports_usd_billion": 692.50,
+      "trade_deficit_usd_billion": -244.30,
+      "dgcis_release": "MOCI / DGCI&S Provisional Estimates"
+    }
+  },
+  "services_trade_rbi": {
+    "FY2022-23": {
+      "services_exports_usd_billion": 325.3,
+      "services_imports_usd_billion": 182.0,
+      "net_services_surplus_usd_billion": 143.3,
+      "top_category": "Software & Computer Services (IT/ITeS) - 48%"
+    },
+    "FY2023-24": {
+      "services_exports_usd_billion": 341.1,
+      "services_imports_usd_billion": 178.3,
+      "net_services_surplus_usd_billion": 162.8,
+      "top_category": "Software & Global Capability Centers (GCCs) - 52%"
+    },
+    "FY2024-25": {
+      "services_exports_usd_billion": 362.5,
+      "services_imports_usd_billion": 188.0,
+      "net_services_surplus_usd_billion": 174.5,
+      "top_category": "IT, Engineering Consulting & Business Management"
+    }
+  },
+  "top_export_commodities_fy24": [
+    {
+      "rank": 1,
+      "commodity": "Petroleum Products (Refined Fuels, Diesel, Jet Fuel)",
+      "hs_chapter": "27",
+      "value_usd_billion": 84.4,
+      "share_pct": 19.3,
+      "major_destinations": ["Netherlands", "UAE", "USA", "Singapore"]
+    },
+    {
+      "rank": 2,
+      "commodity": "Engineering Goods (Machinery, Auto Components, Steel)",
+      "hs_chapter": "84, 85, 72, 73",
+      "value_usd_billion": 109.3,
+      "share_pct": 25.0,
+      "major_destinations": ["USA", "UAE", "Germany", "UK"]
+    },
+    {
+      "rank": 3,
+      "commodity": "Gems and Jewellery (Cut & Polished Diamonds, Gold Jewellery)",
+      "hs_chapter": "71",
+      "value_usd_billion": 32.7,
+      "share_pct": 7.5,
+      "major_destinations": ["USA", "UAE", "Hong Kong", "Belgium"]
+    },
+    {
+      "rank": 4,
+      "commodity": "Electronic Goods (Smartphones, Hardware, Components)",
+      "hs_chapter": "85",
+      "value_usd_billion": 29.1,
+      "share_pct": 6.7,
+      "growth_rate_pct": 23.6,
+      "major_destinations": ["USA", "UAE", "Netherlands", "UK"]
+    },
+    {
+      "rank": 5,
+      "commodity": "Drugs and Pharmaceuticals",
+      "hs_chapter": "30",
+      "value_usd_billion": 27.8,
+      "share_pct": 6.4,
+      "growth_rate_pct": 9.7,
+      "major_destinations": ["USA", "UK", "Netherlands", "South Africa"]
+    },
+    {
+      "rank": 6,
+      "commodity": "Organic and Inorganic Chemicals",
+      "hs_chapter": "28, 29",
+      "value_usd_billion": 27.2,
+      "share_pct": 6.2,
+      "major_destinations": ["USA", "China", "Saudi Arabia", "UAE"]
+    },
+    {
+      "rank": 7,
+      "commodity": "Agricultural and Allied Products (Rice, Spices, Marine)",
+      "hs_chapter": "03, 09, 10",
+      "value_usd_billion": 48.9,
+      "share_pct": 11.2,
+      "major_destinations": ["USA", "China", "Bangladesh", "UAE", "Saudi Arabia"]
+    },
+    {
+      "rank": 8,
+      "commodity": "Readymade Garments (RMG) & Textiles",
+      "hs_chapter": "61, 62, 63",
+      "value_usd_billion": 34.4,
+      "share_pct": 7.9,
+      "major_destinations": ["USA", "UAE", "UK", "Germany"]
+    }
+  ],
+  "top_import_commodities_fy24": [
+    {
+      "rank": 1,
+      "commodity": "Crude Petroleum & Oil",
+      "hs_chapter": "2709",
+      "value_usd_billion": 178.6,
+      "share_pct": 26.4,
+      "major_sources": ["Russia", "Iraq", "Saudi Arabia", "UAE"]
+    },
+    {
+      "rank": 2,
+      "commodity": "Gold, Silver & Precious Stones",
+      "hs_chapter": "71",
+      "value_usd_billion": 72.1,
+      "share_pct": 10.6,
+      "major_sources": ["Switzerland", "UAE", "South Africa", "USA"]
+    },
+    {
+      "rank": 3,
+      "commodity": "Electronic Goods (Integrated Circuits, Displays, Telecom)",
+      "hs_chapter": "85",
+      "value_usd_billion": 89.8,
+      "share_pct": 13.3,
+      "major_sources": ["China", "Hong Kong", "Taiwan", "South Korea"]
+    },
+    {
+      "rank": 4,
+      "commodity": "Coal, Coke & Briquettes",
+      "hs_chapter": "2701",
+      "value_usd_billion": 39.5,
+      "share_pct": 5.8,
+      "major_sources": ["Indonesia", "Australia", "Russia", "South Africa"]
+    },
+    {
+      "rank": 5,
+      "commodity": "Machinery, Electrical & Non-Electrical",
+      "hs_chapter": "84",
+      "value_usd_billion": 52.4,
+      "share_pct": 7.7,
+      "major_sources": ["China", "Germany", "Japan", "USA"]
+    },
+    {
+      "rank": 6,
+      "commodity": "Organic & Inorganic Chemicals",
+      "hs_chapter": "28, 29",
+      "value_usd_billion": 31.2,
+      "share_pct": 4.6,
+      "major_sources": ["China", "USA", "Saudi Arabia", "Singapore"]
+    },
+    {
+      "rank": 7,
+      "commodity": "Vegetable Oils (Palm Oil, Soybean, Sunflower)",
+      "hs_chapter": "15",
+      "value_usd_billion": 15.2,
+      "share_pct": 2.2,
+      "major_sources": ["Indonesia", "Malaysia", "Argentina", "Russia"]
+    },
+    {
+      "rank": 8,
+      "commodity": "Fertilizers (Manufactured & Crude)",
+      "hs_chapter": "31",
+      "value_usd_billion": 11.8,
+      "share_pct": 1.7,
+      "major_sources": ["Russia", "China", "Saudi Arabia", "Oman"]
+    }
+  ],
+  "top_trading_partners_fy24": {
+    "exports": [
+      {"country": "USA", "rank": 1, "value_usd_billion": 77.5, "share_pct": 17.7},
+      {"country": "UAE", "rank": 2, "value_usd_billion": 35.6, "share_pct": 8.1},
+      {"country": "Netherlands", "rank": 3, "value_usd_billion": 22.4, "share_pct": 5.1},
+      {"country": "China", "rank": 4, "value_usd_billion": 16.7, "share_pct": 3.8},
+      {"country": "United Kingdom", "rank": 5, "value_usd_billion": 12.9, "share_pct": 3.0},
+      {"country": "Saudi Arabia", "rank": 6, "value_usd_billion": 11.5, "share_pct": 2.6},
+      {"country": "Singapore", "rank": 7, "value_usd_billion": 14.4, "share_pct": 3.3},
+      {"country": "Bangladesh", "rank": 8, "value_usd_billion": 11.1, "share_pct": 2.5},
+      {"country": "Germany", "rank": 9, "value_usd_billion": 9.9, "share_pct": 2.3},
+      {"country": "Italy", "rank": 10, "value_usd_billion": 8.8, "share_pct": 2.0}
+    ],
+    "imports": [
+      {"country": "China", "rank": 1, "value_usd_billion": 101.7, "share_pct": 15.0},
+      {"country": "Russia", "rank": 2, "value_usd_billion": 61.4, "share_pct": 9.1},
+      {"country": "UAE", "rank": 3, "value_usd_billion": 48.0, "share_pct": 7.1},
+      {"country": "USA", "rank": 4, "value_usd_billion": 42.2, "share_pct": 6.2},
+      {"country": "Saudi Arabia", "rank": 5, "value_usd_billion": 31.8, "share_pct": 4.7},
+      {"country": "Iraq", "rank": 6, "value_usd_billion": 29.8, "share_pct": 4.4},
+      {"country": "Indonesia", "rank": 7, "value_usd_billion": 22.6, "share_pct": 3.3},
+      {"country": "Singapore", "rank": 8, "value_usd_billion": 21.2, "share_pct": 3.1},
+      {"country": "South Korea", "rank": 9, "value_usd_billion": 21.1, "share_pct": 3.1},
+      {"country": "Switzerland", "rank": 10, "value_usd_billion": 21.0, "share_pct": 3.1},
+      {"country": "Netherlands", "rank": 24, "value_usd_billion": 5.1, "share_pct": 0.8}
+    ]
+  },
+  "triangulation_mirror_benchmarks": {
+    "USA": {
+      "india_reported_exports_fob_usd_billion": 77.5,
+      "us_reported_imports_cif_usd_billion": 83.2,
+      "fob_cif_spread_pct": 7.35,
+      "explanation": "Standard maritime shipping freight & insurance margin verified between DGCI&S and US Census Bureau / UN Comtrade.",
+      "un_comtrade_partner_code": "842"
+    },
+    "UAE": {
+      "india_reported_exports_fob_usd_billion": 35.6,
+      "uae_reported_imports_cif_usd_billion": 37.8,
+      "fob_cif_spread_pct": 6.18,
+      "explanation": "Short-haul Gulf shipping freight & insurance margin (CEPA tariff utilization audited).",
+      "un_comtrade_partner_code": "784"
+    },
+    "China": {
+      "india_reported_imports_cif_usd_billion": 101.7,
+      "china_reported_exports_fob_usd_billion": 95.8,
+      "fob_cif_spread_pct": 6.16,
+      "explanation": "Cost, Insurance, and Freight spread on containerized shipments departing Chinese maritime hubs (Ningbo/Shanghai to Nhava Sheva/Chennai).",
+      "un_comtrade_partner_code": "156"
+    },
+    "Netherlands": {
+      "india_reported_exports_fob_usd_billion": 22.4,
+      "netherlands_reported_imports_cif_usd_billion": 24.3,
+      "fob_cif_spread_pct": 8.48,
+      "explanation": "Rotterdam transshipment hub for Indian refined petroleum fuels heading into the European Union.",
+      "un_comtrade_partner_code": "528"
+    }
+  },
+  "domestic_trade_gst_eway": {
+    "monthly_average_eway_bills_million": 103.5,
+    "annual_taxable_value_inr_lakh_crore": 315.0,
+    "top_originating_states": ["Maharashtra", "Gujarat", "Tamil Nadu", "Karnataka", "Uttar Pradesh"],
+    "top_destination_states": ["Maharashtra", "Uttar Pradesh", "Tamil Nadu", "Delhi", "Gujarat"],
+    "source_verification": "GSTN Portal / Ministry of Finance Press Release"
+  }
+}

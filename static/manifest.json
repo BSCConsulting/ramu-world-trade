@@ -1,0 +1,21 @@
+{
+  "name": "World of Trade — India",
+  "short_name": "Trade India",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23ff9f0a'/><text x='50%' y='65%' font-size='50' text-anchor='middle' fill='%23000000' font-family='sans-serif' font-weight='bold'>W</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23ff9f0a'/><text x='50%' y='65%' font-size='50' text-anchor='middle' fill='%23000000' font-family='sans-serif' font-weight='bold'>W</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
