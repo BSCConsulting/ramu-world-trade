@@ -1,0 +1,65 @@
+{
+  "metadata": {
+    "title": "CBIC ICEGATE Customs Automated EDI Error Resolution Manual",
+    "updated_at": "2026-10-24",
+    "authority": "Directorate General of Systems and Data Management, CBIC"
+  },
+  "errors": [
+    {
+      "code": "SB001",
+      "title": "Invalid IEC / PAN Mismatch",
+      "cause": "The Importer Exporter Code (IEC) or PAN mentioned in the Shipping Bill does not match with the ICEGATE or DGFT central database registration.",
+      "severity": "Critical (Blocks Scroll Generation)",
+      "resolution": "1. Log in to dgft.gov.in and verify IEC status is 'Active'. 2. Verify PAN is correctly linked in ICEGATE profile under 'User Management'. 3. File amendment request with Custom House Agent (CHA) to re-transmit the Shipping Bill."
+    },
+    {
+      "code": "SB002",
+      "title": "Name Mismatch with Bank Account (PFMS Disbursal Failure)",
+      "cause": "Exporter's registered business name on the Shipping Bill does not match the beneficiary account holder name verified by Public Financial Management System (PFMS).",
+      "severity": "Critical (Drawback & RoDTEP Cash Stalled)",
+      "resolution": "1. Verify name spelling on bank passbook vs GST registration certificate. 2. Log in to ICEGATE -> Financial Services -> Bank Account Management. 3. Perform a 'Single Rupee Test Credit' verification. 4. Submit revised bank mandate to Assistant Commissioner (Drawback) at port of export."
+    },
+    {
+      "code": "SB003",
+      "title": "Invalid GSTIN / Invoice Mismatch",
+      "cause": "Invoice number or date declared in Table 6A of GSTR-1 does not match line-by-line with the export invoice declared on the Shipping Bill.",
+      "severity": "Blocks IGST Refund",
+      "resolution": "1. Check Table 6A of GSTR-1 on gst.gov.in. 2. Ensure Shipping Bill number, Port Code (e.g. INNSA1), and Invoice Number match exactly without extra spaces or slashes. 3. File Table 9 amendment in next GSTR-1 if mistyped."
+    },
+    {
+      "code": "SB005",
+      "title": "Export General Manifest (EGM) Error / Not Integrated",
+      "cause": "Vessel or airline has departed, but the shipping line has not filed the EGM with customs, or container number differs between Shipping Bill and EGM.",
+      "severity": "Scroll Cannot Be Generated",
+      "resolution": "1. Contact the shipping line / carrier agent immediately. 2. Request them to file an EGM Amendment (Form B) with customs port container cell. 3. Re-verify the physical container number and seal number."
+    },
+    {
+      "code": "SB006",
+      "title": "Gateway Port Mismatch (Transshipment Interrupted)",
+      "cause": "For inland container depots (ICD), the gateway exit seaport declared on the Train Summary Manifest (TSM) does not match the actual seaport exit.",
+      "severity": "Stalls Drawback Scroll",
+      "resolution": "1. Track transshipment permit from origin ICD to gateway port (e.g. ICD Ludhiana to Mundra). 2. Submit Transshipment Manifest confirmation to ICD Customs Superintendent to update the gateway exit record."
+    },
+    {
+      "code": "SB009",
+      "title": "Forex Exchange Rate Not Found / Expired",
+      "cause": "Shipping Bill was transmitted in a foreign currency (e.g. AED, EUR) for which CBIC fortnightly gazette exchange rate was not updated in EDI master table.",
+      "severity": "EDI Transmission Hold",
+      "resolution": "1. Customs EDI Service Center must run EDI batch update for CBIC Gazette Notification. 2. Ask CHA to request EDI helpdesk ticket to refresh currency exchange tables."
+    },
+    {
+      "code": "ERR-301",
+      "title": "RoDTEP Scheme Code Not Claimed at Item Level",
+      "cause": "Item-level scheme code 'RDTP' or 'RODTEP' was left blank on the export Shipping Bill line item by the CHA.",
+      "severity": "Zero RoDTEP Credit",
+      "resolution": "1. Section 149 customs amendment must be filed with the Deputy Commissioner of Customs at port of export before LEO (Let Export Order) is issued. 2. Post-LEO amendments require formal Commissioner approval."
+    },
+    {
+      "code": "PFMS-01",
+      "title": "Bank Account Not Validated by PFMS",
+      "cause": "Exporter's bank account AD Code is registered at customs port, but bank is not integration-ready with Public Financial Management System.",
+      "severity": "Drawback Scroll Rejection",
+      "resolution": "1. Open account with PFMS-integrated schedule commercial bank. 2. File AD Code & Bank Account Registration form at ICEGATE port EDI desk with cancelled cheque and Bank AD Code letter."
+    }
+  ]
+}

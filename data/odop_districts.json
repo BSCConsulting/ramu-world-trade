@@ -13,9 +13,19 @@
       "hs_code": "0910 30 20",
       "hs_chapter": "09",
       "export_potential": "High (GI Tag registered; 30% of national turmeric cultivation)",
-      "key_international_markets": ["UAE", "USA", "Bangladesh", "Iran"],
+      "key_international_markets": [
+        "UAE",
+        "USA",
+        "Bangladesh",
+        "Iran"
+      ],
       "nearby_apmc_mandi": "Nizamabad APMC Market Yard",
-      "primary_epc": "Spices Board of India"
+      "primary_epc": "Spices Board of India",
+      "harvest_season": "Peak: Jan - Apr | Moderate: May - Jul | Lean: Aug - Dec",
+      "nearest_icd": "ICD Sanathnagar / Hyderabad (CONCOR)",
+      "gi_tag_reg": "GI-Application 627 (Class 30 - Agri)",
+      "nabl_labs": "Spices Board Quality Evaluation Lab, Hyderabad (NABL TC-5421)",
+      "rail_freight_teu_est": "\u20b932,400 per TEU to JNPT Port (FOB)"
     },
     {
       "district": "Guntur",
@@ -24,9 +34,20 @@
       "hs_code": "0904 21 10",
       "hs_chapter": "09",
       "export_potential": "Very High (Asia's largest dried chilli wholesale market)",
-      "key_international_markets": ["China", "Vietnam", "Thailand", "Malaysia", "USA"],
+      "key_international_markets": [
+        "China",
+        "Vietnam",
+        "Thailand",
+        "Malaysia",
+        "USA"
+      ],
       "nearby_apmc_mandi": "Guntur Mirchi Yard",
-      "primary_epc": "Spices Board of India"
+      "primary_epc": "Spices Board of India",
+      "harvest_season": "Peak: Feb - May | Moderate: Jun - Aug | Lean: Sep - Jan",
+      "nearest_icd": "ICD Guntur (Reddipalem / Marripalem)",
+      "gi_tag_reg": "GI-Reg 429 (Guntur Sannam Chilli - Class 30)",
+      "nabl_labs": "Vimta Labs Ltd / Spices Board Regional Lab, Guntur",
+      "rail_freight_teu_est": "\u20b924,500 per TEU to Krishnapatnam / Chennai Port"
     },
     {
       "district": "Bhadohi",
@@ -35,9 +56,20 @@
       "hs_code": "5701 10 10",
       "hs_chapter": "57",
       "export_potential": "Global Hub (Produces >60% of India's exported handmade carpets)",
-      "key_international_markets": ["USA", "Germany", "UK", "Australia", "France"],
+      "key_international_markets": [
+        "USA",
+        "Germany",
+        "UK",
+        "Australia",
+        "France"
+      ],
       "nearby_apmc_mandi": "Bhadohi Carpet Mart Terminal",
-      "primary_epc": "Carpet Export Promotion Council (CEPC)"
+      "primary_epc": "Carpet Export Promotion Council (CEPC)",
+      "harvest_season": "All Season (Peak Weaving: Oct - Mar after monsoon)",
+      "nearest_icd": "ICD Babatpur / ICD Chandauli (Varanasi)",
+      "gi_tag_reg": "GI-Reg 172 (Handmade Carpet of Bhadohi - Class 27)",
+      "nabl_labs": "Indian Institute of Carpet Technology (IICT) Testing Lab",
+      "rail_freight_teu_est": "\u20b936,800 per TEU to Kolkata / JNPT Port"
     },
     {
       "district": "Moradabad",
@@ -45,10 +77,21 @@
       "odop_product": "Artistic Metal Brassware & Handicrafts ('Peetal Nagari')",
       "hs_code": "7418 10 22",
       "hs_chapter": "74",
-      "export_potential": "Dominant (Over ₹6,000 Crore annual export cluster)",
-      "key_international_markets": ["USA", "UK", "Germany", "Canada", "UAE"],
+      "export_potential": "Dominant (Over \u20b96,000 Crore annual export cluster)",
+      "key_international_markets": [
+        "USA",
+        "UK",
+        "Germany",
+        "Canada",
+        "UAE"
+      ],
       "nearby_apmc_mandi": "Moradabad Export Logistics Park",
-      "primary_epc": "Export Promotion Council for Handicrafts (EPCH)"
+      "primary_epc": "Export Promotion Council for Handicrafts (EPCH)",
+      "harvest_season": "Year-Round (Peak Manufacturing: Aug - Dec for Holiday Export)",
+      "nearest_icd": "ICD Moradabad (CONCOR Rail Siding)",
+      "gi_tag_reg": "GI-Reg 397 (Moradabad Metal Craft - Class 74)",
+      "nabl_labs": "Metal Handicrafts Service Centre (MHSC) NABL Lab",
+      "rail_freight_teu_est": "\u20b934,200 per TEU to Mundra / Nhava Sheva"
     },
     {
       "district": "Tirupur",
@@ -57,9 +100,19 @@
       "hs_code": "6109 10 00",
       "hs_chapter": "61",
       "export_potential": "Massive (Accounts for ~55% of India's total cotton knitwear exports)",
-      "key_international_markets": ["USA", "European Union", "UK", "Japan"],
+      "key_international_markets": [
+        "USA",
+        "European Union",
+        "UK",
+        "Japan"
+      ],
       "nearby_apmc_mandi": "Tirupur Cotton Textile Center",
-      "primary_epc": "Apparel Export Promotion Council (AEPC)"
+      "primary_epc": "Apparel Export Promotion Council (AEPC)",
+      "harvest_season": "Continuous Industrial Production (Summer & Autumn Lines)",
+      "nearest_icd": "ICD Tirupur (Irugur / Chettipalayam CONCOR)",
+      "gi_tag_reg": "Industrial Cluster Cluster-ID TN-TRP-01",
+      "nabl_labs": "SGS India / Intertek / Bureau Veritas Tirupur Hubs",
+      "rail_freight_teu_est": "\u20b919,500 per TEU to Cochin / Tuticorin Port"
     },
     {
       "district": "Surat",
@@ -68,9 +121,20 @@
       "hs_code": "7102 39 10",
       "hs_chapter": "71",
       "export_potential": "World Leader (Processes 90% of the world's rough diamonds)",
-      "key_international_markets": ["USA", "Hong Kong", "UAE", "Belgium", "Israel"],
+      "key_international_markets": [
+        "USA",
+        "Hong Kong",
+        "UAE",
+        "Belgium",
+        "Israel"
+      ],
       "nearby_apmc_mandi": "Surat Diamond Bourse (SDB)",
-      "primary_epc": "Gems & Jewellery EPC (GJEPC)"
+      "primary_epc": "Gems & Jewellery EPC (GJEPC)",
+      "harvest_season": "All Season Processing (Post-Diwali Surge)",
+      "nearest_icd": "ICD Sachin / Surat (Western Railway Corridor)",
+      "gi_tag_reg": "GI-Reg 512 (Surat Zari Craft - Class 52)",
+      "nabl_labs": "GJEPC Gem Testing Laboratory & SASMIRA Textile Lab",
+      "rail_freight_teu_est": "\u20b914,200 per TEU to Nhava Sheva (JNPT)"
     },
     {
       "district": "Nashik",
@@ -79,9 +143,19 @@
       "hs_code": "0806 10 00",
       "hs_chapter": "08, 07",
       "export_potential": "High (Grape Capital of India & Lasalgaon Onion hub)",
-      "key_international_markets": ["Netherlands", "UK", "UAE", "Bangladesh"],
+      "key_international_markets": [
+        "Netherlands",
+        "UK",
+        "UAE",
+        "Bangladesh"
+      ],
       "nearby_apmc_mandi": "Lasalgaon APMC / Pimpalgaon APMC",
-      "primary_epc": "APEDA"
+      "primary_epc": "APEDA",
+      "harvest_season": "Peak: Jan - Apr (Grape Harvest) | Onion: Nov - Mar",
+      "nearest_icd": "ICD Nashik (Janori / Concor)",
+      "gi_tag_reg": "GI-Reg 396 (Nashik Grapes - Class 31)",
+      "nabl_labs": "National Referral Laboratory (NRC Grapes) ICAR Nashik",
+      "rail_freight_teu_est": "\u20b916,800 per Reefer TEU to JNPT Port (FOB)"
     },
     {
       "district": "Kolhapur",
@@ -90,9 +164,19 @@
       "hs_code": "1701 13 10",
       "hs_chapter": "17, 64",
       "export_potential": "High (GI Tagged heritage footwear & unrefined cane sugar)",
-      "key_international_markets": ["USA", "UAE", "Singapore", "Canada"],
+      "key_international_markets": [
+        "USA",
+        "UAE",
+        "Singapore",
+        "Canada"
+      ],
       "nearby_apmc_mandi": "Kolhapur APMC Sugar Yard",
-      "primary_epc": "APEDA / Council for Leather Exports"
+      "primary_epc": "APEDA / Council for Leather Exports",
+      "harvest_season": "Jaggery: Nov - Mar (Cane Crushing) | Footwear: All Season",
+      "nearest_icd": "ICD Miraj / ICD Pune",
+      "gi_tag_reg": "GI-Reg 622 (Kolhapur Jaggery) & GI-Reg 540 (Chappal)",
+      "nabl_labs": "CFTRI Regional Testing Unit & CLE Quality Center",
+      "rail_freight_teu_est": "\u20b922,100 per TEU to Nhava Sheva (JNPT)"
     },
     {
       "district": "Aligarh",
@@ -101,9 +185,19 @@
       "hs_code": "8301 10 00",
       "hs_chapter": "83",
       "export_potential": "Heritage Cluster (Over 5,000 micro and small hardware units)",
-      "key_international_markets": ["USA", "Middle East", "Africa", "UK"],
+      "key_international_markets": [
+        "USA",
+        "Middle East",
+        "Africa",
+        "UK"
+      ],
       "nearby_apmc_mandi": "Aligarh Hardware Industrial Estate",
-      "primary_epc": "EEPC India"
+      "primary_epc": "EEPC India",
+      "harvest_season": "Industrial Production Year-Round",
+      "nearest_icd": "ICD Dadri / ICD Tughlakabad",
+      "gi_tag_reg": "GI-Reg 684 (Aligarh Locks & Hardware - Class 83)",
+      "nabl_labs": "MSME Testing Centre (NR) & Shriram Institute for Industrial Research",
+      "rail_freight_teu_est": "\u20b931,500 per TEU to Mundra Port"
     },
     {
       "district": "Varanasi",
@@ -112,9 +206,20 @@
       "hs_code": "5007 20 10",
       "hs_chapter": "50",
       "export_potential": "Global Heritage (Ancient handloom GI cluster)",
-      "key_international_markets": ["USA", "UK", "UAE", "Australia", "Mauritius"],
+      "key_international_markets": [
+        "USA",
+        "UK",
+        "UAE",
+        "Australia",
+        "Mauritius"
+      ],
       "nearby_apmc_mandi": "Varanasi Handloom Facilitation Center",
-      "primary_epc": "Handloom Export Promotion Council (HEPC)"
+      "primary_epc": "Handloom Export Promotion Council (HEPC)",
+      "harvest_season": "Handloom Weaving Continuous (Wedding Season Focus)",
+      "nearest_icd": "ICD Chandauli (Varanasi)",
+      "gi_tag_reg": "GI-Reg 99 (Banaras Brocades and Sarees - Class 50)",
+      "nabl_labs": "Weavers Service Centre (WSC) Testing Unit, Chowkaghat",
+      "rail_freight_teu_est": "\u20b938,000 per TEU to Kolkata / Haldia"
     },
     {
       "district": "Kannauj",
@@ -123,9 +228,20 @@
       "hs_code": "3301 29 90",
       "hs_chapter": "33",
       "export_potential": "Perfume Capital of India (Hydro-distilled floral extracts)",
-      "key_international_markets": ["Saudi Arabia", "UAE", "France", "USA", "UK"],
+      "key_international_markets": [
+        "Saudi Arabia",
+        "UAE",
+        "France",
+        "USA",
+        "UK"
+      ],
       "nearby_apmc_mandi": "Kannauj Floral Extraction Terminal",
-      "primary_epc": "CHEMEXCIL"
+      "primary_epc": "CHEMEXCIL",
+      "harvest_season": "Peak Distillation: Mar - Jun (Damask Rose, Bela, Jasmine)",
+      "nearest_icd": "ICD Panki (Kanpur)",
+      "gi_tag_reg": "GI-Reg 157 (Kannauj Perfume / Attar - Class 33)",
+      "nabl_labs": "Fragrance and Flavour Development Centre (FFDC) NABL Lab",
+      "rail_freight_teu_est": "\u20b935,000 per TEU to JNPT Port"
     },
     {
       "district": "Darjeeling",
@@ -134,9 +250,19 @@
       "hs_code": "0902 40 10",
       "hs_chapter": "09",
       "export_potential": "Ultra-High Margin (India's first registered GI product)",
-      "key_international_markets": ["Germany", "Japan", "UK", "USA"],
+      "key_international_markets": [
+        "Germany",
+        "Japan",
+        "UK",
+        "USA"
+      ],
       "nearby_apmc_mandi": "Siliguri Tea Auction Center",
-      "primary_epc": "Tea Board of India"
+      "primary_epc": "Tea Board of India",
+      "harvest_season": "First Flush: Mar - Apr | Second Flush: May - Jun | Autumnal: Oct - Nov",
+      "nearest_icd": "ICD Siliguri / Kolkata Port Container Terminal",
+      "gi_tag_reg": "GI-Reg 1 & 2 (India First GI - Darjeeling Tea Word & Logo)",
+      "nabl_labs": "Tea Board Quality Control Laboratory, Siliguri",
+      "rail_freight_teu_est": "\u20b929,000 per TEU to Kolkata Port (Net FOB)"
     },
     {
       "district": "Kanchipuram",
@@ -145,9 +271,19 @@
       "hs_code": "5007 20 90",
       "hs_chapter": "50",
       "export_potential": "High Luxury Value (GI Tagged pure silk weave)",
-      "key_international_markets": ["USA", "Singapore", "Malaysia", "UAE"],
+      "key_international_markets": [
+        "USA",
+        "Singapore",
+        "Malaysia",
+        "UAE"
+      ],
       "nearby_apmc_mandi": "Kanchipuram Silk Weavers Hub",
-      "primary_epc": "HEPC"
+      "primary_epc": "HEPC",
+      "harvest_season": "Heritage Pure Silk Weaving All Year",
+      "nearest_icd": "ICD Arakkonam / ICD Chennai Tondiarpet",
+      "gi_tag_reg": "GI-Reg 8 (Kancheepuram Silk - Class 50)",
+      "nabl_labs": "Central Silk Board Eco-Testing Lab, Chennai",
+      "rail_freight_teu_est": "\u20b912,500 per TEU to Chennai Sea Port"
     },
     {
       "district": "Kollam",
@@ -156,9 +292,19 @@
       "hs_code": "0801 32 10",
       "hs_chapter": "08",
       "export_potential": "Cashew Capital of the World",
-      "key_international_markets": ["USA", "UAE", "Japan", "Netherlands"],
+      "key_international_markets": [
+        "USA",
+        "UAE",
+        "Japan",
+        "Netherlands"
+      ],
       "nearby_apmc_mandi": "Kollam Cashew Exchange",
-      "primary_epc": "Cashew Export Promotion Council of India (CEPCI)"
+      "primary_epc": "Cashew Export Promotion Council of India (CEPCI)",
+      "harvest_season": "Raw Processing: Feb - Jul | Export Shipment: All Year",
+      "nearest_icd": "ICD Kottayam / Cochin Port Terminal",
+      "gi_tag_reg": "GI-Application 782 (Kollam Cashew Kernel)",
+      "nabl_labs": "CEPCI Laboratory and Research Institute (CEPCILI), Mundakkal",
+      "rail_freight_teu_est": "\u20b915,000 per TEU to Vallarpadam / Cochin Port"
     },
     {
       "district": "Srinagar",
@@ -167,9 +313,19 @@
       "hs_code": "0910 20 10",
       "hs_chapter": "09, 62",
       "export_potential": "World's most expensive spice & luxury cashmere fiber",
-      "key_international_markets": ["USA", "UAE", "Switzerland", "France"],
+      "key_international_markets": [
+        "USA",
+        "UAE",
+        "Switzerland",
+        "France"
+      ],
       "nearby_apmc_mandi": "India International Kashmir Saffron Trading Centre (IIKSTC)",
-      "primary_epc": "EPCH / Spices Board"
+      "primary_epc": "EPCH / Spices Board",
+      "harvest_season": "Saffron: Late Oct - Nov | Pashmina: Apr - Jun Raw Combing",
+      "nearest_icd": "ICD Srinagar (Air Cargo) / ICD Bari Brahmana (Jammu)",
+      "gi_tag_reg": "GI-Reg 635 (Kashmir Saffron) & GI-Reg 46 (Pashmina)",
+      "nabl_labs": "Craft Development Institute (CDI) Pashmina Testing Lab, Srinagar",
+      "rail_freight_teu_est": "\u20b948,000 per TEU to Mundra Port via Jammu Railhead"
     },
     {
       "district": "Panipat",
@@ -178,9 +334,19 @@
       "hs_code": "6304 92 00",
       "hs_chapter": "63",
       "export_potential": "Major Global Exporter of recycled fiber rugs & blankets",
-      "key_international_markets": ["USA", "Australia", "Germany", "Canada"],
+      "key_international_markets": [
+        "USA",
+        "Australia",
+        "Germany",
+        "Canada"
+      ],
       "nearby_apmc_mandi": "Panipat Textile Exchange",
-      "primary_epc": "HEPC / AEPC"
+      "primary_epc": "HEPC / AEPC",
+      "harvest_season": "Industrial Recycled Yarn & Home Furnishings All Year",
+      "nearest_icd": "ICD Panipat (CONCOR Railhead)",
+      "gi_tag_reg": "Industrial Textile Cluster (Textile City Hub)",
+      "nabl_labs": "Textile Committee Laboratory, Panipat",
+      "rail_freight_teu_est": "\u20b929,500 per TEU to Mundra / Pipavav Port"
     },
     {
       "district": "Karnal",
@@ -189,9 +355,20 @@
       "hs_code": "1006 30 20",
       "hs_chapter": "10",
       "export_potential": "Rice Bowl of India (Major export mills cluster)",
-      "key_international_markets": ["Saudi Arabia", "Iran", "Iraq", "UAE", "USA"],
+      "key_international_markets": [
+        "Saudi Arabia",
+        "Iran",
+        "Iraq",
+        "UAE",
+        "USA"
+      ],
       "nearby_apmc_mandi": "Karnal Grain Market (Taraori Mandi)",
-      "primary_epc": "APEDA"
+      "primary_epc": "APEDA",
+      "harvest_season": "Basmati Paddy Harvest: Oct - Dec | Milling & Ageing: Jan - Dec",
+      "nearest_icd": "ICD Karnal / ICD Panipat (Dedicated Foodgrain Siding)",
+      "gi_tag_reg": "GI-Reg 145 (Basmati Rice - Indo-Gangetic Plains)",
+      "nabl_labs": "Basmati Export Development Foundation (BEDF) Lab, Modipuram",
+      "rail_freight_teu_est": "\u20b928,000 per TEU to Kandla / Mundra Port"
     },
     {
       "district": "Morbi",
@@ -200,9 +377,20 @@
       "hs_code": "6907 21 00",
       "hs_chapter": "69",
       "export_potential": "World's 2nd largest ceramic tile manufacturing cluster",
-      "key_international_markets": ["USA", "UAE", "Saudi Arabia", "Kuwait", "Mexico"],
+      "key_international_markets": [
+        "USA",
+        "UAE",
+        "Saudi Arabia",
+        "Kuwait",
+        "Mexico"
+      ],
       "nearby_apmc_mandi": "Morbi Ceramic Logistics Hub",
-      "primary_epc": "CAPEXIL"
+      "primary_epc": "CAPEXIL",
+      "harvest_season": "Continuous Ceramic Vitrified Tile Production (24x7 Kilns)",
+      "nearest_icd": "ICD Morbi (Navlakhi Rail Link) / Pipavav Dedicated Corridor",
+      "gi_tag_reg": "Industrial Ceramic Cluster (CAPEXIL Registry)",
+      "nabl_labs": "Morbi Ceramic Association Testing Center & NABL Lab",
+      "rail_freight_teu_est": "\u20b911,500 per TEU to Kandla / Mundra Port"
     },
     {
       "district": "Visakhapatnam",
@@ -211,9 +399,19 @@
       "hs_code": "0306 17 20",
       "hs_chapter": "03",
       "export_potential": "India's highest marine products export seaport hub",
-      "key_international_markets": ["USA", "China", "European Union", "Japan"],
+      "key_international_markets": [
+        "USA",
+        "China",
+        "European Union",
+        "Japan"
+      ],
       "nearby_apmc_mandi": "Visakhapatnam Fishing Harbour Terminal",
-      "primary_epc": "MPEDA"
+      "primary_epc": "MPEDA",
+      "harvest_season": "Summer Crop: Mar - Jun | Winter Crop: Sep - Dec",
+      "nearest_icd": "Visakhapatnam Port Container Terminal (Direct Seaport Hub)",
+      "gi_tag_reg": "MPEDA Coastal Aquaculture Authority Registry",
+      "nabl_labs": "Export Inspection Agency (EIA) Lab & MPEDA QC Lab, Vizag",
+      "rail_freight_teu_est": "\u20b98,500 per Reefer Container (Local Port Drayage)"
     },
     {
       "district": "Ludhiana",
@@ -222,9 +420,20 @@
       "hs_code": "6110 11 00",
       "hs_chapter": "61, 87",
       "export_potential": "Manchester of India (Industrial & apparel powerhouse)",
-      "key_international_markets": ["USA", "Russia", "UK", "Canada", "Germany"],
+      "key_international_markets": [
+        "USA",
+        "Russia",
+        "UK",
+        "Canada",
+        "Germany"
+      ],
       "nearby_apmc_mandi": "Ludhiana Focal Point Logistics Yard",
-      "primary_epc": "EEPC India / AEPC"
+      "primary_epc": "EEPC India / AEPC",
+      "harvest_season": "Winter Wear Manufacturing: Apr - Sep | Shipping: Aug - Dec",
+      "nearest_icd": "ICD Dhandari Kalan / Ludhiana (CONCOR / Gateway Distriparks)",
+      "gi_tag_reg": "Industrial Hosiery & Engineering Cluster Registry",
+      "nabl_labs": "Central Institute of Hand Tools (CIHT) & Wool Research Lab",
+      "rail_freight_teu_est": "\u20b931,000 per TEU to Mundra Port via Western DFC"
     }
   ]
 }

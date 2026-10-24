@@ -334,13 +334,45 @@ async function handleSearch(event) {
     });
     const data = await res.json();
 
-    // Auto-Classification Card
+    // Auto-Classification Card & Duty Tree
     if (data.classification) {
       classCard.classList.remove('hidden');
       document.getElementById('class-flow').textContent = data.classification.flow || 'General Trade';
       document.getElementById('class-sector').textContent = data.classification.sector || 'All Industry Sectors';
       document.getElementById('class-domain').textContent = data.classification.domain || 'Physical Merchandise';
       updateTradeFlowInfographic(data.classification);
+
+      // Duty Tree & Regulatory Alert
+      const sector = (data.classification.sector || '').toLowerCase();
+      const dutyRates = document.getElementById('duty-tree-rates');
+      const dutyDwell = document.getElementById('duty-dwell-time');
+      const dutySps = document.getElementById('duty-sps-alert');
+
+      if (sector.includes('textile') || sector.includes('apparel') || sector.includes('cotton')) {
+        if (dutyRates) dutyRates.textContent = 'BCD 10% • SWS 1% • IGST 12% (RoSCTL 3.9%)';
+        if (dutyDwell) dutyDwell.textContent = 'JNPT: 22h • Chennai Port: 26h';
+        if (dutySps) dutySps.innerHTML = '⚠️ <strong>SPS / TBT Alert:</strong> EU REACH Annex XVII Azo-dye & Oeko-Tex Class 1 testing mandatory.';
+      } else if (sector.includes('marine') || sector.includes('shrimp')) {
+        if (dutyRates) dutyRates.textContent = 'BCD 30% • SWS 3% • IGST 5% (RoDTEP 2.5%)';
+        if (dutyDwell) dutyDwell.textContent = 'Vizag Port: 18h • JNPT Reefer: 20h';
+        if (dutySps) dutySps.innerHTML = '⚠️ <strong>SPS / TBT Alert:</strong> US FDA Chloramphenicol zero-tolerance & EU EIC health certificate required.';
+      } else if (sector.includes('spice') || sector.includes('turmeric')) {
+        if (dutyRates) dutyRates.textContent = 'BCD 30% • SWS 3% • IGST 5% (RoDTEP 1.5%)';
+        if (dutyDwell) dutyDwell.textContent = 'Chennai Port: 28h • JNPT: 22h';
+        if (dutySps) dutySps.innerHTML = '⚠️ <strong>SPS / TBT Alert:</strong> EU Aflatoxin <5ppb & Sudan Dye absence certificate required.';
+      } else if (sector.includes('engineer') || sector.includes('steel') || sector.includes('fastener')) {
+        if (dutyRates) dutyRates.textContent = 'BCD 7.5% • SWS 0.75% • IGST 18% (RoDTEP 1.4%)';
+        if (dutyDwell) dutyDwell.textContent = 'Mundra: 16h • Pipavav: 15h';
+        if (dutySps) dutySps.innerHTML = '⚠️ <strong>SPS / TBT Alert:</strong> EU CBAM (Carbon Border Adjustment) embedded emissions filing mandatory.';
+      } else if (sector.includes('pharma') || sector.includes('medicine')) {
+        if (dutyRates) dutyRates.textContent = 'BCD 10% • SWS 1% • IGST 12% (RoDTEP 1.0%)';
+        if (dutyDwell) dutyDwell.textContent = 'Air Cargo Terminal: 12h • JNPT: 22h';
+        if (dutySps) dutySps.innerHTML = '⚠️ <strong>SPS / TBT Alert:</strong> WHO-GMP Certificate of Pharmaceutical Product (CoPP) required.';
+      } else {
+        if (dutyRates) dutyRates.textContent = 'BCD 10% • SWS 1% • IGST 18% (Standard Air/Sea Rate)';
+        if (dutyDwell) dutyDwell.textContent = 'JNPT (Nhava Sheva): 22h • Mundra: 16h';
+        if (dutySps) dutySps.innerHTML = '⚠️ <strong>SPS / TBT Alert:</strong> Verified Gross Mass (VGM) container weight declaration mandatory.';
+      }
     }
 
     // Render High-Contrast Markdown
@@ -508,14 +540,16 @@ function renderChart(chartData) {
 async function handleCalculate(event) {
   if (event) event.preventDefault();
 
-  const product = document.getElementById('calc-product').value;
-  const amount = document.getElementById('calc-amount').value;
+  const product = document.getElementById('calc-product')?.value || '';
+  const amount = document.getElementById('calc-amount')?.value || '50000 USD';
+  const quantity = parseFloat(document.getElementById('calc-quantity')?.value) || 10000;
+  const unit = document.getElementById('calc-unit')?.value || 'pcs';
 
   try {
     const res = await fetch('/api/calculate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ product, amount })
+      body: JSON.stringify({ product, amount, quantity, unit })
     });
     const data = await res.json();
     const c = data.calculation;
@@ -529,9 +563,30 @@ async function handleCalculate(event) {
     animateValue(drawbackEl, 0, Math.round(c.drawback_inr), 700, '₹');
     animateValue(totalCashEl, 0, Math.round(c.total_direct_cash_inr), 850, '₹');
 
-    document.getElementById('card-rodtep-pct').textContent = `${c.rodtep_pct}% statutory scrip`;
+    const schemeTypeEl = document.getElementById('card-scheme-type');
+    if (schemeTypeEl) schemeTypeEl.textContent = (c.scheme_name || 'RoDTEP') + ' Scrip';
+
+    document.getElementById('card-rodtep-pct').textContent = `${c.rodtep_pct}% statutory ${c.scheme_name || 'scrip'}`;
     document.getElementById('card-drawback-pct').textContent = `${c.drawback_pct}% customs scroll`;
     document.getElementById('card-margin-boost').textContent = `+${c.combined_rebate_pct}% Margin Boost`;
+
+    // Statutory Cap Alert Pill
+    const capAlert = document.getElementById('card-cap-alert');
+    const capCeilingEl = document.getElementById('card-cap-ceiling');
+    if (capAlert) {
+      if (c.is_capped) {
+        capAlert.classList.remove('hidden');
+        if (capCeilingEl) capCeilingEl.textContent = `₹${Math.round(c.cap_ceiling).toLocaleString('en-IN')} Cap Enforced`;
+      } else {
+        capAlert.classList.add('hidden');
+      }
+    }
+
+    // Secondary Scrip Net Cash & Advance Auth
+    const scripNetEl = document.getElementById('card-scrip-net');
+    const aaEl = document.getElementById('card-aa-savings');
+    if (scripNetEl) scripNetEl.textContent = `₹${Math.round(c.scrip_net_cash_inr || 0).toLocaleString('en-IN')}`;
+    if (aaEl) aaEl.textContent = `₹${Math.round(c.advance_auth_saving_inr || 0).toLocaleString('en-IN')}`;
 
   } catch (err) {
     console.error("Calculation error:", err);
@@ -639,6 +694,8 @@ function closeBottomSheet() {
 }
 
 // 11. LIVE TRADE COUNTDOWN CLOCKS (Clocks Tab)
+let gateSecondsLeft = 6 * 3600 + 14 * 60 + 22;
+
 function updateTimers() {
   if (mandiSecondsLeft > 0) {
     mandiSecondsLeft--;
@@ -657,6 +714,15 @@ function updateTimers() {
     const el = document.getElementById('eway-timer');
     if (el) el.textContent = `${h}:${m}:${s}`;
   }
+
+  if (gateSecondsLeft > 0) {
+    gateSecondsLeft--;
+    const h = String(Math.floor(gateSecondsLeft / 3600)).padStart(2, '0');
+    const m = String(Math.floor((gateSecondsLeft % 3600) / 60)).padStart(2, '0');
+    const s = String(gateSecondsLeft % 60).padStart(2, '0');
+    const el = document.getElementById('gate-timer');
+    if (el) el.textContent = `${h}:${m}:${s}`;
+  }
 }
 
 function resetEwayTimer() {
@@ -666,6 +732,253 @@ function resetEwayTimer() {
 }
 
 setInterval(updateTimers, 1000);
+
+// 12. 8-DIGIT ITC-HS TARIFF SELECTOR
+function setHsTariff(hsCode) {
+  const map = {
+    '6109.10.00': "Tell me about 8-digit ITC-HS 6109 10 00 Cotton T-Shirts export tariff and RoSCTL incentives",
+    '0306.17.20': "Tell me about 8-digit ITC-HS 0306 17 20 Frozen Marine Shrimp export tariff and RoDTEP incentives",
+    '0910.30.20': "Tell me about 8-digit ITC-HS 0910 30 20 Turmeric Powder export tariff and RoDTEP incentives",
+    '7318.15.00': "Tell me about 8-digit ITC-HS 7318 15 00 Steel Fasteners and Machinery Bolts export tariff",
+    '7418.10.22': "Tell me about 8-digit ITC-HS 7418 10 22 Brassware Handicrafts export tariff and Drawback",
+    '6403.91.90': "Tell me about 8-digit ITC-HS 6403 91 90 Leather Footwear export tariff and Drawback",
+    '3004.90.99': "Tell me about 8-digit ITC-HS 3004 90 99 Pharmaceutical Formulations export tariff",
+    '8517.13.00': "Tell me about 8-digit ITC-HS 8517 13 00 Smartphones and Electronics export tariff"
+  };
+  setQuery(map[hsCode] || `Tell me about 8-digit ITC-HS ${hsCode}`);
+}
+
+// 13. ICEGATE ERROR CODE DECODER
+const ICEGATE_ERRORS = {
+  'SB001': {
+    title: 'SB001 — Invalid IEC / PAN Mismatch',
+    severity: 'Critical (Blocks Scroll)',
+    color: '#EF4444',
+    cause: 'The Importer Exporter Code (IEC) or PAN declared in the Shipping Bill does not match DGFT/ICEGATE central registry.',
+    resolution: '1. Log in to dgft.gov.in and verify IEC status is "Active".\n2. Verify PAN is correctly linked in ICEGATE profile under User Management.\n3. Request CHA to file amendment for re-transmitting the Shipping Bill.'
+  },
+  'SB002': {
+    title: 'SB002 — Bank PFMS Name Mismatch',
+    severity: 'Drawback Stalled',
+    color: '#EF4444',
+    cause: 'Exporter registered business name on the Shipping Bill does not match beneficiary account holder name verified by PFMS.',
+    resolution: '1. Log in to ICEGATE -> Financial Services -> Bank Account Management.\n2. Execute "Single Rupee Test Credit" verification.\n3. Submit revised bank mandate letter to Assistant Commissioner (Drawback) at port of export.'
+  },
+  'SB003': {
+    title: 'SB003 — GSTR-1 Table 6A Invoice Mismatch',
+    severity: 'Blocks IGST Refund',
+    color: '#F59E0B',
+    cause: 'Invoice number or date declared in Table 6A of GSTR-1 does not match line-by-line with the export invoice declared on the Shipping Bill.',
+    resolution: '1. Check Table 6A of GSTR-1 on gst.gov.in.\n2. Ensure Shipping Bill number, Port Code (e.g. INNSA1), and Invoice Number match exactly without extra spaces or slashes.\n3. File Table 9 amendment in next GSTR-1 return if mistyped.'
+  },
+  'SB005': {
+    title: 'SB005 — EGM Error / Container Not Integrated',
+    severity: 'Scroll Cannot Be Generated',
+    color: '#EF4444',
+    cause: 'Vessel or airline has departed, but the shipping line has not filed the EGM with customs, or container number differs between Shipping Bill and EGM.',
+    resolution: '1. Contact shipping line / carrier agent immediately.\n2. Request them to file an EGM Amendment (Form B) with customs port container cell.\n3. Re-verify physical container number and seal number.'
+  },
+  'SB006': {
+    title: 'SB006 — Gateway Port Mismatch (Transshipment)',
+    severity: 'Stalls Drawback Scroll',
+    color: '#F59E0B',
+    cause: 'For inland container depots (ICD), the gateway exit seaport declared on the Train Summary Manifest (TSM) does not match actual seaport exit.',
+    resolution: '1. Track transshipment permit from origin ICD to gateway port (e.g. ICD Ludhiana to Mundra).\n2. Submit Transshipment Manifest confirmation to ICD Customs Superintendent to update the gateway exit record.'
+  },
+  'ERR-301': {
+    title: 'ERR-301 — RoDTEP Scheme Code Not Claimed',
+    severity: 'Zero RoDTEP Credit',
+    color: '#EF4444',
+    cause: 'Item-level scheme code "RDTP" or "RODTEP" was left blank on the export Shipping Bill line item by the customs broker (CHA).',
+    resolution: '1. Section 149 customs amendment must be filed with the Deputy Commissioner of Customs at port of export before LEO (Let Export Order) is issued.\n2. Post-LEO amendments require formal Commissioner approval.'
+  }
+};
+
+function decodeIcegateError(code) {
+  const err = ICEGATE_ERRORS[code];
+  if (!err) return;
+  const titleEl = document.getElementById('err-code-title');
+  const sevEl = document.getElementById('err-severity');
+  const causeEl = document.getElementById('err-cause');
+  const resEl = document.getElementById('err-resolution');
+  
+  if (titleEl) titleEl.textContent = err.title;
+  if (sevEl) {
+    sevEl.textContent = err.severity;
+    sevEl.style.color = err.color;
+  }
+  if (causeEl) causeEl.textContent = err.cause;
+  if (resEl) resEl.innerHTML = err.resolution.replace(/\n/g, '<br>');
+  showToast(`Decoded ${code}`, "⚡");
+}
+
+// 14. FTA CERTIFICATE OF ORIGIN (CoO) SIMULATOR
+function calculateFtaValueAddition() {
+  const imp = parseFloat(document.getElementById('fta-import-val')?.value) || 0;
+  const exp = parseFloat(document.getElementById('fta-export-val')?.value) || 1;
+  const dva = Math.max(0, Math.min(100, Math.round(((exp - imp) / exp) * 1000) / 10));
+  
+  const dvaEl = document.getElementById('fta-dva-pct');
+  const statusEl = document.getElementById('fta-coo-status');
+  
+  if (dvaEl) {
+    dvaEl.textContent = `${dva}% DVA`;
+    dvaEl.style.color = dva >= 35 ? '#10B981' : '#EF4444';
+  }
+  if (statusEl) {
+    if (dva >= 35) {
+      statusEl.textContent = "✓ QUALIFIES FOR 0% DUTY";
+      statusEl.style.background = "rgba(16, 185, 129, 0.15)";
+      statusEl.style.color = "#10B981";
+    } else {
+      statusEl.textContent = "✗ BELOW 35% THRESHOLD";
+      statusEl.style.background = "rgba(239, 68, 68, 0.15)";
+      statusEl.style.color = "#EF4444";
+    }
+  }
+}
+
+// 15. RULE 138(10) BREAKDOWN NOTICE GENERATOR
+function copyBreakdownNotice() {
+  const now = new Date();
+  const notice = `STATUTORY NOTICE UNDER CGST RULE 138(10) — TRANSIT EXTENSION\nDate: ${now.toLocaleDateString('en-IN')} ${now.toLocaleTimeString('en-IN')} IST\nVehicle: NL-01-AF-4421 | Consignment: Commercial Export Freight\nStatutory Reason: Mechanical breakdown of commercial heavy vehicle en-route to Gateway Port.\nLegal Relief: Application filed within mandatory 16-hour validity window (Rule 138(10) of Central Goods and Services Tax Rules, 2017).\nTarget Gateway Seaport: Nhava Sheva (JNPT) / Mundra Container Terminal.`;
+  navigator.clipboard.writeText(notice).then(() => {
+    showToast("Breakdown Notice Copied to Clipboard!", "📋");
+  }).catch(() => {
+    showToast("Notice text ready to copy", "✓");
+  });
+}
+
+// 16. ODOP DISTRICT SOURCING DEEP-DIVE
+const ODOP_DEEP_DIVE_DATA = {
+  'Nizamabad': {
+    name: 'Nizamabad, Telangana',
+    product: 'Turmeric & Turmeric Formulations (HS 0910 30 20)',
+    gi: 'GI-Application 627 (Class 30 - Agri)',
+    season: 'Peak: Jan - Apr | Moderate: May - Jul | Lean: Aug - Dec',
+    icd: 'ICD Sanathnagar / Hyderabad (CONCOR Railhead)',
+    freight: '₹32,400 per TEU to JNPT Port (FOB)',
+    lab: 'Spices Board Quality Evaluation Lab, Hyderabad (NABL TC-5421)'
+  },
+  'Guntur': {
+    name: 'Guntur, Andhra Pradesh',
+    product: 'Dried Red Chillies (Teja & Sannam varieties - HS 0904)',
+    gi: 'GI-Reg 429 (Guntur Sannam Chilli - Class 30)',
+    season: 'Peak: Feb - May | Moderate: Jun - Aug | Lean: Sep - Jan',
+    icd: 'ICD Guntur (Reddipalem / Marripalem)',
+    freight: '₹24,500 per TEU to Krishnapatnam / Chennai Port',
+    lab: 'Vimta Labs Ltd / Spices Board Regional Lab, Guntur'
+  },
+  'Tirupur': {
+    name: 'Tirupur, Tamil Nadu',
+    product: 'Cotton Knitwear & Readymade Garments (HS 6109 10 00)',
+    gi: 'Industrial Knitwear Cluster TN-TRP-01',
+    season: 'Continuous Industrial Production (Summer & Autumn Lines)',
+    icd: 'ICD Tirupur (Irugur / Chettipalayam CONCOR)',
+    freight: '₹19,500 per TEU to Cochin / Tuticorin Port',
+    lab: 'SGS India / Intertek / Bureau Veritas Tirupur Hubs'
+  },
+  'Moradabad': {
+    name: 'Moradabad, Uttar Pradesh',
+    product: 'Artistic Metal Brassware & Handicrafts (HS 7418 10 22)',
+    gi: 'GI-Reg 397 (Moradabad Metal Craft - Class 74)',
+    season: 'Year-Round (Peak Manufacturing: Aug - Dec for Holiday Export)',
+    icd: 'ICD Moradabad (CONCOR Rail Siding)',
+    freight: '₹34,200 per TEU to Mundra / Nhava Sheva',
+    lab: 'Metal Handicrafts Service Centre (MHSC) NABL Lab'
+  },
+  'Bhadohi': {
+    name: 'Bhadohi, Uttar Pradesh',
+    product: 'Handmade Woollen Knotted Carpets (HS 5701 10 10)',
+    gi: 'GI-Reg 172 (Handmade Carpet of Bhadohi - Class 27)',
+    season: 'All Season (Peak Weaving: Oct - Mar after monsoon)',
+    icd: 'ICD Babatpur / ICD Chandauli (Varanasi)',
+    freight: '₹36,800 per TEU to Kolkata / JNPT Port',
+    lab: 'Indian Institute of Carpet Technology (IICT) Testing Lab'
+  },
+  'Nashik': {
+    name: 'Nashik, Maharashtra',
+    product: 'Fresh Table Grapes & Red Onions (HS 0806 10 00)',
+    gi: 'GI-Reg 396 (Nashik Grapes - Class 31)',
+    season: 'Peak: Jan - Apr (Grape Harvest) | Onion: Nov - Mar',
+    icd: 'ICD Nashik (Janori / CONCOR)',
+    freight: '₹16,800 per Reefer TEU to JNPT Port (FOB)',
+    lab: 'National Referral Laboratory (NRC Grapes) ICAR Nashik'
+  },
+  'Surat': {
+    name: 'Surat, Gujarat',
+    product: 'Cut & Polished Diamonds & Synthetic Textiles (HS 7102)',
+    gi: 'GI-Reg 512 (Surat Zari Craft - Class 52)',
+    season: 'All Season Processing (Post-Diwali Export Surge)',
+    icd: 'ICD Sachin / Surat (Western Railway Corridor)',
+    freight: '₹14,200 per TEU to Nhava Sheva (JNPT)',
+    lab: 'GJEPC Gem Testing Laboratory & SASMIRA Textile Lab'
+  },
+  'Darjeeling': {
+    name: 'Darjeeling, West Bengal',
+    product: 'Orthodox Premium Darjeeling Tea (HS 0902 40 10)',
+    gi: 'GI-Reg 1 & 2 (India First GI - Darjeeling Tea Word & Logo)',
+    season: 'First Flush: Mar-Apr | Second Flush: May-Jun | Autumnal: Oct-Nov',
+    icd: 'ICD Siliguri / Kolkata Port Terminal',
+    freight: '₹29,000 per TEU to Kolkata Port (Net FOB)',
+    lab: 'Tea Board Quality Control Laboratory, Siliguri'
+  },
+  'Visakhapatnam': {
+    name: 'Visakhapatnam, Andhra Pradesh',
+    product: 'Frozen Marine Vannamei Shrimp (HS 0306 17 20)',
+    gi: 'MPEDA Coastal Aquaculture Authority Registry',
+    season: 'Summer Crop: Mar - Jun | Winter Crop: Sep - Dec',
+    icd: 'Visakhapatnam Port Container Terminal (Direct Seaport)',
+    freight: '₹8,500 per Reefer Container (Port Drayage)',
+    lab: 'Export Inspection Agency (EIA) Lab & MPEDA QC Lab, Vizag'
+  },
+  'Karnal': {
+    name: 'Karnal, Haryana',
+    product: 'Aromatic Basmati Rice (Pusa 1121 - HS 1006 30 20)',
+    gi: 'GI-Reg 145 (Basmati Rice - Indo-Gangetic Plains)',
+    season: 'Basmati Paddy Harvest: Oct - Dec | Milling: Jan - Dec',
+    icd: 'ICD Karnal / ICD Panipat (Foodgrain Siding)',
+    freight: '₹28,000 per TEU to Kandla / Mundra Port',
+    lab: 'Basmati Export Development Foundation (BEDF) Lab, Modipuram'
+  },
+  'Ludhiana': {
+    name: 'Ludhiana, Punjab',
+    product: 'Hosiery Knitwear & Industrial Fasteners (HS 6110 / 7318)',
+    gi: 'Industrial Hosiery & Engineering Cluster Registry',
+    season: 'Winter Wear: Apr - Sep | Shipping: Aug - Dec',
+    icd: 'ICD Dhandari Kalan / Ludhiana (CONCOR DFC)',
+    freight: '₹31,000 per TEU to Mundra Port via Western DFC',
+    lab: 'Central Institute of Hand Tools (CIHT) & Wool Research Lab'
+  },
+  'Morbi': {
+    name: 'Morbi, Gujarat',
+    product: 'Ceramic Vitrified Tiles & Sanitaryware (HS 6907 21 00)',
+    gi: 'Industrial Ceramic Cluster (CAPEXIL Registry)',
+    season: 'Continuous Ceramic Production (24x7 Automated Kilns)',
+    icd: 'ICD Morbi (Navlakhi Rail Link) / Pipavav DFC Corridor',
+    freight: '₹11,500 per TEU to Kandla / Mundra Port',
+    lab: 'Morbi Ceramic Association Testing Center & NABL Lab'
+  }
+};
+
+function updateDistrictDeepDive(distName) {
+  const d = ODOP_DEEP_DIVE_DATA[distName] || ODOP_DEEP_DIVE_DATA['Nizamabad'];
+  const nameEl = document.getElementById('dd-district-name');
+  const prodEl = document.getElementById('dd-product-name');
+  const giEl = document.getElementById('dd-gi-tag');
+  const seasonEl = document.getElementById('dd-season');
+  const icdEl = document.getElementById('dd-icd');
+  const freightEl = document.getElementById('dd-freight');
+  const labEl = document.getElementById('dd-lab');
+
+  if (nameEl) nameEl.textContent = d.name;
+  if (prodEl) prodEl.textContent = d.product;
+  if (giEl) giEl.textContent = d.gi;
+  if (seasonEl) seasonEl.textContent = d.season;
+  if (icdEl) icdEl.textContent = d.icd;
+  if (freightEl) freightEl.textContent = d.freight;
+  if (labEl) labEl.textContent = d.lab;
+}
 
 // Global Window Bindings for Inline HTML Handlers
 window.applyTheme = applyTheme;
@@ -683,6 +996,11 @@ window.closeBottomSheet = closeBottomSheet;
 window.copyOutputMarkdown = copyOutputMarkdown;
 window.shareOrPrintReport = shareOrPrintReport;
 window.resetEwayTimer = resetEwayTimer;
+window.setHsTariff = setHsTariff;
+window.decodeIcegateError = decodeIcegateError;
+window.calculateFtaValueAddition = calculateFtaValueAddition;
+window.copyBreakdownNotice = copyBreakdownNotice;
+window.updateDistrictDeepDive = updateDistrictDeepDive;
 
 // DOM Initialization
 window.addEventListener('DOMContentLoaded', () => {

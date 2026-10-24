@@ -240,10 +240,27 @@ class handler(BaseHTTPRequestHandler):
 
     def _handle_calculate(self, payload: dict):
         query = payload.get("query", "")
-        amount = payload.get("amount")
+        amount = payload.get("amount") or payload.get("invoice_amount")
         product = payload.get("product", "")
+        quantity = payload.get("quantity")
+        unit = payload.get("unit")
+        
+        explicit_val = None
+        if amount:
+            try:
+                explicit_val = float(str(amount).replace(",", "").replace("₹", "").replace("$", ""))
+            except Exception:
+                pass
+
+        qty_val = None
+        if quantity:
+            try:
+                qty_val = float(str(quantity).replace(",", ""))
+            except Exception:
+                pass
+
         search_str = f"{query} {product} {amount if amount else ''}"
-        calc_res = incentives_calculator.calculate(search_str)
+        calc_res = incentives_calculator.calculate(search_str, explicit_value=explicit_val, quantity=qty_val, unit=unit)
         report_md = incentives_calculator.format_report(calc_res)
         self._send_json({
             "calculation": calc_res,

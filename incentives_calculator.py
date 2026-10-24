@@ -82,30 +82,62 @@ class ExportIncentivesCalculator:
                 return sched
         return self.schedules[0]
 
-    def calculate(self, text: str) -> Dict[str, Any]:
-        """Compute full export incentives, margins, and claiming steps."""
-        order_value = self.extract_order_value_inr(text)
-        is_default_value = False
-        if order_value is None:
-            order_value = 2000000.0  # Default ₹20 Lakhs
-            is_default_value = True
+    def calculate(self, text: str, explicit_value: Optional[float] = None, quantity: Optional[float] = None, unit: Optional[str] = None) -> Dict[str, Any]:
+        """Compute full export incentives, unit caps, secondary scrip monetization, and claiming steps."""
+        if explicit_value is not None and explicit_value > 0:
+            order_value = float(explicit_value)
+            is_default_value = False
+        else:
+            order_value = self.extract_order_value_inr(text)
+            is_default_value = False
+            if order_value is None:
+                order_value = 2000000.0  # Default ₹20 Lakhs
+                is_default_value = True
 
         schedule = self.match_schedule(text)
 
+        scheme_name = schedule.get("scheme_name", "RoDTEP")
         rodtep_pct = schedule["rodtep_rate_pct"]
         drawback_pct = schedule["duty_drawback_pct"]
         msme_subvention_pct = schedule.get("msme_interest_subvention_pct", 3.0)
 
-        rodtep_inr = round(order_value * (rodtep_pct / 100.0), 2)
+        # Uncapped percentage value
+        pct_value = order_value * (rodtep_pct / 100.0)
+        
+        # Enforce Appendix 4R Statutory Rupee Cap per Unit if quantity is provided
+        cap_per_unit = schedule.get("cap_per_unit_inr")
+        prod_unit = unit or schedule.get("unit", "pcs")
+        is_capped = False
+        cap_ceiling = None
+
+        if quantity is not None and quantity > 0 and cap_per_unit:
+            cap_ceiling = cap_per_unit * quantity
+            if cap_ceiling < pct_value:
+                rodtep_inr = round(cap_ceiling, 2)
+                is_capped = True
+            else:
+                rodtep_inr = round(pct_value, 2)
+        else:
+            rodtep_inr = round(pct_value, 2)
+
         drawback_inr = round(order_value * (drawback_pct / 100.0), 2)
         msme_benefit_inr = round(order_value * (msme_subvention_pct / 100.0) * (90.0 / 365.0), 2)
+
+        # Secondary Market Scrip Cash Realization (1.8% Market Discount)
+        scrip_discount_pct = schedule.get("secondary_market_discount_pct", 1.8)
+        scrip_discount_inr = round(rodtep_inr * (scrip_discount_pct / 100.0), 2)
+        scrip_net_cash_inr = round(rodtep_inr - scrip_discount_inr, 2)
+
+        # Advance Authorization (AA) estimated duty saved
+        aa_saving_pct = schedule.get("advance_auth_saving_pct", 11.0)
+        advance_auth_saving_inr = round(order_value * (aa_saving_pct / 100.0), 2)
 
         total_direct_cash_inr = round(rodtep_inr + drawback_inr, 2)
         total_benefit_with_msme_inr = round(total_direct_cash_inr + msme_benefit_inr, 2)
         combined_rebate_pct = round(rodtep_pct + drawback_pct, 2)
 
         proof_badge = {
-            "rodtep_authority": "Directorate General of Foreign Trade (DGFT) Appendix 4R",
+            "rodtep_authority": f"Directorate General of Foreign Trade (DGFT) {scheme_name} Appendix 4R",
             "drawback_authority": "CBIC All Industry Rates of Duty Drawback (Notification 77/2023-Customs)",
             "forex_conversion": f"CBIC Gazette Notification No. 12/2024-Customs (USD: ₹{self.forex_rates.get('USD', 84.05)} | AED: ₹{self.forex_rates.get('AED', 22.88)})",
             "claiming_system": "ICEGATE Customs Automated Electronic Scrip Ledger (Drawback Scroll)",
@@ -120,8 +152,19 @@ class ExportIncentivesCalculator:
             "order_value_inr": order_value,
             "is_default_value": is_default_value,
             "schedule": schedule,
+            "scheme_name": scheme_name,
+            "quantity": quantity,
+            "unit": prod_unit,
+            "cap_per_unit_inr": cap_per_unit,
+            "is_capped": is_capped,
+            "cap_ceiling": cap_ceiling,
             "rodtep_pct": rodtep_pct,
             "rodtep_inr": rodtep_inr,
+            "scrip_discount_pct": scrip_discount_pct,
+            "scrip_discount_inr": scrip_discount_inr,
+            "scrip_net_cash_inr": scrip_net_cash_inr,
+            "advance_auth_saving_pct": aa_saving_pct,
+            "advance_auth_saving_inr": advance_auth_saving_inr,
             "drawback_pct": drawback_pct,
             "drawback_inr": drawback_inr,
             "msme_benefit_inr": msme_benefit_inr,

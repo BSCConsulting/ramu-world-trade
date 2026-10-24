@@ -523,7 +523,24 @@
           </button>
           <button onclick="setQuery('What are India\'s top export commodities?')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl border text-xs font-medium active:scale-95 transition-transform flex items-center gap-1" style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);">
             🏆 <span>Top 10 Exports</span>
-          </button>
+        </div>
+
+        <!-- 8-Digit ITC-HS Statutory Disambiguator & Duty Tree -->
+        <div class="mt-2.5 pt-2.5 border-t" style="border-color: var(--card-border);">
+          <div class="flex items-center justify-between pb-1.5">
+            <span class="text-[10px] font-bold uppercase tracking-wider" style="color: var(--text-dim);">8-Digit ITC-HS Statutory Lines</span>
+            <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded" style="background: var(--accent-light); color: var(--accent);">BCD &bull; SWS &bull; IGST</span>
+          </div>
+          <div class="flex overflow-x-auto space-x-1.5 pb-1 ios-scroll no-scrollbar text-[11px]">
+            <button onclick="setHsTariff('6109.10.00')" class="flex-shrink-0 px-2.5 py-1 rounded-lg border font-mono font-semibold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">6109.10.00 Cotton T-Shirts</button>
+            <button onclick="setHsTariff('0306.17.20')" class="flex-shrink-0 px-2.5 py-1 rounded-lg border font-mono font-semibold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">0306.17.20 Frozen Shrimp</button>
+            <button onclick="setHsTariff('0910.30.20')" class="flex-shrink-0 px-2.5 py-1 rounded-lg border font-mono font-semibold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">0910.30.20 Turmeric Powder</button>
+            <button onclick="setHsTariff('7318.15.00')" class="flex-shrink-0 px-2.5 py-1 rounded-lg border font-mono font-semibold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">7318.15.00 Steel Fasteners</button>
+            <button onclick="setHsTariff('7418.10.22')" class="flex-shrink-0 px-2.5 py-1 rounded-lg border font-mono font-semibold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">7418.10.22 Brass Artware</button>
+            <button onclick="setHsTariff('6403.91.90')" class="flex-shrink-0 px-2.5 py-1 rounded-lg border font-mono font-semibold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">6403.91.90 Leather Shoes</button>
+            <button onclick="setHsTariff('3004.90.99')" class="flex-shrink-0 px-2.5 py-1 rounded-lg border font-mono font-semibold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">3004.90.99 Pharma Formulations</button>
+            <button onclick="setHsTariff('8517.13.00')" class="flex-shrink-0 px-2.5 py-1 rounded-lg border font-mono font-semibold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">8517.13.00 Smartphones</button>
+          </div>
         </div>
       </div>
 
@@ -566,6 +583,20 @@
           <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
             <span class="block text-[10px] font-medium" style="color: var(--text-dim);">Statutory Domain</span>
             <span id="class-domain" class="font-bold truncate block pt-0.5">--</span>
+          </div>
+        </div>
+        <!-- Duty Tree & Compliance Badges -->
+        <div id="class-duty-tree" class="p-2.5 rounded-xl border space-y-1.5 text-[11px]" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between font-mono text-[10px]">
+            <span style="color: var(--text-dim);">Statutory Duty Tree:</span>
+            <span id="duty-tree-rates" class="font-bold" style="color: var(--accent);">BCD 10% &bull; SWS 1% &bull; IGST 12%</span>
+          </div>
+          <div class="flex items-center justify-between text-[10px]">
+            <span style="color: var(--text-dim);">Port Dwell Time:</span>
+            <span id="duty-dwell-time" class="font-bold font-mono">Nhava Sheva: 22h &bull; Mundra: 16h</span>
+          </div>
+          <div id="duty-sps-alert" class="p-2 rounded-lg border text-[10px] leading-tight font-medium" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">
+            ⚠️ <strong>SPS / TBT Alert:</strong> EU REACH Annex XVII Azo-dye compliance & Oeko-Tex testing mandatory.
           </div>
         </div>
       </div>
@@ -708,6 +739,96 @@
           </div>
         </div>
       </div>
+
+      <!-- CBIC Gazette Forex Arbitrage Tracker -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl space-y-2.5">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-1.5">
+            <span class="text-xs font-extrabold uppercase tracking-wider">CBIC Gazette Forex Arbitrage</span>
+            <span class="text-[9px] px-1.5 py-0.5 rounded font-mono font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">LIVE SPREAD</span>
+          </div>
+          <span class="text-[10px] font-mono" style="color: var(--text-dim);">Notif No. 12/2024</span>
+        </div>
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <div class="p-2.5 rounded-xl border space-y-0.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <span class="text-[10px] font-bold" style="color: var(--text-dim);">Notified Customs USD</span>
+            <span class="text-base font-extrabold font-mono block">₹84.05</span>
+            <span class="text-[9px] text-emerald-500 font-medium">Valid till Thursday Revision</span>
+          </div>
+          <div class="p-2.5 rounded-xl border space-y-0.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <span class="text-[10px] font-bold" style="color: var(--text-dim);">RBI Spot Market Rate</span>
+            <span class="text-base font-extrabold font-mono block">₹84.18</span>
+            <span class="text-[9px] font-mono" style="color: var(--accent);">Spread: +₹0.13 (+0.15%)</span>
+          </div>
+        </div>
+        <div class="p-2 rounded-xl border text-[11px] leading-snug" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">
+          💡 <strong>Assessment Window:</strong> Notified customs rate is lower than spot forex. File your export shipping bills before Thursday midnight to maximize rupee invoice conversion.
+        </div>
+      </div>
+
+      <!-- ICEGATE Error Code Decoder -->
+      <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xs font-extrabold uppercase tracking-wider flex items-center gap-1.5">
+            <span>ICEGATE Error Code Decoder</span>
+          </h2>
+          <span class="text-[9px] font-mono font-bold px-2 py-0.5 rounded-full border" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">EDI Diagnostic</span>
+        </div>
+        <p class="text-[11px]" style="color: var(--text-muted);">Quick-resolve shipping bill rejections, scroll holds, and bank PFMS name mismatch errors.</p>
+        
+        <div class="flex overflow-x-auto space-x-1.5 pb-1 ios-scroll no-scrollbar text-[10px]">
+          <button onclick="decodeIcegateError('SB001')" class="flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">SB001 (PAN Mismatch)</button>
+          <button onclick="decodeIcegateError('SB002')" class="flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">SB002 (Bank PFMS)</button>
+          <button onclick="decodeIcegateError('SB003')" class="flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">SB003 (GSTR-1 6A)</button>
+          <button onclick="decodeIcegateError('SB005')" class="flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">SB005 (EGM Hold)</button>
+          <button onclick="decodeIcegateError('SB006')" class="flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">SB006 (Port Code)</button>
+          <button onclick="decodeIcegateError('ERR-301')" class="flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">ERR-301 (RoDTEP Null)</button>
+        </div>
+
+        <div id="icegate-decoder-result" class="p-3.5 rounded-2xl border space-y-2 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between">
+            <span id="err-code-title" class="font-extrabold text-xs" style="color: var(--accent);">SB002 — Bank PFMS Name Mismatch</span>
+            <span id="err-severity" class="text-[9px] px-2 py-0.5 rounded-full font-mono font-bold" style="background: rgba(239, 68, 68, 0.15); color: #EF4444;">Drawback Stalled</span>
+          </div>
+          <p id="err-cause" class="text-[11px] leading-relaxed" style="color: var(--text-muted);">
+            Exporter's registered business name on the Shipping Bill does not match the beneficiary account holder name verified by Public Financial Management System (PFMS).
+          </p>
+          <div class="pt-1 border-t space-y-1" style="border-color: var(--card-border);">
+            <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-dim);">Action Plan for Port CHA:</span>
+            <p id="err-resolution" class="text-[11px] leading-relaxed">
+              1. Log in to ICEGATE &rarr; Financial Services &rarr; Bank Account Management.<br>
+              2. Execute 'Single Rupee Test Credit' verification.<br>
+              3. Submit revised bank mandate letter to Assistant Commissioner (Drawback) at port of export.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FTA / CEPA Value Addition Simulator -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl space-y-2.5">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-extrabold uppercase tracking-wider">FTA Certificate of Origin (CoO) Simulator</span>
+          <span class="text-[9px] font-mono px-2 py-0.5 rounded-full border" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">CEPA &bull; ECTA &bull; SAFTA</span>
+        </div>
+        <p class="text-[11px]" style="color: var(--text-muted);">Verify if your consignment qualifies for 0% preferential tariff under India-UAE CEPA or India-Australia ECTA (Rule of Origin: $\ge 35\%$ Value Addition).</p>
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Imported Raw Material (₹):</label>
+            <input type="number" id="fta-import-val" value="320000" oninput="calculateFtaValueAddition()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Export FOB Invoice (₹):</label>
+            <input type="number" id="fta-export-val" value="1000000" oninput="calculateFtaValueAddition()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" />
+          </div>
+        </div>
+        <div class="p-2.5 rounded-xl border flex items-center justify-between" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div>
+            <span class="text-[10px] block" style="color: var(--text-dim);">Domestic Value Addition (DVA):</span>
+            <span id="fta-dva-pct" class="text-sm font-extrabold font-mono" style="color: #10B981;">68.0% DVA</span>
+          </div>
+          <span id="fta-coo-status" class="px-2.5 py-1 rounded-full text-[10px] font-bold font-mono" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">✓ QUALIFIES FOR 0% DUTY</span>
+        </div>
+      </div>
     </section>
 
     <!-- ==================== TAB 3: SCRATCHPAD (10x Export Cash Calculator) ==================== -->
@@ -736,6 +857,29 @@
             </select>
           </div>
 
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[11px] font-bold mb-1.5 uppercase tracking-wide" style="color: var(--text-muted);">Consignment Quantity:</label>
+              <input 
+                type="number" 
+                id="calc-quantity" 
+                placeholder="e.g. 10000" 
+                value="10000" 
+                class="w-full border rounded-2xl px-3.5 py-3.5 text-xs focus:outline-none min-h-[48px] font-mono"
+              />
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold mb-1.5 uppercase tracking-wide" style="color: var(--text-muted);">Unit of Measurement:</label>
+              <select id="calc-unit" class="w-full border rounded-2xl px-3 py-3.5 text-xs focus:outline-none min-h-[48px]">
+                <option value="pcs">Pieces (pcs)</option>
+                <option value="kg">Kilograms (kg)</option>
+                <option value="pair">Pairs</option>
+                <option value="meter">Meters</option>
+                <option value="pack">Packs</option>
+              </select>
+            </div>
+          </div>
+
           <div>
             <label class="block text-[11px] font-bold mb-1.5 uppercase tracking-wide" style="color: var(--text-muted);">Consignment FOB Value (Multi-Currency):</label>
             <input 
@@ -759,16 +903,31 @@
 
       <!-- Calculated Real-Time Metric Cards (Kinetic Counters) -->
       <div id="calc-results-area" class="space-y-3">
-        <!-- RoDTEP vs Drawback Grid -->
+        <!-- Statutory Cap Alert Pill -->
+        <div id="card-cap-alert" class="hidden p-3 rounded-2xl border text-xs font-semibold space-y-1" style="background: rgba(245, 158, 11, 0.12); border-color: rgba(245, 158, 11, 0.4); color: #D97706;">
+          <div class="flex items-center justify-between">
+            <span class="font-bold">⚠️ Statutorily Capped (DGFT Appendix 4R)</span>
+            <span id="card-cap-ceiling" class="font-mono font-bold">Cap Limit Enforced</span>
+          </div>
+          <p class="text-[10px] leading-tight opacity-90">Your high invoice value triggered the statutory per-unit rupee ceiling to protect your audit defense.</p>
+        </div>
+
+        <!-- RoDTEP / RoSCTL vs Drawback Grid -->
         <div class="grid grid-cols-2 gap-3">
           <div class="glass-card rounded-2xl p-4 space-y-1">
-            <span class="text-[10px] uppercase font-bold tracking-wider" style="color: var(--text-dim);">RoDTEP Scrip</span>
+            <div class="flex items-center justify-between">
+              <span id="card-scheme-type" class="text-[10px] uppercase font-bold tracking-wider" style="color: var(--text-dim);">RoSCTL Scrip</span>
+              <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded" style="background: var(--accent-light); color: var(--accent);">Duty Scrip</span>
+            </div>
             <span id="card-rodtep" class="text-xl font-extrabold font-mono block" style="color: var(--accent);">₹0</span>
-            <span id="card-rodtep-pct" class="text-[10px] font-mono" style="color: var(--text-muted);">2.5% rebate</span>
+            <span id="card-rodtep-pct" class="text-[10px] font-mono" style="color: var(--text-muted);">3.9% rebate</span>
           </div>
 
           <div class="glass-card rounded-2xl p-4 space-y-1">
-            <span class="text-[10px] uppercase font-bold tracking-wider" style="color: var(--text-dim);">Duty Drawback</span>
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] uppercase font-bold tracking-wider" style="color: var(--text-dim);">Duty Drawback</span>
+              <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">Bank Cash</span>
+            </div>
             <span id="card-drawback" class="text-xl font-extrabold font-mono block" style="color: var(--accent);">₹0</span>
             <span id="card-drawback-pct" class="text-[10px] font-mono" style="color: var(--text-muted);">3.2% scroll</span>
           </div>
@@ -777,8 +936,8 @@
         <!-- Big Total Direct Cash Card -->
         <div class="glass-card rounded-3xl p-5 shadow-2xl space-y-2 relative overflow-hidden" style="border: 2px solid var(--accent-border) !important;">
           <div class="flex items-center justify-between">
-            <span class="text-[11px] uppercase font-extrabold tracking-wider" style="color: var(--accent);">Net Cash Deposited into Bank</span>
-            <span id="card-margin-boost" class="px-2.5 py-0.5 rounded-full border font-extrabold font-mono text-[10px]" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">+5.7% Margin Boost</span>
+            <span class="text-[11px] uppercase font-extrabold tracking-wider" style="color: var(--accent);">Total Statutory Cash Liquidity</span>
+            <span id="card-margin-boost" class="px-2.5 py-0.5 rounded-full border font-extrabold font-mono text-[10px]" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">+7.1% Margin Boost</span>
           </div>
           <span id="card-total-cash" class="text-3xl font-black font-mono tracking-tight block">₹0</span>
           
@@ -787,6 +946,21 @@
             <button onclick="openBottomSheet('claiming')" class="text-xs font-bold active:scale-95 transition-transform flex items-center gap-1" style="color: var(--accent);">
               <span>Claiming Steps &rarr;</span>
             </button>
+          </div>
+        </div>
+
+        <!-- Micro Monetization: Secondary Market Cash & Advance Auth Breakeven -->
+        <div class="grid grid-cols-2 gap-3 text-xs">
+          <div class="p-3 rounded-2xl border space-y-1" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <span class="text-[10px] font-bold block" style="color: var(--text-dim);">Secondary Scrip Cash (1.8% Disc.)</span>
+            <span id="card-scrip-net" class="text-sm font-extrabold font-mono block" style="color: #10B981;">₹0</span>
+            <span class="text-[9px] block leading-tight" style="color: var(--text-muted);">Direct cash from importer transfer</span>
+          </div>
+
+          <div class="p-3 rounded-2xl border space-y-1" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <span class="text-[10px] font-bold block" style="color: var(--text-dim);">Advance Auth (AA) Duty Saved</span>
+            <span id="card-aa-savings" class="text-sm font-extrabold font-mono block" style="color: var(--accent);">₹0</span>
+            <span class="text-[9px] block leading-tight" style="color: var(--text-muted);">Duty-free raw material saving</span>
           </div>
         </div>
       </div>
@@ -816,7 +990,7 @@
           <p class="text-[10px]" style="color: var(--text-muted);">Closes at 11:30 IST for primary wholesale price index calculation.</p>
         </div>
 
-        <!-- Timer 2 -->
+        <!-- Timer 2: e-Way Bill -->
         <div class="p-4 rounded-2xl border space-y-2.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
           <div class="flex items-center justify-between">
             <span class="text-xs font-bold">🚛 Active e-Way Bill Validity</span>
@@ -829,6 +1003,61 @@
             <div class="h-full w-3/4 rounded-full" style="background: var(--accent);"></div>
           </div>
           <p class="text-[10px]" style="color: var(--text-muted);">1 day per 200 km rule under GST Rule 138. Prevents checkpoint detention.</p>
+        </div>
+
+        <!-- Timer 3: Rule 138(10) Breakdown / Transshipment Legal Extension Window -->
+        <div class="p-4 rounded-2xl border space-y-2.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold">🛠️ Rule 138(10) Breakdown Legal Extension</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-md font-mono font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">LEGAL WINDOW ACTIVE</span>
+          </div>
+          <p class="text-[11px] leading-tight" style="color: var(--text-muted);">If vehicle breaks down or transships, extension can legally be filed 8 hours before or 8 hours after expiry without penalty.</p>
+          <div class="flex items-center justify-between pt-1">
+            <span class="text-xs font-mono font-bold" style="color: var(--accent);">Window closes in: 07h 44m</span>
+            <button onclick="copyBreakdownNotice()" class="px-3 py-1.5 rounded-xl border text-[10px] font-bold font-mono active:scale-95 transition-transform" style="background: var(--accent); color: #ffffff;">
+              📋 Copy Breakdown Reason Text
+            </button>
+          </div>
+        </div>
+
+        <!-- Timer 4: Port Container Gate & VGM Cutoff -->
+        <div class="p-4 rounded-2xl border space-y-2.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold">🚢 Port Gate & VGM Cutoff (Nhava Sheva BMCT)</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-md font-mono font-bold text-amber-500 bg-amber-500/10">URGENT</span>
+          </div>
+          <div class="text-3xl font-black font-mono tracking-wider text-amber-500" id="gate-timer">
+            06:14:22
+          </div>
+          <div class="w-full h-2 rounded-full overflow-hidden" style="background: var(--card-inner-border);">
+            <div class="h-full w-1/4 rounded-full bg-amber-500"></div>
+          </div>
+          <p class="text-[10px]" style="color: var(--text-muted);">Electronic VGM cutoff closes 2 hours before gate closure. Avoids container rollover.</p>
+        </div>
+
+        <!-- Timer 5: Demurrage & Detention Ticking Cost Meter -->
+        <div class="p-4 rounded-2xl border space-y-2 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between">
+            <span class="font-bold">⏱️ Container Demurrage & Detention Meter</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">3 Days Free Time Left</span>
+          </div>
+          <div class="flex items-center justify-between font-mono text-[11px] pt-1">
+            <span style="color: var(--text-dim);">Detention Rate after Free Time:</span>
+            <span class="font-bold text-red-500">₹262.50 / hr ($75/day)</span>
+          </div>
+          <p class="text-[10px]" style="color: var(--text-muted);">Tracks empty container return to shipping yard after destuffing.</p>
+        </div>
+
+        <!-- Timer 6: FEMA 9-Month Export Realization Statutory Window -->
+        <div class="p-4 rounded-2xl border space-y-2 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between">
+            <span class="font-bold">🏛️ FEMA 9-Month Realization Statutory Window</span>
+            <span class="text-[10px] font-mono font-bold" style="color: var(--accent);">234 Days Remaining</span>
+          </div>
+          <div class="w-full h-2 rounded-full overflow-hidden" style="background: var(--card-inner-border);">
+            <div class="h-full w-[70%] rounded-full" style="background: var(--accent);"></div>
+          </div>
+          <p class="text-[10px]" style="color: var(--text-muted);">Section 8 FEMA 1999: Foreign exchange proceeds must be repatriated via AD Code within 270 days to prevent RBI caution listing.</p>
         </div>
       </div>
     </section>
@@ -918,6 +1147,65 @@
               <span class="text-[9px] opacity-75">Dark Pro Terminal</span>
             </div>
           </button>
+        </div>
+      </div>
+
+      <!-- ODOP District Sourcing Deep-Dive Explorer -->
+      <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3">
+        <div class="flex items-center justify-between">
+          <h2 class="text-base font-extrabold flex items-center gap-2">
+            <span>ODOP Sourcing & Logistics Deep-Dive</span>
+          </h2>
+          <span class="text-[10px] border px-2 py-0.5 rounded-full font-mono font-bold" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">765 Districts</span>
+        </div>
+        <p class="text-xs" style="color: var(--text-muted);">Inspect harvest seasonality, nearest Inland Container Depot (ICD), railhead freight, GI tag validity, and NABL testing labs.</p>
+
+        <div>
+          <label class="block text-[11px] font-bold mb-1.5 uppercase tracking-wide" style="color: var(--text-dim);">Select District Cluster:</label>
+          <select id="odop-district-select" onchange="updateDistrictDeepDive(this.value)" class="w-full border rounded-2xl px-3.5 py-3 text-xs focus:outline-none min-h-[44px]">
+            <option value="Nizamabad">Nizamabad, Telangana — Turmeric Formulations (HS 0910)</option>
+            <option value="Guntur">Guntur, Andhra Pradesh — Dried Red Chillies (HS 0904)</option>
+            <option value="Tirupur">Tirupur, Tamil Nadu — Cotton Knitwear Apparel (HS 6109)</option>
+            <option value="Moradabad">Moradabad, Uttar Pradesh — Brassware Handicrafts (HS 7418)</option>
+            <option value="Bhadohi">Bhadohi, Uttar Pradesh — Handmade Woollen Carpets (HS 5701)</option>
+            <option value="Nashik">Nashik, Maharashtra — Fresh Grapes & Red Onions (HS 0806)</option>
+            <option value="Surat">Surat, Gujarat — Cut & Polished Diamonds (HS 7102)</option>
+            <option value="Darjeeling">Darjeeling, West Bengal — Orthodox Premium Tea (HS 0902)</option>
+            <option value="Visakhapatnam">Visakhapatnam, Andhra Pradesh — Marine Vannamei Shrimp (HS 0306)</option>
+            <option value="Karnal">Karnal, Haryana — Aromatic Basmati Rice (HS 1006)</option>
+            <option value="Ludhiana">Ludhiana, Punjab — Woollen Knitwear & Fasteners (HS 6110)</option>
+            <option value="Morbi">Morbi, Gujarat — Ceramic Vitrified Tiles (HS 6907)</option>
+          </select>
+        </div>
+
+        <!-- District Details Container -->
+        <div id="district-deepdive-card" class="p-3.5 rounded-2xl border space-y-2.5 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between border-b pb-2" style="border-color: var(--card-border);">
+            <div>
+              <span id="dd-district-name" class="font-extrabold text-sm block" style="color: var(--accent);">Nizamabad, Telangana</span>
+              <span id="dd-product-name" class="text-[11px] font-bold" style="color: var(--text-muted);">Turmeric & Turmeric Formulations</span>
+            </div>
+            <span id="dd-gi-tag" class="px-2 py-0.5 rounded-full font-mono text-[10px] font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">GI-Application 627</span>
+          </div>
+
+          <div class="space-y-2 pt-0.5 text-[11px]">
+            <div class="flex items-start gap-2">
+              <span class="font-bold flex-shrink-0" style="color: var(--text-dim);">🗓️ Harvest Season:</span>
+              <span id="dd-season" class="font-medium">Peak: Jan - Apr | Moderate: May - Jul | Lean: Aug - Dec</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="font-bold flex-shrink-0" style="color: var(--text-dim);">🚂 Nearest ICD:</span>
+              <span id="dd-icd" class="font-medium">ICD Sanathnagar / Hyderabad (CONCOR Railhead)</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="font-bold flex-shrink-0" style="color: var(--text-dim);">💰 Rail Freight:</span>
+              <span id="dd-freight" class="font-mono font-bold" style="color: var(--accent);">₹32,400 per TEU to JNPT Port (FOB)</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="font-bold flex-shrink-0" style="color: var(--text-dim);">🔬 Testing Lab:</span>
+              <span id="dd-lab" class="font-medium">Spices Board Quality Evaluation Lab, Hyderabad (NABL TC-5421)</span>
+            </div>
+          </div>
         </div>
       </div>
 
