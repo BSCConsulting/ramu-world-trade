@@ -184,6 +184,8 @@ function switchNativeTab(tabName) {
   });
 
   // Smooth scroll to top on tab switch
+  const mainEl = document.querySelector('main');
+  if (mainEl) mainEl.scrollTo({ top: 0, behavior: 'smooth' });
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
   // If opening scratchpad for the first time, compute initial calculation
@@ -735,9 +737,12 @@ function openBottomSheet(type) {
   }
 
   backdrop.classList.remove('hidden');
-  setTimeout(() => backdrop.classList.remove('opacity-0'), 10);
-  sheet.classList.remove('closed');
-  sheet.classList.add('open');
+  sheet.classList.remove('hidden');
+  setTimeout(() => {
+    backdrop.classList.remove('opacity-0');
+    sheet.classList.remove('translate-y-full');
+    sheet.classList.add('translate-y-0');
+  }, 10);
   document.body.style.overflow = 'hidden';
 }
 
@@ -746,10 +751,11 @@ function closeBottomSheet() {
   const backdrop = document.getElementById('bottom-sheet-backdrop');
   if (sheet && backdrop) {
     backdrop.classList.add('opacity-0');
-    sheet.classList.remove('open');
-    sheet.classList.add('closed');
+    sheet.classList.remove('translate-y-0');
+    sheet.classList.add('translate-y-full');
     setTimeout(() => {
       backdrop.classList.add('hidden');
+      sheet.classList.add('hidden');
       document.body.style.overflow = '';
     }, 250);
   }

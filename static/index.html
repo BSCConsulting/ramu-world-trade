@@ -364,14 +364,12 @@
       flex-shrink: 0;
     }
 
-    /* Fixed Modal Overlay Positioning */
-    #deal-memo-modal:not(.hidden),
-    #entity-dossier-modal:not(.hidden),
-    #bottom-sheet:not(.hidden) {
-      position: fixed !important;
-      inset: 0 !important;
-      z-index: 50 !important;
-      display: flex !important;
+    /* Modal Overlay Display Control */
+    #deal-memo-modal.hidden,
+    #entity-dossier-modal.hidden,
+    #bottom-sheet.hidden,
+    #bottom-sheet-backdrop.hidden {
+      display: none !important;
     }
 
     /* Print & PDF Export Optimization */
@@ -588,8 +586,9 @@
           <button onclick="setQuery('How much goods do we buy from China versus sell to them?')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl border text-xs font-medium active:scale-95 transition-transform flex items-center gap-1" style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);">
             🇨🇳 <span>China Deficit</span>
           </button>
-          <button onclick="setQuery('What are India\'s top export commodities?')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl border text-xs font-medium active:scale-95 transition-transform flex items-center gap-1" style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);">
+          <button onclick="setQuery('What are India top export commodities?')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl border text-xs font-medium active:scale-95 transition-transform flex items-center gap-1" style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);">
             🏆 <span>Top 10 Exports</span>
+          </button>
         </div>
 
         <!-- 8-Digit ITC-HS Statutory Disambiguator & Duty Tree -->
@@ -1520,7 +1519,7 @@
   <!-- ==================== MOBILE BOTTOM SHEET MODAL ==================== -->
   <div id="bottom-sheet-backdrop" onclick="closeBottomSheet()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden transition-opacity opacity-0"></div>
   
-  <div id="bottom-sheet" class="fixed inset-x-0 bottom-0 border-t rounded-t-[32px] z-50 transform translate-y-full transition-transform duration-300 max-h-[85vh] flex flex-col pb-safe-bottom shadow-2xl">
+  <div id="bottom-sheet" class="fixed inset-x-0 bottom-0 border-t rounded-t-[32px] z-50 transform translate-y-full transition-transform duration-300 max-h-[85vh] flex flex-col pb-safe-bottom shadow-2xl hidden">
     <!-- Drag Handle Indicator Pill -->
     <div class="w-12 h-1.5 rounded-full mx-auto my-3.5 cursor-pointer opacity-50" style="background: var(--text-dim);" onclick="closeBottomSheet()"></div>
     
