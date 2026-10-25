@@ -91,6 +91,8 @@ class handler(BaseHTTPRequestHandler):
             self._handle_dgft(parsed.query)
         elif path.endswith("/tariff"):
             self._handle_tariff(parsed.query)
+        elif path.endswith("/logistics"):
+            self._handle_logistics(parsed.query)
         elif path.endswith("/mandi"):
             self._handle_mandi(parsed.query)
         elif path.endswith("/history"):
@@ -121,6 +123,8 @@ class handler(BaseHTTPRequestHandler):
             self._handle_dgft_calc(payload)
         elif path.endswith("/tariff"):
             self._handle_tariff_calc(payload)
+        elif path.endswith("/logistics"):
+            self._handle_logistics_calc(payload)
         else:
             self._send_json({"error": f"API endpoint not found: {self.path}"}, status=404)
 
@@ -492,6 +496,50 @@ class handler(BaseHTTPRequestHandler):
             hs = str(payload.get("hs_code", payload.get("q", "85171300")))[:30]
             rate = float(payload.get("exchange_rate", payload.get("rate", 0.0)))
             data = calculate_landed_customs_duty(val, currency, hs, rate if rate > 0 else None)
+            self._send_json(data)
+        except Exception as e:
+            self._send_json({"error": str(e)}, status=400)
+
+    def _handle_logistics(self, query_str: str = ""):
+        try:
+            from sources.port_logistics import get_ports_overview, get_port_metrics, track_vessel_schedule, calculate_demurrage_liability
+            params = urllib.parse.parse_qs(query_str) if query_str else {}
+            if "vessel" in params:
+                vessel = params.get("vessel", ["MAERSK_KAVERI"])[0]
+                port = params.get("port", ["INNSA1"])[0]
+                data = track_vessel_schedule(vessel, port)
+            elif "demurrage" in params or "delay" in params:
+                port = params.get("port", ["INNSA1"])[0]
+                size = params.get("size", ["40ft"])[0]
+                count = int(params.get("containers", params.get("count", [2]))[0])
+                days = int(params.get("days", params.get("delay", [12]))[0])
+                data = calculate_demurrage_liability(port, size, count, days)
+            elif "port" in params:
+                port = params.get("port", ["INNSA1"])[0]
+                data = get_port_metrics(port)
+            else:
+                data = get_ports_overview()
+            self._send_json(data)
+        except Exception as e:
+            self._send_json({"error": str(e)}, status=500)
+
+    def _handle_logistics_calc(self, payload: dict):
+        try:
+            from sources.port_logistics import calculate_demurrage_liability, track_vessel_schedule, get_port_metrics
+            action = payload.get("action", "demurrage")
+            if action == "vessel":
+                vessel = str(payload.get("vessel_name", "MAERSK_KAVERI"))[:50]
+                port = str(payload.get("port_code", "INNSA1"))[:15]
+                data = track_vessel_schedule(vessel, port)
+            elif action == "metrics":
+                port = str(payload.get("port_code", "INNSA1"))[:15]
+                data = get_port_metrics(port)
+            else:
+                port = str(payload.get("port_code", "INNSA1"))[:15]
+                size = str(payload.get("container_size", "40ft"))[:10]
+                count = int(payload.get("container_count", 2))
+                days = int(payload.get("days_in_port", 12))
+                data = calculate_demurrage_liability(port, size, count, days)
             self._send_json(data)
         except Exception as e:
             self._send_json({"error": str(e)}, status=400)

@@ -883,6 +883,188 @@ function resetEwayTimer() {
   showToast("e-Way Bill Timer Re-synchronized with Rule 138(10)", "🚛");
 }
 
+// 10B. INDIAN PORTS ASSOCIATION (IPA) & PCS 1X PORT RADAR & VESSEL BERTHING
+let currentPortCode = 'INNSA1';
+
+function selectPortLogistics(portCode) {
+  currentPortCode = portCode || 'INNSA1';
+  document.querySelectorAll('.port-radar-chip').forEach(btn => {
+    btn.style.background = 'var(--card-inner-bg)';
+    btn.style.color = 'var(--text-main)';
+  });
+  const activeBtn = document.getElementById(`port-chip-${portCode}`);
+  if (activeBtn) {
+    activeBtn.style.background = 'var(--accent)';
+    activeBtn.style.color = '#ffffff';
+  }
+
+  fetchPortMetrics(currentPortCode);
+  trackVesselBerthing();
+  runPortDemurrageCalc();
+}
+
+async function fetchPortMetrics(portCode) {
+  try {
+    const res = await fetch(`/api/logistics?port=${encodeURIComponent(portCode)}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    renderPortMetrics(data);
+  } catch (err) {
+    console.warn('Fallback to local Port Logistics metrics:', err);
+    // Port statutory fallback
+    const defaults = {
+      INNSA1: { trt: 22.5, pbd: 1.8, crane: 32.0, dwell: 42.0, rail: 18.5, status: 'Normal Operations', terminal: 'BMCT (PSA Mumbai)' },
+      INMUN1: { trt: 18.2, pbd: 0.9, crane: 35.5, dwell: 32.0, rail: 31.0, status: 'Fast Track / Fluid', terminal: 'AICTPL (MSC / Adani)' },
+      INMAA1: { trt: 34.0, pbd: 3.2, crane: 26.0, dwell: 58.0, rail: 12.0, status: 'Moderate Congestion', terminal: 'CCTPL (DP World)' },
+      INCOK1: { trt: 19.4, pbd: 1.2, crane: 30.5, dwell: 34.0, rail: 14.0, status: 'Fluid / Transshipment', terminal: 'Vallarpadam ICTT' },
+      INVTZ1: { trt: 26.8, pbd: 2.1, crane: 29.0, dwell: 38.0, rail: 24.0, status: 'Normal Operations', terminal: 'VCTPL Container Terminal' },
+      INHAZ1: { trt: 16.5, pbd: 1.1, crane: 33.0, dwell: 28.0, rail: 22.0, status: 'Fast Track', terminal: 'Hazira Container Terminal' }
+    };
+    const p = defaults[portCode] || defaults.INNSA1;
+    renderPortMetrics({
+      port: {
+        port_code: portCode,
+        terminals: [p.terminal],
+        operational_metrics: {
+          turnaround_time_hours: p.trt,
+          turnaround_time_days: Math.round((p.trt / 24) * 100) / 100,
+          pre_berthing_detention_hours: p.pbd,
+          crane_productivity_gmph: p.crane,
+          avg_cfs_dwell_hours: p.dwell,
+          rail_evacuation_share_pct: p.rail,
+          congestion_status: p.status
+        }
+      }
+    });
+  }
+}
+
+function renderPortMetrics(data) {
+  const p = data.port;
+  if (!p) return;
+  const m = p.operational_metrics;
+
+  const badgeEl = document.getElementById('port-radar-status-badge');
+  const trtEl = document.getElementById('port-metric-trt');
+  const trtDaysEl = document.getElementById('port-metric-trt-days');
+  const pbdEl = document.getElementById('port-metric-pbd');
+  const craneEl = document.getElementById('port-metric-crane');
+  const dwellEl = document.getElementById('port-metric-dwell');
+  const railEl = document.getElementById('port-metric-rail');
+  const termInput = document.getElementById('port-terminal-name');
+
+  if (badgeEl) {
+    badgeEl.textContent = m.congestion_status;
+    badgeEl.style.color = m.congestion_status.includes('Fast') || m.congestion_status.includes('Fluid') ? '#10B981' : (m.congestion_status.includes('Normal') ? '#10B981' : '#F59E0B');
+  }
+  if (trtEl) trtEl.textContent = `${m.turnaround_time_hours} hrs`;
+  if (trtDaysEl) trtDaysEl.textContent = `${m.turnaround_time_days} days average`;
+  if (pbdEl) pbdEl.textContent = `${m.pre_berthing_detention_hours} hrs`;
+  if (craneEl) craneEl.textContent = `${m.crane_productivity_gmph} GMPH`;
+  if (dwellEl) dwellEl.textContent = `${m.avg_cfs_dwell_hours} hrs`;
+  if (railEl) railEl.textContent = `${m.rail_evacuation_share_pct}% Rail Share`;
+  if (termInput && p.terminals && p.terminals.length > 0) {
+    termInput.value = p.terminals[0];
+  }
+}
+
+async function trackVesselBerthing() {
+  const vesselEl = document.getElementById('port-vessel-name');
+  const vessel = vesselEl?.value.trim() || 'MAERSK_KAVERI';
+
+  try {
+    const res = await fetch(`/api/logistics?vessel=${encodeURIComponent(vessel)}&port=${encodeURIComponent(currentPortCode)}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    renderVesselBerthing(data);
+  } catch (err) {
+    console.warn('Fallback to local vessel timeline:', err);
+    const now = new Date();
+    const eta = new Date(now.getTime() + 18 * 3600000);
+    const cutoff = new Date(eta.getTime() - 8 * 3600000);
+    const berth = new Date(eta.getTime() + 2 * 3600000);
+    const etd = new Date(berth.getTime() + 22 * 3600000);
+    
+    renderVesselBerthing({
+      assigned_port: { terminal: 'Designated Container Berth' },
+      berthing_timeline: {
+        export_gate_cutoff: cutoff.toISOString().replace('T', ' ').substring(0, 16) + ' IST',
+        vessel_eta: eta.toISOString().replace('T', ' ').substring(0, 16) + ' IST',
+        expected_berthing: berth.toISOString().replace('T', ' ').substring(0, 16) + ' IST',
+        expected_departure_etd: etd.toISOString().replace('T', ' ').substring(0, 16) + ' IST'
+      }
+    });
+  }
+}
+
+function renderVesselBerthing(data) {
+  const bt = data.berthing_timeline;
+  if (!bt) return;
+
+  const cutoffEl = document.getElementById('vessel-res-cutoff');
+  const etaEl = document.getElementById('vessel-res-eta');
+  const berthEl = document.getElementById('vessel-res-berth');
+  const etdEl = document.getElementById('vessel-res-etd');
+  const termInput = document.getElementById('port-terminal-name');
+
+  if (cutoffEl) cutoffEl.textContent = bt.export_gate_cutoff;
+  if (etaEl) etaEl.textContent = bt.vessel_eta;
+  if (berthEl) berthEl.textContent = bt.expected_berthing;
+  if (etdEl) etdEl.textContent = bt.expected_departure_etd;
+  if (termInput && data.assigned_port?.terminal) {
+    termInput.value = data.assigned_port.terminal;
+  }
+}
+
+async function runPortDemurrageCalc() {
+  const sizeEl = document.getElementById('port-demurrage-size');
+  const countEl = document.getElementById('port-demurrage-count');
+  const daysEl = document.getElementById('port-demurrage-days');
+
+  const size = sizeEl?.value || '40ft';
+  const count = parseInt(countEl?.value) || 2;
+  const days = parseInt(daysEl?.value) || 12;
+
+  try {
+    const res = await fetch(`/api/logistics?demurrage=1&port=${encodeURIComponent(currentPortCode)}&size=${encodeURIComponent(size)}&containers=${encodeURIComponent(count)}&days=${encodeURIComponent(days)}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    renderPortDemurrage(data);
+  } catch (err) {
+    console.warn('Fallback to local demurrage calc:', err);
+    const freeDays = 5;
+    const chargeable = Math.max(0, days - freeDays);
+    const rate1 = size === '40ft' ? 3700 : 1850;
+    const rate2 = size === '40ft' ? 7200 : 3600;
+    let base = 0;
+    if (chargeable > 0) {
+      base += Math.min(chargeable, 5) * rate1 * count;
+      if (chargeable > 5) {
+        base += (chargeable - 5) * rate2 * count;
+      }
+    }
+    const gst = base * 0.18;
+    const total = base + gst;
+
+    renderPortDemurrage({
+      container_params: { chargeable_days: chargeable, free_period_days: freeDays },
+      grand_total_liability_inr: Math.round(total)
+    });
+  }
+}
+
+function renderPortDemurrage(data) {
+  const daysEl = document.getElementById('port-demurrage-chargeable-days');
+  const totalEl = document.getElementById('port-demurrage-total-val');
+
+  if (daysEl && data.container_params) {
+    daysEl.textContent = `${data.container_params.chargeable_days} chargeable days`;
+  }
+  if (totalEl) {
+    totalEl.textContent = `₹${Math.round(data.grand_total_liability_inr).toLocaleString('en-IN')}`;
+  }
+}
+
 setInterval(updateTimers, 1000);
 
 // 12. 8-DIGIT ITC-HS TARIFF SELECTOR
@@ -3674,6 +3856,9 @@ window.selectDgftCommodity = selectDgftCommodity;
 window.runDgftCalculation = runDgftCalculation;
 window.selectTariffCommodity = selectTariffCommodity;
 window.runTariffCalculation = runTariffCalculation;
+window.selectPortLogistics = selectPortLogistics;
+window.trackVesselBerthing = trackVesselBerthing;
+window.runPortDemurrageCalc = runPortDemurrageCalc;
 window.calculateFtaValueAddition = calculateFtaValueAddition;
 window.copyBreakdownNotice = copyBreakdownNotice;
 window.updateDistrictDeepDive = updateDistrictDeepDive;
@@ -3722,6 +3907,7 @@ window.addEventListener('DOMContentLoaded', () => {
   trackIcegateDocument();
   selectDgftCommodity('61091000', 2500000, 5000);
   selectTariffCommodity('85171300', 10000, 'USD');
+  selectPortLogistics('INNSA1');
   selectConsortiumCluster('guntur_chilli');
   selectPitchCorridor('surat_textiles');
   selectTitan('rockefeller');

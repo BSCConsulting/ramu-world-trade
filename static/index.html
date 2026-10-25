@@ -2123,32 +2123,170 @@
           </div>
         </div>
 
-        <!-- Timer 4: Port Container Gate & VGM Cutoff -->
-        <div class="p-4 rounded-2xl border space-y-2.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold">🚢 Port Gate & VGM Cutoff (Nhava Sheva BMCT)</span>
-            <span class="text-[10px] px-2 py-0.5 rounded-md font-mono font-bold text-amber-500 bg-amber-500/10">URGENT</span>
+        <!-- Provider 3.1: Indian Ports Association (IPA) & PCS 1x Live Port Operations & Vessel Berthing Radar -->
+        <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5 border" style="background: var(--card-bg); border-color: var(--card-border);">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <div class="flex items-center gap-2">
+              <span class="text-base">⚓</span>
+              <h3 class="text-sm font-extrabold uppercase tracking-wider">Indian Ports Association &amp; PCS 1x Port Radar</h3>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span id="port-radar-status-badge" class="text-[9px] font-mono px-2 py-0.5 rounded-full font-bold uppercase" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">Normal Operations</span>
+              <span class="text-[9px] font-mono px-2 py-0.5 rounded-full border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-dim);">MPA Act 2021 &bull; PCS 1x EDI</span>
+            </div>
           </div>
-          <div class="text-3xl font-black font-mono tracking-wider text-amber-500" id="gate-timer">
-            06:14:22
-          </div>
-          <div class="w-full h-2 rounded-full overflow-hidden" style="background: var(--card-inner-border);">
-            <div class="h-full w-1/4 rounded-full bg-amber-500"></div>
-          </div>
-          <p class="text-[10px]" style="color: var(--text-muted);">Electronic VGM cutoff closes 2 hours before gate closure. Avoids container rollover.</p>
-        </div>
 
-        <!-- Timer 5: Demurrage & Detention Ticking Cost Meter -->
-        <div class="p-4 rounded-2xl border space-y-2 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-          <div class="flex items-center justify-between">
-            <span class="font-bold">⏱️ Container Demurrage & Detention Meter</span>
-            <span class="text-[10px] font-mono px-2 py-0.5 rounded font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">3 Days Free Time Left</span>
+          <p class="text-xs leading-relaxed" style="color: var(--text-muted);">
+            Real-time operational dwell, pre-berthing anchorage detention, container gate-in deadlines, and statutory demurrage computation across Indian container gateways.
+          </p>
+
+          <!-- 1-Tap Port Selector Chips -->
+          <div class="flex items-center gap-1.5 overflow-x-auto pb-1 text-[10px]">
+            <span class="text-[9px] font-bold uppercase shrink-0" style="color: var(--text-dim);">Gateway:</span>
+            <button type="button" onclick="selectPortLogistics('INNSA1')" id="port-chip-INNSA1" class="port-radar-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">⚓ Nhava Sheva (JNPT)</button>
+            <button type="button" onclick="selectPortLogistics('INMUN1')" id="port-chip-INMUN1" class="port-radar-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">⚓ Mundra (APSEZ)</button>
+            <button type="button" onclick="selectPortLogistics('INMAA1')" id="port-chip-INMAA1" class="port-radar-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">⚓ Chennai (ChPT)</button>
+            <button type="button" onclick="selectPortLogistics('INCOK1')" id="port-chip-INCOK1" class="port-radar-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">⚓ Cochin (ICTT)</button>
+            <button type="button" onclick="selectPortLogistics('INVTZ1')" id="port-chip-INVTZ1" class="port-radar-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">⚓ Visakhapatnam</button>
+            <button type="button" onclick="selectPortLogistics('INHAZ1')" id="port-chip-INHAZ1" class="port-radar-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">⚓ Hazira</button>
           </div>
-          <div class="flex items-center justify-between font-mono text-[11px] pt-1">
-            <span style="color: var(--text-dim);">Detention Rate after Free Time:</span>
-            <span class="font-bold text-red-500">₹262.50 / hr ($75/day)</span>
+
+          <!-- Port Operational Key Metrics (4-Card Grid) -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+            <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              <span class="text-[9px] uppercase font-bold block" style="color: var(--text-dim);">Turnaround Time (TRT)</span>
+              <span id="port-metric-trt" class="text-base font-extrabold font-mono block mt-1" style="color: var(--text-main);">22.5 hrs</span>
+              <span id="port-metric-trt-days" class="text-[9px] font-mono text-[#10B981]">0.94 days average</span>
+            </div>
+            <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              <span class="text-[9px] uppercase font-bold block" style="color: var(--text-dim);">Anchorage Waiting (PBD)</span>
+              <span id="port-metric-pbd" class="text-base font-extrabold font-mono block mt-1 text-blue-500">1.8 hrs</span>
+              <span class="text-[9px] font-mono" style="color: var(--text-muted);">Pre-Berthing Detention</span>
+            </div>
+            <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              <span class="text-[9px] uppercase font-bold block" style="color: var(--text-dim);">Quay Crane Productivity</span>
+              <span id="port-metric-crane" class="text-base font-extrabold font-mono block mt-1 text-purple-500">32.0 GMPH</span>
+              <span class="text-[9px] font-mono" style="color: var(--text-muted);">Gross Moves Per Hour</span>
+            </div>
+            <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              <span class="text-[9px] uppercase font-bold block" style="color: var(--text-dim);">Evacuation &amp; CFS Dwell</span>
+              <span id="port-metric-dwell" class="text-base font-extrabold font-mono block mt-1" style="color: var(--accent);">42.0 hrs</span>
+              <span id="port-metric-rail" class="text-[9px] font-mono" style="color: var(--text-dim);">18.5% Rail Share</span>
+            </div>
           </div>
-          <p class="text-[10px]" style="color: var(--text-muted);">Tracks empty container return to shipping yard after destuffing.</p>
+
+          <!-- Vessel Berthing & Cutoff Tracker Form -->
+          <div class="p-3 rounded-2xl border space-y-2.5 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-[11px]" style="color: var(--text-main);">🚢 Live Vessel Berthing &amp; Gate-in Deadline Simulator</span>
+              <span class="text-[9px] font-mono text-amber-500">Form-13 &bull; VGM Cutoff</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <div>
+                <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Vessel Name / Voyage:</label>
+                <input type="text" id="port-vessel-name" value="MAERSK_KAVERI" placeholder="e.g. MAERSK_KAVERI or MSC_DANIELA" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+              </div>
+              <div>
+                <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Terminal Facility:</label>
+                <input type="text" id="port-terminal-name" value="BMCT (PSA Mumbai)" readonly class="w-full border rounded-xl p-2 text-xs font-mono opacity-80" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+              </div>
+              <div class="flex items-end">
+                <button type="button" onclick="trackVesselBerthing()" class="w-full py-2 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md text-white bg-blue-600 hover:bg-blue-700">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                  <span>Track Berthing Timeline</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Vessel Timeline Output -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2 pt-1 text-xs">
+              <div class="p-2 rounded-xl border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+                <span class="text-[9px] text-amber-500 font-bold block uppercase">Export Gate Cutoff</span>
+                <span id="vessel-res-cutoff" class="text-xs font-bold font-mono block mt-0.5 text-amber-500">2026-10-25 18:27 IST</span>
+                <span class="text-[8px] font-mono text-amber-400">8h prior to berth</span>
+              </div>
+              <div class="p-2 rounded-xl border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+                <span class="text-[9px] font-bold block uppercase" style="color: var(--text-dim);">Vessel ETA Pilot</span>
+                <span id="vessel-res-eta" class="text-xs font-bold font-mono block mt-0.5" style="color: var(--text-main);">2026-10-26 02:27 IST</span>
+                <span class="text-[8px] font-mono" style="color: var(--text-muted);">Pilot onboard</span>
+              </div>
+              <div class="p-2 rounded-xl border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+                <span class="text-[9px] text-blue-500 font-bold block uppercase">Expected Berthing</span>
+                <span id="vessel-res-berth" class="text-xs font-bold font-mono block mt-0.5 text-blue-500">2026-10-26 04:15 IST</span>
+                <span class="text-[8px] font-mono" style="color: var(--text-muted);">Crane Ops Begin</span>
+              </div>
+              <div class="p-2 rounded-xl border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+                <span class="text-[9px] text-[#10B981] font-bold block uppercase">Expected Sail (ETD)</span>
+                <span id="vessel-res-etd" class="text-xs font-bold font-mono block mt-0.5 text-[#10B981]">2026-10-27 02:45 IST</span>
+                <span class="text-[8px] font-mono" style="color: var(--text-muted);">EGM Trigger</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Major Port Demurrage & Ground Rent Calculator -->
+          <div class="p-3 rounded-2xl border space-y-2.5 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-[11px]" style="color: var(--text-main);">⏱️ Major Port Demurrage &amp; Ground Rent Calculator</span>
+              <span class="text-[9px] font-mono px-2 py-0.5 rounded-md border" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-dim);">Port Scale of Rates (SOR)</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
+              <div>
+                <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Container Size:</label>
+                <select id="port-demurrage-size" onchange="runPortDemurrageCalc()" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);">
+                  <option value="40ft" selected>40ft High Cube (HC)</option>
+                  <option value="20ft">20ft General Purpose (GP)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Box Count:</label>
+                <input type="number" id="port-demurrage-count" value="2" min="1" max="100" oninput="runPortDemurrageCalc()" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+              </div>
+              <div>
+                <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Days in Port CY:</label>
+                <input type="number" id="port-demurrage-days" value="12" min="1" max="60" oninput="runPortDemurrageCalc()" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+              </div>
+              <div class="p-2 rounded-xl border flex flex-col justify-center" style="background: rgba(239, 68, 68, 0.08); border-color: rgba(239, 68, 68, 0.25);">
+                <div class="flex items-center justify-between">
+                  <span class="text-[9px] uppercase font-bold text-red-500">Demurrage + GST</span>
+                  <span id="port-demurrage-chargeable-days" class="text-[9px] font-mono text-red-400">7 chargeable days</span>
+                </div>
+                <span id="port-demurrage-total-val" class="text-sm font-extrabold font-mono text-red-500 mt-0.5">₹77,644</span>
+                <span class="text-[8px] font-mono" style="color: var(--text-muted);">Free time: 5 days</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Port Community System (PCS 1x) 5-Step Milestone Stepper -->
+          <div class="p-3 rounded-2xl border space-y-2 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-[11px]" style="color: var(--text-main);">📡 PCS 1x Electronic Clearance Stepper</span>
+              <span class="text-[9px] font-mono" style="color: var(--text-muted);">National Logistics Portal (Marine)</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-1.5 text-[10px] font-mono text-center">
+              <div class="p-1.5 rounded-lg border bg-emerald-500/10 border-emerald-500/30 text-emerald-500 font-bold">
+                <span>1. Form-13</span>
+                <span class="block text-[8px] font-normal text-emerald-400">Gate Permit &bull; 0.5h</span>
+              </div>
+              <div class="p-1.5 rounded-lg border bg-emerald-500/10 border-emerald-500/30 text-emerald-500 font-bold">
+                <span>2. Terminal Gate</span>
+                <span class="block text-[8px] font-normal text-emerald-400">RFID OCR &bull; 1.0h</span>
+              </div>
+              <div class="p-1.5 rounded-lg border bg-blue-500/10 border-blue-500/30 text-blue-500 font-bold">
+                <span>3. CY Stacking</span>
+                <span class="block text-[8px] font-normal text-blue-400">BAPLIE Plan &bull; 4.0h</span>
+              </div>
+              <div class="p-1.5 rounded-lg border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+                <span>4. Quay Crane</span>
+                <span class="block text-[8px] font-normal text-muted">COARRI Load &bull; 2.0h</span>
+              </div>
+              <div class="p-1.5 rounded-lg border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+                <span>5. Sail &amp; EGM</span>
+                <span class="block text-[8px] font-normal text-muted">ICEGATE Refund &bull; 12h</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Timer 6: FEMA 9-Month Export Realization Statutory Window -->

@@ -1,0 +1,258 @@
+{
+  "metadata": {
+    "title": "Indian Ports Association (IPA) & Port Community System (PCS 1x) Logistics Master",
+    "statutory_authority": "Indian Ports Association (IPA) & Ministry of Ports, Shipping and Waterways (MoPSW)",
+    "portal": "https://ipa.nic.in and https://www.indianpcs.gov.in",
+    "legal_basis": "Major Port Authorities Act, 2021 and Tariff Authority for Major Ports (TAMP)",
+    "update_cycle": "Real-time vessel berthing notifications & monthly operational bulletin",
+    "national_benchmark": {
+      "avg_turnaround_time_hours": 24.6,
+      "avg_pre_berthing_detention_hours": 1.9,
+      "avg_crane_productivity_gmph": 28.5,
+      "container_coastal_share_pct": 14.2
+    }
+  },
+  "ports": [
+    {
+      "port_code": "INNSA1",
+      "name": "Jawaharlal Nehru Port (JNPA / Nhava Sheva)",
+      "state": "Maharashtra",
+      "coast": "West Coast",
+      "type": "Major Port",
+      "draft_meters": 15.0,
+      "terminals": ["NSICT (DP World)", "NSIGT (DP World)", "GTI (APM Terminals)", "BMCT (PSA)", "JNPCT"],
+      "operational_metrics": {
+        "pre_berthing_detention_hours": 1.8,
+        "turnaround_time_hours": 22.5,
+        "turnaround_time_days": 0.94,
+        "crane_productivity_gmph": 32.0,
+        "rail_evacuation_share_pct": 18.5,
+        "avg_cfs_dwell_hours": 42.0,
+        "congestion_status": "Normal Operations"
+      },
+      "gate_in_rules": {
+        "dry_container_cutoff_hours": 8,
+        "reefer_container_cutoff_hours": 4,
+        "hazard_dg_cutoff_hours": 6,
+        "mandatory_form": "PCS 1x Form-13 (Gate In Permit)"
+      },
+      "demurrage_slabs_per_day_inr": {
+        "free_period_days": 5,
+        "day_6_to_10_20ft": 1850,
+        "day_6_to_10_40ft": 3700,
+        "day_11_to_20_20ft": 3600,
+        "day_11_to_20_40ft": 7200,
+        "after_day_20_20ft": 6500,
+        "after_day_20_40ft": 13000
+      },
+      "key_rail_corridors": ["ICD Tughlakabad (TKD)", "ICD Dadri", "ICD Khatuwas", "ICD Sanand"]
+    },
+    {
+      "port_code": "INMUN1",
+      "name": "Mundra Port (Adani APSEZ)",
+      "state": "Gujarat",
+      "coast": "West Coast",
+      "type": "Non-Major / Commercial Private Port",
+      "draft_meters": 17.5,
+      "terminals": ["MICT (DP World)", "AMCT", "AICTPL (MSC)", "CMA-CGM Terminal"],
+      "operational_metrics": {
+        "pre_berthing_detention_hours": 0.9,
+        "turnaround_time_hours": 18.2,
+        "turnaround_time_days": 0.76,
+        "crane_productivity_gmph": 35.5,
+        "rail_evacuation_share_pct": 31.0,
+        "avg_cfs_dwell_hours": 32.0,
+        "congestion_status": "Fast Track / Fluid"
+      },
+      "gate_in_rules": {
+        "dry_container_cutoff_hours": 6,
+        "reefer_container_cutoff_hours": 3,
+        "hazard_dg_cutoff_hours": 4,
+        "mandatory_form": "Adani Port Pass & PCS 1x SSR"
+      },
+      "demurrage_slabs_per_day_inr": {
+        "free_period_days": 5,
+        "day_6_to_10_20ft": 1950,
+        "day_6_to_10_40ft": 3900,
+        "day_11_to_20_20ft": 3800,
+        "day_11_to_20_40ft": 7600,
+        "after_day_20_20ft": 6900,
+        "after_day_20_40ft": 13800
+      },
+      "key_rail_corridors": ["ICD Dadri", "ICD Khatuwas", "ICD Mandi Gobindgarh", "ICD Ludhiana"]
+    },
+    {
+      "port_code": "INMAA1",
+      "name": "Chennai Port (ChPT)",
+      "state": "Tamil Nadu",
+      "coast": "East Coast",
+      "type": "Major Port",
+      "draft_meters": 14.5,
+      "terminals": ["CCTPL (DP World)", "CITPL (PSA)"],
+      "operational_metrics": {
+        "pre_berthing_detention_hours": 3.2,
+        "turnaround_time_hours": 34.0,
+        "turnaround_time_days": 1.42,
+        "crane_productivity_gmph": 26.0,
+        "rail_evacuation_share_pct": 12.0,
+        "avg_cfs_dwell_hours": 58.0,
+        "congestion_status": "Moderate Congestion"
+      },
+      "gate_in_rules": {
+        "dry_container_cutoff_hours": 12,
+        "reefer_container_cutoff_hours": 6,
+        "hazard_dg_cutoff_hours": 8,
+        "mandatory_form": "ChPT RFID e-Pass & Form-13"
+      },
+      "demurrage_slabs_per_day_inr": {
+        "free_period_days": 7,
+        "day_6_to_10_20ft": 1600,
+        "day_6_to_10_40ft": 3200,
+        "day_11_to_20_20ft": 3200,
+        "day_11_to_20_40ft": 6400,
+        "after_day_20_20ft": 5800,
+        "after_day_20_40ft": 11600
+      },
+      "key_rail_corridors": ["ICD Whitefield (Bengaluru)", "ICD Irungattukottai", "ICD Tondiarpet"]
+    },
+    {
+      "port_code": "INVTZ1",
+      "name": "Visakhapatnam Port (VPA)",
+      "state": "Andhra Pradesh",
+      "coast": "East Coast",
+      "type": "Major Port",
+      "draft_meters": 16.5,
+      "terminals": ["VCTPL (J M Baxi / ICTSI)"],
+      "operational_metrics": {
+        "pre_berthing_detention_hours": 2.1,
+        "turnaround_time_hours": 26.8,
+        "turnaround_time_days": 1.12,
+        "crane_productivity_gmph": 29.0,
+        "rail_evacuation_share_pct": 24.0,
+        "avg_cfs_dwell_hours": 38.0,
+        "congestion_status": "Normal Operations"
+      },
+      "gate_in_rules": {
+        "dry_container_cutoff_hours": 8,
+        "reefer_container_cutoff_hours": 4,
+        "hazard_dg_cutoff_hours": 6,
+        "mandatory_form": "VCTPL e-Gate & PCS Form-13"
+      },
+      "demurrage_slabs_per_day_inr": {
+        "free_period_days": 5,
+        "day_6_to_10_20ft": 1500,
+        "day_6_to_10_40ft": 3000,
+        "day_11_to_20_20ft": 3000,
+        "day_11_to_20_40ft": 6000,
+        "after_day_20_20ft": 5500,
+        "after_day_20_40ft": 11000
+      },
+      "key_rail_corridors": ["ICD Nagpur", "ICD Raipur", "ICD Hyderabad (Sanathnagar)", "Nepal Transit Corridor"]
+    },
+    {
+      "port_code": "INCOK1",
+      "name": "Cochin Port / Vallarpadam ICTT",
+      "state": "Kerala",
+      "coast": "West Coast",
+      "type": "Major Port / International Transshipment Terminal",
+      "draft_meters": 14.5,
+      "terminals": ["Vallarpadam ICTT (DP World)"],
+      "operational_metrics": {
+        "pre_berthing_detention_hours": 1.2,
+        "turnaround_time_hours": 19.4,
+        "turnaround_time_days": 0.81,
+        "crane_productivity_gmph": 30.5,
+        "rail_evacuation_share_pct": 14.0,
+        "avg_cfs_dwell_hours": 34.0,
+        "congestion_status": "Fluid / Transshipment Priority"
+      },
+      "gate_in_rules": {
+        "dry_container_cutoff_hours": 8,
+        "reefer_container_cutoff_hours": 4,
+        "hazard_dg_cutoff_hours": 5,
+        "mandatory_form": "ICTT e-Permit & PCS 1x Form-13"
+      },
+      "demurrage_slabs_per_day_inr": {
+        "free_period_days": 7,
+        "day_6_to_10_20ft": 1700,
+        "day_6_to_10_40ft": 3400,
+        "day_11_to_20_20ft": 3400,
+        "day_11_to_20_40ft": 6800,
+        "after_day_20_20ft": 6000,
+        "after_day_20_40ft": 12000
+      },
+      "key_rail_corridors": ["ICD Irugur (Coimbatore)", "ICD Whitefield (Bengaluru)"]
+    },
+    {
+      "port_code": "INHAZ1",
+      "name": "Hazira Port (Adani APSEZ)",
+      "state": "Gujarat",
+      "coast": "West Coast",
+      "type": "Commercial Private Port",
+      "draft_meters": 15.0,
+      "terminals": ["Hazira Container Terminal (PSA / Adani)"],
+      "operational_metrics": {
+        "pre_berthing_detention_hours": 1.1,
+        "turnaround_time_hours": 16.5,
+        "turnaround_time_days": 0.69,
+        "crane_productivity_gmph": 33.0,
+        "rail_evacuation_share_pct": 22.0,
+        "avg_cfs_dwell_hours": 28.0,
+        "congestion_status": "Fast Track"
+      },
+      "gate_in_rules": {
+        "dry_container_cutoff_hours": 6,
+        "reefer_container_cutoff_hours": 3,
+        "hazard_dg_cutoff_hours": 4,
+        "mandatory_form": "Hazira Gate Pass & Form-13"
+      },
+      "demurrage_slabs_per_day_inr": {
+        "free_period_days": 5,
+        "day_6_to_10_20ft": 1800,
+        "day_6_to_10_40ft": 3600,
+        "day_11_to_20_20ft": 3600,
+        "day_11_to_20_40ft": 7200,
+        "after_day_20_20ft": 6400,
+        "after_day_20_40ft": 12800
+      },
+      "key_rail_corridors": ["ICD Sachin (Surat)", "ICD Ankleshwar", "ICD Vadodara"]
+    }
+  ],
+  "pcs_milestones": [
+    {
+      "step": 1,
+      "code": "FORM13",
+      "name": "PCS 1x Form-13 Gate-in Permit",
+      "description": "Customs CHA lodges electronic gate-in request with verified Shipping Bill and container seal number.",
+      "sla_hours": 0.5
+    },
+    {
+      "step": 2,
+      "code": "GATEIN",
+      "name": "Terminal Gate-in & Optical OCR Check",
+      "description": "Container moves past RFID gate reader, weight captured on Weighbridge, and verified gross mass (VGM) verified.",
+      "sla_hours": 1.0
+    },
+    {
+      "step": 3,
+      "code": "YARD_STACK",
+      "name": "CY Yard Stacking & BAPLIE Load Planning",
+      "description": "Container positioned in terminal yard according to ship bay plan (BAPLIE EDI message).",
+      "sla_hours": 4.0
+    },
+    {
+      "step": 4,
+      "code": "BERTH_LOAD",
+      "name": "Vessel Berthing & Quay Crane Loading",
+      "description": "Quay Crane hoists container onto cellular vessel hold. EDI COARRI message transmitted to line and customs.",
+      "sla_hours": 2.0
+    },
+    {
+      "step": 5,
+      "code": "SAIL_EGM",
+      "name": "Vessel Sail & Export General Manifest (EGM)",
+      "description": "Vessel departs port. Shipping Line files EGM on ICEGATE triggering electronic RoDTEP/IGST refund generation.",
+      "sla_hours": 12.0
+    }
+  ]
+}
