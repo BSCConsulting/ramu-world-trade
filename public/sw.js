@@ -4,7 +4,7 @@
  * 100% Native Web Standards (Zero External Libraries)
  */
 
-const CACHE_NAME = 'wot-sovereign-v2';
+const CACHE_NAME = 'wot-sovereign-v3';
 const STATIC_ASSETS = [
   '/',
   '/index.html',

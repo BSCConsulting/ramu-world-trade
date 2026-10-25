@@ -412,6 +412,81 @@
         max-height: 20px !important;
       }
     }
+
+    /* ============================================================
+       SOVEREIGN CSS FALLBACK CORE (100% Offline & Ad-Blocker Immune)
+       Guarantees tab isolation, typography, & layout even if
+       cdn.tailwindcss.com fails or is blocked.
+       ============================================================ */
+    .hidden {
+      display: none !important;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-app);
+      color: var(--text-main);
+    }
+    .flex { display: flex; }
+    .inline-flex { display: inline-flex; }
+    .flex-col { flex-direction: column; }
+    .flex-wrap { flex-wrap: wrap; }
+    .items-center { align-items: center; }
+    .justify-center { justify-content: center; }
+    .justify-between { justify-content: space-between; }
+    .flex-1 { flex: 1 1 0%; }
+    .flex-shrink-0 { flex-shrink: 0; }
+    .w-full { width: 100%; }
+    .h-full { height: 100%; }
+    .space-y-2 > * + * { margin-top: 0.5rem; }
+    .space-y-3 > * + * { margin-top: 0.75rem; }
+    .space-y-4 > * + * { margin-top: 1rem; }
+    .space-x-1 > * + * { margin-left: 0.25rem; }
+    .space-x-2 > * + * { margin-left: 0.5rem; }
+    .gap-1 { gap: 0.25rem; }
+    .gap-2 { gap: 0.5rem; }
+    .gap-3 { gap: 0.75rem; }
+    .gap-4 { gap: 1rem; }
+    .p-2 { padding: 0.5rem; }
+    .p-3 { padding: 0.75rem; }
+    .p-3\.5 { padding: 0.875rem; }
+    .p-4 { padding: 1rem; }
+    .p-5 { padding: 1.25rem; }
+    .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+    .px-4 { padding-left: 1rem; padding-right: 1rem; }
+    .py-1\.5 { padding-top: 0.375rem; padding-bottom: 0.375rem; }
+    .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+    .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+    .py-3\.5 { padding-top: 0.875rem; padding-bottom: 0.875rem; }
+    .rounded-xl { border-radius: 0.75rem; }
+    .rounded-2xl { border-radius: 1rem; }
+    .rounded-3xl { border-radius: 1.5rem; }
+    .rounded-full { border-radius: 9999px; }
+    .border { border-width: 1px; border-style: solid; border-color: var(--card-border); }
+    .border-b { border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: var(--card-border); }
+    .border-t { border-top-width: 1px; border-top-style: solid; border-top-color: var(--card-border); }
+    .shadow-sm { box-shadow: 0 1px 2px 0 var(--shadow-color); }
+    .shadow-lg { box-shadow: 0 10px 15px -3px var(--shadow-color); }
+    .shadow-xl { box-shadow: 0 20px 25px -5px var(--shadow-color); }
+    .shadow-2xl { box-shadow: 0 25px 50px -12px var(--shadow-color); }
+    .text-xs { font-size: 0.75rem; line-height: 1rem; }
+    .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+    .text-base { font-size: 1rem; line-height: 1.5rem; }
+    .font-medium { font-weight: 500; }
+    .font-semibold { font-weight: 600; }
+    .font-bold { font-weight: 700; }
+    .font-extrabold { font-weight: 800; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .fixed { position: fixed; }
+    .sticky { position: sticky; }
+    .relative { position: relative; }
+    .absolute { position: absolute; }
+    .inset-0 { inset: 0; }
+    .inset-x-0 { left: 0; right: 0; }
+    .top-0 { top: 0; }
+    .bottom-0 { bottom: 0; }
+    .z-30 { z-index: 30; }
+    .z-40 { z-index: 40; }
+    .z-50 { z-index: 50; }
   </style>
 </head>
 <body class="theme-kyoto-tea h-full overflow-x-hidden flex flex-col font-sans">

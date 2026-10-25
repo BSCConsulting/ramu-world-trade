@@ -363,6 +363,31 @@ function sanitizeHtml(dirty) {
   }
 }
 
+function renderMarkdownSafe(text) {
+  if (!text) return '';
+  if (typeof marked !== 'undefined' && typeof marked.parse === 'function') {
+    try {
+      return marked.parse(text);
+    } catch (e) {
+      console.warn('marked.parse error, using fallback parser', e);
+    }
+  }
+  // Pure JS zero-dependency fallback markdown parser
+  let html = escapeHtml(text);
+  html = html.replace(/^### (.*$)/gim, '<h3 class="text-sm font-bold mt-2.5 mb-1">$1</h3>');
+  html = html.replace(/^## (.*$)/gim, '<h2 class="text-base font-extrabold mt-3 mb-1.5">$1</h2>');
+  html = html.replace(/^# (.*$)/gim, '<h1 class="text-lg font-black mt-4 mb-2">$1</h1>');
+  html = html.replace(/^\> (.*$)/gim, '<blockquote class="border-l-2 pl-2 italic opacity-80 my-1">$1</blockquote>');
+  html = html.replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>');
+  html = html.replace(/\*(.*?)\*/gim, '<em>$1</em>');
+  html = html.replace(/`([^`]+)`/gim, '<code class="px-1 py-0.5 rounded text-[11px] font-mono bg-black/10">$1</code>');
+  html = html.replace(/^\- (.*$)/gim, '<li class="ml-4 list-disc">$1</li>');
+  html = html.replace(/^\* (.*$)/gim, '<li class="ml-4 list-disc">$1</li>');
+  html = html.replace(/\n\n/g, '<p class="my-1.5"></p>');
+  html = html.replace(/\n/g, '<br />');
+  return html;
+}
+
 // 6. MAIN CONVERSATIONAL SEARCH & TRIANGULATION
 async function handleSearch(event) {
   if (event) event.preventDefault();
@@ -468,7 +493,7 @@ async function handleSearch(event) {
     // Render Sanitized High-Contrast Markdown (XSS Hardened)
     if (data.formatted_markdown) {
       currentRawMarkdown = data.formatted_markdown;
-      outputEl.innerHTML = sanitizeHtml(marked.parse(data.formatted_markdown));
+      outputEl.innerHTML = sanitizeHtml(renderMarkdownSafe(data.formatted_markdown));
     }
 
     // Render OLED Optimized Chart
