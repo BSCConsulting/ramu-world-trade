@@ -1,0 +1,155 @@
+{
+  "notification_number": "Notification No. 72/2024-Customs (N.T.)",
+  "statutory_act": "Section 14 of the Customs Act, 1962 (52 of 1962)",
+  "issuing_authority": "Central Board of Indirect Taxes and Customs (CBIC), Ministry of Finance, Department of Revenue",
+  "effective_date": "2026-10-18",
+  "fortnight_cycle": "2nd Fortnight of October 2026",
+  "schedule_1": [
+    {
+      "currency": "USD",
+      "name": "US Dollar",
+      "units": 1,
+      "import_rate": 84.55,
+      "export_rate": 83.35,
+      "spread_inr": 1.2
+    },
+    {
+      "currency": "EUR",
+      "name": "EURO",
+      "units": 1,
+      "import_rate": 92.65,
+      "export_rate": 89.55,
+      "spread_inr": 3.1
+    },
+    {
+      "currency": "GBP",
+      "name": "Pound Sterling",
+      "units": 1,
+      "import_rate": 111.2,
+      "export_rate": 107.6,
+      "spread_inr": 3.6
+    },
+    {
+      "currency": "AED",
+      "name": "UAE Dirham",
+      "units": 1,
+      "import_rate": 23.45,
+      "export_rate": 22.1,
+      "spread_inr": 1.35
+    },
+    {
+      "currency": "SAR",
+      "name": "Saudi Riyal",
+      "units": 1,
+      "import_rate": 22.95,
+      "export_rate": 21.6,
+      "spread_inr": 1.35
+    },
+    {
+      "currency": "SGD",
+      "name": "Singapore Dollar",
+      "units": 1,
+      "import_rate": 65.1,
+      "export_rate": 63.15,
+      "spread_inr": 1.95
+    },
+    {
+      "currency": "AUD",
+      "name": "Australian Dollar",
+      "units": 1,
+      "import_rate": 56.4,
+      "export_rate": 54.0,
+      "spread_inr": 2.4
+    },
+    {
+      "currency": "CAD",
+      "name": "Canadian Dollar",
+      "units": 1,
+      "import_rate": 62.0,
+      "export_rate": 60.05,
+      "spread_inr": 1.95
+    },
+    {
+      "currency": "CNY",
+      "name": "Chinese Yuan",
+      "units": 1,
+      "import_rate": 12.05,
+      "export_rate": 11.75,
+      "spread_inr": 0.3
+    },
+    {
+      "currency": "CHF",
+      "name": "Swiss Franc",
+      "units": 1,
+      "import_rate": 98.45,
+      "export_rate": 94.85,
+      "spread_inr": 3.6
+    },
+    {
+      "currency": "HKD",
+      "name": "Hong Kong Dollar",
+      "units": 1,
+      "import_rate": 10.95,
+      "export_rate": 10.6,
+      "spread_inr": 0.35
+    },
+    {
+      "currency": "BHD",
+      "name": "Bahrain Dinar",
+      "units": 1,
+      "import_rate": 228.4,
+      "export_rate": 214.8,
+      "spread_inr": 13.6
+    },
+    {
+      "currency": "KWD",
+      "name": "Kuwait Dinar",
+      "units": 1,
+      "import_rate": 280.5,
+      "export_rate": 263.2,
+      "spread_inr": 17.3
+    },
+    {
+      "currency": "QAR",
+      "name": "Qatari Riyal",
+      "units": 1,
+      "import_rate": 23.65,
+      "export_rate": 22.2,
+      "spread_inr": 1.45
+    },
+    {
+      "currency": "NZD",
+      "name": "New Zealand Dollar",
+      "units": 1,
+      "import_rate": 52.1,
+      "export_rate": 49.75,
+      "spread_inr": 2.35
+    },
+    {
+      "currency": "ZAR",
+      "name": "South African Rand",
+      "units": 1,
+      "import_rate": 4.9,
+      "export_rate": 4.6,
+      "spread_inr": 0.3
+    }
+  ],
+  "schedule_2": [
+    {
+      "currency": "JPY",
+      "name": "Japanese Yen (per 100 Units)",
+      "units": 100,
+      "import_rate": 57.2,
+      "export_rate": 55.4,
+      "spread_inr": 1.8
+    },
+    {
+      "currency": "KRW",
+      "name": "Korean Won (per 100 Units)",
+      "units": 100,
+      "import_rate": 6.35,
+      "export_rate": 5.95,
+      "spread_inr": 0.4
+    }
+  ]
+}

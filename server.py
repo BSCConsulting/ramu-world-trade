@@ -67,6 +67,9 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
         elif parsed.path == "/api/forex":
             self._handle_forex()
             return
+        elif parsed.path == "/api/cbic-gazette":
+            self._handle_cbic_gazette()
+            return
         elif parsed.path == "/api/mandi":
             self._handle_mandi(parsed.query)
             return
@@ -91,6 +94,8 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
             self._handle_query(payload)
         elif parsed.path == "/api/calculate":
             self._handle_calculate(payload)
+        elif parsed.path == "/api/cbic-valuation":
+            self._handle_cbic_valuation(payload)
         else:
             self.send_error(404, "API endpoint not found")
 
@@ -306,6 +311,26 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
             self._send_json(rates)
         except Exception as e:
             self._send_json({"error": str(e)}, status=500)
+
+    def _handle_cbic_gazette(self):
+        try:
+            from sources.cbic_gazette import get_cbic_gazette_data
+            data = get_cbic_gazette_data()
+            self._send_json(data)
+        except Exception as e:
+            self._send_json({"error": str(e)}, status=500)
+
+    def _handle_cbic_valuation(self, payload: dict):
+        try:
+            from sources.cbic_gazette import calculate_valuation_impact
+            currency = str(payload.get("currency", "USD"))[:10]
+            amount = float(payload.get("amount", 10000))
+            trade_flow = str(payload.get("trade_flow", "import"))[:10]
+            live_rate = float(payload.get("live_rate", 0)) if payload.get("live_rate") else None
+            res = calculate_valuation_impact(currency, amount, trade_flow=trade_flow, live_rate=live_rate)
+            self._send_json(res)
+        except Exception as e:
+            self._send_json({"error": str(e)}, status=400)
 
     def _handle_mandi(self, query_str):
         try:

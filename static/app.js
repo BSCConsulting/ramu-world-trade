@@ -2882,12 +2882,19 @@ function copyPitchLetter() {
 }
 
 
-// ==================== LIVE STATUTORY API FETCHERS (RBI & AGMARKNET) ====================
+// ==================== LIVE STATUTORY API FETCHERS (RBI, CBIC GAZETTE & AGMARKNET) ====================
+let cbicGazetteData = null;
+let rbiLiveRates = { USD: 94.94, EUR: 106.27, GBP: 126.92, JPY: 62.46 };
+
 async function fetchLiveForexRates() {
   try {
     const res = await fetch('/api/forex');
     if (!res.ok) return;
     const data = await res.json();
+    if (data.rates) {
+      rbiLiveRates = data.rates;
+      window.rbiLiveRates = data.rates;
+    }
     const arb = data.arbitrage_analysis;
     if (!arb) return;
 
@@ -2902,9 +2909,121 @@ async function fetchLiveForexRates() {
     if (rbiEl) rbiEl.textContent = `₹${arb.rbi_bank_rate.toFixed(2)}`;
     if (spreadEl) spreadEl.textContent = `Spread: +₹${(arb.rbi_bank_rate - arb.cbic_customs_rate).toFixed(2)} (${arb.spread_bps > 0 ? '+' : ''}${arb.spread_bps} bps)`;
     if (adviceEl) adviceEl.innerHTML = `💡 <strong>Assessment Window:</strong> ${arb.action_advice}`;
+    
+    runCbicValuationSim();
   } catch (e) {
     // Silent fallback to standard static baseline
   }
+}
+
+async function fetchLiveCbicGazette() {
+  try {
+    const res = await fetch('/api/cbic-gazette');
+    if (!res.ok) return;
+    const data = await res.json();
+    cbicGazetteData = data;
+    window.cbicGazetteData = data;
+
+    // Update Fortnight Badge
+    const badgeEl = document.getElementById('cbic-fortnight-badge');
+    if (badgeEl && data.calendar_metadata) {
+      badgeEl.textContent = `🗓️ Revision: ${data.calendar_metadata.days_until_next_revision}d (${data.calendar_metadata.next_revision_date.slice(5)})`;
+    }
+
+    // Update Notif No
+    const notifEl = document.getElementById('forex-notif-no');
+    if (notifEl && data.notification_number) {
+      notifEl.textContent = data.notification_number.split('-')[0];
+    }
+
+    // Update USD Export rate
+    const usdItem = (data.schedule_1 || []).find(it => it.currency === 'USD');
+    if (usdItem) {
+      const expEl = document.getElementById('forex-cbic-usd-export');
+      if (expEl) expEl.textContent = `₹${usdItem.export_rate.toFixed(2)}`;
+      const impEl = document.getElementById('forex-cbic-usd');
+      if (impEl) impEl.textContent = `₹${usdItem.import_rate.toFixed(2)}`;
+    }
+
+    // Populate Schedule Table
+    const tbody = document.getElementById('cbic-schedule-tbody');
+    if (tbody) {
+      const allCurrs = [...(data.schedule_1 || []), ...(data.schedule_2 || [])];
+      tbody.innerHTML = allCurrs.map(c => `
+        <tr class="hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+          <td class="p-1.5 font-bold">${c.currency} <span class="text-[9px] opacity-70">(${c.name.split('(')[0].trim()})</span></td>
+          <td class="p-1.5 text-right font-extrabold text-emerald-500">₹${c.import_rate.toFixed(2)}</td>
+          <td class="p-1.5 text-right font-bold text-amber-500">₹${c.export_rate.toFixed(2)}</td>
+          <td class="p-1.5 text-right text-[9px] font-mono opacity-80">+₹${c.spread_inr.toFixed(2)}</td>
+        </tr>
+      `).join('');
+    }
+
+    runCbicValuationSim();
+  } catch (e) {
+    // Silent fallback
+  }
+}
+
+function toggleCbicSchedule() {
+  const container = document.getElementById('cbic-schedule-table-container');
+  const btnText = document.getElementById('cbic-schedule-toggle-text');
+  if (!container) return;
+  const isHidden = container.classList.contains('hidden');
+  if (isHidden) {
+    container.classList.remove('hidden');
+    if (btnText) btnText.textContent = 'Hide Currencies ▲';
+  } else {
+    container.classList.add('hidden');
+    if (btnText) btnText.textContent = 'Show 18 Currencies ▼';
+  }
+}
+
+function runCbicValuationSim() {
+  const currEl = document.getElementById('cbic-calc-currency');
+  const amtEl = document.getElementById('cbic-calc-amount');
+  const flowEl = document.getElementById('cbic-calc-flow');
+  if (!currEl || !amtEl || !flowEl) return;
+
+  const currency = currEl.value || 'USD';
+  const amount = parseFloat(amtEl.value) || 0;
+  const flow = flowEl.value || 'import';
+
+  // Find notified rate
+  let notifiedRate = 84.55;
+  let units = 1;
+  if (cbicGazetteData) {
+    const all = [...(cbicGazetteData.schedule_1 || []), ...(cbicGazetteData.schedule_2 || [])];
+    const match = all.find(it => it.currency === currency);
+    if (match) {
+      units = match.units || 1;
+      notifiedRate = flow === 'import' ? match.import_rate : match.export_rate;
+    }
+  } else {
+    const fallbackMap = { USD: 84.55, EUR: 92.65, GBP: 111.20, AED: 23.45, SAR: 22.95, CNY: 12.05, SGD: 65.10, JPY: 57.20 };
+    notifiedRate = fallbackMap[currency] || 84.55;
+    units = currency === 'JPY' ? 100 : 1;
+  }
+
+  // Statutory Assessable Value
+  const customsVal = (amount / units) * notifiedRate;
+
+  // Live Bank / Commercial Market Rate
+  let liveRate = rbiLiveRates[currency];
+  if (!liveRate) {
+    liveRate = notifiedRate * (flow === 'import' ? 1.12 : 1.08);
+  }
+  const marketVal = (amount / units) * liveRate;
+  const diffVal = Math.abs(marketVal - customsVal);
+  const dutyDiff = flow === 'import' ? diffVal * 0.298 : diffVal; // 29.8% effective customs duty or FOB realization delta
+
+  const customsValEl = document.getElementById('cbic-sim-customs-val');
+  const marketValEl = document.getElementById('cbic-sim-market-val');
+  const dutyDiffEl = document.getElementById('cbic-sim-duty-diff');
+
+  if (customsValEl) customsValEl.textContent = `₹${customsVal.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+  if (marketValEl) marketValEl.textContent = `₹${marketVal.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+  if (dutyDiffEl) dutyDiffEl.textContent = `₹${dutyDiff.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})} ${flow === 'import' ? '(Duty Saved)' : '(Realization Delta)'}`;
 }
 
 async function fetchLiveMandiPrice(commodity = 'Chilli Red', state = 'Andhra Pradesh') {
@@ -2924,6 +3043,9 @@ async function fetchLiveMandiPrice(commodity = 'Chilli Red', state = 'Andhra Pra
 }
 
 window.fetchLiveForexRates = fetchLiveForexRates;
+window.fetchLiveCbicGazette = fetchLiveCbicGazette;
+window.toggleCbicSchedule = toggleCbicSchedule;
+window.runCbicValuationSim = runCbicValuationSim;
 window.fetchLiveMandiPrice = fetchLiveMandiPrice;
 
 // Global Window Bindings for Inline HTML Handlers
@@ -3014,6 +3136,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // 5. Initialize Ground-Trade Advanced Modules
   fetchLiveForexRates();
+  fetchLiveCbicGazette();
   fetchLiveMandiPrice();
   selectConsortiumCluster('guntur_chilli');
   selectPitchCorridor('surat_textiles');

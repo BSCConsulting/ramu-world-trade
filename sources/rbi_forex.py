@@ -11,15 +11,30 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 CACHE_FILE = BASE_DIR / "data" / "rbi_forex_cache.json"
 CACHE_TTL = 43200  # Cache for 12 hours (Rates are only fixed once daily at 1:30 PM IST)
 
-# Static official CBIC Customs Gazette valuation rates (fixed fortnightly under Section 14)
-# Used to calculate the statutory arbitrage spread against live RBI bank settlement rates
 CBIC_GAZETTE_RATES = {
-    "USD": 83.75,
-    "EUR": 90.80,
-    "GBP": 108.50,
-    "JPY": 54.80,
+    "USD": 84.55,
+    "EUR": 92.65,
+    "GBP": 111.20,
+    "JPY": 57.20,
     "effective_notification": "CBIC Notification No. 72/2024-Customs (N.T.)"
 }
+
+def get_cbic_rates_dict():
+    try:
+        from sources.cbic_gazette import get_cbic_gazette_data
+        cbic_data = get_cbic_gazette_data()
+        res = {
+            "effective_notification": cbic_data.get("notification_number", "Notification No. 72/2024-Customs (N.T.)"),
+            "effective_date": cbic_data.get("effective_date", "2026-10-18"),
+            "days_until_next_revision": cbic_data.get("calendar_metadata", {}).get("days_until_next_revision", 11)
+        }
+        for item in cbic_data.get("schedule_1", []):
+            res[item["currency"]] = item["import_rate"]
+        for item in cbic_data.get("schedule_2", []):
+            res[item["currency"]] = item["import_rate"]
+        return res
+    except Exception:
+        return CBIC_GAZETTE_RATES
 
 def get_live_rbi_reference_rates():
     """
@@ -55,7 +70,8 @@ def get_live_rbi_reference_rates():
             jpy_inr = round((usd_inr / 152.0) * 100, 4)
             
             # Compute statutory arbitrage spread against CBIC Customs Gazette rates
-            cbic_usd = CBIC_GAZETTE_RATES["USD"]
+            cbic_rates = get_cbic_rates_dict()
+            cbic_usd = cbic_rates.get("USD", 84.55)
             spread_bps = round(((usd_inr - cbic_usd) / cbic_usd) * 10000, 1)
             
             payload = {
@@ -67,7 +83,7 @@ def get_live_rbi_reference_rates():
                     "GBP": round(gbp_inr, 2),
                     "JPY": round(jpy_inr, 2)
                 },
-                "cbic_gazette": CBIC_GAZETTE_RATES,
+                "cbic_gazette": cbic_rates,
                 "arbitrage_analysis": {
                     "currency": "USD/INR",
                     "rbi_bank_rate": round(usd_inr, 2),

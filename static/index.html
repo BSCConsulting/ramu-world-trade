@@ -870,29 +870,120 @@
         </div>
       </div>
 
-      <!-- CBIC Gazette Forex Arbitrage Tracker -->
-      <div class="glass-card rounded-2xl p-4 shadow-xl space-y-2.5">
-        <div class="flex items-center justify-between">
+      <!-- CBIC Gazette Forex Arbitrage Tracker & Section 14 Valuation Engine -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-1">
           <div class="flex items-center gap-1.5">
             <span class="text-xs font-extrabold uppercase tracking-wider">CBIC Gazette Forex Arbitrage</span>
-            <span id="forex-live-badge" class="text-[9px] px-1.5 py-0.5 rounded font-mono font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">🟢 LIVE RBI SPREAD</span>
+            <span id="forex-live-badge" class="text-[9px] px-1.5 py-0.5 rounded font-mono font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">🟢 LIVE SPREAD</span>
           </div>
-          <span id="forex-notif-no" class="text-[10px] font-mono" style="color: var(--text-dim);">CBIC Notif No. 72/2024</span>
+          <div class="flex items-center gap-1">
+            <span id="cbic-fortnight-badge" class="text-[9px] px-2 py-0.5 rounded-full font-mono font-bold" style="background: rgba(59, 130, 246, 0.12); color: #3b82f6;">🗓️ Revision: 11d</span>
+            <span id="forex-notif-no" class="text-[10px] font-mono" style="color: var(--text-dim);">CBIC Notif No. 72/2024</span>
+          </div>
         </div>
+
+        <!-- Valuation Summary Tiles -->
         <div class="grid grid-cols-2 gap-2 text-xs">
           <div class="p-2.5 rounded-xl border space-y-0.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-            <span class="text-[10px] font-bold" style="color: var(--text-dim);">Notified Customs USD</span>
-            <span id="forex-cbic-usd" class="text-base font-extrabold font-mono block">₹83.75</span>
-            <span class="text-[9px] text-emerald-500 font-medium">Section 14 Statutory Rate</span>
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold" style="color: var(--text-dim);">Customs USD (Import)</span>
+              <span class="text-[9px] font-mono text-emerald-500 font-bold">Sec 14</span>
+            </div>
+            <span id="forex-cbic-usd" class="text-base font-extrabold font-mono block">₹84.55</span>
+            <div class="flex items-center justify-between text-[9px]" style="color: var(--text-dim);">
+              <span>Export Rate:</span>
+              <span id="forex-cbic-usd-export" class="font-bold text-amber-500 font-mono">₹83.35</span>
+            </div>
           </div>
           <div class="p-2.5 rounded-xl border space-y-0.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-            <span class="text-[10px] font-bold" style="color: var(--text-dim);">RBI / FBIL Bank Rate</span>
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold" style="color: var(--text-dim);">RBI / Bank Market</span>
+              <span class="text-[9px] font-mono text-blue-500 font-bold">Live</span>
+            </div>
             <span id="forex-rbi-usd" class="text-base font-extrabold font-mono block">₹94.94</span>
-            <span id="forex-spread" class="text-[9px] font-mono" style="color: var(--accent);">Spread: +₹11.19 (+1336 bps)</span>
+            <span id="forex-spread" class="text-[9px] font-mono block" style="color: var(--accent);">Spread: +₹10.39 (+1229 bps)</span>
           </div>
         </div>
+
+        <!-- Action Advice -->
         <div id="forex-action-advice" class="p-2 rounded-xl border text-[11px] leading-snug" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">
-          💡 <strong>Assessment Window:</strong> Customs Valuation Gazette (₹83.75) is lower than Live Bank Remittance Rate (₹94.94). Inward remittance realizes extra cash margin.
+          💡 <strong>Assessment Window:</strong> Statutory Gazette rate (₹84.55) is lower than live market (₹94.94). Importers save on customs duty by filing Bill of Entry under this gazette.
+        </div>
+
+        <!-- Section 14 Customs Valuation Simulator -->
+        <div class="p-3 rounded-xl border space-y-2 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold uppercase tracking-wider flex items-center gap-1">
+              <span>⚡ Section 14 Valuation Simulator</span>
+            </span>
+            <button onclick="toggleCbicSchedule()" class="text-[10px] font-bold px-2 py-0.5 rounded-md border text-blue-500 hover:underline" style="background: var(--accent-light); border-color: var(--accent-border);">
+              <span id="cbic-schedule-toggle-text">Show 18 Currencies ▼</span>
+            </button>
+          </div>
+
+          <div class="grid grid-cols-3 gap-1.5">
+            <div>
+              <label class="text-[9px] font-bold block mb-0.5" style="color: var(--text-dim);">Currency</label>
+              <select id="cbic-calc-currency" onchange="runCbicValuationSim()" class="w-full text-[11px] p-1.5 rounded-lg border font-mono font-bold" style="background: var(--input-bg); border-color: var(--input-border); color: var(--text);">
+                <option value="USD">USD (US Dollar)</option>
+                <option value="EUR">EUR (EURO)</option>
+                <option value="GBP">GBP (Pound)</option>
+                <option value="AED">AED (UAE Dirham)</option>
+                <option value="SAR">SAR (Saudi Riyal)</option>
+                <option value="CNY">CNY (Chinese Yuan)</option>
+                <option value="SGD">SGD (Singapore $)</option>
+                <option value="JPY">JPY (100 Yen)</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-[9px] font-bold block mb-0.5" style="color: var(--text-dim);">Amount (FCY)</label>
+              <input type="number" id="cbic-calc-amount" value="10000" oninput="runCbicValuationSim()" class="w-full text-[11px] p-1.5 rounded-lg border font-mono font-bold" style="background: var(--input-bg); border-color: var(--input-border); color: var(--text);">
+            </div>
+            <div>
+              <label class="text-[9px] font-bold block mb-0.5" style="color: var(--text-dim);">Trade Flow</label>
+              <select id="cbic-calc-flow" onchange="runCbicValuationSim()" class="w-full text-[11px] p-1.5 rounded-lg border font-mono font-bold" style="background: var(--input-bg); border-color: var(--input-border); color: var(--text);">
+                <option value="import">Import (Assessable)</option>
+                <option value="export">Export (FOB INR)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Simulation Output Banner -->
+          <div id="cbic-sim-result" class="p-2 rounded-lg border text-[10px] space-y-1 font-mono" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+            <div class="flex justify-between items-center">
+              <span style="color: var(--text-dim);">Customs Assessable Value:</span>
+              <span id="cbic-sim-customs-val" class="font-bold text-emerald-500">₹8,45,500.00</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span style="color: var(--text-dim);">Commercial Market Value:</span>
+              <span id="cbic-sim-market-val" class="font-bold">₹9,49,400.00</span>
+            </div>
+            <div class="flex justify-between items-center pt-1 border-t" style="border-color: var(--card-inner-border);">
+              <span class="font-bold" style="color: var(--accent);">Duty Differential / Benefit:</span>
+              <span id="cbic-sim-duty-diff" class="font-extrabold text-blue-500">₹30,962.20</span>
+            </div>
+          </div>
+
+          <!-- Expandable 18 Currencies Schedule Table -->
+          <div id="cbic-schedule-table-container" class="hidden pt-2 border-t space-y-1" style="border-color: var(--card-inner-border);">
+            <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-dim);">Statutory Schedule I & II Exchange Rates</span>
+            <div class="max-h-48 overflow-y-auto no-scrollbar rounded-lg border" style="border-color: var(--card-inner-border);">
+              <table class="w-full text-[10px] text-left">
+                <thead class="sticky top-0 font-mono font-bold" style="background: var(--card-inner-border); color: var(--text-dim);">
+                  <tr>
+                    <th class="p-1.5">Currency</th>
+                    <th class="p-1.5 text-right">Import (₹)</th>
+                    <th class="p-1.5 text-right">Export (₹)</th>
+                    <th class="p-1.5 text-right">Spread</th>
+                  </tr>
+                </thead>
+                <tbody id="cbic-schedule-tbody" class="divide-y font-mono" style="divide-color: var(--card-inner-border);">
+                  <!-- Dynamically populated by app.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
 

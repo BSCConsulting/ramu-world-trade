@@ -79,6 +79,8 @@ class handler(BaseHTTPRequestHandler):
             self._send_json({"status": "ok", "app": "World of Trade", "tier": "100% Free", "deployment": "Vercel Serverless"})
         elif path.endswith("/forex"):
             self._handle_forex()
+        elif path.endswith("/cbic-gazette"):
+            self._handle_cbic_gazette()
         elif path.endswith("/mandi"):
             self._handle_mandi(parsed.query)
         elif path.endswith("/history"):
@@ -99,6 +101,8 @@ class handler(BaseHTTPRequestHandler):
             self._handle_query(payload)
         elif path.endswith("/calculate"):
             self._handle_calculate(payload)
+        elif path.endswith("/cbic-valuation"):
+            self._handle_cbic_valuation(payload)
         else:
             self._send_json({"error": f"API endpoint not found: {self.path}"}, status=404)
 
@@ -313,6 +317,26 @@ class handler(BaseHTTPRequestHandler):
             self._send_json(rates)
         except Exception as e:
             self._send_json({"error": str(e)}, status=500)
+
+    def _handle_cbic_gazette(self):
+        try:
+            from sources.cbic_gazette import get_cbic_gazette_data
+            data = get_cbic_gazette_data()
+            self._send_json(data)
+        except Exception as e:
+            self._send_json({"error": str(e)}, status=500)
+
+    def _handle_cbic_valuation(self, payload: dict):
+        try:
+            from sources.cbic_gazette import calculate_valuation_impact
+            currency = str(payload.get("currency", "USD"))[:10]
+            amount = float(payload.get("amount", 10000))
+            trade_flow = str(payload.get("trade_flow", "import"))[:10]
+            live_rate = float(payload.get("live_rate", 0)) if payload.get("live_rate") else None
+            res = calculate_valuation_impact(currency, amount, trade_flow=trade_flow, live_rate=live_rate)
+            self._send_json(res)
+        except Exception as e:
+            self._send_json({"error": str(e)}, status=400)
 
     def _handle_mandi(self, query_str):
         try:
