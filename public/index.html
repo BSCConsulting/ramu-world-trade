@@ -1744,33 +1744,76 @@
           <p class="text-[10px]" style="color: var(--text-muted);">Closes at 11:30 IST for primary wholesale price index calculation.</p>
         </div>
 
-        <!-- Timer 2: e-Way Bill -->
-        <div class="p-4 rounded-2xl border space-y-2.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold">🚛 Active e-Way Bill Validity</span>
-            <button onclick="resetEwayTimer()" class="text-[10px] font-mono font-bold underline" style="color: var(--accent);">Reset 24h</button>
+        <!-- Timer 2: Rule 138 GSTN e-Way Validity & Corridor Transit Engine -->
+        <div class="p-4 rounded-2xl border space-y-3" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex flex-wrap items-center justify-between gap-1">
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs font-bold">🚛 Rule 138 GSTN e-Way Validity &amp; Transit Engine</span>
+              <span id="eway-rule-badge" class="text-[9px] px-1.5 py-0.5 rounded font-mono font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">200 KM / DAY</span>
+            </div>
+            <span id="eway-expiry-badge" class="text-[10px] font-mono" style="color: var(--text-dim);">Expires: 27-Oct 23:59:59</span>
           </div>
-          <div class="text-3xl font-black font-mono tracking-wider" id="eway-timer" style="color: var(--accent);">
-            18:32:05
+
+          <!-- Corridor Quick-Select Chips -->
+          <div class="flex gap-1 overflow-x-auto pb-1 text-[10px] font-bold no-scrollbar">
+            <button type="button" onclick="selectEwayCorridor('surat_jnpt', 310)" id="eway-chip-surat_jnpt" class="eway-corridor-chip flex-shrink-0 px-2 py-1 rounded-lg border active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">Surat ➔ JNPT (310 km)</button>
+            <button type="button" onclick="selectEwayCorridor('tirupur_chennai', 480)" id="eway-chip-tirupur_chennai" class="eway-corridor-chip flex-shrink-0 px-2 py-1 rounded-lg border active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border);">Tirupur ➔ Chennai (480 km)</button>
+            <button type="button" onclick="selectEwayCorridor('guntur_krishnapatnam', 290)" id="eway-chip-guntur_krishnapatnam" class="eway-corridor-chip flex-shrink-0 px-2 py-1 rounded-lg border active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border);">Guntur ➔ Port (290 km)</button>
+            <button type="button" onclick="selectEwayCorridor('ludhiana_mundra', 1180)" id="eway-chip-ludhiana_mundra" class="eway-corridor-chip flex-shrink-0 px-2 py-1 rounded-lg border active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border);">Ludhiana ➔ Mundra (1,180 km)</button>
+            <button type="button" onclick="selectEwayCorridor('moradabad_dadri', 165)" id="eway-chip-moradabad_dadri" class="eway-corridor-chip flex-shrink-0 px-2 py-1 rounded-lg border active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border);">Moradabad ➔ Dadri (165 km)</button>
+          </div>
+
+          <!-- Interactive Distance & Cargo Type Inputs -->
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div>
+              <label class="text-[9px] font-bold block mb-0.5" style="color: var(--text-dim);">Highway Distance (KM)</label>
+              <input type="number" id="eway-calc-distance" value="310" oninput="runEwayCalc()" class="w-full text-xs p-1.5 rounded-lg border font-mono font-bold" style="background: var(--input-bg); border-color: var(--input-border); color: var(--text);">
+            </div>
+            <div>
+              <label class="text-[9px] font-bold block mb-0.5" style="color: var(--text-dim);">Consignment Cargo Type</label>
+              <select id="eway-calc-cargo" onchange="runEwayCalc()" class="w-full text-xs p-1.5 rounded-lg border font-mono font-bold" style="background: var(--input-bg); border-color: var(--input-border); color: var(--text);">
+                <option value="normal">Normal Cargo (200 km/day)</option>
+                <option value="odc">Over Dimensional (20 km/day)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Live Dynamic Countdown Display -->
+          <div class="flex items-baseline justify-between pt-1">
+            <span class="text-3xl font-black font-mono tracking-wider" id="eway-timer" style="color: var(--accent);">
+              18:32:05
+            </span>
+            <span id="eway-validity-summary" class="text-xs font-bold font-mono" style="color: var(--text-dim);">2 Days Permissible (Rule 138(10))</span>
           </div>
           <div class="w-full h-2 rounded-full overflow-hidden" style="background: var(--card-inner-border);">
-            <div class="h-full w-3/4 rounded-full" style="background: var(--accent);"></div>
+            <div id="eway-progress-bar" class="h-full w-3/4 rounded-full transition-all" style="background: var(--accent);"></div>
           </div>
-          <p class="text-[10px]" style="color: var(--text-muted);">1 day per 200 km rule under GST Rule 138. Prevents checkpoint detention.</p>
-        </div>
 
-        <!-- Timer 3: Rule 138(10) Breakdown / Transshipment Legal Extension Window -->
-        <div class="p-4 rounded-2xl border space-y-2.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold">🛠️ Rule 138(10) Breakdown Legal Extension</span>
-            <span class="text-[10px] px-2 py-0.5 rounded-md font-mono font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">LEGAL WINDOW ACTIVE</span>
+          <!-- Corridor Transit Density & FASTag Telemetry -->
+          <div id="eway-telemetry-box" class="p-2.5 rounded-xl border text-[11px] space-y-1 font-mono" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+            <div class="flex justify-between items-center">
+              <span style="color: var(--text-dim);">Typical Transit Dwell:</span>
+              <span id="eway-transit-hours" class="font-bold text-emerald-500">8.5 Hours across 5 Toll Checkpoints</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span style="color: var(--text-dim);">Corridor Density:</span>
+              <span id="eway-monthly-trips" class="font-bold">42,000 Commercial Trucks / Month</span>
+            </div>
           </div>
-          <p class="text-[11px] leading-tight" style="color: var(--text-muted);">If vehicle breaks down or transships, extension can legally be filed 8 hours before or 8 hours after expiry without penalty.</p>
-          <div class="flex items-center justify-between pt-1">
-            <span class="text-xs font-mono font-bold" style="color: var(--accent);">Window closes in: 07h 44m</span>
-            <button onclick="copyBreakdownNotice()" class="px-3 py-1.5 rounded-xl border text-[10px] font-bold font-mono active:scale-95 transition-transform" style="background: var(--accent); color: #ffffff;">
-              📋 Copy Breakdown Reason Text
-            </button>
+
+          <!-- Rule 138(10) Breakdown / Transshipment Legal Extension Window -->
+          <div class="pt-2 border-t space-y-1.5 text-xs" style="border-color: var(--card-inner-border);">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-[11px]">🛠️ Rule 138(10) Breakdown Legal Extension Window</span>
+              <span class="text-[9px] px-2 py-0.5 rounded font-mono font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">LEGAL WINDOW ACTIVE</span>
+            </div>
+            <p class="text-[10px] leading-snug" style="color: var(--text-muted);">In case of vehicle breakdown, accident, or transshipment delay, validity can legally be extended on the GSTN portal within <strong>8 hours before or 8 hours after</strong> midnight expiry without detention penalty.</p>
+            <div class="flex items-center justify-between pt-1">
+              <span id="eway-extension-timer" class="text-[10px] font-mono font-bold" style="color: var(--accent);">Window closes in: 07h 44m</span>
+              <button onclick="copyBreakdownNotice()" class="px-2.5 py-1 rounded-lg border text-[10px] font-bold font-mono active:scale-95 transition-transform" style="background: var(--accent); color: #ffffff;">
+                📋 Copy Breakdown Text
+              </button>
+            </div>
           </div>
         </div>
 

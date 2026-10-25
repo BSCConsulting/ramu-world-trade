@@ -820,10 +820,67 @@ function updateTimers() {
   }
 }
 
-function resetEwayTimer() {
-  ewaySecondsLeft = 24 * 3600;
+function selectEwayCorridor(corridorId, distance) {
+  document.querySelectorAll('.eway-corridor-chip').forEach(btn => {
+    btn.style.background = 'var(--card-bg)';
+    btn.style.color = 'var(--text-main)';
+    btn.style.borderColor = 'var(--card-inner-border)';
+  });
+  const activeBtn = document.getElementById(`eway-chip-${corridorId}`);
+  if (activeBtn) {
+    activeBtn.style.background = 'var(--accent)';
+    activeBtn.style.color = '#ffffff';
+    activeBtn.style.borderColor = 'transparent';
+  }
+  const distInput = document.getElementById('eway-calc-distance');
+  if (distInput) distInput.value = distance;
+  runEwayCalc();
+}
+
+function runEwayCalc() {
+  const distEl = document.getElementById('eway-calc-distance');
+  const cargoEl = document.getElementById('eway-calc-cargo');
+  if (!distEl || !cargoEl) return;
+
+  const dist = parseFloat(distEl.value) || 1;
+  const cargo = cargoEl.value || 'normal';
+  const kmPerDay = cargo === 'odc' ? 20 : 200;
+  const validityDays = Math.max(1, Math.ceil(dist / kmPerDay));
+
+  const ruleBadge = document.getElementById('eway-rule-badge');
+  if (ruleBadge) ruleBadge.textContent = `${kmPerDay} KM / DAY`;
+
+  const summaryEl = document.getElementById('eway-validity-summary');
+  if (summaryEl) summaryEl.textContent = `${validityDays} Day${validityDays > 1 ? 's' : ''} Permissible (Rule 138(10))`;
+
+  // Compute expiry at 23:59:59 after validityDays
+  const now = new Date();
+  const expiryDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + validityDays, 23, 59, 59);
+  const expiryStr = `${expiryDate.getDate().toString().padStart(2, '0')}-${expiryDate.toLocaleString('default', { month: 'short' })} 23:59:59`;
+  const expiryBadge = document.getElementById('eway-expiry-badge');
+  if (expiryBadge) expiryBadge.textContent = `Expires: ${expiryStr}`;
+
+  // Update live seconds left
+  const secDiff = Math.max(0, Math.floor((expiryDate - now) / 1000));
+  ewaySecondsLeft = secDiff;
   updateTimers();
-  showToast("e-Way Bill Timer Reset to 24 Hours", "🚛");
+
+  // Transit telemetry
+  const estHours = Math.round((dist / 38) * 10) / 10;
+  const estTolls = Math.max(1, Math.round(dist / 70));
+  const transitHoursEl = document.getElementById('eway-transit-hours');
+  if (transitHoursEl) transitHoursEl.textContent = `~${estHours} Hours across ~${estTolls} FASTag Checkpoints`;
+
+  const tripsEl = document.getElementById('eway-monthly-trips');
+  if (tripsEl) {
+    const estTrips = Math.round((dist < 350 ? 42000 : dist < 600 ? 28000 : 18500) * (cargo === 'odc' ? 0.08 : 1));
+    tripsEl.textContent = `~${estTrips.toLocaleString('en-IN')} Commercial Vehicles / Month`;
+  }
+}
+
+function resetEwayTimer() {
+  runEwayCalc();
+  showToast("e-Way Bill Timer Re-synchronized with Rule 138(10)", "🚛");
 }
 
 setInterval(updateTimers, 1000);
@@ -3174,6 +3231,8 @@ window.closeBottomSheet = closeBottomSheet;
 window.copyOutputMarkdown = copyOutputMarkdown;
 window.shareOrPrintReport = shareOrPrintReport;
 window.resetEwayTimer = resetEwayTimer;
+window.selectEwayCorridor = selectEwayCorridor;
+window.runEwayCalc = runEwayCalc;
 window.setHsTariff = setHsTariff;
 window.decodeIcegateError = decodeIcegateError;
 window.calculateFtaValueAddition = calculateFtaValueAddition;
@@ -3220,6 +3279,7 @@ window.addEventListener('DOMContentLoaded', () => {
   fetchLiveCbicGazette();
   fetchLiveMandiPrice();
   selectTradestatItem('country', 'USA');
+  selectEwayCorridor('surat_jnpt', 310);
   selectConsortiumCluster('guntur_chilli');
   selectPitchCorridor('surat_textiles');
   selectTitan('rockefeller');

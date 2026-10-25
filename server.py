@@ -73,6 +73,9 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
         elif parsed.path == "/api/tradestat":
             self._handle_tradestat(parsed.query)
             return
+        elif parsed.path == "/api/eway":
+            self._handle_eway(parsed.query)
+            return
         elif parsed.path == "/api/mandi":
             self._handle_mandi(parsed.query)
             return
@@ -99,6 +102,8 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
             self._handle_calculate(payload)
         elif parsed.path == "/api/cbic-valuation":
             self._handle_cbic_valuation(payload)
+        elif parsed.path == "/api/eway":
+            self._handle_eway_calc(payload)
         else:
             self.send_error(404, "API endpoint not found")
 
@@ -348,6 +353,32 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
             self._send_json(data)
         except Exception as e:
             self._send_json({"error": str(e)}, status=500)
+
+    def _handle_eway(self, query_str: str = ""):
+        try:
+            from sources.gstn_eway import get_gstn_overview, get_corridor_profile, calculate_eway_validity
+            params = urllib.parse.parse_qs(query_str) if query_str else {}
+            if "distance" in params:
+                dist = float(params["distance"][0])
+                cargo = params.get("cargo_type", ["normal"])[0]
+                data = calculate_eway_validity(dist, cargo)
+            elif "corridor" in params:
+                data = get_corridor_profile(params["corridor"][0]) or {"error": "Corridor not found"}
+            else:
+                data = get_gstn_overview()
+            self._send_json(data)
+        except Exception as e:
+            self._send_json({"error": str(e)}, status=500)
+
+    def _handle_eway_calc(self, payload: dict):
+        try:
+            from sources.gstn_eway import calculate_eway_validity
+            distance = float(payload.get("distance", 200))
+            cargo_type = str(payload.get("cargo_type", "normal"))[:30]
+            data = calculate_eway_validity(distance, cargo_type)
+            self._send_json(data)
+        except Exception as e:
+            self._send_json({"error": str(e)}, status=400)
 
     def _handle_mandi(self, query_str):
         try:

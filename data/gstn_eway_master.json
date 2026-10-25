@@ -1,0 +1,147 @@
+{
+  "metadata": {
+    "title": "GSTN National e-Way Bill Cargo Movement & State Dispatch Density Analytics",
+    "authority": "Goods and Services Tax Network (GSTN) & National Informatics Centre (NIC)",
+    "portal_url": "https://ewaybillgst.gov.in",
+    "statutory_rule": "Rule 138 of the Central Goods and Services Tax Rules, 2017",
+    "updated_at": "2026-10-25"
+  },
+  "macro_statistics": {
+    "monthly_average_eway_bills_million": 103.5,
+    "annual_taxable_movement_value_inr_lakh_crore": 315.0,
+    "inter_state_share_pct": 38.4,
+    "intra_state_share_pct": 61.6,
+    "fastag_integrated_toll_checkpoints": 820,
+    "top_origin_states": [
+      {
+        "state": "Maharashtra",
+        "share_pct": 14.8,
+        "rank": 1
+      },
+      {
+        "state": "Gujarat",
+        "share_pct": 13.5,
+        "rank": 2
+      },
+      {
+        "state": "Tamil Nadu",
+        "share_pct": 10.2,
+        "rank": 3
+      },
+      {
+        "state": "Karnataka",
+        "share_pct": 8.7,
+        "rank": 4
+      },
+      {
+        "state": "Uttar Pradesh",
+        "share_pct": 7.9,
+        "rank": 5
+      }
+    ],
+    "top_destination_states": [
+      {
+        "state": "Maharashtra",
+        "share_pct": 13.2,
+        "rank": 1
+      },
+      {
+        "state": "Uttar Pradesh",
+        "share_pct": 11.4,
+        "rank": 2
+      },
+      {
+        "state": "Tamil Nadu",
+        "share_pct": 9.5,
+        "rank": 3
+      },
+      {
+        "state": "Delhi",
+        "share_pct": 8.8,
+        "rank": 4
+      },
+      {
+        "state": "Gujarat",
+        "share_pct": 8.1,
+        "rank": 5
+      }
+    ]
+  },
+  "high_volume_export_corridors": [
+    {
+      "id": "surat_jnpt",
+      "name": "Surat (GJ) \u2794 JNPT Nhava Sheva (MH)",
+      "origin_state": "Gujarat",
+      "origin_city": "Surat",
+      "dest_state": "Maharashtra",
+      "dest_city": "Navi Mumbai / JNPT",
+      "distance_km": 310,
+      "typical_transit_hours": 8.5,
+      "toll_checkpoints": 5,
+      "monthly_truck_trips": 42000,
+      "primary_cargo": "Synthetic Textiles, Man-Made Fibers, Industrial Machinery",
+      "rule138_validity_days_normal": 2,
+      "rule138_validity_days_odc": 16
+    },
+    {
+      "id": "tirupur_chennai",
+      "name": "Tirupur (TN) \u2794 Chennai Port (TN)",
+      "origin_state": "Tamil Nadu",
+      "origin_city": "Tirupur",
+      "dest_state": "Tamil Nadu",
+      "dest_city": "Chennai Port",
+      "distance_km": 480,
+      "typical_transit_hours": 12.0,
+      "toll_checkpoints": 7,
+      "monthly_truck_trips": 28000,
+      "primary_cargo": "Knitted Cotton Garments, Undergarments, Home Textiles",
+      "rule138_validity_days_normal": 3,
+      "rule138_validity_days_odc": 24
+    },
+    {
+      "id": "guntur_krishnapatnam",
+      "name": "Guntur (AP) \u2794 Krishnapatnam Port (AP)",
+      "origin_state": "Andhra Pradesh",
+      "origin_city": "Guntur",
+      "dest_state": "Andhra Pradesh",
+      "dest_city": "Krishnapatnam Port",
+      "distance_km": 290,
+      "typical_transit_hours": 7.5,
+      "toll_checkpoints": 4,
+      "monthly_truck_trips": 18500,
+      "primary_cargo": "Chilli Red (Teja/Sannam), Cotton Bales, Tobacco",
+      "rule138_validity_days_normal": 2,
+      "rule138_validity_days_odc": 15
+    },
+    {
+      "id": "ludhiana_mundra",
+      "name": "Ludhiana (PB) \u2794 Mundra Port (GJ)",
+      "origin_state": "Punjab",
+      "origin_city": "Ludhiana",
+      "dest_state": "Gujarat",
+      "dest_city": "Mundra Port",
+      "distance_km": 1180,
+      "typical_transit_hours": 32.0,
+      "toll_checkpoints": 14,
+      "monthly_truck_trips": 34000,
+      "primary_cargo": "Bicycle Parts, Hand Tools, Woolen Knitwear, Tractor Components",
+      "rule138_validity_days_normal": 6,
+      "rule138_validity_days_odc": 59
+    },
+    {
+      "id": "moradabad_dadri",
+      "name": "Moradabad (UP) \u2794 ICD Dadri (UP)",
+      "origin_state": "Uttar Pradesh",
+      "origin_city": "Moradabad",
+      "dest_state": "Uttar Pradesh",
+      "dest_city": "Dadri ICD",
+      "distance_km": 165,
+      "typical_transit_hours": 4.5,
+      "toll_checkpoints": 2,
+      "monthly_truck_trips": 14200,
+      "primary_cargo": "Brass Artware, Metal Handicrafts, EPNS Tableware",
+      "rule138_validity_days_normal": 1,
+      "rule138_validity_days_odc": 9
+    }
+  ]
+}
