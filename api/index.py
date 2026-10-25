@@ -77,6 +77,10 @@ class handler(BaseHTTPRequestHandler):
         path = parsed.path.rstrip("/")
         if path.endswith("/health"):
             self._send_json({"status": "ok", "app": "World of Trade", "tier": "100% Free", "deployment": "Vercel Serverless"})
+        elif path.endswith("/forex"):
+            self._handle_forex()
+        elif path.endswith("/mandi"):
+            self._handle_mandi(parsed.query)
         elif path.endswith("/history"):
             self._handle_history()
         else:
