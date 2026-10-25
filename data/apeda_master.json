@@ -1,0 +1,242 @@
+{
+  "metadata": {
+    "source": "APEDA (Agricultural & Processed Food Products Export Development Authority), Ministry of Commerce & Industry, GoI",
+    "portal": "https://apeda.gov.in",
+    "traceability_systems": ["TraceNet", "GrapeNet", "BasmatiNet", "MeatNet", "HortiNet"],
+    "updated": "2024-Q3"
+  },
+  "rcmc_guidelines": {
+    "authority": "APEDA Head Office, New Delhi & 14 Regional Offices",
+    "validity_years": 5,
+    "eligibility": "Mandatory for export of 14 Scheduled Agricultural Product categories under FTP 2023.",
+    "feegst_structure": {
+      "merchant_exporter_inr": 5900.0,
+      "manufacturer_exporter_inr": 5900.0
+    },
+    "mandatory_documents": [
+      "Import Export Code (IEC) issued by DGFT",
+      "PAN Card copy of entity",
+      "Banker Certificate or Canceled Cheque",
+      "FSSAI Manufacturing / Central License for food business operators"
+    ]
+  },
+  "commodities": {
+    "10063020": {
+      "name": "Basmati Rice (Pusa 1121, 1509, Traditional)",
+      "hs_code": "10063020",
+      "traceability_system": "BasmatiNet",
+      "gi_status": "Geographical Indication Registered (Indo-Gangetic Plain)",
+      "purity_threshold_pct": 80.0,
+      "markets": {
+        "EU": {
+          "market_name": "European Union (EU)",
+          "compliance_stance": "High Scrutiny (Mandatory Pre-Shipment Inspection Certificate)",
+          "mrls": {
+            "tricyclazole": {"limit_mg_kg": 0.01, "desc": "Default Limit of Quantification (EU Regulation 2017/978)"},
+            "isoprothiolane": {"limit_mg_kg": 1.00, "desc": "Fungicide tolerance"},
+            "chlorpyrifos": {"limit_mg_kg": 0.01, "desc": "Strict EU pesticide ban limit"},
+            "thiamethoxam": {"limit_mg_kg": 0.01, "desc": "Neonicotinoid LOQ"}
+          },
+          "treatment_required": "None (Chemical residue compliance mandatory at accredited lab)"
+        },
+        "USA": {
+          "market_name": "United States (US FDA / USDA)",
+          "compliance_stance": "Standard EPA / FDA Tolerances",
+          "mrls": {
+            "tricyclazole": {"limit_mg_kg": 3.00, "desc": "US EPA established tolerance"},
+            "isoprothiolane": {"limit_mg_kg": 6.00, "desc": "US EPA establish tolerance"},
+            "chlorpyrifos": {"limit_mg_kg": 0.10, "desc": "EPA action level"},
+            "thiamethoxam": {"limit_mg_kg": 0.02, "desc": "EPA import tolerance"}
+          },
+          "treatment_required": "Pre-shipment fumigation with Methyl Bromide or Phosphine"
+        },
+        "GCC": {
+          "market_name": "Saudi Arabia & GCC (SFDA / GSO 382)",
+          "compliance_stance": "GSO Standard & DNA Authenticity Check",
+          "mrls": {
+            "tricyclazole": {"limit_mg_kg": 1.00, "desc": "GSO 382 tolerance"},
+            "isoprothiolane": {"limit_mg_kg": 1.50, "desc": "GSO established MRL"},
+            "chlorpyrifos": {"limit_mg_kg": 0.05, "desc": "SFDA tolerance"},
+            "thiamethoxam": {"limit_mg_kg": 0.05, "desc": "GSO limit"}
+          },
+          "treatment_required": "Clean shipment inspection certificate with non-GMO declaration"
+        }
+      }
+    },
+    "08061000": {
+      "name": "Fresh Table Grapes (Thompson / Sharad Seedless)",
+      "hs_code": "08061000",
+      "traceability_system": "GrapeNet",
+      "gi_status": "Nashik Valley Grapes (GI protected)",
+      "purity_threshold_pct": 98.0,
+      "markets": {
+        "EU": {
+          "market_name": "European Union (EU)",
+          "compliance_stance": "GrapeNet Digital Certificate of Inspection (CoI) Mandatory",
+          "mrls": {
+            "imidacloprid": {"limit_mg_kg": 0.01, "desc": "Strict EU LOQ threshold"},
+            "metalaxyl": {"limit_mg_kg": 1.00, "desc": "EU fungicide MRL"},
+            "lambda_cyhalothrin": {"limit_mg_kg": 0.08, "desc": "Insecticide limit"},
+            "chlormequat": {"limit_mg_kg": 0.05, "desc": "Plant growth regulator LOQ"}
+          },
+          "treatment_required": "Pre-cooling to 0-1°C in APEDA approved packhouse within 6h of harvest"
+        },
+        "GBR": {
+          "market_name": "United Kingdom (UK HSE MRL Register)",
+          "compliance_stance": "Direct Packhouse Traceability",
+          "mrls": {
+            "imidacloprid": {"limit_mg_kg": 0.01, "desc": "GB Statutory MRL"},
+            "metalaxyl": {"limit_mg_kg": 1.00, "desc": "UK HSE limit"},
+            "lambda_cyhalothrin": {"limit_mg_kg": 0.08, "desc": "UK HSE limit"},
+            "chlormequat": {"limit_mg_kg": 0.05, "desc": "UK limit"}
+          },
+          "treatment_required": "Sulphur Dioxide (SO2) generator pads in export carton boxes"
+        }
+      }
+    },
+    "08045020": {
+      "name": "Fresh Mangoes (Alphonso, Kesar, Banganapalli)",
+      "hs_code": "08045020",
+      "traceability_system": "HortiNet",
+      "gi_status": "Ratnagiri/Devgad Alphonso & Gir Kesar (GI)",
+      "purity_threshold_pct": 95.0,
+      "markets": {
+        "USA": {
+          "market_name": "United States (USDA APHIS)",
+          "compliance_stance": "Mandatory USDA APHIS Pre-Clearance & Irradiation",
+          "mrls": {
+            "carbendazim": {"limit_mg_kg": 0.20, "desc": "FDA action level"},
+            "cypermethrin": {"limit_mg_kg": 0.20, "desc": "EPA MRL"},
+            "deltamethrin": {"limit_mg_kg": 0.05, "desc": "Insecticide limit"}
+          },
+          "treatment_required": "Mandatory Gamma Irradiation (minimum 400 Gray dose) at Vashi (BARC) or Lasalgaon facility under USDA joint supervision."
+        },
+        "JPN": {
+          "market_name": "Japan (MAFF)",
+          "compliance_stance": "Mandatory Vapour Heat Treatment (VHT)",
+          "mrls": {
+            "carbendazim": {"limit_mg_kg": 0.10, "desc": "MAFF positive list"},
+            "cypermethrin": {"limit_mg_kg": 0.10, "desc": "Japanese MRL"},
+            "deltamethrin": {"limit_mg_kg": 0.05, "desc": "MAFF limit"}
+          },
+          "treatment_required": "Vapour Heat Treatment (VHT) chamber at core pulp temperature 47.5°C held for 20 minutes."
+        },
+        "EU": {
+          "market_name": "European Union (EU)",
+          "compliance_stance": "Hot Water Immersion Treatment (HWIT)",
+          "mrls": {
+            "carbendazim": {"limit_mg_kg": 0.10, "desc": "Strict EU MRL"},
+            "cypermethrin": {"limit_mg_kg": 0.07, "desc": "EU regulation"},
+            "deltamethrin": {"limit_mg_kg": 0.05, "desc": "EU LOQ"}
+          },
+          "treatment_required": "Hot Water Immersion (48°C for 60 minutes) to eliminate fruit fly (Bactrocera dorsalis) larvae."
+        }
+      }
+    },
+    "02023000": {
+      "name": "Boneless Buffalo Meat (Frozen Carcass Cuts)",
+      "hs_code": "02023000",
+      "traceability_system": "MeatNet",
+      "gi_status": "Non-GI (APEDA Integrated Abattoir Regulated)",
+      "purity_threshold_pct": 100.0,
+      "markets": {
+        "GCC": {
+          "market_name": "Saudi Arabia & GCC (SFDA)",
+          "compliance_stance": "Mandatory SFDA Approved Abattoir & Halal Certification",
+          "mrls": {
+            "salmonella": {"limit_mg_kg": 0.00, "desc": "Zero tolerance (Absence in 25g sample)"},
+            "nitrofuran_aoz": {"limit_mg_kg": 0.00, "desc": "Zero tolerance (<0.5 ppb banned antibiotic)"},
+            "chloramphenicol": {"limit_mg_kg": 0.00, "desc": "Zero tolerance (<0.3 ppb banned drug)"}
+          },
+          "treatment_required": "Halal slaughter according to GSO 993; deep frozen to -18°C within 24 hours of deboning."
+        },
+        "VNM": {
+          "market_name": "Vietnam (Department of Animal Health DAH)",
+          "compliance_stance": "Registered Processing Plant Protocol",
+          "mrls": {
+            "salmonella": {"limit_mg_kg": 0.00, "desc": "Absence in 25g"},
+            "nitrofuran_aoz": {"limit_mg_kg": 0.00, "desc": "Zero tolerance"},
+            "chloramphenicol": {"limit_mg_kg": 0.00, "desc": "Zero tolerance"}
+          },
+          "treatment_required": "Blast freezing to -40°C with veterinarian export health certificate"
+        }
+      }
+    },
+    "12024200": {
+      "name": "Peanuts / Groundnuts (Java & Bold Kernels)",
+      "hs_code": "12024200",
+      "traceability_system": "TraceNet",
+      "gi_status": "Saurashtra Groundnut Hub",
+      "purity_threshold_pct": 99.0,
+      "markets": {
+        "EU": {
+          "market_name": "European Union (EU)",
+          "compliance_stance": "Mandatory Pre-Shipment Aflatoxin Certificate (CoI)",
+          "mrls": {
+            "aflatoxin_b1": {"limit_mg_kg": 0.002, "desc": "Max 2.0 ppb (parts per billion) B1 fraction"},
+            "aflatoxin_total": {"limit_mg_kg": 0.004, "desc": "Max 4.0 ppb total (B1+B2+G1+G2)"},
+            "chlorpyrifos": {"limit_mg_kg": 0.010, "desc": "EU LOQ threshold"}
+          },
+          "treatment_required": "Electronic color optical sorting & aflatoxin TLC/HPLC lab testing at APEDA recognized lab."
+        },
+        "USA": {
+          "market_name": "United States (US FDA)",
+          "compliance_stance": "US FDA Action Level Compliance",
+          "mrls": {
+            "aflatoxin_total": {"limit_mg_kg": 0.020, "desc": "Max 20.0 ppb total aflatoxin action level"},
+            "chlorpyrifos": {"limit_mg_kg": 0.100, "desc": "FDA tolerance"}
+          },
+          "treatment_required": "Moisture content strictly below 7.0% to prevent Aspergillus flavus fungal germination."
+        }
+      }
+    }
+  },
+  "presets": [
+    {
+      "id": "basmati_eu_alert",
+      "title": "🌾 Basmati Rice to EU (Tricyclazole Alert Test)",
+      "hs_code": "10063020",
+      "market": "EU",
+      "sample_test_values": {
+        "tricyclazole": 0.018,
+        "isoprothiolane": 0.45,
+        "chlorpyrifos": 0.005,
+        "thiamethoxam": 0.008
+      }
+    },
+    {
+      "id": "grapes_eu_clean",
+      "title": "🍇 Nashik Grapes to EU (Clean GrapeNet Batch)",
+      "hs_code": "08061000",
+      "market": "EU",
+      "sample_test_values": {
+        "imidacloprid": 0.006,
+        "metalaxyl": 0.35,
+        "lambda_cyhalothrin": 0.04,
+        "chlormequat": 0.02
+      }
+    },
+    {
+      "id": "mangoes_usa_vht",
+      "title": "🥭 Alphonso Mangoes to USA (Irradiation Protocol)",
+      "hs_code": "08045020",
+      "market": "USA",
+      "sample_test_values": {
+        "carbendazim": 0.08,
+        "cypermethrin": 0.05,
+        "deltamethrin": 0.02
+      }
+    },
+    {
+      "id": "peanuts_eu_aflatoxin",
+      "title": "🥜 Groundnuts to EU (Aflatoxin B1 Screener)",
+      "hs_code": "12024200",
+      "market": "EU",
+      "sample_test_values": {
+        "aflatoxin_b1": 0.0015,
+        "aflatoxin_total": 0.0032,
+        "chlorpyrifos": 0.007
+      }
+    }
+  ]
+}

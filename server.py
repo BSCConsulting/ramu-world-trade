@@ -126,6 +126,8 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
             self._handle_logistics_calc(payload)
         elif parsed.path == "/api/tradestat":
             self._handle_tradestat_calc(payload)
+        elif parsed.path == "/api/mandi":
+            self._handle_mandi_calc(payload)
         else:
             self.send_error(404, "API endpoint not found")
 
@@ -679,7 +681,25 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
 
     def _handle_mandi(self, query_str):
         try:
-            params = urllib.parse.parse_qs(query_str)
+            params = urllib.parse.parse_qs(query_str) if query_str else {}
+            if "apeda" in params or "mrl" in params or "phyto" in params or "tracenet" in params:
+                from sources.apeda_agri import get_apeda_overview, check_phytosanitary_compliance
+                if "calc" in params or "check" in params or "market" in params or "hs" in params:
+                    comm = params.get("commodity", params.get("hs", ["10063020"]))[0]
+                    market = params.get("market", params.get("country", ["EU"]))[0]
+                    test_vals = {}
+                    for k, v in params.items():
+                        if k not in ["apeda", "calc", "check", "market", "country", "commodity", "hs"]:
+                            try:
+                                test_vals[k] = float(v[0])
+                            except ValueError:
+                                pass
+                    data = check_phytosanitary_compliance(comm, market, test_vals)
+                else:
+                    data = get_apeda_overview()
+                self._send_json(data)
+                return
+
             commodity = params.get("commodity", ["Chilli Red"])[0]
             state = params.get("state", ["Andhra Pradesh"])[0]
             limit = int(params.get("limit", [10])[0])
@@ -691,6 +711,21 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
             self._send_json(data)
         except Exception as e:
             self._send_json({"error": str(e), "records": []}, status=200)
+
+    def _handle_mandi_calc(self, payload: dict):
+        try:
+            from sources.apeda_agri import check_phytosanitary_compliance, get_apeda_overview
+            action = payload.get("action", "apeda_compliance")
+            if action in ["apeda_compliance", "mrl_check", "phytosanitary", "apeda"]:
+                comm = str(payload.get("commodity", payload.get("hs_code", "10063020")))
+                market = str(payload.get("target_market", payload.get("market", "EU")))
+                test_vals = payload.get("residue_levels", payload.get("chemical_test_results", {}))
+                data = check_phytosanitary_compliance(comm, market, test_vals)
+            else:
+                data = get_apeda_overview()
+            self._send_json(data)
+        except Exception as e:
+            self._send_json({"error": str(e)}, status=400)
 
     def _handle_history(self):
         init_db()
