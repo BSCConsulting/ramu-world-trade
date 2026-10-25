@@ -457,6 +457,14 @@ async function handleSearch(event) {
       }
     }
 
+    // Render 360° Sovereign Trade Blueprint if present
+    if (data.executive_financial_waterfall && data.blueprint_id) {
+      currentBlueprintData = data;
+      renderTradeBlueprintDossier(data);
+      const bpSec = document.getElementById('trade-blueprint-section');
+      if (bpSec) bpSec.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
     // Render Sanitized High-Contrast Markdown (XSS Hardened)
     if (data.formatted_markdown) {
       currentRawMarkdown = data.formatted_markdown;
@@ -6194,15 +6202,15 @@ function renderTradeBlueprintDossier(data) {
       <div class="grid grid-cols-1 md:grid-cols-4 gap-2 text-xs">
         <div>
           <label class="block text-[10px] font-bold text-dim mb-1">Buy Price (₹/Quintal):</label>
-          <input type="number" id="bp-input-buy" value="${safeBuy}" onchange="recalculateBlueprintMath()" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+          <input type="number" id="bp-input-buy" value="${safeBuy}" onchange="recalculateBlueprintMath()" onkeydown="if(event.key==='Enter') recalculateBlueprintMath()" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
         </div>
         <div>
           <label class="block text-[10px] font-bold text-dim mb-1">Sell Price ($/MT FOB):</label>
-          <input type="number" id="bp-input-sell" value="${safeSell}" onchange="recalculateBlueprintMath()" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+          <input type="number" id="bp-input-sell" value="${safeSell}" onchange="recalculateBlueprintMath()" onkeydown="if(event.key==='Enter') recalculateBlueprintMath()" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
         </div>
         <div>
           <label class="block text-[10px] font-bold text-dim mb-1">Quantity (Metric Tons):</label>
-          <input type="number" id="bp-input-qty" value="${safeQty}" onchange="recalculateBlueprintMath()" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+          <input type="number" id="bp-input-qty" value="${safeQty}" onchange="recalculateBlueprintMath()" onkeydown="if(event.key==='Enter') recalculateBlueprintMath()" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
         </div>
         <div class="flex flex-col justify-end">
           <button type="button" onclick="recalculateBlueprintMath()" class="w-full py-2 rounded-xl text-xs font-bold active:scale-95 transition-all text-white min-h-[38px]" style="background: var(--accent);">
@@ -6706,4 +6714,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // 4. Initial Load: Default trade pulse query
   setQuery("What are India's overall trade totals and deficit?");
+});
+
+
+// Close blueprint modal on ESC key
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeBlueprintModal();
+  }
 });

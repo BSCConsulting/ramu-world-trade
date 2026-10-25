@@ -212,6 +212,31 @@ def triangulate_trade_query(
     net_profit_inr = round((total_fob_revenue_inr + total_rebates_inr) - total_outlay_inr, 2)
     net_margin_pct = round((net_profit_inr / total_outlay_inr) * 100.0, 2) if total_outlay_inr > 0 else 0.0
 
+    formatted_md = f"""# 360° Sovereign Trade Blueprint: {matched_corridor['commodity']}
+**Corridor**: {origin} ➔ {destination} • **Payload**: {qty_tons:g} MT • **HS Code**: `{matched_corridor['hs_code']}`
+
+### Executive Financial Waterfall
+- **Total Procurement Outlay**: ₹{total_procurement_inr:,.2f}
+- **Logistics, Freight & Testing Outlay**: ₹{(total_logistics_inr + statutory_fees_inr):,.2f}
+- **Total Landed Capital Outlay**: **₹{total_outlay_inr:,.2f}**
+- **Gross Export FOB Realization**: **${total_fob_revenue_usd:,.2f} USD** (₹{total_fob_revenue_inr:,.2f})
+- **Government Cash Rebates (RoDTEP + DBK)**: **+₹{total_rebates_inr:,.2f}**
+- **Net Realized Profit**: **₹{net_profit_inr:,.2f}** ({net_margin_pct}% Net Margin)
+
+### Mandatory Statutory Roadmap
+1. **Licensing**: {matched_corridor['statutory_formalities'][0]['name']} ({matched_corridor['statutory_formalities'][0]['authority']})
+2. **Quality & Lab Gateway**: {matched_corridor['quality_and_lab_gateway']['target_standards']}
+3. **Multimodal Route**: {matched_corridor['multimodal_logistics']['recommended_route']}
+4. **Payment Risk Shield**: {matched_corridor['trade_finance_and_risk']['recommended_payment_term']}
+"""
+
+    classification = {
+        "flow": "Physical Merchandise Export" if "domestic" not in destination.lower() else "Domestic Mandi Wholesale",
+        "sector": "Spices & Agri-Commodities" if any(w in commodity for w in ["turmeric", "onion", "chilli", "rice"]) else "General Merchandise",
+        "domain": "Cross-Border Sovereign Trade Blueprint",
+        "partner": destination
+    }
+
     return {
         "status": "success",
         "blueprint_id": matched_corridor["id"],
@@ -226,6 +251,8 @@ def triangulate_trade_query(
         "unit_procurement_price_inr_per_qtl": buy_price_per_qtl,
         "unit_fob_price_usd_per_mt": sell_price_usd_per_mt,
         "cbic_exchange_rate_usd_inr": usd_inr,
+        "classification": classification,
+        "formatted_markdown": formatted_md,
         "executive_financial_waterfall": {
             "total_procurement_cost_inr": total_procurement_inr,
             "total_logistics_and_freight_inr": total_logistics_inr,

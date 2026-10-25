@@ -386,8 +386,23 @@
       nav,
       #bottom-nav,
       #theme-dropdown,
+      #trade-blueprint-section,
       .no-print {
         display: none !important;
+      }
+      #trade-blueprint-modal:not(.hidden) {
+        position: static !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding: 0 !important;
+        display: block !important;
+      }
+      #trade-blueprint-modal .glass-panel {
+        max-width: 100% !important;
+        box-shadow: none !important;
+        border: 1px solid #d1d5db !important;
+        background: #ffffff !important;
+        color: #000000 !important;
       }
       .hidden {
         display: none !important;
@@ -4184,7 +4199,7 @@
   </div>
 
   <!-- 360° Sovereign Trade Blueprint Printable Modal -->
-  <div id="trade-blueprint-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-3">
+  <div id="trade-blueprint-modal" onclick="if(event.target === this) closeBlueprintModal()" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-3">
     <div class="glass-panel w-full max-w-3xl max-h-[94vh] rounded-3xl p-5 shadow-2xl flex flex-col space-y-3.5 overflow-hidden animate-slide-up" style="background: var(--dropdown-bg); border-color: var(--card-border);">
       <div class="flex items-center justify-between border-b pb-3" style="border-color: var(--card-border);">
         <div class="flex items-center gap-2">
