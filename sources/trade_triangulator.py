@@ -14,8 +14,19 @@ from typing import Dict, Any, Optional
 DATA_PATH = Path(__file__).resolve().parent.parent / "data" / "trade_blueprints_master.json"
 
 def _load_blueprints() -> Dict[str, Any]:
-    with open(DATA_PATH, "r", encoding="utf-8") as f:
-        return json.load(f)
+    candidates = [
+        DATA_PATH,
+        Path.cwd() / "data" / "trade_blueprints_master.json",
+        Path(__file__).resolve().parent / ".." / "data" / "trade_blueprints_master.json"
+    ]
+    for c in candidates:
+        try:
+            if c.exists():
+                with open(c, "r", encoding="utf-8") as f:
+                    return json.load(f)
+        except Exception:
+            continue
+    return {}
 
 def parse_query_intent(query_str: str) -> Dict[str, Any]:
     """Extracts commodity, origin, destination, and scale from a natural language trade query."""
