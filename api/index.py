@@ -367,6 +367,21 @@ class handler(BaseHTTPRequestHandler):
     def _handle_tradestat(self, query_str: str = ""):
         try:
             params = urllib.parse.parse_qs(query_str) if query_str else {}
+            if "comtrade" in params or "mirror" in params or "un" in params:
+                from sources.comtrade_radar import get_comtrade_overview, calculate_mirror_discrepancy, get_global_market_share
+                if "calc" in params or "corridor" in params or "hs" in params or "commodity" in params:
+                    corridor_id = params.get("corridor", ["IND_USA"])[0]
+                    hs_code = params.get("commodity", params.get("hs", [None]))[0]
+                    cif_margin = float(params.get("cif_margin", params.get("margin", [10.0]))[0])
+                    data = calculate_mirror_discrepancy(corridor_id, hs_code, cif_margin)
+                elif "share" in params or "market_share" in params:
+                    hs_code = params.get("commodity", params.get("hs", ["300490"]))[0]
+                    data = get_global_market_share(hs_code)
+                else:
+                    data = get_comtrade_overview()
+                self._send_json(data)
+                return
+
             if "ecgc" in params or "credit" in params or "insurance" in params:
                 from sources.ecgc_risk import get_ecgc_overview, get_country_risk, calculate_ecgc_premium
                 if "calc" in params or "value" in params or "terms" in params:
@@ -427,6 +442,16 @@ class handler(BaseHTTPRequestHandler):
                 terms = str(payload.get("payment_terms", payload.get("terms", "DA_60")))[:20]
                 is_usd = bool(payload.get("is_usd", False))
                 data = calculate_ecgc_premium(c, val, terms, is_usd)
+            elif action in ["comtrade_mirror", "mirror_reconciliation", "comtrade"]:
+                from sources.comtrade_radar import calculate_mirror_discrepancy
+                corridor_id = str(payload.get("corridor_id", payload.get("corridor", "IND_USA")))
+                hs_code = payload.get("hs_code", payload.get("commodity"))
+                cif_margin = float(payload.get("cif_margin_pct", payload.get("cif_margin", 10.0)))
+                data = calculate_mirror_discrepancy(corridor_id, hs_code, cif_margin)
+            elif action in ["comtrade_market_share", "comtrade_share"]:
+                from sources.comtrade_radar import get_global_market_share
+                hs_code = str(payload.get("hs_code", payload.get("commodity", "300490")))
+                data = get_global_market_share(hs_code)
             elif action in ["bilateral_matrix", "matrix", "dgcis_matrix"]:
                 from sources.dgcis_tradestat import get_bilateral_matrix
                 c = payload.get("country")

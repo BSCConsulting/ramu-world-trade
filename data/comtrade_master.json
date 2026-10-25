@@ -1,0 +1,190 @@
+{
+  "metadata": {
+    "source": "United Nations Statistics Division (UN Comtrade v1) / UN Trade & Development (UNCTAD)",
+    "portal": "https://comtradeplus.un.org",
+    "methodology": "Bilateral Mirror Trade & Asymmetry Analysis (IMTS 2010 Concepts and Definitions)",
+    "statutory_basis": "WTO Trade Policy Review Mechanism (TPRM) & WCO Customs Valuation Agreement (Article VII GATT 1994)",
+    "cif_fob_standard_margin_pct": 10.0,
+    "discrepancy_risk_tiers": {
+      "LOW": {
+        "label": "Low / Typical Transport & Insurance Variance",
+        "threshold_pct": 12.0,
+        "color": "#10B981",
+        "implication": "Reported values align within normal maritime freight and insurance margins. Low illicit trade risk."
+      },
+      "MODERATE": {
+        "label": "Moderate Discrepancy / Transit Gap",
+        "threshold_pct": 25.0,
+        "color": "#F59E0B",
+        "implication": "Variance exceeds standard CIF/FOB markups. Attributable to transshipment delays, exchange rate lag, or tariff classification mismatch."
+      },
+      "CRITICAL": {
+        "label": "Critical Misinvoicing / Tariff Evasion Alert",
+        "threshold_pct": 999.0,
+        "color": "#EF4444",
+        "implication": "Severe statistical asymmetry. High probability of trade-based money laundering (TBML), duty evasion, or capital flight."
+      }
+    },
+    "updated": "2024-Q3"
+  },
+  "corridors": {
+    "IND_USA": {
+      "name": "India ➔ United States Bilateral Corridor",
+      "reporter": "India",
+      "partner": "United States",
+      "total_exports_fob_usd_billion": 77.52,
+      "total_imports_cif_usd_billion": 85.10,
+      "aggregate_gap_pct": 9.78,
+      "commodities": {
+        "300490": {
+          "description": "Medicaments consisting of mixed or unmixed products for therapeutic uses (Generic Pharma)",
+          "reporter_fob_billion": 8.45,
+          "partner_cif_billion": 9.38,
+          "benchmark_freight_pct": 6.5,
+          "common_causes": "Air freight temperature-controlled pharma chain; minimal customs valuation divergence; strict US FDA e-pedigree tracking."
+        },
+        "710239": {
+          "description": "Diamonds, non-industrial, worked, cut or faceted (Surat Polished Gems)",
+          "reporter_fob_billion": 9.80,
+          "partner_cif_billion": 11.20,
+          "benchmark_freight_pct": 2.5,
+          "common_causes": "High-value, low-volume air couriers (Brink's/Malca-Amit). Kimberley Process certification reconciliation lag."
+        },
+        "851713": {
+          "description": "Smartphones and cellular network devices (PLI Manufacturing Export)",
+          "reporter_fob_billion": 5.60,
+          "partner_cif_billion": 6.12,
+          "benchmark_freight_pct": 4.0,
+          "common_causes": "High-frequency express air shipments from Chennai / Bengaluru hubs; tightly reconciled by multinational OEM accounting."
+        }
+      }
+    },
+    "IND_CHN": {
+      "name": "China ➔ India & India ➔ China Corridor",
+      "reporter": "India",
+      "partner": "China",
+      "total_exports_fob_usd_billion": 16.65,
+      "total_imports_cif_usd_billion": 101.75,
+      "aggregate_gap_pct": 28.45,
+      "commodities": {
+        "847130": {
+          "description": "Laptops, tablets and portable data processing machines (China ➔ India Inflow)",
+          "reporter_fob_billion": 4.10,
+          "partner_cif_billion": 5.85,
+          "benchmark_freight_pct": 7.0,
+          "common_causes": "Significant mirror gap (+42.7%). Transit routing through Hong Kong / Singapore hubs; valuation under-reporting to compress Indian BCD / IGST liability."
+        },
+        "293399": {
+          "description": "Heterocyclic compounds with nitrogen hetero-atom(s) (Pharma Bulk Drugs / APIs)",
+          "reporter_fob_billion": 3.25,
+          "partner_cif_billion": 4.15,
+          "benchmark_freight_pct": 8.0,
+          "common_causes": "Substantial mirror variance (+27.7%). Transfer pricing between bulk chemical syndicates; bonded warehouse re-invoicing."
+        },
+        "260111": {
+          "description": "Non-agglomerated iron ores and concentrates (Odisha / Goa ➔ China)",
+          "reporter_fob_billion": 2.80,
+          "partner_cif_billion": 3.42,
+          "benchmark_freight_pct": 14.0,
+          "common_causes": "Bulk ocean dry bulk capesize/panamax shipping freight swings; moisture content deduction adjustments between load port and discharge port."
+        }
+      }
+    },
+    "IND_ARE": {
+      "name": "India ➔ UAE CEPA Bilateral Corridor",
+      "reporter": "India",
+      "partner": "United Arab Emirates",
+      "total_exports_fob_usd_billion": 35.63,
+      "total_imports_cif_usd_billion": 48.02,
+      "aggregate_gap_pct": 14.20,
+      "commodities": {
+        "711319": {
+          "description": "Articles of jewelry and parts thereof, of precious metal (Gold & Diamond Jewelry)",
+          "reporter_fob_billion": 5.40,
+          "partner_cif_billion": 6.85,
+          "benchmark_freight_pct": 1.5,
+          "common_causes": "CEPA tariff preference arbitrage; hand-carriage passenger consignment reporting discrepancies; Dubai gold souk re-export aggregation."
+        },
+        "271019": {
+          "description": "Medium oils and preparations, petroleum oils other than crude (Refined Fuels)",
+          "reporter_fob_billion": 4.80,
+          "partner_cif_billion": 5.35,
+          "benchmark_freight_pct": 6.0,
+          "common_causes": "Offshore bunkering and tanker transshipment outside territorial waters; Fujairah floating storage discharge discrepancies."
+        }
+      }
+    },
+    "IND_DEU": {
+      "name": "India ➔ Germany Industrial Corridor",
+      "reporter": "India",
+      "partner": "Germany",
+      "total_exports_fob_usd_billion": 10.74,
+      "total_imports_cif_usd_billion": 15.68,
+      "aggregate_gap_pct": 11.50,
+      "commodities": {
+        "870829": {
+          "description": "Parts and accessories of bodies for motor vehicles (Automotive Components)",
+          "reporter_fob_billion": 1.25,
+          "partner_cif_billion": 1.41,
+          "benchmark_freight_pct": 9.5,
+          "common_causes": "Regular containerized maritime flow via Hamburg / Bremerhaven. Values closely track expected CIF freight and insurance markups."
+        },
+        "620442": {
+          "description": "Women's or girls' dresses of cotton (Textile & Garment Apparel)",
+          "reporter_fob_billion": 0.85,
+          "partner_cif_billion": 0.98,
+          "benchmark_freight_pct": 11.0,
+          "common_causes": "Seasonal fashion inventory air-freight vs ocean container split; EU generalized scheme of preferences (GSP) documentation reconciliation."
+        }
+      }
+    },
+    "IND_GBR": {
+      "name": "India ➔ United Kingdom Trade Corridor",
+      "reporter": "India",
+      "partner": "United Kingdom",
+      "total_exports_fob_usd_billion": 12.92,
+      "total_imports_cif_usd_billion": 14.15,
+      "aggregate_gap_pct": 9.52,
+      "commodities": {
+        "610910": {
+          "description": "T-shirts, singlets and other vests, knitted or crocheted, of cotton",
+          "reporter_fob_billion": 0.95,
+          "partner_cif_billion": 1.06,
+          "benchmark_freight_pct": 8.5,
+          "common_causes": "Tirupur direct retail sourcing; UK Developing Countries Trading Scheme (DCTS) tariff compliance; tight container logistics."
+        },
+        "300420": {
+          "description": "Medicaments containing other antibiotics, for retail sale",
+          "reporter_fob_billion": 0.65,
+          "partner_cif_billion": 0.71,
+          "benchmark_freight_pct": 5.5,
+          "common_causes": "NHS procurement framework consignments; high regulatory auditability by MHRA (Medicines and Healthcare products Regulatory Agency)."
+        }
+      }
+    },
+    "IND_NLD": {
+      "name": "India ➔ Netherlands (Rotterdam Gateway) Corridor",
+      "reporter": "India",
+      "partner": "Netherlands",
+      "total_exports_fob_usd_billion": 22.36,
+      "total_imports_cif_usd_billion": 25.80,
+      "aggregate_gap_pct": 15.38,
+      "commodities": {
+        "271012": {
+          "description": "Light oils and preparations, motor spirit (Gasoline / Clean Refined Fuels)",
+          "reporter_fob_billion": 11.80,
+          "partner_cif_billion": 13.95,
+          "benchmark_freight_pct": 12.0,
+          "common_causes": "Rotterdam ARA (Amsterdam-Rotterdam-Antwerp) refinery hub re-exports across Northwestern Europe; substantial in-transit floating cargo re-routing."
+        },
+        "851713": {
+          "description": "Smartphones and handheld wireless devices",
+          "reporter_fob_billion": 2.40,
+          "partner_cif_billion": 2.75,
+          "benchmark_freight_pct": 4.5,
+          "common_causes": "European distribution center (EDC) transit warehousing; subsequent intra-EU dispatch via VAT reverse charge."
+        }
+      }
+    }
+  }
+}

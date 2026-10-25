@@ -828,6 +828,68 @@
         </div>
       </div>
 
+      
+      <!-- UN Comtrade Global Mirror Trade & Discrepancy Radar -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3.5">
+        <div class="flex flex-wrap items-center justify-between gap-1">
+          <div class="flex items-center gap-1.5">
+            <span class="text-xs font-extrabold uppercase tracking-wider">UN Comtrade Global Mirror Trade &amp; Discrepancy Radar</span>
+            <span id="comtrade-statutory-badge" class="text-[9px] px-1.5 py-0.5 rounded font-mono font-bold" style="background: rgba(99, 102, 241, 0.15); color: #6366F1;">● UN COMTRADE v1 STATISTICAL MIRROR</span>
+          </div>
+          <span class="text-[10px] font-mono" style="color: var(--text-dim);">comtradeplus.un.org / IMTS 2010</span>
+        </div>
+        <p class="text-[11px]" style="color: var(--text-muted);">Audit bilateral reported exports (FOB) against partner reported imports (CIF). Reconcile transport and insurance margins, identify trade misinvoicing risks, and benchmark global HS-6 market shares.</p>
+
+        <!-- Bilateral Corridor Preset Chips -->
+        <div class="flex gap-1 overflow-x-auto pb-1 text-[10px] font-bold no-scrollbar">
+          <button type="button" onclick="selectComtradeCorridor('IND_USA')" id="comtrade-chip-IND_USA" class="comtrade-corridor-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🇺🇸 Ind-USA (Pharma/Diamonds)</button>
+          <button type="button" onclick="selectComtradeCorridor('IND_CHN')" id="comtrade-chip-IND_CHN" class="comtrade-corridor-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇨🇳 Ind-China (Laptops/APIs)</button>
+          <button type="button" onclick="selectComtradeCorridor('IND_ARE')" id="comtrade-chip-IND_ARE" class="comtrade-corridor-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇦🇪 Ind-UAE (Gold/CEPA)</button>
+          <button type="button" onclick="selectComtradeCorridor('IND_DEU')" id="comtrade-chip-IND_DEU" class="comtrade-corridor-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇩🇪 Ind-Germany (Auto/Textiles)</button>
+          <button type="button" onclick="selectComtradeCorridor('IND_GBR')" id="comtrade-chip-IND_GBR" class="comtrade-corridor-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇬🇧 Ind-UK (Apparel/Pharma)</button>
+          <button type="button" onclick="selectComtradeCorridor('IND_NLD')" id="comtrade-chip-IND_NLD" class="comtrade-corridor-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇳🇱 Ind-Netherlands (Refined Fuel)</button>
+        </div>
+
+        <!-- Controls: Corridor, Commodity & CIF Margin Slider -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Bilateral Corridor:</label>
+            <select id="comtrade-corridor-select" onchange="onComtradeCorridorChange()" class="w-full border rounded-xl p-2.5 text-xs focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);">
+              <option value="IND_USA" selected>🇮🇳 India ➔ 🇺🇸 United States</option>
+              <option value="IND_CHN">🇨🇳 China ➔ 🇮🇳 India &amp; Return</option>
+              <option value="IND_ARE">🇮🇳 India ➔ 🇦🇪 United Arab Emirates</option>
+              <option value="IND_DEU">🇮🇳 India ➔ 🇩🇪 Germany</option>
+              <option value="IND_GBR">🇮🇳 India ➔ 🇬🇧 United Kingdom</option>
+              <option value="IND_NLD">🇮🇳 India ➔ 🇳🇱 Netherlands (Rotterdam)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Tracked HS-6 Commodity:</label>
+            <select id="comtrade-commodity-select" onchange="runComtradeAnalysis()" class="w-full border rounded-xl p-2.5 text-xs focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);">
+              <option value="300490" selected>💊 HS 300490 - Generic Medicaments</option>
+              <option value="710239">💎 HS 710239 - Cut &amp; Polished Diamonds</option>
+              <option value="851713">📱 HS 851713 - Smartphones &amp; Devices</option>
+            </select>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label class="block text-[10px] font-bold" style="color: var(--text-dim);">CIF/FOB Freight &amp; Insurance Margin:</label>
+              <span id="comtrade-margin-val" class="text-[10px] font-mono font-bold" style="color: var(--accent);">10.0%</span>
+            </div>
+            <input type="range" id="comtrade-margin-slider" min="4" max="20" step="0.5" value="10" 
+                   oninput="onComtradeMarginChange(this.value)"
+                   class="w-full accent-emerald-500 cursor-pointer mt-2">
+          </div>
+        </div>
+
+        <!-- Dynamic UN Comtrade Radar Container -->
+        <div id="comtrade-radar-container" class="space-y-2 text-xs">
+          <!-- Populated dynamically by renderComtradeResults -->
+        </div>
+      </div>
+
       <!-- APEDA Phytosanitary Standards, Organic TraceNet & Agri-Commodity Quality Gateway -->
       <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3.5">
         <div class="flex flex-wrap items-center justify-between gap-1">

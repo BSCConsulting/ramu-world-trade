@@ -5379,11 +5379,252 @@ window.onMpedaSpeciesChange = onMpedaSpeciesChange;
 window.onMpedaResidueChange = onMpedaResidueChange;
 window.runMpedaAudit = runMpedaAudit;
 window.renderMpedaResults = renderMpedaResults;
+
+// ==========================================
+// Provider 6.1: UN Comtrade Global Mirror Trade & Discrepancy Radar
+// ==========================================
+
+const COMTRADE_CORRIDOR_COMMODITIES = {
+  IND_USA: [
+    { code: '300490', name: '💊 HS 300490 - Generic Medicaments' },
+    { code: '710239', name: '💎 HS 710239 - Cut & Polished Diamonds' },
+    { code: '851713', name: '📱 HS 851713 - Smartphones & Devices' }
+  ],
+  IND_CHN: [
+    { code: '847130', name: '💻 HS 847130 - Laptops & Tablets (China Inflow)' },
+    { code: '293399', name: '🧪 HS 293399 - Active Pharma Ingredients (APIs)' },
+    { code: '260111', name: '⛏️ HS 260111 - Non-agglomerated Iron Ore' }
+  ],
+  IND_ARE: [
+    { code: '711319', name: '💍 HS 711319 - Articles of Gold Jewelry (CEPA)' },
+    { code: '271019', name: '🛢️ HS 271019 - Medium & Heavy Refined Oils' }
+  ],
+  IND_DEU: [
+    { code: '870829', name: '🚗 HS 870829 - Automotive Components' },
+    { code: '620442', name: '👗 HS 620442 - Cotton Dresses & Apparel' }
+  ],
+  IND_GBR: [
+    { code: '610910', name: '👕 HS 610910 - Cotton T-shirts & Vests' },
+    { code: '300420', name: '💊 HS 300420 - Antibiotics for Retail Sale' }
+  ],
+  IND_NLD: [
+    { code: '271012', name: '⛽ HS 271012 - Motor Spirit Gasoline (Rotterdam)' },
+    { code: '851713', name: '📱 HS 851713 - Smartphones (EU Gateway)' }
+  ]
+};
+
+function selectComtradeCorridor(corridorId) {
+  document.querySelectorAll('.comtrade-corridor-chip').forEach(btn => {
+    btn.style.background = 'var(--card-inner-bg)';
+    btn.style.color = 'var(--text-main)';
+    btn.style.borderColor = 'var(--card-inner-border)';
+  });
+  const chip = document.getElementById(`comtrade-chip-${corridorId}`);
+  if (chip) {
+    chip.style.background = 'var(--accent)';
+    chip.style.color = '#ffffff';
+    chip.style.borderColor = 'transparent';
+  }
+
+  const corridorSelect = document.getElementById('comtrade-corridor-select');
+  if (corridorSelect) corridorSelect.value = corridorId;
+
+  updateComtradeCommodityOptions(corridorId);
+  runComtradeAnalysis();
+}
+
+function onComtradeCorridorChange() {
+  const corridorSelect = document.getElementById('comtrade-corridor-select');
+  if (!corridorSelect) return;
+  const corridorId = corridorSelect.value;
+
+  document.querySelectorAll('.comtrade-corridor-chip').forEach(btn => {
+    btn.style.background = 'var(--card-inner-bg)';
+    btn.style.color = 'var(--text-main)';
+    btn.style.borderColor = 'var(--card-inner-border)';
+  });
+  const chip = document.getElementById(`comtrade-chip-${corridorId}`);
+  if (chip) {
+    chip.style.background = 'var(--accent)';
+    chip.style.color = '#ffffff';
+    chip.style.borderColor = 'transparent';
+  }
+
+  updateComtradeCommodityOptions(corridorId);
+  runComtradeAnalysis();
+}
+
+function updateComtradeCommodityOptions(corridorId) {
+  const commSelect = document.getElementById('comtrade-commodity-select');
+  if (!commSelect) return;
+  const items = COMTRADE_CORRIDOR_COMMODITIES[corridorId] || COMTRADE_CORRIDOR_COMMODITIES['IND_USA'];
+  commSelect.innerHTML = items.map((it, idx) => `<option value="${it.code}" ${idx === 0 ? 'selected' : ''}>${it.name}</option>`).join('');
+}
+
+function onComtradeMarginChange(val) {
+  const label = document.getElementById('comtrade-margin-val');
+  if (label) label.textContent = `${parseFloat(val).toFixed(1)}%`;
+  runComtradeAnalysis();
+}
+
+async function runComtradeAnalysis() {
+  const corridorSelect = document.getElementById('comtrade-corridor-select');
+  const commSelect = document.getElementById('comtrade-commodity-select');
+  const marginSlider = document.getElementById('comtrade-margin-slider');
+  const container = document.getElementById('comtrade-radar-container');
+  if (!corridorSelect || !commSelect || !marginSlider || !container) return;
+
+  const corridorId = corridorSelect.value;
+  const hsCode = commSelect.value;
+  const margin = marginSlider.value;
+
+  try {
+    const [resMirror, resShare] = await Promise.all([
+      fetch(`/api/tradestat?comtrade=1&corridor=${encodeURIComponent(corridorId)}&commodity=${encodeURIComponent(hsCode)}&cif_margin=${encodeURIComponent(margin)}`),
+      fetch(`/api/tradestat?comtrade=1&share=1&commodity=${encodeURIComponent(hsCode)}`)
+    ]);
+
+    if (!resMirror.ok) throw new Error(`Mirror HTTP ${resMirror.status}`);
+    const dataMirror = await resMirror.json();
+    const dataShare = resShare.ok ? await resShare.json() : null;
+
+    renderComtradeResults(dataMirror, dataShare);
+  } catch (err) {
+    console.error('UN Comtrade fetch error:', err);
+    container.innerHTML = `<div class="p-3 text-red-500 bg-red-50/10 rounded-xl border border-red-500/20">Failed to load UN Comtrade mirror statistics: ${err.message}</div>`;
+  }
+}
+
+function renderComtradeResults(mirrorData, shareData) {
+  const container = document.getElementById('comtrade-radar-container');
+  if (!container || !mirrorData || mirrorData.status !== 'success') return;
+
+  const corr = mirrorData.corridor || {};
+  const comm = mirrorData.commodity || {};
+  const rec = mirrorData.mirror_reconciliation || {};
+  const verdict = mirrorData.trade_integrity_verdict || {};
+
+  const riskColor = verdict.color || '#10B981';
+  const riskBg = `${riskColor}15`;
+  const riskBorder = `${riskColor}40`;
+
+  const residualVal = rec.unreconciled_residual_billion || 0;
+  const residualPct = rec.unreconciled_residual_pct || 0;
+  const isPositiveGap = residualVal >= 0;
+
+  // Global Market Share Section
+  let shareHtml = '';
+  if (shareData && shareData.status === 'success') {
+    const rivalsStr = (shareData.top_rivals || []).join(' • ');
+    shareHtml = `
+      <div class="p-3 rounded-xl border flex flex-col md:flex-row md:items-center justify-between gap-2 text-xs"
+           style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <div class="flex items-center gap-2">
+          <span class="text-base">🌐</span>
+          <div>
+            <span class="font-bold text-[11px]" style="color: var(--text-main);">Global Export Market Benchmark (HS ${shareData.hs_code}):</span>
+            <span class="text-[11px] ml-1" style="color: var(--text-muted);">India Global Rank: <strong style="color: var(--accent);">#${shareData.global_rank}</strong> (${shareData.india_share_pct}% World Share)</span>
+          </div>
+        </div>
+        <div class="text-[10px] font-mono" style="color: var(--text-dim);">
+          Leading Rivals: ${rivalsStr}
+        </div>
+      </div>
+    `;
+  }
+
+  const html = `
+    <!-- Trade Integrity & Misinvoicing Risk Banner -->
+    <div class="p-3.5 rounded-xl border flex flex-col md:flex-row md:items-center justify-between gap-3"
+         style="background: ${riskBg}; border-color: ${riskBorder};">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase font-mono tracking-wider"
+                style="background: ${riskColor}; color: #ffffff;">
+            ${verdict.risk_level} RISK
+          </span>
+          <span class="font-extrabold text-xs" style="color: ${riskColor};">
+            ${verdict.risk_label}
+          </span>
+        </div>
+        <div class="text-xs font-bold mt-1" style="color: var(--text-main);">
+          Typology: ${verdict.typology}
+        </div>
+        <p class="text-[11px] mt-0.5" style="color: var(--text-muted);">
+          ${verdict.regulatory_note}
+        </p>
+      </div>
+
+      <div class="flex items-center gap-2 font-mono text-[11px] flex-shrink-0">
+        <div class="text-right">
+          <div class="text-[9px] uppercase font-bold" style="color: var(--text-dim);">Residual Variance</div>
+          <div class="font-extrabold text-sm" style="color: ${riskColor};">
+            ${isPositiveGap ? '+' : ''}${residualPct.toFixed(1)}% (${isPositiveGap ? '+' : ''}$${residualVal.toFixed(2)}B)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4-Card Waterfall: FOB vs CIF vs Expected CIF vs Gap -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+      <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <div class="text-[9px] uppercase tracking-wider font-bold" style="color: var(--text-dim);">${corr.reporter} Reported FOB</div>
+        <div class="text-base font-extrabold mt-1 font-mono" style="color: var(--text-main);">$${rec.reporter_fob_billion.toFixed(2)}B</div>
+        <div class="text-[9px] mt-0.5" style="color: var(--text-muted);">Outbound Free on Board Value</div>
+      </div>
+
+      <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <div class="text-[9px] uppercase tracking-wider font-bold" style="color: var(--text-dim);">${corr.partner} Reported CIF</div>
+        <div class="text-base font-extrabold mt-1 font-mono" style="color: #3B82F6;">$${rec.partner_cif_billion.toFixed(2)}B</div>
+        <div class="text-[9px] mt-0.5" style="color: var(--text-muted);">Inbound Landed Valuation</div>
+      </div>
+
+      <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <div class="text-[9px] uppercase tracking-wider font-bold" style="color: var(--text-dim);">Freight Reconciled CIF</div>
+        <div class="text-base font-extrabold mt-1 font-mono" style="color: #10B981;">$${rec.expected_cif_billion.toFixed(2)}B</div>
+        <div class="text-[9px] mt-0.5" style="color: var(--text-muted);">FOB + ${rec.cif_fob_margin_applied_pct}% Transport Margin</div>
+      </div>
+
+      <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <div class="text-[9px] uppercase tracking-wider font-bold" style="color: var(--text-dim);">Unreconciled Mirror Gap</div>
+        <div class="text-base font-extrabold mt-1 font-mono" style="color: ${riskColor};">${isPositiveGap ? '+' : ''}$${residualVal.toFixed(2)}B</div>
+        <div class="text-[9px] mt-0.5" style="color: var(--text-muted);">Statistical Asymmetry Residual</div>
+      </div>
+    </div>
+
+    <!-- Underlying Statistical Drivers & Common Causations -->
+    <div class="p-3 rounded-xl border text-xs space-y-1.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+      <div class="flex items-center justify-between">
+        <span class="font-extrabold text-[11px] uppercase tracking-wider" style="color: var(--text-main);">Corridor Asymmetry Diagnostics &amp; Drivers:</span>
+        <span class="text-[9px] font-mono px-1.5 py-0.5 rounded font-bold" style="background: rgba(99, 102, 241, 0.15); color: #6366F1;">WCO GATT ART VII</span>
+      </div>
+      <p class="text-[11px] leading-relaxed" style="color: var(--text-muted);">
+        ${comm.common_causes}
+      </p>
+      <div class="text-[10px] font-mono pt-1 border-t flex flex-wrap items-center justify-between gap-1" style="border-color: var(--card-inner-border); color: var(--text-dim);">
+        <span>Benchmark Transport Margin: ${comm.benchmark_freight_pct}%</span>
+        <span>Aggregate Corridor Asymmetry: ${corr.aggregate_gap_pct}%</span>
+      </div>
+    </div>
+
+    <!-- Global Share Benchmark -->
+    ${shareHtml}
+  `;
+
+  container.innerHTML = html;
+}
+
 window.selectSpicesCommodity = selectSpicesCommodity;
 window.onSpicesCommodityChange = onSpicesCommodityChange;
 window.onSpicesResidueChange = onSpicesResidueChange;
 window.runSpicesAudit = runSpicesAudit;
 window.renderSpicesResults = renderSpicesResults;
+window.selectComtradeCorridor = selectComtradeCorridor;
+window.onComtradeCorridorChange = onComtradeCorridorChange;
+window.onComtradeMarginChange = onComtradeMarginChange;
+window.runComtradeAnalysis = runComtradeAnalysis;
+window.renderComtradeResults = renderComtradeResults;
+
 
 
 
