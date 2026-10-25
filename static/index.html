@@ -1047,40 +1047,111 @@
         </div>
       </div>
 
-      <!-- ICEGATE Error Code Decoder -->
+      <!-- ICEGATE EDI Systems & Document Tracking Engine -->
       <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3">
         <div class="flex items-center justify-between">
-          <h2 class="text-xs font-extrabold uppercase tracking-wider flex items-center gap-1.5">
-            <span>ICEGATE Error Code Decoder</span>
-          </h2>
-          <span class="text-[9px] font-mono font-bold px-2 py-0.5 rounded-full border" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">EDI Diagnostic</span>
-        </div>
-        <p class="text-[11px]" style="color: var(--text-muted);">Quick-resolve shipping bill rejections, scroll holds, and bank PFMS name mismatch errors.</p>
-        
-        <div class="flex overflow-x-auto space-x-1.5 pb-1 ios-scroll no-scrollbar text-[10px]">
-          <button onclick="decodeIcegateError('SB001')" class="flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">SB001 (PAN Mismatch)</button>
-          <button onclick="decodeIcegateError('SB002')" class="flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">SB002 (Bank PFMS)</button>
-          <button onclick="decodeIcegateError('SB003')" class="flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">SB003 (GSTR-1 6A)</button>
-          <button onclick="decodeIcegateError('SB005')" class="flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">SB005 (EGM Hold)</button>
-          <button onclick="decodeIcegateError('SB006')" class="flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">SB006 (Port Code)</button>
-          <button onclick="decodeIcegateError('ERR-301')" class="flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">ERR-301 (RoDTEP Null)</button>
+          <div class="flex items-center gap-2">
+            <span class="text-base">🏛️</span>
+            <div>
+              <h2 class="text-xs font-extrabold uppercase tracking-wider flex items-center gap-1.5">
+                <span>ICEGATE EDI Systems & Document Tracker</span>
+              </h2>
+              <p class="text-[10px]" style="color: var(--text-muted);">Indian Customs Electronic Gateway &bull; Error Resolution & Milestone Tracking</p>
+            </div>
+          </div>
+          <span class="text-[9px] font-mono font-bold px-2 py-0.5 rounded-full border" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">EDI 2.0 Live</span>
         </div>
 
-        <div id="icegate-decoder-result" class="p-3.5 rounded-2xl border space-y-2 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-          <div class="flex items-center justify-between">
-            <span id="err-code-title" class="font-extrabold text-xs" style="color: var(--accent);">SB002 — Bank PFMS Name Mismatch</span>
-            <span id="err-severity" class="text-[9px] px-2 py-0.5 rounded-full font-mono font-bold" style="background: rgba(239, 68, 68, 0.15); color: #EF4444;">Drawback Stalled</span>
+        <!-- Mode Segmented Switcher -->
+        <div class="flex p-0.5 rounded-xl border text-[10px] font-bold" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <button id="icegate-mode-solver-btn" onclick="switchIcegateMode('solver')" class="flex-1 py-1.5 rounded-lg transition-all" style="background: var(--accent); color: #ffffff;">🚨 Error Code Solver</button>
+          <button id="icegate-mode-tracker-btn" onclick="switchIcegateMode('tracker')" class="flex-1 py-1.5 rounded-lg transition-all" style="background: transparent; color: var(--text-muted);">🚢 Document Status Tracker</button>
+        </div>
+
+        <!-- Mode 1: Error Code Solver -->
+        <div id="icegate-view-solver" class="space-y-2.5">
+          <p class="text-[11px]" style="color: var(--text-muted);">Quick-resolve shipping bill rejections, scroll holds, and bank PFMS name mismatch errors:</p>
+          
+          <div class="flex overflow-x-auto space-x-1.5 pb-1 ios-scroll no-scrollbar text-[10px]">
+            <button id="icegate-chip-SB001" onclick="decodeIcegateError('SB001')" class="icegate-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">SB001 (PAN Mismatch)</button>
+            <button id="icegate-chip-SB002" onclick="decodeIcegateError('SB002')" class="icegate-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">SB002 (Bank PFMS)</button>
+            <button id="icegate-chip-SB003" onclick="decodeIcegateError('SB003')" class="icegate-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">SB003 (GSTR-1 6A)</button>
+            <button id="icegate-chip-SB004" onclick="decodeIcegateError('SB004')" class="icegate-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">SB004 (GSTN Unpaid)</button>
+            <button id="icegate-chip-SB005" onclick="decodeIcegateError('SB005')" class="icegate-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">SB005 (EGM Hold)</button>
+            <button id="icegate-chip-SB006" onclick="decodeIcegateError('SB006')" class="icegate-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">SB006 (Port Code)</button>
+            <button id="icegate-chip-ERR-301" onclick="decodeIcegateError('ERR-301')" class="icegate-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">ERR-301 (RoDTEP Null)</button>
+            <button id="icegate-chip-BE-01" onclick="decodeIcegateError('BE-01')" class="icegate-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">BE-01 (RMS Exam)</button>
+            <button id="icegate-chip-PFMS-99" onclick="decodeIcegateError('PFMS-99')" class="icegate-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">PFMS-99 (Bank Reject)</button>
           </div>
-          <p id="err-cause" class="text-[11px] leading-relaxed" style="color: var(--text-muted);">
-            Exporter's registered business name on the Shipping Bill does not match the beneficiary account holder name verified by Public Financial Management System (PFMS).
-          </p>
-          <div class="pt-1 border-t space-y-1" style="border-color: var(--card-border);">
-            <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-dim);">Action Plan for Port CHA:</span>
-            <p id="err-resolution" class="text-[11px] leading-relaxed">
-              1. Log in to ICEGATE &rarr; Financial Services &rarr; Bank Account Management.<br>
-              2. Execute 'Single Rupee Test Credit' verification.<br>
-              3. Submit revised bank mandate letter to Assistant Commissioner (Drawback) at port of export.
+
+          <div id="icegate-decoder-result" class="p-3.5 rounded-2xl border space-y-2 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="flex items-center justify-between">
+              <span id="err-code-title" class="font-extrabold text-xs" style="color: var(--accent);">SB002 — Bank PFMS Name Mismatch</span>
+              <span id="err-severity" class="text-[9px] px-2 py-0.5 rounded-full font-mono font-bold" style="background: rgba(239, 68, 68, 0.15); color: #EF4444;">Drawback Stalled</span>
+            </div>
+            <p id="err-cause" class="text-[11px] leading-relaxed" style="color: var(--text-muted);">
+              Exporter's registered business name on the Shipping Bill does not match the beneficiary account holder name verified by Public Financial Management System (PFMS).
             </p>
+            <div class="pt-1 border-t space-y-1" style="border-color: var(--card-border);">
+              <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-dim);">Action Plan for Port CHA:</span>
+              <p id="err-resolution" class="text-[11px] leading-relaxed">
+                1. Log in to ICEGATE &rarr; Financial Services &rarr; Bank Account Management.<br>
+                2. Execute 'Single Rupee Test Credit' verification.<br>
+                3. Submit revised bank mandate letter to Assistant Commissioner (Drawback) at port of export.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mode 2: Live Customs Document Status Tracker -->
+        <div id="icegate-view-tracker" class="hidden space-y-3">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
+            <div>
+              <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Document Type:</label>
+              <select id="icegate-track-type" class="w-full border rounded-xl p-2 text-xs focus:outline-none" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                <option value="shipping_bill" selected>Shipping Bill (Export)</option>
+                <option value="bill_of_entry">Bill of Entry (Import)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Document Number:</label>
+              <input type="text" id="icegate-track-num" value="7492104" placeholder="e.g. 7492104" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);" />
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Customs Port:</label>
+              <select id="icegate-track-port" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                <option value="INNSA1" selected>INNSA1 — Nhava Sheva (JNPT)</option>
+                <option value="INMUN1">INMUN1 — Mundra Port (APSEZ)</option>
+                <option value="INMAA1">INMAA1 — Chennai Seaport</option>
+                <option value="INVTZ1">INVTZ1 — Visakhapatnam Port</option>
+                <option value="INDEL4">INDEL4 — Delhi Air Cargo (IGIA)</option>
+                <option value="INBOM4">INBOM4 — Mumbai Air Cargo (CSMIA)</option>
+                <option value="INLDH6">INLDH6 — ICD Ludhiana</option>
+                <option value="INTKD6">INTKD6 — ICD Tughlakabad</option>
+                <option value="INCOK1">INCOK1 — Cochin Seaport</option>
+                <option value="INBLR4">INBLR4 — Bangalore Air Cargo</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-1">
+            <button onclick="trackIcegateDocument()" class="px-4 py-2 rounded-xl text-xs font-bold text-white shadow-md active:scale-95 transition-transform flex items-center gap-1.5" style="background: var(--accent);">
+              <span>🔍 Track EDI Lifecycle</span>
+            </button>
+            <span id="icegate-track-status-badge" class="text-[10px] font-mono font-bold px-2.5 py-1 rounded-full border" style="background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.3); color: #10B981;">STATUS: CLEARED</span>
+          </div>
+
+          <!-- Document Timeline Container -->
+          <div id="icegate-track-result" class="p-3 rounded-2xl border space-y-2.5 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="flex items-center justify-between text-[11px] font-bold">
+              <span id="icegate-track-header" style="color: var(--accent);">Shipping Bill #7492104 • INNSA1 (Nhava Sheva)</span>
+              <span id="icegate-track-updated" class="text-[9px] font-mono" style="color: var(--text-dim);">Updated: Live</span>
+            </div>
+            
+            <!-- Milestones Progress Bar -->
+            <div id="icegate-timeline-steps" class="space-y-1.5">
+              <!-- Dynamically populated -->
+            </div>
           </div>
         </div>
       </div>

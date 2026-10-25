@@ -900,14 +900,21 @@ function setHsTariff(hsCode) {
   setQuery(map[hsCode] || `Tell me about 8-digit ITC-HS ${hsCode}`);
 }
 
-// 13. ICEGATE ERROR CODE DECODER
+// 13. ICEGATE EDI SYSTEMS & DOCUMENT TRACKING ENGINE
 const ICEGATE_ERRORS = {
+  'SB000': {
+    title: 'SB000 — Successful Transmission / No Discrepancy',
+    severity: 'Normal',
+    color: '#10B981',
+    cause: 'Shipping Bill has been successfully validated across ICEGATE, DGFT, and GSTN central registries with zero discrepancies.',
+    resolution: 'No corrective action required. Monitor vessel sailing and carrier EGM filing for automated scroll generation.'
+  },
   'SB001': {
     title: 'SB001 — Invalid IEC / PAN Mismatch',
     severity: 'Critical (Blocks Scroll)',
     color: '#EF4444',
-    cause: 'The Importer Exporter Code (IEC) or PAN declared in the Shipping Bill does not match DGFT/ICEGATE central registry.',
-    resolution: '1. Log in to dgft.gov.in and verify IEC status is "Active".\n2. Verify PAN is correctly linked in ICEGATE profile under User Management.\n3. Request CHA to file amendment for re-transmitting the Shipping Bill.'
+    cause: 'The Importer Exporter Code (IEC) or PAN declared on the Shipping Bill does not match DGFT/ICEGATE central registry or is inactive.',
+    resolution: '1. Log in to dgft.gov.in and verify IEC status is "Active" with correct PAN linked.\n2. Verify PAN is correctly linked in ICEGATE profile under User Management.\n3. Request CHA to file amendment for re-transmitting the Shipping Bill to ICEGATE.'
   },
   'SB002': {
     title: 'SB002 — Bank PFMS Name Mismatch',
@@ -922,6 +929,13 @@ const ICEGATE_ERRORS = {
     color: '#F59E0B',
     cause: 'Invoice number or date declared in Table 6A of GSTR-1 does not match line-by-line with the export invoice declared on the Shipping Bill.',
     resolution: '1. Check Table 6A of GSTR-1 on gst.gov.in.\n2. Ensure Shipping Bill number, Port Code (e.g. INNSA1), and Invoice Number match exactly without extra spaces or slashes.\n3. File Table 9 amendment in next GSTR-1 return if mistyped.'
+  },
+  'SB004': {
+    title: 'SB004 — Record Not Found in GSTN / GSTR-3B Tax Unpaid',
+    severity: 'Refund Stalled',
+    color: '#F59E0B',
+    cause: 'GSTN has not transmitted shipping bill data to ICEGATE because GSTR-3B tax payment for the relevant period does not cover the IGST claimed in GSTR-1 Table 6A.',
+    resolution: '1. Confirm GSTR-3B for the tax period has been successfully filed with status "Filed".\n2. Verify IGST paid in Table 3.1(b) of GSTR-3B is equal to or greater than Table 6A of GSTR-1.\n3. Wait 48 hours for GSTN-ICEGATE API synchronization.'
   },
   'SB005': {
     title: 'SB005 — EGM Error / Container Not Integrated',
@@ -943,10 +957,69 @@ const ICEGATE_ERRORS = {
     color: '#EF4444',
     cause: 'Item-level scheme code "RDTP" or "RODTEP" was left blank on the export Shipping Bill line item by the customs broker (CHA).',
     resolution: '1. Section 149 customs amendment must be filed with the Deputy Commissioner of Customs at port of export before LEO (Let Export Order) is issued.\n2. Post-LEO amendments require formal Commissioner approval.'
+  },
+  'BE-01': {
+    title: 'BE-01 — RMS First Check Examination Flag',
+    severity: 'Cargo Physical Hold',
+    color: '#F59E0B',
+    cause: 'Risk Management System (RMS) has flagged imported consignment for First Check physical inspection prior to assessment of duty.',
+    resolution: '1. Instruct CHA to arrange container de-stuffing at CFS/ICD examination shed.\n2. Present representative samples and commercial catalog to Appraising Officer.\n3. Obtain inspection report upload onto ICES for Second Stage assessment.'
+  },
+  'PFMS-99': {
+    title: 'PFMS-99 — Beneficiary Bank Account Dormant / Invalid IFSC',
+    severity: 'Electronic Credit Bounced',
+    color: '#EF4444',
+    cause: 'PFMS attempted to credit duty drawback or IGST refund, but destination bank returned credit failure due to account dormancy, freeze, or invalid branch IFSC.',
+    resolution: '1. Contact bank branch immediately to reactivate dormant account with fresh KYC.\n2. Update branch IFSC on ICEGATE if merger/amalgamation took place.\n3. File re-credit request with Customs Port Drawback branch.'
   }
 };
 
+function switchIcegateMode(mode) {
+  const solverView = document.getElementById('icegate-view-solver');
+  const trackerView = document.getElementById('icegate-view-tracker');
+  const solverBtn = document.getElementById('icegate-mode-solver-btn');
+  const trackerBtn = document.getElementById('icegate-mode-tracker-btn');
+
+  if (mode === 'solver') {
+    if (solverView) solverView.classList.remove('hidden');
+    if (trackerView) trackerView.classList.add('hidden');
+    if (solverBtn) {
+      solverBtn.style.background = 'var(--accent)';
+      solverBtn.style.color = '#ffffff';
+    }
+    if (trackerBtn) {
+      trackerBtn.style.background = 'transparent';
+      trackerBtn.style.color = 'var(--text-muted)';
+    }
+  } else {
+    if (solverView) solverView.classList.add('hidden');
+    if (trackerView) trackerView.classList.remove('hidden');
+    if (trackerBtn) {
+      trackerBtn.style.background = 'var(--accent)';
+      trackerBtn.style.color = '#ffffff';
+    }
+    if (solverBtn) {
+      solverBtn.style.background = 'transparent';
+      solverBtn.style.color = 'var(--text-muted)';
+    }
+    trackIcegateDocument();
+  }
+}
+
 function decodeIcegateError(code) {
+  // Update chips styling
+  document.querySelectorAll('.icegate-chip').forEach(btn => {
+    btn.style.background = 'var(--card-inner-bg)';
+    btn.style.color = 'var(--text-main)';
+    btn.style.borderColor = 'var(--card-inner-border)';
+  });
+  const activeBtn = document.getElementById(`icegate-chip-${code}`);
+  if (activeBtn) {
+    activeBtn.style.background = 'var(--accent-light)';
+    activeBtn.style.color = 'var(--accent)';
+    activeBtn.style.borderColor = 'var(--accent-border)';
+  }
+
   const err = ICEGATE_ERRORS[code];
   if (!err) return;
   const titleEl = document.getElementById('err-code-title');
@@ -958,11 +1031,128 @@ function decodeIcegateError(code) {
   if (sevEl) {
     sevEl.textContent = err.severity;
     sevEl.style.color = err.color;
+    sevEl.style.background = err.color === '#10B981' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.15)';
   }
   if (causeEl) causeEl.textContent = err.cause;
   if (resEl) resEl.innerHTML = err.resolution.replace(/\n/g, '<br>');
   showToast(`Decoded ${code}`, "⚡");
 }
+
+async function trackIcegateDocument() {
+  const typeEl = document.getElementById('icegate-track-type');
+  const numEl = document.getElementById('icegate-track-num');
+  const portEl = document.getElementById('icegate-track-port');
+  if (!typeEl || !numEl || !portEl) return;
+
+  const docType = typeEl.value;
+  const docNum = numEl.value.trim() || '7492104';
+  const portCode = portEl.value;
+
+  try {
+    const res = await fetch(`/api/icegate?track=1&type=${encodeURIComponent(docType)}&number=${encodeURIComponent(docNum)}&port=${encodeURIComponent(portCode)}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    renderIcegateTrackingResult(data);
+  } catch (err) {
+    console.warn('Fallback to local ICEGATE tracking calculation:', err);
+    // Local fallback calculation
+    const fallbackData = {
+      query: {
+        doc_type: docType === 'shipping_bill' ? 'Shipping Bill (Export)' : 'Bill of Entry (Import)',
+        doc_number: docNum,
+        port_code: portCode,
+        port_name: portCode === 'INNSA1' ? 'Nhava Sheva (JNPT)' : 'Customs Port ' + portCode
+      },
+      status: 'CLEARED',
+      current_milestone: docType === 'shipping_bill' ? 'IGST & Drawback Scroll Generated' : 'Out of Charge (OOC)',
+      has_edi_error: false,
+      last_updated: new Date().toLocaleTimeString(),
+      lifecycle_timeline: [
+        { step: 1, name: 'Filing & Job Submission', status: 'COMPLETED', timestamp: '2026-10-23 11:30:00 IST' },
+        { step: 2, name: 'Assessment & RMS Appraisal', status: 'COMPLETED', timestamp: '2026-10-24 10:15:00 IST' },
+        { step: 3, name: docType === 'shipping_bill' ? 'CFS Cargo Examination' : 'Duty Payment & Exam', status: 'COMPLETED', timestamp: '2026-10-24 16:40:00 IST' },
+        { step: 4, name: docType === 'shipping_bill' ? 'Let Export Order (LEO)' : 'Out of Charge (OOC)', status: 'COMPLETED', timestamp: '2026-10-25 09:20:00 IST' },
+        { step: 5, name: docType === 'shipping_bill' ? 'IGST & Drawback Scroll Generated' : 'Gate-Out Clearance', status: 'CURRENT', timestamp: '2026-10-25 11:00:00 IST' }
+      ]
+    };
+    renderIcegateTrackingResult(fallbackData);
+  }
+}
+
+function renderIcegateTrackingResult(data) {
+  const headerEl = document.getElementById('icegate-track-header');
+  const updatedEl = document.getElementById('icegate-track-updated');
+  const badgeEl = document.getElementById('icegate-track-status-badge');
+  const stepsEl = document.getElementById('icegate-timeline-steps');
+
+  if (headerEl) {
+    headerEl.textContent = `${data.query.doc_type} #${data.query.doc_number} • ${data.query.port_code} (${data.query.port_name || ''})`;
+  }
+  if (updatedEl) {
+    updatedEl.textContent = `Updated: ${data.last_updated || 'Live'}`;
+  }
+  if (badgeEl) {
+    if (data.status === 'CLEARED') {
+      badgeEl.textContent = 'STATUS: CLEARED (LEO / SCROLL OK)';
+      badgeEl.style.background = 'rgba(16, 185, 129, 0.15)';
+      badgeEl.style.color = '#10B981';
+      badgeEl.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+    } else if (data.status === 'ON_HOLD') {
+      badgeEl.textContent = 'STATUS: CUSTOMS HOLD / DISCREPANCY';
+      badgeEl.style.background = 'rgba(239, 68, 68, 0.15)';
+      badgeEl.style.color = '#EF4444';
+      badgeEl.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+    } else {
+      badgeEl.textContent = 'STATUS: PROCESSING IN ICES';
+      badgeEl.style.background = 'rgba(245, 158, 11, 0.15)';
+      badgeEl.style.color = '#F59E0B';
+      badgeEl.style.borderColor = 'rgba(245, 158, 11, 0.3)';
+    }
+  }
+
+  if (stepsEl && data.lifecycle_timeline) {
+    stepsEl.innerHTML = data.lifecycle_timeline.map(s => {
+      let icon = '⚪';
+      let dotColor = 'var(--text-dim)';
+      let textStyle = 'color: var(--text-muted);';
+      if (s.status === 'COMPLETED') {
+        icon = '✓';
+        dotColor = '#10B981';
+        textStyle = 'color: var(--text-main); font-weight: 600;';
+      } else if (s.status === 'CURRENT') {
+        icon = '▶';
+        dotColor = 'var(--accent)';
+        textStyle = 'color: var(--accent); font-weight: bold;';
+      }
+      return `
+        <div class="flex items-center justify-between p-2 rounded-xl border text-[11px]" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center gap-2">
+            <span class="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold" style="background: ${dotColor}22; color: ${dotColor};">${icon}</span>
+            <div>
+              <span style="${textStyle}">${s.name}</span>
+              ${s.description ? `<p class="text-[9px]" style="color: var(--text-dim);">${s.description}</p>` : ''}
+            </div>
+          </div>
+          <span class="text-[9px] font-mono" style="color: var(--text-dim);">${s.timestamp || 'Pending'}</span>
+        </div>
+      `;
+    }).join('');
+
+    if (data.has_edi_error && data.active_error) {
+      stepsEl.innerHTML += `
+        <div class="p-2.5 rounded-xl border space-y-1 text-xs mt-2" style="background: rgba(239, 68, 68, 0.08); border-color: rgba(239, 68, 68, 0.3);">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-[11px] text-red-500">⚠️ Active Customs Hold: ${data.active_error.code}</span>
+            <span class="text-[9px] font-bold text-red-400">${data.active_error.severity}</span>
+          </div>
+          <p class="text-[10px] text-red-300 leading-snug">${data.active_error.cause}</p>
+          <p class="text-[10px] text-zinc-300 pt-0.5 border-t border-red-500/20"><strong>Resolution:</strong> ${data.active_error.resolution}</p>
+        </div>
+      `;
+    }
+  }
+}
+
 
 // 14. FTA CERTIFICATE OF ORIGIN (CoO) SIMULATOR
 function calculateFtaValueAddition() {
@@ -3235,6 +3425,8 @@ window.selectEwayCorridor = selectEwayCorridor;
 window.runEwayCalc = runEwayCalc;
 window.setHsTariff = setHsTariff;
 window.decodeIcegateError = decodeIcegateError;
+window.switchIcegateMode = switchIcegateMode;
+window.trackIcegateDocument = trackIcegateDocument;
 window.calculateFtaValueAddition = calculateFtaValueAddition;
 window.copyBreakdownNotice = copyBreakdownNotice;
 window.updateDistrictDeepDive = updateDistrictDeepDive;
@@ -3280,6 +3472,7 @@ window.addEventListener('DOMContentLoaded', () => {
   fetchLiveMandiPrice();
   selectTradestatItem('country', 'USA');
   selectEwayCorridor('surat_jnpt', 310);
+  trackIcegateDocument();
   selectConsortiumCluster('guntur_chilli');
   selectPitchCorridor('surat_textiles');
   selectTitan('rockefeller');

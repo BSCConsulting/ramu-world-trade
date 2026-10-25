@@ -1,0 +1,290 @@
+{
+  "metadata": {
+    "title": "ICEGATE EDI Systems & Customs Document Tracking Master Catalog",
+    "authority": "Indian Customs Electronic Gateway (ICEGATE), Central Board of Indirect Taxes and Customs (CBIC)",
+    "portal_url": "https://icegate.gov.in",
+    "updated_at": "2026-10-25"
+  },
+  "error_codes": {
+    "SB000": {
+      "code": "SB000",
+      "title": "SB000 \u2014 Successful Transmission / No Discrepancy",
+      "category": "Success",
+      "severity": "Normal",
+      "color": "#10B981",
+      "cause": "Shipping Bill has been successfully validated across ICEGATE, DGFT, and GSTN central registries with zero discrepancies.",
+      "resolution": "No corrective action required. Monitor vessel sailing and carrier EGM filing for automated scroll generation."
+    },
+    "SB001": {
+      "code": "SB001",
+      "title": "SB001 \u2014 Invalid IEC / PAN Mismatch",
+      "category": "Registration",
+      "severity": "Critical (Blocks Scroll)",
+      "color": "#EF4444",
+      "cause": "The Importer Exporter Code (IEC) or PAN declared on the Shipping Bill does not match DGFT/ICEGATE central registry or is inactive.",
+      "resolution": "1. Log in to dgft.gov.in and verify IEC status is 'Active' with correct PAN linked.\n2. Verify PAN is correctly linked in ICEGATE profile under User Management.\n3. Request CHA to file amendment for re-transmitting the Shipping Bill to ICEGATE."
+    },
+    "SB002": {
+      "code": "SB002",
+      "title": "SB002 \u2014 Bank PFMS Name Mismatch",
+      "category": "Banking & PFMS",
+      "severity": "Drawback Stalled",
+      "color": "#EF4444",
+      "cause": "Exporter's registered business name on the Shipping Bill does not match the beneficiary account holder name verified by Public Financial Management System (PFMS).",
+      "resolution": "1. Log in to ICEGATE -> Financial Services -> Bank Account Management.\n2. Execute 'Single Rupee Test Credit' verification.\n3. Submit revised bank mandate letter to Assistant Commissioner (Drawback) at port of export."
+    },
+    "SB003": {
+      "code": "SB003",
+      "title": "SB003 \u2014 GSTR-1 Table 6A Invoice Mismatch",
+      "category": "GST Integration",
+      "severity": "Blocks IGST Refund",
+      "color": "#F59E0B",
+      "cause": "Invoice number or date declared in Table 6A of GSTR-1 does not match line-by-line with export invoice declared on the Shipping Bill.",
+      "resolution": "1. Check Table 6A of GSTR-1 on gst.gov.in.\n2. Ensure Shipping Bill number, Port Code (e.g. INNSA1), and Invoice Number match exactly without extra spaces or slashes.\n3. File Table 9 amendment in next GSTR-1 return if mistyped."
+    },
+    "SB004": {
+      "code": "SB004",
+      "title": "SB004 \u2014 Record Not Found in GSTN / GSTR-3B Tax Unpaid",
+      "category": "GST Integration",
+      "severity": "Refund Stalled",
+      "color": "#F59E0B",
+      "cause": "GSTN has not transmitted shipping bill data to ICEGATE because GSTR-3B tax payment for the relevant tax period does not cover the IGST claimed in GSTR-1 Table 6A.",
+      "resolution": "1. Confirm GSTR-3B for the tax period has been successfully filed with status 'Filed'.\n2. Verify IGST paid in Table 3.1(b) of GSTR-3B is equal to or greater than Table 6A of GSTR-1.\n3. Wait 48 hours for GSTN-ICEGATE API synchronization."
+    },
+    "SB005": {
+      "code": "SB005",
+      "title": "SB005 \u2014 EGM Error / Container Not Integrated",
+      "category": "Maritime Logistics",
+      "severity": "Scroll Cannot Be Generated",
+      "color": "#EF4444",
+      "cause": "Vessel or aircraft has departed, but the shipping line or airline carrier has not filed the Export General Manifest (EGM) with customs, or container/seal number differs.",
+      "resolution": "1. Contact shipping line / carrier agent immediately.\n2. Request them to file an EGM Amendment (Form B) with customs port container cell.\n3. Re-verify physical container number and seal number match between SB and EGM."
+    },
+    "SB006": {
+      "code": "SB006",
+      "title": "SB006 \u2014 Gateway Port Mismatch (Transshipment)",
+      "category": "Maritime Logistics",
+      "severity": "Stalls Drawback Scroll",
+      "color": "#F59E0B",
+      "cause": "For inland container depots (ICD), the gateway exit seaport declared on the Train Summary Manifest (TSM) does not match actual seaport exit.",
+      "resolution": "1. Track transshipment permit from origin ICD to gateway port (e.g. ICD Ludhiana to Mundra).\n2. Submit Transshipment Manifest confirmation to ICD Customs Superintendent to update gateway exit record."
+    },
+    "ERR-301": {
+      "code": "ERR-301",
+      "title": "ERR-301 \u2014 RoDTEP Scheme Code Not Claimed",
+      "category": "Duty Remission",
+      "severity": "Zero RoDTEP Credit",
+      "color": "#EF4444",
+      "cause": "Item-level scheme code 'RDTP' or 'RODTEP' was left blank on the export Shipping Bill line item by the customs broker (CHA).",
+      "resolution": "1. Section 149 customs amendment must be filed with Deputy Commissioner of Customs at port of export before LEO (Let Export Order) is issued.\n2. Post-LEO amendments require formal Commissioner approval under Circular 12/2021-Customs."
+    },
+    "BE-01": {
+      "code": "BE-01",
+      "title": "BE-01 \u2014 RMS First Check Examination Flag",
+      "category": "Import Clearance",
+      "severity": "Cargo Physical Hold",
+      "color": "#F59E0B",
+      "cause": "Risk Management System (RMS) has flagged imported consignment for First Check physical inspection prior to assessment of duty.",
+      "resolution": "1. Instruct CHA to arrange container de-stuffing at CFS/ICD examination shed.\n2. Ensure representative samples and commercial catalog are presented to Appraising Officer.\n3. Obtain inspection report upload onto ICES for Second Stage assessment."
+    },
+    "BE-02": {
+      "code": "BE-02",
+      "title": "BE-02 \u2014 IGST / Customs Exemption Notification Mismatch",
+      "category": "Import Clearance",
+      "severity": "Duty Assessment Disputed",
+      "color": "#EF4444",
+      "cause": "The notification number or serial number entered under Table 3 of Bill of Entry does not match the notified concessional rate for the declared 8-digit HS code.",
+      "resolution": "1. Verify CBIC Notification number and precise Serial Number in CBIC Tariff Schedule.\n2. File an electronic amendment on ICEGATE prior to duty payment.\n3. Submit manufacturer end-use undertaking or project import license if mandated."
+    },
+    "PFMS-99": {
+      "code": "PFMS-99",
+      "title": "PFMS-99 \u2014 Beneficiary Bank Account Dormant or Inoperative",
+      "category": "Banking & PFMS",
+      "severity": "Electronic Credit Bounced",
+      "color": "#EF4444",
+      "cause": "PFMS attempted to credit duty drawback or IGST refund, but destination bank returned credit failure due to account dormancy, freeze, or invalid branch IFSC.",
+      "resolution": "1. Contact commercial bank branch immediately to reactivate dormant account with fresh KYC.\n2. Update branch IFSC on ICEGATE if merger/amalgamation took place.\n3. File re-credit request with Customs Port Drawback branch."
+    }
+  },
+  "customs_ports": [
+    {
+      "port_code": "INNSA1",
+      "port_name": "Nhava Sheva (JNPT)",
+      "type": "Seaport",
+      "state": "Maharashtra",
+      "edi_enabled": true,
+      "dpd_supported": true,
+      "annual_teu_capacity_million": 7.5,
+      "specialization": "Containerized Merchandise, Engineering, Chemicals, Textiles"
+    },
+    {
+      "port_code": "INMUN1",
+      "port_name": "Mundra Port (APSEZ)",
+      "type": "Seaport",
+      "state": "Gujarat",
+      "edi_enabled": true,
+      "dpd_supported": true,
+      "annual_teu_capacity_million": 8.0,
+      "specialization": "Bulk, Container, Agricultural Produce, Minerals, Machinery"
+    },
+    {
+      "port_code": "INMAA1",
+      "port_name": "Chennai Seaport",
+      "type": "Seaport",
+      "state": "Tamil Nadu",
+      "edi_enabled": true,
+      "dpd_supported": true,
+      "annual_teu_capacity_million": 2.2,
+      "specialization": "Automotive, Machinery, Electronics, Leather, Granite"
+    },
+    {
+      "port_code": "INVTZ1",
+      "port_name": "Visakhapatnam Seaport",
+      "type": "Seaport",
+      "state": "Andhra Pradesh",
+      "edi_enabled": true,
+      "dpd_supported": true,
+      "annual_teu_capacity_million": 1.2,
+      "specialization": "Marine Products, Tobacco, Steel, Ferro Alloys, Minerals"
+    },
+    {
+      "port_code": "INDEL4",
+      "port_name": "Delhi Air Cargo Complex (IGIA)",
+      "type": "Air Cargo Complex",
+      "state": "Delhi",
+      "edi_enabled": true,
+      "dpd_supported": false,
+      "annual_capacity_mt": 950000,
+      "specialization": "Pharmaceuticals, Electronics, High-Value Garments, Perishables"
+    },
+    {
+      "port_code": "INBOM4",
+      "port_name": "Mumbai Air Cargo Complex (CSMIA)",
+      "type": "Air Cargo Complex",
+      "state": "Maharashtra",
+      "edi_enabled": true,
+      "dpd_supported": false,
+      "annual_capacity_mt": 900000,
+      "specialization": "Gems & Jewellery, Active Pharma Ingredients (API), Avionics"
+    },
+    {
+      "port_code": "INLDH6",
+      "port_name": "ICD Ludhiana",
+      "type": "Inland Container Depot",
+      "state": "Punjab",
+      "edi_enabled": true,
+      "dpd_supported": false,
+      "gateway_ports": [
+        "INMUN1",
+        "INPIP1"
+      ],
+      "specialization": "Bicycle Components, Hand Tools, Knitwear, Woolens"
+    },
+    {
+      "port_code": "INTKD6",
+      "port_name": "ICD Tughlakabad",
+      "type": "Inland Container Depot",
+      "state": "Delhi",
+      "edi_enabled": true,
+      "dpd_supported": false,
+      "gateway_ports": [
+        "INNSA1",
+        "INMUN1",
+        "INPIP1"
+      ],
+      "specialization": "North India Multi-Commodity Inland Hub"
+    },
+    {
+      "port_code": "INCOK1",
+      "port_name": "Cochin Seaport (Vallarpadam)",
+      "type": "Seaport",
+      "state": "Kerala",
+      "edi_enabled": true,
+      "dpd_supported": true,
+      "annual_teu_capacity_million": 1.0,
+      "specialization": "Spices, Coir, Rubber, Marine Products, Cashews"
+    },
+    {
+      "port_code": "INBLR4",
+      "port_name": "Bangalore Air Cargo Complex (BIAL)",
+      "type": "Air Cargo Complex",
+      "state": "Karnataka",
+      "edi_enabled": true,
+      "dpd_supported": false,
+      "annual_capacity_mt": 420000,
+      "specialization": "Aerospace, Electronics, Fresh Flowers, Precision Tools"
+    }
+  ],
+  "document_lifecycles": {
+    "shipping_bill": [
+      {
+        "step": 1,
+        "code": "SUBMITTED",
+        "name": "Filing & Job Submission",
+        "description": "EDI message generated by CHA and transmitted to ICEGATE."
+      },
+      {
+        "step": 2,
+        "code": "APPRAISED",
+        "name": "Customs Assessment / RMS",
+        "description": "Risk Management System appraisal or assessment by Appraising Officer."
+      },
+      {
+        "step": 3,
+        "code": "EXAMINED",
+        "name": "CFS Cargo Arrival & Examination",
+        "description": "Container gated in at CFS; customs inspection / seal verification done."
+      },
+      {
+        "step": 4,
+        "code": "LEO_GRANTED",
+        "name": "Let Export Order (LEO)",
+        "description": "Customs officer issues electronic LEO under Section 51 of Customs Act, 1962."
+      },
+      {
+        "step": 5,
+        "code": "EGM_INTEGRATED",
+        "name": "Vessel Departure & EGM Filing",
+        "description": "Shipping line files Export General Manifest confirming vessel sail."
+      },
+      {
+        "step": 6,
+        "code": "SCROLL_GENERATED",
+        "name": "IGST & Drawback Scroll Generated",
+        "description": "Electronic disbursement scroll transmitted to PFMS / RBI for bank credit."
+      }
+    ],
+    "bill_of_entry": [
+      {
+        "step": 1,
+        "code": "PRIOR_FILED",
+        "name": "Prior / Advance Filing",
+        "description": "Bill of entry filed prior to vessel entry inwards to expedite clearance."
+      },
+      {
+        "step": 2,
+        "code": "ASSESSED",
+        "name": "Assessment & Duty Calculation",
+        "description": "BCD, SWS, AIDC, and IGST assessed under Section 17 of Customs Act."
+      },
+      {
+        "step": 3,
+        "code": "DUTY_PAID",
+        "name": "Electronic Duty Payment",
+        "description": "Duty challan paid via ICEGATE / ECL (Electronic Cash Ledger)."
+      },
+      {
+        "step": 4,
+        "code": "EXAMINED",
+        "name": "First/Second Check Examination",
+        "description": "Customs verification of physical goods against declared packing list."
+      },
+      {
+        "step": 5,
+        "code": "OOC_GRANTED",
+        "name": "Out of Charge (OOC)",
+        "description": "Section 47 Out of Charge issued allowing physical delivery and gate-out."
+      }
+    ]
+  }
+}

@@ -85,6 +85,8 @@ class handler(BaseHTTPRequestHandler):
             self._handle_tradestat(parsed.query)
         elif path.endswith("/eway"):
             self._handle_eway(parsed.query)
+        elif path.endswith("/icegate"):
+            self._handle_icegate(parsed.query)
         elif path.endswith("/mandi"):
             self._handle_mandi(parsed.query)
         elif path.endswith("/history"):
@@ -109,6 +111,8 @@ class handler(BaseHTTPRequestHandler):
             self._handle_cbic_valuation(payload)
         elif path.endswith("/eway"):
             self._handle_eway_calc(payload)
+        elif path.endswith("/icegate"):
+            self._handle_icegate_tracking(payload)
         else:
             self._send_json({"error": f"API endpoint not found: {self.path}"}, status=404)
 
@@ -380,6 +384,40 @@ class handler(BaseHTTPRequestHandler):
             distance = float(payload.get("distance", 200))
             cargo_type = str(payload.get("cargo_type", "normal"))[:30]
             data = calculate_eway_validity(distance, cargo_type)
+            self._send_json(data)
+        except Exception as e:
+            self._send_json({"error": str(e)}, status=400)
+
+    def _handle_icegate(self, query_str: str = ""):
+        try:
+            from sources.icegate_edi import get_icegate_overview, lookup_error_code, search_ports, track_customs_document
+            params = urllib.parse.parse_qs(query_str) if query_str else {}
+            if "code" in params:
+                code = params["code"][0]
+                data = lookup_error_code(code)
+                if not data:
+                    self._send_json({"error": f"ICEGATE error code {code} not found"}, status=404)
+                    return
+            elif "track" in params or "number" in params:
+                doc_type = params.get("type", ["shipping_bill"])[0]
+                doc_number = params.get("number", ["7492104"])[0]
+                port_code = params.get("port", ["INNSA1"])[0]
+                data = track_customs_document(doc_type, doc_number, port_code)
+            elif "port" in params:
+                data = search_ports(params["port"][0])
+            else:
+                data = get_icegate_overview()
+            self._send_json(data)
+        except Exception as e:
+            self._send_json({"error": str(e)}, status=500)
+
+    def _handle_icegate_tracking(self, payload: dict):
+        try:
+            from sources.icegate_edi import track_customs_document
+            doc_type = str(payload.get("doc_type", "shipping_bill"))[:30]
+            doc_number = str(payload.get("doc_number", "7492104"))[:30]
+            port_code = str(payload.get("port_code", "INNSA1"))[:10]
+            data = track_customs_document(doc_type, doc_number, port_code)
             self._send_json(data)
         except Exception as e:
             self._send_json({"error": str(e)}, status=400)
