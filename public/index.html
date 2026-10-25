@@ -930,6 +930,59 @@
         </div>
       </div>
 
+      
+      <!-- Spices Board & Tea Board Quality Gateway -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3.5">
+        <div class="flex flex-wrap items-center justify-between gap-1">
+          <div class="flex items-center gap-1.5">
+            <span class="text-xs font-extrabold uppercase tracking-wider">Spices Board &amp; Tea Board Quality Gateway</span>
+            <span id="spices-statutory-badge" class="text-[9px] px-1.5 py-0.5 rounded font-mono font-bold" style="background: rgba(245, 158, 11, 0.15); color: #F59E0B;">● SPICES CRES &amp; TEA CQC STATUTORY</span>
+          </div>
+          <span class="text-[10px] font-mono" style="color: var(--text-dim);">indianspices.com / teaboard.gov.in</span>
+        </div>
+        <p class="text-[11px]" style="color: var(--text-muted);">Audit export consignments against destination statutory limits for Aflatoxin (Total &amp; B1), Sudan Dye (I-IV), Ethylene Oxide (EtO), pesticide MRLs, Anthraquinone in tea, and verify Darjeeling 100% GI Protection.</p>
+
+        <!-- Scheduled Spices & Tea Chips -->
+        <div class="flex gap-1 overflow-x-auto pb-1 text-[10px] font-bold no-scrollbar">
+          <button type="button" onclick="selectSpicesCommodity('09042110', 'EU')" id="spices-chip-09042110" class="spices-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🌶️ Guntur Chilli (Aflatoxin / Sudan)</button>
+          <button type="button" onclick="selectSpicesCommodity('09093129', 'EU')" id="spices-chip-09093129" class="spices-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🌿 Unjha Cumin (EtO / MRLs)</button>
+          <button type="button" onclick="selectSpicesCommodity('09103020', 'EU')" id="spices-chip-09103020" class="spices-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🟡 Alleppey Turmeric (Curcumin >5%)</button>
+          <button type="button" onclick="selectSpicesCommodity('09041110', 'EU')" id="spices-chip-09041110" class="spices-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">⚫ Malabar Pepper (Piperine >4%)</button>
+          <button type="button" onclick="selectSpicesCommodity('09024020', 'EU')" id="spices-chip-09024020" class="spices-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">☕ Darjeeling Tea (100% Pure GI)</button>
+          <button type="button" onclick="selectSpicesCommodity('09024010', 'EU')" id="spices-chip-09024010" class="spices-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🍵 Assam CTC Tea (Iron Filings)</button>
+        </div>
+
+        <!-- Controls: Commodity & Market Inputs -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Plantation / Commodity Grade:</label>
+            <select id="spices-commodity-select" onchange="onSpicesCommodityChange()" class="w-full border rounded-xl p-2.5 text-xs focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);">
+              <option value="09042110" selected>🌶️ Dry Red Chilli (HS 09042110 - Guntur / Byadagi)</option>
+              <option value="09093129">🌿 Cumin Seeds (HS 09093129 - Unjha Machine Cleaned)</option>
+              <option value="09103020">🟡 Turmeric Finger / Powder (HS 09103020 - Alleppey / Salem)</option>
+              <option value="09041110">⚫ Black Pepper Garbled (HS 09041110 - Malabar / Tellicherry)</option>
+              <option value="09024020">☕ Darjeeling Orthodox Black Tea (HS 09024020 - 100% Pure GI)</option>
+              <option value="09024010">🍵 Assam CTC Leaf Black Tea (HS 09024010 - BOP / BP Grade)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Destination Market Protocol:</label>
+            <select id="spices-market-select" onchange="runSpicesAudit()" class="w-full border rounded-xl p-2.5 text-xs focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);">
+              <option value="EU" selected>🇪🇺 European Union (Strict Aflatoxin 5/10 ppb / Zero Sudan / 0.1 EtO)</option>
+              <option value="USA">🇺🇸 United States (US FDA FSMA / ASTA Cleanliness / 20 ppb Aflatoxin)</option>
+              <option value="UK">🇬🇧 United Kingdom (UK FSA Mycotoxin Register &amp; HSE MRLs)</option>
+              <option value="JPN">🇯🇵 Japan (MHLW Positive List System &amp; Anti-microbial Limits)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Dynamic Spices Audit Container -->
+        <div id="spices-audit-container" class="space-y-2 text-xs">
+          <!-- Populated dynamically by renderSpicesResults -->
+        </div>
+      </div>
+
       <!-- Reconciled Statutory Intelligence Output -->
       <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3">
         <div class="flex items-center justify-between border-b pb-3" style="border-color: var(--card-border);">

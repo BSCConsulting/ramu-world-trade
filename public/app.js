@@ -5117,11 +5117,274 @@ window.onApedaCommodityChange = onApedaCommodityChange;
 window.onApedaResidueChange = onApedaResidueChange;
 window.runApedaAudit = runApedaAudit;
 window.renderApedaResults = renderApedaResults;
+
+// ==========================================
+// Provider 5.3: Spices Board & Tea Board Quality Gateway
+// ==========================================
+let spicesOverrides = {};
+
+function selectSpicesCommodity(commodityCode, market) {
+  document.querySelectorAll('.spices-comm-chip').forEach(btn => {
+    btn.style.background = 'var(--card-inner-bg)';
+    btn.style.color = 'var(--text-main)';
+    btn.style.borderColor = 'var(--card-inner-border)';
+  });
+  const chip = document.getElementById(`spices-chip-${commodityCode}`);
+  if (chip) {
+    chip.style.background = 'var(--accent)';
+    chip.style.color = '#ffffff';
+    chip.style.borderColor = 'transparent';
+  }
+
+  const commSelect = document.getElementById('spices-commodity-select');
+  if (commSelect) commSelect.value = commodityCode;
+
+  if (market) {
+    const marketSelect = document.getElementById('spices-market-select');
+    if (marketSelect) marketSelect.value = market;
+  }
+
+  spicesOverrides = {};
+  runSpicesAudit();
+}
+
+function onSpicesCommodityChange() {
+  const commSelect = document.getElementById('spices-commodity-select');
+  if (!commSelect) return;
+  const commCode = commSelect.value;
+  document.querySelectorAll('.spices-comm-chip').forEach(btn => {
+    btn.style.background = 'var(--card-inner-bg)';
+    btn.style.color = 'var(--text-main)';
+    btn.style.borderColor = 'var(--card-inner-border)';
+  });
+  const chip = document.getElementById(`spices-chip-${commCode}`);
+  if (chip) {
+    chip.style.background = 'var(--accent)';
+    chip.style.color = '#ffffff';
+    chip.style.borderColor = 'transparent';
+  }
+  spicesOverrides = {};
+  runSpicesAudit();
+}
+
+function onSpicesResidueChange(chemicalKey, val) {
+  spicesOverrides[chemicalKey] = parseFloat(val) || 0.0;
+  runSpicesAudit(spicesOverrides);
+}
+
+async function runSpicesAudit(userOverrides = spicesOverrides) {
+  const commSelect = document.getElementById('spices-commodity-select');
+  const marketSelect = document.getElementById('spices-market-select');
+  const container = document.getElementById('spices-audit-container');
+  if (!commSelect || !marketSelect || !container) return;
+
+  const commCode = commSelect.value;
+  const targetMarket = marketSelect.value;
+
+  try {
+    let testParamStr = '';
+    for (const [k, v] of Object.entries(userOverrides)) {
+      testParamStr += `&${encodeURIComponent(k)}=${encodeURIComponent(v)}`;
+    }
+
+    const res = await fetch(`/api/mandi?spices=1&commodity=${encodeURIComponent(commCode)}&market=${encodeURIComponent(targetMarket)}${testParamStr}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    renderSpicesResults(data);
+  } catch (err) {
+    console.error('Spices/Tea Audit fetch error:', err);
+    container.innerHTML = `<div class="p-3 text-red-500 bg-red-50/10 rounded-xl border border-red-500/20">Failed to load Spices/Tea audit: ${err.message}</div>`;
+  }
+}
+
+function renderSpicesResults(data) {
+  const container = document.getElementById('spices-audit-container');
+  if (!container || !data || data.status !== 'success') return;
+
+  const comm = data.commodity || {};
+  const mkt = data.target_market || {};
+  const verd = data.overall_verdict || {};
+  const ledger = data.chemical_audit_ledger || [];
+  const docs = data.documentation_requirements || [];
+
+  const isPass = verd.status === 'PASS';
+  const badgeBg = isPass ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.15)';
+  const badgeBorder = isPass ? 'rgba(16, 185, 129, 0.3)' : 'rgba(239, 68, 68, 0.3)';
+  const badgeColor = isPass ? '#10B981' : '#EF4444';
+
+  let rowsHtml = '';
+  ledger.forEach(item => {
+    const itemPass = item.status === 'PASS';
+    const rowColor = itemPass ? '#10B981' : '#EF4444';
+    const rowBg = itemPass ? 'rgba(16, 185, 129, 0.08)' : 'rgba(239, 68, 68, 0.08)';
+
+    rowsHtml += `
+      <tr class="border-b" style="border-color: var(--card-inner-border);">
+        <td class="py-2 px-2.5 font-bold">
+          <div>${item.chemical}</div>
+          <div class="text-[9px] font-mono font-normal" style="color: var(--text-dim);">${item.limit_type || ''}</div>
+        </td>
+        <td class="py-2 px-2.5 text-center font-mono">
+          <input type="number" step="0.001" value="${item.tested_value}" 
+            id="spices-input-${item.chemical_key}"
+            onchange="onSpicesResidueChange('${item.chemical_key}', this.value)"
+            class="w-20 text-center font-bold font-mono border rounded px-1.5 py-1 text-xs focus:outline-none"
+            style="background: var(--input-bg); border-color: var(--card-inner-border); color: var(--text-main);" />
+        </td>
+        <td class="py-2 px-2.5 text-center font-mono font-bold" style="color: var(--text-main);">
+          ${item.statutory_mrl} <span class="text-[9px] font-normal" style="color: var(--text-dim);">${item.unit}</span>
+        </td>
+        <td class="py-2 px-2.5 text-center">
+          <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold font-mono" style="background: ${rowBg}; color: ${rowColor}; border: 1px solid ${rowColor}40;">
+            ${item.status === 'PASS' ? '✓ PASS' : '✕ FAIL'}
+          </span>
+        </td>
+        <td class="py-2 px-2.5 text-[11px]" style="color: var(--text-muted);">
+          ${item.action_guidance}
+        </td>
+      </tr>
+    `;
+  });
+
+  let docsHtml = '';
+  docs.forEach(doc => {
+    docsHtml += `
+      <div class="p-2.5 rounded-xl border flex flex-col justify-between gap-1" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <div class="flex items-center justify-between gap-1">
+          <span class="font-bold text-xs" style="color: var(--text-main);">${doc.title}</span>
+          <span class="text-[9px] font-mono px-1.5 py-0.5 rounded font-bold" style="background: rgba(245, 158, 11, 0.15); color: #F59E0B;">${doc.status}</span>
+        </div>
+        <div class="text-[10px]" style="color: var(--text-muted);">${doc.detail}</div>
+        <div class="text-[9px] font-mono mt-0.5" style="color: var(--text-dim);">${doc.statutory_basis}</div>
+      </div>
+    `;
+  });
+
+  const clustersStr = (comm.primary_growing_clusters || []).join(' • ');
+
+  const html = `
+    <!-- Verdict Banner -->
+    <div class="p-3.5 rounded-xl border flex flex-col md:flex-row md:items-center justify-between gap-3" 
+         style="background: ${badgeBg}; border-color: ${badgeBorder};">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase font-mono tracking-wider" 
+                style="background: ${badgeColor}; color: #ffffff;">
+            ${verd.status}
+          </span>
+          <span class="font-extrabold text-xs" style="color: ${badgeColor};">
+            ${verd.verdict_title}
+          </span>
+        </div>
+        <p class="text-xs mt-1" style="color: var(--text-main);">
+          ${verd.summary}
+        </p>
+      </div>
+
+      <div class="flex items-center gap-2 font-mono text-[11px] flex-shrink-0">
+        <span class="px-2.5 py-1 rounded-lg border font-bold" style="background: rgba(16, 185, 129, 0.1); border-color: #10B981; color: #10B981;">
+          ✓ Pass: ${verd.pass_count}
+        </span>
+        <span class="px-2.5 py-1 rounded-lg border font-bold" style="background: rgba(239, 68, 68, 0.1); border-color: #EF4444; color: #EF4444;">
+          ✕ Fail: ${verd.fail_count}
+        </span>
+      </div>
+    </div>
+
+    <!-- Commodity & Market Protocol Metadata -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
+      <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <div class="text-[9px] uppercase tracking-wider font-bold" style="color: var(--text-dim);">Botanical Grade &amp; Growing Hubs</div>
+        <div class="font-bold text-xs mt-0.5 flex items-center gap-1.5" style="color: var(--text-main);">
+          <span>🌱</span> ${comm.botanical_name} (${comm.category})
+        </div>
+        <div class="text-[10px] mt-1" style="color: var(--text-muted);">${clustersStr}</div>
+      </div>
+
+      <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <div class="text-[9px] uppercase tracking-wider font-bold" style="color: var(--text-dim);">Destination Market Protocol</div>
+        <div class="font-bold text-xs mt-0.5" style="color: var(--text-main);">${mkt.name}</div>
+        <div class="text-[10px] mt-1" style="color: var(--text-muted);">${mkt.testing_intensity}</div>
+      </div>
+
+      <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <div class="text-[9px] uppercase tracking-wider font-bold" style="color: var(--text-dim);">Mandatory Statutory Clearance</div>
+        <div class="font-bold text-xs mt-0.5" style="color: #F59E0B;">${mkt.mandatory_clearance}</div>
+        <div class="text-[10px] mt-1" style="color: var(--text-muted);">Spices Board QEL / Tea Board CQC Verification</div>
+      </div>
+    </div>
+
+    <!-- Interactive Contaminant, Mycotoxin & Bioactive Testing Ledger -->
+    <div class="rounded-xl border overflow-hidden" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+      <div class="p-2.5 border-b flex items-center justify-between" style="border-color: var(--card-inner-border);">
+        <div class="flex items-center gap-2">
+          <span class="font-extrabold text-xs uppercase tracking-wider" style="color: var(--text-main);">Spices &amp; Tea Pre-Shipment Quality Ledger</span>
+          <span class="text-[9px] font-mono px-1.5 py-0.5 rounded font-bold" style="background: rgba(245, 158, 11, 0.15); color: #F59E0B;">QEL / CQC NABL BENCHMARK</span>
+        </div>
+        <span class="text-[10px] font-mono" style="color: var(--text-dim);">Edit values in table to re-test</span>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead>
+            <tr class="border-b text-[10px] uppercase font-bold" style="background: rgba(0,0,0,0.02); border-color: var(--card-inner-border); color: var(--text-dim);">
+              <th class="py-2 px-2.5">Target Contaminant / Bioactive</th>
+              <th class="py-2 px-2.5 text-center">Tested Value</th>
+              <th class="py-2 px-2.5 text-center">Statutory Limit</th>
+              <th class="py-2 px-2.5 text-center">Audit Status</th>
+              <th class="py-2 px-2.5">Statutory Legal Guidance</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rowsHtml}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Statutory Certification & Compliance Checklist -->
+    <div class="space-y-1.5">
+      <div class="text-[10px] uppercase tracking-wider font-extrabold" style="color: var(--text-dim);">
+        Statutory Board Registration &amp; GI Authentication Protocols:
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+        ${docsHtml}
+      </div>
+    </div>
+
+    <!-- Reset / Re-test Action Bar -->
+    <div class="p-3 rounded-xl border flex flex-wrap items-center justify-between gap-2 text-xs"
+         style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+      <div class="flex items-center gap-2">
+        <span class="text-sm">📋</span>
+        <span class="font-bold text-[11px]" style="color: var(--text-main);">Export Dispatch Eligibility:</span>
+        <span class="text-[11px]" style="color: var(--text-muted);">
+          ${isPass 
+            ? 'All compounds within statutory tolerances. Batch eligible for Spices Board QEL / Tea Board CQC certificate and container dispatch.' 
+            : 'Non-compliant batch! Adulteration or residue violation. Mandatory batch re-conditioning or domestic diversion required.'}
+        </span>
+      </div>
+      <button type="button" onclick="selectSpicesCommodity('${comm.hs_code}', '${mkt.code}')" class="px-3 py-1.5 rounded-lg font-bold text-xs border transition-all active:scale-95"
+              style="background: var(--accent); color: #ffffff; border-color: transparent;">
+        ↺ Reset Lab Values
+      </button>
+    </div>
+  `;
+
+  container.innerHTML = html;
+}
+
 window.selectMpedaSpecies = selectMpedaSpecies;
 window.onMpedaSpeciesChange = onMpedaSpeciesChange;
 window.onMpedaResidueChange = onMpedaResidueChange;
 window.runMpedaAudit = runMpedaAudit;
 window.renderMpedaResults = renderMpedaResults;
+window.selectSpicesCommodity = selectSpicesCommodity;
+window.onSpicesCommodityChange = onSpicesCommodityChange;
+window.onSpicesResidueChange = onSpicesResidueChange;
+window.runSpicesAudit = runSpicesAudit;
+window.renderSpicesResults = renderSpicesResults;
+
 
 
 

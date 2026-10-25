@@ -682,6 +682,28 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
     def _handle_mandi(self, query_str):
         try:
             params = urllib.parse.parse_qs(query_str) if query_str else {}
+            if "spices" in params or "spice" in params or "tea" in params or "cres" in params or "qel" in params:
+                from sources.spices_tea import get_spices_tea_overview, audit_spices_tea_compliance, get_qel_lab_routing
+                if "calc" in params or "check" in params or "market" in params or "commodity" in params or "hs" in params:
+                    comm = params.get("commodity", params.get("hs", ["09042110"]))[0]
+                    market = params.get("market", params.get("country", ["EU"]))[0]
+                    test_vals = {}
+                    for k, v in params.items():
+                        if k not in ["spices", "spice", "tea", "cres", "qel", "calc", "check", "market", "country", "commodity", "hs"]:
+                            try:
+                                test_vals[k] = float(v[0])
+                            except ValueError:
+                                pass
+                    data = audit_spices_tea_compliance(comm, market, test_vals)
+                elif "lab" in params or "routing" in params:
+                    comm = params.get("commodity", ["09042110"])[0]
+                    state = params.get("state", ["Andhra Pradesh"])[0]
+                    data = get_qel_lab_routing(comm, state)
+                else:
+                    data = get_spices_tea_overview()
+                self._send_json(data)
+                return
+
             if "mpeda" in params or "marine" in params or "seafood" in params or "catch_cert" in params or "simp" in params:
                 from sources.mpeda_marine import get_mpeda_overview, audit_marine_compliance, get_catch_documentation_guide
                 if "calc" in params or "check" in params or "market" in params or "species" in params or "hs" in params:
@@ -743,6 +765,17 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
                 market = str(payload.get("target_market", payload.get("market", "EU")))
                 test_vals = payload.get("residue_levels", payload.get("chemical_test_results", {}))
                 data = check_phytosanitary_compliance(comm, market, test_vals)
+            elif action in ["spices_compliance", "spice_quality", "tea_compliance", "tea_quality", "spices", "tea"]:
+                from sources.spices_tea import audit_spices_tea_compliance
+                comm = str(payload.get("commodity", payload.get("commodity_code", payload.get("hs_code", "09042110"))))
+                market = str(payload.get("target_market", payload.get("market", "EU")))
+                test_vals = payload.get("residue_levels", payload.get("lab_test_results", {}))
+                data = audit_spices_tea_compliance(comm, market, test_vals)
+            elif action in ["qel_routing", "lab_routing", "spices_cres"]:
+                from sources.spices_tea import get_qel_lab_routing
+                comm = str(payload.get("commodity", payload.get("hs_code", "09042110")))
+                state = str(payload.get("state", "Andhra Pradesh"))
+                data = get_qel_lab_routing(comm, state)
             elif action in ["mpeda_compliance", "mpeda_check", "marine_quality", "marine"]:
                 from sources.mpeda_marine import audit_marine_compliance
                 species_code = str(payload.get("species_code", payload.get("commodity", payload.get("hs_code", "03061720"))))

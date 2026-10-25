@@ -1,0 +1,462 @@
+{
+  "metadata": {
+    "spices_board": {
+      "source": "Spices Board India, Ministry of Commerce & Industry, GoI",
+      "portal": "https://indianspices.com",
+      "statutory_act": "Spices Board Act, 1986",
+      "headquarters": "Sugandha Bhavan, NH Bypass, Palarivattom PO, Kochi, Kerala - 682025",
+      "cres_guidelines": {
+        "title": "Certificate of Registration as Exporter of Spices (CRES)",
+        "statutory_section": "Section 11, Spices Board Act, 1986",
+        "validity_years": 3,
+        "fee_structure_inr": {
+          "manufacturer_exporter": 17700.0,
+          "merchant_exporter": 11800.0
+        },
+        "mandatory_documents": [
+          "Import Export Code (IEC) issued by DGFT",
+          "PAN Card & GST Registration Certificate",
+          "FSSAI Central License (Category: Relabeller / Exporter / Manufacturer)",
+          "Bank Confidential Report / AD Code letter",
+          "Processing unit lease deed or tie-up agreement with Spices Board approved cleaner/grader unit"
+        ]
+      },
+      "qel_laboratories": [
+        {"city": "Kochi", "state": "Kerala", "capabilities": "Aflatoxin, Sudan Dye, Ethylene Oxide (EtO), GC-MS/MS, LC-MS/MS Pesticide Screening"},
+        {"city": "Guntur", "state": "Andhra Pradesh", "capabilities": "Chilli Aflatoxin, Ochratoxin A, Sudan I-IV, Moisture, Color Value"},
+        {"city": "Mumbai", "state": "Maharashtra", "capabilities": "Export Container Sampling, EtO, Pesticide MRL, Heavy Metals"},
+        {"city": "Tuticorin", "state": "Tamil Nadu", "capabilities": "Senna, Chilli, Pepper, Port-side Rapid Screening"},
+        {"city": "Narela (Delhi)", "state": "Delhi NCR", "capabilities": "North Indian Agri-Clusters, Mustard, Coriander, Cumin MRL"},
+        {"city": "Kandla", "state": "Gujarat", "capabilities": "Cumin, Fennel, Sesame, Port Clearance Testing"},
+        {"city": "Chennai", "state": "Tamil Nadu", "capabilities": "Heavy Metals, Microbiological, Salmonella, E. Coli"}
+      ]
+    },
+    "tea_board": {
+      "source": "Tea Board India, Ministry of Commerce & Industry, GoI",
+      "portal": "https://teaboard.gov.in",
+      "statutory_act": "Tea Act, 1953 (Act No. 29 of 1953)",
+      "headquarters": "14, BTM Sarani (Brabourne Road), Kolkata, West Bengal - 700001",
+      "licensing_guidelines": {
+        "title": "Tea Exporter License",
+        "statutory_order": "Tea (Distribution & Export) Control Order, 2005",
+        "validity_years": 3,
+        "fee_structure_inr": {
+          "permanent_exporter_license": 5900.0
+        },
+        "mandatory_documents": [
+          "Import Export Code (IEC) from DGFT",
+          "FSSAI Food Business Operator (FBO) License",
+          "Tea Board Warehouse Registration Certificate",
+          "Certificate of Origin & GI License for Darjeeling / Nilgiri / Assam teas"
+        ]
+      },
+      "gi_schemes": {
+        "darjeeling_gi": {
+          "name": "Darjeeling Tea (GI Tag No. 1 & 2)",
+          "legal_protection": "Geographical Indications of Goods (Registration and Protection) Act, 1999",
+          "statutory_mandate": "100% pure orthodox leaf cultivated in 87 certified tea estates in Darjeeling district. Blending with Nepal or other teas is strictly prohibited under Tea Board directives.",
+          "symbol": "Darjeeling Logo (Woman holding tea leaves)"
+        }
+      }
+    },
+    "updated": "2024-Q3"
+  },
+  "commodity_catalog": {
+    "09042110": {
+      "name": "Dry Red Chilli (Guntur Sannam / Byadagi Whole)",
+      "botanical_name": "Capsicum annuum",
+      "category": "Spices",
+      "share_pct": 38.5,
+      "export_forms": ["Stemless Whole", "With Stem", "Crushed Chilli Flakes", "Chilli Powder"],
+      "primary_growing_clusters": ["Andhra Pradesh (Guntur, Prakasam)", "Telangana (Warangal, Khammam)", "Karnataka (Byadagi, Haveri)"],
+      "mpst_mandatory": true,
+      "standard_lab_residues": {
+        "aflatoxin_total": 8.0,
+        "aflatoxin_b1": 3.5,
+        "sudan_dyes": 0.005,
+        "ethylene_oxide": 0.04,
+        "chlorpyrifos": 0.005
+      },
+      "market_mrls": {
+        "EU": {
+          "stance": "Strict Mycotoxin & Banned Adulterant Zero-Tolerance",
+          "testing_intensity": "Mandatory Pre-Shipment Testing (MPST) at Spices Board QEL + 20% Random EU BIP Border Sampling",
+          "mandatory_clearance": "Spices Board Health Certificate + Sudan Dye Non-Detection Certificate",
+          "limits": {
+            "aflatoxin_total": {"mrl": 10.0, "unit": "ppb (µg/kg)", "type": "Commission Regulation (EU) 2023/915"},
+            "aflatoxin_b1": {"mrl": 5.0, "unit": "ppb (µg/kg)", "type": "Aflatoxin B1 Maximum Level"},
+            "sudan_dyes": {"mrl": 0.01, "unit": "mg/kg (ppm)", "type": "Zero Tolerance (Not Detected at LOQ 10 ppb)"},
+            "ethylene_oxide": {"mrl": 0.10, "unit": "mg/kg (ppm)", "type": "Sterilization Gas Limit (Sum of EtO + 2-chloroethanol)"},
+            "chlorpyrifos": {"mrl": 0.01, "unit": "mg/kg (ppm)", "type": "EU Default LOQ (Pesticide Ban)"}
+          }
+        },
+        "USA": {
+          "stance": "US FDA Food Safety Modernization Act (FSMA) & Defect Action Levels",
+          "testing_intensity": "Targeted port-of-entry sampling for Aflatoxin and Salmonella",
+          "mandatory_clearance": "FDA Prior Notice + Spices Board QEL Lab Certificate",
+          "limits": {
+            "aflatoxin_total": {"mrl": 20.0, "unit": "ppb (µg/kg)", "type": "FDA Compliance Policy Guide (CPG)"},
+            "aflatoxin_b1": {"mrl": 10.0, "unit": "ppb (µg/kg)", "type": "US Action Threshold"},
+            "sudan_dyes": {"mrl": 0.01, "unit": "mg/kg (ppm)", "type": "FDA Banned Color Additive (Zero Tolerance)"},
+            "ethylene_oxide": {"mrl": 7.00, "unit": "mg/kg (ppm)", "type": "US EPA Established Tolerance (40 CFR 180.151)"},
+            "chlorpyrifos": {"mrl": 0.50, "unit": "mg/kg (ppm)", "type": "US EPA Tolerance"}
+          }
+        },
+        "UK": {
+          "stance": "UK Food Standards Agency (FSA) Regulated Mycotoxin Register",
+          "testing_intensity": "Routine import checks at port of Felixstowe / Southampton",
+          "mandatory_clearance": "Spices Board Export Certificate",
+          "limits": {
+            "aflatoxin_total": {"mrl": 10.0, "unit": "ppb (µg/kg)", "type": "Retained EU Law Regulation"},
+            "aflatoxin_b1": {"mrl": 5.0, "unit": "ppb (µg/kg)", "type": "UK MRL Register"},
+            "sudan_dyes": {"mrl": 0.01, "unit": "mg/kg (ppm)", "type": "Not Detected"},
+            "ethylene_oxide": {"mrl": 0.10, "unit": "mg/kg (ppm)", "type": "UK FSA Threshold"},
+            "chlorpyrifos": {"mrl": 0.01, "unit": "mg/kg (ppm)", "type": "UK HSE LOQ"}
+          }
+        },
+        "JPN": {
+          "stance": "MHLW Food Sanitation Act Positive List System",
+          "testing_intensity": "Order Inspection for Aflatoxin B1",
+          "mandatory_clearance": "Sanitary Certificate issued by Competent Authority",
+          "limits": {
+            "aflatoxin_total": {"mrl": 10.0, "unit": "ppb (µg/kg)", "type": "MHLW Total Aflatoxin Limit"},
+            "aflatoxin_b1": {"mrl": 5.0, "unit": "ppb (µg/kg)", "type": "MHLW Standard"},
+            "sudan_dyes": {"mrl": 0.01, "unit": "mg/kg (ppm)", "type": "Not Detected"},
+            "ethylene_oxide": {"mrl": 0.01, "unit": "mg/kg (ppm)", "type": "Positive List Default"},
+            "chlorpyrifos": {"mrl": 0.10, "unit": "mg/kg (ppm)", "type": "Japanese Pesticide Limit"}
+          }
+        }
+      }
+    },
+    "09093129": {
+      "name": "Cumin Seeds (Jeera Whole - Unjha Machine Cleaned)",
+      "botanical_name": "Cuminum cyminum",
+      "category": "Spices",
+      "share_pct": 18.2,
+      "export_forms": ["Machine Cleaned 99% Pure", "Sortex Cleaned 99.5%", "Extra Bold Cumin", "Ground Powder"],
+      "primary_growing_clusters": ["Gujarat (Unjha, Patan, Mehsana)", "Rajasthan (Jodhpur, Nagaur, Barmer)"],
+      "mpst_mandatory": true,
+      "standard_lab_residues": {
+        "profenofos": 0.03,
+        "triazophos": 0.02,
+        "chlorpyrifos": 0.02,
+        "ethylene_oxide": 0.05,
+        "aflatoxin_total": 4.0
+      },
+      "market_mrls": {
+        "EU": {
+          "stance": "Extreme Scrutiny on Profenofos & Ethylene Oxide Residues",
+          "testing_intensity": "100% Pre-Shipment Testing at Spices Board QEL + 20% EU Port Checks",
+          "mandatory_clearance": "Spices Board Analytical Certificate for Profenofos & EtO",
+          "limits": {
+            "profenofos": {"mrl": 0.05, "unit": "mg/kg (ppm)", "type": "EU Regulation MRL"},
+            "triazophos": {"mrl": 0.02, "unit": "mg/kg (ppm)", "type": "EU Default LOQ"},
+            "chlorpyrifos": {"mrl": 0.01, "unit": "mg/kg (ppm)", "type": "Strict EU LOQ"},
+            "ethylene_oxide": {"mrl": 0.10, "unit": "mg/kg (ppm)", "type": "EU EtO Maximum Level"},
+            "aflatoxin_total": {"mrl": 10.0, "unit": "ppb (µg/kg)", "type": "Mycotoxin Standard"}
+          }
+        },
+        "USA": {
+          "stance": "US FDA ASTA (American Spice Trade Association) Standards",
+          "testing_intensity": "Random defect and insect filth inspection",
+          "mandatory_clearance": "ASTA Cleanliness Certification + FDA Prior Notice",
+          "limits": {
+            "profenofos": {"mrl": 0.50, "unit": "mg/kg (ppm)", "type": "US EPA Established Tolerance"},
+            "triazophos": {"mrl": 0.20, "unit": "mg/kg (ppm)", "type": "US Action Limit"},
+            "chlorpyrifos": {"mrl": 0.50, "unit": "mg/kg (ppm)", "type": "US EPA Limit"},
+            "ethylene_oxide": {"mrl": 7.00, "unit": "mg/kg (ppm)", "type": "40 CFR 180.151 Tolerance"},
+            "aflatoxin_total": {"mrl": 20.0, "unit": "ppb (µg/kg)", "type": "FDA CPG"}
+          }
+        },
+        "UK": {
+          "stance": "UK HSE Pesticide MRL Register",
+          "testing_intensity": "Port-of-entry random surveillance",
+          "mandatory_clearance": "Spices Board Lab Certificate",
+          "limits": {
+            "profenofos": {"mrl": 0.05, "unit": "mg/kg (ppm)", "type": "UK MRL"},
+            "triazophos": {"mrl": 0.02, "unit": "mg/kg (ppm)", "type": "UK HSE LOQ"},
+            "chlorpyrifos": {"mrl": 0.01, "unit": "mg/kg (ppm)", "type": "UK HSE LOQ"},
+            "ethylene_oxide": {"mrl": 0.10, "unit": "mg/kg (ppm)", "type": "UK FSA Limit"},
+            "aflatoxin_total": {"mrl": 10.0, "unit": "ppb (µg/kg)", "type": "UK Mycotoxin Limit"}
+          }
+        },
+        "JPN": {
+          "stance": "Positive List System",
+          "testing_intensity": "Quarantine inspection",
+          "mandatory_clearance": "Health Certificate",
+          "limits": {
+            "profenofos": {"mrl": 0.10, "unit": "mg/kg (ppm)", "type": "MHLW Positive List"},
+            "triazophos": {"mrl": 0.05, "unit": "mg/kg (ppm)", "type": "MHLW Limit"},
+            "chlorpyrifos": {"mrl": 0.10, "unit": "mg/kg (ppm)", "type": "MHLW Standard"},
+            "ethylene_oxide": {"mrl": 0.01, "unit": "mg/kg (ppm)", "type": "Zero Detection"},
+            "aflatoxin_total": {"mrl": 10.0, "unit": "ppb (µg/kg)", "type": "MHLW Standard"}
+          }
+        }
+      }
+    },
+    "09103020": {
+      "name": "Turmeric Whole & Powder (Alleppey Finger / Salem / Lakadong GI)",
+      "botanical_name": "Curcuma longa",
+      "category": "Spices",
+      "share_pct": 14.1,
+      "export_forms": ["Alleppey Finger (Curcumin >5%)", "Salem Fingers", "Nizamabad Bulb", "Lakadong Powder (Curcumin >7%)"],
+      "primary_growing_clusters": ["Kerala (Alleppey)", "Tamil Nadu (Salem, Erode)", "Telangana (Nizamabad)", "Meghalaya (Jaintia Hills - Lakadong)"],
+      "mpst_mandatory": true,
+      "standard_lab_residues": {
+        "lead_chromate": 0.001,
+        "ethylene_oxide": 0.03,
+        "curcumin_content": 4.8,
+        "aflatoxin_total": 5.0,
+        "chlorpyrifos": 0.02
+      },
+      "market_mrls": {
+        "EU": {
+          "stance": "Strict Zero Tolerance for Lead Chromate Adulteration & EtO",
+          "testing_intensity": "Heavy Metal (Lead) and EtO mandatory screening",
+          "mandatory_clearance": "Spices Board Certificate for Lead < 2 ppm and EtO < 0.1 ppm",
+          "limits": {
+            "lead_chromate": {"mrl": 0.01, "unit": "mg/kg (ppm)", "type": "Adulterant Zero Tolerance (Not Detected)"},
+            "ethylene_oxide": {"mrl": 0.10, "unit": "mg/kg (ppm)", "type": "EU Reg 2020/1540"},
+            "curcumin_content": {"mrl": 3.00, "unit": "% min", "type": "Quality Parameter (Minimum Bioactive Potency)"},
+            "aflatoxin_total": {"mrl": 10.0, "unit": "ppb (µg/kg)", "type": "EU Limit"},
+            "chlorpyrifos": {"mrl": 0.01, "unit": "mg/kg (ppm)", "type": "Default LOQ"}
+          }
+        },
+        "USA": {
+          "stance": "FDA Lead Adulteration & Heavy Metal Alert",
+          "testing_intensity": "Heavy metal screening (Lead & Arsenic) at border",
+          "mandatory_clearance": "FDA Prior Notice + Heavy Metal Lab Certificate",
+          "limits": {
+            "lead_chromate": {"mrl": 0.01, "unit": "mg/kg (ppm)", "type": "FDA Banned Adulterant"},
+            "ethylene_oxide": {"mrl": 7.00, "unit": "mg/kg (ppm)", "type": "US EPA Tolerance"},
+            "curcumin_content": {"mrl": 2.50, "unit": "% min", "type": "USP / Food Chemical Codex Grade"},
+            "aflatoxin_total": {"mrl": 20.0, "unit": "ppb (µg/kg)", "type": "FDA CPG"},
+            "chlorpyrifos": {"mrl": 0.50, "unit": "mg/kg (ppm)", "type": "US EPA Limit"}
+          }
+        },
+        "UK": {
+          "stance": "UK FSA Turmeric Adulteration Watchlist",
+          "testing_intensity": "Random sampling",
+          "mandatory_clearance": "Spices Board Certificate",
+          "limits": {
+            "lead_chromate": {"mrl": 0.01, "unit": "mg/kg (ppm)", "type": "Zero Detection"},
+            "ethylene_oxide": {"mrl": 0.10, "unit": "mg/kg (ppm)", "type": "UK Limit"},
+            "curcumin_content": {"mrl": 3.00, "unit": "% min", "type": "Standard Grade"},
+            "aflatoxin_total": {"mrl": 10.0, "unit": "ppb (µg/kg)", "type": "UK MRL"},
+            "chlorpyrifos": {"mrl": 0.01, "unit": "mg/kg (ppm)", "type": "UK LOQ"}
+          }
+        },
+        "JPN": {
+          "stance": "MHLW Standards for Turmeric Extracts (Ukon)",
+          "testing_intensity": "Quarantine testing",
+          "mandatory_clearance": "Sanitary Certificate",
+          "limits": {
+            "lead_chromate": {"mrl": 0.01, "unit": "mg/kg (ppm)", "type": "Not Detected"},
+            "ethylene_oxide": {"mrl": 0.01, "unit": "mg/kg (ppm)", "type": "Zero Detection"},
+            "curcumin_content": {"mrl": 3.00, "unit": "% min", "type": "Japanese Pharmacopoeia"},
+            "aflatoxin_total": {"mrl": 10.0, "unit": "ppb (µg/kg)", "type": "MHLW Standard"},
+            "chlorpyrifos": {"mrl": 0.10, "unit": "mg/kg (ppm)", "type": "MHLW Standard"}
+          }
+        }
+      }
+    },
+    "09041110": {
+      "name": "Black Pepper (Malabar Garbled / Tellicherry Bold - GI)",
+      "botanical_name": "Piper nigrum",
+      "category": "Spices",
+      "share_pct": 7.4,
+      "export_forms": ["Malabar Garbled (MG)", "Tellicherry Garbled Extra Bold (TGEB)", "Tellicherry Special Extra Bold (TGSEB)", "Crushed / Powder"],
+      "primary_growing_clusters": ["Kerala (Wayanad, Idukki)", "Karnataka (Coorg, Chikmagalur)", "Tamil Nadu (Yercaud)"],
+      "mpst_mandatory": true,
+      "standard_lab_residues": {
+        "piperine_content": 4.5,
+        "mineral_oil": 0.001,
+        "ethylene_oxide": 0.02,
+        "aflatoxin_total": 4.0,
+        "chlorpyrifos": 0.01
+      },
+      "market_mrls": {
+        "EU": {
+          "stance": "Strict ASTA / ESA (European Spice Association) Cleanliness Specifications",
+          "testing_intensity": "Mineral oil, EtO, and Piperine content verification",
+          "mandatory_clearance": "Spices Board Lab Certificate",
+          "limits": {
+            "piperine_content": {"mrl": 4.00, "unit": "% min", "type": "ESA Quality Standard (Pungency Index)"},
+            "mineral_oil": {"mrl": 0.01, "unit": "mg/kg (ppm)", "type": "Zero Adulteration Tolerance (Mineral oil glaze ban)"},
+            "ethylene_oxide": {"mrl": 0.10, "unit": "mg/kg (ppm)", "type": "EU Limit"},
+            "aflatoxin_total": {"mrl": 10.0, "unit": "ppb (µg/kg)", "type": "Commission Reg 2023/915"},
+            "chlorpyrifos": {"mrl": 0.01, "unit": "mg/kg (ppm)", "type": "EU LOQ"}
+          }
+        },
+        "USA": {
+          "stance": "ASTA Cleanliness Specification for Black Pepper",
+          "testing_intensity": "Insect defiled and extraneous matter macro testing",
+          "mandatory_clearance": "ASTA Certificate + FDA Prior Notice",
+          "limits": {
+            "piperine_content": {"mrl": 3.80, "unit": "% min", "type": "ASTA Minimum Specification"},
+            "mineral_oil": {"mrl": 0.01, "unit": "mg/kg (ppm)", "type": "FDA Banned Adulterant"},
+            "ethylene_oxide": {"mrl": 7.00, "unit": "mg/kg (ppm)", "type": "US EPA Limit"},
+            "aflatoxin_total": {"mrl": 20.0, "unit": "ppb (µg/kg)", "type": "FDA CPG"},
+            "chlorpyrifos": {"mrl": 0.50, "unit": "mg/kg (ppm)", "type": "US EPA Limit"}
+          }
+        },
+        "UK": {
+          "stance": "UK Food Hygiene Standards",
+          "testing_intensity": "Random sampling",
+          "mandatory_clearance": "Spices Board Export Certificate",
+          "limits": {
+            "piperine_content": {"mrl": 4.00, "unit": "% min", "type": "Quality Standard"},
+            "mineral_oil": {"mrl": 0.01, "unit": "mg/kg (ppm)", "type": "Zero Tolerance"},
+            "ethylene_oxide": {"mrl": 0.10, "unit": "mg/kg (ppm)", "type": "UK Limit"},
+            "aflatoxin_total": {"mrl": 10.0, "unit": "ppb (µg/kg)", "type": "UK MRL"},
+            "chlorpyrifos": {"mrl": 0.01, "unit": "mg/kg (ppm)", "type": "UK LOQ"}
+          }
+        },
+        "JPN": {
+          "stance": "Japanese Food Sanitation Law",
+          "testing_intensity": "Quarantine check",
+          "mandatory_clearance": "Sanitary Certificate",
+          "limits": {
+            "piperine_content": {"mrl": 4.00, "unit": "% min", "type": "Standard Grade"},
+            "mineral_oil": {"mrl": 0.01, "unit": "mg/kg (ppm)", "type": "Not Detected"},
+            "ethylene_oxide": {"mrl": 0.01, "unit": "mg/kg (ppm)", "type": "Zero Tolerance"},
+            "aflatoxin_total": {"mrl": 10.0, "unit": "ppb (µg/kg)", "type": "MHLW Standard"},
+            "chlorpyrifos": {"mrl": 0.10, "unit": "mg/kg (ppm)", "type": "MHLW Standard"}
+          }
+        }
+      }
+    },
+    "09024020": {
+      "name": "Darjeeling Orthodox Black Tea (100% Pure GI Tagged)",
+      "botanical_name": "Camellia sinensis var. sinensis",
+      "category": "Tea",
+      "share_pct": 11.2,
+      "export_forms": ["First Flush (Spring)", "Second Flush (Summer Muscatel)", "Autumnal Flush", "FTGFOP1 Grade"],
+      "primary_growing_clusters": ["West Bengal (Darjeeling Hills - 87 Registered Tea Estates)"],
+      "mpst_mandatory": true,
+      "standard_lab_residues": {
+        "anthraquinone": 0.015,
+        "clothianidin": 0.02,
+        "iron_filings": 120.0,
+        "copper": 45.0,
+        "acetamiprid": 0.04
+      },
+      "market_mrls": {
+        "EU": {
+          "stance": "Strict Anthraquinone & Neonicotinoid MRL Scrutiny + GI Authentication",
+          "testing_intensity": "100% Darjeeling GI Verification + Multi-residue Pesticide Screen",
+          "mandatory_clearance": "Tea Board Comprehensive Quality Certificate (CQC) + GI License Logo Certificate",
+          "limits": {
+            "anthraquinone": {"mrl": 0.02, "unit": "mg/kg (ppm)", "type": "EU Regulation (Default LOQ for drying combustion residue)"},
+            "clothianidin": {"mrl": 0.05, "unit": "mg/kg (ppm)", "type": "EU MRL (Neonicotinoid restriction)"},
+            "iron_filings": {"mrl": 250.0, "unit": "mg/kg (ppm)", "type": "FSSAI & International Maximum Permissible Limit"},
+            "copper": {"mrl": 150.0, "unit": "mg/kg (ppm)", "type": "Heavy Metal Maximum Limit"},
+            "acetamiprid": {"mrl": 0.10, "unit": "mg/kg (ppm)", "type": "EU Pesticide MRL"}
+          }
+        },
+        "USA": {
+          "stance": "US FDA Pesticide MRL & Heavy Metal Guidance",
+          "testing_intensity": "Random sampling for pesticide residues",
+          "mandatory_clearance": "FDA Prior Notice + Tea Board Certificate of Origin",
+          "limits": {
+            "anthraquinone": {"mrl": 0.10, "unit": "mg/kg (ppm)", "type": "US Action Level"},
+            "clothianidin": {"mrl": 0.50, "unit": "mg/kg (ppm)", "type": "US EPA Established Tolerance"},
+            "iron_filings": {"mrl": 250.0, "unit": "mg/kg (ppm)", "type": "International Norm"},
+            "copper": {"mrl": 150.0, "unit": "mg/kg (ppm)", "type": "US FDA Limit"},
+            "acetamiprid": {"mrl": 5.00, "unit": "mg/kg (ppm)", "type": "US EPA Limit (40 CFR 180.578)"}
+          }
+        },
+        "UK": {
+          "stance": "Traditional British Premium Tea Market (High Darjeeling & Assam Demand)",
+          "testing_intensity": "Routine import surveillance",
+          "mandatory_clearance": "Tea Board CQC & GI Certificate",
+          "limits": {
+            "anthraquinone": {"mrl": 0.02, "unit": "mg/kg (ppm)", "type": "UK HSE MRL"},
+            "clothianidin": {"mrl": 0.05, "unit": "mg/kg (ppm)", "type": "UK MRL"},
+            "iron_filings": {"mrl": 250.0, "unit": "mg/kg (ppm)", "type": "UK Standard"},
+            "copper": {"mrl": 150.0, "unit": "mg/kg (ppm)", "type": "UK Limit"},
+            "acetamiprid": {"mrl": 0.10, "unit": "mg/kg (ppm)", "type": "UK MRL"}
+          }
+        },
+        "JPN": {
+          "stance": "MHLW Tea Positive List Standards",
+          "testing_intensity": "Pesticide group testing",
+          "mandatory_clearance": "Tea Board Quality Certificate",
+          "limits": {
+            "anthraquinone": {"mrl": 0.02, "unit": "mg/kg (ppm)", "type": "MHLW Standard"},
+            "clothianidin": {"mrl": 0.20, "unit": "mg/kg (ppm)", "type": "MHLW Standard"},
+            "iron_filings": {"mrl": 250.0, "unit": "mg/kg (ppm)", "type": "Safety Standard"},
+            "copper": {"mrl": 150.0, "unit": "mg/kg (ppm)", "type": "Food Sanitation Law"},
+            "acetamiprid": {"mrl": 0.50, "unit": "mg/kg (ppm)", "type": "MHLW Limit"}
+          }
+        }
+      }
+    },
+    "09024010": {
+      "name": "Assam CTC Leaf Black Tea (BOP / BP / PF Grades)",
+      "botanical_name": "Camellia sinensis var. assamica",
+      "category": "Tea",
+      "share_pct": 10.6,
+      "export_forms": ["Broken Orange Pekoe (BOP)", "Broken Pekoe (BP)", "Pekoe Fannings (PF)", "Dust CTC"],
+      "primary_growing_clusters": ["Assam (Brahmaputra Valley, Upper Assam - Dibrugarh, Tinsukia)"],
+      "mpst_mandatory": true,
+      "standard_lab_residues": {
+        "anthraquinone": 0.010,
+        "clothianidin": 0.03,
+        "iron_filings": 150.0,
+        "copper": 50.0,
+        "acetamiprid": 0.05
+      },
+      "market_mrls": {
+        "EU": {
+          "stance": "EU MRL Compliance for Bulk CTC Infusions",
+          "testing_intensity": "Pesticide residues & physical magnetic separation check",
+          "mandatory_clearance": "Tea Board CQC Certificate",
+          "limits": {
+            "anthraquinone": {"mrl": 0.02, "unit": "mg/kg (ppm)", "type": "EU Regulation Default LOQ"},
+            "clothianidin": {"mrl": 0.05, "unit": "mg/kg (ppm)", "type": "EU MRL"},
+            "iron_filings": {"mrl": 250.0, "unit": "mg/kg (ppm)", "type": "FSSAI Mandatory Iron Mesh Standard"},
+            "copper": {"mrl": 150.0, "unit": "mg/kg (ppm)", "type": "EU Limit"},
+            "acetamiprid": {"mrl": 0.10, "unit": "mg/kg (ppm)", "type": "EU MRL"}
+          }
+        },
+        "USA": {
+          "stance": "US Iced Tea & Blending Bulk Market",
+          "testing_intensity": "Random FDA inspection",
+          "mandatory_clearance": "FDA Prior Notice",
+          "limits": {
+            "anthraquinone": {"mrl": 0.10, "unit": "mg/kg (ppm)", "type": "US Action Level"},
+            "clothianidin": {"mrl": 0.50, "unit": "mg/kg (ppm)", "type": "US EPA Limit"},
+            "iron_filings": {"mrl": 250.0, "unit": "mg/kg (ppm)", "type": "Standard"},
+            "copper": {"mrl": 150.0, "unit": "mg/kg (ppm)", "type": "US Limit"},
+            "acetamiprid": {"mrl": 5.00, "unit": "mg/kg (ppm)", "type": "US EPA Limit"}
+          }
+        },
+        "UK": {
+          "stance": "English Breakfast Blend Base Component",
+          "testing_intensity": "Standard British Tea Council import checks",
+          "mandatory_clearance": "Tea Board Quality Certificate",
+          "limits": {
+            "anthraquinone": {"mrl": 0.02, "unit": "mg/kg (ppm)", "type": "UK MRL"},
+            "clothianidin": {"mrl": 0.05, "unit": "mg/kg (ppm)", "type": "UK MRL"},
+            "iron_filings": {"mrl": 250.0, "unit": "mg/kg (ppm)", "type": "UK Standard"},
+            "copper": {"mrl": 150.0, "unit": "mg/kg (ppm)", "type": "UK Limit"},
+            "acetamiprid": {"mrl": 0.10, "unit": "mg/kg (ppm)", "type": "UK MRL"}
+          }
+        },
+        "JPN": {
+          "stance": "Milk Tea & Bottled RTD Tea Inbound Supply",
+          "testing_intensity": "Quarantine sampling",
+          "mandatory_clearance": "Sanitary Certificate",
+          "limits": {
+            "anthraquinone": {"mrl": 0.02, "unit": "mg/kg (ppm)", "type": "MHLW Standard"},
+            "clothianidin": {"mrl": 0.20, "unit": "mg/kg (ppm)", "type": "MHLW Standard"},
+            "iron_filings": {"mrl": 250.0, "unit": "mg/kg (ppm)", "type": "Standard"},
+            "copper": {"mrl": 150.0, "unit": "mg/kg (ppm)", "type": "Standard"},
+            "acetamiprid": {"mrl": 0.50, "unit": "mg/kg (ppm)", "type": "MHLW Standard"}
+          }
+        }
+      }
+    }
+  }
+}
