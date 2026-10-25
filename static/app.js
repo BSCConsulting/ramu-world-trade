@@ -6131,20 +6131,29 @@ function renderTradeBlueprintDossier(data) {
   if (!viewport || !data || !data.executive_financial_waterfall) return;
 
   const ef = data.executive_financial_waterfall;
-  const isProfit = ef.net_profit_inr >= 0;
+  const isProfit = (Number(ef.net_profit_inr) || 0) >= 0;
   const profitColor = isProfit ? '#10B981' : '#EF4444';
+
+  const safeTitle = escapeHtml(data.title);
+  const safeHs = escapeHtml(data.hs_code);
+  const safeVariety = escapeHtml(data.variety_grade);
+  const safeClearance = escapeHtml(ef.statutory_clearance_probability_pct);
+  const safeQty = Number(data.quantity_tons) || 0;
+  const safeForex = Number(data.cbic_exchange_rate_usd_inr) || 84.0;
+  const safeBuy = Number(data.unit_procurement_price_inr_per_qtl) || 0;
+  const safeSell = Number(data.unit_fob_price_usd_per_mt) || 0;
 
   const html = `
     <!-- Top Executive Header & Corridor Metadata -->
     <div class="p-3.5 rounded-2xl border flex flex-col md:flex-row md:items-center justify-between gap-2" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
       <div>
         <div class="flex items-center gap-1.5 flex-wrap">
-          <span class="text-sm font-extrabold" style="color: var(--text-main);">${data.title}</span>
-          <span class="text-[9px] font-mono px-2 py-0.5 rounded font-bold" style="background: var(--accent-light); color: var(--accent);">HS ${data.hs_code}</span>
-          <span class="text-[9px] font-mono px-2 py-0.5 rounded font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">Statutory Clearance: ${ef.statutory_clearance_probability_pct}%</span>
+          <span class="text-sm font-extrabold" style="color: var(--text-main);">${safeTitle}</span>
+          <span class="text-[9px] font-mono px-2 py-0.5 rounded font-bold" style="background: var(--accent-light); color: var(--accent);">HS ${safeHs}</span>
+          <span class="text-[9px] font-mono px-2 py-0.5 rounded font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">Statutory Clearance: ${safeClearance}%</span>
         </div>
         <div class="text-[10px] mt-1 text-muted">
-          Variety: <span class="font-bold text-main">${data.variety_grade}</span> • Payload: <span class="font-mono font-bold">${data.quantity_tons} MT</span> • Benchmark Forex: <span class="font-mono">USD 1 = ₹${data.cbic_exchange_rate_usd_inr}</span>
+          Variety: <span class="font-bold text-main">${safeVariety}</span> • Payload: <span class="font-mono font-bold">${safeQty} MT</span> • Benchmark Forex: <span class="font-mono">USD 1 = ₹${safeForex}</span>
         </div>
       </div>
       <button type="button" onclick="openBlueprintModal()" class="px-3.5 py-2 rounded-xl text-xs font-bold active:scale-95 transition-all text-white flex items-center justify-center gap-1.5 flex-shrink-0" style="background: var(--accent);">
@@ -6156,23 +6165,23 @@ function renderTradeBlueprintDossier(data) {
     <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-center">
       <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
         <span class="text-[10px] block text-dim">Total Capital Outlay</span>
-        <span class="text-sm font-extrabold font-mono" style="color: var(--text-main);">₹${Math.round(ef.total_capital_outlay_inr).toLocaleString('en-IN')}</span>
+        <span class="text-sm font-extrabold font-mono" style="color: var(--text-main);">₹${Math.round(Number(ef.total_capital_outlay_inr) || 0).toLocaleString('en-IN')}</span>
         <span class="text-[9px] block text-muted mt-0.5">Procurement + Freight</span>
       </div>
       <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
         <span class="text-[10px] block text-dim">Gross Export Realization</span>
-        <span class="text-sm font-extrabold font-mono" style="color: var(--text-main);">$${Math.round(ef.gross_export_fob_revenue_usd).toLocaleString()}</span>
-        <span class="text-[9px] block text-muted mt-0.5">₹${Math.round(ef.gross_export_fob_revenue_inr).toLocaleString('en-IN')} FOB</span>
+        <span class="text-sm font-extrabold font-mono" style="color: var(--text-main);">$${Math.round(Number(ef.gross_export_fob_revenue_usd) || 0).toLocaleString()}</span>
+        <span class="text-[9px] block text-muted mt-0.5">₹${Math.round(Number(ef.gross_export_fob_revenue_inr) || 0).toLocaleString('en-IN')} FOB</span>
       </div>
       <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
         <span class="text-[10px] block text-dim">Govt Cash Rebates</span>
-        <span class="text-sm font-extrabold font-mono text-emerald-500">+₹${Math.round(ef.total_government_cash_rebate_inr).toLocaleString('en-IN')}</span>
+        <span class="text-sm font-extrabold font-mono text-emerald-500">+₹${Math.round(Number(ef.total_government_cash_rebate_inr) || 0).toLocaleString('en-IN')}</span>
         <span class="text-[9px] block text-muted mt-0.5">RoDTEP + Drawback</span>
       </div>
       <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
         <span class="text-[10px] block text-dim">Net Estimated Profit</span>
-        <span class="text-sm font-extrabold font-mono" style="color: ${profitColor};">₹${Math.round(ef.net_profit_inr).toLocaleString('en-IN')}</span>
-        <span class="text-[9px] block font-bold mt-0.5" style="color: ${profitColor};">${ef.net_margin_pct}% Net Margin</span>
+        <span class="text-sm font-extrabold font-mono" style="color: ${profitColor};">₹${Math.round(Number(ef.net_profit_inr) || 0).toLocaleString('en-IN')}</span>
+        <span class="text-[9px] block font-bold mt-0.5" style="color: ${profitColor};">${Number(ef.net_margin_pct) || 0}% Net Margin</span>
       </div>
     </div>
 
@@ -6185,15 +6194,15 @@ function renderTradeBlueprintDossier(data) {
       <div class="grid grid-cols-1 md:grid-cols-4 gap-2 text-xs">
         <div>
           <label class="block text-[10px] font-bold text-dim mb-1">Buy Price (₹/Quintal):</label>
-          <input type="number" id="bp-input-buy" value="${data.unit_procurement_price_inr_per_qtl}" onchange="recalculateBlueprintMath()" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+          <input type="number" id="bp-input-buy" value="${safeBuy}" onchange="recalculateBlueprintMath()" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
         </div>
         <div>
           <label class="block text-[10px] font-bold text-dim mb-1">Sell Price ($/MT FOB):</label>
-          <input type="number" id="bp-input-sell" value="${data.unit_fob_price_usd_per_mt}" onchange="recalculateBlueprintMath()" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+          <input type="number" id="bp-input-sell" value="${safeSell}" onchange="recalculateBlueprintMath()" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
         </div>
         <div>
           <label class="block text-[10px] font-bold text-dim mb-1">Quantity (Metric Tons):</label>
-          <input type="number" id="bp-input-qty" value="${data.quantity_tons}" onchange="recalculateBlueprintMath()" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+          <input type="number" id="bp-input-qty" value="${safeQty}" onchange="recalculateBlueprintMath()" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
         </div>
         <div class="flex flex-col justify-end">
           <button type="button" onclick="recalculateBlueprintMath()" class="w-full py-2 rounded-xl text-xs font-bold active:scale-95 transition-all text-white min-h-[38px]" style="background: var(--accent);">
@@ -6252,22 +6261,24 @@ function renderBlueprintSectionContent(secId, data) {
           <span class="text-[9px] font-mono text-muted">Complete in sequence</span>
         </div>
         <div class="space-y-2">
-          ${list.map(s => `
+          ${list.map(s => {
+            const portalUrl = s.portal && typeof s.portal === 'string' && s.portal.startsWith('http') ? escapeHtml(s.portal) : '#';
+            return `
             <div class="p-3 rounded-xl border space-y-1" style="background: var(--card-bg); border-color: var(--card-inner-border);">
               <div class="flex items-center justify-between">
                 <span class="font-bold text-main flex items-center gap-1.5">
-                  <span class="w-5 h-5 rounded-full text-[10px] flex items-center justify-center text-white font-mono font-bold" style="background: var(--accent);">${s.step}</span>
-                  ${s.name}
+                  <span class="w-5 h-5 rounded-full text-[10px] flex items-center justify-center text-white font-mono font-bold" style="background: var(--accent);">${escapeHtml(s.step)}</span>
+                  ${escapeHtml(s.name)}
                 </span>
-                <span class="text-[9px] font-mono px-2 py-0.5 rounded border" style="background: var(--accent-light); color: var(--accent);">${s.time_days} • ${s.fee_inr}</span>
+                <span class="text-[9px] font-mono px-2 py-0.5 rounded border" style="background: var(--accent-light); color: var(--accent);">${escapeHtml(s.time_days)} • ${escapeHtml(s.fee_inr)}</span>
               </div>
-              <p class="text-[11px] text-muted">${s.details}</p>
+              <p class="text-[11px] text-muted">${escapeHtml(s.details)}</p>
               <div class="pt-1 flex items-center justify-between text-[10px] font-mono">
-                <span class="text-dim">Authority: ${s.authority}</span>
-                <a href="${s.portal}" target="_blank" rel="noopener noreferrer" class="text-accent underline">Official Portal ↗</a>
+                <span class="text-dim">Authority: ${escapeHtml(s.authority)}</span>
+                <a href="${portalUrl}" target="_blank" rel="noopener noreferrer" class="text-accent underline">Official Portal ↗</a>
               </div>
             </div>
-          `).join('')}
+          `}).join('')}
         </div>
       </div>
     `;
@@ -6284,19 +6295,19 @@ function renderBlueprintSectionContent(secId, data) {
           <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-center text-xs">
             <div class="p-2 rounded-lg border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
               <span class="text-[10px] block text-dim">Benchmark Mandi</span>
-              <span class="font-bold text-main">${sm.primary_mandi}</span>
+              <span class="font-bold text-main">${escapeHtml(sm.primary_mandi)}</span>
             </div>
             <div class="p-2 rounded-lg border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
               <span class="text-[10px] block text-dim">Modal Mandi Price</span>
-              <span class="font-bold text-emerald-500 font-mono">₹${sm.modal_price_qtl_inr}/qtl</span>
+              <span class="font-bold text-emerald-500 font-mono">₹${Number(sm.modal_price_qtl_inr) || 0}/qtl</span>
             </div>
             <div class="p-2 rounded-lg border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
               <span class="text-[10px] block text-dim">Price Range</span>
-              <span class="font-mono text-muted text-[10px]">₹${sm.min_price_qtl_inr} - ₹${sm.max_price_qtl_inr}</span>
+              <span class="font-mono text-muted text-[10px]">₹${Number(sm.min_price_qtl_inr) || 0} - ₹${Number(sm.max_price_qtl_inr) || 0}</span>
             </div>
             <div class="p-2 rounded-lg border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
               <span class="text-[10px] block text-dim">Haulage from Origin</span>
-              <span class="font-bold text-main font-mono">${sm.distance_from_madhira_km} km</span>
+              <span class="font-bold text-main font-mono">${escapeHtml(sm.distance_from_madhira_km)} km</span>
             </div>
           </div>
         </div>
@@ -6306,8 +6317,8 @@ function renderBlueprintSectionContent(secId, data) {
           <div class="grid grid-cols-1 md:grid-cols-2 gap-1.5 text-[11px]">
             ${Object.entries(specs).map(([k, v]) => `
               <div class="p-2 rounded-lg border flex items-start justify-between gap-2" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-                <span class="text-dim uppercase text-[10px] font-mono">${k.replace(/_/g, ' ')}:</span>
-                <span class="font-bold text-main text-right">${v}</span>
+                <span class="text-dim uppercase text-[10px] font-mono">${escapeHtml(k.replace(/_/g, ' '))}:</span>
+                <span class="font-bold text-main text-right">${escapeHtml(v)}</span>
               </div>
             `).join('')}
           </div>
@@ -6325,7 +6336,7 @@ function renderBlueprintSectionContent(secId, data) {
             <span class="font-bold text-accent">Foreign Target Regulatory Standard</span>
             <span class="text-[9px] font-mono text-emerald-500 font-bold">● Pass Required</span>
           </div>
-          <p class="text-[11px] text-muted">${qg.target_standards}</p>
+          <p class="text-[11px] text-muted">${escapeHtml(qg.target_standards)}</p>
         </div>
 
         <div class="p-3 rounded-xl border space-y-1.5" style="background: var(--card-bg); border-color: var(--card-inner-border);">
@@ -6334,10 +6345,10 @@ function renderBlueprintSectionContent(secId, data) {
             ${params.map(p => `
               <div class="p-2 rounded-lg border flex items-center justify-between gap-2" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
                 <div>
-                  <span class="font-bold text-main">${p.test}</span>
-                  <span class="text-[9px] block text-dim">${p.importance}</span>
+                  <span class="font-bold text-main">${escapeHtml(p.test)}</span>
+                  <span class="text-[9px] block text-dim">${escapeHtml(p.importance)}</span>
                 </div>
-                <span class="font-mono font-bold text-emerald-500 px-2 py-0.5 rounded border" style="background: var(--card-bg); border-color: var(--card-inner-border);">${p.limit}</span>
+                <span class="font-mono font-bold text-emerald-500 px-2 py-0.5 rounded border" style="background: var(--card-bg); border-color: var(--card-inner-border);">${escapeHtml(p.limit)}</span>
               </div>
             `).join('')}
           </div>
@@ -6346,7 +6357,7 @@ function renderBlueprintSectionContent(secId, data) {
         <div class="p-3 rounded-xl border space-y-1" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
           <span class="font-bold text-main text-[10px] uppercase tracking-wider block">Authorized NABL Testing Laboratories</span>
           <ul class="list-disc list-inside text-[11px] text-muted space-y-0.5">
-            ${labs.map(l => `<li>${l}</li>`).join('')}
+            ${labs.map(l => `<li>${escapeHtml(l)}</li>`).join('')}
           </ul>
         </div>
       </div>
@@ -6357,35 +6368,35 @@ function renderBlueprintSectionContent(secId, data) {
       <div class="space-y-2">
         <div class="p-3 rounded-xl border space-y-1" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
           <span class="font-bold text-accent block">Recommended Multimodal Logistics Route</span>
-          <p class="text-[11px] text-muted leading-relaxed">${lg.recommended_route}</p>
+          <p class="text-[11px] text-muted leading-relaxed">${escapeHtml(lg.recommended_route)}</p>
         </div>
 
         <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-center text-xs">
           <div class="p-2.5 rounded-xl border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
             <span class="text-[10px] block text-dim">Inland Road Distance</span>
-            <span class="font-mono font-bold text-main">${lg.inland_distance_km} km</span>
-            <span class="text-[9px] block text-muted mt-0.5">e-Way Validity: ${lg.eway_bill_validity_days} Days</span>
+            <span class="font-mono font-bold text-main">${escapeHtml(lg.inland_distance_km)} km</span>
+            <span class="text-[9px] block text-muted mt-0.5">e-Way Validity: ${escapeHtml(lg.eway_bill_validity_days)} Days</span>
           </div>
           <div class="p-2.5 rounded-xl border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
             <span class="text-[10px] block text-dim">Ocean Transit Time</span>
-            <span class="font-mono font-bold text-main">${lg.ocean_transit_days} Days</span>
-            <span class="text-[9px] block text-muted mt-0.5">Port: ${lg.port_of_loading}</span>
+            <span class="font-mono font-bold text-main">${escapeHtml(lg.ocean_transit_days)} Days</span>
+            <span class="text-[9px] block text-muted mt-0.5">Port: ${escapeHtml(lg.port_of_loading)}</span>
           </div>
           <div class="p-2.5 rounded-xl border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
             <span class="text-[10px] block text-dim">CONCOR Rail Freight</span>
-            <span class="font-mono font-bold text-main">₹${Math.round(lg.concor_rail_freight_inr || lg.road_freight_inr_per_truck).toLocaleString('en-IN')}</span>
+            <span class="font-mono font-bold text-main">₹${Math.round(Number(lg.concor_rail_freight_inr || lg.road_freight_inr_per_truck) || 0).toLocaleString('en-IN')}</span>
             <span class="text-[9px] block text-muted mt-0.5">ICD Sanathnagar -> Port</span>
           </div>
           <div class="p-2.5 rounded-xl border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
             <span class="text-[10px] block text-dim">Benchmark Ocean Freight</span>
-            <span class="font-mono font-bold text-emerald-500">$${Math.round(lg.ocean_freight_usd || lg.reefer_ocean_freight_usd).toLocaleString()}</span>
-            <span class="text-[9px] block text-muted mt-0.5">Discharge: ${lg.port_of_discharge}</span>
+            <span class="font-mono font-bold text-emerald-500">$${Math.round(Number(lg.ocean_freight_usd || lg.reefer_ocean_freight_usd) || 0).toLocaleString()}</span>
+            <span class="text-[9px] block text-muted mt-0.5">Discharge: ${escapeHtml(lg.port_of_discharge)}</span>
           </div>
         </div>
 
         <div class="p-2.5 rounded-xl border text-[11px] flex items-center justify-between" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
           <span class="text-dim">Container Specification:</span>
-          <span class="font-bold text-main font-mono">${lg.container_spec}</span>
+          <span class="font-bold text-main font-mono">${escapeHtml(lg.container_spec)}</span>
         </div>
       </div>
     `;
@@ -6398,20 +6409,20 @@ function renderBlueprintSectionContent(secId, data) {
           <div class="p-3 rounded-xl border space-y-1.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
             <span class="font-bold text-accent block text-[10px] uppercase tracking-wider">Destination Customs &amp; Import Duties</span>
             <div class="space-y-1 text-[11px]">
-              <div class="flex justify-between"><span>India Export Duty:</span><span class="font-mono font-bold">${ctr.india_export_duty_pct}%</span></div>
-              <div class="flex justify-between"><span>Destination Import Duty:</span><span class="font-mono font-bold">${ctr.saudi_import_customs_duty_pct || ctr.destination_customs_duty_pct}%</span></div>
-              ${ctr.saudi_vat_pct ? `<div class="flex justify-between"><span>Destination VAT / Sales Tax:</span><span class="font-mono font-bold">${ctr.saudi_vat_pct}%</span></div>` : ''}
+              <div class="flex justify-between"><span>India Export Duty:</span><span class="font-mono font-bold">${escapeHtml(ctr.india_export_duty_pct)}%</span></div>
+              <div class="flex justify-between"><span>Destination Import Duty:</span><span class="font-mono font-bold">${escapeHtml(ctr.saudi_import_customs_duty_pct || ctr.destination_customs_duty_pct)}%</span></div>
+              ${ctr.saudi_vat_pct ? `<div class="flex justify-between"><span>Destination VAT / Sales Tax:</span><span class="font-mono font-bold">${escapeHtml(ctr.saudi_vat_pct)}%</span></div>` : ''}
             </div>
           </div>
 
           <div class="p-3 rounded-xl border space-y-1.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
             <span class="font-bold text-emerald-500 block text-[10px] uppercase tracking-wider">Government Post-Shipment Cash Rebates</span>
             <div class="space-y-1 text-[11px]">
-              <div class="flex justify-between"><span>RoDTEP Rebate Rate:</span><span class="font-mono font-bold text-emerald-500">${rebates.rodtep_rate_pct}% (Cap ₹${rebates.rodtep_cap_per_kg_inr}/kg)</span></div>
-              <div class="flex justify-between"><span>Duty Drawback Rate:</span><span class="font-mono font-bold text-emerald-500">${rebates.duty_drawback_rate_pct}%</span></div>
+              <div class="flex justify-between"><span>RoDTEP Rebate Rate:</span><span class="font-mono font-bold text-emerald-500">${escapeHtml(rebates.rodtep_rate_pct)}% (Cap ₹${escapeHtml(rebates.rodtep_cap_per_kg_inr)}/kg)</span></div>
+              <div class="flex justify-between"><span>Duty Drawback Rate:</span><span class="font-mono font-bold text-emerald-500">${escapeHtml(rebates.duty_drawback_rate_pct)}%</span></div>
               <div class="flex justify-between border-t pt-1 font-bold" style="border-color: var(--card-border);">
                 <span>Total Statutory Cash Back:</span>
-                <span class="font-mono text-emerald-500">+${rebates.total_government_rebate_pct}% of FOB</span>
+                <span class="font-mono text-emerald-500">+${escapeHtml(rebates.total_government_rebate_pct)}% of FOB</span>
               </div>
             </div>
           </div>
@@ -6427,19 +6438,19 @@ function renderBlueprintSectionContent(secId, data) {
         <div class="p-3 rounded-xl border space-y-1.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
           <div class="flex items-center justify-between">
             <span class="font-bold text-accent">ECGC Underwriting Grade &amp; Payment Safeguard</span>
-            <span class="text-[9px] font-mono px-2 py-0.5 rounded font-bold" style="background: var(--accent-light); color: var(--accent);">ECGC ${br.ecgc_country_rating || 'A2'}</span>
+            <span class="text-[9px] font-mono px-2 py-0.5 rounded font-bold" style="background: var(--accent-light); color: var(--accent);">ECGC ${escapeHtml(br.ecgc_country_rating || 'A2')}</span>
           </div>
           <div class="space-y-1 text-[11px]">
-            <p><span class="font-bold">Recommended Payment Terms:</span> <span class="font-mono text-main">${br.recommended_payment_term || br.export_payment_terms}</span></p>
-            <p><span class="font-bold">Credit Insurance Cover:</span> <span class="text-muted">${br.ecgc_short_term_policy || 'Standard Underwriting'}</span></p>
-            <p><span class="font-bold">Working Capital Float:</span> <span class="text-muted">${br.working_capital_financing}</span></p>
+            <p><span class="font-bold">Recommended Payment Terms:</span> <span class="font-mono text-main">${escapeHtml(br.recommended_payment_term || br.export_payment_terms)}</span></p>
+            <p><span class="font-bold">Credit Insurance Cover:</span> <span class="text-muted">${escapeHtml(br.ecgc_short_term_policy || 'Standard Underwriting')}</span></p>
+            <p><span class="font-bold">Working Capital Float:</span> <span class="text-muted">${escapeHtml(br.working_capital_financing)}</span></p>
           </div>
         </div>
 
         <div class="p-3 rounded-xl border space-y-1.5" style="background: var(--card-bg); border-color: var(--card-inner-border);">
           <span class="font-bold text-main uppercase text-[10px] tracking-wider block">Verified Importer Channels &amp; Buyer Archetypes</span>
           <ul class="list-disc list-inside text-[11px] text-muted space-y-1">
-            ${buyers.map(b => `<li><span class="text-main font-semibold">${b}</span></li>`).join('')}
+            ${buyers.map(b => `<li><span class="text-main font-semibold">${escapeHtml(b)}</span></li>`).join('')}
           </ul>
         </div>
       </div>
@@ -6474,18 +6485,18 @@ function openBlueprintModal() {
   const d = currentBlueprintData;
   const ef = d.executive_financial_waterfall;
 
-  if (title) title.textContent = `360° Sovereign Trade Dossier: ${d.commodity}`;
+  if (title) title.textContent = `360° Sovereign Trade Dossier: ${d.commodity || ''}`;
 
   content.innerHTML = `
     <div class="p-4 rounded-2xl border space-y-3" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
       <div class="flex justify-between items-start border-b pb-2" style="border-color: var(--card-border);">
         <div>
-          <h2 class="text-base font-extrabold text-main">${d.title}</h2>
-          <div class="text-[10px] font-mono text-dim">HS Code: ${d.hs_code} • Corridors: ${d.origin} ➔ ${d.destination} • Lot: ${d.quantity_tons} MT</div>
+          <h2 class="text-base font-extrabold text-main">${escapeHtml(d.title)}</h2>
+          <div class="text-[10px] font-mono text-dim">HS Code: ${escapeHtml(d.hs_code)} • Corridors: ${escapeHtml(d.origin)} ➔ ${escapeHtml(d.destination)} • Lot: ${Number(d.quantity_tons) || 0} MT</div>
         </div>
         <div class="text-right">
-          <span class="text-sm font-extrabold text-emerald-500 font-mono">₹${Math.round(ef.net_profit_inr).toLocaleString('en-IN')} Net Profit</span>
-          <div class="text-[9px] font-mono text-muted">${ef.net_margin_pct}% Margin on ₹${Math.round(ef.total_capital_outlay_inr).toLocaleString('en-IN')} Outlay</div>
+          <span class="text-sm font-extrabold text-emerald-500 font-mono">₹${Math.round(Number(ef.net_profit_inr) || 0).toLocaleString('en-IN')} Net Profit</span>
+          <div class="text-[9px] font-mono text-muted">${Number(ef.net_margin_pct) || 0}% Margin on ₹${Math.round(Number(ef.total_capital_outlay_inr) || 0).toLocaleString('en-IN')} Outlay</div>
         </div>
       </div>
 
@@ -6495,8 +6506,8 @@ function openBlueprintModal() {
         <div class="grid grid-cols-1 md:grid-cols-2 gap-1.5 text-[10px]">
           ${(d.section_1_statutory_formalities || []).map(s => `
             <div class="p-2 rounded border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
-              <span class="font-bold text-main block">${s.step}. ${s.name}</span>
-              <span class="text-dim block">${s.authority} • ${s.time_days} • ${s.fee_inr}</span>
+              <span class="font-bold text-main block">${escapeHtml(s.step)}. ${escapeHtml(s.name)}</span>
+              <span class="text-dim block">${escapeHtml(s.authority)} • ${escapeHtml(s.time_days)} • ${escapeHtml(s.fee_inr)}</span>
             </div>
           `).join('')}
         </div>
@@ -6506,13 +6517,13 @@ function openBlueprintModal() {
       <div class="grid grid-cols-1 md:grid-cols-2 gap-2 pt-2 border-t" style="border-color: var(--card-border);">
         <div>
           <h4 class="font-bold text-accent text-xs uppercase tracking-wider mb-1">2. Sourcing &amp; Mandi Specs</h4>
-          <p class="text-[10px] text-muted"><strong>Primary Mandi:</strong> ${d.section_2_sourcing_and_mandi?.primary_mandi} (Modal: ₹${d.section_2_sourcing_and_mandi?.modal_price_qtl_inr}/qtl)</p>
-          <p class="text-[10px] text-muted"><strong>Distance:</strong> ${d.section_2_sourcing_and_mandi?.distance_from_madhira_km} km haulage from origin packhouse</p>
+          <p class="text-[10px] text-muted"><strong>Primary Mandi:</strong> ${escapeHtml(d.section_2_sourcing_and_mandi?.primary_mandi)} (Modal: ₹${Number(d.section_2_sourcing_and_mandi?.modal_price_qtl_inr) || 0}/qtl)</p>
+          <p class="text-[10px] text-muted"><strong>Distance:</strong> ${escapeHtml(d.section_2_sourcing_and_mandi?.distance_from_madhira_km)} km haulage from origin packhouse</p>
         </div>
         <div>
           <h4 class="font-bold text-accent text-xs uppercase tracking-wider mb-1">3. Foreign Quality Gateway</h4>
-          <p class="text-[10px] text-muted"><strong>Regulatory Rule:</strong> ${d.section_3_quality_and_lab_gateway?.target_standards}</p>
-          <p class="text-[10px] text-muted"><strong>NABL Labs:</strong> ${(d.section_3_quality_and_lab_gateway?.authorized_nabl_labs || []).join(', ')}</p>
+          <p class="text-[10px] text-muted"><strong>Regulatory Rule:</strong> ${escapeHtml(d.section_3_quality_and_lab_gateway?.target_standards)}</p>
+          <p class="text-[10px] text-muted"><strong>NABL Labs:</strong> ${(d.section_3_quality_and_lab_gateway?.authorized_nabl_labs || []).map(escapeHtml).join(', ')}</p>
         </div>
       </div>
 
@@ -6520,21 +6531,21 @@ function openBlueprintModal() {
       <div class="grid grid-cols-1 md:grid-cols-2 gap-2 pt-2 border-t" style="border-color: var(--card-border);">
         <div>
           <h4 class="font-bold text-accent text-xs uppercase tracking-wider mb-1">4. Multimodal Route</h4>
-          <p class="text-[10px] text-muted">${d.section_4_multimodal_logistics?.recommended_route}</p>
-          <p class="text-[10px] text-muted"><strong>Transit:</strong> ${d.section_4_multimodal_logistics?.inland_distance_km} km road + ${d.section_4_multimodal_logistics?.ocean_transit_days} days ocean sailing</p>
+          <p class="text-[10px] text-muted">${escapeHtml(d.section_4_multimodal_logistics?.recommended_route)}</p>
+          <p class="text-[10px] text-muted"><strong>Transit:</strong> ${escapeHtml(d.section_4_multimodal_logistics?.inland_distance_km)} km road + ${escapeHtml(d.section_4_multimodal_logistics?.ocean_transit_days)} days ocean sailing</p>
         </div>
         <div>
           <h4 class="font-bold text-accent text-xs uppercase tracking-wider mb-1">5. Cash Rebates &amp; Tariffs</h4>
-          <p class="text-[10px] text-muted"><strong>RoDTEP:</strong> ${d.section_5_customs_tariffs_and_rebates?.government_cash_rebates?.rodtep_rate_pct}% • <strong>Drawback:</strong> ${d.section_5_customs_tariffs_and_rebates?.government_cash_rebates?.duty_drawback_rate_pct}%</p>
-          <p class="text-[10px] text-emerald-500 font-bold">Total Cash Back: +₹${Math.round(ef.total_government_cash_rebate_inr).toLocaleString('en-IN')}</p>
+          <p class="text-[10px] text-muted"><strong>RoDTEP:</strong> ${escapeHtml(d.section_5_customs_tariffs_and_rebates?.government_cash_rebates?.rodtep_rate_pct)}% • <strong>Drawback:</strong> ${escapeHtml(d.section_5_customs_tariffs_and_rebates?.government_cash_rebates?.duty_drawback_rate_pct)}%</p>
+          <p class="text-[10px] text-emerald-500 font-bold">Total Cash Back: +₹${Math.round(Number(ef.total_government_cash_rebate_inr) || 0).toLocaleString('en-IN')}</p>
         </div>
       </div>
 
       <!-- Buyer Archetypes Section -->
       <div class="pt-2 border-t space-y-1" style="border-color: var(--card-border);">
         <h4 class="font-bold text-accent text-xs uppercase tracking-wider">6. Target Importers &amp; Payment Security</h4>
-        <p class="text-[10px] text-muted"><strong>Safe Payment Term:</strong> ${d.section_6_trade_finance_and_risk?.recommended_payment_term || d.section_6_trade_finance_and_risk?.export_payment_terms}</p>
-        <p class="text-[10px] text-muted"><strong>Buyer Channels:</strong> ${(d.section_7_buyer_discovery_and_demand?.buyer_archetypes || []).join(' • ')}</p>
+        <p class="text-[10px] text-muted"><strong>Safe Payment Term:</strong> ${escapeHtml(d.section_6_trade_finance_and_risk?.recommended_payment_term || d.section_6_trade_finance_and_risk?.export_payment_terms)}</p>
+        <p class="text-[10px] text-muted"><strong>Buyer Channels:</strong> ${(d.section_7_buyer_discovery_and_demand?.buyer_archetypes || []).map(escapeHtml).join(' • ')}</p>
       </div>
     </div>
   `;

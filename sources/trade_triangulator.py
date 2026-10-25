@@ -8,10 +8,34 @@ Tea Board, UN Comtrade, WTO, DGTR, and ITC MacMap).
 
 import json
 import re
+import math
 from pathlib import Path
 from typing import Dict, Any, Optional
 
 DATA_PATH = Path(__file__).resolve().parent.parent / "data" / "trade_blueprints_master.json"
+
+def _sanitize_str(val: Optional[str], max_len: int = 150) -> Optional[str]:
+    if val is None:
+        return None
+    s = str(val)[:max_len].strip()
+    # Strip HTML tags and dangerous characters to eliminate XSS/Injection
+    s = re.sub(r"[<>&\"\'\x00-\x1f]", "", s)
+    return s
+
+def _sanitize_num(val: Any, default: float, min_val: float, max_val: float) -> float:
+    if val is None:
+        return default
+    try:
+        f = float(val)
+        if math.isnan(f) or math.isinf(f):
+            return default
+        if f < min_val:
+            return min_val
+        if f > max_val:
+            return max_val
+        return f
+    except (ValueError, TypeError):
+        return default
 
 def _load_blueprints() -> Dict[str, Any]:
     candidates = [
@@ -30,7 +54,8 @@ def _load_blueprints() -> Dict[str, Any]:
 
 def parse_query_intent(query_str: str) -> Dict[str, Any]:
     """Extracts commodity, origin, destination, and scale from a natural language trade query."""
-    q = query_str.lower().strip()
+    clean_q = _sanitize_str(query_str, max_len=2000) or ""
+    q = clean_q.lower().strip()
     
     # Commodity detection
     detected_commodity = "turmeric"
@@ -83,14 +108,15 @@ def parse_query_intent(query_str: str) -> Dict[str, Any]:
     quantity_tons = 20.0
     match_tons = re.search(r"(\d+(?:\.\d+)?)\s*(?:tons?|mt|tonnes?)", q)
     if match_tons:
-        quantity_tons = float(match_tons.group(1))
+        quantity_tons = _sanitize_num(match_tons.group(1), default=20.0, min_val=0.1, max_val=100000.0)
     else:
         match_qtl = re.search(r"(\d+(?:\.\d+)?)\s*(?:quintals?|qtl)", q)
         if match_qtl:
-            quantity_tons = float(match_qtl.group(1)) / 10.0
+            qtl_val = _sanitize_num(match_qtl.group(1), default=200.0, min_val=1.0, max_val=1000000.0)
+            quantity_tons = qtl_val / 10.0
 
     return {
-        "raw_query": query_str,
+        "raw_query": clean_q,
         "commodity": detected_commodity,
         "origin": detected_origin,
         "destination": detected_destination,
@@ -109,19 +135,19 @@ def triangulate_trade_query(
     """
     Main entry point: Triangulates user query across all 18 trade providers.
     """
-    intent = parse_query_intent(query_str) if query_str else {
+    clean_query = _sanitize_str(query_str, max_len=2000) or ""
+    intent = parse_query_intent(clean_query) if clean_query else {
+        "raw_query": "",
         "commodity": "turmeric",
-        "origin": "Madhira / Nizamabad, Telangana",
+        "origin": "Madhira, Telangana",
         "destination": "Saudi Arabia",
         "quantity_tons": 20.0
     }
 
-    commodity = (commodity_override or intent["commodity"]).lower()
-    origin = origin_override or intent["origin"]
-    destination = destination_override or intent["destination"]
-    qty_tons = float(quantity_tons_override if quantity_tons_override is not None else intent["quantity_tons"])
-    if qty_tons <= 0:
-        qty_tons = 20.0
+    commodity = (_sanitize_str(commodity_override, 50) or intent["commodity"]).lower()
+    origin = _sanitize_str(origin_override, 100) or intent["origin"]
+    destination = _sanitize_str(destination_override, 100) or intent["destination"]
+    qty_tons = _sanitize_num(quantity_tons_override, default=intent["quantity_tons"], min_val=0.1, max_val=100000.0)
 
     master = _load_blueprints()
     corridors = master.get("corridors", [])
@@ -138,12 +164,22 @@ def triangulate_trade_query(
     usd_inr = 84.0
     
     # Unit procurement cost
-    buy_price_per_qtl = float(buy_price_override if buy_price_override is not None else matched_corridor["typical_procurement_price_inr_per_qtl"])
+    buy_price_per_qtl = _sanitize_num(
+        buy_price_override,
+        default=float(matched_corridor["typical_procurement_price_inr_per_qtl"]),
+        min_val=10.0,
+        max_val=10000000.0
+    )
     buy_price_per_kg = buy_price_per_qtl / 100.0
     total_procurement_inr = round(qty_tons * 1000.0 * buy_price_per_kg, 2)
 
     # Unit selling price
-    sell_price_usd_per_mt = float(sell_price_override if sell_price_override is not None else matched_corridor["typical_fob_price_usd_per_mt"])
+    sell_price_usd_per_mt = _sanitize_num(
+        sell_price_override,
+        default=float(matched_corridor["typical_fob_price_usd_per_mt"]),
+        min_val=1.0,
+        max_val=1000000.0
+    )
     total_fob_revenue_usd = round(qty_tons * sell_price_usd_per_mt, 2)
     total_fob_revenue_inr = round(total_fob_revenue_usd * usd_inr, 2)
 

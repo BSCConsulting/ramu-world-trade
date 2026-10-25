@@ -143,15 +143,24 @@ class handler(BaseHTTPRequestHandler):
                 comm = params.get("commodity", [None])[0]
                 orig = params.get("origin", [None])[0]
                 dest = params.get("destination", [None])[0]
-                qty = float(params["qty"][0]) if "qty" in params else None
-                buy_p = float(params["buy_price"][0]) if "buy_price" in params else None
-                sell_p = float(params["sell_price"][0]) if "sell_price" in params else None
+                
+                def _get_float_param(key):
+                    if key in params:
+                        try:
+                            return float(params[key][0])
+                        except (ValueError, TypeError):
+                            return None
+                    return None
+
+                qty = _get_float_param("qty")
+                buy_p = _get_float_param("buy_price")
+                sell_p = _get_float_param("sell_price")
                 data = triangulate_trade_query(q, comm, orig, dest, qty, buy_p, sell_p)
                 self._send_json(data)
                 return
             self._handle_query({"query": q})
-        except Exception as e:
-            self._send_json({"error": str(e)}, status=500)
+        except Exception:
+            self._send_json({"error": "Failed to process trade blueprint request"}, status=500)
 
     def _handle_query(self, payload: dict):
         action = payload.get("action", "")
