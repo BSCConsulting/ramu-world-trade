@@ -1153,6 +1153,119 @@ function renderIcegateTrackingResult(data) {
   }
 }
 
+// 13B. DGFT STATUTORY RoDTEP & RoSCTL INCENTIVE ENGINE
+function selectDgftCommodity(hsCode, defaultValue, defaultQty) {
+  document.querySelectorAll('.dgft-chip').forEach(btn => {
+    btn.style.background = 'var(--card-inner-bg)';
+    btn.style.color = 'var(--text-main)';
+    btn.style.borderColor = 'var(--card-inner-border)';
+  });
+  const activeBtn = document.getElementById(`dgft-chip-${hsCode}`);
+  if (activeBtn) {
+    activeBtn.style.background = 'var(--accent-light)';
+    activeBtn.style.color = 'var(--accent)';
+    activeBtn.style.borderColor = 'var(--accent-border)';
+  }
+
+  const valEl = document.getElementById('dgft-calc-value');
+  const hsEl = document.getElementById('dgft-calc-hs');
+  const qtyEl = document.getElementById('dgft-calc-qty');
+
+  if (valEl) valEl.value = defaultValue;
+  if (hsEl) hsEl.value = hsCode;
+  if (qtyEl) qtyEl.value = defaultQty;
+
+  runDgftCalculation();
+}
+
+async function runDgftCalculation() {
+  const valEl = document.getElementById('dgft-calc-value');
+  const hsEl = document.getElementById('dgft-calc-hs');
+  const qtyEl = document.getElementById('dgft-calc-qty');
+  if (!valEl || !hsEl) return;
+
+  const orderValue = parseFloat(valEl.value) || 2000000;
+  const hsCode = hsEl.value.trim() || '61091000';
+  const quantity = parseFloat(qtyEl?.value) || 0;
+
+  try {
+    const res = await fetch(`/api/dgft?calc=1&value=${encodeURIComponent(orderValue)}&hs=${encodeURIComponent(hsCode)}&qty=${encodeURIComponent(quantity)}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    renderDgftCalculation(data);
+  } catch (err) {
+    console.warn('Fallback to local DGFT calculation:', err);
+    // Local fallback calculation
+    const rate = hsCode.startsWith('61') ? 3.9 : (hsCode.startsWith('03') ? 2.5 : 1.5);
+    const dbk = hsCode.startsWith('61') ? 3.2 : (hsCode.startsWith('03') ? 2.8 : 1.2);
+    const scrip = orderValue * (rate / 100);
+    const drawback = orderValue * (dbk / 100);
+    const subvention = orderValue * 0.03 * (90 / 365);
+    const totalCash = drawback + (scrip * 0.982) + subvention;
+
+    renderDgftCalculation({
+      order_value_inr: orderValue,
+      schedule: {
+        commodity: hsCode.startsWith('61') ? 'Knitted Cotton T-Shirts' : 'Export Merchandise',
+        display_hs: hsCode,
+        cluster: 'Major Industrial Cluster',
+        dgft_public_notice: 'DGFT Appendix 4R / MoT Notification'
+      },
+      scheme_details: {
+        scheme_name: hsCode.startsWith('61') ? 'RoSCTL' : 'RoDTEP',
+        rebate_rate_pct: rate,
+        rebate_scrip_inr: scrip
+      },
+      duty_drawback: {
+        rate_pct: dbk,
+        drawback_inr: drawback
+      },
+      msme_interest_subvention: {
+        subvention_inr: subvention
+      },
+      summary: {
+        total_cash_benefit_inr: totalCash,
+        effective_cash_return_pct: Math.round((totalCash / orderValue) * 1000) / 10,
+        authority_notification: 'DGFT Appendix 4R Gazette Schedule'
+      }
+    });
+  }
+}
+
+function renderDgftCalculation(data) {
+  const schemeEl = document.getElementById('dgft-res-scheme');
+  const scripEl = document.getElementById('dgft-res-scrip');
+  const scripPctEl = document.getElementById('dgft-res-scrip-pct');
+  const dbkEl = document.getElementById('dgft-res-drawback');
+  const dbkPctEl = document.getElementById('dgft-res-drawback-pct');
+  const subEl = document.getElementById('dgft-res-subvention');
+  const cashEl = document.getElementById('dgft-res-total-cash');
+  const effPctEl = document.getElementById('dgft-res-effective-pct');
+  const advCommEl = document.getElementById('dgft-advisory-commodity');
+  const advClusterEl = document.getElementById('dgft-advisory-cluster');
+  const advNoticeEl = document.getElementById('dgft-advisory-notice');
+
+  if (schemeEl) schemeEl.textContent = data.scheme_details.scheme_name;
+  if (scripEl) scripEl.textContent = `₹${Math.round(data.scheme_details.rebate_scrip_inr).toLocaleString('en-IN')}`;
+  if (scripPctEl) scripPctEl.textContent = `${data.scheme_details.rebate_rate_pct}% rebate rate`;
+
+  if (dbkEl) dbkEl.textContent = `₹${Math.round(data.duty_drawback.drawback_inr).toLocaleString('en-IN')}`;
+  if (dbkPctEl) dbkPctEl.textContent = `${data.duty_drawback.rate_pct}% bank credit`;
+
+  if (subEl) subEl.textContent = `₹${Math.round(data.msme_interest_subvention.subvention_inr).toLocaleString('en-IN')}`;
+  if (cashEl) cashEl.textContent = `₹${Math.round(data.summary.total_cash_benefit_inr).toLocaleString('en-IN')}`;
+  if (effPctEl) effPctEl.textContent = `${data.summary.effective_cash_return_pct}%`;
+
+  if (advCommEl && data.schedule) {
+    advCommEl.textContent = `${data.schedule.commodity} (${data.schedule.display_hs || data.schedule.hs_code})`;
+  }
+  if (advClusterEl && data.schedule) {
+    advClusterEl.textContent = data.schedule.cluster || 'Pan-India Export Corridors';
+  }
+  if (advNoticeEl && data.schedule) {
+    advNoticeEl.textContent = `Statutory Basis: ${data.schedule.dgft_public_notice || data.summary.authority_notification} • Claim electronic scrip under Scheme Code in Shipping Bill before LEO.`;
+  }
+}
 
 // 14. FTA CERTIFICATE OF ORIGIN (CoO) SIMULATOR
 function calculateFtaValueAddition() {
@@ -3427,6 +3540,8 @@ window.setHsTariff = setHsTariff;
 window.decodeIcegateError = decodeIcegateError;
 window.switchIcegateMode = switchIcegateMode;
 window.trackIcegateDocument = trackIcegateDocument;
+window.selectDgftCommodity = selectDgftCommodity;
+window.runDgftCalculation = runDgftCalculation;
 window.calculateFtaValueAddition = calculateFtaValueAddition;
 window.copyBreakdownNotice = copyBreakdownNotice;
 window.updateDistrictDeepDive = updateDistrictDeepDive;
@@ -3473,6 +3588,7 @@ window.addEventListener('DOMContentLoaded', () => {
   selectTradestatItem('country', 'USA');
   selectEwayCorridor('surat_jnpt', 310);
   trackIcegateDocument();
+  selectDgftCommodity('61091000', 2500000, 5000);
   selectConsortiumCluster('guntur_chilli');
   selectPitchCorridor('surat_textiles');
   selectTitan('rockefeller');

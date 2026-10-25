@@ -87,6 +87,8 @@ class handler(BaseHTTPRequestHandler):
             self._handle_eway(parsed.query)
         elif path.endswith("/icegate"):
             self._handle_icegate(parsed.query)
+        elif path.endswith("/dgft"):
+            self._handle_dgft(parsed.query)
         elif path.endswith("/mandi"):
             self._handle_mandi(parsed.query)
         elif path.endswith("/history"):
@@ -113,6 +115,8 @@ class handler(BaseHTTPRequestHandler):
             self._handle_eway_calc(payload)
         elif path.endswith("/icegate"):
             self._handle_icegate_tracking(payload)
+        elif path.endswith("/dgft"):
+            self._handle_dgft_calc(payload)
         else:
             self._send_json({"error": f"API endpoint not found: {self.path}"}, status=404)
 
@@ -418,6 +422,38 @@ class handler(BaseHTTPRequestHandler):
             doc_number = str(payload.get("doc_number", "7492104"))[:30]
             port_code = str(payload.get("port_code", "INNSA1"))[:10]
             data = track_customs_document(doc_type, doc_number, port_code)
+            self._send_json(data)
+        except Exception as e:
+            self._send_json({"error": str(e)}, status=400)
+
+    def _handle_dgft(self, query_str: str = ""):
+        try:
+            from sources.dgft_schedules import get_dgft_overview, lookup_hs_incentive, calculate_export_incentives
+            params = urllib.parse.parse_qs(query_str) if query_str else {}
+            if "calc" in params or "value" in params:
+                val = float(params.get("value", [2000000.0])[0])
+                hs = params.get("hs", params.get("q", ["61091000"]))[0]
+                qty = float(params.get("qty", [0.0])[0])
+                data = calculate_export_incentives(val, hs, qty)
+            elif "hs" in params or "q" in params:
+                query = params.get("hs", params.get("q", ["61091000"]))[0]
+                data = lookup_hs_incentive(query)
+                if not data:
+                    self._send_json({"error": f"No incentive schedule found for {query}"}, status=404)
+                    return
+            else:
+                data = get_dgft_overview()
+            self._send_json(data)
+        except Exception as e:
+            self._send_json({"error": str(e)}, status=500)
+
+    def _handle_dgft_calc(self, payload: dict):
+        try:
+            from sources.dgft_schedules import calculate_export_incentives
+            val = float(payload.get("order_value_inr", 2000000.0))
+            hs = str(payload.get("hs_code", payload.get("q", "61091000")))[:30]
+            qty = float(payload.get("quantity", 0.0))
+            data = calculate_export_incentives(val, hs, qty)
             self._send_json(data)
         except Exception as e:
             self._send_json({"error": str(e)}, status=400)

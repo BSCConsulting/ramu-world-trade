@@ -1156,6 +1156,99 @@
         </div>
       </div>
 
+      <!-- DGFT Statutory RoDTEP & RoSCTL Export Incentive Engine -->
+      <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-base">📜</span>
+            <div>
+              <h2 class="text-xs font-extrabold uppercase tracking-wider flex items-center gap-1.5">
+                <span>DGFT RoDTEP & RoSCTL Incentive Engine</span>
+              </h2>
+              <p class="text-[10px]" style="color: var(--text-muted);">Directorate General of Foreign Trade &bull; Appendix 4R Schedules & Cash Scrip Valuation</p>
+            </div>
+          </div>
+          <span class="text-[9px] font-mono font-bold px-2 py-0.5 rounded-full border" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">FTP 2023 Gazette</span>
+        </div>
+
+        <!-- Quick Commodity Selectors -->
+        <div class="flex overflow-x-auto space-x-1.5 pb-1 ios-scroll no-scrollbar text-[10px]">
+          <button id="dgft-chip-61091000" onclick="selectDgftCommodity('61091000', 2500000, 5000)" class="dgft-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">👕 Cotton Garments (3.9% RoSCTL)</button>
+          <button id="dgft-chip-03061720" onclick="selectDgftCommodity('03061720', 3000000, 2000)" class="dgft-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">🦐 Marine Shrimp (2.5%)</button>
+          <button id="dgft-chip-09103020" onclick="selectDgftCommodity('09103020', 1500000, 4000)" class="dgft-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">🌶️ Spices & Turmeric (1.5%)</button>
+          <button id="dgft-chip-73181500" onclick="selectDgftCommodity('73181500', 2000000, 3000)" class="dgft-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">🔩 Steel Fasteners (1.4%)</button>
+          <button id="dgft-chip-74181022" onclick="selectDgftCommodity('74181022', 1200000, 800)" class="dgft-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">🏺 Brass Artware (2.0%)</button>
+          <button id="dgft-chip-64039190" onclick="selectDgftCommodity('64039190', 1800000, 1000)" class="dgft-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">👞 Leather Footwear (3.0%)</button>
+          <button id="dgft-chip-85171300" onclick="selectDgftCommodity('85171300', 5000000, 250)" class="dgft-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">📱 Mobile / PCBs (0.8%)</button>
+        </div>
+
+        <!-- Calculator Inputs -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">FOB Export Value (₹):</label>
+            <input type="number" id="dgft-calc-value" value="2500000" oninput="runDgftCalculation()" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">ITC(HS) Tariff Code:</label>
+            <input type="text" id="dgft-calc-hs" value="61091000" onchange="runDgftCalculation()" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Consignment Quantity (Units):</label>
+            <input type="number" id="dgft-calc-qty" value="5000" oninput="runDgftCalculation()" placeholder="Optional unit cap check" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);" />
+          </div>
+        </div>
+
+        <!-- Real-Time Incentive Yield Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+          <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="flex items-center justify-between">
+              <span class="text-[9px] uppercase font-bold" style="color: var(--text-dim);">RoDTEP / RoSCTL</span>
+              <span id="dgft-res-scheme" class="text-[9px] font-mono font-bold" style="color: var(--accent);">RoSCTL</span>
+            </div>
+            <span id="dgft-res-scrip" class="text-base font-extrabold font-mono block mt-1" style="color: var(--accent);">₹97,500</span>
+            <span id="dgft-res-scrip-pct" class="text-[10px] font-mono" style="color: var(--text-muted);">3.9% rebate rate</span>
+          </div>
+
+          <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="flex items-center justify-between">
+              <span class="text-[9px] uppercase font-bold" style="color: var(--text-dim);">Duty Drawback</span>
+              <span class="text-[9px] font-mono font-bold text-emerald-500">AIR DBK</span>
+            </div>
+            <span id="dgft-res-drawback" class="text-base font-extrabold font-mono block mt-1 text-emerald-500">₹80,000</span>
+            <span id="dgft-res-drawback-pct" class="text-[10px] font-mono" style="color: var(--text-muted);">3.2% bank credit</span>
+          </div>
+
+          <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="flex items-center justify-between">
+              <span class="text-[9px] uppercase font-bold" style="color: var(--text-dim);">MSME Interest Relief</span>
+              <span class="text-[9px] font-mono font-bold text-blue-500">IES (3%)</span>
+            </div>
+            <span id="dgft-res-subvention" class="text-base font-extrabold font-mono block mt-1 text-blue-500">₹18,493</span>
+            <span class="text-[10px] font-mono" style="color: var(--text-muted);">90-day PCFC subvention</span>
+          </div>
+
+          <div class="p-2.5 rounded-2xl border" style="background: var(--accent-light); border-color: var(--accent-border);">
+            <div class="flex items-center justify-between">
+              <span class="text-[9px] uppercase font-bold" style="color: var(--accent);">Net Cash Realized</span>
+              <span id="dgft-res-effective-pct" class="text-[9px] font-mono font-bold" style="color: var(--accent);">7.77%</span>
+            </div>
+            <span id="dgft-res-total-cash" class="text-base font-extrabold font-mono block mt-1" style="color: var(--accent);">₹1,94,238</span>
+            <span class="text-[10px] font-mono" style="color: var(--text-muted);">After 1.8% scrip discount</span>
+          </div>
+        </div>
+
+        <!-- Statutory Notice & Advisory Footer -->
+        <div id="dgft-advisory-box" class="p-3 rounded-2xl border space-y-1.5 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between">
+            <span id="dgft-advisory-commodity" class="font-bold text-[11px]" style="color: var(--text-main);">Knitted Cotton T-Shirts & Ready-Made Garments (ITC-HS 6109.10.00)</span>
+            <span id="dgft-advisory-cluster" class="text-[9px] font-mono" style="color: var(--text-dim);">Tirupur (TN) / Surat (GJ)</span>
+          </div>
+          <p id="dgft-advisory-notice" class="text-[10px] leading-relaxed" style="color: var(--text-muted);">
+            Statutory Basis: MoT Gazette Notification No. 12015/11/2020-T&A &bull; Claim electronic scrip under Scheme Code 'ROSCTL' in Shipping Bill before LEO.
+          </p>
+        </div>
+      </div>
+
       <!-- FTA / CEPA Value Addition Simulator -->
       <div class="glass-card rounded-2xl p-4 shadow-xl space-y-2.5">
         <div class="flex items-center justify-between">

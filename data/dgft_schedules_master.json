@@ -1,0 +1,246 @@
+{
+  "metadata": {
+    "title": "DGFT Statutory Export Incentive Schedules & RoDTEP / RoSCTL Master",
+    "authority": "Directorate General of Foreign Trade (DGFT), Ministry of Commerce and Industry, Government of India",
+    "portal_url": "https://dgft.gov.in",
+    "foreign_trade_policy": "Foreign Trade Policy (FTP) 2023",
+    "updated_at": "2026-10-25"
+  },
+  "latest_notifications": [
+    {
+      "id": "PN-05-2024",
+      "title": "Public Notice No. 05/2024-DGFT",
+      "date": "2024-04-01",
+      "subject": "Extension of RoDTEP Scheme for exports made from DTA and SEZ/EOU units",
+      "details": "RoDTEP benefits extended across 10,610 ITC(HS) tariff lines till 30th September 2025 with statutory budget allocation."
+    },
+    {
+      "id": "NOTIF-77-2023",
+      "title": "Ministry of Textiles & DGFT RoSCTL Gazette",
+      "date": "2023-12-15",
+      "subject": "Continuation of Rebate of State and Central Taxes and Levies (RoSCTL) for Apparel/Made-ups",
+      "details": "Rebate rates up to 4.3% applicable for Chapters 61 and 62, and up to 3.2% for Chapter 63 (Home Textiles)."
+    },
+    {
+      "id": "TN-12-2024",
+      "title": "Trade Notice No. 12/2024-DGFT",
+      "date": "2024-02-18",
+      "subject": "Electronic Duty Credit Scrip Transferability & Ledger Management",
+      "details": "Clarifies that RoDTEP/RoSCTL scrips can be freely transferred electronically on ICEGATE to any importer for payment of Basic Customs Duty (BCD)."
+    }
+  ],
+  "schemes": {
+    "RoDTEP": {
+      "name": "Remission of Duties and Taxes on Exported Products",
+      "legal_basis": "Foreign Trade Policy 2023, Chapter 4; Section 50 of Customs Act, 1962",
+      "statutory_instrument": "Electronic Duty Credit Scrip (ICEGATE Ledger)",
+      "tradability": "Freely Transferable (Secondary Market typical discount: 1.5% - 2.0%)",
+      "eligible_taxes": "Central excise on fuel for transport, electricity duty, mandi tax, stamp duty, embedded un-rebated VAT",
+      "validity": "12 months from date of scrip generation in ICEGATE ledger"
+    },
+    "RoSCTL": {
+      "name": "Rebate of State and Central Taxes and Levies",
+      "legal_basis": "Ministry of Textiles Notification & DGFT FTP 2023",
+      "target_sectors": "Apparel, Garments and Made-ups (HS Chapters 61, 62, 63)",
+      "statutory_instrument": "Duty Credit Scrip",
+      "tradability": "Freely Transferable",
+      "eligible_taxes": "State VAT on fuel, electricity duty, central excise on fuel, mandi charges",
+      "validity": "12 months from date of scrip generation"
+    },
+    "Duty_Drawback": {
+      "name": "All Industry Rates of Duty Drawback (AIR DBK)",
+      "legal_basis": "Customs Act, 1962 (Section 75) & CBIC Annual Drawback Notification",
+      "disbursement": "Direct Rupee bank transfer to exporter's PFMS-verified bank account within 72 hours of EGM",
+      "statutory_rate_basis": "Reimbursement of customs duties paid on imported inputs and raw materials used in export manufacture"
+    },
+    "Interest_Equalization": {
+      "name": "Interest Equalization Scheme (IES) on Pre and Post Shipment Rupee Export Credit",
+      "legal_basis": "Reserve Bank of India (RBI) & DGFT Trade Policy Notification",
+      "subvention_rate": "3.0% per annum for MSME Manufacturer Exporters; 2.0% for 410 notified HS lines",
+      "disbursement": "Direct interest deduction by commercial bank on export working capital packing credit (EPC/PCFC)"
+    }
+  },
+  "hs_catalog": [
+    {
+      "hs_code": "61091000",
+      "display_hs": "6109.10.00",
+      "commodity": "Knitted Cotton T-Shirts & Ready-Made Garments",
+      "chapter": "61",
+      "sector": "Textiles & Apparel",
+      "scheme": "RoSCTL",
+      "rodtep_rate_pct": 3.9,
+      "duty_drawback_pct": 3.2,
+      "cap_per_unit_inr": 4.5,
+      "unit": "pcs",
+      "cluster": "Tirupur (TN) / Surat (GJ)",
+      "dgft_public_notice": "MoT Gazette Notification No. 12015/11/2020-T&A",
+      "keywords": [
+        "garment",
+        "cotton",
+        "tshirt",
+        "t-shirt",
+        "apparel",
+        "textile",
+        "shirt"
+      ]
+    },
+    {
+      "hs_code": "03061720",
+      "display_hs": "0306.17.20",
+      "commodity": "Frozen Vannamei / Marine Black Tiger Shrimp",
+      "chapter": "03",
+      "sector": "Marine Products",
+      "scheme": "RoDTEP",
+      "rodtep_rate_pct": 2.5,
+      "duty_drawback_pct": 2.8,
+      "cap_per_unit_inr": 16.0,
+      "unit": "kg",
+      "cluster": "Bhimavaram / Visakhapatnam (AP)",
+      "dgft_public_notice": "DGFT Appendix 4R Marine Table S.No. 42",
+      "keywords": [
+        "shrimp",
+        "prawn",
+        "marine",
+        "seafood",
+        "fish"
+      ]
+    },
+    {
+      "hs_code": "09103020",
+      "display_hs": "0910.30.20",
+      "commodity": "Turmeric Powder & High-Curcumin Spices",
+      "chapter": "09",
+      "sector": "Spices & Agriculture",
+      "scheme": "RoDTEP",
+      "rodtep_rate_pct": 1.5,
+      "duty_drawback_pct": 1.2,
+      "cap_per_unit_inr": 3.8,
+      "unit": "kg",
+      "cluster": "Nizamabad (TS) / Guntur (AP) / Erode (TN)",
+      "dgft_public_notice": "DGFT Appendix 4R Spices Table S.No. 118",
+      "keywords": [
+        "turmeric",
+        "spice",
+        "spices",
+        "chilli",
+        "chili",
+        "cumin",
+        "coriander"
+      ]
+    },
+    {
+      "hs_code": "73181500",
+      "display_hs": "7318.15.00",
+      "commodity": "High-Tensile Industrial Fasteners, Screws & Engine Bolts",
+      "chapter": "73",
+      "sector": "Engineering & Steel",
+      "scheme": "RoDTEP",
+      "rodtep_rate_pct": 1.4,
+      "duty_drawback_pct": 2.0,
+      "cap_per_unit_inr": 6.5,
+      "unit": "kg",
+      "cluster": "Ludhiana (PB) / Rohtak (HR)",
+      "dgft_public_notice": "DGFT Appendix 4R Engineering Table S.No. 312",
+      "keywords": [
+        "fastener",
+        "bolt",
+        "screw",
+        "steel",
+        "engineering",
+        "tools",
+        "machinery"
+      ]
+    },
+    {
+      "hs_code": "74181022",
+      "display_hs": "7418.10.22",
+      "commodity": "Artistic Handcrafted Brass Artware & Tableware",
+      "chapter": "74",
+      "sector": "Handicrafts",
+      "scheme": "RoDTEP",
+      "rodtep_rate_pct": 2.0,
+      "duty_drawback_pct": 3.0,
+      "cap_per_unit_inr": 18.0,
+      "unit": "kg",
+      "cluster": "Moradabad (UP) / Jagadhri (HR)",
+      "dgft_public_notice": "DGFT Appendix 4R Handicrafts Table S.No. 89",
+      "keywords": [
+        "brass",
+        "brassware",
+        "handicraft",
+        "metal art",
+        "artware",
+        "statue"
+      ]
+    },
+    {
+      "hs_code": "64039190",
+      "display_hs": "6403.91.90",
+      "commodity": "Leather Footwear with Rubber / Synthetic Soles",
+      "chapter": "64",
+      "sector": "Leather & Footwear",
+      "scheme": "RoDTEP",
+      "rodtep_rate_pct": 3.0,
+      "duty_drawback_pct": 4.0,
+      "cap_per_unit_inr": 115.0,
+      "unit": "pair",
+      "cluster": "Agra (UP) / Ambur (TN) / Jalandhar (PB)",
+      "dgft_public_notice": "DGFT Appendix 4R Leather Table S.No. 18",
+      "keywords": [
+        "leather",
+        "shoe",
+        "shoes",
+        "footwear",
+        "boot",
+        "wallet",
+        "bag"
+      ]
+    },
+    {
+      "hs_code": "30049099",
+      "display_hs": "3004.90.99",
+      "commodity": "Pharmaceutical Formulations & Medicaments in Retail Packs",
+      "chapter": "30",
+      "sector": "Pharmaceuticals",
+      "scheme": "RoDTEP",
+      "rodtep_rate_pct": 1.0,
+      "duty_drawback_pct": 1.8,
+      "cap_per_unit_inr": 12.0,
+      "unit": "pack",
+      "cluster": "Hyderabad (TS) / Baddi (HP) / Ahmedabad (GJ)",
+      "dgft_public_notice": "DGFT Appendix 4R Pharma Table S.No. 65",
+      "keywords": [
+        "pharma",
+        "medicine",
+        "drug",
+        "tablet",
+        "capsule",
+        "formulation",
+        "vaccine"
+      ]
+    },
+    {
+      "hs_code": "85171300",
+      "display_hs": "8517.13.00",
+      "commodity": "Smartphones with Cellular Connectivity & Assembled PCBs",
+      "chapter": "85",
+      "sector": "Electronics & Hardware",
+      "scheme": "RoDTEP",
+      "rodtep_rate_pct": 0.8,
+      "duty_drawback_pct": 1.5,
+      "cap_per_unit_inr": 150.0,
+      "unit": "pcs",
+      "cluster": "Noida (UP) / Sriperumbudur (TN)",
+      "dgft_public_notice": "DGFT Appendix 4R Electronics Table S.No. 402",
+      "keywords": [
+        "smartphone",
+        "phone",
+        "mobile",
+        "electronic",
+        "pcb",
+        "hardware",
+        "circuit"
+      ]
+    }
+  ]
+}
