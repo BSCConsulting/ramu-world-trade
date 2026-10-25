@@ -1,3 +1,5 @@
+from sources.rbi_forex import get_live_rbi_reference_rates
+from sources.data_gov import query_data_gov, KNOWN_RESOURCES
 """Local HTTP Server for World of Trade Web Application.
 Built using 100% Python standard library (http.server) to guarantee zero-cost,
 zero-pip-dependencies, and instant local execution on macOS.
@@ -61,6 +63,12 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
         parsed = urllib.parse.urlparse(self.path)
         if parsed.path == "/api/health":
             self._send_json({"status": "ok", "app": "World of Trade", "tier": "100% Free"})
+            return
+        elif parsed.path == "/api/forex":
+            self._handle_forex()
+            return
+        elif parsed.path == "/api/mandi":
+            self._handle_mandi(parsed.query)
             return
         elif parsed.path == "/api/history":
             self._handle_history()

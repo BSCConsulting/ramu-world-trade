@@ -1,0 +1,28 @@
+{
+  "timestamp": 1792908531.167988,
+  "rates": {
+    "source": "RBI / FBIL Daily Reference Rate Fixing (1:30 PM IST)",
+    "date": "2026-10-23",
+    "rates": {
+      "USD": 94.94,
+      "EUR": 106.27,
+      "GBP": 126.92,
+      "JPY": 62.46
+    },
+    "cbic_gazette": {
+      "USD": 83.75,
+      "EUR": 90.8,
+      "GBP": 108.5,
+      "JPY": 54.8,
+      "effective_notification": "CBIC Notification No. 72/2024-Customs (N.T.)"
+    },
+    "arbitrage_analysis": {
+      "currency": "USD/INR",
+      "rbi_bank_rate": 94.94,
+      "cbic_customs_rate": 83.75,
+      "spread_bps": 1336.1,
+      "status": "ARBITRAGE ALERT",
+      "action_advice": "Customs Valuation Gazette (\u20b983.75) is lower than Live Bank Remittance Rate (\u20b994.94). Inward remittance realizes +1336.1 bps extra cash margin."
+    }
+  }
+}

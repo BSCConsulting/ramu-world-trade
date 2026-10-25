@@ -2881,6 +2881,51 @@ function copyPitchLetter() {
   });
 }
 
+
+// ==================== LIVE STATUTORY API FETCHERS (RBI & AGMARKNET) ====================
+async function fetchLiveForexRates() {
+  try {
+    const res = await fetch('/api/forex');
+    if (!res.ok) return;
+    const data = await res.json();
+    const arb = data.arbitrage_analysis;
+    if (!arb) return;
+
+    const notifEl = document.getElementById('forex-notif-no');
+    const cbicEl = document.getElementById('forex-cbic-usd');
+    const rbiEl = document.getElementById('forex-rbi-usd');
+    const spreadEl = document.getElementById('forex-spread');
+    const adviceEl = document.getElementById('forex-action-advice');
+
+    if (notifEl && data.cbic_gazette) notifEl.textContent = data.cbic_gazette.effective_notification.split('-')[0];
+    if (cbicEl) cbicEl.textContent = `₹${arb.cbic_customs_rate.toFixed(2)}`;
+    if (rbiEl) rbiEl.textContent = `₹${arb.rbi_bank_rate.toFixed(2)}`;
+    if (spreadEl) spreadEl.textContent = `Spread: +₹${(arb.rbi_bank_rate - arb.cbic_customs_rate).toFixed(2)} (${arb.spread_bps > 0 ? '+' : ''}${arb.spread_bps} bps)`;
+    if (adviceEl) adviceEl.innerHTML = `💡 <strong>Assessment Window:</strong> ${arb.action_advice}`;
+  } catch (e) {
+    // Silent fallback to standard static baseline
+  }
+}
+
+async function fetchLiveMandiPrice(commodity = 'Chilli Red', state = 'Andhra Pradesh') {
+  try {
+    const res = await fetch(`/api/mandi?commodity=${encodeURIComponent(commodity)}&state=${encodeURIComponent(state)}&limit=5`);
+    if (!res.ok) return;
+    const data = await res.json();
+    const records = data.records || [];
+    if (records.length > 0) {
+      const rec = records[0];
+      const mandiLiveBadge = document.getElementById('mandi-live-badge');
+      if (mandiLiveBadge) {
+        mandiLiveBadge.textContent = `🟢 LIVE APMC (${rec.market}: ₹${Math.round(rec.modal_price/100)}/kg)`;
+      }
+    }
+  } catch (e) {}
+}
+
+window.fetchLiveForexRates = fetchLiveForexRates;
+window.fetchLiveMandiPrice = fetchLiveMandiPrice;
+
 // Global Window Bindings for Inline HTML Handlers
 window.selectConsortiumCluster = selectConsortiumCluster;
 window.calculateConsortiumAggregation = calculateConsortiumAggregation;
@@ -2968,6 +3013,8 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   // 5. Initialize Ground-Trade Advanced Modules
+  fetchLiveForexRates();
+  fetchLiveMandiPrice();
   selectConsortiumCluster('guntur_chilli');
   selectPitchCorridor('surat_textiles');
   selectTitan('rockefeller');

@@ -1,3 +1,5 @@
+from sources.rbi_forex import get_live_rbi_reference_rates
+from sources.data_gov import query_data_gov, KNOWN_RESOURCES
 """Vercel Serverless Function entry point for World of Trade API.
 Handles /api/health, /api/query, /api/calculate, and /api/history.
 Built using 100% Python standard library BaseHTTPRequestHandler.
@@ -300,6 +302,28 @@ class handler(BaseHTTPRequestHandler):
             })
         except Exception:
             self._send_json({"error": "Unable to compute statutory calculation for the given input."}, status=400)
+
+    def _handle_forex(self):
+        try:
+            rates = get_live_rbi_reference_rates()
+            self._send_json(rates)
+        except Exception as e:
+            self._send_json({"error": str(e)}, status=500)
+
+    def _handle_mandi(self, query_str):
+        try:
+            params = urllib.parse.parse_qs(query_str)
+            commodity = params.get("commodity", ["Chilli Red"])[0]
+            state = params.get("state", ["Andhra Pradesh"])[0]
+            limit = int(params.get("limit", [10])[0])
+            data = query_data_gov(
+                KNOWN_RESOURCES["apmc_mandi_arrivals"],
+                filters={"commodity": commodity, "state": state},
+                limit=limit
+            )
+            self._send_json(data)
+        except Exception as e:
+            self._send_json({"error": str(e), "records": []}, status=200)
 
     def _handle_history(self):
         history = []
