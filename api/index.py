@@ -97,6 +97,8 @@ class handler(BaseHTTPRequestHandler):
             self._handle_mandi(parsed.query)
         elif path.endswith("/history"):
             self._handle_history()
+        elif path.endswith("/query"):
+            self._handle_query_get(parsed.query)
         else:
             self._send_json({"status": "ok", "message": "World of Trade API is active"}, status=200)
 
@@ -132,10 +134,44 @@ class handler(BaseHTTPRequestHandler):
         else:
             self._send_json({"error": f"API endpoint not found: {self.path}"}, status=404)
 
+    def _handle_query_get(self, query_str: str = ""):
+        try:
+            params = urllib.parse.parse_qs(query_str) if query_str else {}
+            q = params.get("q", params.get("query", [""]))[0]
+            if "blueprint" in params or "dossier" in params or "triangulate" in params:
+                from sources.trade_triangulator import triangulate_trade_query
+                comm = params.get("commodity", [None])[0]
+                orig = params.get("origin", [None])[0]
+                dest = params.get("destination", [None])[0]
+                qty = float(params["qty"][0]) if "qty" in params else None
+                buy_p = float(params["buy_price"][0]) if "buy_price" in params else None
+                sell_p = float(params["sell_price"][0]) if "sell_price" in params else None
+                data = triangulate_trade_query(q, comm, orig, dest, qty, buy_p, sell_p)
+                self._send_json(data)
+                return
+            self._handle_query({"query": q})
+        except Exception as e:
+            self._send_json({"error": str(e)}, status=500)
+
     def _handle_query(self, payload: dict):
         query = str(payload.get("query", ""))[:2000].strip()
         if not query:
             self._send_json({"error": "Empty query"}, status=400)
+            return
+
+        q_lower = query.lower()
+        action = payload.get("action", "")
+        mode = payload.get("mode", "")
+        if action == "triangulate_trade" or mode in ["triangulate_blueprint", "blueprint", "dossier"] or any(k in q_lower for k in ["i want to start", "how to start", "where to start", "start an onion", "export 20 tons", "export turmeric", "blueprint", "dossier"]):
+            from sources.trade_triangulator import triangulate_trade_query
+            comm = payload.get("commodity")
+            orig = payload.get("origin")
+            dest = payload.get("destination")
+            qty = payload.get("quantity_tons")
+            buy_p = payload.get("buy_price")
+            sell_p = payload.get("sell_price")
+            data = triangulate_trade_query(query, comm, orig, dest, qty, buy_p, sell_p)
+            self._send_json(data)
             return
 
         # 1. Classification

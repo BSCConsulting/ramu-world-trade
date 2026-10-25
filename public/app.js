@@ -6037,6 +6037,525 @@ window.onMacmapProductChange = onMacmapProductChange;
 window.runMacmapCalculation = runMacmapCalculation;
 window.renderMacmapResults = renderMacmapResults;
 
+// ==========================================
+// 360° SOVEREIGN TRADE BLUEPRINT & TRIANGULATION ENGINE
+// ==========================================
+let currentBlueprintData = null;
+let activeBlueprintSection = 'formalities';
+
+const BLUEPRINT_PRESETS = {
+  'turmeric_saudi': {
+    query: 'I want to export 20 tons of turmeric to Saudi Arabia',
+    commodity: 'turmeric',
+    origin: 'Madhira / Nizamabad, Telangana',
+    destination: 'Saudi Arabia',
+    qty: 20
+  },
+  'onion_madhira': {
+    query: 'I want to start an onion trade business in a place like madhira',
+    commodity: 'onion',
+    origin: 'Madhira, Telangana',
+    destination: 'Domestic Wholesale & Export (UAE/Bangladesh)',
+    qty: 25
+  }
+};
+
+async function loadTradeBlueprint(key) {
+  const preset = BLUEPRINT_PRESETS[key] || BLUEPRINT_PRESETS['turmeric_saudi'];
+  
+  // Update chips styling
+  document.querySelectorAll('.bp-preset-chip').forEach(btn => {
+    btn.style.background = 'var(--card-inner-bg)';
+    btn.style.color = 'var(--text-main)';
+    btn.style.borderColor = 'var(--card-inner-border)';
+  });
+  const chip = document.getElementById(key === 'onion_madhira' ? 'bp-chip-onion' : 'bp-chip-turmeric');
+  if (chip) {
+    chip.style.background = 'var(--accent)';
+    chip.style.color = '#ffffff';
+    chip.style.borderColor = 'transparent';
+  }
+
+  // Populate query input if available
+  const qInput = document.getElementById('query-input');
+  if (qInput) qInput.value = preset.query;
+
+  await runTradeTriangulation(preset.query, preset.commodity, preset.origin, preset.destination, preset.qty);
+}
+
+async function runTradeTriangulation(queryStr, comm, orig, dest, qty, buyP, sellP) {
+  const viewport = document.getElementById('trade-blueprint-viewport');
+  if (viewport) {
+    viewport.innerHTML = `
+      <div class="p-6 rounded-2xl border text-center space-y-2 animate-pulse" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <div class="inline-block w-6 h-6 border-2 border-t-transparent rounded-full animate-spin" style="border-color: var(--accent); border-top-color: transparent;"></div>
+        <div class="text-xs font-bold font-mono" style="color: var(--accent);">Triangulating across 18 statutory data providers...</div>
+        <div class="text-[10px] text-muted">Cross-referencing Mandi, CBIC Customs, DGFT Rebates, Port Logistics, ECGC Risk & Multilateral Treaties...</div>
+      </div>
+    `;
+  }
+
+  try {
+    const res = await fetch('/api/query', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'triangulate_trade',
+        query: queryStr,
+        commodity: comm,
+        origin: orig,
+        destination: dest,
+        quantity_tons: qty,
+        buy_price: buyP,
+        sell_price: sellP
+      })
+    });
+    if (!res.ok) throw new Error('Triangulation HTTP ' + res.status);
+    const data = await res.json();
+    currentBlueprintData = data;
+    renderTradeBlueprintDossier(data);
+  } catch (err) {
+    console.error('Trade blueprint triangulation failed', err);
+    if (viewport) {
+      viewport.innerHTML = `
+        <div class="p-4 rounded-xl border text-center text-xs text-red-500" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);">
+          Triangulation request failed: ${err.message}. Please retry.
+        </div>
+      `;
+    }
+  }
+}
+
+function renderTradeBlueprintDossier(data) {
+  const viewport = document.getElementById('trade-blueprint-viewport');
+  if (!viewport || !data || !data.executive_financial_waterfall) return;
+
+  const ef = data.executive_financial_waterfall;
+  const isProfit = ef.net_profit_inr >= 0;
+  const profitColor = isProfit ? '#10B981' : '#EF4444';
+
+  const html = `
+    <!-- Top Executive Header & Corridor Metadata -->
+    <div class="p-3.5 rounded-2xl border flex flex-col md:flex-row md:items-center justify-between gap-2" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+      <div>
+        <div class="flex items-center gap-1.5 flex-wrap">
+          <span class="text-sm font-extrabold" style="color: var(--text-main);">${data.title}</span>
+          <span class="text-[9px] font-mono px-2 py-0.5 rounded font-bold" style="background: var(--accent-light); color: var(--accent);">HS ${data.hs_code}</span>
+          <span class="text-[9px] font-mono px-2 py-0.5 rounded font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">Statutory Clearance: ${ef.statutory_clearance_probability_pct}%</span>
+        </div>
+        <div class="text-[10px] mt-1 text-muted">
+          Variety: <span class="font-bold text-main">${data.variety_grade}</span> • Payload: <span class="font-mono font-bold">${data.quantity_tons} MT</span> • Benchmark Forex: <span class="font-mono">USD 1 = ₹${data.cbic_exchange_rate_usd_inr}</span>
+        </div>
+      </div>
+      <button type="button" onclick="openBlueprintModal()" class="px-3.5 py-2 rounded-xl text-xs font-bold active:scale-95 transition-all text-white flex items-center justify-center gap-1.5 flex-shrink-0" style="background: var(--accent);">
+        <span>📄 Open Official Dossier</span>
+      </button>
+    </div>
+
+    <!-- 4-Card Executive Financial Waterfall -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-center">
+      <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <span class="text-[10px] block text-dim">Total Capital Outlay</span>
+        <span class="text-sm font-extrabold font-mono" style="color: var(--text-main);">₹${Math.round(ef.total_capital_outlay_inr).toLocaleString('en-IN')}</span>
+        <span class="text-[9px] block text-muted mt-0.5">Procurement + Freight</span>
+      </div>
+      <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <span class="text-[10px] block text-dim">Gross Export Realization</span>
+        <span class="text-sm font-extrabold font-mono" style="color: var(--text-main);">$${Math.round(ef.gross_export_fob_revenue_usd).toLocaleString()}</span>
+        <span class="text-[9px] block text-muted mt-0.5">₹${Math.round(ef.gross_export_fob_revenue_inr).toLocaleString('en-IN')} FOB</span>
+      </div>
+      <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <span class="text-[10px] block text-dim">Govt Cash Rebates</span>
+        <span class="text-sm font-extrabold font-mono text-emerald-500">+₹${Math.round(ef.total_government_cash_rebate_inr).toLocaleString('en-IN')}</span>
+        <span class="text-[9px] block text-muted mt-0.5">RoDTEP + Drawback</span>
+      </div>
+      <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <span class="text-[10px] block text-dim">Net Estimated Profit</span>
+        <span class="text-sm font-extrabold font-mono" style="color: ${profitColor};">₹${Math.round(ef.net_profit_inr).toLocaleString('en-IN')}</span>
+        <span class="text-[9px] block font-bold mt-0.5" style="color: ${profitColor};">${ef.net_margin_pct}% Net Margin</span>
+      </div>
+    </div>
+
+    <!-- Interactive Mathematical Recalculation Bar -->
+    <div class="p-3 rounded-2xl border space-y-2" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+      <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-muted">
+        <span>Dynamic Scenario Modeling (Adjust Sourcing, Selling Price &amp; Tonnage)</span>
+        <span class="text-accent font-mono">Live Recalculation</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-2 text-xs">
+        <div>
+          <label class="block text-[10px] font-bold text-dim mb-1">Buy Price (₹/Quintal):</label>
+          <input type="number" id="bp-input-buy" value="${data.unit_procurement_price_inr_per_qtl}" onchange="recalculateBlueprintMath()" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-dim mb-1">Sell Price ($/MT FOB):</label>
+          <input type="number" id="bp-input-sell" value="${data.unit_fob_price_usd_per_mt}" onchange="recalculateBlueprintMath()" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-dim mb-1">Quantity (Metric Tons):</label>
+          <input type="number" id="bp-input-qty" value="${data.quantity_tons}" onchange="recalculateBlueprintMath()" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+        </div>
+        <div class="flex flex-col justify-end">
+          <button type="button" onclick="recalculateBlueprintMath()" class="w-full py-2 rounded-xl text-xs font-bold active:scale-95 transition-all text-white min-h-[38px]" style="background: var(--accent);">
+            ⚡ Update Financials
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6-Tab Deep-Dive Navigation -->
+    <div class="flex overflow-x-auto space-x-1.5 pb-1 ios-scroll no-scrollbar text-xs font-bold">
+      <button type="button" onclick="switchBlueprintSection('formalities')" id="bp-tab-formalities" class="bp-nav-btn px-3 py-1.5 rounded-xl border flex-shrink-0 active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">📋 Statutory Setup &amp; Formalities</button>
+      <button type="button" onclick="switchBlueprintSection('sourcing')" id="bp-tab-sourcing" class="bp-nav-btn px-3 py-1.5 rounded-xl border flex-shrink-0 active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">🌾 Sourcing &amp; Mandi Specs</button>
+      <button type="button" onclick="switchBlueprintSection('quality')" id="bp-tab-quality" class="bp-nav-btn px-3 py-1.5 rounded-xl border flex-shrink-0 active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">🔬 Quality &amp; Foreign Labs</button>
+      <button type="button" onclick="switchBlueprintSection('logistics')" id="bp-tab-logistics" class="bp-nav-btn px-3 py-1.5 rounded-xl border flex-shrink-0 active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">🚢 Multimodal Logistics Route</button>
+      <button type="button" onclick="switchBlueprintSection('tariffs')" id="bp-tab-tariffs" class="bp-nav-btn px-3 py-1.5 rounded-xl border flex-shrink-0 active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">💰 Cash Rebates &amp; Taxes</button>
+      <button type="button" onclick="switchBlueprintSection('buyers')" id="bp-tab-buyers" class="bp-nav-btn px-3 py-1.5 rounded-xl border flex-shrink-0 active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">🛡️ Buyers &amp; Credit Shield</button>
+    </div>
+
+    <!-- Active Section Container -->
+    <div id="bp-section-content" class="text-xs">
+      ${renderBlueprintSectionContent(activeBlueprintSection, data)}
+    </div>
+  `;
+
+  viewport.innerHTML = html;
+}
+
+function switchBlueprintSection(secId) {
+  activeBlueprintSection = secId;
+  document.querySelectorAll('.bp-nav-btn').forEach(btn => {
+    btn.style.background = 'var(--card-inner-bg)';
+    btn.style.color = 'var(--text-main)';
+    btn.style.borderColor = 'var(--card-inner-border)';
+  });
+  const activeBtn = document.getElementById('bp-tab-' + secId);
+  if (activeBtn) {
+    activeBtn.style.background = 'var(--accent)';
+    activeBtn.style.color = '#ffffff';
+    activeBtn.style.borderColor = 'transparent';
+  }
+
+  const container = document.getElementById('bp-section-content');
+  if (container && currentBlueprintData) {
+    container.innerHTML = renderBlueprintSectionContent(secId, currentBlueprintData);
+  }
+}
+
+function renderBlueprintSectionContent(secId, data) {
+  if (secId === 'formalities') {
+    const list = data.section_1_statutory_formalities || [];
+    return `
+      <div class="space-y-2">
+        <div class="p-2.5 rounded-xl border flex items-center justify-between" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <span class="font-bold text-[11px] text-accent">Mandatory Pre-Trade Government Formalities Roadmap</span>
+          <span class="text-[9px] font-mono text-muted">Complete in sequence</span>
+        </div>
+        <div class="space-y-2">
+          ${list.map(s => `
+            <div class="p-3 rounded-xl border space-y-1" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-main flex items-center gap-1.5">
+                  <span class="w-5 h-5 rounded-full text-[10px] flex items-center justify-center text-white font-mono font-bold" style="background: var(--accent);">${s.step}</span>
+                  ${s.name}
+                </span>
+                <span class="text-[9px] font-mono px-2 py-0.5 rounded border" style="background: var(--accent-light); color: var(--accent);">${s.time_days} • ${s.fee_inr}</span>
+              </div>
+              <p class="text-[11px] text-muted">${s.details}</p>
+              <div class="pt-1 flex items-center justify-between text-[10px] font-mono">
+                <span class="text-dim">Authority: ${s.authority}</span>
+                <a href="${s.portal}" target="_blank" rel="noopener noreferrer" class="text-accent underline">Official Portal ↗</a>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  } else if (secId === 'sourcing') {
+    const sm = data.section_2_sourcing_and_mandi || {};
+    const specs = sm.quality_specs || {};
+    return `
+      <div class="space-y-2">
+        <div class="p-3 rounded-xl border space-y-2" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-accent">Primary Sourcing Hub &amp; APMC Benchmark</span>
+            <span class="text-[9px] font-mono px-2 py-0.5 rounded" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">Agmarknet Live Modal</span>
+          </div>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-center text-xs">
+            <div class="p-2 rounded-lg border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+              <span class="text-[10px] block text-dim">Benchmark Mandi</span>
+              <span class="font-bold text-main">${sm.primary_mandi}</span>
+            </div>
+            <div class="p-2 rounded-lg border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+              <span class="text-[10px] block text-dim">Modal Mandi Price</span>
+              <span class="font-bold text-emerald-500 font-mono">₹${sm.modal_price_qtl_inr}/qtl</span>
+            </div>
+            <div class="p-2 rounded-lg border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+              <span class="text-[10px] block text-dim">Price Range</span>
+              <span class="font-mono text-muted text-[10px]">₹${sm.min_price_qtl_inr} - ₹${sm.max_price_qtl_inr}</span>
+            </div>
+            <div class="p-2 rounded-lg border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+              <span class="text-[10px] block text-dim">Haulage from Origin</span>
+              <span class="font-bold text-main font-mono">${sm.distance_from_madhira_km} km</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-3 rounded-xl border space-y-1.5" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+          <span class="font-bold text-main block uppercase text-[10px] tracking-wider">Mandatory Farmgate Quality Calibration</span>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-1.5 text-[11px]">
+            ${Object.entries(specs).map(([k, v]) => `
+              <div class="p-2 rounded-lg border flex items-start justify-between gap-2" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+                <span class="text-dim uppercase text-[10px] font-mono">${k.replace(/_/g, ' ')}:</span>
+                <span class="font-bold text-main text-right">${v}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+  } else if (secId === 'quality') {
+    const qg = data.section_3_quality_and_lab_gateway || {};
+    const params = qg.key_parameters || [];
+    const labs = qg.authorized_nabl_labs || [];
+    return `
+      <div class="space-y-2">
+        <div class="p-3 rounded-xl border space-y-1" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-accent">Foreign Target Regulatory Standard</span>
+            <span class="text-[9px] font-mono text-emerald-500 font-bold">● Pass Required</span>
+          </div>
+          <p class="text-[11px] text-muted">${qg.target_standards}</p>
+        </div>
+
+        <div class="p-3 rounded-xl border space-y-1.5" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+          <span class="font-bold text-main uppercase text-[10px] tracking-wider block">Mandatory Lab Parameters &amp; Chemical Thresholds</span>
+          <div class="space-y-1 text-[11px]">
+            ${params.map(p => `
+              <div class="p-2 rounded-lg border flex items-center justify-between gap-2" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+                <div>
+                  <span class="font-bold text-main">${p.test}</span>
+                  <span class="text-[9px] block text-dim">${p.importance}</span>
+                </div>
+                <span class="font-mono font-bold text-emerald-500 px-2 py-0.5 rounded border" style="background: var(--card-bg); border-color: var(--card-inner-border);">${p.limit}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="p-3 rounded-xl border space-y-1" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <span class="font-bold text-main text-[10px] uppercase tracking-wider block">Authorized NABL Testing Laboratories</span>
+          <ul class="list-disc list-inside text-[11px] text-muted space-y-0.5">
+            ${labs.map(l => `<li>${l}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+    `;
+  } else if (secId === 'logistics') {
+    const lg = data.section_4_multimodal_logistics || {};
+    return `
+      <div class="space-y-2">
+        <div class="p-3 rounded-xl border space-y-1" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <span class="font-bold text-accent block">Recommended Multimodal Logistics Route</span>
+          <p class="text-[11px] text-muted leading-relaxed">${lg.recommended_route}</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-center text-xs">
+          <div class="p-2.5 rounded-xl border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+            <span class="text-[10px] block text-dim">Inland Road Distance</span>
+            <span class="font-mono font-bold text-main">${lg.inland_distance_km} km</span>
+            <span class="text-[9px] block text-muted mt-0.5">e-Way Validity: ${lg.eway_bill_validity_days} Days</span>
+          </div>
+          <div class="p-2.5 rounded-xl border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+            <span class="text-[10px] block text-dim">Ocean Transit Time</span>
+            <span class="font-mono font-bold text-main">${lg.ocean_transit_days} Days</span>
+            <span class="text-[9px] block text-muted mt-0.5">Port: ${lg.port_of_loading}</span>
+          </div>
+          <div class="p-2.5 rounded-xl border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+            <span class="text-[10px] block text-dim">CONCOR Rail Freight</span>
+            <span class="font-mono font-bold text-main">₹${Math.round(lg.concor_rail_freight_inr || lg.road_freight_inr_per_truck).toLocaleString('en-IN')}</span>
+            <span class="text-[9px] block text-muted mt-0.5">ICD Sanathnagar -> Port</span>
+          </div>
+          <div class="p-2.5 rounded-xl border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+            <span class="text-[10px] block text-dim">Benchmark Ocean Freight</span>
+            <span class="font-mono font-bold text-emerald-500">$${Math.round(lg.ocean_freight_usd || lg.reefer_ocean_freight_usd).toLocaleString()}</span>
+            <span class="text-[9px] block text-muted mt-0.5">Discharge: ${lg.port_of_discharge}</span>
+          </div>
+        </div>
+
+        <div class="p-2.5 rounded-xl border text-[11px] flex items-center justify-between" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <span class="text-dim">Container Specification:</span>
+          <span class="font-bold text-main font-mono">${lg.container_spec}</span>
+        </div>
+      </div>
+    `;
+  } else if (secId === 'tariffs') {
+    const ctr = data.section_5_customs_tariffs_and_rebates || {};
+    const rebates = ctr.government_cash_rebates || {};
+    return `
+      <div class="space-y-2">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+          <div class="p-3 rounded-xl border space-y-1.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <span class="font-bold text-accent block text-[10px] uppercase tracking-wider">Destination Customs &amp; Import Duties</span>
+            <div class="space-y-1 text-[11px]">
+              <div class="flex justify-between"><span>India Export Duty:</span><span class="font-mono font-bold">${ctr.india_export_duty_pct}%</span></div>
+              <div class="flex justify-between"><span>Destination Import Duty:</span><span class="font-mono font-bold">${ctr.saudi_import_customs_duty_pct || ctr.destination_customs_duty_pct}%</span></div>
+              ${ctr.saudi_vat_pct ? `<div class="flex justify-between"><span>Destination VAT / Sales Tax:</span><span class="font-mono font-bold">${ctr.saudi_vat_pct}%</span></div>` : ''}
+            </div>
+          </div>
+
+          <div class="p-3 rounded-xl border space-y-1.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <span class="font-bold text-emerald-500 block text-[10px] uppercase tracking-wider">Government Post-Shipment Cash Rebates</span>
+            <div class="space-y-1 text-[11px]">
+              <div class="flex justify-between"><span>RoDTEP Rebate Rate:</span><span class="font-mono font-bold text-emerald-500">${rebates.rodtep_rate_pct}% (Cap ₹${rebates.rodtep_cap_per_kg_inr}/kg)</span></div>
+              <div class="flex justify-between"><span>Duty Drawback Rate:</span><span class="font-mono font-bold text-emerald-500">${rebates.duty_drawback_rate_pct}%</span></div>
+              <div class="flex justify-between border-t pt-1 font-bold" style="border-color: var(--card-border);">
+                <span>Total Statutory Cash Back:</span>
+                <span class="font-mono text-emerald-500">+${rebates.total_government_rebate_pct}% of FOB</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  } else if (secId === 'buyers') {
+    const br = data.section_6_trade_finance_and_risk || {};
+    const bd = data.section_7_buyer_discovery_and_demand || {};
+    const buyers = bd.buyer_archetypes || [];
+    return `
+      <div class="space-y-2">
+        <div class="p-3 rounded-xl border space-y-1.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-accent">ECGC Underwriting Grade &amp; Payment Safeguard</span>
+            <span class="text-[9px] font-mono px-2 py-0.5 rounded font-bold" style="background: var(--accent-light); color: var(--accent);">ECGC ${br.ecgc_country_rating || 'A2'}</span>
+          </div>
+          <div class="space-y-1 text-[11px]">
+            <p><span class="font-bold">Recommended Payment Terms:</span> <span class="font-mono text-main">${br.recommended_payment_term || br.export_payment_terms}</span></p>
+            <p><span class="font-bold">Credit Insurance Cover:</span> <span class="text-muted">${br.ecgc_short_term_policy || 'Standard Underwriting'}</span></p>
+            <p><span class="font-bold">Working Capital Float:</span> <span class="text-muted">${br.working_capital_financing}</span></p>
+          </div>
+        </div>
+
+        <div class="p-3 rounded-xl border space-y-1.5" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+          <span class="font-bold text-main uppercase text-[10px] tracking-wider block">Verified Importer Channels &amp; Buyer Archetypes</span>
+          <ul class="list-disc list-inside text-[11px] text-muted space-y-1">
+            ${buyers.map(b => `<li><span class="text-main font-semibold">${b}</span></li>`).join('')}
+          </ul>
+        </div>
+      </div>
+    `;
+  }
+  return '';
+}
+
+async function recalculateBlueprintMath() {
+  if (!currentBlueprintData) return;
+  const buyP = parseFloat(document.getElementById('bp-input-buy')?.value) || currentBlueprintData.unit_procurement_price_inr_per_qtl;
+  const sellP = parseFloat(document.getElementById('bp-input-sell')?.value) || currentBlueprintData.unit_fob_price_usd_per_mt;
+  const qty = parseFloat(document.getElementById('bp-input-qty')?.value) || currentBlueprintData.quantity_tons;
+
+  await runTradeTriangulation(
+    currentBlueprintData.raw_query || currentBlueprintData.title,
+    currentBlueprintData.commodity,
+    currentBlueprintData.origin,
+    currentBlueprintData.destination,
+    qty,
+    buyP,
+    sellP
+  );
+}
+
+function openBlueprintModal() {
+  const modal = document.getElementById('trade-blueprint-modal');
+  const content = document.getElementById('tbm-content');
+  const title = document.getElementById('tbm-title');
+  if (!modal || !content || !currentBlueprintData) return;
+
+  const d = currentBlueprintData;
+  const ef = d.executive_financial_waterfall;
+
+  if (title) title.textContent = `360° Sovereign Trade Dossier: ${d.commodity}`;
+
+  content.innerHTML = `
+    <div class="p-4 rounded-2xl border space-y-3" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+      <div class="flex justify-between items-start border-b pb-2" style="border-color: var(--card-border);">
+        <div>
+          <h2 class="text-base font-extrabold text-main">${d.title}</h2>
+          <div class="text-[10px] font-mono text-dim">HS Code: ${d.hs_code} • Corridors: ${d.origin} ➔ ${d.destination} • Lot: ${d.quantity_tons} MT</div>
+        </div>
+        <div class="text-right">
+          <span class="text-sm font-extrabold text-emerald-500 font-mono">₹${Math.round(ef.net_profit_inr).toLocaleString('en-IN')} Net Profit</span>
+          <div class="text-[9px] font-mono text-muted">${ef.net_margin_pct}% Margin on ₹${Math.round(ef.total_capital_outlay_inr).toLocaleString('en-IN')} Outlay</div>
+        </div>
+      </div>
+
+      <!-- Formalities Section -->
+      <div class="space-y-1">
+        <h4 class="font-bold text-accent text-xs uppercase tracking-wider">1. Statutory Setup &amp; Formalities Checklist</h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-1.5 text-[10px]">
+          ${(d.section_1_statutory_formalities || []).map(s => `
+            <div class="p-2 rounded border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+              <span class="font-bold text-main block">${s.step}. ${s.name}</span>
+              <span class="text-dim block">${s.authority} • ${s.time_days} • ${s.fee_inr}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- Sourcing & Quality Section -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-2 pt-2 border-t" style="border-color: var(--card-border);">
+        <div>
+          <h4 class="font-bold text-accent text-xs uppercase tracking-wider mb-1">2. Sourcing &amp; Mandi Specs</h4>
+          <p class="text-[10px] text-muted"><strong>Primary Mandi:</strong> ${d.section_2_sourcing_and_mandi?.primary_mandi} (Modal: ₹${d.section_2_sourcing_and_mandi?.modal_price_qtl_inr}/qtl)</p>
+          <p class="text-[10px] text-muted"><strong>Distance:</strong> ${d.section_2_sourcing_and_mandi?.distance_from_madhira_km} km haulage from origin packhouse</p>
+        </div>
+        <div>
+          <h4 class="font-bold text-accent text-xs uppercase tracking-wider mb-1">3. Foreign Quality Gateway</h4>
+          <p class="text-[10px] text-muted"><strong>Regulatory Rule:</strong> ${d.section_3_quality_and_lab_gateway?.target_standards}</p>
+          <p class="text-[10px] text-muted"><strong>NABL Labs:</strong> ${(d.section_3_quality_and_lab_gateway?.authorized_nabl_labs || []).join(', ')}</p>
+        </div>
+      </div>
+
+      <!-- Logistics & Rebates Section -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-2 pt-2 border-t" style="border-color: var(--card-border);">
+        <div>
+          <h4 class="font-bold text-accent text-xs uppercase tracking-wider mb-1">4. Multimodal Route</h4>
+          <p class="text-[10px] text-muted">${d.section_4_multimodal_logistics?.recommended_route}</p>
+          <p class="text-[10px] text-muted"><strong>Transit:</strong> ${d.section_4_multimodal_logistics?.inland_distance_km} km road + ${d.section_4_multimodal_logistics?.ocean_transit_days} days ocean sailing</p>
+        </div>
+        <div>
+          <h4 class="font-bold text-accent text-xs uppercase tracking-wider mb-1">5. Cash Rebates &amp; Tariffs</h4>
+          <p class="text-[10px] text-muted"><strong>RoDTEP:</strong> ${d.section_5_customs_tariffs_and_rebates?.government_cash_rebates?.rodtep_rate_pct}% • <strong>Drawback:</strong> ${d.section_5_customs_tariffs_and_rebates?.government_cash_rebates?.duty_drawback_rate_pct}%</p>
+          <p class="text-[10px] text-emerald-500 font-bold">Total Cash Back: +₹${Math.round(ef.total_government_cash_rebate_inr).toLocaleString('en-IN')}</p>
+        </div>
+      </div>
+
+      <!-- Buyer Archetypes Section -->
+      <div class="pt-2 border-t space-y-1" style="border-color: var(--card-border);">
+        <h4 class="font-bold text-accent text-xs uppercase tracking-wider">6. Target Importers &amp; Payment Security</h4>
+        <p class="text-[10px] text-muted"><strong>Safe Payment Term:</strong> ${d.section_6_trade_finance_and_risk?.recommended_payment_term || d.section_6_trade_finance_and_risk?.export_payment_terms}</p>
+        <p class="text-[10px] text-muted"><strong>Buyer Channels:</strong> ${(d.section_7_buyer_discovery_and_demand?.buyer_archetypes || []).join(' • ')}</p>
+      </div>
+    </div>
+  `;
+
+  modal.classList.remove('hidden');
+}
+
+function closeBlueprintModal() {
+  const modal = document.getElementById('trade-blueprint-modal');
+  if (modal) modal.classList.add('hidden');
+}
+
+window.loadTradeBlueprint = loadTradeBlueprint;
+window.runTradeTriangulation = runTradeTriangulation;
+window.renderTradeBlueprintDossier = renderTradeBlueprintDossier;
+window.switchBlueprintSection = switchBlueprintSection;
+window.recalculateBlueprintMath = recalculateBlueprintMath;
+window.openBlueprintModal = openBlueprintModal;
+window.closeBlueprintModal = closeBlueprintModal;
+
+
 
 
 
@@ -6171,6 +6690,7 @@ window.addEventListener('DOMContentLoaded', () => {
   selectCaseStudy('case-agri-aflatoxin');
   selectWtoCommodity('854143');
   selectMacmapProduct('711319');
+  loadTradeBlueprint('turmeric_saudi');
   selectScnSection('sec-124');
 
   // 4. Initial Load: Default trade pulse query

@@ -1,0 +1,277 @@
+{
+  "metadata": {
+    "title": "360-Degree Sovereign Trade Blueprints & Triangulation Master",
+    "description": "Cross-referenced statutory and commercial dossiers integrating all 18 trade providers across Mandi, Customs, Freight, Trade Finance, Export Councils, and Multilateral Treaties.",
+    "version": "1.0.0",
+    "updated": "2026-10-25"
+  },
+  "corridors": [
+    {
+      "id": "turmeric_saudi_arabia",
+      "commodity": "Turmeric (Curcuma Longa)",
+      "variety_grade": "Nizamabad / Salem Double Polished Finger Turmeric",
+      "hs_code": "091030",
+      "hsn_description": "Turmeric (Curcuma) - In dried, unground form",
+      "origin": "Madhira / Nizamabad, Telangana",
+      "origin_state": "Telangana",
+      "destination": "Saudi Arabia (Riyadh / Jeddah / Dammam)",
+      "destination_country": "Saudi Arabia",
+      "iso2": "SA",
+      "trade_flow": "Export (Merchandise Trade)",
+      "standard_lot_size": "20 Metric Tons (1 x 20ft FCL Container)",
+      "typical_procurement_price_inr_per_qtl": 13800.0,
+      "typical_fob_price_usd_per_mt": 2150.0,
+      "statutory_formalities": [
+        {
+          "step": 1,
+          "name": "Entity Incorporation & Udyam MSME Registration",
+          "authority": "Ministry of Micro, Small and Medium Enterprises",
+          "portal": "https://udyamregistration.gov.in",
+          "time_days": "1-2 Days",
+          "fee_inr": "₹0 (Free Government Portal)",
+          "details": "Register Sole Proprietorship, LLP, or Pvt Ltd. Yields Priority Sector Lending (PSL) status for bank packing credit."
+        },
+        {
+          "step": 2,
+          "name": "Goods and Services Tax Identification Number (GSTIN)",
+          "authority": "CBIC / GSTN Portal",
+          "portal": "https://www.gst.gov.in",
+          "time_days": "3-5 Days",
+          "fee_inr": "₹0",
+          "details": "Mandatory for inter-state movement and zero-rated export supplies under Letter of Undertaking (LUT)."
+        },
+        {
+          "step": 3,
+          "name": "DGFT Importer-Exporter Code (IEC)",
+          "authority": "Directorate General of Foreign Trade (DGFT)",
+          "portal": "https://www.dgft.gov.in",
+          "time_days": "Same Day (Instant Online)",
+          "fee_inr": "₹500",
+          "details": "10-digit lifetime PAN-based identifier mandatory for ICEGATE customs shipping bill filings."
+        },
+        {
+          "step": 4,
+          "name": "Spices Board Certificate of Registration as Exporter of Spices (CRES)",
+          "authority": "Spices Board of India (Ministry of Commerce & Industry)",
+          "portal": "https://www.indianspices.com",
+          "time_days": "5-7 Days",
+          "fee_inr": "₹17,700 (Manufacturer Exporter) / ₹11,800 (Merchant Exporter)",
+          "details": "Statutory registration under Section 11 of Spices Board Act, 1986. Mandatory for clearing shipping bills for turmeric (HS 0910)."
+        },
+        {
+          "step": 5,
+          "name": "FSSAI Central Exporter License",
+          "authority": "Food Safety and Standards Authority of India (FSSAI FoSCoS)",
+          "portal": "https://foscos.fssai.gov.in",
+          "time_days": "7-10 Days",
+          "fee_inr": "₹7,500 / year",
+          "details": "Central food licensing for export premises, grading sheds, and food storage units."
+        },
+        {
+          "step": 6,
+          "name": "AD Code Registration & ICEGATE Portal Onboarding",
+          "authority": "Authorized Dealer Bank & Indian Customs (ICEGATE)",
+          "portal": "https://www.icegate.gov.in",
+          "time_days": "2-3 Days",
+          "fee_inr": "₹0 (Bank dependent)",
+          "details": "Link bank Authorized Dealer (AD) code to JNPT / Chennai port custom locations for direct foreign inward remittances and e-BRC realization."
+        }
+      ],
+      "sourcing_and_mandi": {
+        "primary_mandi": "Nizamabad APMC (World's largest Turmeric exchange) & Duggirala Mandi",
+        "distance_from_madhira_km": 280,
+        "modal_price_qtl_inr": 13800.0,
+        "min_price_qtl_inr": 12500.0,
+        "max_price_qtl_inr": 15200.0,
+        "quality_specs": {
+          "curcumin_content": "Minimum 3.5% to 5.0% (Salem / Nizamabad variety)",
+          "moisture_limit": "Max 10.0% (Prevents mold and aflatoxin proliferation during sea transit)",
+          "foreign_matter": "Max 1.0% by weight",
+          "lead_chromate": "Strict Zero Tolerance (Prohibited artificial yellow polishing agent)",
+          "broken_fingers": "Max 5.0%"
+        }
+      },
+      "quality_and_lab_gateway": {
+        "target_standards": "Saudi Food and Drug Authority (SFDA) Regulation GSO 1016/2014 & CODEX STAN 326",
+        "key_parameters": [
+          {"test": "Curcuminoids Content", "limit": ">= 3.0%", "importance": "Pricing and extraction grade benchmark"},
+          {"test": "Total Aflatoxins (B1+B2+G1+G2)", "limit": "< 10.0 ppb (ug/kg)", "importance": "SFDA mandatory threshold"},
+          {"test": "Lead (Pb) & Heavy Metals", "limit": "< 2.5 mg/kg", "importance": "Strict screening against lead chromate powder"},
+          {"test": "Pesticide Residue Screen", "limit": "Compliant with SFDA MRL list", "importance": "Organochlorine / Chlorpyrifos screen"}
+        ],
+        "authorized_nabl_labs": [
+          "Spices Board Quality Evaluation Laboratory (QEL), Guntur (Andhra Pradesh)",
+          "Vimta Labs Ltd, Cherlapally, Hyderabad (Telangana)",
+          "Intertek India Pvt Ltd, Hyderabad Food Testing Facility"
+        ]
+      },
+      "multimodal_logistics": {
+        "recommended_route": "Madhira / Nizamabad Packhouse -> Road Haulage to ICD Sanathnagar (Hyderabad) -> CONCOR DFC Rail Freight to JNPT Port (Nhava Sheva, Mumbai) -> Ocean Transit to Jeddah Islamic Port (Saudi Arabia)",
+        "inland_distance_km": 780,
+        "eway_bill_validity_days": 4,
+        "ocean_transit_days": 12,
+        "port_of_loading": "JNPT Nhava Sheva (INNSA1) / Chennai Port (INMAA1)",
+        "port_of_discharge": "Jeddah Islamic Port (SAJED) / King Abdulaziz Port, Dammam (SADMM)",
+        "container_spec": "1 x 20ft Standard Dry Container (20 MT payload in 25kg / 50kg PP bags with inner liners)",
+        "concor_rail_freight_inr": 38500.0,
+        "ocean_freight_usd": 1850.0,
+        "free_time_at_pod": "14 Days Container Free-Time at Jeddah Port"
+      },
+      "customs_tariffs_and_rebates": {
+        "india_export_duty_pct": 0.0,
+        "saudi_import_customs_duty_pct": 5.0,
+        "saudi_vat_pct": 15.0,
+        "government_cash_rebates": {
+          "rodtep_rate_pct": 2.5,
+          "rodtep_cap_per_kg_inr": 3.20,
+          "duty_drawback_rate_pct": 1.1,
+          "duty_drawback_cap_per_kg_inr": 1.80,
+          "total_government_rebate_pct": 3.6
+        }
+      },
+      "trade_finance_and_risk": {
+        "ecgc_country_rating": "A2 (Low Risk / Standard Underwriting Cover)",
+        "ecgc_short_term_policy": "ECGC SCR (Shipments Comprehensive Risks) Policy (90% non-payment cover)",
+        "recommended_payment_term": "30% Advance T/T + 70% Irrevocable Confirmed Letter of Credit (LC at Sight) under UCP 600",
+        "working_capital_financing": "Pre-shipment Bank Packing Credit in INR at 8.5% p.a. (subsidized by 3% under RBI MSME Interest Equalisation Scheme IES to net 5.5%)",
+        "post_shipment_factoring": "TReDS / ITFS Reverse Factoring within 24h of Shipping Bill Generation"
+      },
+      "buyer_discovery_and_demand": {
+        "demand_season": "Year-round high demand with peak procurement before Ramadan & wedding season",
+        "buyer_archetypes": [
+          "Wholesale Spice & Dry Food Importers in Batha Market (Riyadh) and Bab Makkah (Jeddah)",
+          "Supermarket / Hypermarket Chains (e.g. LuLu Group Saudi Hypermarkets, Panda Retail Company, Tamimi Markets)",
+          "Commercial Food Processing & Curry Powder Re-packers in Dammam Industrial City 2"
+        ],
+        "mandatory_packaging": "25kg / 50kg multi-layer Kraft paper or food-grade HDPE woven bags with Arabic/English bilingual labeling, production date, expiry date, and batch code."
+      }
+    },
+    {
+      "id": "onion_trade_madhira",
+      "commodity": "Fresh Onion (Allium Cepa)",
+      "variety_grade": "Garwa (Rabi) / Pol Red Onion (Medium to Big 45mm - 60mm)",
+      "hs_code": "070310",
+      "hsn_description": "Onions, shallots, garlic, leeks - Other than seed onion",
+      "origin": "Madhira / Khammam District, Telangana",
+      "origin_state": "Telangana",
+      "destination": "Domestic Consumption (Hyderabad / Chennai / Vijayawada) + Export Corridor (Bangladesh / UAE / Malaysia)",
+      "destination_country": "Domestic Inter-State & Export (UAE / Bangladesh)",
+      "iso2": "IN_AE_BD",
+      "trade_flow": "Hybrid Domestic Wholesale & Export",
+      "standard_lot_size": "25 Metric Tons (Standard 10-Wheeler Truckload / 1 x 40ft Reefer Container)",
+      "typical_procurement_price_inr_per_qtl": 2600.0,
+      "typical_fob_price_usd_per_mt": 550.0,
+      "statutory_formalities": [
+        {
+          "step": 1,
+          "name": "Local APMC Market Committee Mandi License",
+          "authority": "Agricultural Market Committee (AMC), Madhira / Khammam",
+          "portal": "https://tsmarketing.telangana.gov.in",
+          "time_days": "2-4 Days",
+          "fee_inr": "₹1,000 - ₹2,500",
+          "details": "Commission Agent / Trader License under Telangana Agricultural Produce and Livestock Markets Act, 1966."
+        },
+        {
+          "step": 2,
+          "name": "GST Registration (Exemption & Tax Structure)",
+          "authority": "GSTN Council",
+          "portal": "https://www.gst.gov.in",
+          "time_days": "3 Days",
+          "fee_inr": "₹0",
+          "details": "Fresh whole onions are NIL rated (0% GST) under Notification No. 2/2017-Central Tax. GSTIN is still mandatory to generate e-Way bills."
+        },
+        {
+          "step": 3,
+          "name": "GSTN e-Way Bill System Setup",
+          "authority": "National Informatics Centre (NIC / GSTN)",
+          "portal": "https://ewaybillgst.gov.in",
+          "time_days": "Instant",
+          "fee_inr": "₹0",
+          "details": "Mandatory Part A & Part B generation for all onion truck movements exceeding ₹50,000 consignment value."
+        },
+        {
+          "step": 4,
+          "name": "DGFT IEC & APEDA RCMC (For Export)",
+          "authority": "Directorate General of Foreign Trade & APEDA",
+          "portal": "https://apeda.gov.in",
+          "time_days": "3-5 Days",
+          "fee_inr": "₹5,900 (APEDA RCMC) + ₹500 (IEC)",
+          "details": "Mandatory for cross-border export shipments. Requires adherence to DGFT Minimum Export Price (MEP) notifications."
+        },
+        {
+          "step": 5,
+          "name": "FSSAI Food Business Operator (FBO) Registration",
+          "authority": "Food Safety and Standards Authority of India",
+          "portal": "https://foscos.fssai.gov.in",
+          "time_days": "3 Days",
+          "fee_inr": "₹100 - ₹2,000 / year",
+          "details": "State license for sorting, cleaning, mesh bagging, and wholesale storage."
+        }
+      ],
+      "sourcing_and_mandi": {
+        "primary_mandi": "Madhira Yard, Khammam Mandi, Kurnool Mandi (AP) & Lasalgaon/Pimpalgaon (Nashik Hub)",
+        "distance_from_madhira_km": 0,
+        "modal_price_qtl_inr": 2600.0,
+        "min_price_qtl_inr": 2100.0,
+        "max_price_qtl_inr": 3100.0,
+        "quality_specs": {
+          "size_calibration": "45mm - 60mm diameter (optimum retail and wholesale demand)",
+          "color_profile": "Dark Pink to Deep Red, tight paper-like skin",
+          "neck_thickness": "Thin, well-cured neck (prevents neck rot)",
+          "sprouting_rot": "Zero tolerance for sprouted, wet, or black-mold affected bulbs",
+          "moisture_loss": "Cured under shade with 3%-5% allowable shrinkage factor"
+        }
+      },
+      "quality_and_lab_gateway": {
+        "target_standards": "AGMARK Rules for Edible Onions (Grading and Marking) Rules, 2004",
+        "key_parameters": [
+          {"test": "Size & Diameter", "limit": "Grade I: >= 50mm, Grade II: 40-50mm", "importance": "Direct price determinant"},
+          {"test": "Dry Matter / Total Solids", "limit": "11.0% - 13.5%", "importance": "Long shelf life and storage endurance"},
+          {"test": "Smut / Black Mold Screen", "limit": "Nil Aspergillus niger fungal spores", "importance": "Mandatory for container transit"}
+        ],
+        "authorized_nabl_labs": [
+          "State AGMARK Testing Laboratory, Guntur",
+          "National Horticultural Research and Development Foundation (NHRDF), Hyderabad"
+        ]
+      },
+      "multimodal_logistics": {
+        "recommended_route": "Madhira Packhouse -> Road Haulage via NH65 to Hyderabad (220 km) or Vijayawada (85 km) for domestic distribution; OR to Chennai Port (440 km) for sea export.",
+        "inland_distance_km": 440,
+        "eway_bill_validity_days": 3,
+        "ocean_transit_days": 6,
+        "port_of_loading": "Chennai Port (INMAA1) / Krishnapatnam (INKRI1) / JNPT Mumbai",
+        "port_of_discharge": "Jebel Ali, Dubai (UAE) / Chittagong (Bangladesh) / Port Klang (Malaysia)",
+        "container_spec": "40ft High-Cube Reefer Container (+2 to +4 deg C, 65% RH) or 25kg ventilated red leno mesh bags in ventilated open truck",
+        "road_freight_inr_per_truck": 42000.0,
+        "reefer_ocean_freight_usd": 1450.0,
+        "storage_advisory": "Must never be stored in airtight plastic or poly bags; always use leno mesh bags with continuous air circulation."
+      },
+      "customs_tariffs_and_rebates": {
+        "india_export_duty_pct": 20.0,
+        "mep_status": "Monitored via DGFT Public Notices (subject to domestic inflation buffers)",
+        "destination_customs_duty_pct": 0.0,
+        "government_cash_rebates": {
+          "rodtep_rate_pct": 1.5,
+          "rodtep_cap_per_kg_inr": 0.85,
+          "duty_drawback_rate_pct": 0.0,
+          "total_government_rebate_pct": 1.5
+        }
+      },
+      "trade_finance_and_risk": {
+        "domestic_payment_terms": "100% Cash / RTGS at mandi gate-out before truck departure (prevents wholesale default)",
+        "export_payment_terms": "100% Advance T/T or 50% Advance + 50% against scanned Bill of Lading (never accept DA terms on perishable vegetables)",
+        "working_capital_financing": "Kisan Credit Card (KCC) or MSME Working Capital Cash Credit limit against warehouse receipts (e-NWR)",
+        "price_volatility_hedge": "Trade in back-to-back pre-sold orders rather than speculative uncommitted stocking."
+      },
+      "buyer_discovery_and_demand": {
+        "demand_season": "Surging domestic demand during festival months (Aug - Dec); export demand peaking in Gulf Ramadan seasons",
+        "buyer_archetypes": [
+          "Hyderabad Bowenpally & Malakpet Wholesale APMC Commission Agents",
+          "Vijayawada Gollapudi & Guntur Wholesale Fruit & Vegetable Mandis",
+          "Dubai Al Aweer Fruit and Vegetable Central Market Importers & Packagers"
+        ],
+        "mandatory_packaging": "25kg or 50kg red ventilated Leno mesh bags with clear weight markings."
+      }
+    }
+  ]
+}
