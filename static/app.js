@@ -165,6 +165,33 @@ window.addEventListener('click', (e) => {
 });
 
 // 1. PRIMARY NATIVE 5-TAB CONTROLLER (Radar, Agenda, Refund, Clocks, System)
+
+// SUB-TAB SEGMENTED WORKSPACE CONTROLLER
+function switchSubTab(parentTabId, targetSubPaneId, clickedBtn) {
+  const parent = document.getElementById(parentTabId);
+  if (!parent) return;
+
+  const panes = parent.querySelectorAll('.sub-pane');
+  panes.forEach(p => p.classList.add('hidden'));
+
+  const target = document.getElementById(targetSubPaneId);
+  if (target) target.classList.remove('hidden');
+
+  const btns = parent.querySelectorAll('.sub-tab-btn');
+  btns.forEach(b => {
+    b.style.background = 'transparent';
+    b.style.color = 'var(--text-muted)';
+  });
+
+  if (clickedBtn) {
+    clickedBtn.style.background = 'var(--accent)';
+    clickedBtn.style.color = '#ffffff';
+  }
+
+  const mainEl = document.querySelector('main');
+  if (mainEl) mainEl.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function switchNativeTab(tabName) {
   currentTab = tabName;
   const tabs = ['apps', 'agenda', 'scratchpad', 'timer', 'profile'];
@@ -2887,6 +2914,7 @@ window.applyTheme = applyTheme;
 window.selectTheme = selectTheme;
 window.toggleThemeDropdown = toggleThemeDropdown;
 window.closeThemeDropdown = closeThemeDropdown;
+window.switchSubTab = switchSubTab;
 window.switchNativeTab = switchNativeTab;
 window.setQuery = setQuery;
 window.clearSearchInput = clearSearchInput;

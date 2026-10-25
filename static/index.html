@@ -534,6 +534,13 @@
 
     <!-- ==================== TAB 1: APPS (Radar & Triangulation) ==================== -->
     <section id="tab-apps" class="space-y-4">
+      <!-- Tab 1 Sub-Navigation Segmented Control -->
+      <div class="sub-tab-nav sticky top-0 z-30 flex gap-1 p-1 rounded-2xl border backdrop-blur-md overflow-x-auto no-scrollbar shadow-sm" style="background: var(--card-bg); border-color: var(--card-border);">
+        <button type="button" onclick="switchSubTab('tab-apps', 'sub-apps-macro', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: var(--accent); color: #ffffff;">📊 Macro &amp; Search</button>
+        <button type="button" onclick="switchSubTab('tab-apps', 'sub-apps-arbitrage', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">🎯 Arbitrage Radar</button>
+      </div>
+      <!-- Sub-Pane 1: Macro Intelligence & Search -->
+      <div id="sub-apps-macro" class="sub-pane space-y-4">
       
       <!-- Native Search Terminal with Glowing Focus -->
       <div class="glass-panel rounded-3xl p-3.5 shadow-xl relative overflow-hidden">
@@ -754,6 +761,10 @@
         </div>
       </div>
 
+      </div>
+
+      <!-- Sub-Pane 2: Bilateral Arbitrage Radar -->
+      <div id="sub-apps-arbitrage" class="sub-pane hidden space-y-4">
       <!-- Bilateral Opportunity Arbitrage Radar (Target Markets & ODOP Sourcing) -->
       <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5">
         <div class="flex items-center justify-between">
@@ -793,10 +804,20 @@
         </div>
       </div>
 
+      </div>
     </section>
 
     <!-- ==================== TAB 2: AGENDA (Operating Timetable) ==================== -->
     <section id="tab-agenda" class="hidden space-y-4">
+      <!-- Tab 2 Sub-Navigation Segmented Control -->
+      <div class="sub-tab-nav sticky top-0 z-30 flex gap-1 p-1 rounded-2xl border backdrop-blur-md overflow-x-auto no-scrollbar shadow-sm" style="background: var(--card-bg); border-color: var(--card-border);">
+        <button type="button" onclick="switchSubTab('tab-agenda', 'sub-agenda-forex', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: var(--accent); color: #ffffff;">⏱️ Agenda &amp; Forex</button>
+        <button type="button" onclick="switchSubTab('tab-agenda', 'sub-agenda-risk', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">🛡️ Due Diligence</button>
+        <button type="button" onclick="switchSubTab('tab-agenda', 'sub-agenda-dispute', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">⚖️ Customs &amp; SCN</button>
+        <button type="button" onclick="switchSubTab('tab-agenda', 'sub-agenda-titan', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">🏛️ Titans</button>
+      </div>
+      <!-- Sub-Pane 1: Operating Agenda & Forex -->
+      <div id="sub-agenda-forex" class="sub-pane space-y-4">
       <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3">
         <div class="flex items-center justify-between">
           <h2 class="text-base font-extrabold flex items-center gap-2">
@@ -1030,6 +1051,10 @@
         <span id="legal-copy-status" class="text-[10px] font-mono text-center block text-[#10B981] font-bold h-3"></span>
       </div>
 
+      </div>
+
+      <!-- Sub-Pane 2: Due Diligence & Risk -->
+      <div id="sub-agenda-risk" class="sub-pane hidden space-y-4">
       <!-- Counterparty Due Diligence & Fraud Red-Flag Screener -->
       <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3">
         <div class="flex items-center justify-between">
@@ -1087,6 +1112,10 @@
         </div>
       </div>
 
+      </div>
+
+      <!-- Sub-Pane 3: Customs Defense & SCN -->
+      <div id="sub-agenda-dispute" class="sub-pane hidden space-y-4">
       <!-- Customs Dispute & Show Cause Notice (SCN) Defense Playbook -->
       <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3">
         <div class="flex items-center justify-between">
@@ -1133,6 +1162,10 @@
         </div>
       </div>
 
+      </div>
+
+      <!-- Sub-Pane 4: Titan Benchmark -->
+      <div id="sub-agenda-titan" class="sub-pane hidden space-y-4">
 <!-- Titan Strategic Benchmark Card (Empire Machinery vs Ground Reality) -->
         <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3.5 border" style="border-color: var(--card-border);">
           <div class="flex items-center justify-between">
@@ -1191,10 +1224,19 @@
             </button>
           </div>
         </div>
+      </div>
     </section>
 
     <!-- ==================== TAB 3: SCRATCHPAD (10x Export Cash Calculator) ==================== -->
     <section id="tab-scratchpad" class="hidden space-y-4">
+      <!-- Tab 3 Sub-Navigation Segmented Control -->
+      <div class="sub-tab-nav sticky top-0 z-30 flex gap-1 p-1 rounded-2xl border backdrop-blur-md overflow-x-auto no-scrollbar shadow-sm" style="background: var(--card-bg); border-color: var(--card-border);">
+        <button type="button" onclick="switchSubTab('tab-scratchpad', 'sub-scratchpad-cash', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: var(--accent); color: #ffffff;">💰 Cash &amp; Invoices</button>
+        <button type="button" onclick="switchSubTab('tab-scratchpad', 'sub-scratchpad-consortium', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">🌾 ODOP Consortium</button>
+        <button type="button" onclick="switchSubTab('tab-scratchpad', 'sub-scratchpad-cbm', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">📦 Container Stuffing</button>
+      </div>
+      <!-- Sub-Pane 1: Export Cash & Invoicing -->
+      <div id="sub-scratchpad-cash" class="sub-pane space-y-4">
       <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5">
         <div class="flex items-center justify-between">
           <h2 class="text-base font-extrabold flex items-center gap-2">
@@ -1358,6 +1400,10 @@
         </div>
       </div>
 
+      </div>
+
+      <!-- Sub-Pane 2: ODOP Consortium Engine -->
+      <div id="sub-scratchpad-consortium" class="sub-pane hidden space-y-4">
 <!-- ODOP Micro-Producer Consortium & Aggregation Engine -->
       <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5">
         <div class="flex items-center justify-between">
@@ -1449,6 +1495,10 @@
         </button>
       </div>
 
+      </div>
+
+      <!-- Sub-Pane 3: Container Stuffing & CBM -->
+      <div id="sub-scratchpad-cbm" class="sub-pane hidden space-y-4">
       <!-- Container Stuffing & Freight Volumetric (CBM / TEU) Optimizer -->
       <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5">
         <div class="flex items-center justify-between">
@@ -1515,6 +1565,7 @@
           </div>
           <span class="px-2 py-0.5 rounded-full text-[9px] font-bold font-mono" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">Optimal Pack</span>
         </div>
+      </div>
       </div>
     </section>
 
@@ -1616,92 +1667,15 @@
 
     <!-- ==================== TAB 5: PROFILE (Mood Selector & Diagnostics) ==================== -->
     <section id="tab-profile" class="hidden space-y-4">
-      
-      <!-- Choose Your Mood / Theme Card -->
-      <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3">
-        <div class="flex items-center justify-between">
-          <h2 class="text-base font-extrabold flex items-center gap-2">
-            <span>Choose Your Mood & Theme</span>
-          </h2>
-          <span class="text-[10px] border px-2 py-0.5 rounded-full font-mono font-bold" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">5 Natural + 1 Dark</span>
-        </div>
-        <p class="text-xs" style="color: var(--text-muted);">Select any lightweight natural editorial palette depending on your current mood or lighting.</p>
-
-        <div class="grid grid-cols-2 gap-2.5 pt-1 text-xs">
-          <!-- Warm Sand -->
-          <button onclick="selectTheme('warm-sand')" class="theme-card-btn p-3 rounded-2xl border text-left active:scale-95 transition-all flex flex-col justify-between" style="background: #F7F4EE; border-color: rgba(194, 94, 52, 0.3); color: #2A221B;">
-            <div class="flex items-center justify-between w-full">
-              <span class="text-lg">🏜️</span>
-              <span class="w-3 h-3 rounded-full" style="background: #C25E34;"></span>
-            </div>
-            <div class="pt-2">
-              <span class="font-bold text-xs block">Warm Sand</span>
-              <span class="text-[9px] opacity-75">Sunlit Desert Linen</span>
-            </div>
-          </button>
-
-          <!-- Editorial Ivory -->
-          <button onclick="selectTheme('editorial-ivory')" class="theme-card-btn p-3 rounded-2xl border text-left active:scale-95 transition-all flex flex-col justify-between" style="background: #FBF9F4; border-color: rgba(158, 42, 43, 0.3); color: #161615;">
-            <div class="flex items-center justify-between w-full">
-              <span class="text-lg">📰</span>
-              <span class="w-3 h-3 rounded-full" style="background: #9E2A2B;"></span>
-            </div>
-            <div class="pt-2">
-              <span class="font-bold text-xs block">Editorial Ivory</span>
-              <span class="text-[9px] opacity-75">Archival Broadsheet</span>
-            </div>
-          </button>
-
-          <!-- Oxford Alabaster -->
-          <button onclick="selectTheme('oxford-alabaster')" class="theme-card-btn p-3 rounded-2xl border text-left active:scale-95 transition-all flex flex-col justify-between" style="background: #F4F6F9; border-color: rgba(30, 64, 175, 0.3); color: #0F172A;">
-            <div class="flex items-center justify-between w-full">
-              <span class="text-lg">🏛️</span>
-              <span class="w-3 h-3 rounded-full" style="background: #1E40AF;"></span>
-            </div>
-            <div class="pt-2">
-              <span class="font-bold text-xs block">Oxford Alabaster</span>
-              <span class="text-[9px] opacity-75">Classical University</span>
-            </div>
-          </button>
-
-          <!-- Kyoto Tea Paper -->
-          <button onclick="selectTheme('kyoto-tea')" class="theme-card-btn p-3 rounded-2xl border text-left active:scale-95 transition-all flex flex-col justify-between" style="background: #F1F5ED; border-color: rgba(45, 106, 79, 0.3); color: #142217;">
-            <div class="flex items-center justify-between w-full">
-              <span class="text-lg">🌿</span>
-              <span class="w-3 h-3 rounded-full" style="background: #2D6A4F;"></span>
-            </div>
-            <div class="pt-2">
-              <span class="font-bold text-xs block">Kyoto Tea Paper</span>
-              <span class="text-[9px] opacity-75">Calming Washi Green</span>
-            </div>
-          </button>
-
-          <!-- Cashmere & Bronze -->
-          <button onclick="selectTheme('cashmere-bronze')" class="theme-card-btn p-3 rounded-2xl border text-left active:scale-95 transition-all flex flex-col justify-between" style="background: #F5F2EC; border-color: rgba(154, 107, 56, 0.3); color: #211B16;">
-            <div class="flex items-center justify-between w-full">
-              <span class="text-lg">☕</span>
-              <span class="w-3 h-3 rounded-full" style="background: #9A6B38;"></span>
-            </div>
-            <div class="pt-2">
-              <span class="font-bold text-xs block">Cashmere & Bronze</span>
-              <span class="text-[9px] opacity-75">Roasted Espresso & Oat</span>
-            </div>
-          </button>
-
-          <!-- Midnight OLED -->
-          <button onclick="selectTheme('midnight-oled')" class="theme-card-btn p-3 rounded-2xl border text-left active:scale-95 transition-all flex flex-col justify-between" style="background: #08090a; border-color: rgba(255, 255, 255, 0.2); color: #ffffff;">
-            <div class="flex items-center justify-between w-full">
-              <span class="text-lg">🌑</span>
-              <span class="w-3 h-3 rounded-full" style="background: #f59e0b;"></span>
-            </div>
-            <div class="pt-2">
-              <span class="font-bold text-xs block">Midnight OLED</span>
-              <span class="text-[9px] opacity-75">Dark Pro Terminal</span>
-            </div>
-          </button>
-        </div>
+      <!-- Tab 5 Sub-Navigation Segmented Control -->
+      <div class="sub-tab-nav sticky top-0 z-30 flex gap-1 p-1 rounded-2xl border backdrop-blur-md overflow-x-auto no-scrollbar shadow-sm" style="background: var(--card-bg); border-color: var(--card-border);">
+        <button type="button" onclick="switchSubTab('tab-profile', 'sub-profile-directory', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: var(--accent); color: #ffffff;">📇 Entity Directory</button>
+        <button type="button" onclick="switchSubTab('tab-profile', 'sub-profile-pitch', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">🎯 Pitch Generator</button>
+        <button type="button" onclick="switchSubTab('tab-profile', 'sub-profile-personas', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">👔 Career Personas</button>
+        <button type="button" onclick="switchSubTab('tab-profile', 'sub-profile-cases', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">🔬 Case Studies</button>
       </div>
-
+      <!-- Sub-Pane 1: High-Trust Entity Directory -->
+      <div id="sub-profile-directory" class="sub-pane space-y-4">
       <!-- Phase 1: High-Trust Trade Directory & 360° Entity Dossier -->
       <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5">
         <div class="flex items-center justify-between">
@@ -1791,44 +1765,10 @@
         </div>
       </div>
 
-      <!-- Phase 3: Trade Career & Monetization Pathways -->
-      <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5">
-        <div class="flex items-center justify-between">
-          <h2 class="text-base font-extrabold flex items-center gap-2">
-            <span>Career & Business Monetization Tracks</span>
-          </h2>
-          <span class="text-[10px] border px-2.5 py-0.5 rounded-full font-mono font-bold" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">6 Playbooks</span>
-        </div>
-        <p class="text-xs" style="color: var(--text-muted);">Step-by-step commercial roadmaps and legal setups tailored to your capital and operational persona.</p>
-
-        <!-- Persona Selection Pills -->
-        <div class="flex gap-1.5 overflow-x-auto pb-1 text-[11px] font-bold no-scrollbar">
-          <button type="button" onclick="selectCareerPersona('broker')" id="persona-btn-broker" class="persona-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">1. Sourcing Broker</button>
-          <button type="button" onclick="selectCareerPersona('exporter')" id="persona-btn-exporter" class="persona-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">2. Merchant Exporter</button>
-          <button type="button" onclick="selectCareerPersona('consultant')" id="persona-btn-consultant" class="persona-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">3. Trade Consultant</button>
-          <button type="button" onclick="selectCareerPersona('aggregator')" id="persona-btn-aggregator" class="persona-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">4. ODOP Aggregator</button>
-          <button type="button" onclick="selectCareerPersona('coach')" id="persona-btn-coach" class="persona-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">5. Practical Coach</button>
-          <button type="button" onclick="selectCareerPersona('institutional')" id="persona-btn-institutional" class="persona-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">6. Institutional Lead</button>
-        </div>
-
-        <!-- Persona Details Card -->
-        <div id="career-persona-details" class="p-3.5 rounded-2xl border space-y-2.5 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-          <div class="flex items-center justify-between border-b pb-2" style="border-color: var(--card-border);">
-            <div>
-              <span id="cp-title" class="font-extrabold text-sm block" style="color: var(--accent);">Commission Sourcing Agent / Trade Broker</span>
-              <span id="cp-capital" class="text-[10px] font-mono font-bold text-[#10B981]">Capital Required: ₹0 (Zero Capital)</span>
-            </div>
-            <span id="cp-target-income" class="px-2.5 py-1 rounded-full font-mono text-[10px] font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">1.5% - 3.0% Comm.</span>
-          </div>
-
-          <div class="space-y-2 pt-0.5 text-[11px]">
-            <p><span class="font-bold" style="color: var(--text-dim);">Operating Model:</span> <span id="cp-model" class="font-medium">Connect verified ODOP district manufacturers with overseas buyers or domestic export houses without holding inventory or taking title.</span></p>
-            <p><span class="font-bold" style="color: var(--text-dim);">Protection Shield:</span> <span id="cp-shield" class="font-medium">Execute 1-tap NCNDA + Bank IMFPA before disclosing factory identities or pricing. Commission wired on LC liquidation.</span></p>
-            <p><span class="font-bold" style="color: var(--text-dim);">Legal Prerequisites:</span> <span id="cp-legal" class="font-medium">Proprietorship / LLP + GSTIN (for commission invoicing) + Current Bank Account. (No IEC required for domestic brokerage).</span></p>
-          </div>
-        </div>
       </div>
 
+      <!-- Sub-Pane 2: Exporter Pitch Generator -->
+      <div id="sub-profile-pitch" class="sub-pane hidden space-y-4">
 <!-- 1-Page Exporter Diagnostic & Client Pitch Generator -->
       <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5">
         <div class="flex items-center justify-between">
@@ -1894,6 +1834,138 @@
         </button>
       </div>
 
+      </div>
+
+      <!-- Sub-Pane 3: Career Personas & Legal -->
+      <div id="sub-profile-personas" class="sub-pane hidden space-y-4">
+      
+      <!-- Choose Your Mood / Theme Card -->
+      <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3">
+        <div class="flex items-center justify-between">
+          <h2 class="text-base font-extrabold flex items-center gap-2">
+            <span>Choose Your Mood & Theme</span>
+          </h2>
+          <span class="text-[10px] border px-2 py-0.5 rounded-full font-mono font-bold" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">5 Natural + 1 Dark</span>
+        </div>
+        <p class="text-xs" style="color: var(--text-muted);">Select any lightweight natural editorial palette depending on your current mood or lighting.</p>
+
+        <div class="grid grid-cols-2 gap-2.5 pt-1 text-xs">
+          <!-- Warm Sand -->
+          <button onclick="selectTheme('warm-sand')" class="theme-card-btn p-3 rounded-2xl border text-left active:scale-95 transition-all flex flex-col justify-between" style="background: #F7F4EE; border-color: rgba(194, 94, 52, 0.3); color: #2A221B;">
+            <div class="flex items-center justify-between w-full">
+              <span class="text-lg">🏜️</span>
+              <span class="w-3 h-3 rounded-full" style="background: #C25E34;"></span>
+            </div>
+            <div class="pt-2">
+              <span class="font-bold text-xs block">Warm Sand</span>
+              <span class="text-[9px] opacity-75">Sunlit Desert Linen</span>
+            </div>
+          </button>
+
+          <!-- Editorial Ivory -->
+          <button onclick="selectTheme('editorial-ivory')" class="theme-card-btn p-3 rounded-2xl border text-left active:scale-95 transition-all flex flex-col justify-between" style="background: #FBF9F4; border-color: rgba(158, 42, 43, 0.3); color: #161615;">
+            <div class="flex items-center justify-between w-full">
+              <span class="text-lg">📰</span>
+              <span class="w-3 h-3 rounded-full" style="background: #9E2A2B;"></span>
+            </div>
+            <div class="pt-2">
+              <span class="font-bold text-xs block">Editorial Ivory</span>
+              <span class="text-[9px] opacity-75">Archival Broadsheet</span>
+            </div>
+          </button>
+
+          <!-- Oxford Alabaster -->
+          <button onclick="selectTheme('oxford-alabaster')" class="theme-card-btn p-3 rounded-2xl border text-left active:scale-95 transition-all flex flex-col justify-between" style="background: #F4F6F9; border-color: rgba(30, 64, 175, 0.3); color: #0F172A;">
+            <div class="flex items-center justify-between w-full">
+              <span class="text-lg">🏛️</span>
+              <span class="w-3 h-3 rounded-full" style="background: #1E40AF;"></span>
+            </div>
+            <div class="pt-2">
+              <span class="font-bold text-xs block">Oxford Alabaster</span>
+              <span class="text-[9px] opacity-75">Classical University</span>
+            </div>
+          </button>
+
+          <!-- Kyoto Tea Paper -->
+          <button onclick="selectTheme('kyoto-tea')" class="theme-card-btn p-3 rounded-2xl border text-left active:scale-95 transition-all flex flex-col justify-between" style="background: #F1F5ED; border-color: rgba(45, 106, 79, 0.3); color: #142217;">
+            <div class="flex items-center justify-between w-full">
+              <span class="text-lg">🌿</span>
+              <span class="w-3 h-3 rounded-full" style="background: #2D6A4F;"></span>
+            </div>
+            <div class="pt-2">
+              <span class="font-bold text-xs block">Kyoto Tea Paper</span>
+              <span class="text-[9px] opacity-75">Calming Washi Green</span>
+            </div>
+          </button>
+
+          <!-- Cashmere & Bronze -->
+          <button onclick="selectTheme('cashmere-bronze')" class="theme-card-btn p-3 rounded-2xl border text-left active:scale-95 transition-all flex flex-col justify-between" style="background: #F5F2EC; border-color: rgba(154, 107, 56, 0.3); color: #211B16;">
+            <div class="flex items-center justify-between w-full">
+              <span class="text-lg">☕</span>
+              <span class="w-3 h-3 rounded-full" style="background: #9A6B38;"></span>
+            </div>
+            <div class="pt-2">
+              <span class="font-bold text-xs block">Cashmere & Bronze</span>
+              <span class="text-[9px] opacity-75">Roasted Espresso & Oat</span>
+            </div>
+          </button>
+
+          <!-- Midnight OLED -->
+          <button onclick="selectTheme('midnight-oled')" class="theme-card-btn p-3 rounded-2xl border text-left active:scale-95 transition-all flex flex-col justify-between" style="background: #08090a; border-color: rgba(255, 255, 255, 0.2); color: #ffffff;">
+            <div class="flex items-center justify-between w-full">
+              <span class="text-lg">🌑</span>
+              <span class="w-3 h-3 rounded-full" style="background: #f59e0b;"></span>
+            </div>
+            <div class="pt-2">
+              <span class="font-bold text-xs block">Midnight OLED</span>
+              <span class="text-[9px] opacity-75">Dark Pro Terminal</span>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Phase 3: Trade Career & Monetization Pathways -->
+      <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5">
+        <div class="flex items-center justify-between">
+          <h2 class="text-base font-extrabold flex items-center gap-2">
+            <span>Career & Business Monetization Tracks</span>
+          </h2>
+          <span class="text-[10px] border px-2.5 py-0.5 rounded-full font-mono font-bold" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">6 Playbooks</span>
+        </div>
+        <p class="text-xs" style="color: var(--text-muted);">Step-by-step commercial roadmaps and legal setups tailored to your capital and operational persona.</p>
+
+        <!-- Persona Selection Pills -->
+        <div class="flex gap-1.5 overflow-x-auto pb-1 text-[11px] font-bold no-scrollbar">
+          <button type="button" onclick="selectCareerPersona('broker')" id="persona-btn-broker" class="persona-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">1. Sourcing Broker</button>
+          <button type="button" onclick="selectCareerPersona('exporter')" id="persona-btn-exporter" class="persona-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">2. Merchant Exporter</button>
+          <button type="button" onclick="selectCareerPersona('consultant')" id="persona-btn-consultant" class="persona-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">3. Trade Consultant</button>
+          <button type="button" onclick="selectCareerPersona('aggregator')" id="persona-btn-aggregator" class="persona-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">4. ODOP Aggregator</button>
+          <button type="button" onclick="selectCareerPersona('coach')" id="persona-btn-coach" class="persona-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">5. Practical Coach</button>
+          <button type="button" onclick="selectCareerPersona('institutional')" id="persona-btn-institutional" class="persona-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">6. Institutional Lead</button>
+        </div>
+
+        <!-- Persona Details Card -->
+        <div id="career-persona-details" class="p-3.5 rounded-2xl border space-y-2.5 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between border-b pb-2" style="border-color: var(--card-border);">
+            <div>
+              <span id="cp-title" class="font-extrabold text-sm block" style="color: var(--accent);">Commission Sourcing Agent / Trade Broker</span>
+              <span id="cp-capital" class="text-[10px] font-mono font-bold text-[#10B981]">Capital Required: ₹0 (Zero Capital)</span>
+            </div>
+            <span id="cp-target-income" class="px-2.5 py-1 rounded-full font-mono text-[10px] font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">1.5% - 3.0% Comm.</span>
+          </div>
+
+          <div class="space-y-2 pt-0.5 text-[11px]">
+            <p><span class="font-bold" style="color: var(--text-dim);">Operating Model:</span> <span id="cp-model" class="font-medium">Connect verified ODOP district manufacturers with overseas buyers or domestic export houses without holding inventory or taking title.</span></p>
+            <p><span class="font-bold" style="color: var(--text-dim);">Protection Shield:</span> <span id="cp-shield" class="font-medium">Execute 1-tap NCNDA + Bank IMFPA before disclosing factory identities or pricing. Commission wired on LC liquidation.</span></p>
+            <p><span class="font-bold" style="color: var(--text-dim);">Legal Prerequisites:</span> <span id="cp-legal" class="font-medium">Proprietorship / LLP + GSTIN (for commission invoicing) + Current Bank Account. (No IEC required for domestic brokerage).</span></p>
+          </div>
+        </div>
+      </div>
+
+      </div>
+
+      <!-- Sub-Pane 4: Case Studies & Diagnostics -->
+      <div id="sub-profile-cases" class="sub-pane hidden space-y-4">
       <!-- Daily Ground-Trade Forensic Case Studies & Simulations -->
       <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5">
         <div class="flex items-center justify-between">
@@ -2003,6 +2075,7 @@
             <span class="font-mono" style="color: var(--text-dim);">&rarr;</span>
           </a>
         </div>
+      </div>
       </div>
     </section>
 
