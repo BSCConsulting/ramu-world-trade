@@ -154,14 +154,11 @@ class handler(BaseHTTPRequestHandler):
             self._send_json({"error": str(e)}, status=500)
 
     def _handle_query(self, payload: dict):
-        query = str(payload.get("query", ""))[:2000].strip()
-        if not query:
-            self._send_json({"error": "Empty query"}, status=400)
-            return
-
-        q_lower = query.lower()
         action = payload.get("action", "")
         mode = payload.get("mode", "")
+        query = str(payload.get("query", ""))[:2000].strip()
+        q_lower = query.lower()
+
         if action == "triangulate_trade" or mode in ["triangulate_blueprint", "blueprint", "dossier"] or any(k in q_lower for k in ["i want to start", "how to start", "where to start", "start an onion", "export 20 tons", "export turmeric", "blueprint", "dossier"]):
             from sources.trade_triangulator import triangulate_trade_query
             comm = payload.get("commodity")
@@ -172,6 +169,10 @@ class handler(BaseHTTPRequestHandler):
             sell_p = payload.get("sell_price")
             data = triangulate_trade_query(query, comm, orig, dest, qty, buy_p, sell_p)
             self._send_json(data)
+            return
+
+        if not query:
+            self._send_json({"error": "Empty query"}, status=400)
             return
 
         # 1. Classification
