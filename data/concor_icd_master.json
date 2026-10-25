@@ -1,0 +1,217 @@
+{
+  "metadata": {
+    "title": "CONCOR ICD Rail Freight & Dedicated Freight Corridor (DFC) Logistics Master",
+    "statutory_authority": "Container Corporation of India Ltd. (CONCOR) & Ministry of Railways",
+    "portal": "https://concorindia.co.in and https://dfccil.com",
+    "legal_basis": "Railway Board Goods Tariff Rates Circular & GST Notification No. 11/2017-CT(R) (5% Rail Freight)",
+    "dedicated_freight_corridor": {
+      "western_dfc_length_km": 1506,
+      "max_train_length_meters": 750,
+      "double_stack_capable": true,
+      "avg_freight_speed_kmh": 70,
+      "conventional_rail_speed_kmh": 25
+    }
+  },
+  "icds": [
+    {
+      "icd_code": "ICD_TKD",
+      "name": "Inland Container Depot Tughlakabad",
+      "city": "New Delhi / NCR",
+      "state": "Delhi",
+      "railway_zone": "Northern Railway (NR)",
+      "area_hectares": 195,
+      "features": ["India's Largest Dry Port", "Dedicated Rail Sidings", "Customs Bonded Warehouse", "Reefer Plug Points (120)"],
+      "free_storage_days": 3
+    },
+    {
+      "icd_code": "ICD_DER",
+      "name": "Inland Container Depot Dadri",
+      "city": "Greater Noida",
+      "state": "Uttar Pradesh",
+      "railway_zone": "North Central Railway (NCR)",
+      "area_hectares": 110,
+      "features": ["Western DFC Junction", "Direct Electric Rake Loading", "Cold Chain Terminal"],
+      "free_storage_days": 3
+    },
+    {
+      "icd_code": "ICD_KTW",
+      "name": "Multi-Modal Logistics Park (MMLP) Khatuwas",
+      "city": "Khatuwas / Neemrana",
+      "state": "Rajasthan",
+      "railway_zone": "North Western Railway (NWR)",
+      "area_hectares": 280,
+      "features": ["Double-Stack Container Hub", "WDFC Fully Integrated", "Heavy Industrial Hub"],
+      "free_storage_days": 5
+    },
+    {
+      "icd_code": "ICD_LDH",
+      "name": "Inland Container Depot Ludhiana (Dhandari Kalan)",
+      "city": "Ludhiana",
+      "state": "Punjab",
+      "railway_zone": "Northern Railway (NR)",
+      "area_hectares": 85,
+      "features": ["Hosiery & Bicycle Parts Corridor", "Direct Reefer Transit", "Textile Hub"],
+      "free_storage_days": 3
+    },
+    {
+      "icd_code": "ICD_WFD",
+      "name": "Inland Container Depot Whitefield",
+      "city": "Bengaluru",
+      "state": "Karnataka",
+      "railway_zone": "South Western Railway (SWR)",
+      "area_hectares": 60,
+      "features": ["Automobile & Aerospace Hub", "Electronic Manifest Linking", "Direct Chennai/Cochin Trains"],
+      "free_storage_days": 3
+    },
+    {
+      "icd_code": "ICD_SNF",
+      "name": "Inland Container Depot Sanathnagar",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "railway_zone": "South Central Railway (SCR)",
+      "area_hectares": 72,
+      "features": ["Bulk Drug & Pharma Transit", "Bonded Logistics", "JNPT & Chennai Express Shuttles"],
+      "free_storage_days": 3
+    }
+  ],
+  "corridors": [
+    {
+      "corridor_id": "tkd_jnpt",
+      "origin_icd": "ICD_TKD",
+      "origin_name": "Delhi Tughlakabad",
+      "dest_port": "INNSA1",
+      "dest_name": "Nhava Sheva (JNPT)",
+      "distance_km": 1420,
+      "dfc_available": true,
+      "wdfc_transit_hours": 30.0,
+      "conventional_transit_hours": 74.0,
+      "road_transit_hours": 48.0,
+      "rates_inr": {
+        "haulage_20ft_laden": 36500,
+        "haulage_40ft_laden": 66800,
+        "haulage_20ft_empty": 23500,
+        "haulage_40ft_empty": 42000,
+        "thc_rail_per_teu": 2850
+      },
+      "co2_emissions_kg_per_feu": {
+        "rail_wdfc": 403,
+        "road_truck": 1942
+      }
+    },
+    {
+      "corridor_id": "dadri_mundra",
+      "origin_icd": "ICD_DER",
+      "origin_name": "Dadri (Greater Noida)",
+      "dest_port": "INMUN1",
+      "dest_name": "Mundra Port (APSEZ)",
+      "distance_km": 1180,
+      "dfc_available": true,
+      "wdfc_transit_hours": 26.0,
+      "conventional_transit_hours": 64.0,
+      "road_transit_hours": 38.0,
+      "rates_inr": {
+        "haulage_20ft_laden": 31200,
+        "haulage_40ft_laden": 57500,
+        "haulage_20ft_empty": 20200,
+        "haulage_40ft_empty": 36500,
+        "thc_rail_per_teu": 2850
+      },
+      "co2_emissions_kg_per_feu": {
+        "rail_wdfc": 335,
+        "road_truck": 1614
+      }
+    },
+    {
+      "corridor_id": "khatuwas_mundra",
+      "origin_icd": "ICD_KTW",
+      "origin_name": "Khatuwas MMLP (Neemrana)",
+      "dest_port": "INMUN1",
+      "dest_name": "Mundra Port (APSEZ)",
+      "distance_km": 980,
+      "dfc_available": true,
+      "wdfc_transit_hours": 22.0,
+      "conventional_transit_hours": 52.0,
+      "road_transit_hours": 32.0,
+      "rates_inr": {
+        "haulage_20ft_laden": 26800,
+        "haulage_40ft_laden": 49800,
+        "haulage_20ft_empty": 17400,
+        "haulage_40ft_empty": 31500,
+        "thc_rail_per_teu": 2850
+      },
+      "co2_emissions_kg_per_feu": {
+        "rail_wdfc": 278,
+        "road_truck": 1340
+      }
+    },
+    {
+      "corridor_id": "ludhiana_mundra",
+      "origin_icd": "ICD_LDH",
+      "origin_name": "Ludhiana (Dhandari Kalan)",
+      "dest_port": "INMUN1",
+      "dest_name": "Mundra Port (APSEZ)",
+      "distance_km": 1280,
+      "dfc_available": true,
+      "wdfc_transit_hours": 32.0,
+      "conventional_transit_hours": 78.0,
+      "road_transit_hours": 42.0,
+      "rates_inr": {
+        "haulage_20ft_laden": 33800,
+        "haulage_40ft_laden": 62400,
+        "haulage_20ft_empty": 21800,
+        "haulage_40ft_empty": 39500,
+        "thc_rail_per_teu": 2850
+      },
+      "co2_emissions_kg_per_feu": {
+        "rail_wdfc": 363,
+        "road_truck": 1751
+      }
+    },
+    {
+      "corridor_id": "whitefield_chennai",
+      "origin_icd": "ICD_WFD",
+      "origin_name": "Bengaluru Whitefield",
+      "dest_port": "INMAA1",
+      "dest_name": "Chennai Port (ChPT)",
+      "distance_km": 360,
+      "dfc_available": false,
+      "wdfc_transit_hours": 12.0,
+      "conventional_transit_hours": 16.0,
+      "road_transit_hours": 10.0,
+      "rates_inr": {
+        "haulage_20ft_laden": 14500,
+        "haulage_40ft_laden": 26800,
+        "haulage_20ft_empty": 9800,
+        "haulage_40ft_empty": 17500,
+        "thc_rail_per_teu": 2850
+      },
+      "co2_emissions_kg_per_feu": {
+        "rail_wdfc": 102,
+        "road_truck": 492
+      }
+    },
+    {
+      "corridor_id": "sanathnagar_jnpt",
+      "origin_icd": "ICD_SNF",
+      "origin_name": "Hyderabad Sanathnagar",
+      "dest_port": "INNSA1",
+      "dest_name": "Nhava Sheva (JNPT)",
+      "distance_km": 790,
+      "dfc_available": false,
+      "wdfc_transit_hours": 24.0,
+      "conventional_transit_hours": 36.0,
+      "road_transit_hours": 22.0,
+      "rates_inr": {
+        "haulage_20ft_laden": 22500,
+        "haulage_40ft_laden": 41200,
+        "haulage_20ft_empty": 14800,
+        "haulage_40ft_empty": 26500,
+        "thc_rail_per_teu": 2850
+      },
+      "co2_emissions_kg_per_feu": {
+        "rail_wdfc": 224,
+        "road_truck": 1080
+      }
+    }
+  ]
+}

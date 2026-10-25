@@ -2289,6 +2289,128 @@
           </div>
         </div>
 
+        <!-- Provider 3.2: CONCOR Dedicated Freight Corridor (DFC) ICD Rail Haulage & Transit Scheduler -->
+        <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5 border" style="background: var(--card-bg); border-color: var(--card-border);">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <div class="flex items-center gap-2">
+              <span class="text-base">🚆</span>
+              <h3 class="text-sm font-extrabold uppercase tracking-wider">CONCOR DFC ICD Rail Scheduler &amp; Haulage Engine</h3>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span id="concor-wdfc-badge" class="text-[9px] font-mono px-2 py-0.5 rounded-full font-bold uppercase" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">WDFC Express Route</span>
+              <span class="text-[9px] font-mono px-2 py-0.5 rounded-full border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-dim);">5% Rail GST &bull; 79% Less CO2</span>
+            </div>
+          </div>
+
+          <p class="text-xs leading-relaxed" style="color: var(--text-muted);">
+            Statutory CONCOR rail haulage tariffs, automated double-stack Dedicated Freight Corridor (WDFC) transit schedules, Terminal Handling Charges (THC Rail), and ESG carbon credits.
+          </p>
+
+          <!-- 1-Tap Corridor Preset Chips -->
+          <div class="flex items-center gap-1.5 overflow-x-auto pb-1 text-[10px]">
+            <span class="text-[9px] font-bold uppercase shrink-0" style="color: var(--text-dim);">Corridors:</span>
+            <button type="button" onclick="selectConcorCorridor('tkd_jnpt')" id="concor-chip-tkd_jnpt" class="concor-corridor-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🚆 Delhi TKD ➔ JNPT (30h)</button>
+            <button type="button" onclick="selectConcorCorridor('dadri_mundra')" id="concor-chip-dadri_mundra" class="concor-corridor-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🚆 Dadri ➔ Mundra (26h)</button>
+            <button type="button" onclick="selectConcorCorridor('khatuwas_mundra')" id="concor-chip-khatuwas_mundra" class="concor-corridor-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🚆 Khatuwas ➔ Mundra (22h)</button>
+            <button type="button" onclick="selectConcorCorridor('ludhiana_mundra')" id="concor-chip-ludhiana_mundra" class="concor-corridor-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🚆 Ludhiana ➔ Mundra (32h)</button>
+            <button type="button" onclick="selectConcorCorridor('whitefield_chennai')" id="concor-chip-whitefield_chennai" class="concor-corridor-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🚆 Bengaluru ➔ Chennai (12h)</button>
+            <button type="button" onclick="selectConcorCorridor('sanathnagar_jnpt')" id="concor-chip-sanathnagar_jnpt" class="concor-corridor-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🚆 Hyderabad ➔ JNPT (24h)</button>
+          </div>
+
+          <!-- Parameter Input Form -->
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-2 text-xs">
+            <div>
+              <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Container Standard:</label>
+              <select id="concor-size" onchange="runConcorFreightCalc()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);">
+                <option value="40ft" selected>40ft High Cube (2 TEU)</option>
+                <option value="20ft">20ft General Purpose (1 TEU)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Container Quantity:</label>
+              <input type="number" id="concor-count" value="1" min="1" max="90" oninput="runConcorFreightCalc()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Cargo Positioning:</label>
+              <select id="concor-cargo-type" onchange="runConcorFreightCalc()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);">
+                <option value="laden" selected>Laden Commercial Export</option>
+                <option value="empty">Empty Rake Repositioning</option>
+              </select>
+            </div>
+            <div class="flex items-end">
+              <button type="button" onclick="runConcorFreightCalc()" class="w-full py-2.5 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md text-white bg-indigo-600 hover:bg-indigo-700">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                <span>Calculate Rail Haulage</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Multi-Modal Speed & Transit Comparison -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+            <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              <span class="text-[9px] uppercase font-bold text-emerald-500 block">WDFC High-Speed Rail</span>
+              <span id="concor-res-wdfc-hours" class="text-base font-extrabold font-mono block mt-1 text-emerald-500">30.0 hrs</span>
+              <span id="concor-res-distance" class="text-[9px] font-mono" style="color: var(--text-dim);">1,420 km electrified</span>
+            </div>
+            <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              <span class="text-[9px] uppercase font-bold text-amber-500 block">Conventional Rail</span>
+              <span id="concor-res-conv-hours" class="text-base font-extrabold font-mono block mt-1 text-amber-500">74.0 hrs</span>
+              <span class="text-[9px] font-mono" style="color: var(--text-muted);">Standard mixed track</span>
+            </div>
+            <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              <span class="text-[9px] uppercase font-bold block" style="color: var(--text-dim);">Road Highway Truck</span>
+              <span id="concor-res-road-hours" class="text-base font-extrabold font-mono block mt-1" style="color: var(--text-main);">48.0 hrs</span>
+              <span class="text-[9px] font-mono" style="color: var(--text-muted);">National Highway / NHAI</span>
+            </div>
+            <div class="p-2.5 rounded-2xl border" style="background: var(--accent-light); border-color: var(--accent-border);">
+              <span class="text-[9px] uppercase font-bold block" style="color: var(--accent);">WDFC Speed Dividend</span>
+              <span id="concor-res-time-saved" class="text-base font-extrabold font-mono block mt-1" style="color: var(--accent);">44 hrs saved</span>
+              <span class="text-[9px] font-mono" style="color: var(--text-muted);">59% faster than mixed rail</span>
+            </div>
+          </div>
+
+          <!-- Financial Haulage Tariff Breakdown Grid -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+            <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              <span class="text-[9px] uppercase font-bold block" style="color: var(--text-dim);">Base CONCOR Haulage</span>
+              <span id="concor-res-haulage" class="text-sm font-extrabold font-mono block mt-1" style="color: var(--text-main);">₹66,800</span>
+              <span class="text-[9px] font-mono" style="color: var(--text-muted);">Railway Board Tariff</span>
+            </div>
+            <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              <span class="text-[9px] uppercase font-bold block text-blue-500">THC Rail (Lift-on/off)</span>
+              <span id="concor-res-thc" class="text-sm font-extrabold font-mono block mt-1 text-blue-500">₹5,700</span>
+              <span class="text-[9px] font-mono" style="color: var(--text-muted);">₹2,850 / TEU (2 TEU)</span>
+            </div>
+            <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              <span class="text-[9px] uppercase font-bold block text-purple-500">Concessional GST (5%)</span>
+              <span id="concor-res-gst" class="text-sm font-extrabold font-mono block mt-1 text-purple-500">₹3,625</span>
+              <span class="text-[9px] font-mono" style="color: var(--text-muted);">Notif 11/2017-CT(R)</span>
+            </div>
+            <div class="p-2.5 rounded-2xl border" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3);">
+              <div class="flex items-center justify-between">
+                <span class="text-[9px] uppercase font-bold text-[#10B981]">Total Rake Freight</span>
+                <span class="text-[9px] font-mono text-[#10B981] font-bold">All-In</span>
+              </div>
+              <span id="concor-res-grand-total" class="text-base font-extrabold font-mono block mt-1 text-[#10B981]">₹76,125</span>
+              <span class="text-[9px] font-mono" style="color: var(--text-muted);">Ex-ICD to Port Hook</span>
+            </div>
+          </div>
+
+          <!-- Green Logistics & ESG Carbon Dividend Footer -->
+          <div class="p-3 rounded-2xl border space-y-1.5 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm">🌱</span>
+                <span class="font-bold text-[11px]" style="color: var(--text-main);">Green Logistics &amp; Scope-3 ESG Carbon Dividend</span>
+              </div>
+              <span id="concor-res-carbon-pct" class="text-[9px] font-mono px-2 py-0.5 rounded-full font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">79.2% CO2 Reduction vs Road</span>
+            </div>
+            <p id="concor-res-carbon-desc" class="text-[10px] leading-relaxed" style="color: var(--text-muted);">
+              Electric locomotive rail transit produces <strong>403 kg CO2</strong> compared to <strong>1,942 kg CO2</strong> by multi-axle road trailer (net saving: <strong>1,539 kg CO2</strong> per 40ft container). Eligible for BRSR Scope-3 ESG disclosures.
+            </p>
+          </div>
+        </div>
+
         <!-- Timer 6: FEMA 9-Month Export Realization Statutory Window -->
         <div class="p-4 rounded-2xl border space-y-2 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
           <div class="flex items-center justify-between">

@@ -1065,6 +1065,123 @@ function renderPortDemurrage(data) {
   }
 }
 
+// 10C. CONCOR DFC ICD RAIL SCHEDULER & HAULAGE ENGINE
+let currentConcorCorridor = 'tkd_jnpt';
+
+function selectConcorCorridor(corridorId) {
+  currentConcorCorridor = corridorId || 'tkd_jnpt';
+  document.querySelectorAll('.concor-corridor-chip').forEach(btn => {
+    btn.style.background = 'var(--card-inner-bg)';
+    btn.style.color = 'var(--text-main)';
+  });
+  const activeBtn = document.getElementById(`concor-chip-${corridorId}`);
+  if (activeBtn) {
+    activeBtn.style.background = 'var(--accent)';
+    activeBtn.style.color = '#ffffff';
+  }
+
+  runConcorFreightCalc();
+}
+
+async function runConcorFreightCalc() {
+  const sizeEl = document.getElementById('concor-size');
+  const countEl = document.getElementById('concor-count');
+  const cargoEl = document.getElementById('concor-cargo-type');
+
+  const size = sizeEl?.value || '40ft';
+  const count = parseInt(countEl?.value) || 1;
+  const isCargoEmpty = cargoEl?.value === 'empty';
+
+  try {
+    const res = await fetch(`/api/logistics?concor=1&corridor=${encodeURIComponent(currentConcorCorridor)}&calc=1&size=${encodeURIComponent(size)}&count=${encodeURIComponent(count)}&empty=${isCargoEmpty ? '1' : '0'}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    renderConcorFreight(data);
+  } catch (err) {
+    console.warn('Fallback to local CONCOR calculation:', err);
+    // Local fallback
+    const corridorData = {
+      tkd_jnpt: { dist: 1420, wdfc: 30, conv: 74, road: 48, h20: 36500, h40: 66800, co2_rail: 403, co2_road: 1942 },
+      dadri_mundra: { dist: 1180, wdfc: 26, conv: 64, road: 38, h20: 31200, h40: 57500, co2_rail: 335, co2_road: 1614 },
+      khatuwas_mundra: { dist: 980, wdfc: 22, conv: 52, road: 32, h20: 26800, h40: 49800, co2_rail: 278, co2_road: 1340 },
+      ludhiana_mundra: { dist: 1280, wdfc: 32, conv: 78, road: 42, h20: 33800, h40: 62400, co2_rail: 363, co2_road: 1751 },
+      whitefield_chennai: { dist: 360, wdfc: 12, conv: 16, road: 10, h20: 14500, h40: 26800, co2_rail: 102, co2_road: 492 },
+      sanathnagar_jnpt: { dist: 790, wdfc: 24, conv: 36, road: 22, h20: 22500, h40: 41200, co2_rail: 224, co2_road: 1080 }
+    };
+    const c = corridorData[currentConcorCorridor] || corridorData.tkd_jnpt;
+    const rate = size === '40ft' ? (isCargoEmpty ? c.h40 * 0.63 : c.h40) : (isCargoEmpty ? c.h20 * 0.64 : c.h20);
+    const haulage = rate * count;
+    const teu = count * (size === '40ft' ? 2 : 1);
+    const thc = teu * 2850;
+    const subtotal = haulage + thc;
+    const gst = subtotal * 0.05;
+    const total = subtotal + gst;
+    const feuRatio = size === '40ft' ? 1.0 : 0.5;
+    const co2Rail = Math.round(c.co2_rail * feuRatio * count);
+    const co2Road = Math.round(c.co2_road * feuRatio * count);
+    const co2Saved = co2Road - co2Rail;
+    const co2Pct = Math.round((co2Saved / co2Road) * 1000) / 10;
+
+    renderConcorFreight({
+      corridor: { distance_km: c.dist },
+      transit_comparison: {
+        wdfc_high_speed_hours: c.wdfc,
+        conventional_rail_hours: c.conv,
+        road_trucking_hours: c.road,
+        hours_saved_by_wdfc: c.conv - c.wdfc
+      },
+      financial_breakdown: {
+        total_haulage_inr: haulage,
+        thc_rail_inr: thc,
+        rail_concessional_gst_5_pct_inr: gst,
+        grand_total_rail_freight_inr: total
+      },
+      green_logistics_esg: {
+        rail_emissions_co2_kg: co2Rail,
+        road_emissions_co2_kg: co2Road,
+        co2_reduction_kg: co2Saved,
+        carbon_reduction_pct: co2Pct
+      }
+    });
+  }
+}
+
+function renderConcorFreight(data) {
+  const tc = data.transit_comparison;
+  const fb = data.financial_breakdown;
+  const esg = data.green_logistics_esg;
+
+  const wdfcHoursEl = document.getElementById('concor-res-wdfc-hours');
+  const distEl = document.getElementById('concor-res-distance');
+  const convHoursEl = document.getElementById('concor-res-conv-hours');
+  const roadHoursEl = document.getElementById('concor-res-road-hours');
+  const timeSavedEl = document.getElementById('concor-res-time-saved');
+
+  const haulageEl = document.getElementById('concor-res-haulage');
+  const thcEl = document.getElementById('concor-res-thc');
+  const gstEl = document.getElementById('concor-res-gst');
+  const grandTotalEl = document.getElementById('concor-res-grand-total');
+
+  const carbonPctEl = document.getElementById('concor-res-carbon-pct');
+  const carbonDescEl = document.getElementById('concor-res-carbon-desc');
+
+  if (wdfcHoursEl && tc) wdfcHoursEl.textContent = `${tc.wdfc_high_speed_hours} hrs`;
+  if (distEl && data.corridor) distEl.textContent = `${data.corridor.distance_km.toLocaleString('en-IN')} km electrified`;
+  if (convHoursEl && tc) convHoursEl.textContent = `${tc.conventional_rail_hours} hrs`;
+  if (roadHoursEl && tc) roadHoursEl.textContent = `${tc.road_trucking_hours} hrs`;
+  if (timeSavedEl && tc) timeSavedEl.textContent = `${tc.hours_saved_by_wdfc} hrs saved`;
+
+  if (haulageEl && fb) haulageEl.textContent = `₹${Math.round(fb.total_haulage_inr).toLocaleString('en-IN')}`;
+  if (thcEl && fb) thcEl.textContent = `₹${Math.round(fb.thc_rail_inr).toLocaleString('en-IN')}`;
+  if (gstEl && fb) gstEl.textContent = `₹${Math.round(fb.rail_concessional_gst_5_pct_inr).toLocaleString('en-IN')}`;
+  if (grandTotalEl && fb) grandTotalEl.textContent = `₹${Math.round(fb.grand_total_rail_freight_inr).toLocaleString('en-IN')}`;
+
+  if (carbonPctEl && esg) carbonPctEl.textContent = `${esg.carbon_reduction_pct}% CO2 Reduction vs Road`;
+  if (carbonDescEl && esg) {
+    carbonDescEl.innerHTML = `Electric locomotive rail transit produces <strong>${esg.rail_emissions_co2_kg.toLocaleString('en-IN')} kg CO2</strong> compared to <strong>${esg.road_emissions_co2_kg.toLocaleString('en-IN')} kg CO2</strong> by multi-axle road trailer (net saving: <strong>${esg.co2_reduction_kg.toLocaleString('en-IN')} kg CO2</strong>). Eligible for BRSR Scope-3 ESG disclosures.`;
+  }
+}
+
 setInterval(updateTimers, 1000);
 
 // 12. 8-DIGIT ITC-HS TARIFF SELECTOR
@@ -3859,6 +3976,8 @@ window.runTariffCalculation = runTariffCalculation;
 window.selectPortLogistics = selectPortLogistics;
 window.trackVesselBerthing = trackVesselBerthing;
 window.runPortDemurrageCalc = runPortDemurrageCalc;
+window.selectConcorCorridor = selectConcorCorridor;
+window.runConcorFreightCalc = runConcorFreightCalc;
 window.calculateFtaValueAddition = calculateFtaValueAddition;
 window.copyBreakdownNotice = copyBreakdownNotice;
 window.updateDistrictDeepDive = updateDistrictDeepDive;
@@ -3908,6 +4027,7 @@ window.addEventListener('DOMContentLoaded', () => {
   selectDgftCommodity('61091000', 2500000, 5000);
   selectTariffCommodity('85171300', 10000, 'USD');
   selectPortLogistics('INNSA1');
+  selectConcorCorridor('tkd_jnpt');
   selectConsortiumCluster('guntur_chilli');
   selectPitchCorridor('surat_textiles');
   selectTitan('rockefeller');

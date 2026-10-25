@@ -502,22 +502,44 @@ class handler(BaseHTTPRequestHandler):
 
     def _handle_logistics(self, query_str: str = ""):
         try:
-            from sources.port_logistics import get_ports_overview, get_port_metrics, track_vessel_schedule, calculate_demurrage_liability
             params = urllib.parse.parse_qs(query_str) if query_str else {}
-            if "vessel" in params:
+            if "concor" in params or "rail" in params:
+                from sources.concor_icd import get_concor_overview, get_corridor_details, calculate_concor_freight
+                if "corridor" in params or "route" in params:
+                    c_id = params.get("corridor", params.get("route", ["tkd_jnpt"]))[0]
+                    if "calc" in params or "size" in params:
+                        size = params.get("size", ["40ft"])[0]
+                        count = int(params.get("count", params.get("containers", [1]))[0])
+                        is_empty = params.get("empty", ["0"])[0] in ["1", "true", "True"]
+                        data = calculate_concor_freight(c_id, size, count, is_empty)
+                    else:
+                        data = get_corridor_details(c_id)
+                elif "calc" in params or "haulage" in params:
+                    c_id = params.get("corridor", ["tkd_jnpt"])[0]
+                    size = params.get("size", ["40ft"])[0]
+                    count = int(params.get("count", [1])[0])
+                    is_empty = params.get("empty", ["0"])[0] in ["1", "true", "True"]
+                    data = calculate_concor_freight(c_id, size, count, is_empty)
+                else:
+                    data = get_concor_overview()
+            elif "vessel" in params:
+                from sources.port_logistics import track_vessel_schedule
                 vessel = params.get("vessel", ["MAERSK_KAVERI"])[0]
                 port = params.get("port", ["INNSA1"])[0]
                 data = track_vessel_schedule(vessel, port)
             elif "demurrage" in params or "delay" in params:
+                from sources.port_logistics import calculate_demurrage_liability
                 port = params.get("port", ["INNSA1"])[0]
                 size = params.get("size", ["40ft"])[0]
                 count = int(params.get("containers", params.get("count", [2]))[0])
                 days = int(params.get("days", params.get("delay", [12]))[0])
                 data = calculate_demurrage_liability(port, size, count, days)
             elif "port" in params:
+                from sources.port_logistics import get_port_metrics
                 port = params.get("port", ["INNSA1"])[0]
                 data = get_port_metrics(port)
             else:
+                from sources.port_logistics import get_ports_overview
                 data = get_ports_overview()
             self._send_json(data)
         except Exception as e:
@@ -525,16 +547,25 @@ class handler(BaseHTTPRequestHandler):
 
     def _handle_logistics_calc(self, payload: dict):
         try:
-            from sources.port_logistics import calculate_demurrage_liability, track_vessel_schedule, get_port_metrics
             action = payload.get("action", "demurrage")
-            if action == "vessel":
+            if action in ["concor_rail", "rail_freight", "concor"]:
+                from sources.concor_icd import calculate_concor_freight
+                c_id = str(payload.get("corridor_id", "tkd_jnpt"))[:30]
+                size = str(payload.get("container_size", "40ft"))[:10]
+                count = int(payload.get("container_count", 1))
+                is_empty = bool(payload.get("is_empty", False))
+                data = calculate_concor_freight(c_id, size, count, is_empty)
+            elif action == "vessel":
+                from sources.port_logistics import track_vessel_schedule
                 vessel = str(payload.get("vessel_name", "MAERSK_KAVERI"))[:50]
                 port = str(payload.get("port_code", "INNSA1"))[:15]
                 data = track_vessel_schedule(vessel, port)
             elif action == "metrics":
+                from sources.port_logistics import get_port_metrics
                 port = str(payload.get("port_code", "INNSA1"))[:15]
                 data = get_port_metrics(port)
             else:
+                from sources.port_logistics import calculate_demurrage_liability
                 port = str(payload.get("port_code", "INNSA1"))[:15]
                 size = str(payload.get("container_size", "40ft"))[:10]
                 count = int(payload.get("container_count", 2))
