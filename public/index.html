@@ -1445,36 +1445,128 @@
         </div>
       </div>
 
-      <!-- ECGC Country Risk & Payment Terms Screener -->
-      <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3">
-        <div class="flex items-center justify-between">
-          <span class="text-xs font-extrabold uppercase tracking-wider">ECGC Country Risk & Buyer Payment Screener</span>
-          <span class="text-[9px] font-mono px-2 py-0.5 rounded-full border" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">Credit Shield</span>
-        </div>
-        <p class="text-[11px]" style="color: var(--text-muted);">Prevent foreign buyer default and select safe payment terms based on ECGC sovereign risk tiers.</p>
-        
-        <div>
-          <label class="block text-[10px] font-bold mb-1 uppercase tracking-wider" style="color: var(--text-dim);">Select Buyer Destination Country:</label>
-          <select id="ecgc-country-select" onchange="updateEcgcCountry(this.value)" class="w-full border rounded-xl p-2.5 text-xs focus:outline-none min-h-[44px]">
-            <option value="AE">United Arab Emirates (UAE) — Tier A2 (Low Risk)</option>
-            <option value="US">United States (USA) — Tier A1 (Very Low Risk)</option>
-            <option value="GB">United Kingdom (UK) — Tier A1 (Very Low Risk)</option>
-            <option value="SA">Saudi Arabia — Tier A2 (Low Risk)</option>
-            <option value="VN">Vietnam — Tier A2 (Low Risk)</option>
-            <option value="BD">Bangladesh — Tier B2 (Forex Alert / L/C Delays)</option>
-            <option value="NG">Nigeria — Tier C1 (High Commercial Risk)</option>
-          </select>
+      <!-- Provider 4.1: ECGC Country Risk Classification & Credit Insurance Underwriter -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3.5">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h3 class="font-extrabold text-xs uppercase tracking-wider flex items-center gap-1.5">
+              <span>🛡️</span>
+              <span>ECGC Country Risk &amp; Credit Insurance Underwriter</span>
+            </h3>
+            <p class="text-[11px]" style="color: var(--text-muted);">
+              Statutory 7-Tier Risk Schedule • 90% Loss Indemnification (SCR Policy) • Discretionary Credit Limit (DCL)
+            </p>
+          </div>
+          <span id="ecgc-statutory-badge" class="text-[9px] font-mono px-2 py-0.5 rounded-full font-bold uppercase" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">Govt of India Underwriter</span>
         </div>
 
-        <div id="ecgc-result-card" class="p-3 rounded-xl border space-y-2 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <!-- Quick Country Selector Chips -->
+        <div class="space-y-1">
           <div class="flex items-center justify-between">
-            <span id="ecgc-country-name" class="font-extrabold text-xs" style="color: var(--accent);">United Arab Emirates (UAE)</span>
-            <span id="ecgc-risk-badge" class="px-2 py-0.5 rounded-full font-mono text-[10px] font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">Tier A2 &bull; 0.35% Premium</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider" style="color: var(--text-dim);">Top Buyer Export Destinations:</span>
+            <span id="ecgc-tenor-badge" class="text-[9px] font-mono font-bold text-emerald-500">Max Tenor: 180 Days</span>
           </div>
-          <div class="text-[11px] space-y-1">
-            <p><span class="font-bold" style="color: var(--text-dim);">Recommended Terms:</span> <span id="ecgc-payment-terms" class="font-medium">Letter of Credit (LC) at Sight, or Documents Against Acceptance (DA 30-60 Days) with ECGC Buyer Cover</span></p>
-            <p><span class="font-bold" style="color: var(--text-dim);">Caution Protocol:</span> <span id="ecgc-caution-points" class="font-medium" style="color: var(--text-muted);">Ensure buyer trade license in DED or Free Zone is active. Verify VAT TRN prior to consignment release.</span></p>
+          <div class="flex gap-1.5 overflow-x-auto pb-1 text-xs no-scrollbar">
+            <button type="button" onclick="selectEcgcCountry('USA')" id="ecgc-chip-USA" class="ecgc-country-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🇺🇸 USA (A1)</button>
+            <button type="button" onclick="selectEcgcCountry('ARE')" id="ecgc-chip-ARE" class="ecgc-country-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇦🇪 UAE (A1)</button>
+            <button type="button" onclick="selectEcgcCountry('DEU')" id="ecgc-chip-DEU" class="ecgc-country-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇩🇪 Germany (A1)</button>
+            <button type="button" onclick="selectEcgcCountry('SAU')" id="ecgc-chip-SAU" class="ecgc-country-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇸🇦 Saudi Arabia (A2)</button>
+            <button type="button" onclick="selectEcgcCountry('VNM')" id="ecgc-chip-VNM" class="ecgc-country-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇻🇳 Vietnam (B2)</button>
+            <button type="button" onclick="selectEcgcCountry('BGD')" id="ecgc-chip-BGD" class="ecgc-country-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇧🇩 Bangladesh (C1)</button>
+            <button type="button" onclick="selectEcgcCountry('NGA')" id="ecgc-chip-NGA" class="ecgc-country-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇳🇬 Nigeria (C1)</button>
+            <button type="button" onclick="selectEcgcCountry('RUS')" id="ecgc-chip-RUS" class="ecgc-country-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇷🇺 Russia (C2)</button>
+            <button type="button" onclick="selectEcgcCountry('IRN')" id="ecgc-chip-IRN" class="ecgc-country-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇮🇷 Iran (D Off-Cover)</button>
           </div>
+        </div>
+
+        <!-- Inputs: Country Dropdown, Payment Terms & Invoice Value -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+          <div class="space-y-1">
+            <label class="block text-[10px] font-bold uppercase tracking-wider" style="color: var(--text-dim);">Destination Market</label>
+            <select id="ecgc-country-select" onchange="selectEcgcCountry(this.value)" class="w-full border rounded-xl p-2.5 text-xs focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);">
+              <option value="USA">United States (A1 - Insignificant)</option>
+              <option value="ARE">United Arab Emirates (A1 - Insignificant)</option>
+              <option value="DEU">Germany (A1 - Insignificant)</option>
+              <option value="GBR">United Kingdom (A1 - Insignificant)</option>
+              <option value="JPN">Japan (A1 - Insignificant)</option>
+              <option value="SGP">Singapore (A1 - Insignificant)</option>
+              <option value="SAU">Saudi Arabia (A2 - Low Risk)</option>
+              <option value="KOR">South Korea (A2 - Low Risk)</option>
+              <option value="ITA">Italy (A2 - Low Risk)</option>
+              <option value="MYS">Malaysia (B1 - Moderately Low)</option>
+              <option value="POL">Poland (B1 - Moderately Low)</option>
+              <option value="BRA">Brazil (B2 - Moderate Risk)</option>
+              <option value="VNM">Vietnam (B2 - Moderate Risk)</option>
+              <option value="IDN">Indonesia (B2 - Moderate Risk)</option>
+              <option value="BGD">Bangladesh (C1 - Moderately High)</option>
+              <option value="EGY">Egypt (C1 - Moderately High)</option>
+              <option value="NGA">Nigeria (C1 - Moderately High)</option>
+              <option value="KEN">Kenya (C1 - Moderately High)</option>
+              <option value="PAK">Pakistan (C2 - High Risk)</option>
+              <option value="RUS">Russia (C2 - High Risk)</option>
+              <option value="IRN">Iran (D - Restricted / Off-Cover)</option>
+            </select>
+          </div>
+          <div class="space-y-1">
+            <label class="block text-[10px] font-bold uppercase tracking-wider" style="color: var(--text-dim);">Agreed Payment Terms</label>
+            <select id="ecgc-terms-select" onchange="runEcgcPremiumCalc()" class="w-full border rounded-xl p-2.5 text-xs focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);">
+              <option value="DA_60">DA 60 Days (Documents Against Acceptance)</option>
+              <option value="DA_30">DA 30 Days (Documents Against Acceptance)</option>
+              <option value="DA_90">DA 90 Days (Documents Against Acceptance)</option>
+              <option value="DA_120">DA 120 Days (Documents Against Acceptance)</option>
+              <option value="DA_180">DA 180 Days (Documents Against Acceptance)</option>
+              <option value="CAD_DP">CAD / DP at Sight (Documents Against Payment)</option>
+              <option value="LC">Irrevocable Letter of Credit (LC)</option>
+            </select>
+          </div>
+          <div class="space-y-1">
+            <div class="flex items-center justify-between">
+              <label class="block text-[10px] font-bold uppercase tracking-wider" style="color: var(--text-dim);">Gross Invoice Value</label>
+              <button type="button" id="ecgc-currency-toggle" onclick="toggleEcgcCurrency()" class="text-[9px] font-mono px-1.5 py-0.5 rounded border font-bold" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">INR (₹)</button>
+            </div>
+            <input type="number" id="ecgc-invoice-val" value="2500000" step="50000" oninput="runEcgcPremiumCalc()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+          </div>
+        </div>
+
+        <!-- 4-Card Underwriting & Premium Matrix -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+          <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <span class="text-[9px] uppercase font-bold block" style="color: var(--text-muted);">Sovereign Risk Grade</span>
+            <span id="ecgc-res-grade" class="text-sm font-extrabold font-mono block mt-1 text-emerald-500">Tier A1 (Insignificant)</span>
+            <span id="ecgc-res-stance" class="text-[9px] font-mono" style="color: var(--text-muted);">Standard Open Cover</span>
+          </div>
+          <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <span class="text-[9px] uppercase font-bold block text-blue-500">Premium Payable (SCR)</span>
+            <span id="ecgc-res-premium" class="text-sm font-extrabold font-mono block mt-1 text-blue-500">₹10,325</span>
+            <span id="ecgc-res-rate-desc" class="text-[9px] font-mono" style="color: var(--text-muted);">0.35% + 18% GST (SAC 9971)</span>
+          </div>
+          <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <span class="text-[9px] uppercase font-bold block text-purple-500">90% Loss Indemnity</span>
+            <span id="ecgc-res-cover" class="text-sm font-extrabold font-mono block mt-1 text-purple-500">₹22,50,000</span>
+            <span id="ecgc-res-retention" class="text-[9px] font-mono" style="color: var(--text-muted);">10% Co-Insurance: ₹2,50,000</span>
+          </div>
+          <div class="p-2.5 rounded-2xl border" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3);">
+            <div class="flex items-center justify-between">
+              <span class="text-[9px] uppercase font-bold text-[#10B981]">DCL Credit Limit</span>
+              <span id="ecgc-res-dcl-badge" class="text-[9px] font-mono text-[#10B981] font-bold">₹10 Lakh DCL</span>
+            </div>
+            <span id="ecgc-res-dcl-verdict" class="text-xs font-bold block mt-1 text-[#10B981]">Requires SBL Approval</span>
+            <span class="text-[9px] font-mono" style="color: var(--text-muted);">Specific Buyer Limit</span>
+          </div>
+        </div>
+
+        <!-- Claims & FEMA Overdue Milestones Accordion -->
+        <div class="p-3 rounded-2xl border space-y-1.5 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <div class="flex items-center gap-1.5">
+              <span class="text-sm">⏱️</span>
+              <span class="font-bold text-[11px]" style="color: var(--text-main);">FEMA Section 8 &amp; ECGC Claims Protocol Timeline</span>
+            </div>
+            <span class="text-[9px] font-mono px-2 py-0.5 rounded-full font-bold" style="background: rgba(245, 158, 11, 0.15); color: #F59E0B;">30-Day Mandatory Notice</span>
+          </div>
+          <p id="ecgc-res-claims-desc" class="text-[10px] leading-relaxed" style="color: var(--text-muted);">
+            If buyer fails to pay by invoice due date, exporter must file <strong>Form 205 (Declaration of Overdue)</strong> with ECGC and AD Bank within <strong>30 days</strong>. Claim admissibility opens after <strong>4-month commercial waiting period</strong>, with legal filing cutoff within <strong>12 months</strong>.
+          </p>
         </div>
       </div>
 

@@ -2407,17 +2407,168 @@ const ECGC_COUNTRY_DATA = {
   }
 };
 
-function updateEcgcCountry(code) {
-  const d = ECGC_COUNTRY_DATA[code] || ECGC_COUNTRY_DATA['AE'];
-  document.getElementById('ecgc-country-name').textContent = d.name;
-  
-  const badgeEl = document.getElementById('ecgc-risk-badge');
-  if (badgeEl) {
-    badgeEl.textContent = d.badge;
-    badgeEl.style.color = d.badgeColor;
+let currentEcgcCountry = 'USA';
+let isEcgcUsdMode = false;
+
+function toggleEcgcCurrency() {
+  isEcgcUsdMode = !isEcgcUsdMode;
+  const btn = document.getElementById('ecgc-currency-toggle');
+  const input = document.getElementById('ecgc-invoice-val');
+  if (btn) btn.textContent = isEcgcUsdMode ? 'USD ($)' : 'INR (₹)';
+  if (input) {
+    const currentVal = parseFloat(input.value) || 0;
+    if (isEcgcUsdMode) {
+      input.value = Math.round(currentVal / 84.55);
+      input.step = '1000';
+    } else {
+      input.value = Math.round(currentVal * 84.55);
+      input.step = '50000';
+    }
   }
-  document.getElementById('ecgc-payment-terms').textContent = d.terms;
-  document.getElementById('ecgc-caution-points').textContent = d.caution;
+  runEcgcPremiumCalc();
+}
+
+function selectEcgcCountry(countryCode) {
+  currentEcgcCountry = countryCode || 'USA';
+  const selectEl = document.getElementById('ecgc-country-select');
+  if (selectEl && selectEl.value !== currentEcgcCountry) {
+    selectEl.value = currentEcgcCountry;
+  }
+  document.querySelectorAll('.ecgc-country-chip').forEach(btn => {
+    btn.style.background = 'var(--card-inner-bg)';
+    btn.style.color = 'var(--text-main)';
+  });
+  const activeBtn = document.getElementById(`ecgc-chip-${currentEcgcCountry}`);
+  if (activeBtn) {
+    activeBtn.style.background = 'var(--accent)';
+    activeBtn.style.color = '#ffffff';
+  }
+  runEcgcPremiumCalc();
+}
+
+function updateEcgcCountry(code) {
+  selectEcgcCountry(code);
+}
+
+async function runEcgcPremiumCalc() {
+  const termsEl = document.getElementById('ecgc-terms-select');
+  const valEl = document.getElementById('ecgc-invoice-val');
+
+  const terms = termsEl?.value || 'DA_60';
+  const val = parseFloat(valEl?.value) || 2500000;
+
+  try {
+    const res = await fetch(`/api/tradestat?ecgc=1&country=${encodeURIComponent(currentEcgcCountry)}&terms=${encodeURIComponent(terms)}&value=${encodeURIComponent(val)}&usd=${isEcgcUsdMode ? '1' : '0'}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    renderEcgcUnderwriting(data);
+  } catch (err) {
+    console.warn('Fallback to local ECGC calculation:', err);
+    const tierMap = {
+      USA: 'A1', ARE: 'A1', DEU: 'A1', GBR: 'A1', JPN: 'A1', SGP: 'A1',
+      SAU: 'A2', KOR: 'A2', ITA: 'A2',
+      MYS: 'B1', POL: 'B1',
+      BRA: 'B2', VNM: 'B2', IDN: 'B2',
+      BGD: 'C1', EGY: 'C1', NGA: 'C1', KEN: 'C1',
+      PAK: 'C2', RUS: 'C2',
+      IRN: 'D'
+    };
+    const tier = tierMap[currentEcgcCountry] || 'B1';
+    const rateMatrix = {
+      A1: { CAD_DP: 0.15, DA_30: 0.25, DA_60: 0.35, DA_90: 0.45, DA_120: 0.55, DA_180: 0.65, LC: 0.10 },
+      A2: { CAD_DP: 0.20, DA_30: 0.32, DA_60: 0.45, DA_90: 0.58, DA_120: 0.70, DA_180: 0.82, LC: 0.14 },
+      B1: { CAD_DP: 0.28, DA_30: 0.42, DA_60: 0.58, DA_90: 0.74, DA_120: 0.90, DA_180: 1.08, LC: 0.18 },
+      B2: { CAD_DP: 0.38, DA_30: 0.58, DA_60: 0.78, DA_90: 0.98, DA_120: 1.20, DA_180: 1.45, LC: 0.25 },
+      C1: { CAD_DP: 0.55, DA_30: 0.85, DA_60: 1.15, DA_90: 1.45, DA_120: 1.80, DA_180: 2.15, LC: 0.38 },
+      C2: { CAD_DP: 0.90, DA_30: 1.40, DA_60: 1.85, DA_90: 2.35, DA_120: 2.85, DA_180: 3.40, LC: 0.65 },
+      D: { CAD_DP: 0.0, DA_30: 0.0, DA_60: 0.0, DA_90: 0.0, DA_120: 0.0, DA_180: 0.0, LC: 0.0 }
+    };
+    const rate = rateMatrix[tier]?.[terms] || 0.35;
+    const valInr = isEcgcUsdMode ? val * 84.55 : val;
+    const isOffCover = tier === 'D';
+    const gross = isOffCover ? 0 : valInr * (rate / 100.0);
+    const gst = gross * 0.18;
+    const net = gross + gst;
+    const cov = isOffCover ? 0 : valInr * 0.90;
+    const ret = isOffCover ? valInr : valInr * 0.10;
+    const dclEligible = (valInr <= 1000000 && ['A1', 'A2', 'B1', 'B2'].includes(tier));
+
+    renderEcgcUnderwriting({
+      country: {
+        country_name: currentEcgcCountry,
+        risk_tier: tier,
+        rating: tier === 'A1' ? 'Insignificant Risk' : (tier === 'D' ? 'Restricted / Off-Cover' : 'Regulated Sovereign Risk'),
+        max_credit_tenor_days: tier === 'D' ? 0 : (tier === 'C2' ? 60 : (tier === 'C1' ? 90 : 180)),
+        underwriting_stance: tier === 'D' ? 'Off-Cover' : (['A1', 'A2'].includes(tier) ? 'Standard Open Cover' : 'Restricted Monitoring')
+      },
+      premium_calculation: {
+        cover_status: isOffCover ? 'OFF-COVER' : 'INSURABLE',
+        statutory_premium_rate_pct: rate,
+        net_premium_payable_inr: Math.round(net)
+      },
+      indemnification_coverage: {
+        ecgc_covered_amount_inr: Math.round(cov),
+        exporter_co_insurance_inr: Math.round(ret)
+      },
+      underwriting_rules: {
+        eligible_for_dcl: dclEligible
+      }
+    });
+  }
+}
+
+function renderEcgcUnderwriting(data) {
+  const c = data.country;
+  const p = data.premium_calculation;
+  const ic = data.indemnification_coverage;
+  const ur = data.underwriting_rules;
+
+  const tenorEl = document.getElementById('ecgc-tenor-badge');
+  const gradeEl = document.getElementById('ecgc-res-grade');
+  const stanceEl = document.getElementById('ecgc-res-stance');
+  const premiumEl = document.getElementById('ecgc-res-premium');
+  const rateDescEl = document.getElementById('ecgc-res-rate-desc');
+  const coverEl = document.getElementById('ecgc-res-cover');
+  const retentionEl = document.getElementById('ecgc-res-retention');
+  const dclVerdictEl = document.getElementById('ecgc-res-dcl-verdict');
+
+  if (tenorEl && c) {
+    tenorEl.textContent = c.max_credit_tenor_days > 0 ? `Max Tenor: ${c.max_credit_tenor_days} Days` : 'Off-Cover (No Credit)';
+    tenorEl.className = c.max_credit_tenor_days > 0 ? 'text-[9px] font-mono font-bold text-emerald-500' : 'text-[9px] font-mono font-bold text-rose-500';
+  }
+
+  if (gradeEl && c) {
+    gradeEl.textContent = `Tier ${c.risk_tier} (${c.rating.split(' ')[0]})`;
+    if (c.risk_tier === 'D' || c.risk_tier === 'C2') {
+      gradeEl.className = 'text-sm font-extrabold font-mono block mt-1 text-rose-500';
+    } else if (c.risk_tier === 'C1' || c.risk_tier === 'B2') {
+      gradeEl.className = 'text-sm font-extrabold font-mono block mt-1 text-amber-500';
+    } else {
+      gradeEl.className = 'text-sm font-extrabold font-mono block mt-1 text-emerald-500';
+    }
+  }
+
+  if (stanceEl && c) stanceEl.textContent = c.underwriting_stance;
+
+  if (premiumEl && p) {
+    if (p.cover_status === 'OFF-COVER') {
+      premiumEl.textContent = 'OFF-COVER';
+      premiumEl.className = 'text-sm font-extrabold font-mono block mt-1 text-rose-500';
+      if (rateDescEl) rateDescEl.textContent = 'Advance / Confirmed LC Only';
+    } else {
+      premiumEl.textContent = `₹${Math.round(p.net_premium_payable_inr).toLocaleString('en-IN')}`;
+      premiumEl.className = 'text-sm font-extrabold font-mono block mt-1 text-blue-500';
+      if (rateDescEl) rateDescEl.textContent = `${p.statutory_premium_rate_pct}% + 18% GST (SAC 9971)`;
+    }
+  }
+
+  if (coverEl && ic) coverEl.textContent = `₹${Math.round(ic.ecgc_covered_amount_inr).toLocaleString('en-IN')}`;
+  if (retentionEl && ic) retentionEl.textContent = `10% Co-Insurance: ₹${Math.round(ic.exporter_co_insurance_inr).toLocaleString('en-IN')}`;
+
+  if (dclVerdictEl && ur) {
+    dclVerdictEl.textContent = ur.eligible_for_dcl ? 'Eligible for DCL' : 'Requires SBL Approval';
+    dclVerdictEl.className = ur.eligible_for_dcl ? 'text-xs font-bold block mt-1 text-emerald-500' : 'text-xs font-bold block mt-1 text-amber-500';
+  }
 }
 
 function copyNcndaAgreement() {
@@ -4141,6 +4292,9 @@ window.viewEntityDossier = viewEntityDossier;
 window.closeEntityDossierModal = closeEntityDossierModal;
 window.selectIncoterm = selectIncoterm;
 window.updateEcgcCountry = updateEcgcCountry;
+window.selectEcgcCountry = selectEcgcCountry;
+window.toggleEcgcCurrency = toggleEcgcCurrency;
+window.runEcgcPremiumCalc = runEcgcPremiumCalc;
 window.copyNcndaAgreement = copyNcndaAgreement;
 window.copyImfpaAgreement = copyImfpaAgreement;
 window.selectCareerPersona = selectCareerPersona;
@@ -4182,6 +4336,7 @@ window.addEventListener('DOMContentLoaded', () => {
   selectPortLogistics('INNSA1');
   selectConcorCorridor('tkd_jnpt');
   selectOceanRoute('IN_EU_ROTTERDAM');
+  selectEcgcCountry('USA');
   selectConsortiumCluster('guntur_chilli');
   selectPitchCorridor('surat_textiles');
   selectTitan('rockefeller');

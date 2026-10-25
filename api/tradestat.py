@@ -14,9 +14,17 @@ class handler(BaseHandler):
         parsed = urllib.parse.urlparse(self.path)
         self._handle_tradestat(parsed.query)
 
+    def do_POST(self):
+        payload, err = self._parse_json_body()
+        if err:
+            status = 413 if "Payload Too Large" in err else 400
+            self._send_json({"error": err}, status=status)
+            return
+        self._handle_tradestat_calc(payload)
+
     def do_OPTIONS(self):
         self.send_response(204)
         self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, OPTIONS")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.end_headers()

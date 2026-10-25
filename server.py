@@ -124,6 +124,8 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
             self._handle_tariff_calc(payload)
         elif parsed.path == "/api/logistics":
             self._handle_logistics_calc(payload)
+        elif parsed.path == "/api/tradestat":
+            self._handle_tradestat_calc(payload)
         else:
             self.send_error(404, "API endpoint not found")
 
@@ -362,17 +364,48 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
 
     def _handle_tradestat(self, query_str: str = ""):
         try:
-            from sources.dgcis_tradestat import get_tradestat_overview, get_partner_profile, get_port_profile
             params = urllib.parse.parse_qs(query_str) if query_str else {}
-            if "country" in params:
-                data = get_partner_profile(params["country"][0])
-            elif "port" in params:
-                data = get_port_profile(params["port"][0]) or {"error": "Port not found"}
+            if "ecgc" in params or "credit" in params or "insurance" in params:
+                from sources.ecgc_risk import get_ecgc_overview, get_country_risk, calculate_ecgc_premium
+                if "calc" in params or "value" in params or "terms" in params:
+                    c = params.get("country", ["USA"])[0]
+                    val = float(params.get("value", [1000000.0])[0])
+                    terms = params.get("terms", ["DA_60"])[0]
+                    is_usd = params.get("usd", ["0"])[0] in ["1", "true", "True"]
+                    data = calculate_ecgc_premium(c, val, terms, is_usd)
+                elif "country" in params:
+                    data = get_country_risk(params["country"][0]) or {"error": "Country not found"}
+                else:
+                    data = get_ecgc_overview()
             else:
-                data = get_tradestat_overview()
+                from sources.dgcis_tradestat import get_tradestat_overview, get_partner_profile, get_port_profile
+                if "country" in params:
+                    data = get_partner_profile(params["country"][0])
+                elif "port" in params:
+                    data = get_port_profile(params["port"][0]) or {"error": "Port not found"}
+                else:
+                    data = get_tradestat_overview()
             self._send_json(data)
         except Exception as e:
             self._send_json({"error": str(e)}, status=500)
+
+    def _handle_tradestat_calc(self, payload: dict):
+        try:
+            action = payload.get("action", "ecgc_premium")
+            if action in ["ecgc_premium", "ecgc_credit_risk", "ecgc"]:
+                from sources.ecgc_risk import calculate_ecgc_premium
+                c = str(payload.get("country", "USA"))[:50]
+                val = float(payload.get("invoice_value_inr", payload.get("value", 1000000.0)))
+                terms = str(payload.get("payment_terms", payload.get("terms", "DA_60")))[:20]
+                is_usd = bool(payload.get("is_usd", False))
+                data = calculate_ecgc_premium(c, val, terms, is_usd)
+            else:
+                from sources.ecgc_risk import get_country_risk
+                c = str(payload.get("country", "USA"))[:50]
+                data = get_country_risk(c) or {"error": "Country not found"}
+            self._send_json(data)
+        except Exception as e:
+            self._send_json({"error": str(e)}, status=400)
 
     def _handle_eway(self, query_str: str = ""):
         try:
