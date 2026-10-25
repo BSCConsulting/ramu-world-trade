@@ -1710,29 +1710,65 @@
         </div>
       </div>
 
-      <!-- FTA / CEPA Value Addition Simulator -->
-      <div class="glass-card rounded-2xl p-4 shadow-xl space-y-2.5">
+      <!-- ITC Market Access Map (MacMap) & Rules of Origin (RoO) Preferential Duty Optimizer -->
+      <div id="itc-macmap-card" class="glass-card rounded-2xl p-4 shadow-xl space-y-3">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-extrabold uppercase tracking-wider">FTA Certificate of Origin (CoO) Simulator</span>
-          <span class="text-[9px] font-mono px-2 py-0.5 rounded-full border" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">CEPA &bull; ECTA &bull; SAFTA</span>
+          <div class="flex items-center space-x-2">
+            <span class="text-xs font-extrabold uppercase tracking-wider">ITC Market Access Map &amp; Rules of Origin (RoO) Optimizer</span>
+            <span id="macmap-statutory-badge" class="text-[9px] px-1.5 py-0.5 rounded font-mono font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">● ITC MACMAP &amp; CAROTAR 2020</span>
+          </div>
+          <span class="text-[10px] font-mono" style="color: var(--text-dim);">macmap.org / cbic.gov.in</span>
         </div>
-        <p class="text-[11px]" style="color: var(--text-muted);">Verify if your consignment qualifies for 0% preferential tariff under India-UAE CEPA or India-Australia ECTA (Rule of Origin: $\ge 35\%$ Value Addition).</p>
-        <div class="grid grid-cols-2 gap-2 text-xs">
+        <p class="text-[11px]" style="color: var(--text-muted);">Model FTA preferential tariffs, calculate Regional Value Content (RVC/Value Addition), verify Change in Tariff Classification (CTC), and audit compliance under CBIC CAROTAR 2020 (Customs Act Sec 28DA).</p>
+
+        <!-- One-Tap FTA / RoO Commodity Presets -->
+        <div class="flex space-x-1.5 overflow-x-auto pb-1 text-[11px] font-mono no-scrollbar">
+          <button type="button" onclick="selectMacmapProduct('711319')" id="macmap-chip-711319" class="macmap-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">💎 UAE CEPA: Gold Jewellery (3% VA)</button>
+          <button type="button" onclick="selectMacmapProduct('610910')" id="macmap-chip-610910" class="macmap-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">👕 Aus ECTA: Cotton Apparel (35% RVC)</button>
+          <button type="button" onclick="selectMacmapProduct('870829')" id="macmap-chip-870829" class="macmap-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">⚙️ ASEAN AIFTA: Auto Parts (5% Duty)</button>
+          <button type="button" onclick="selectMacmapProduct('300490')" id="macmap-chip-300490" class="macmap-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">💊 Japan CEPA: Pharma (0% Duty)</button>
+          <button type="button" onclick="selectMacmapProduct('392321')" id="macmap-chip-392321" class="macmap-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🛍️ UAE CEPA: Polymer Bags (40% VA)</button>
+          <button type="button" onclick="selectMacmapProduct('150710')" id="macmap-chip-150710" class="macmap-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🛢️ Mercosur PTA: Soya Oil (MoP 10%)</button>
+        </div>
+
+        <!-- Agreement / Product Selector Dropdown -->
+        <div>
+          <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Select FTA Preferential Corridor &amp; HS Commodity:</label>
+          <select id="macmap-product-select" onchange="onMacmapProductChange()" class="w-full border rounded-xl p-2.5 text-xs focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);">
+            <option value="711319" selected>India-UAE CEPA: HS 711319 Gold Jewellery (MFN 5% vs CEPA 0% • Rule: CTSH + 3% VA)</option>
+            <option value="610910">India-Australia ECTA: HS 610910 Cotton T-shirts (MFN 5% vs ECTA 0% • Rule: CTSH + 35% RVC)</option>
+            <option value="870829">ASEAN-India AIFTA: HS 870829 Auto Body Components (MFN 15% vs AIFTA 5% • Rule: CTSH + 35% RVC)</option>
+            <option value="300490">India-Japan CEPA: HS 300490 Generic Formulations (MFN 5% vs CEPA 0% • Rule: CTH + 40% QVC)</option>
+            <option value="392321">India-UAE CEPA: HS 392321 Polymers of Ethylene Bags (MFN 5% vs CEPA 0% • Rule: CTSH + 40% VA)</option>
+            <option value="150710">India-Mercosur PTA: HS 150710 Crude Soya Oil (MFN 35% vs PTA 31.5% • Rule: WO / CTH)</option>
+          </select>
+        </div>
+
+        <!-- Simulation Inputs: FOB, VNM, and CTC Compliance -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
           <div>
-            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Imported Raw Material (₹):</label>
-            <input type="number" id="fta-import-val" value="320000" oninput="calculateFtaValueAddition()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" />
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Consignment FOB Value ($ USD):</label>
+            <input type="number" step="100" id="macmap-input-fob" value="100000" onchange="runMacmapCalculation()" oninput="runMacmapCalculation()"
+                   class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none min-h-[42px]"
+                   style="background: var(--input-bg); border-color: var(--card-inner-border);" />
           </div>
           <div>
-            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Export FOB Invoice (₹):</label>
-            <input type="number" id="fta-export-val" value="1000000" oninput="calculateFtaValueAddition()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" />
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Non-Originating Materials VNM ($ USD):</label>
+            <input type="number" step="100" id="macmap-input-vnm" value="96000" onchange="runMacmapCalculation()" oninput="runMacmapCalculation()"
+                   class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none min-h-[42px]"
+                   style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+          </div>
+          <div class="flex flex-col justify-end">
+            <label class="flex items-center space-x-2 border rounded-xl p-2.5 min-h-[42px] cursor-pointer" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              <input type="checkbox" id="macmap-input-ctc" checked onchange="runMacmapCalculation()" class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500" />
+              <span class="text-[11px] font-bold" style="color: var(--text-main);">CTC Met (CTH/CTSH Shift)</span>
+            </label>
           </div>
         </div>
-        <div class="p-2.5 rounded-xl border flex items-center justify-between" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-          <div>
-            <span class="text-[10px] block" style="color: var(--text-dim);">Domestic Value Addition (DVA):</span>
-            <span id="fta-dva-pct" class="text-sm font-extrabold font-mono" style="color: #10B981;">68.0% DVA</span>
-          </div>
-          <span id="fta-coo-status" class="px-2.5 py-1 rounded-full text-[10px] font-bold font-mono" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">✓ QUALIFIES FOR 0% DUTY</span>
+
+        <!-- Dynamic Container for Calculation Results -->
+        <div id="macmap-results-container" class="space-y-2 text-xs">
+          <!-- Populated dynamically by renderMacmapResults -->
         </div>
       </div>
 

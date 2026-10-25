@@ -595,22 +595,6 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
         try:
             from sources.dgft_schedules import get_dgft_overview, lookup_hs_incentive, calculate_export_incentives
             params = urllib.parse.parse_qs(query_str) if query_str else {}
-            if "wto" in params or "dgtr" in params or "anti_dumping" in params or "overhang" in params:
-                from sources.wto_treaties import get_wto_overview, calculate_trade_defense_remedy, get_wto_disputes_tracker
-                if "calc" in params or "hs" in params or "commodity" in params or "export_price" in params:
-                    hs = params.get("hs", params.get("commodity", ["854143"]))[0]
-                    exp_p = float(params["export_price"][0]) if "export_price" in params else None
-                    norm_v = float(params["normal_val"][0]) if "normal_val" in params else None
-                    nip = float(params["nip"][0]) if "nip" in params else None
-                    landed_v = float(params["landed"][0]) if "landed" in params else None
-                    data = calculate_trade_defense_remedy(hs, exp_p, norm_v, nip, landed_v)
-                elif "disputes" in params or "cases" in params:
-                    data = get_wto_disputes_tracker()
-                else:
-                    data = get_wto_overview()
-                self._send_json(data)
-                return
-
             if "calc" in params or "value" in params:
                 val = float(params.get("value", [2000000.0])[0])
                 hs = params.get("hs", params.get("q", ["61091000"]))[0]
@@ -643,6 +627,22 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
         try:
             from sources.cbic_tariff import get_tariff_overview, lookup_tariff_line, calculate_landed_customs_duty
             params = urllib.parse.parse_qs(query_str) if query_str else {}
+            if "macmap" in params or "roo" in params or "fta" in params or "carotar" in params:
+                from sources.itc_macmap import get_macmap_overview, calculate_roo_preferential_duty, get_agreement_details
+                if "agreement" in params:
+                    ag_id = params["agreement"][0]
+                    data = get_agreement_details(ag_id)
+                elif "calc" in params or "hs" in params or "fob" in params or "vnm" in params:
+                    hs = params.get("hs", ["711319"])[0]
+                    fob = float(params["fob"][0]) if "fob" in params else None
+                    vnm = float(params["vnm"][0]) if "vnm" in params else None
+                    ctc = params.get("ctc", ["1"])[0].lower() not in ["0", "false", "no"]
+                    data = calculate_roo_preferential_duty(hs, fob, vnm, ctc)
+                else:
+                    data = get_macmap_overview()
+                self._send_json(data)
+                return
+
             if "wto" in params or "dgtr" in params or "anti_dumping" in params or "overhang" in params:
                 from sources.wto_treaties import get_wto_overview, calculate_trade_defense_remedy, get_wto_disputes_tracker
                 if "calc" in params or "hs" in params or "commodity" in params or "export_price" in params:
@@ -680,6 +680,16 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
     def _handle_tariff_calc(self, payload: dict):
         try:
             action = payload.get("action", "")
+            if action in ["macmap_roo_calc", "macmap", "roo", "fta"]:
+                from sources.itc_macmap import calculate_roo_preferential_duty
+                hs = str(payload.get("hs_code", payload.get("commodity", "711319")))
+                fob = float(payload["fob_value"]) if "fob_value" in payload else None
+                vnm = float(payload["vnm_value"]) if "vnm_value" in payload else None
+                ctc = bool(payload.get("ctc_compliant", True))
+                data = calculate_roo_preferential_duty(hs, fob, vnm, ctc)
+                self._send_json(data)
+                return
+
             if action in ["wto_tariff_overhang", "wto_anti_dumping", "trade_defense", "wto"]:
                 from sources.wto_treaties import calculate_trade_defense_remedy
                 hs = str(payload.get("hs_code", payload.get("commodity", "854143")))
@@ -704,21 +714,7 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
     def _handle_logistics(self, query_str: str = ""):
         try:
             params = urllib.parse.parse_qs(query_str) if query_str else {}
-            if "wto" in params or "dgtr" in params or "anti_dumping" in params or "overhang" in params:
-                from sources.wto_treaties import get_wto_overview, calculate_trade_defense_remedy, get_wto_disputes_tracker
-                if "calc" in params or "hs" in params or "commodity" in params or "export_price" in params:
-                    hs = params.get("hs", params.get("commodity", ["854143"]))[0]
-                    exp_p = float(params["export_price"][0]) if "export_price" in params else None
-                    norm_v = float(params["normal_val"][0]) if "normal_val" in params else None
-                    nip = float(params["nip"][0]) if "nip" in params else None
-                    landed_v = float(params["landed"][0]) if "landed" in params else None
-                    data = calculate_trade_defense_remedy(hs, exp_p, norm_v, nip, landed_v)
-                elif "disputes" in params or "cases" in params:
-                    data = get_wto_disputes_tracker()
-                else:
-                    data = get_wto_overview()
-                self._send_json(data)
-                return
+
 
             if "ocean" in params or "freight" in params or "wci" in params or "fbx" in params:
                 from sources.freight_indices import get_freight_master, get_corridor_freight, calculate_ocean_freight

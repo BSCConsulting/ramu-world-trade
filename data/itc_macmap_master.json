@@ -1,0 +1,222 @@
+{
+  "metadata": {
+    "source": "International Trade Centre (ITC), Geneva / World Customs Organization (WCO) / Department of Commerce, New Delhi",
+    "portal": "https://www.macmap.org",
+    "cbic_portal": "https://www.cbic.gov.in/htdocs-cbec/customs/carotar-2020",
+    "statutory_framework": [
+      "Customs Act, 1962 (Section 28DA - Procedure relating to Origin of Goods)",
+      "Customs Administration of Rules of Origin under Trade Agreements Rules, 2020 (CAROTAR, 2020 - Notification No. 81/2020-Customs N.T.)",
+      "WCO Guidelines on Certification of Origin and Verification",
+      "Foreign Trade Policy 2023 (Chapter 2 - General Provisions Regarding Imports and Exports)"
+    ],
+    "carotar_key_mandate": "Under Section 28DA and CAROTAR 2020, an importer claiming preferential tariff treatment must possess origin-related details (Form I) demonstrating production process and value addition, and can no longer rely solely on a Certificate of Origin (COO).",
+    "updated": "2024-Q3"
+  },
+  "agreements": [
+    {
+      "id": "IND_ARE_CEPA",
+      "name": "India-UAE Comprehensive Economic Partnership Agreement (CEPA)",
+      "partner": "United Arab Emirates",
+      "iso2": "AE",
+      "effective_date": "2022-05-01",
+      "origin_rule_standard": "CTSH + 40% Regional Value Content (RVC) or Specific Product Rule (PSR)",
+      "cumulation": "Bilateral Cumulation permitted between India and UAE",
+      "coo_issuing_agencies": ["DGFT RA Offices", "Export Inspection Council (EIC)", "Federation of Indian Export Organisations (FIEO)"],
+      "coverage": "Over 80% tariff lines duty-free immediately; 90% phased over 5-10 years",
+      "legal_ref": "CBIC Notification No. 22/2022-Customs"
+    },
+    {
+      "id": "IND_AUS_ECTA",
+      "name": "India-Australia Economic Cooperation and Trade Agreement (ECTA)",
+      "partner": "Australia",
+      "iso2": "AU",
+      "effective_date": "2022-12-29",
+      "origin_rule_standard": "CTSH + 35% RVC (Build-down method) or 45% (Build-up method)",
+      "cumulation": "Bilateral Cumulation permitted",
+      "coo_issuing_agencies": ["DGFT", "EIC", "Textiles Committee", "Spices Board"],
+      "coverage": "Australia eliminated tariffs on 100% of Indian tariff lines from Day 1",
+      "legal_ref": "CBIC Notification No. 62/2022-Customs"
+    },
+    {
+      "id": "AIFTA",
+      "name": "ASEAN-India Free Trade Agreement (AIFTA / CECA)",
+      "partner": "ASEAN (10 Member States)",
+      "iso2": "ASEAN",
+      "effective_date": "2010-01-01",
+      "origin_rule_standard": "CTSH + 35% Regional Value Content (FOB basis)",
+      "cumulation": "Regional Cumulation across ASEAN Member States and India",
+      "coo_issuing_agencies": ["EIC", "DGFT", "Marine Products Export Development Authority (MPEDA)"],
+      "coverage": "Substantial tariff reduction on manufacturing and agro commodities",
+      "legal_ref": "CBIC Notification No. 46/2011-Customs"
+    },
+    {
+      "id": "IND_JPN_CEPA",
+      "name": "India-Japan Comprehensive Economic Partnership Agreement (IJCEPA)",
+      "partner": "Japan",
+      "iso2": "JP",
+      "effective_date": "2011-08-01",
+      "origin_rule_standard": "CTSH + 35% Qualifying Value Content (QVC) or CTH",
+      "cumulation": "Bilateral Cumulation permitted",
+      "coo_issuing_agencies": ["EIC", "DGFT"],
+      "coverage": "Covers ~90% of tariff lines; zero duty on pharma, textiles, marine products",
+      "legal_ref": "CBIC Notification No. 69/2011-Customs"
+    },
+    {
+      "id": "SAFTA",
+      "name": "South Asian Free Trade Area (SAFTA)",
+      "partner": "SAARC Countries (Bangladesh, Bhutan, Maldives, Nepal, Pakistan, Sri Lanka)",
+      "iso2": "SAARC",
+      "effective_date": "2006-01-01",
+      "origin_rule_standard": "CTH + 40% Domestic Value Addition (30% for LDCs)",
+      "cumulation": "SAARC Regional Cumulation with 50% regional content (20% domestic)",
+      "coo_issuing_agencies": ["EIC", "DGFT"],
+      "coverage": "Concession schedules for Developing and LDC member countries",
+      "legal_ref": "CBIC Notification No. 99/2004-Customs"
+    },
+    {
+      "id": "IND_MERCOSUR_PTA",
+      "name": "India-Mercosur Preferential Trade Agreement",
+      "partner": "Mercosur (Brazil, Argentina, Paraguay, Uruguay)",
+      "iso2": "MERCOSUR",
+      "effective_date": "2009-06-01",
+      "origin_rule_standard": "CTH + 40% Value Addition (or specific process)",
+      "cumulation": "Bilateral Cumulation between Mercosur and India",
+      "coo_issuing_agencies": ["EIC", "DGFT"],
+      "coverage": "Margin of Preference (MoP) ranging from 10% to 20% on 450+ tariff lines",
+      "legal_ref": "CBIC Notification No. 57/2009-Customs"
+    }
+  ],
+  "products": [
+    {
+      "hs_code": "711319",
+      "name": "Articles of Jewellery & Parts Thereof, of Precious Metal (Gold / Diamond Jewellery)",
+      "agreement_id": "IND_ARE_CEPA",
+      "agreement_name": "India-UAE CEPA",
+      "destination_market": "United Arab Emirates",
+      "mfn_duty_pct": 5.0,
+      "preferential_duty_pct": 0.0,
+      "duty_savings_pct": 5.0,
+      "roo_criterion": "CTSH + 3% Value Addition",
+      "min_value_addition_pct": 3.0,
+      "ctc_rule": "CTSH (Change in Tariff Sub-Heading)",
+      "description": "Zero customs duty in UAE for Indian gold jewellery (saving 5% MFN duty). Requires minimum 3% value addition over raw gold bullion and CTSH shift.",
+      "carotar_risk_tier": "HIGH (Precious metals subject to strict melting and alloy assay audits to prevent round-tripping).",
+      "typical_fob_usd": 100000.0,
+      "default_vnm_usd": 96000.0
+    },
+    {
+      "hs_code": "610910",
+      "name": "T-shirts, Singlets and Other Vests, Knitted or Crocheted, of Cotton",
+      "agreement_id": "IND_AUS_ECTA",
+      "agreement_name": "India-Australia ECTA",
+      "destination_market": "Australia",
+      "mfn_duty_pct": 5.0,
+      "preferential_duty_pct": 0.0,
+      "duty_savings_pct": 5.0,
+      "roo_criterion": "CTSH + 35% Regional Value Content (Build-down)",
+      "min_value_addition_pct": 35.0,
+      "ctc_rule": "CTSH (Change in Tariff Sub-Heading)",
+      "description": "Australia eliminated 5% MFN tariff immediately under ECTA. Levels the playing field against duty-free competitors like Bangladesh and Vietnam.",
+      "carotar_risk_tier": "LOW-MODERATE (Origin of raw cotton and yarn spinning documentation required under Section 28DA).",
+      "typical_fob_usd": 25000.0,
+      "default_vnm_usd": 12000.0
+    },
+    {
+      "hs_code": "870829",
+      "name": "Other Parts and Accessories of Bodies for Motor Vehicles",
+      "agreement_id": "AIFTA",
+      "agreement_name": "ASEAN-India FTA (AIFTA)",
+      "destination_market": "Vietnam / Thailand (ASEAN)",
+      "mfn_duty_pct": 15.0,
+      "preferential_duty_pct": 5.0,
+      "duty_savings_pct": 10.0,
+      "roo_criterion": "CTSH + 35% RVC (FOB basis)",
+      "min_value_addition_pct": 35.0,
+      "ctc_rule": "CTSH (Change in Tariff Sub-Heading)",
+      "description": "Preferential tariff of 5% vs standard 15% MFN, yielding a 10% duty arbitrage advantage across automotive supply chains in Southeast Asia.",
+      "carotar_risk_tier": "MODERATE (Sub-tier raw steel and electronics BOM traceability required).",
+      "typical_fob_usd": 50000.0,
+      "default_vnm_usd": 28000.0
+    },
+    {
+      "hs_code": "300490",
+      "name": "Medicaments Consisting of Mixed or Unmixed Products for Therapeutic Uses (Generic Formulations)",
+      "agreement_id": "IND_JPN_CEPA",
+      "agreement_name": "India-Japan CEPA",
+      "destination_market": "Japan",
+      "mfn_duty_pct": 5.0,
+      "preferential_duty_pct": 0.0,
+      "duty_savings_pct": 5.0,
+      "roo_criterion": "CTH or CTSH + 40% Qualifying Value Content (QVC)",
+      "min_value_addition_pct": 40.0,
+      "ctc_rule": "CTH (Change in Tariff Heading from API HS 2933)",
+      "description": "Zero duty entry into Japan under CEPA. Requires transformation from chemical APIs (Chapter 29) to finished dosage formulations (Chapter 30).",
+      "carotar_risk_tier": "LOW (GMP batch manufacturing records and active pharmaceutical ingredient synthesis evidence).",
+      "typical_fob_usd": 80000.0,
+      "default_vnm_usd": 42000.0
+    },
+    {
+      "hs_code": "392321",
+      "name": "Sacks and Bags (including cones) of Polymers of Ethylene",
+      "agreement_id": "IND_ARE_CEPA",
+      "agreement_name": "India-UAE CEPA",
+      "destination_market": "United Arab Emirates",
+      "mfn_duty_pct": 5.0,
+      "preferential_duty_pct": 0.0,
+      "duty_savings_pct": 5.0,
+      "roo_criterion": "CTSH + 40% Value Addition",
+      "min_value_addition_pct": 40.0,
+      "ctc_rule": "CTSH (Change in Tariff Sub-Heading from raw polymer resin 3901)",
+      "description": "Immediate duty elimination in UAE. Virgin/recycled polymer compounding and extrusion within India qualifies under CTSH + 40% VA.",
+      "carotar_risk_tier": "MODERATE (Requires virgin polymer import invoice verification to verify origin of base granule).",
+      "typical_fob_usd": 30000.0,
+      "default_vnm_usd": 16000.0
+    },
+    {
+      "hs_code": "150710",
+      "name": "Crude Soya-bean Oil, Whether or Not Degummed",
+      "agreement_id": "IND_MERCOSUR_PTA",
+      "agreement_name": "India-Mercosur PTA",
+      "destination_market": "India (Import from Mercosur)",
+      "mfn_duty_pct": 35.0,
+      "preferential_duty_pct": 31.5,
+      "duty_savings_pct": 3.5,
+      "roo_criterion": "Wholly Obtained or 40% Domestic Value Addition",
+      "min_value_addition_pct": 40.0,
+      "ctc_rule": "Wholly Obtained / CTH",
+      "description": "10% Margin of Preference (MoP) on Indian customs tariff, reducing effective basic customs duty from 35.0% to 31.5% for Mercosur origin crushings.",
+      "carotar_risk_tier": "HIGH (Strict origin tracing of oilseed cultivation and extraction mill certificates).",
+      "typical_fob_usd": 120000.0,
+      "default_vnm_usd": 65000.0
+    }
+  ],
+  "carotar_rules": {
+    "section_28da_compliance": [
+      {
+        "step": 1,
+        "title": "Possession of Origin Information (Form I)",
+        "requirement": "The importer must possess sufficient information regarding origin criteria, regional value content calculation, and manufacturing process prior to filing the Bill of Entry."
+      },
+      {
+        "step": 2,
+        "title": "Due Diligence on Certificate of Origin (COO)",
+        "requirement": "Verify that COO is issued by authorized issuing agency with valid digital signature/seal, correct origin criteria code ('WO', 'PSR', 'RVC'), and unbroken invoice correlation."
+      },
+      {
+        "step": 3,
+        "title": "Direct Consignment & Non-Manipulation Rule",
+        "requirement": "Goods must be transported directly from the exporting contracting party. If transshipped through a third country, must provide through Bill of Lading and Certificate of Non-Manipulation from transit port customs."
+      },
+      {
+        "step": 4,
+        "title": "5-Year Record Retention Mandate",
+        "requirement": "All origin supporting documents, bills of materials, supplier declarations, and costing sheets must be retained for at least 5 years from the date of filing the Bill of Entry."
+      },
+      {
+        "step": 5,
+        "title": "Statutory Show Cause Notice (SCN) Risk",
+        "requirement": "Failure to provide origin verification within 10 working days can lead to suspension of preferential tariff treatment and demand for full MFN duty plus interest under Section 28."
+      }
+    ]
+  }
+}

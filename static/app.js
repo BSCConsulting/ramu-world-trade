@@ -5882,6 +5882,162 @@ window.onWtoCommodityChange = onWtoCommodityChange;
 window.runWtoCalculation = runWtoCalculation;
 window.renderWtoResults = renderWtoResults;
 
+// ==========================================
+// PROVIDER 6.3: ITC MACMAP & RULES OF ORIGIN (CAROTAR 2020)
+// ==========================================
+let currentMacmapProduct = '711319';
+
+const MACMAP_PRESETS = {
+  '711319': { fob: 100000, vnm: 96000, ctc: true },
+  '610910': { fob: 25000, vnm: 12000, ctc: true },
+  '870829': { fob: 50000, vnm: 28000, ctc: true },
+  '300490': { fob: 80000, vnm: 42000, ctc: true },
+  '392321': { fob: 30000, vnm: 16000, ctc: true },
+  '150710': { fob: 120000, vnm: 65000, ctc: true }
+};
+
+function selectMacmapProduct(hsCode) {
+  currentMacmapProduct = hsCode;
+  document.querySelectorAll('.macmap-comm-chip').forEach(btn => {
+    btn.style.background = 'var(--card-inner-bg)';
+    btn.style.color = 'var(--text-main)';
+    btn.style.borderColor = 'var(--card-inner-border)';
+  });
+  const chip = document.getElementById('macmap-chip-' + hsCode);
+  if (chip) {
+    chip.style.background = 'var(--accent)';
+    chip.style.color = '#ffffff';
+    chip.style.borderColor = 'transparent';
+  }
+
+  const select = document.getElementById('macmap-product-select');
+  if (select) select.value = hsCode;
+
+  const preset = MACMAP_PRESETS[hsCode] || MACMAP_PRESETS['711319'];
+  const fobInput = document.getElementById('macmap-input-fob');
+  const vnmInput = document.getElementById('macmap-input-vnm');
+  const ctcInput = document.getElementById('macmap-input-ctc');
+
+  if (fobInput) fobInput.value = preset.fob;
+  if (vnmInput) vnmInput.value = preset.vnm;
+  if (ctcInput) ctcInput.checked = preset.ctc;
+
+  runMacmapCalculation();
+}
+
+function onMacmapProductChange() {
+  const select = document.getElementById('macmap-product-select');
+  if (select) selectMacmapProduct(select.value);
+}
+
+async function runMacmapCalculation() {
+  const hs = currentMacmapProduct || '711319';
+  const fob = parseFloat(document.getElementById('macmap-input-fob')?.value) || 100000;
+  const vnm = parseFloat(document.getElementById('macmap-input-vnm')?.value) || 0;
+  const ctc = document.getElementById('macmap-input-ctc')?.checked ?? true;
+  const container = document.getElementById('macmap-results-container');
+  if (!container) return;
+
+  try {
+    const res = await fetch('/api/tariff', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'macmap_roo_calc',
+        hs_code: hs,
+        fob_value: fob,
+        vnm_value: vnm,
+        ctc_compliant: ctc
+      })
+    });
+    if (!res.ok) throw new Error('MacMap HTTP ' + res.status);
+    const data = await res.json();
+    renderMacmapResults(data);
+  } catch (err) {
+    console.error('MacMap calculation error', err);
+  }
+}
+
+function renderMacmapResults(data) {
+  const container = document.getElementById('macmap-results-container');
+  if (!container || !data || !data.calculation) return;
+
+  const prod = data.product;
+  const calc = data.calculation;
+  const duty = data.duty_arbitrage;
+  const checklist = data.carotar_compliance_checklist || [];
+
+  const verdictBg = calc.overall_roo_qualification ? 'rgba(16, 185, 129, 0.12)' : 'rgba(239, 68, 68, 0.12)';
+  const verdictBorder = calc.overall_roo_qualification ? 'rgba(16, 185, 129, 0.3)' : 'rgba(239, 68, 68, 0.3)';
+
+  const html = `
+    <!-- Top 4-Card Waterfall Metric Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-center">
+      <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <span class="text-[10px] block" style="color: var(--text-dim);">Regional Value Content</span>
+        <span class="text-sm font-extrabold font-mono" style="color: ${calc.rvc_compliant ? '#10B981' : '#EF4444'};">${calc.calculated_rvc_pct}%</span>
+        <span class="text-[9px] block text-muted mt-0.5">Threshold: &ge; ${calc.required_rvc_pct}%</span>
+      </div>
+      <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <span class="text-[10px] block" style="color: var(--text-dim);">Standard MFN Duty</span>
+        <span class="text-sm font-extrabold font-mono" style="color: var(--text-main);">$${Math.round(duty.mfn_customs_duty_usd).toLocaleString()}</span>
+        <span class="text-[9px] block text-muted mt-0.5">${duty.mfn_tariff_pct}% MFN Rate</span>
+      </div>
+      <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <span class="text-[10px] block" style="color: var(--text-dim);">Payable FTA Duty</span>
+        <span class="text-sm font-extrabold font-mono" style="color: ${calc.overall_roo_qualification ? '#10B981' : '#EF4444'};">$${Math.round(duty.payable_customs_duty_usd).toLocaleString()}</span>
+        <span class="text-[9px] block text-muted mt-0.5">${duty.preferential_tariff_pct}% Rate</span>
+      </div>
+      <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <span class="text-[10px] block" style="color: var(--text-dim);">Net Duty Arbitrage</span>
+        <span class="text-sm font-extrabold font-mono" style="color: #10B981;">+$${Math.round(duty.net_duty_savings_usd).toLocaleString()}</span>
+        <span class="text-[9px] block text-emerald-500 font-bold mt-0.5">+${duty.duty_savings_pct}% Duty Savings</span>
+      </div>
+    </div>
+
+    <!-- Statutory Origin Verdict Banner -->
+    <div class="p-3 rounded-xl border" style="background: ${verdictBg}; border-color: ${verdictBorder};">
+      <div class="flex items-center justify-between mb-1">
+        <span class="text-xs font-bold" style="color: ${calc.verdict_color};">${calc.verdict_label}</span>
+        <span class="text-[10px] font-mono px-2 py-0.5 rounded font-bold" style="background: ${calc.verdict_color}; color: #ffffff;">${calc.overall_roo_qualification ? 'COO APPROVED' : 'COO DENIED'}</span>
+      </div>
+      <p class="text-[11px]" style="color: var(--text-muted);">${calc.audit_note}</p>
+      <div class="mt-2 text-[10px] flex flex-wrap gap-2 font-mono">
+        <span class="px-2 py-0.5 rounded border" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-dim);">Agreement: ${prod.agreement_name}</span>
+        <span class="px-2 py-0.5 rounded border" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-dim);">Partner: ${prod.destination_market}</span>
+        <span class="px-2 py-0.5 rounded border" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-dim);">Rule: ${prod.roo_criterion}</span>
+      </div>
+    </div>
+
+    <!-- CAROTAR 2020 Statutory Audit Checklist -->
+    <div class="p-3 rounded-xl border space-y-1.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+      <div class="flex items-center justify-between">
+        <span class="text-[10px] font-bold uppercase tracking-wider text-muted">CBIC CAROTAR 2020 Statutory Audit Checklist (Customs Act Sec 28DA)</span>
+        <span class="text-[9px] font-mono text-emerald-500 font-bold">● Form I Required</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-1.5 text-[10px]">
+        ${checklist.map(c => `
+          <div class="p-2 rounded-lg border flex items-start space-x-2" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+            <span class="font-mono font-bold text-amber-500 flex-shrink-0">[${c.status}]</span>
+            <div>
+              <span class="font-bold block" style="color: var(--text-main);">${c.title}</span>
+              <span class="text-[9px] block text-muted">${c.action}</span>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  container.innerHTML = html;
+}
+
+window.selectMacmapProduct = selectMacmapProduct;
+window.onMacmapProductChange = onMacmapProductChange;
+window.runMacmapCalculation = runMacmapCalculation;
+window.renderMacmapResults = renderMacmapResults;
+
+
 
 
 
@@ -6013,6 +6169,8 @@ window.addEventListener('DOMContentLoaded', () => {
   selectTradeGapCountry('US');
   calculateContainerStuffing();
   selectCaseStudy('case-agri-aflatoxin');
+  selectWtoCommodity('854143');
+  selectMacmapProduct('711319');
   selectScnSection('sec-124');
 
   // 4. Initial Load: Default trade pulse query
