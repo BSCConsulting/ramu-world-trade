@@ -5619,11 +5619,269 @@ window.onSpicesCommodityChange = onSpicesCommodityChange;
 window.onSpicesResidueChange = onSpicesResidueChange;
 window.runSpicesAudit = runSpicesAudit;
 window.renderSpicesResults = renderSpicesResults;
+
+// ==========================================
+// Provider 6.2: WTO Bound vs Applied Tariffs & DGTR Trade Defense Radar
+// ==========================================
+
+const WTO_BENCHMARKS = {
+  '854143': { normal: 0.22, export: 0.12, nip: 0.19, landed: 0.14, unit: '$/Watt' },
+  '721933': { normal: 2650.0, export: 1950.0, nip: 2400.0, landed: 2100.0, unit: '$/MT' },
+  '390410': { normal: 1120.0, export: 840.0, nip: 1020.0, landed: 910.0, unit: '$/MT' },
+  '760711': { normal: 3400.0, export: 2450.0, nip: 3100.0, landed: 2680.0, unit: '$/MT' },
+  '151190': { normal: 980.0, export: 890.0, nip: 1050.0, landed: 960.0, unit: '$/MT' },
+  '100630': { normal: 650.0, export: 580.0, nip: 620.0, landed: 610.0, unit: '$/MT' }
+};
+
+function selectWtoCommodity(hsCode) {
+  document.querySelectorAll('.wto-comm-chip').forEach(btn => {
+    btn.style.background = 'var(--card-inner-bg)';
+    btn.style.color = 'var(--text-main)';
+    btn.style.borderColor = 'var(--card-inner-border)';
+  });
+  const chip = document.getElementById(`wto-chip-${hsCode}`);
+  if (chip) {
+    chip.style.background = 'var(--accent)';
+    chip.style.color = '#ffffff';
+    chip.style.borderColor = 'transparent';
+  }
+
+  const commSelect = document.getElementById('wto-commodity-select');
+  if (commSelect) commSelect.value = hsCode;
+
+  const bench = WTO_BENCHMARKS[hsCode] || WTO_BENCHMARKS['854143'];
+  const nvInput = document.getElementById('wto-input-normal-val');
+  const epInput = document.getElementById('wto-input-export-price');
+  const nipInput = document.getElementById('wto-input-nip');
+  const landedInput = document.getElementById('wto-input-landed');
+
+  if (nvInput) nvInput.value = bench.normal;
+  if (epInput) epInput.value = bench.export;
+  if (nipInput) nipInput.value = bench.nip;
+  if (landedInput) landedInput.value = bench.landed;
+
+  runWtoCalculation();
+}
+
+function onWtoCommodityChange() {
+  const commSelect = document.getElementById('wto-commodity-select');
+  if (!commSelect) return;
+  const hsCode = commSelect.value;
+
+  document.querySelectorAll('.wto-comm-chip').forEach(btn => {
+    btn.style.background = 'var(--card-inner-bg)';
+    btn.style.color = 'var(--text-main)';
+    btn.style.borderColor = 'var(--card-inner-border)';
+  });
+  const chip = document.getElementById(`wto-chip-${hsCode}`);
+  if (chip) {
+    chip.style.background = 'var(--accent)';
+    chip.style.color = '#ffffff';
+    chip.style.borderColor = 'transparent';
+  }
+
+  const bench = WTO_BENCHMARKS[hsCode] || WTO_BENCHMARKS['854143'];
+  const nvInput = document.getElementById('wto-input-normal-val');
+  const epInput = document.getElementById('wto-input-export-price');
+  const nipInput = document.getElementById('wto-input-nip');
+  const landedInput = document.getElementById('wto-input-landed');
+
+  if (nvInput) nvInput.value = bench.normal;
+  if (epInput) epInput.value = bench.export;
+  if (nipInput) nipInput.value = bench.nip;
+  if (landedInput) landedInput.value = bench.landed;
+
+  runWtoCalculation();
+}
+
+async function runWtoCalculation() {
+  const commSelect = document.getElementById('wto-commodity-select');
+  const nvInput = document.getElementById('wto-input-normal-val');
+  const epInput = document.getElementById('wto-input-export-price');
+  const nipInput = document.getElementById('wto-input-nip');
+  const landedInput = document.getElementById('wto-input-landed');
+  const container = document.getElementById('wto-defense-container');
+
+  if (!commSelect || !nvInput || !epInput || !nipInput || !landedInput || !container) return;
+
+  const hsCode = commSelect.value;
+  const nv = nvInput.value;
+  const ep = epInput.value;
+  const nip = nipInput.value;
+  const landed = landedInput.value;
+
+  try {
+    const [resWto, resDisputes] = await Promise.all([
+      fetch(`/api/tariff?wto=1&hs=${encodeURIComponent(hsCode)}&normal_val=${encodeURIComponent(nv)}&export_price=${encodeURIComponent(ep)}&nip=${encodeURIComponent(nip)}&landed=${encodeURIComponent(landed)}`),
+      fetch(`/api/tariff?wto=1&disputes=1`)
+    ]);
+
+    if (!resWto.ok) throw new Error(`WTO HTTP ${resWto.status}`);
+    const dataWto = await resWto.json();
+    const dataDisputes = resDisputes.ok ? await resDisputes.json() : null;
+
+    renderWtoResults(dataWto, dataDisputes);
+  } catch (err) {
+    console.error('WTO Trade Defense fetch error:', err);
+    container.innerHTML = `<div class="p-3 text-red-500 bg-red-50/10 rounded-xl border border-red-500/20">Failed to load WTO trade defense calculation: ${err.message}</div>`;
+  }
+}
+
+function renderWtoResults(dataWto, dataDisputes) {
+  const container = document.getElementById('wto-defense-container');
+  if (!container || !dataWto || dataWto.status !== 'success') return;
+
+  const comm = dataWto.commodity || {};
+  const td = dataWto.trade_defense_remedy || {};
+  const bench = WTO_BENCHMARKS[comm.hs_code] || { unit: '$/unit' };
+
+  const overhangVal = comm.tariff_overhang_pct || 0;
+  const overhangColor = comm.overhang_color || '#10B981';
+  const overhangBg = `${overhangColor}15`;
+  const overhangBorder = `${overhangColor}40`;
+
+  const affectedStr = (td.affected_countries || []).join(', ');
+
+  // Disputes Section
+  let disputesHtml = '';
+  if (dataDisputes && dataDisputes.disputes && dataDisputes.disputes.length > 0) {
+    const disputeCards = dataDisputes.disputes.map(d => `
+      <div class="p-2.5 rounded-xl border space-y-1" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <div class="flex items-center justify-between gap-1">
+          <span class="font-bold text-xs" style="color: var(--text-main);">${d.case_id}: ${d.title}</span>
+          <span class="text-[9px] font-mono px-1.5 py-0.5 rounded font-bold" style="background: rgba(217, 119, 6, 0.15); color: #D97706;">WTO DISPUTE</span>
+        </div>
+        <div class="text-[10px] leading-relaxed" style="color: var(--text-muted);">${d.panel_report_status}</div>
+        <div class="text-[9px] font-mono mt-0.5" style="color: var(--accent);">Strategic Implication: ${d.implication}</div>
+      </div>
+    `).join('');
+
+    disputesHtml = `
+      <div class="space-y-1.5 pt-1">
+        <div class="text-[10px] uppercase tracking-wider font-extrabold" style="color: var(--text-dim);">
+          Active Multilateral Dispute Settlements Involving India:
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+          ${disputeCards}
+        </div>
+      </div>
+    `;
+  }
+
+  const html = `
+    <!-- Tariff Overhang & Sovereign Policy Space Banner -->
+    <div class="p-3.5 rounded-xl border flex flex-col md:flex-row md:items-center justify-between gap-3"
+         style="background: ${overhangBg}; border-color: ${overhangBorder};">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase font-mono tracking-wider"
+                style="background: ${overhangColor}; color: #ffffff;">
+            ${comm.overhang_status}
+          </span>
+          <span class="font-extrabold text-xs" style="color: ${overhangColor};">
+            ${comm.overhang_label}
+          </span>
+        </div>
+        <div class="text-xs font-bold mt-1" style="color: var(--text-main);">
+          GATT Schedule XII Bound Rate: ${comm.wto_bound_rate_pct}% &bull; CBIC Applied MFN Rate: ${comm.applied_mfn_rate_pct}%
+        </div>
+        <p class="text-[11px] mt-0.5" style="color: var(--text-muted);">
+          ${comm.policy_implication}
+        </p>
+      </div>
+
+      <div class="flex items-center gap-2 font-mono text-[11px] flex-shrink-0">
+        <div class="text-right">
+          <div class="text-[9px] uppercase font-bold" style="color: var(--text-dim);">Tariff Overhang Water</div>
+          <div class="font-extrabold text-sm" style="color: ${overhangColor};">
+            ${overhangVal >= 0 ? '+' : ''}${overhangVal.toFixed(1)}%
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4-Card Waterfall: Bound vs Applied vs Overhang vs Anti-Dumping Duty -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+      <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <div class="text-[9px] uppercase tracking-wider font-bold" style="color: var(--text-dim);">WTO Bound Ceiling</div>
+        <div class="text-base font-extrabold mt-1 font-mono" style="color: var(--text-main);">${comm.wto_bound_rate_pct.toFixed(1)}%</div>
+        <div class="text-[9px] mt-0.5" style="color: var(--text-muted);">Max Tariff Ceiling under GATT</div>
+      </div>
+
+      <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <div class="text-[9px] uppercase tracking-wider font-bold" style="color: var(--text-dim);">Applied MFN Duty</div>
+        <div class="text-base font-extrabold mt-1 font-mono" style="color: #3B82F6;">${comm.applied_mfn_rate_pct.toFixed(1)}%</div>
+        <div class="text-[9px] mt-0.5" style="color: var(--text-muted);">Basic Customs Duty (BCD)</div>
+      </div>
+
+      <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <div class="text-[9px] uppercase tracking-wider font-bold" style="color: var(--text-dim);">Sovereign Policy Cushion</div>
+        <div class="text-base font-extrabold mt-1 font-mono" style="color: ${overhangColor};">${overhangVal >= 0 ? '+' : ''}${overhangVal.toFixed(1)}%</div>
+        <div class="text-[9px] mt-0.5" style="color: var(--text-muted);">Unilateral Upward Margin</div>
+      </div>
+
+      <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <div class="text-[9px] uppercase tracking-wider font-bold" style="color: var(--text-dim);">Applicable ADD (Lesser Duty)</div>
+        <div class="text-base font-extrabold mt-1 font-mono" style="color: #D97706;">$${td.applicable_anti_dumping_duty.toFixed(2)} ${bench.unit}</div>
+        <div class="text-[9px] mt-0.5" style="color: var(--text-muted);">Statutory Sec 9A ADD</div>
+      </div>
+    </div>
+
+    <!-- DGTR Lesser Duty Rule Anti-Dumping Analysis -->
+    <div class="p-3 rounded-xl border text-xs space-y-2" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+      <div class="flex items-center justify-between flex-wrap gap-1">
+        <div class="flex items-center gap-2">
+          <span class="font-extrabold text-[11px] uppercase tracking-wider" style="color: var(--text-main);">DGTR Anti-Dumping Determination &amp; Lesser Duty Application</span>
+          <span class="text-[9px] font-mono px-1.5 py-0.5 rounded font-bold" style="background: rgba(217, 119, 6, 0.15); color: #D97706;">${td.duty_verdict}</span>
+        </div>
+        <span class="text-[10px] font-mono" style="color: var(--text-dim);">${td.investigating_authority}</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs pt-1">
+        <div class="p-2 rounded-lg border" style="background: rgba(0,0,0,0.02); border-color: var(--card-inner-border);">
+          <div class="text-[10px] font-bold text-blue-600">Dumping Margin (Export Price Distortion):</div>
+          <div class="text-sm font-extrabold font-mono mt-0.5" style="color: var(--text-main);">
+            $${td.dumping_margin.toFixed(2)} ${bench.unit} <span class="text-[10px] font-normal" style="color: var(--text-muted);">(${td.dumping_margin_pct.toFixed(1)}% of Export Price)</span>
+          </div>
+          <div class="text-[9px] mt-0.5" style="color: var(--text-dim);">Normal Value ($${td.normal_value}) - Export Price ($${td.export_price})</div>
+        </div>
+
+        <div class="p-2 rounded-lg border" style="background: rgba(0,0,0,0.02); border-color: var(--card-inner-border);">
+          <div class="text-[10px] font-bold text-amber-600">Injury Margin (Material Injury to Domestic Industry):</div>
+          <div class="text-sm font-extrabold font-mono mt-0.5" style="color: var(--text-main);">
+            $${td.injury_margin.toFixed(2)} ${bench.unit} <span class="text-[10px] font-normal" style="color: var(--text-muted);">(${td.injury_margin_pct.toFixed(1)}% of Landed Value)</span>
+          </div>
+          <div class="text-[9px] mt-0.5" style="color: var(--text-dim);">Non-Injurious Price ($${td.non_injurious_price_nip}) - Landed Value ($${td.landed_value})</div>
+        </div>
+      </div>
+
+      <p class="text-[11px] leading-relaxed" style="color: var(--text-muted);">
+        ${td.rule_applied}
+      </p>
+
+      <div class="text-[10px] font-mono pt-1 border-t flex flex-wrap items-center justify-between gap-1" style="border-color: var(--card-inner-border); color: var(--text-dim);">
+        <span>Affected Exporting Origins: ${affectedStr}</span>
+        <span>WTO ADA Article 9.1 Compliant</span>
+      </div>
+    </div>
+
+    <!-- Active WTO Disputes Tracker -->
+    ${disputesHtml}
+  `;
+
+  container.innerHTML = html;
+}
+
 window.selectComtradeCorridor = selectComtradeCorridor;
 window.onComtradeCorridorChange = onComtradeCorridorChange;
 window.onComtradeMarginChange = onComtradeMarginChange;
 window.runComtradeAnalysis = runComtradeAnalysis;
 window.renderComtradeResults = renderComtradeResults;
+window.selectWtoCommodity = selectWtoCommodity;
+window.onWtoCommodityChange = onWtoCommodityChange;
+window.runWtoCalculation = runWtoCalculation;
+window.renderWtoResults = renderWtoResults;
+
 
 
 

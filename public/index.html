@@ -1639,6 +1639,77 @@
         </div>
       </div>
 
+      
+      <!-- WTO Bound vs Applied Tariffs & DGTR Trade Defense Radar -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3.5">
+        <div class="flex flex-wrap items-center justify-between gap-1">
+          <div class="flex items-center gap-1.5">
+            <span class="text-xs font-extrabold uppercase tracking-wider">WTO Bound vs Applied Tariffs &amp; DGTR Trade Defense Radar</span>
+            <span id="wto-statutory-badge" class="text-[9px] px-1.5 py-0.5 rounded font-mono font-bold" style="background: rgba(217, 119, 6, 0.15); color: #D97706;">● GATT ART VI &amp; DGTR LESSER DUTY</span>
+          </div>
+          <span class="text-[10px] font-mono" style="color: var(--text-dim);">wto.org / dgtr.gov.in</span>
+        </div>
+        <p class="text-[11px]" style="color: var(--text-muted);">Audit WTO Bound vs Applied Tariff Overhang ('water in the tariff'), calculate Anti-Dumping Duties under the Lesser Duty Rule (Customs Tariff Act Sec 9A), and monitor active trade remedy disputes.</p>
+
+        <!-- Scheduled Tariff Line Chips -->
+        <div class="flex gap-1 overflow-x-auto pb-1 text-[10px] font-bold no-scrollbar">
+          <button type="button" onclick="selectWtoCommodity('854143')" id="wto-chip-854143" class="wto-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">☀️ Solar Cells (Disputed Bound 0%)</button>
+          <button type="button" onclick="selectWtoCommodity('721933')" id="wto-chip-721933" class="wto-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">⚙️ Stainless Steel (ADD $300/MT)</button>
+          <button type="button" onclick="selectWtoCommodity('390410')" id="wto-chip-390410" class="wto-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🧪 PVC Resin (ADD $110/MT)</button>
+          <button type="button" onclick="selectWtoCommodity('760711')" id="wto-chip-760711" class="wto-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">📦 Aluminium Foil (ADD $420/MT)</button>
+          <button type="button" onclick="selectWtoCommodity('151190')" id="wto-chip-151190" class="wto-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🛢️ Palm Oil (+287.5% Water)</button>
+          <button type="button" onclick="selectWtoCommodity('100630')" id="wto-chip-100630" class="wto-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🌾 Milled Rice (70% Overhang)</button>
+        </div>
+
+        <!-- Interactive Pricing & Valuation Controls for DGTR Simulation -->
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-2 text-xs">
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Tariff Line / Good:</label>
+            <select id="wto-commodity-select" onchange="onWtoCommodityChange()" class="w-full border rounded-xl p-2.5 text-xs focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);">
+              <option value="854143" selected>☀️ Solar Cells &amp; Modules (HS 854143)</option>
+              <option value="721933">⚙️ Cold Rolled Stainless Steel (HS 721933)</option>
+              <option value="390410">🧪 Polyvinyl Chloride Resin (HS 390410)</option>
+              <option value="760711">📦 Aluminium Foil Bare (HS 760711)</option>
+              <option value="151190">🛢️ Refined Palm Oil (HS 151190)</option>
+              <option value="100630">🌾 Wholly Milled Rice (HS 100630)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Normal Value (Origin Fair Price):</label>
+            <input type="number" step="0.01" id="wto-input-normal-val" value="0.22" onchange="runWtoCalculation()"
+                   class="w-full border rounded-xl p-2.5 text-xs font-mono font-bold focus:outline-none min-h-[42px]"
+                   style="background: var(--input-bg); border-color: var(--card-inner-border); color: var(--text-main);" />
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Export Price (Invoice FOB):</label>
+            <input type="number" step="0.01" id="wto-input-export-price" value="0.12" onchange="runWtoCalculation()"
+                   class="w-full border rounded-xl p-2.5 text-xs font-mono font-bold focus:outline-none min-h-[42px]"
+                   style="background: var(--input-bg); border-color: var(--card-inner-border); color: var(--text-main);" />
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Non-Injurious Price (NIP):</label>
+            <input type="number" step="0.01" id="wto-input-nip" value="0.19" onchange="runWtoCalculation()"
+                   class="w-full border rounded-xl p-2.5 text-xs font-mono font-bold focus:outline-none min-h-[42px]"
+                   style="background: var(--input-bg); border-color: var(--card-inner-border); color: var(--text-main);" />
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Landed Value (CIF + BCD):</label>
+            <input type="number" step="0.01" id="wto-input-landed" value="0.14" onchange="runWtoCalculation()"
+                   class="w-full border rounded-xl p-2.5 text-xs font-mono font-bold focus:outline-none min-h-[42px]"
+                   style="background: var(--input-bg); border-color: var(--card-inner-border); color: var(--text-main);" />
+          </div>
+        </div>
+
+        <!-- Dynamic WTO Trade Defense Container -->
+        <div id="wto-defense-container" class="space-y-2 text-xs">
+          <!-- Populated dynamically by renderWtoResults -->
+        </div>
+      </div>
+
       <!-- FTA / CEPA Value Addition Simulator -->
       <div class="glass-card rounded-2xl p-4 shadow-xl space-y-2.5">
         <div class="flex items-center justify-between">

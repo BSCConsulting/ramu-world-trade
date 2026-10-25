@@ -1,0 +1,202 @@
+{
+  "metadata": {
+    "source": "World Trade Organization (WTO), Geneva / Directorate General of Trade Remedies (DGTR), New Delhi",
+    "portal": "https://www.wto.org",
+    "dgtr_portal": "https://dgtr.gov.in",
+    "statutory_acts": [
+      "General Agreement on Tariffs and Trade (GATT 1994)",
+      "WTO Agreement on Implementation of Article VI of GATT 1994 (Anti-Dumping Agreement)",
+      "WTO Agreement on Subsidies and Countervailing Measures (SCM Agreement)",
+      "Customs Tariff Act, 1975 (Sections 9, 9A, 9B - Anti-Dumping & Countervailing Duties)"
+    ],
+    "lesser_duty_rule_definition": "Under Indian Law (Customs Tariff Act 1975 Sec 9A) and WTO ADA Article 9.1, Anti-Dumping Duty is capped at the lower of the Dumping Margin or the Injury Margin, ensuring duty only offsets actual material injury to domestic industry.",
+    "updated": "2024-Q3"
+  },
+  "tariff_overhang_catalog": {
+    "854143": {
+      "name": "Solar Photovoltaic Cells & Modules (Assembled in modules / made up into panels)",
+      "sector": "Renewable Energy & High-Tech Electronics",
+      "wto_bound_rate_pct": 0.0,
+      "applied_mfn_rate_pct": 25.0,
+      "basic_customs_duty_pct": 25.0,
+      "social_welfare_surcharge_pct": 10.0,
+      "effective_customs_duty_pct": 27.5,
+      "tariff_overhang_pct": -25.0,
+      "overhang_status": "NEGATIVE_OVERHANG_DISPUTED",
+      "wto_concession_note": "Bound at 0% under WTO Information Technology Agreement (ITA-1) in 1997. India levies 25% BCD on cells and 40% on modules to protect domestic manufacturing under PLI, contending modern solar PV technologies were not covered by the 1996 ITA-1 product schedule.",
+      "benchmark_trade_defense": {
+        "investigating_authority": "DGTR, Department of Commerce",
+        "affected_countries": ["China PR", "Vietnam", "Thailand"],
+        "normal_value_usd_per_watt": 0.22,
+        "export_price_usd_per_watt": 0.12,
+        "non_injurious_price_usd_per_watt": 0.19,
+        "landed_value_usd_per_watt": 0.14,
+        "dumping_margin_usd_per_watt": 0.10,
+        "dumping_margin_pct": 83.33,
+        "injury_margin_usd_per_watt": 0.05,
+        "injury_margin_pct": 35.71,
+        "applicable_add_usd_per_watt": 0.05,
+        "rule_applied": "Lesser Duty Rule (Capped at Injury Margin $0.05/W to prevent excessive domestic protection)"
+      }
+    },
+    "721933": {
+      "name": "Cold-Rolled Flat Products of Stainless Steel (Width >= 600mm, Thickness 1mm - 3mm)",
+      "sector": "Metals & Heavy Industrial Manufacturing",
+      "wto_bound_rate_pct": 40.0,
+      "applied_mfn_rate_pct": 7.5,
+      "basic_customs_duty_pct": 7.5,
+      "social_welfare_surcharge_pct": 10.0,
+      "effective_customs_duty_pct": 8.25,
+      "tariff_overhang_pct": 32.5,
+      "overhang_status": "POSITIVE_WATER_HIGH_FLEXIBILITY",
+      "wto_concession_note": "Bound at 40% under GATT Schedule XII. Applied rate of 7.5% gives India 32.5% 'water in the tariff' of unilateral policy space to raise tariffs up to 40% without WTO violation.",
+      "benchmark_trade_defense": {
+        "investigating_authority": "DGTR Notification No. 06/18/2020-DGTR",
+        "affected_countries": ["China PR", "Indonesia", "Malaysia", "Korea RP"],
+        "normal_value_usd_per_tonne": 2650.0,
+        "export_price_usd_per_tonne": 1950.0,
+        "non_injurious_price_usd_per_tonne": 2400.0,
+        "landed_value_usd_per_tonne": 2100.0,
+        "dumping_margin_usd_per_tonne": 700.0,
+        "dumping_margin_pct": 35.90,
+        "injury_margin_usd_per_tonne": 300.0,
+        "injury_margin_pct": 14.29,
+        "applicable_add_usd_per_tonne": 300.0,
+        "rule_applied": "Lesser Duty Rule (Injury Margin $300/MT applies; offsets injury to SAIL / Jindal Stainless)"
+      }
+    },
+    "390410": {
+      "name": "Polyvinyl Chloride (PVC Suspension Resin, Not mixed with any other substances)",
+      "sector": "Petrochemicals & Polymer Extrusions",
+      "wto_bound_rate_pct": 25.0,
+      "applied_mfn_rate_pct": 10.0,
+      "basic_customs_duty_pct": 10.0,
+      "social_welfare_surcharge_pct": 10.0,
+      "effective_customs_duty_pct": 11.0,
+      "tariff_overhang_pct": 15.0,
+      "overhang_status": "POSITIVE_WATER_MODERATE",
+      "wto_concession_note": "Bound at 25%. Applied duty 10% allows 15% upward tariff flexibility. Domestic industry led by Reliance Industries and Chemplast Sanmar.",
+      "benchmark_trade_defense": {
+        "investigating_authority": "DGTR Final Findings No. 6/20/2022-DGTR",
+        "affected_countries": ["United States", "China PR", "Taiwan", "Indonesia", "Japan"],
+        "normal_value_usd_per_tonne": 1120.0,
+        "export_price_usd_per_tonne": 840.0,
+        "non_injurious_price_usd_per_tonne": 1020.0,
+        "landed_value_usd_per_tonne": 910.0,
+        "dumping_margin_usd_per_tonne": 280.0,
+        "dumping_margin_pct": 33.33,
+        "injury_margin_usd_per_tonne": 110.0,
+        "injury_margin_pct": 12.09,
+        "applicable_add_usd_per_tonne": 110.0,
+        "rule_applied": "Lesser Duty Rule (Definitive Anti-Dumping Duty of $110/MT recommended by DGTR)"
+      }
+    },
+    "760711": {
+      "name": "Aluminium Foil (Not backed, rolled but not further worked, Thickness <= 0.2mm)",
+      "sector": "Non-Ferrous Metals & Packaging",
+      "wto_bound_rate_pct": 40.0,
+      "applied_mfn_rate_pct": 7.5,
+      "basic_customs_duty_pct": 7.5,
+      "social_welfare_surcharge_pct": 10.0,
+      "effective_customs_duty_pct": 8.25,
+      "tariff_overhang_pct": 32.5,
+      "overhang_status": "POSITIVE_WATER_HIGH_FLEXIBILITY",
+      "wto_concession_note": "Bound at 40%. Applied rate 7.5%. High tariff water allows strong trade defense against persistent Chinese foil inundation.",
+      "benchmark_trade_defense": {
+        "investigating_authority": "DGTR Notification No. 7/27/2020-DGTR",
+        "affected_countries": ["China PR"],
+        "normal_value_usd_per_tonne": 3400.0,
+        "export_price_usd_per_tonne": 2450.0,
+        "non_injurious_price_usd_per_tonne": 3100.0,
+        "landed_value_usd_per_tonne": 2680.0,
+        "dumping_margin_usd_per_tonne": 950.0,
+        "dumping_margin_pct": 38.78,
+        "injury_margin_usd_per_tonne": 420.0,
+        "injury_margin_pct": 15.67,
+        "applicable_add_usd_per_tonne": 420.0,
+        "rule_applied": "Lesser Duty Rule (Definitive ADD of $420/MT imposed by Ministry of Finance Notification)"
+      }
+    },
+    "151190": {
+      "name": "Refined Bleached Deodorized (RBD) Palm Oil / Palmolein",
+      "sector": "Agriculture & Edible Oils",
+      "wto_bound_rate_pct": 300.0,
+      "applied_mfn_rate_pct": 12.5,
+      "basic_customs_duty_pct": 12.5,
+      "social_welfare_surcharge_pct": 10.0,
+      "effective_customs_duty_pct": 13.75,
+      "tariff_overhang_pct": 287.5,
+      "overhang_status": "EXTREME_POLICY_SPACE_WATER",
+      "wto_concession_note": "World's highest tariff overhang (+287.5%). India negotiated 300% WTO bound ceiling under the Agreement on Agriculture (AoA) to protect 100M+ domestic oilseed farmers (Mustard, Groundnut, Soybean) against cheap palm imports from Indonesia and Malaysia.",
+      "benchmark_trade_defense": {
+        "investigating_authority": "Bilateral Safeguard Mechanism under CECA / AIFTA",
+        "affected_countries": ["Indonesia", "Malaysia"],
+        "normal_value_usd_per_tonne": 980.0,
+        "export_price_usd_per_tonne": 890.0,
+        "non_injurious_price_usd_per_tonne": 1050.0,
+        "landed_value_usd_per_tonne": 960.0,
+        "dumping_margin_usd_per_tonne": 90.0,
+        "dumping_margin_pct": 10.11,
+        "injury_margin_usd_per_tonne": 90.0,
+        "injury_margin_pct": 9.38,
+        "applicable_add_usd_per_tonne": 90.0,
+        "rule_applied": "Tariff Overhang Utilization: Government flexibly adjusts Agriculture Infrastructure Development Cess (AIDC) to balance food inflation vs farmer MSP"
+      }
+    },
+    "100630": {
+      "name": "Semi-Milled or Wholly Milled Rice (Basmati & Non-Basmati Milled)",
+      "sector": "Agriculture & Staple Grains",
+      "wto_bound_rate_pct": 70.0,
+      "applied_mfn_rate_pct": 0.0,
+      "basic_customs_duty_pct": 0.0,
+      "social_welfare_surcharge_pct": 0.0,
+      "effective_customs_duty_pct": 0.0,
+      "tariff_overhang_pct": 70.0,
+      "overhang_status": "POSITIVE_WATER_HIGH_FLEXIBILITY",
+      "wto_concession_note": "Bound rate of 70% vs applied 0-20%. Gives full sovereign leverage to restrict or tax exports (Minimum Export Price MEP, 20% export duty) under GATT Article XI:2(a) food security exemptions.",
+      "benchmark_trade_defense": {
+        "investigating_authority": "DGFT / Department of Food and Public Distribution",
+        "affected_countries": ["Global Exporters / Global Rice Buyers"],
+        "normal_value_usd_per_tonne": 650.0,
+        "export_price_usd_per_tonne": 580.0,
+        "non_injurious_price_usd_per_tonne": 620.0,
+        "landed_value_usd_per_tonne": 610.0,
+        "dumping_margin_usd_per_tonne": 70.0,
+        "dumping_margin_pct": 12.07,
+        "injury_margin_usd_per_tonne": 10.0,
+        "injury_margin_pct": 1.64,
+        "applicable_add_usd_per_tonne": 10.0,
+        "rule_applied": "GATT Article XI Food Security Quarantine Reserve"
+      }
+    }
+  },
+  "wto_disputes_tracker": [
+    {
+      "case_id": "DS584",
+      "title": "India — Tariff Treatment on Certain Information and Communication Technology Goods",
+      "complainants": ["European Union", "Japan", "Chinese Taipei"],
+      "respondent": "India",
+      "subject": "10% to 20% import tariffs levied on mobile phones, telecom base stations, and optical transmission apparatus under ITA-1.",
+      "panel_report_status": "Adverse panel report circulated April 2023. India appealed 'into the void' (WTO Appellate Body currently lacks quorum). Tariffs remain active and legally collected by Indian Customs.",
+      "implication": "Exporters and importers must plan for continued 20% BCD on smartphones (HS 851713)."
+    },
+    {
+      "case_id": "DS579 / DS580 / DS581",
+      "title": "India — Measures Concerning Sugar and Sugarcane",
+      "complainants": ["Australia", "Brazil", "Guatemala"],
+      "respondent": "India",
+      "subject": "Fair and Remunerative Price (FRP) and State Advised Prices (SAP) for sugarcane, and export assistance subsidies under AoA Article 9.",
+      "panel_report_status": "Appealed by India to the Appellate Body. India transitioned export support into mandatory 20% ethanol blending (E20 program) to absorb domestic sugar surplus within WTO-compliant domestic biofuel mandates.",
+      "implication": "Sugar export quotas remain tightly managed via DGFT release orders."
+    },
+    {
+      "case_id": "DS541",
+      "title": "United States — Certain Measures on Steel and Aluminium Products",
+      "complainant": "India",
+      "respondent": "United States",
+      "subject": "US Section 232 tariffs (25% steel, 10% aluminium) on national security grounds.",
+      "panel_report_status": "Mutually agreed solution reached during bilateral G20 summit 2023. India withdrew retaliatory tariffs on 8 US products (apples, walnuts, chickpeas), and US granted Section 232 market access quotas for Indian steel.",
+      "implication": "Full normalization of Indian steel and aluminium export quotas to the United States."
+    }
+  ]
+}
