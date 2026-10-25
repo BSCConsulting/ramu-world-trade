@@ -797,6 +797,37 @@
         </div>
       </div>
 
+      <!-- DGCI&S Principal Commodity Bilateral Matrix & Trade Deficit Radar -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-1">
+          <div class="flex items-center gap-1.5">
+            <span class="text-xs font-extrabold uppercase tracking-wider">DGCI&S Bilateral Commodity Matrix & Deficit Radar</span>
+            <span class="text-[9px] px-1.5 py-0.5 rounded font-mono font-bold" style="background: rgba(59, 130, 246, 0.15); color: #3B82F6;">● HS CHAPTER MATRIX</span>
+          </div>
+          <span class="text-[10px] font-mono" style="color: var(--text-dim);">dgciskol.gov.in / NIRYAT</span>
+        </div>
+        <p class="text-[11px]" style="color: var(--text-muted);">Disaggregated merchandise trade, bilateral top 5 HS chapters (India FOB vs Partner CIF), import coverage ratios, and statutory settlement mechanisms.</p>
+
+        <!-- Partner Country Chips -->
+        <div class="flex gap-1 overflow-x-auto pb-1 text-[10px] font-bold no-scrollbar">
+          <button type="button" onclick="selectTradestatMatrix('USA')" id="ts-mat-btn-USA" class="tradestat-matrix-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🇺🇸 USA (+$35.3B)</button>
+          <button type="button" onclick="selectTradestatMatrix('China')" id="ts-mat-btn-China" class="tradestat-matrix-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇨🇳 China (-$85.0B)</button>
+          <button type="button" onclick="selectTradestatMatrix('UAE')" id="ts-mat-btn-UAE" class="tradestat-matrix-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇦🇪 UAE (-$12.4B)</button>
+          <button type="button" onclick="selectTradestatMatrix('Russia')" id="ts-mat-btn-Russia" class="tradestat-matrix-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇷🇺 Russia (-$57.2B)</button>
+          <button type="button" onclick="selectTradestatMatrix('Netherlands')" id="ts-mat-btn-Netherlands" class="tradestat-matrix-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇳🇱 Netherlands (+$17.3B)</button>
+          <button type="button" onclick="selectTradestatMatrix('Saudi Arabia')" id="ts-mat-btn-SaudiArabia" class="tradestat-matrix-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇸🇦 Saudi (-$20.3B)</button>
+          <button type="button" onclick="selectTradestatMatrix('Germany')" id="ts-mat-btn-Germany" class="tradestat-matrix-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇩🇪 Germany (-$5.0B)</button>
+          <button type="button" onclick="selectTradestatMatrix('Singapore')" id="ts-mat-btn-Singapore" class="tradestat-matrix-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇸🇬 Singapore (+$2.0B)</button>
+          <button type="button" onclick="selectTradestatMatrix('UK')" id="ts-mat-btn-UK" class="tradestat-matrix-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇬🇧 UK (+$4.5B)</button>
+          <button type="button" onclick="selectTradestatMatrix('OVERVIEW')" id="ts-mat-btn-OVERVIEW" class="tradestat-matrix-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">⚖️ Deficit Overview</button>
+        </div>
+
+        <!-- Dynamic Bilateral Matrix Container -->
+        <div id="dgcis-matrix-container" class="space-y-2 text-xs">
+          <!-- Populated dynamically by renderTradestatMatrix -->
+        </div>
+      </div>
+
       <!-- Reconciled Statutory Intelligence Output -->
       <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3">
         <div class="flex items-center justify-between border-b pb-3" style="border-color: var(--card-border);">

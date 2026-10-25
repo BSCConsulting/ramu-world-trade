@@ -95,3 +95,70 @@ def get_port_profile(port_query: str) -> Optional[Dict[str, Any]]:
         if q in port["name"].lower() or q in port["port_code"].lower() or q in port["state"].lower():
             return port
     return None
+
+BILATERAL_ALIAS_MAP = {
+    "us": "USA", "usa": "USA", "united states": "USA", "america": "USA",
+    "uae": "UAE", "united arab emirates": "UAE", "dubai": "UAE",
+    "uk": "United Kingdom", "united kingdom": "United Kingdom", "britain": "United Kingdom", "england": "United Kingdom", "gbr": "United Kingdom",
+    "saudi": "Saudi Arabia", "ksa": "Saudi Arabia", "saudi arabia": "Saudi Arabia", "sau": "Saudi Arabia",
+    "china": "China", "prc": "China", "chn": "China",
+    "russia": "Russia", "rf": "Russia", "rus": "Russia",
+    "germany": "Germany", "deutschland": "Germany", "deu": "Germany",
+    "netherlands": "Netherlands", "holland": "Netherlands", "nld": "Netherlands",
+    "singapore": "Singapore", "sgp": "Singapore"
+}
+
+def get_deficit_rankings() -> Dict[str, Any]:
+    """Returns sorted bilateral trade balances categorised into surplus engines and structural deficit corridors."""
+    data = _load_master()
+    matrix = data.get("bilateral_matrix", {})
+    all_partners = list(matrix.values())
+    
+    surplus = sorted([p for p in all_partners if p.get("trade_balance_usd_billion", 0) > 0],
+                     key=lambda x: x.get("trade_balance_usd_billion", 0), reverse=True)
+    deficit = sorted([p for p in all_partners if p.get("trade_balance_usd_billion", 0) <= 0],
+                     key=lambda x: x.get("trade_balance_usd_billion", 0))
+    
+    total_surplus = round(sum(p.get("trade_balance_usd_billion", 0) for p in surplus), 2)
+    total_deficit = round(sum(p.get("trade_balance_usd_billion", 0) for p in deficit), 2)
+    
+    return {
+        "status": "success",
+        "reporting_period": "FY2023-24",
+        "source": "DGCI&S Tradestat / NIRYAT Bilateral Principal Commodity System",
+        "total_tracked_surplus_usd_billion": total_surplus,
+        "total_tracked_deficit_usd_billion": total_deficit,
+        "net_bilateral_balance_usd_billion": round(total_surplus + total_deficit, 2),
+        "surplus_corridors": surplus,
+        "deficit_corridors": deficit,
+        "all_partners": all_partners
+    }
+
+def get_bilateral_matrix(country_query: Optional[str] = None) -> Dict[str, Any]:
+    """Fetches disaggregated principal commodity bilateral matrix for a specific country or returns deficit overview."""
+    data = _load_master()
+    matrix = data.get("bilateral_matrix", {})
+    if not country_query:
+        return get_deficit_rankings()
+    
+    q = country_query.strip().lower()
+    target_key = BILATERAL_ALIAS_MAP.get(q, country_query.strip())
+    
+    for k, v in matrix.items():
+        if (k.lower() == target_key.lower() or 
+            v.get("country_code", "").lower() == q or 
+            v.get("country_name", "").lower() == q or 
+            q in v.get("country_name", "").lower()):
+            return {
+                "status": "success",
+                "reporting_period": "FY2023-24",
+                "source": "DGCI&S Tradestat / NIRYAT Bilateral Principal Commodity System",
+                "partner": v
+            }
+            
+    return {
+        "status": "error",
+        "error": f"Partner '{country_query}' not found in DGCI&S Principal Bilateral Matrix",
+        "available_partners": [v.get("country_name") for v in matrix.values()]
+    }
+

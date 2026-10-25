@@ -377,6 +377,13 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
                     data = get_country_risk(params["country"][0]) or {"error": "Country not found"}
                 else:
                     data = get_ecgc_overview()
+            elif "matrix" in params or "bilateral" in params:
+                from sources.dgcis_tradestat import get_bilateral_matrix
+                c = params.get("country", [None])[0]
+                data = get_bilateral_matrix(c)
+            elif "deficit" in params or "surplus" in params:
+                from sources.dgcis_tradestat import get_deficit_rankings
+                data = get_deficit_rankings()
             else:
                 from sources.dgcis_tradestat import get_tradestat_overview, get_partner_profile, get_port_profile
                 if "country" in params:
@@ -399,6 +406,13 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
                 terms = str(payload.get("payment_terms", payload.get("terms", "DA_60")))[:20]
                 is_usd = bool(payload.get("is_usd", False))
                 data = calculate_ecgc_premium(c, val, terms, is_usd)
+            elif action in ["bilateral_matrix", "matrix", "dgcis_matrix"]:
+                from sources.dgcis_tradestat import get_bilateral_matrix
+                c = payload.get("country")
+                data = get_bilateral_matrix(c)
+            elif action in ["deficit_rankings", "deficit", "surplus"]:
+                from sources.dgcis_tradestat import get_deficit_rankings
+                data = get_deficit_rankings()
             else:
                 from sources.ecgc_risk import get_country_risk
                 c = str(payload.get("country", "USA"))[:50]

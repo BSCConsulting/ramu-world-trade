@@ -4213,12 +4213,225 @@ async function selectTradestatItem(type, key) {
   }
 }
 
+async function selectTradestatMatrix(partnerCode) {
+  document.querySelectorAll('.tradestat-matrix-chip').forEach(btn => {
+    btn.style.background = 'var(--card-inner-bg)';
+    btn.style.color = 'var(--text-main)';
+    btn.style.borderColor = 'var(--card-inner-border)';
+  });
+  const safeId = (partnerCode || 'USA').replace(/\s+/g, '');
+  const activeBtn = document.getElementById(`ts-mat-btn-${safeId}`) || Array.from(document.querySelectorAll('.tradestat-matrix-chip')).find(b => b.textContent.includes(partnerCode));
+  if (activeBtn) {
+    activeBtn.style.background = 'var(--accent)';
+    activeBtn.style.color = '#ffffff';
+    activeBtn.style.borderColor = 'transparent';
+  }
+
+  const container = document.getElementById('dgcis-matrix-container');
+  if (!container) return;
+
+  try {
+    let url = '/api/tradestat?matrix=1';
+    if (partnerCode && partnerCode !== 'OVERVIEW') {
+      url += `&country=${encodeURIComponent(partnerCode)}`;
+    } else if (partnerCode === 'OVERVIEW') {
+      url = '/api/tradestat?deficit=1';
+    }
+    const res = await fetch(url);
+    if (!res.ok) return;
+    const data = await res.json();
+    renderTradestatMatrix(data, partnerCode);
+  } catch (e) {
+    console.error('Error fetching tradestat matrix:', e);
+  }
+}
+
+function renderTradestatMatrix(data, partnerCode) {
+  const container = document.getElementById('dgcis-matrix-container');
+  if (!container) return;
+
+  if (partnerCode === 'OVERVIEW' || data.surplus_corridors) {
+    const surplusHtml = (data.surplus_corridors || []).map(p => `
+      <div class="flex items-center justify-between p-2 rounded-lg border text-[11px]" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+        <div class="flex items-center gap-1.5">
+          <span>${p.flag || '🌐'}</span>
+          <span class="font-bold">${p.country_name}</span>
+          <span class="text-[9px] px-1 py-0.2 rounded font-mono" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">${p.import_coverage_pct}% Cov</span>
+        </div>
+        <div class="text-right font-mono">
+          <span class="text-emerald-500 font-extrabold">+$${p.trade_balance_usd_billion}B</span>
+          <span class="text-[9px] block opacity-70">Exp: $${p.exports_usd_billion}B</span>
+        </div>
+      </div>
+    `).join('');
+
+    const deficitHtml = (data.deficit_corridors || []).map(p => `
+      <div class="flex items-center justify-between p-2 rounded-lg border text-[11px]" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+        <div class="flex items-center gap-1.5">
+          <span>${p.flag || '🌐'}</span>
+          <span class="font-bold">${p.country_name}</span>
+          <span class="text-[9px] px-1 py-0.2 rounded font-mono" style="background: rgba(239, 68, 68, 0.15); color: #EF4444;">${p.import_coverage_pct}% Cov</span>
+        </div>
+        <div class="text-right font-mono">
+          <span class="text-rose-500 font-extrabold">$${p.trade_balance_usd_billion}B</span>
+          <span class="text-[9px] block opacity-70">Imp: $${p.imports_usd_billion}B</span>
+        </div>
+      </div>
+    `).join('');
+
+    container.innerHTML = `
+      <div class="p-3 rounded-xl border space-y-3" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <div class="grid grid-cols-3 gap-2 text-center font-mono">
+          <div class="p-2 rounded-lg border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+            <span class="text-[9px] block uppercase" style="color: var(--text-dim);">Tracked Surplus Engine</span>
+            <span class="text-xs font-extrabold text-emerald-500">+$${data.total_tracked_surplus_usd_billion}B</span>
+            <span class="text-[8px] block opacity-70">4 Key Corridors</span>
+          </div>
+          <div class="p-2 rounded-lg border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+            <span class="text-[9px] block uppercase" style="color: var(--text-dim);">Structural Deficit</span>
+            <span class="text-xs font-extrabold text-rose-500">$${data.total_tracked_deficit_usd_billion}B</span>
+            <span class="text-[8px] block opacity-70">5 Import Hubs</span>
+          </div>
+          <div class="p-2 rounded-lg border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+            <span class="text-[9px] block uppercase" style="color: var(--text-dim);">Net Bilateral Gap</span>
+            <span class="text-xs font-extrabold text-amber-500">$${data.net_bilateral_balance_usd_billion}B</span>
+            <span class="text-[8px] block opacity-70">Energy & High-Tech</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+          <div class="space-y-1.5">
+            <span class="text-[10px] font-bold uppercase tracking-wider block text-emerald-400">Trade Surplus Engines (Coverage &gt; 100%)</span>
+            <div class="space-y-1">${surplusHtml}</div>
+          </div>
+          <div class="space-y-1.5">
+            <span class="text-[10px] font-bold uppercase tracking-wider block text-rose-400">Structural Trade Deficits (Import Dependencies)</span>
+            <div class="space-y-1">${deficitHtml}</div>
+          </div>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  const p = data.partner || {};
+  const isSurplus = (p.trade_balance_usd_billion || 0) >= 0;
+  const balanceBadgeBg = isSurplus ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.15)';
+  const balanceBadgeColor = isSurplus ? '#10B981' : '#EF4444';
+  const balanceSign = isSurplus ? '+' : '';
+
+  const exportRows = (p.top_export_commodities || []).map((c, i) => `
+    <div class="flex items-center justify-between p-1.5 rounded border text-[11px]" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+      <div class="flex items-center gap-1.5 overflow-hidden">
+        <span class="px-1 py-0.5 rounded font-mono text-[9px] font-bold flex-shrink-0" style="background: rgba(59, 130, 246, 0.15); color: #3B82F6;">HS ${c.hs}</span>
+        <span class="truncate font-medium" title="${c.commodity}">${c.commodity}</span>
+      </div>
+      <div class="text-right font-mono flex-shrink-0 ml-2">
+        <span class="text-emerald-400 font-bold">$${c.value_usd_billion}B</span>
+        <span class="text-[9px] text-gray-400 ml-1">(${c.share_pct}%)</span>
+      </div>
+    </div>
+  `).join('');
+
+  const importRows = (p.top_import_commodities || []).map((c, i) => `
+    <div class="flex items-center justify-between p-1.5 rounded border text-[11px]" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+      <div class="flex items-center gap-1.5 overflow-hidden">
+        <span class="px-1 py-0.5 rounded font-mono text-[9px] font-bold flex-shrink-0" style="background: rgba(239, 68, 68, 0.15); color: #EF4444;">HS ${c.hs}</span>
+        <span class="truncate font-medium" title="${c.commodity}">${c.commodity}</span>
+      </div>
+      <div class="text-right font-mono flex-shrink-0 ml-2">
+        <span class="text-rose-400 font-bold">$${c.value_usd_billion}B</span>
+        <span class="text-[9px] text-gray-400 ml-1">(${c.share_pct}%)</span>
+      </div>
+    </div>
+  `).join('');
+
+  container.innerHTML = `
+    <div class="p-3 rounded-xl border space-y-3" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+      <div class="flex flex-wrap items-center justify-between gap-1">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">${p.flag || '🌐'}</span>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="font-extrabold text-sm" style="color: var(--accent);">${p.country_name} (${p.country_code})</span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded font-mono font-bold" style="background: ${balanceBadgeBg}; color: ${balanceBadgeColor};">
+                ${p.balance_type || (isSurplus ? 'SURPLUS' : 'DEFICIT')}: ${balanceSign}$${p.trade_balance_usd_billion}B
+              </span>
+            </div>
+            <span class="text-[10px] block" style="color: var(--text-dim);">${p.strategic_category || 'Principal Bilateral Trade Partner'}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 KPI Waterfall -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-center font-mono">
+        <div class="p-2 rounded-lg border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+          <span class="text-[9px] block uppercase" style="color: var(--text-dim);">Exports (FOB)</span>
+          <span class="text-xs font-extrabold text-emerald-500">$${p.exports_usd_billion}B</span>
+          <span class="text-[8px] block opacity-70">India Outbound</span>
+        </div>
+        <div class="p-2 rounded-lg border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+          <span class="text-[9px] block uppercase" style="color: var(--text-dim);">Imports (CIF)</span>
+          <span class="text-xs font-extrabold text-rose-500">$${p.imports_usd_billion}B</span>
+          <span class="text-[8px] block opacity-70">India Inbound</span>
+        </div>
+        <div class="p-2 rounded-lg border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+          <span class="text-[9px] block uppercase" style="color: var(--text-dim);">Net Trade Balance</span>
+          <span class="text-xs font-extrabold" style="color: ${balanceBadgeColor};">${balanceSign}$${p.trade_balance_usd_billion}B</span>
+          <span class="text-[8px] block opacity-70">${p.balance_type || 'Merchandise'}</span>
+        </div>
+        <div class="p-2 rounded-lg border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+          <span class="text-[9px] block uppercase" style="color: var(--text-dim);">Import Coverage</span>
+          <span class="text-xs font-extrabold ${p.import_coverage_pct >= 100 ? 'text-emerald-500' : 'text-amber-500'}">${p.import_coverage_pct}%</span>
+          <span class="text-[8px] block opacity-70">${p.import_coverage_pct >= 100 ? 'Exports Fund Imports' : 'Net FX Outflow'}</span>
+        </div>
+      </div>
+
+      <!-- Bilateral Settlement Mechanism Banner -->
+      <div class="p-2.5 rounded-lg border text-[11px] leading-relaxed flex items-start gap-2" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+        <span class="text-base flex-shrink-0">💳</span>
+        <div>
+          <span class="font-bold text-[10px] uppercase tracking-wider block" style="color: var(--accent);">Statutory Settlement Protocol:</span>
+          <span class="text-gray-300">${p.settlement_mechanism || 'Standard SWIFT / Nostro-Vostro Framework'}</span>
+        </div>
+      </div>
+
+      <!-- Dual Commodity Breakdowns -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400">Top 5 Export Commodities (India FOB)</span>
+            <span class="text-[9px] font-mono text-gray-400">HS Chapter</span>
+          </div>
+          <div class="space-y-1">${exportRows}</div>
+        </div>
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-rose-400">Top 5 Import Commodities (India CIF)</span>
+            <span class="text-[9px] font-mono text-gray-400">HS Chapter</span>
+          </div>
+          <div class="space-y-1">${importRows}</div>
+        </div>
+      </div>
+
+      <div class="flex justify-between items-center pt-2 border-t" style="border-color: var(--card-inner-border);">
+        <span class="text-[9px] font-mono" style="color: var(--text-dim);">Official DGCI&S Principal Commodities Database</span>
+        <button onclick="setQuery('Bilateral trade tariffs and market access for ${p.country_name}')" class="text-[10px] font-bold text-blue-500 hover:underline flex items-center gap-1">
+          <span>Explore Bilateral Market Access &rarr;</span>
+        </button>
+      </div>
+    </div>
+  `;
+}
+
 window.fetchLiveForexRates = fetchLiveForexRates;
 window.fetchLiveCbicGazette = fetchLiveCbicGazette;
 window.toggleCbicSchedule = toggleCbicSchedule;
 window.runCbicValuationSim = runCbicValuationSim;
 window.fetchLiveMandiPrice = fetchLiveMandiPrice;
 window.selectTradestatItem = selectTradestatItem;
+window.selectTradestatMatrix = selectTradestatMatrix;
+window.renderTradestatMatrix = renderTradestatMatrix;
 
 // Global Window Bindings for Inline HTML Handlers
 window.selectConsortiumCluster = selectConsortiumCluster;
@@ -4329,6 +4542,7 @@ window.addEventListener('DOMContentLoaded', () => {
   fetchLiveCbicGazette();
   fetchLiveMandiPrice();
   selectTradestatItem('country', 'USA');
+  selectTradestatMatrix('USA');
   selectEwayCorridor('surat_jnpt', 310);
   trackIcegateDocument();
   selectDgftCommodity('61091000', 2500000, 5000);

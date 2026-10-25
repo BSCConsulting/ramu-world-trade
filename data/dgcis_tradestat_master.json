@@ -529,5 +529,691 @@
         "ICD Pune"
       ]
     }
-  ]
+  ],
+  "bilateral_matrix": {
+    "USA": {
+      "country_code": "USA",
+      "country_name": "United States",
+      "flag": "\ud83c\uddfa\ud83c\uddf8",
+      "exports_usd_billion": 77.5,
+      "imports_usd_billion": 42.2,
+      "trade_balance_usd_billion": 35.3,
+      "balance_type": "SURPLUS",
+      "import_coverage_pct": 183.6,
+      "settlement_mechanism": "Standard SWIFT USD Wire via Federal Reserve Correspondent Banking",
+      "strategic_category": "Top Export Destination & Net Trade Surplus Engine",
+      "top_export_commodities": [
+        {
+          "hs": "30",
+          "commodity": "Pharmaceutical Products & Formulations",
+          "value_usd_billion": 8.9,
+          "share_pct": 11.5
+        },
+        {
+          "hs": "71",
+          "commodity": "Gems, Diamonds & Fine Jewelry",
+          "value_usd_billion": 9.8,
+          "share_pct": 12.6
+        },
+        {
+          "hs": "85",
+          "commodity": "Telecom Equipment & Smartphones",
+          "value_usd_billion": 7.2,
+          "share_pct": 9.3
+        },
+        {
+          "hs": "84",
+          "commodity": "Nuclear Reactors, Boilers & Machinery",
+          "value_usd_billion": 6.4,
+          "share_pct": 8.3
+        },
+        {
+          "hs": "61-62",
+          "commodity": "Knitted & Woven Ready-made Garments",
+          "value_usd_billion": 4.8,
+          "share_pct": 6.2
+        }
+      ],
+      "top_import_commodities": [
+        {
+          "hs": "27",
+          "commodity": "Crude Petroleum & Liquefied Gas",
+          "value_usd_billion": 10.8,
+          "share_pct": 25.6
+        },
+        {
+          "hs": "71",
+          "commodity": "Rough Diamonds & Precious Metals",
+          "value_usd_billion": 5.2,
+          "share_pct": 12.3
+        },
+        {
+          "hs": "84-85",
+          "commodity": "Electronics & Mechanical Capital Machinery",
+          "value_usd_billion": 6.1,
+          "share_pct": 14.5
+        },
+        {
+          "hs": "88",
+          "commodity": "Aircraft, Aviation Equipment & Parts",
+          "value_usd_billion": 3.4,
+          "share_pct": 8.1
+        },
+        {
+          "hs": "90",
+          "commodity": "Medical Instruments & High-tech Optics",
+          "value_usd_billion": 2.9,
+          "share_pct": 6.9
+        }
+      ]
+    },
+    "UAE": {
+      "country_code": "ARE",
+      "country_name": "United Arab Emirates",
+      "flag": "\ud83c\udde6\ud83c\uddea",
+      "exports_usd_billion": 35.6,
+      "imports_usd_billion": 48.0,
+      "trade_balance_usd_billion": -12.4,
+      "balance_type": "DEFICIT",
+      "import_coverage_pct": 74.2,
+      "settlement_mechanism": "INR-AED Local Currency Settlement (LCS) & Bilateral Rupee-Dirham Swap",
+      "strategic_category": "CEPA Comprehensive Economic Partnership Agreement Corridor",
+      "top_export_commodities": [
+        {
+          "hs": "2710",
+          "commodity": "Refined Petroleum Products",
+          "value_usd_billion": 8.2,
+          "share_pct": 23.0
+        },
+        {
+          "hs": "7113",
+          "commodity": "Gold Jewelry & Articles of Precious Metal",
+          "value_usd_billion": 5.5,
+          "share_pct": 15.4
+        },
+        {
+          "hs": "85",
+          "commodity": "Smartphones & Consumer Electronics",
+          "value_usd_billion": 3.9,
+          "share_pct": 11.0
+        },
+        {
+          "hs": "10",
+          "commodity": "Cereals & Basmati Rice",
+          "value_usd_billion": 2.1,
+          "share_pct": 5.9
+        },
+        {
+          "hs": "62-63",
+          "commodity": "Apparel & Made-up Textiles",
+          "value_usd_billion": 1.8,
+          "share_pct": 5.1
+        }
+      ],
+      "top_import_commodities": [
+        {
+          "hs": "2709",
+          "commodity": "Crude Petroleum & Mineral Oils",
+          "value_usd_billion": 20.4,
+          "share_pct": 42.5
+        },
+        {
+          "hs": "7108",
+          "commodity": "Gold Bullion & Dore Bars (TRQ Concessional)",
+          "value_usd_billion": 10.5,
+          "share_pct": 21.9
+        },
+        {
+          "hs": "39",
+          "commodity": "Plastics & Primary Polymer Resins",
+          "value_usd_billion": 2.8,
+          "share_pct": 5.8
+        },
+        {
+          "hs": "71",
+          "commodity": "Non-monetary Silver & Gems",
+          "value_usd_billion": 2.2,
+          "share_pct": 4.6
+        },
+        {
+          "hs": "72",
+          "commodity": "Iron & Steel Scrap for Secondary Steel Plants",
+          "value_usd_billion": 1.9,
+          "share_pct": 4.0
+        }
+      ]
+    },
+    "China": {
+      "country_code": "CHN",
+      "country_name": "China",
+      "flag": "\ud83c\udde8\ud83c\uddf3",
+      "exports_usd_billion": 16.7,
+      "imports_usd_billion": 101.7,
+      "trade_balance_usd_billion": -85.0,
+      "balance_type": "DEFICIT",
+      "import_coverage_pct": 16.4,
+      "settlement_mechanism": "USD via Offshore Clearing (Strict scrutiny under FDI Press Note 3)",
+      "strategic_category": "Critical Industrial Supply Dependency & Highest Trade Deficit",
+      "top_export_commodities": [
+        {
+          "hs": "2601",
+          "commodity": "Iron Ore & Agglomerated Concentrates",
+          "value_usd_billion": 3.4,
+          "share_pct": 20.4
+        },
+        {
+          "hs": "27",
+          "commodity": "Refined Petroleum Products",
+          "value_usd_billion": 2.2,
+          "share_pct": 13.2
+        },
+        {
+          "hs": "29",
+          "commodity": "Organic Chemicals & Intermediates",
+          "value_usd_billion": 1.8,
+          "share_pct": 10.8
+        },
+        {
+          "hs": "03",
+          "commodity": "Marine Products & Frozen Shrimp",
+          "value_usd_billion": 1.2,
+          "share_pct": 7.2
+        },
+        {
+          "hs": "52",
+          "commodity": "Cotton Yarns & Raw Cotton",
+          "value_usd_billion": 1.1,
+          "share_pct": 6.6
+        }
+      ],
+      "top_import_commodities": [
+        {
+          "hs": "85",
+          "commodity": "Electronic Components, Microchips & Solar Cells",
+          "value_usd_billion": 33.5,
+          "share_pct": 32.9
+        },
+        {
+          "hs": "84",
+          "commodity": "Industrial Machinery, Precision Tools & Computers",
+          "value_usd_billion": 24.2,
+          "share_pct": 23.8
+        },
+        {
+          "hs": "29",
+          "commodity": "Active Pharmaceutical Ingredients (APIs) & Bulk Drugs",
+          "value_usd_billion": 13.8,
+          "share_pct": 13.6
+        },
+        {
+          "hs": "39",
+          "commodity": "Plastic Raw Materials & Polymers",
+          "value_usd_billion": 5.6,
+          "share_pct": 5.5
+        },
+        {
+          "hs": "72-73",
+          "commodity": "Specialty Steel & Industrial Hardware",
+          "value_usd_billion": 4.9,
+          "share_pct": 4.8
+        }
+      ]
+    },
+    "Russia": {
+      "country_code": "RUS",
+      "country_name": "Russia",
+      "flag": "\ud83c\uddf7\ud83c\uddfa",
+      "exports_usd_billion": 4.2,
+      "imports_usd_billion": 61.4,
+      "trade_balance_usd_billion": -57.2,
+      "balance_type": "DEFICIT",
+      "import_coverage_pct": 6.8,
+      "settlement_mechanism": "Special Rupee Vostro Accounts (SRVA) & Bilateral Rupee-Rouble Clearing",
+      "strategic_category": "Discounted Energy & Fertilizer Security Conduit",
+      "top_export_commodities": [
+        {
+          "hs": "30",
+          "commodity": "Pharmaceutical Formulations & Generics",
+          "value_usd_billion": 0.92,
+          "share_pct": 21.9
+        },
+        {
+          "hs": "85",
+          "commodity": "Telecom & Electronic Hardware",
+          "value_usd_billion": 0.68,
+          "share_pct": 16.2
+        },
+        {
+          "hs": "28-29",
+          "commodity": "Organic & Inorganic Chemicals",
+          "value_usd_billion": 0.45,
+          "share_pct": 10.7
+        },
+        {
+          "hs": "09",
+          "commodity": "Tea, Coffee & Spices",
+          "value_usd_billion": 0.34,
+          "share_pct": 8.1
+        },
+        {
+          "hs": "73-84",
+          "commodity": "Engineering Fasteners, Valves & Pumps",
+          "value_usd_billion": 0.29,
+          "share_pct": 6.9
+        }
+      ],
+      "top_import_commodities": [
+        {
+          "hs": "2709",
+          "commodity": "Crude Mineral Petroleum (Discounted Urals/ESPO)",
+          "value_usd_billion": 53.2,
+          "share_pct": 86.6
+        },
+        {
+          "hs": "31",
+          "commodity": "Chemical Fertilizers (NPK, MOP, Urea)",
+          "value_usd_billion": 3.8,
+          "share_pct": 6.2
+        },
+        {
+          "hs": "2701",
+          "commodity": "Coking Coal & Anthracite Briquettes",
+          "value_usd_billion": 2.4,
+          "share_pct": 3.9
+        },
+        {
+          "hs": "7102",
+          "commodity": "Rough Diamonds (Alrosa Mining)",
+          "value_usd_billion": 0.85,
+          "share_pct": 1.4
+        },
+        {
+          "hs": "1512",
+          "commodity": "Crude Sunflower Seed Oil",
+          "value_usd_billion": 0.62,
+          "share_pct": 1.0
+        }
+      ]
+    },
+    "Netherlands": {
+      "country_code": "NLD",
+      "country_name": "Netherlands",
+      "flag": "\ud83c\uddf3\ud83c\uddf1",
+      "exports_usd_billion": 22.4,
+      "imports_usd_billion": 5.1,
+      "trade_balance_usd_billion": 17.3,
+      "balance_type": "SURPLUS",
+      "import_coverage_pct": 439.2,
+      "settlement_mechanism": "EUR / USD SWIFT Clearing via Rotterdam Gateway",
+      "strategic_category": "European Distribution Gateway & Massive Trade Surplus Hub",
+      "top_export_commodities": [
+        {
+          "hs": "2710",
+          "commodity": "Refined Petroleum Fuels & Ultra-low Sulphur Diesel",
+          "value_usd_billion": 14.2,
+          "share_pct": 63.4
+        },
+        {
+          "hs": "85",
+          "commodity": "Telecom Equipment & Mobile Devices",
+          "value_usd_billion": 2.4,
+          "share_pct": 10.7
+        },
+        {
+          "hs": "29",
+          "commodity": "Organic Chemicals & Intermediates",
+          "value_usd_billion": 1.3,
+          "share_pct": 5.8
+        },
+        {
+          "hs": "76",
+          "commodity": "Aluminum Ingots & Extrusions",
+          "value_usd_billion": 0.85,
+          "share_pct": 3.8
+        },
+        {
+          "hs": "30",
+          "commodity": "Pharmaceutical Products",
+          "value_usd_billion": 0.72,
+          "share_pct": 3.2
+        }
+      ],
+      "top_import_commodities": [
+        {
+          "hs": "29",
+          "commodity": "Industrial Organic Chemicals",
+          "value_usd_billion": 1.4,
+          "share_pct": 27.5
+        },
+        {
+          "hs": "84",
+          "commodity": "Precision Mechanical Appliances & Equipment",
+          "value_usd_billion": 0.95,
+          "share_pct": 18.6
+        },
+        {
+          "hs": "39",
+          "commodity": "Specialty Plastics & Polymers",
+          "value_usd_billion": 0.52,
+          "share_pct": 10.2
+        },
+        {
+          "hs": "90",
+          "commodity": "Medical Instruments & Diagnostics",
+          "value_usd_billion": 0.44,
+          "share_pct": 8.6
+        },
+        {
+          "hs": "72",
+          "commodity": "Recycled Steel & Scrap",
+          "value_usd_billion": 0.38,
+          "share_pct": 7.5
+        }
+      ]
+    },
+    "Saudi Arabia": {
+      "country_code": "SAU",
+      "country_name": "Saudi Arabia",
+      "flag": "\ud83c\uddf8\ud83c\udde6",
+      "exports_usd_billion": 11.5,
+      "imports_usd_billion": 31.8,
+      "trade_balance_usd_billion": -20.3,
+      "balance_type": "DEFICIT",
+      "import_coverage_pct": 36.2,
+      "settlement_mechanism": "USD & Bilateral Rupee-Riyal Mechanism",
+      "strategic_category": "GCC Hydrocarbon Fuel & Food Security Channel",
+      "top_export_commodities": [
+        {
+          "hs": "1006",
+          "commodity": "Basmati & Non-Basmati Milled Rice",
+          "value_usd_billion": 2.4,
+          "share_pct": 20.9
+        },
+        {
+          "hs": "2710",
+          "commodity": "Refined Petroleum Fuels",
+          "value_usd_billion": 1.8,
+          "share_pct": 15.7
+        },
+        {
+          "hs": "29",
+          "commodity": "Organic Chemicals",
+          "value_usd_billion": 0.98,
+          "share_pct": 8.5
+        },
+        {
+          "hs": "73",
+          "commodity": "Seamless Steel Pipes & Industrial Fasteners",
+          "value_usd_billion": 0.82,
+          "share_pct": 7.1
+        },
+        {
+          "hs": "69",
+          "commodity": "Ceramic Vitrified Tiles & Sanitaryware",
+          "value_usd_billion": 0.54,
+          "share_pct": 4.7
+        }
+      ],
+      "top_import_commodities": [
+        {
+          "hs": "2709",
+          "commodity": "Crude Mineral Petroleum (Saudi Aramco)",
+          "value_usd_billion": 22.8,
+          "share_pct": 71.7
+        },
+        {
+          "hs": "2711",
+          "commodity": "Liquefied Petroleum Gas (LPG)",
+          "value_usd_billion": 3.6,
+          "share_pct": 11.3
+        },
+        {
+          "hs": "29-39",
+          "commodity": "Petrochemical Polymers (SABIC)",
+          "value_usd_billion": 3.2,
+          "share_pct": 10.1
+        },
+        {
+          "hs": "31",
+          "commodity": "Chemical Fertilizers & Diammonium Phosphate (DAP)",
+          "value_usd_billion": 1.2,
+          "share_pct": 3.8
+        },
+        {
+          "hs": "28",
+          "commodity": "Inorganic Chemicals & Ammonia",
+          "value_usd_billion": 0.45,
+          "share_pct": 1.4
+        }
+      ]
+    },
+    "Germany": {
+      "country_code": "DEU",
+      "country_name": "Germany",
+      "flag": "\ud83c\udde9\ud83c\uddea",
+      "exports_usd_billion": 9.9,
+      "imports_usd_billion": 15.2,
+      "trade_balance_usd_billion": -5.3,
+      "balance_type": "DEFICIT",
+      "import_coverage_pct": 65.1,
+      "settlement_mechanism": "EUR / USD SWIFT Clearing",
+      "strategic_category": "Advanced European Capital Goods & High-Tech Manufacturing Conduit",
+      "top_export_commodities": [
+        {
+          "hs": "84",
+          "commodity": "Mechanical Appliances & Boilers",
+          "value_usd_billion": 1.8,
+          "share_pct": 18.2
+        },
+        {
+          "hs": "85",
+          "commodity": "Electrical Equipment & Components",
+          "value_usd_billion": 1.6,
+          "share_pct": 16.2
+        },
+        {
+          "hs": "61-62",
+          "commodity": "Knitted & Woven Apparel",
+          "value_usd_billion": 1.2,
+          "share_pct": 12.1
+        },
+        {
+          "hs": "29",
+          "commodity": "Organic Chemicals",
+          "value_usd_billion": 0.85,
+          "share_pct": 8.6
+        },
+        {
+          "hs": "64",
+          "commodity": "Leather Footwear & Travel Goods",
+          "value_usd_billion": 0.62,
+          "share_pct": 6.3
+        }
+      ],
+      "top_import_commodities": [
+        {
+          "hs": "84",
+          "commodity": "Precision CNC Machinery, Turbines & Machine Tools",
+          "value_usd_billion": 4.8,
+          "share_pct": 31.6
+        },
+        {
+          "hs": "85",
+          "commodity": "Industrial Electrical Tech & Automation",
+          "value_usd_billion": 2.6,
+          "share_pct": 17.1
+        },
+        {
+          "hs": "87-88",
+          "commodity": "Automotive & Aerospace Sub-assemblies",
+          "value_usd_billion": 1.9,
+          "share_pct": 12.5
+        },
+        {
+          "hs": "90",
+          "commodity": "Medical Instruments & High-precision Optics",
+          "value_usd_billion": 1.7,
+          "share_pct": 11.2
+        },
+        {
+          "hs": "29-30",
+          "commodity": "Specialty Chemicals & Pharma Actives",
+          "value_usd_billion": 1.4,
+          "share_pct": 9.2
+        }
+      ]
+    },
+    "Singapore": {
+      "country_code": "SGP",
+      "country_name": "Singapore",
+      "flag": "\ud83c\uddf8\ud83c\uddec",
+      "exports_usd_billion": 14.4,
+      "imports_usd_billion": 21.2,
+      "trade_balance_usd_billion": -6.8,
+      "balance_type": "DEFICIT",
+      "import_coverage_pct": 67.9,
+      "settlement_mechanism": "PayNow-UPI Linkage & USD / SGD Bilateral Clearing",
+      "strategic_category": "ASEAN Financial Gateway & Transshipment Conduit",
+      "top_export_commodities": [
+        {
+          "hs": "2710",
+          "commodity": "Refined Petroleum Products",
+          "value_usd_billion": 6.8,
+          "share_pct": 47.2
+        },
+        {
+          "hs": "89",
+          "commodity": "Ships, Tugboats & Floating Structures",
+          "value_usd_billion": 1.8,
+          "share_pct": 12.5
+        },
+        {
+          "hs": "85",
+          "commodity": "Electrical Machinery & Microchips",
+          "value_usd_billion": 1.6,
+          "share_pct": 11.1
+        },
+        {
+          "hs": "71",
+          "commodity": "Precious Metals & Jewelry",
+          "value_usd_billion": 0.95,
+          "share_pct": 6.6
+        },
+        {
+          "hs": "84",
+          "commodity": "Nuclear Reactors & Mechanical Appliances",
+          "value_usd_billion": 0.82,
+          "share_pct": 5.7
+        }
+      ],
+      "top_import_commodities": [
+        {
+          "hs": "85",
+          "commodity": "Electrical Machinery, Integrated Circuits",
+          "value_usd_billion": 5.8,
+          "share_pct": 27.4
+        },
+        {
+          "hs": "27",
+          "commodity": "Petroleum Oils & Bituminous Minerals",
+          "value_usd_billion": 4.6,
+          "share_pct": 21.7
+        },
+        {
+          "hs": "84",
+          "commodity": "Computers & Industrial Data Processing Machines",
+          "value_usd_billion": 3.4,
+          "share_pct": 16.0
+        },
+        {
+          "hs": "29",
+          "commodity": "Industrial Organic Chemicals",
+          "value_usd_billion": 2.1,
+          "share_pct": 9.9
+        },
+        {
+          "hs": "39",
+          "commodity": "Polymer Resins & Plastics",
+          "value_usd_billion": 1.6,
+          "share_pct": 7.5
+        }
+      ]
+    },
+    "United Kingdom": {
+      "country_code": "GBR",
+      "country_name": "United Kingdom",
+      "flag": "\ud83c\uddec\ud83c\udde7",
+      "exports_usd_billion": 12.9,
+      "imports_usd_billion": 8.4,
+      "trade_balance_usd_billion": 4.5,
+      "balance_type": "SURPLUS",
+      "import_coverage_pct": 153.6,
+      "settlement_mechanism": "GBP / USD SWIFT Clearing",
+      "strategic_category": "FTA Negotiation Partner & Net Trade Surplus Market",
+      "top_export_commodities": [
+        {
+          "hs": "8517",
+          "commodity": "Telecom Equipment & Smartphones",
+          "value_usd_billion": 2.1,
+          "share_pct": 16.3
+        },
+        {
+          "hs": "61-62",
+          "commodity": "Knitted & Woven Apparel",
+          "value_usd_billion": 1.9,
+          "share_pct": 14.7
+        },
+        {
+          "hs": "2710",
+          "commodity": "Refined Petroleum Fuels",
+          "value_usd_billion": 1.4,
+          "share_pct": 10.9
+        },
+        {
+          "hs": "30",
+          "commodity": "Medicinal & Pharmaceutical Formulations",
+          "value_usd_billion": 1.2,
+          "share_pct": 9.3
+        },
+        {
+          "hs": "84",
+          "commodity": "Industrial Machinery & Boilers",
+          "value_usd_billion": 0.98,
+          "share_pct": 7.6
+        }
+      ],
+      "top_import_commodities": [
+        {
+          "hs": "71",
+          "commodity": "Natural/Cultured Pearls & Precious Metals",
+          "value_usd_billion": 1.8,
+          "share_pct": 21.4
+        },
+        {
+          "hs": "84",
+          "commodity": "Power Generation Machinery & Gas Turbines",
+          "value_usd_billion": 1.6,
+          "share_pct": 19.0
+        },
+        {
+          "hs": "72",
+          "commodity": "Ferrous Waste & Steel Scrap",
+          "value_usd_billion": 0.95,
+          "share_pct": 11.3
+        },
+        {
+          "hs": "85",
+          "commodity": "Electrical Components & Controllers",
+          "value_usd_billion": 0.82,
+          "share_pct": 9.8
+        },
+        {
+          "hs": "22",
+          "commodity": "Beverages, Spirits & Scotch Whisky",
+          "value_usd_billion": 0.58,
+          "share_pct": 6.9
+        }
+      ]
+    }
+  }
 }
