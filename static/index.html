@@ -17,25 +17,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Chart.js CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Marked.js for Markdown rendering -->
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-            mono: ['"JetBrains Mono"', 'monospace'],
-          }
-        }
-      }
-    }
-  </script>
+  <!-- Self-Hosted Sovereign Tailwind CSS (Zero external network dependencies, 100% offline & CSP compliant) -->
+  <link rel="stylesheet" href="/tailwind.min.css">
+  <!-- Self-Hosted Chart.js -->
+  <script src="/chart.min.js"></script>
+  <!-- Self-Hosted Marked.js -->
+  <script src="/marked.min.js"></script>
 
   <style>
     :root {
@@ -384,9 +371,12 @@
       }
       header,
       nav,
+      #toast,
+      #bottom-sheet,
+      #bottom-sheet-backdrop,
       #bottom-nav,
       #theme-dropdown,
-      #trade-blueprint-section,
+      .sub-tab-nav,
       .no-print {
         display: none !important;
       }
@@ -396,6 +386,8 @@
         color: #000000 !important;
         padding: 0 !important;
         display: block !important;
+        max-height: none !important;
+        overflow: visible !important;
       }
       #trade-blueprint-modal .glass-panel {
         max-width: 100% !important;
@@ -403,6 +395,8 @@
         border: 1px solid #d1d5db !important;
         background: #ffffff !important;
         color: #000000 !important;
+        max-height: none !important;
+        overflow: visible !important;
       }
       .hidden {
         display: none !important;

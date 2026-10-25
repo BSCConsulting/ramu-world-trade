@@ -4,12 +4,15 @@
  * 100% Native Web Standards (Zero External Libraries)
  */
 
-const CACHE_NAME = 'wot-sovereign-v3';
+const CACHE_NAME = 'wot-sovereign-v4';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/app.js',
-  '/manifest.json'
+  '/manifest.json',
+  '/tailwind.min.css',
+  '/chart.min.js',
+  '/marked.min.js'
 ];
 
 self.addEventListener('install', (event) => {
