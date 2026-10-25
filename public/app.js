@@ -1267,6 +1267,136 @@ function renderDgftCalculation(data) {
   }
 }
 
+// 13C. CBIC CUSTOMS TARIFF & 5-LAYER LANDED DUTY ENGINE
+function selectTariffCommodity(hsCode, defaultValue, currency) {
+  const valEl = document.getElementById('tariff-cif-val');
+  const currEl = document.getElementById('tariff-currency');
+  const hsEl = document.getElementById('tariff-hs-input');
+
+  if (valEl) valEl.value = defaultValue;
+  if (currEl && currency) currEl.value = currency;
+  if (hsEl) hsEl.value = hsCode;
+
+  runTariffCalculation();
+}
+
+async function runTariffCalculation() {
+  const valEl = document.getElementById('tariff-cif-val');
+  const currEl = document.getElementById('tariff-currency');
+  const hsEl = document.getElementById('tariff-hs-input');
+  if (!valEl || !hsEl) return;
+
+  const cifValue = parseFloat(valEl.value) || 10000;
+  const currency = (currEl?.value || 'USD').toUpperCase().trim();
+  const hsCode = hsEl.value.trim() || '85171300';
+
+  try {
+    const res = await fetch(`/api/tariff?calc=1&value=${encodeURIComponent(cifValue)}&currency=${encodeURIComponent(currency)}&hs=${encodeURIComponent(hsCode)}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    renderTariffCalculation(data);
+  } catch (err) {
+    console.warn('Fallback to local Tariff calculation:', err);
+    // Statutory fallback rates
+    const rates = { USD: 84.55, EUR: 92.65, GBP: 111.20, AED: 23.05, CNY: 11.90, JPY: 0.572, SGD: 64.80, INR: 1.0 };
+    const exRate = rates[currency] || 84.55;
+    const assessable = cifValue * exRate;
+    let bcdPct = 10.0, aidcPct = 0.0, igstPct = 18.0, desc = 'General Merchandise', notfn = 'Standard Schedule Tariff';
+    
+    if (hsCode.startsWith('8517')) {
+      bcdPct = 15.0; desc = 'Smartphones & Cellular Devices'; notfn = 'Notfn 57/2017-Customs (Entry 526)';
+    } else if (hsCode.startsWith('8471')) {
+      bcdPct = 0.0; desc = 'Laptops & Automatic Data Processors'; notfn = 'ITA-1 WTO Concession';
+    } else if (hsCode.startsWith('8479')) {
+      bcdPct = 7.5; desc = 'Industrial Machinery & Robotic Units'; notfn = 'Standard Schedule Rate';
+    } else if (hsCode.startsWith('1511')) {
+      bcdPct = 12.5; aidcPct = 7.5; igstPct = 5.0; desc = 'Crude Palm Oil (Edible Grade)'; notfn = 'Notfn 48/2021-Customs & S.124 FA 2021';
+    } else if (hsCode.startsWith('2905')) {
+      bcdPct = 5.0; desc = 'Methanol (Methyl Alcohol)'; notfn = 'Standard Chemical Schedule';
+    } else if (hsCode.startsWith('9018')) {
+      bcdPct = 7.5; desc = 'Medical & Surgical Diagnostic Equipment'; notfn = 'Health Cess Surcharge Exempt';
+    } else if (hsCode.startsWith('7108')) {
+      bcdPct = 6.0; aidcPct = 0.0; igstPct = 3.0; desc = 'Gold Dore Bars (Unrefined)'; notfn = 'Union Budget 2024 S.124 Rationalization';
+    }
+
+    const bcd = assessable * (bcdPct / 100);
+    const aidc = assessable * (aidcPct / 100);
+    const sws = (bcd + aidc) * 0.10;
+    const preIgst = assessable + bcd + aidc + sws;
+    const igst = preIgst * (igstPct / 100);
+    const totalDuty = bcd + aidc + sws + igst;
+    const landedCost = assessable + totalDuty;
+    const effPct = Math.round((totalDuty / assessable) * 10000) / 100;
+
+    renderTariffCalculation({
+      cif_input: { amount: cifValue, currency: currency, cbic_exchange_rate: exRate },
+      tariff_line: { commodity: desc, hs_code: hsCode, statutory_notification: notfn, bcd_pct: bcdPct, aidc_pct: aidcPct, igst_pct: igstPct },
+      waterfall_calculation: {
+        step_1_assessable_value_inr: assessable,
+        step_2_basic_customs_duty: { rate_pct: bcdPct, amount_inr: bcd },
+        step_3_aidc: { rate_pct: aidcPct, amount_inr: aidc },
+        step_4_sws: { effective_pct_on_cif: (bcdPct + aidcPct) * 0.10, amount_inr: sws },
+        step_5_pre_igst_subtotal_inr: preIgst,
+        step_6_igst: { rate_pct: igstPct, amount_inr: igst }
+      },
+      summary: {
+        total_customs_duty_inr: totalDuty,
+        total_landed_cost_inr: landedCost,
+        effective_composite_duty_pct: effPct,
+        statutory_notification: notfn
+      }
+    });
+  }
+}
+
+function renderTariffCalculation(data) {
+  const rateEl = document.getElementById('tariff-res-rate');
+  const assessableEl = document.getElementById('tariff-res-assessable');
+  const bcdPctEl = document.getElementById('tariff-res-bcd-pct');
+  const bcdValEl = document.getElementById('tariff-res-bcd-val');
+  const aidcPctEl = document.getElementById('tariff-res-aidc-pct');
+  const aidcValEl = document.getElementById('tariff-res-aidc-val');
+  const swsValEl = document.getElementById('tariff-res-sws-val');
+  const igstPctEl = document.getElementById('tariff-res-igst-pct');
+  const igstValEl = document.getElementById('tariff-res-igst-val');
+  const effPctEl = document.getElementById('tariff-res-effective-pct');
+  const totalDutyEl = document.getElementById('tariff-res-total-duty');
+  const landedCostEl = document.getElementById('tariff-res-landed-cost');
+  const advCommEl = document.getElementById('tariff-advisory-commodity');
+  const advNotfnEl = document.getElementById('tariff-advisory-notification');
+  const advDescEl = document.getElementById('tariff-advisory-desc');
+
+  const w = data.waterfall_calculation;
+  const s = data.summary;
+  const t = data.tariff_line;
+
+  if (rateEl && data.cif_input) rateEl.textContent = `@ ₹${data.cif_input.cbic_exchange_rate}`;
+  if (assessableEl) assessableEl.textContent = `₹${Math.round(w.step_1_assessable_value_inr).toLocaleString('en-IN')}`;
+
+  if (bcdPctEl) bcdPctEl.textContent = `${w.step_2_basic_customs_duty.rate_pct}%`;
+  if (bcdValEl) bcdValEl.textContent = `₹${Math.round(w.step_2_basic_customs_duty.amount_inr).toLocaleString('en-IN')}`;
+
+  if (aidcPctEl) aidcPctEl.textContent = `${w.step_3_aidc.rate_pct}%`;
+  if (aidcValEl) aidcValEl.textContent = `₹${Math.round(w.step_3_aidc.amount_inr).toLocaleString('en-IN')}`;
+
+  if (swsValEl) swsValEl.textContent = `₹${Math.round(w.step_4_sws.amount_inr).toLocaleString('en-IN')}`;
+
+  if (igstPctEl) igstPctEl.textContent = `${w.step_6_igst.rate_pct}%`;
+  if (igstValEl) igstValEl.textContent = `₹${Math.round(w.step_6_igst.amount_inr).toLocaleString('en-IN')}`;
+
+  if (effPctEl) effPctEl.textContent = `${s.effective_composite_duty_pct}%`;
+  if (totalDutyEl) totalDutyEl.textContent = `₹${Math.round(s.total_customs_duty_inr).toLocaleString('en-IN')}`;
+  if (landedCostEl) landedCostEl.textContent = `₹${Math.round(s.total_landed_cost_inr).toLocaleString('en-IN')}`;
+
+  if (advCommEl && t) advCommEl.textContent = `${t.commodity} (ITC-HS ${t.hs_code})`;
+  if (advNotfnEl && (t?.statutory_notification || s?.statutory_notification)) {
+    advNotfnEl.textContent = t?.statutory_notification || s?.statutory_notification;
+  }
+  if (advDescEl && t) {
+    advDescEl.textContent = `Assessed at ${data.cif_input.currency} 1 = ₹${data.cif_input.cbic_exchange_rate} (CBIC Gazette Rate) • SWS 10% on (BCD+AIDC) = ₹${Math.round(w.step_4_sws.amount_inr).toLocaleString('en-IN')} • IGST ${w.step_6_igst.rate_pct}% on Pre-IGST Subtotal ₹${Math.round(w.step_5_pre_igst_subtotal_inr).toLocaleString('en-IN')}.`;
+  }
+}
+
 // 14. FTA CERTIFICATE OF ORIGIN (CoO) SIMULATOR
 function calculateFtaValueAddition() {
   const imp = parseFloat(document.getElementById('fta-import-val')?.value) || 0;
@@ -3542,6 +3672,8 @@ window.switchIcegateMode = switchIcegateMode;
 window.trackIcegateDocument = trackIcegateDocument;
 window.selectDgftCommodity = selectDgftCommodity;
 window.runDgftCalculation = runDgftCalculation;
+window.selectTariffCommodity = selectTariffCommodity;
+window.runTariffCalculation = runTariffCalculation;
 window.calculateFtaValueAddition = calculateFtaValueAddition;
 window.copyBreakdownNotice = copyBreakdownNotice;
 window.updateDistrictDeepDive = updateDistrictDeepDive;
@@ -3589,6 +3721,7 @@ window.addEventListener('DOMContentLoaded', () => {
   selectEwayCorridor('surat_jnpt', 310);
   trackIcegateDocument();
   selectDgftCommodity('61091000', 2500000, 5000);
+  selectTariffCommodity('85171300', 10000, 'USD');
   selectConsortiumCluster('guntur_chilli');
   selectPitchCorridor('surat_textiles');
   selectTitan('rockefeller');

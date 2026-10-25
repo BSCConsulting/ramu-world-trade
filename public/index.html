@@ -1249,6 +1249,148 @@
         </div>
       </div>
 
+      <!-- Provider 2.3: CBIC Section 12 Customs Tariff & 5-Layer Landed Duty Engine -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="text-sm font-extrabold uppercase tracking-wider">CBIC Customs Tariff & Landed Duty Engine</span>
+            <span class="text-[9px] font-mono px-2 py-0.5 rounded-full border" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); color: #10b981;">Section 12 CTA 1975</span>
+          </div>
+          <span class="text-[9px] font-mono px-2 py-0.5 rounded-full border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-dim);">5-Tier Waterfall &bull; SWS 10% &bull; IGST S.3(7)</span>
+        </div>
+
+        <p class="text-[11px] leading-relaxed" style="color: var(--text-muted);">
+          Calculates statutory import duty stack on CIF invoice: <strong>Assessable Value</strong> (CBIC Gazette Rate) &rarr; <strong>BCD</strong> (Section 12) &rarr; <strong>AIDC</strong> (Section 124 Finance Act 2021) &rarr; <strong>SWS</strong> (10% on BCD+AIDC) &rarr; <strong>IGST</strong> (stacked on Assessable+BCD+AIDC+SWS).
+        </p>
+
+        <!-- Quick Commodity Preset Chips -->
+        <div class="flex items-center gap-1.5 overflow-x-auto pb-1 text-[10px]">
+          <span class="text-[9px] font-bold uppercase shrink-0" style="color: var(--text-dim);">Presets:</span>
+          <button type="button" onclick="selectTariffCommodity('85171300', 10000, 'USD')" class="px-2 py-1 rounded-lg border whitespace-nowrap font-medium hover:border-emerald-500 transition-colors" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">📱 Smartphones (37.5%)</button>
+          <button type="button" onclick="selectTariffCommodity('84713010', 15000, 'USD')" class="px-2 py-1 rounded-lg border whitespace-nowrap font-medium hover:border-emerald-500 transition-colors" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">💻 Laptops (18.0%)</button>
+          <button type="button" onclick="selectTariffCommodity('84798999', 50000, 'EUR')" class="px-2 py-1 rounded-lg border whitespace-nowrap font-medium hover:border-emerald-500 transition-colors" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">⚙️ Machinery (27.7%)</button>
+          <button type="button" onclick="selectTariffCommodity('15111000', 25000, 'USD')" class="px-2 py-1 rounded-lg border whitespace-nowrap font-medium hover:border-emerald-500 transition-colors" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🌴 Crude Palm Oil (33.9%)</button>
+          <button type="button" onclick="selectTariffCommodity('29051100', 20000, 'USD')" class="px-2 py-1 rounded-lg border whitespace-nowrap font-medium hover:border-emerald-500 transition-colors" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🧪 Methanol (24.5%)</button>
+          <button type="button" onclick="selectTariffCommodity('90189099', 30000, 'USD')" class="px-2 py-1 rounded-lg border whitespace-nowrap font-medium hover:border-emerald-500 transition-colors" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🩺 Medical Devices (21.2%)</button>
+          <button type="button" onclick="selectTariffCommodity('71081200', 100000, 'AED')" class="px-2 py-1 rounded-lg border whitespace-nowrap font-medium hover:border-emerald-500 transition-colors" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🪙 Gold Dore (9.8%)</button>
+        </div>
+
+        <!-- Input Form -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-2 text-xs">
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">CIF Consignment Value:</label>
+            <input type="number" id="tariff-cif-val" value="10000" step="100" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Invoice Currency:</label>
+            <select id="tariff-currency" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);">
+              <option value="USD" selected>USD (US Dollar)</option>
+              <option value="EUR">EUR (Euro)</option>
+              <option value="GBP">GBP (British Pound)</option>
+              <option value="AED">AED (UAE Dirham)</option>
+              <option value="CNY">CNY (Chinese Yuan)</option>
+              <option value="JPY">JPY (Japanese Yen)</option>
+              <option value="SGD">SGD (Singapore Dollar)</option>
+              <option value="INR">INR (Indian Rupee)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">ITC-HS Code / Commodity:</label>
+            <input type="text" id="tariff-hs-input" value="85171300" placeholder="e.g. 85171300 or Smartphones" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+          </div>
+          <div class="flex items-end">
+            <button type="button" onclick="runTariffCalculation()" class="w-full py-2.5 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md text-white bg-emerald-600 hover:bg-emerald-700">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+              <span>Compute Duty Stack</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 5-Layer Waterfall Results Grid -->
+        <div id="tariff-results-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2 pt-1 text-xs">
+          <!-- Step 1: Assessable Value -->
+          <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="flex items-center justify-between">
+              <span class="text-[9px] uppercase font-bold" style="color: var(--text-dim);">Assessable Value</span>
+              <span id="tariff-res-rate" class="text-[9px] font-mono" style="color: var(--text-dim);">@ ₹84.55</span>
+            </div>
+            <span id="tariff-res-assessable" class="text-sm font-extrabold font-mono block mt-1" style="color: var(--text-main);">₹8,45,500</span>
+            <span class="text-[9px] font-mono" style="color: var(--text-muted);">CIF &times; Gazette Rate</span>
+          </div>
+
+          <!-- Step 2: BCD -->
+          <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="flex items-center justify-between">
+              <span class="text-[9px] uppercase font-bold text-blue-500">BCD (Basic)</span>
+              <span id="tariff-res-bcd-pct" class="text-[9px] font-mono font-bold text-blue-500">15.0%</span>
+            </div>
+            <span id="tariff-res-bcd-val" class="text-sm font-extrabold font-mono block mt-1 text-blue-500">₹1,26,825</span>
+            <span class="text-[9px] font-mono" style="color: var(--text-muted);">CTA 1975 S.12</span>
+          </div>
+
+          <!-- Step 3: AIDC -->
+          <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="flex items-center justify-between">
+              <span class="text-[9px] uppercase font-bold text-amber-500">AIDC Cess</span>
+              <span id="tariff-res-aidc-pct" class="text-[9px] font-mono font-bold text-amber-500">0.0%</span>
+            </div>
+            <span id="tariff-res-aidc-val" class="text-sm font-extrabold font-mono block mt-1 text-amber-500">₹0</span>
+            <span class="text-[9px] font-mono" style="color: var(--text-muted);">Finance Act 2021 S.124</span>
+          </div>
+
+          <!-- Step 4: SWS -->
+          <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="flex items-center justify-between">
+              <span class="text-[9px] uppercase font-bold text-purple-500">SWS Surcharge</span>
+              <span id="tariff-res-sws-pct" class="text-[9px] font-mono font-bold text-purple-500">10% on Duty</span>
+            </div>
+            <span id="tariff-res-sws-val" class="text-sm font-extrabold font-mono block mt-1 text-purple-500">₹12,683</span>
+            <span class="text-[9px] font-mono" style="color: var(--text-muted);">Finance Act 2018 C.110</span>
+          </div>
+
+          <!-- Step 5: IGST -->
+          <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="flex items-center justify-between">
+              <span class="text-[9px] uppercase font-bold text-indigo-500">IGST</span>
+              <span id="tariff-res-igst-pct" class="text-[9px] font-mono font-bold text-indigo-500">18.0%</span>
+            </div>
+            <span id="tariff-res-igst-val" class="text-sm font-extrabold font-mono block mt-1 text-indigo-500">₹1,77,301</span>
+            <span class="text-[9px] font-mono" style="color: var(--text-muted);">CTA 1975 S.3(7)</span>
+          </div>
+
+          <!-- Step 6: Total Duty -->
+          <div class="p-2.5 rounded-2xl border" style="background: rgba(239, 68, 68, 0.08); border-color: rgba(239, 68, 68, 0.25);">
+            <div class="flex items-center justify-between">
+              <span class="text-[9px] uppercase font-bold text-red-500">Total Customs Duty</span>
+              <span id="tariff-res-effective-pct" class="text-[9px] font-mono font-bold text-red-500">37.47%</span>
+            </div>
+            <span id="tariff-res-total-duty" class="text-sm font-extrabold font-mono block mt-1 text-red-500">₹3,16,809</span>
+            <span class="text-[9px] font-mono" style="color: var(--text-muted);">BCD + AIDC + SWS + IGST</span>
+          </div>
+
+          <!-- Step 7: Landed Cost -->
+          <div class="p-2.5 rounded-2xl border" style="background: var(--accent-light); border-color: var(--accent-border);">
+            <div class="flex items-center justify-between">
+              <span class="text-[9px] uppercase font-bold" style="color: var(--accent);">Total Landed Cost</span>
+              <span class="text-[9px] font-mono font-bold" style="color: var(--accent);">CIF + Duty</span>
+            </div>
+            <span id="tariff-res-landed-cost" class="text-sm font-extrabold font-mono block mt-1" style="color: var(--accent);">₹11,62,309</span>
+            <span class="text-[9px] font-mono" style="color: var(--text-muted);">Final Cleared Valuation</span>
+          </div>
+        </div>
+
+        <!-- Tariff Statutory Notification & Classification Note -->
+        <div id="tariff-advisory-box" class="p-3 rounded-2xl border space-y-1 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <span id="tariff-advisory-commodity" class="font-bold text-[11px]" style="color: var(--text-main);">Smartphones & Cellular Network Devices (ITC-HS 8517.13.00)</span>
+            <span id="tariff-advisory-notification" class="text-[9px] font-mono px-2 py-0.5 rounded-md border" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-dim);">Notfn 57/2017-Customs (Entry 526)</span>
+          </div>
+          <p id="tariff-advisory-desc" class="text-[10px] leading-relaxed" style="color: var(--text-muted);">
+            Social Welfare Surcharge (SWS 10%) is levied strictly on (BCD + AIDC). IGST is computed on stacked valuation (Assessable Value + BCD + AIDC + SWS) under Section 3(7) of Customs Tariff Act 1975.
+          </p>
+        </div>
+      </div>
+
       <!-- FTA / CEPA Value Addition Simulator -->
       <div class="glass-card rounded-2xl p-4 shadow-xl space-y-2.5">
         <div class="flex items-center justify-between">

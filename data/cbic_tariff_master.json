@@ -1,0 +1,198 @@
+{
+  "metadata": {
+    "title": "CBIC Customs Tariff First Schedule & 5-Layer Landed Duty Master",
+    "authority": "Central Board of Indirect Taxes and Customs (CBIC), Department of Revenue, Ministry of Finance",
+    "statutory_act": "Customs Tariff Act, 1975 (Act No. 51 of 1975)",
+    "portal_url": "https://www.cbic.gov.in",
+    "updated_at": "2026-10-25"
+  },
+  "statutory_rules": {
+    "assessable_value": {
+      "name": "Assessable Value (CIF in INR)",
+      "legal_basis": "Section 14 of Customs Act, 1962 & Customs Valuation Rules, 2007",
+      "formula": "(FOB Value + Freight + Insurance) converted at notified CBIC Gazette Rate"
+    },
+    "bcd": {
+      "name": "Basic Customs Duty (BCD)",
+      "legal_basis": "Section 12 of Customs Act, 1962 read with First Schedule to Customs Tariff Act, 1975",
+      "formula": "Assessable Value * BCD Rate %"
+    },
+    "aidc": {
+      "name": "Agriculture Infrastructure and Development Cess (AIDC)",
+      "legal_basis": "Section 124 of Finance Act, 2021",
+      "formula": "Assessable Value * AIDC Rate %"
+    },
+    "sws": {
+      "name": "Social Welfare Surcharge (SWS)",
+      "legal_basis": "Clause 110 of Finance Act, 2018 (replaces Education Cess)",
+      "formula": "10% of (BCD + AIDC)"
+    },
+    "igst": {
+      "name": "Integrated Goods and Services Tax (IGST)",
+      "legal_basis": "Section 3(7) of Customs Tariff Act, 1975 read with Section 5 of IGST Act, 2017",
+      "formula": "(Assessable Value + BCD + AIDC + SWS) * IGST Rate %"
+    }
+  },
+  "tariff_lines": [
+    {
+      "hs_code": "85171300",
+      "display_hs": "8517.13.00",
+      "commodity": "Smartphones & Cellular Network Devices",
+      "chapter": "85",
+      "sector": "Electronics",
+      "bcd_pct": 15.0,
+      "aidc_pct": 0.0,
+      "sws_pct": 1.5,
+      "igst_pct": 18.0,
+      "effective_duty_pct": 37.47,
+      "statutory_notification": "CBIC Notification No. 57/2017-Customs as amended",
+      "keywords": [
+        "smartphone",
+        "phone",
+        "mobile",
+        "cellular",
+        "electronics"
+      ]
+    },
+    {
+      "hs_code": "84713010",
+      "display_hs": "8471.30.10",
+      "commodity": "Personal Laptops & Portable Data Processing Units",
+      "chapter": "84",
+      "sector": "Information Technology",
+      "bcd_pct": 0.0,
+      "aidc_pct": 0.0,
+      "sws_pct": 0.0,
+      "igst_pct": 18.0,
+      "effective_duty_pct": 18.0,
+      "statutory_notification": "ITA-1 (Information Technology Agreement) 0% BCD Bound Tariff",
+      "keywords": [
+        "laptop",
+        "computer",
+        "notebook",
+        "pc",
+        "it"
+      ]
+    },
+    {
+      "hs_code": "84798999",
+      "display_hs": "8479.89.99",
+      "commodity": "Industrial Machinery & Automated Mechanical Appliances",
+      "chapter": "84",
+      "sector": "Capital Goods",
+      "bcd_pct": 7.5,
+      "aidc_pct": 0.0,
+      "sws_pct": 0.75,
+      "igst_pct": 18.0,
+      "effective_duty_pct": 27.74,
+      "statutory_notification": "First Schedule Tariff Rate / Project Import Concession Eligible",
+      "keywords": [
+        "machinery",
+        "machine",
+        "industrial",
+        "equipment",
+        "capital goods"
+      ]
+    },
+    {
+      "hs_code": "15111000",
+      "display_hs": "1511.10.00",
+      "commodity": "Crude Palm Oil (Edible Grade)",
+      "chapter": "15",
+      "sector": "Edible Oils & Agri",
+      "bcd_pct": 20.0,
+      "aidc_pct": 5.0,
+      "sws_pct": 2.5,
+      "igst_pct": 5.0,
+      "effective_duty_pct": 33.88,
+      "statutory_notification": "Notification No. 49/2021-Customs as amended by Finance Act 2024",
+      "keywords": [
+        "palm oil",
+        "edible oil",
+        "crude oil",
+        "cpo",
+        "agri"
+      ]
+    },
+    {
+      "hs_code": "29051100",
+      "display_hs": "2905.11.00",
+      "commodity": "Methanol (Methyl Alcohol) Industrial Grade",
+      "chapter": "29",
+      "sector": "Chemicals",
+      "bcd_pct": 5.0,
+      "aidc_pct": 0.0,
+      "sws_pct": 0.5,
+      "igst_pct": 18.0,
+      "effective_duty_pct": 24.49,
+      "statutory_notification": "Standard First Schedule Tariff line for organic feedstock",
+      "keywords": [
+        "methanol",
+        "chemical",
+        "alcohol",
+        "petrochemical",
+        "solvent"
+      ]
+    },
+    {
+      "hs_code": "90189099",
+      "display_hs": "9018.90.99",
+      "commodity": "Medical Diagnostic Instruments & Surgical Devices",
+      "chapter": "90",
+      "sector": "Healthcare",
+      "bcd_pct": 7.5,
+      "aidc_pct": 0.0,
+      "sws_pct": 0.75,
+      "igst_pct": 12.0,
+      "effective_duty_pct": 21.24,
+      "statutory_notification": "Notification No. 50/2017-Customs S.No. 563",
+      "keywords": [
+        "medical",
+        "diagnostic",
+        "surgical",
+        "healthcare",
+        "hospital"
+      ]
+    },
+    {
+      "hs_code": "72083940",
+      "display_hs": "7208.39.40",
+      "commodity": "Hot-Rolled (HR) Steel Coils & Plates",
+      "chapter": "72",
+      "sector": "Metals & Metallurgy",
+      "bcd_pct": 7.5,
+      "aidc_pct": 0.0,
+      "sws_pct": 0.75,
+      "igst_pct": 18.0,
+      "effective_duty_pct": 27.74,
+      "statutory_notification": "Customs Tariff Act Chapter 72 Note 1",
+      "keywords": [
+        "steel",
+        "metal",
+        "coil",
+        "iron",
+        "hr coil"
+      ]
+    },
+    {
+      "hs_code": "71081200",
+      "display_hs": "7108.12.00",
+      "commodity": "Gold Bars / Dore (Unwrought / Semi-Manufactured)",
+      "chapter": "71",
+      "sector": "Precious Metals",
+      "bcd_pct": 5.0,
+      "aidc_pct": 1.0,
+      "sws_pct": 0.6,
+      "igst_pct": 3.0,
+      "effective_duty_pct": 9.79,
+      "statutory_notification": "Budget 2024 Customs Rationalization Notification No. 34/2024",
+      "keywords": [
+        "gold",
+        "dore",
+        "bullion",
+        "precious metal",
+        "jewellery"
+      ]
+    }
+  ]
+}

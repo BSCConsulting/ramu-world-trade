@@ -82,6 +82,9 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
         elif parsed.path == "/api/dgft":
             self._handle_dgft(parsed.query)
             return
+        elif parsed.path == "/api/tariff":
+            self._handle_tariff(parsed.query)
+            return
         elif parsed.path == "/api/mandi":
             self._handle_mandi(parsed.query)
             return
@@ -114,6 +117,8 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
             self._handle_icegate_tracking(payload)
         elif parsed.path == "/api/dgft":
             self._handle_dgft_calc(payload)
+        elif parsed.path == "/api/tariff":
+            self._handle_tariff_calc(payload)
         else:
             self.send_error(404, "API endpoint not found")
 
@@ -452,6 +457,40 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
             hs = str(payload.get("hs_code", payload.get("q", "61091000")))[:30]
             qty = float(payload.get("quantity", 0.0))
             data = calculate_export_incentives(val, hs, qty)
+            self._send_json(data)
+        except Exception as e:
+            self._send_json({"error": str(e)}, status=400)
+
+    def _handle_tariff(self, query_str: str = ""):
+        try:
+            from sources.cbic_tariff import get_tariff_overview, lookup_tariff_line, calculate_landed_customs_duty
+            params = urllib.parse.parse_qs(query_str) if query_str else {}
+            if "calc" in params or "value" in params:
+                val = float(params.get("value", [10000.0])[0])
+                currency = str(params.get("currency", ["USD"])[0]).upper().strip()
+                hs = params.get("hs", params.get("q", ["85171300"]))[0]
+                rate = float(params.get("rate", [0.0])[0])
+                data = calculate_landed_customs_duty(val, currency, hs, rate if rate > 0 else None)
+            elif "hs" in params or "q" in params:
+                query = params.get("hs", params.get("q", ["85171300"]))[0]
+                data = lookup_tariff_line(query)
+                if not data:
+                    self._send_json({"error": f"No tariff line found for {query}"}, status=404)
+                    return
+            else:
+                data = get_tariff_overview()
+            self._send_json(data)
+        except Exception as e:
+            self._send_json({"error": str(e)}, status=500)
+
+    def _handle_tariff_calc(self, payload: dict):
+        try:
+            from sources.cbic_tariff import calculate_landed_customs_duty
+            val = float(payload.get("cif_value", payload.get("value", 10000.0)))
+            currency = str(payload.get("currency", "USD")).upper().strip()
+            hs = str(payload.get("hs_code", payload.get("q", "85171300")))[:30]
+            rate = float(payload.get("exchange_rate", payload.get("rate", 0.0)))
+            data = calculate_landed_customs_duty(val, currency, hs, rate if rate > 0 else None)
             self._send_json(data)
         except Exception as e:
             self._send_json({"error": str(e)}, status=400)
