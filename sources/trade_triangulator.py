@@ -212,8 +212,11 @@ def triangulate_trade_query(
     net_profit_inr = round((total_fob_revenue_inr + total_rebates_inr) - total_outlay_inr, 2)
     net_margin_pct = round((net_profit_inr / total_outlay_inr) * 100.0, 2) if total_outlay_inr > 0 else 0.0
 
+    tfr = matched_corridor.get("trade_finance_and_risk", {})
+    pay_term = tfr.get("recommended_payment_term") or tfr.get("domestic_payment_terms") or tfr.get("export_payment_terms") or "Confirmed Payment Terms"
+
     formatted_md = f"""# 360° Sovereign Trade Blueprint: {matched_corridor['commodity']}
-**Corridor**: {origin} ➔ {destination} • **Payload**: {qty_tons:g} MT • **HS Code**: `{matched_corridor['hs_code']}`
+**Corridor**: {origin} -> {destination} • **Payload**: {qty_tons:g} MT • **HS Code**: `{matched_corridor['hs_code']}`
 
 ### Executive Financial Waterfall
 - **Total Procurement Outlay**: ₹{total_procurement_inr:,.2f}
@@ -227,7 +230,7 @@ def triangulate_trade_query(
 1. **Licensing**: {matched_corridor['statutory_formalities'][0]['name']} ({matched_corridor['statutory_formalities'][0]['authority']})
 2. **Quality & Lab Gateway**: {matched_corridor['quality_and_lab_gateway']['target_standards']}
 3. **Multimodal Route**: {matched_corridor['multimodal_logistics']['recommended_route']}
-4. **Payment Risk Shield**: {matched_corridor['trade_finance_and_risk']['recommended_payment_term']}
+4. **Payment Risk Shield**: {pay_term}
 """
 
     classification = {
