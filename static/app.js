@@ -483,11 +483,18 @@ async function handleSearch(event) {
     }
 
     // Render 360° Sovereign Trade Blueprint if present
+    const bpSec = document.getElementById('trade-blueprint-section');
     if (data.executive_financial_waterfall && data.blueprint_id) {
       currentBlueprintData = data;
       renderTradeBlueprintDossier(data);
-      const bpSec = document.getElementById('trade-blueprint-section');
-      if (bpSec) bpSec.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (bpSec) {
+        bpSec.classList.remove('hidden');
+        bpSec.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    } else {
+      if (bpSec && !query.toLowerCase().includes('turmeric') && !query.toLowerCase().includes('onion')) {
+        bpSec.classList.add('hidden');
+      }
     }
 
     // Render Sanitized High-Contrast Markdown (XSS Hardened)
@@ -6195,50 +6202,50 @@ function renderTradeBlueprintDossier(data) {
     </div>
 
     <!-- 4-Card Executive Financial Waterfall -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-center">
-      <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-        <span class="text-[10px] block text-dim">Total Capital Outlay</span>
-        <span class="text-sm font-extrabold font-mono" style="color: var(--text-main);">₹${Math.round(Number(ef.total_capital_outlay_inr) || 0).toLocaleString('en-IN')}</span>
-        <span class="text-[9px] block text-muted mt-0.5">Procurement + Freight</span>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-2.5 text-center">
+      <div class="p-3 rounded-2xl border shadow-sm" style="background: var(--card-bg); border-color: rgba(0, 0, 0, 0.14);">
+        <span class="text-[11px] block font-bold uppercase tracking-wider text-dim">Total Capital Outlay</span>
+        <span class="text-base md:text-lg font-extrabold font-mono block mt-1" style="color: var(--text-main);">₹${Math.round(Number(ef.total_capital_outlay_inr) || 0).toLocaleString('en-IN')}</span>
+        <span class="text-[10px] block text-muted mt-0.5">Procurement + Freight</span>
       </div>
-      <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-        <span class="text-[10px] block text-dim">Gross Export Realization</span>
-        <span class="text-sm font-extrabold font-mono" style="color: var(--text-main);">$${Math.round(Number(ef.gross_export_fob_revenue_usd) || 0).toLocaleString()}</span>
-        <span class="text-[9px] block text-muted mt-0.5">₹${Math.round(Number(ef.gross_export_fob_revenue_inr) || 0).toLocaleString('en-IN')} FOB</span>
+      <div class="p-3 rounded-2xl border shadow-sm" style="background: var(--card-bg); border-color: rgba(0, 0, 0, 0.14);">
+        <span class="text-[11px] block font-bold uppercase tracking-wider text-dim">Gross Realization</span>
+        <span class="text-base md:text-lg font-extrabold font-mono block mt-1" style="color: var(--text-main);">$${Math.round(Number(ef.gross_export_fob_revenue_usd) || 0).toLocaleString()}</span>
+        <span class="text-[10px] block text-muted mt-0.5">₹${Math.round(Number(ef.gross_export_fob_revenue_inr) || 0).toLocaleString('en-IN')} FOB</span>
       </div>
-      <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-        <span class="text-[10px] block text-dim">Govt Cash Rebates</span>
-        <span class="text-sm font-extrabold font-mono text-emerald-500">+₹${Math.round(Number(ef.total_government_cash_rebate_inr) || 0).toLocaleString('en-IN')}</span>
-        <span class="text-[9px] block text-muted mt-0.5">RoDTEP + Drawback</span>
+      <div class="p-3 rounded-2xl border shadow-sm" style="background: var(--card-bg); border-color: rgba(0, 0, 0, 0.14);">
+        <span class="text-[11px] block font-bold uppercase tracking-wider text-dim">Govt Cash Rebates</span>
+        <span class="text-base md:text-lg font-extrabold font-mono text-emerald-600 block mt-1">+₹${Math.round(Number(ef.total_government_cash_rebate_inr) || 0).toLocaleString('en-IN')}</span>
+        <span class="text-[10px] block text-muted mt-0.5">RoDTEP + Drawback</span>
       </div>
-      <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-        <span class="text-[10px] block text-dim">Net Estimated Profit</span>
-        <span class="text-sm font-extrabold font-mono" style="color: ${profitColor};">₹${Math.round(Number(ef.net_profit_inr) || 0).toLocaleString('en-IN')}</span>
-        <span class="text-[9px] block font-bold mt-0.5" style="color: ${profitColor};">${Number(ef.net_margin_pct) || 0}% Net Margin</span>
+      <div class="p-3 rounded-2xl border shadow-sm" style="background: var(--card-bg); border-color: rgba(0, 0, 0, 0.14);">
+        <span class="text-[11px] block font-bold uppercase tracking-wider text-dim">Net Estimated Profit</span>
+        <span class="text-base md:text-lg font-extrabold font-mono block mt-1" style="color: ${profitColor};">₹${Math.round(Number(ef.net_profit_inr) || 0).toLocaleString('en-IN')}</span>
+        <span class="text-[10px] block font-bold mt-0.5" style="color: ${profitColor};">${Number(ef.net_margin_pct) || 0}% Net Margin</span>
       </div>
     </div>
 
     <!-- Interactive Mathematical Recalculation Bar -->
-    <div class="p-3 rounded-2xl border space-y-2" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-      <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-muted">
+    <div class="p-3.5 rounded-2xl border space-y-2.5" style="background: var(--card-bg); border-color: rgba(0, 0, 0, 0.14);">
+      <div class="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-muted">
         <span>Dynamic Scenario Modeling (Adjust Sourcing, Selling Price &amp; Tonnage)</span>
         <span class="text-accent font-mono">Live Recalculation</span>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-2 text-xs">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-2.5 text-xs">
         <div>
-          <label class="block text-[10px] font-bold text-dim mb-1">Buy Price (₹/Quintal):</label>
-          <input type="number" id="bp-input-buy" value="${safeBuy}" onchange="recalculateBlueprintMath()" onkeydown="if(event.key==='Enter') recalculateBlueprintMath()" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+          <label class="block text-[11px] font-bold text-dim mb-1">Buy Price (₹/Quintal):</label>
+          <input type="number" id="bp-input-buy" value="${safeBuy}" onchange="recalculateBlueprintMath()" onkeydown="if(event.key==='Enter') recalculateBlueprintMath()" class="w-full border rounded-xl px-3 py-2 text-xs font-mono focus:outline-none" style="height: 42px; background: var(--input-bg); border-color: rgba(0, 0, 0, 0.18);" />
         </div>
         <div>
-          <label class="block text-[10px] font-bold text-dim mb-1">Sell Price ($/MT FOB):</label>
-          <input type="number" id="bp-input-sell" value="${safeSell}" onchange="recalculateBlueprintMath()" onkeydown="if(event.key==='Enter') recalculateBlueprintMath()" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+          <label class="block text-[11px] font-bold text-dim mb-1">Sell Price ($/MT FOB):</label>
+          <input type="number" id="bp-input-sell" value="${safeSell}" onchange="recalculateBlueprintMath()" onkeydown="if(event.key==='Enter') recalculateBlueprintMath()" class="w-full border rounded-xl px-3 py-2 text-xs font-mono focus:outline-none" style="height: 42px; background: var(--input-bg); border-color: rgba(0, 0, 0, 0.18);" />
         </div>
         <div>
-          <label class="block text-[10px] font-bold text-dim mb-1">Quantity (Metric Tons):</label>
-          <input type="number" id="bp-input-qty" value="${safeQty}" onchange="recalculateBlueprintMath()" onkeydown="if(event.key==='Enter') recalculateBlueprintMath()" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+          <label class="block text-[11px] font-bold text-dim mb-1">Quantity (Metric Tons):</label>
+          <input type="number" id="bp-input-qty" value="${safeQty}" onchange="recalculateBlueprintMath()" onkeydown="if(event.key==='Enter') recalculateBlueprintMath()" class="w-full border rounded-xl px-3 py-2 text-xs font-mono focus:outline-none" style="height: 42px; background: var(--input-bg); border-color: rgba(0, 0, 0, 0.18);" />
         </div>
         <div class="flex flex-col justify-end">
-          <button type="button" onclick="recalculateBlueprintMath()" class="w-full py-2 rounded-xl text-xs font-bold active:scale-95 transition-all text-white min-h-[38px]" style="background: var(--accent);">
+          <button type="button" onclick="recalculateBlueprintMath()" class="w-full rounded-xl text-xs font-bold active:scale-95 transition-all text-white flex items-center justify-center gap-1.5 shadow" style="height: 42px; background: var(--accent);">
             ⚡ Update Financials
           </button>
         </div>
