@@ -1,0 +1,224 @@
+{
+  "metadata": {
+    "title": "Global Container Freight Benchmarking Engine (Drewry WCI & Baltic FBX Mirror)",
+    "benchmark_sources": [
+      "Drewry World Container Index (WCI)",
+      "Freightos Baltic Global Container Index (FBX)",
+      "Shanghai Containerized Freight Index (SCFI)",
+      "Ministry of Ports, Shipping and Waterways (MoPSW) Indian Trade Corridor Monitoring"
+    ],
+    "cbic_benchmark_usd_inr": 84.55,
+    "last_updated": "2026-10-25",
+    "currency": "USD",
+    "composite_index_wci_usd": 3180,
+    "composite_index_change_pct": -2.4,
+    "red_sea_advisory": "Active Cape of Good Hope re-routing for Europe & US East Coast corridors adding 10-14 days transit and bunker surcharges."
+  },
+  "corridors": [
+    {
+      "route_id": "IN_EU_ROTTERDAM",
+      "name": "Nhava Sheva / Mundra ➔ Rotterdam",
+      "region": "North Europe",
+      "origin_ports": ["INNSA1", "INMUN1"],
+      "destination_port": "NLRTM (Rotterdam, Netherlands)",
+      "nautical_miles": 10800,
+      "suez_normal_miles": 6300,
+      "active_via_cape": true,
+      "normal_transit_days": 22,
+      "active_transit_days": 35,
+      "routing_advisory": "Red Sea bypass in effect: Vessels routed around the Cape of Good Hope, adding ~13 days transit and $650/FEU Cape transit surcharge.",
+      "trend_30d_pct": -4.2,
+      "capacity_status": "Moderate - Space Available",
+      "rates": {
+        "40ft": {
+          "base_ocean_usd": 2950,
+          "baf_fuel_usd": 420,
+          "cape_surcharge_usd": 650,
+          "peak_season_pss_usd": 200,
+          "origin_thc_usd": 180,
+          "total_benchmark_usd": 4400
+        },
+        "20ft": {
+          "base_ocean_usd": 1650,
+          "baf_fuel_usd": 220,
+          "cape_surcharge_usd": 350,
+          "peak_season_pss_usd": 100,
+          "origin_thc_usd": 120,
+          "total_benchmark_usd": 2440
+        }
+      }
+    },
+    {
+      "route_id": "IN_ME_JEBEL_ALI",
+      "name": "Nhava Sheva / Mundra ➔ Jebel Ali",
+      "region": "Middle East / UAE",
+      "origin_ports": ["INNSA1", "INMUN1"],
+      "destination_port": "AEJEA (Jebel Ali, Dubai)",
+      "nautical_miles": 1100,
+      "suez_normal_miles": 1100,
+      "active_via_cape": false,
+      "normal_transit_days": 4,
+      "active_transit_days": 4,
+      "routing_advisory": "Direct Arabian Sea short-sea feeder lane. Daily sailings with standard 3-4 days port-to-port transit.",
+      "trend_30d_pct": 1.5,
+      "capacity_status": "Balanced",
+      "rates": {
+        "40ft": {
+          "base_ocean_usd": 850,
+          "baf_fuel_usd": 110,
+          "war_risk_usd": 80,
+          "peak_season_pss_usd": 0,
+          "origin_thc_usd": 140,
+          "total_benchmark_usd": 1180
+        },
+        "20ft": {
+          "base_ocean_usd": 480,
+          "baf_fuel_usd": 60,
+          "war_risk_usd": 40,
+          "peak_season_pss_usd": 0,
+          "origin_thc_usd": 90,
+          "total_benchmark_usd": 670
+        }
+      }
+    },
+    {
+      "route_id": "IN_US_NEW_YORK",
+      "name": "Nhava Sheva / Mundra ➔ New York / USEC",
+      "region": "US East Coast",
+      "origin_ports": ["INNSA1", "INMUN1"],
+      "destination_port": "USNYC (New York / Newark, USA)",
+      "nautical_miles": 12400,
+      "suez_normal_miles": 8200,
+      "active_via_cape": true,
+      "normal_transit_days": 26,
+      "active_transit_days": 38,
+      "routing_advisory": "Mainline westbound transit via Cape of Good Hope. Strict cargo gross mass (VGM) and inland rail weight compliance applied at US terminals.",
+      "trend_30d_pct": 2.8,
+      "capacity_status": "Tight Equipment / High Demand",
+      "rates": {
+        "40ft": {
+          "base_ocean_usd": 4600,
+          "baf_fuel_usd": 720,
+          "cape_surcharge_usd": 850,
+          "peak_season_pss_usd": 300,
+          "origin_thc_usd": 220,
+          "total_benchmark_usd": 6690
+        },
+        "20ft": {
+          "base_ocean_usd": 3100,
+          "baf_fuel_usd": 410,
+          "cape_surcharge_usd": 450,
+          "peak_season_pss_usd": 150,
+          "origin_thc_usd": 150,
+          "total_benchmark_usd": 4260
+        }
+      }
+    },
+    {
+      "route_id": "IN_SE_SINGAPORE",
+      "name": "Chennai / Vizag ➔ Singapore Hub",
+      "region": "Southeast Asia",
+      "origin_ports": ["INMAA1", "INVTZ1"],
+      "destination_port": "SGSIN (Port of Singapore)",
+      "nautical_miles": 1650,
+      "suez_normal_miles": 1650,
+      "active_via_cape": false,
+      "normal_transit_days": 5,
+      "active_transit_days": 5,
+      "routing_advisory": "Direct Bay of Bengal / Malacca Strait express lane. Primary transshipment conduit for Far East, Oceania, and Pacific corridors.",
+      "trend_30d_pct": -1.1,
+      "capacity_status": "High Availability",
+      "rates": {
+        "40ft": {
+          "base_ocean_usd": 720,
+          "baf_fuel_usd": 90,
+          "low_sulphur_usd": 45,
+          "peak_season_pss_usd": 0,
+          "origin_thc_usd": 130,
+          "total_benchmark_usd": 985
+        },
+        "20ft": {
+          "base_ocean_usd": 420,
+          "baf_fuel_usd": 50,
+          "low_sulphur_usd": 25,
+          "peak_season_pss_usd": 0,
+          "origin_thc_usd": 85,
+          "total_benchmark_usd": 580
+        }
+      }
+    },
+    {
+      "route_id": "IN_EA_SHANGHAI",
+      "name": "Mundra / JNPT ➔ Shanghai / Ningbo",
+      "region": "East Asia / China",
+      "origin_ports": ["INMUN1", "INNSA1"],
+      "destination_port": "CNSHA (Shanghai Yangshan, China)",
+      "nautical_miles": 4500,
+      "suez_normal_miles": 4500,
+      "active_via_cape": false,
+      "normal_transit_days": 15,
+      "active_transit_days": 15,
+      "routing_advisory": "Far East mainline loop. High vessel reliability and strong inbound empty container repositioning to Western Indian ports.",
+      "trend_30d_pct": -6.4,
+      "capacity_status": "Balanced",
+      "rates": {
+        "40ft": {
+          "base_ocean_usd": 1100,
+          "baf_fuel_usd": 140,
+          "low_sulphur_usd": 60,
+          "peak_season_pss_usd": 0,
+          "origin_thc_usd": 160,
+          "total_benchmark_usd": 1460
+        },
+        "20ft": {
+          "base_ocean_usd": 650,
+          "baf_fuel_usd": 80,
+          "low_sulphur_usd": 35,
+          "peak_season_pss_usd": 0,
+          "origin_thc_usd": 100,
+          "total_benchmark_usd": 865
+        }
+      }
+    },
+    {
+      "route_id": "IN_AF_MOMBASA",
+      "name": "Nhava Sheva ➔ Mombasa / East Africa",
+      "region": "East Africa",
+      "origin_ports": ["INNSA1"],
+      "destination_port": "KEMBA (Kilindini Harbour, Mombasa)",
+      "nautical_miles": 2500,
+      "suez_normal_miles": 2500,
+      "active_via_cape": false,
+      "normal_transit_days": 11,
+      "active_transit_days": 11,
+      "routing_advisory": "Western Indian Ocean direct service. Heavy agro-commodity (grains, sugar, pharmaceuticals) export corridor with steady weekly frequency.",
+      "trend_30d_pct": 0.8,
+      "capacity_status": "Moderate",
+      "rates": {
+        "40ft": {
+          "base_ocean_usd": 1750,
+          "baf_fuel_usd": 240,
+          "war_risk_usd": 90,
+          "peak_season_pss_usd": 100,
+          "origin_thc_usd": 170,
+          "total_benchmark_usd": 2350
+        },
+        "20ft": {
+          "base_ocean_usd": 1050,
+          "baf_fuel_usd": 130,
+          "war_risk_usd": 50,
+          "peak_season_pss_usd": 50,
+          "origin_thc_usd": 110,
+          "total_benchmark_usd": 1390
+        }
+      }
+    }
+  ],
+  "surcharge_glossary": {
+    "BAF": "Bunker Adjustment Factor: Floating fuel cost adjustment pegged to Rotterdam/Singapore VLSFO (Very Low Sulphur Fuel Oil) prices.",
+    "Cape Surcharge": "Cape of Good Hope Diversion Surcharge: Additional compensation levied by shipping lines for circumnavigating Africa due to Bab-el-Mandeb / Red Sea disruptions.",
+    "PSS": "Peak Season Surcharge: Seasonal surge charge applied during pre-holiday trade rushes (typically August to November).",
+    "THC": "Terminal Handling Charge: Stevedoring and container handling at origin port quay cranes and container yard.",
+    "War Risk": "War Risk Surcharge: Insurance premium surcharge applied to vessels navigating designated high-risk regional maritime waters."
+  }
+}

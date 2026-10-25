@@ -1182,6 +1182,157 @@ function renderConcorFreight(data) {
   }
 }
 
+// 11c. GLOBAL CONTAINER FREIGHT BENCHMARKING ENGINE (Drewry WCI / Baltic FBX Mirror)
+let currentOceanRoute = 'IN_EU_ROTTERDAM';
+
+function selectOceanRoute(routeId) {
+  currentOceanRoute = routeId || 'IN_EU_ROTTERDAM';
+  document.querySelectorAll('.ocean-route-chip').forEach(btn => {
+    btn.style.background = 'var(--card-inner-bg)';
+    btn.style.color = 'var(--text-main)';
+  });
+  const activeBtn = document.getElementById(`ocean-chip-${routeId}`);
+  if (activeBtn) {
+    activeBtn.style.background = 'var(--accent)';
+    activeBtn.style.color = '#ffffff';
+  }
+
+  runOceanFreightCalc();
+}
+
+async function runOceanFreightCalc() {
+  const sizeEl = document.getElementById('ocean-size');
+  const countEl = document.getElementById('ocean-count');
+  const quoteEl = document.getElementById('ocean-quote');
+
+  const size = sizeEl?.value || '40ft';
+  const count = parseInt(countEl?.value) || 1;
+  const quote = parseFloat(quoteEl?.value) || 0;
+
+  try {
+    const res = await fetch(`/api/logistics?ocean=1&route=${encodeURIComponent(currentOceanRoute)}&calc=1&size=${encodeURIComponent(size)}&count=${encodeURIComponent(count)}&quote=${encodeURIComponent(quote)}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    renderOceanFreight(data);
+  } catch (err) {
+    console.warn('Fallback to local Ocean Freight calculation:', err);
+    const routesData = {
+      IN_EU_ROTTERDAM: { base40: 2950, baf40: 420, cape40: 650, pss40: 200, thc40: 180, base20: 1650, baf20: 220, cape20: 350, pss20: 100, thc20: 120, days: 35, cape: true, adv: "Red Sea bypass in effect: Vessels routed around the Cape of Good Hope, adding ~13 days transit and $650/FEU Cape transit surcharge." },
+      IN_ME_JEBEL_ALI: { base40: 850, baf40: 110, cape40: 80, pss40: 0, thc40: 140, base20: 480, baf20: 60, cape20: 40, pss20: 0, thc20: 90, days: 4, cape: false, adv: "Direct Arabian Sea short-sea feeder lane. Daily sailings with standard 3-4 days port-to-port transit." },
+      IN_US_NEW_YORK: { base40: 4600, baf40: 720, cape40: 850, pss40: 300, thc40: 220, base20: 3100, baf20: 410, cape20: 450, pss20: 150, thc20: 150, days: 38, cape: true, adv: "Mainline westbound transit via Cape of Good Hope. Strict cargo gross mass (VGM) and inland rail weight compliance applied at US terminals." },
+      IN_SE_SINGAPORE: { base40: 720, baf40: 90, cape40: 45, pss40: 0, thc40: 130, base20: 420, baf20: 50, cape20: 25, pss20: 0, thc20: 85, days: 5, cape: false, adv: "Direct Bay of Bengal / Malacca Strait express lane. Primary transshipment conduit for Far East, Oceania, and Pacific corridors." },
+      IN_EA_SHANGHAI: { base40: 1100, baf40: 140, cape40: 60, pss40: 0, thc40: 160, base20: 650, baf20: 80, cape20: 35, pss20: 0, thc20: 100, days: 15, cape: false, adv: "Far East mainline loop. High vessel reliability and strong inbound empty container repositioning to Western Indian ports." },
+      IN_AF_MOMBASA: { base40: 1750, baf40: 240, cape40: 90, pss40: 100, thc40: 170, base20: 1050, baf20: 130, cape20: 50, pss20: 50, thc20: 110, days: 11, cape: false, adv: "Western Indian Ocean direct service. Heavy agro-commodity export corridor with steady weekly frequency." }
+    };
+    const r = routesData[currentOceanRoute] || routesData.IN_EU_ROTTERDAM;
+    const is40 = size === '40ft';
+    const baseUnit = is40 ? r.base40 : r.base20;
+    const bafUnit = is40 ? r.baf40 : r.baf20;
+    const capeUnit = is40 ? r.cape40 : r.cape20;
+    const pssUnit = is40 ? r.pss40 : r.pss20;
+    const thcUnit = is40 ? r.thc40 : r.thc20;
+    const totalUnit = baseUnit + bafUnit + capeUnit + pssUnit + thcUnit;
+    const totalUsd = totalUnit * count;
+    const totalInr = Math.round(totalUsd * 84.55);
+
+    let quoteEval = null;
+    if (quote > 0) {
+      const diff = quote - totalUnit;
+      const diffPct = Math.round((diff / totalUnit) * 1000) / 10;
+      let status = 'COMPETITIVE', rating = 'Fair Market Rate', rec = 'Your quote is within statutory spot index threshold. Safe to book space.';
+      if (diffPct > 20) {
+        status = 'PREDATORY';
+        rating = 'Inflated / Predatory Quote';
+        rec = `Severe markup (+${diffPct}%). Quote contains inflated arbitrary surcharges. Solicit alternate quotation immediately.`;
+      } else if (diffPct > 10) {
+        status = 'ELEVATED';
+        rating = 'Elevated Quote (Counter-Offer Required)';
+        rec = `Quote is ${diffPct}% above spot benchmark. Request counter-offer matching benchmark $${totalUnit}/unit.`;
+      } else if (diffPct > 3) {
+        status = 'ACCEPTABLE';
+        rating = 'Moderate Premium (Within Tolerance)';
+        rec = `Slight markup detected (~${diffPct}%). Request forwarder waive PSS or local documentation fee.`;
+      }
+      quoteEval = { forwarder_quote_per_unit_usd: quote, variance_pct: diffPct, rating, recommendation: rec, status };
+    }
+
+    renderOceanFreight({
+      corridor: { active_via_cape: r.cape, routing_advisory: r.adv, transit_days: r.days },
+      consignment: { container_count: count },
+      financial_summary: {
+        base_ocean_freight_usd: baseUnit * count,
+        total_surcharges_usd: (totalUnit - baseUnit) * count,
+        total_ocean_freight_usd: totalUsd,
+        total_ocean_freight_inr: totalInr
+      },
+      surcharges_breakdown: {
+        bunker_adjustment_baf: { rate_per_unit_usd: bafUnit },
+        cape_of_good_hope_transit: { rate_per_unit_usd: capeUnit }
+      },
+      forwarder_quote_verification: quoteEval
+    });
+  }
+}
+
+function renderOceanFreight(data) {
+  const c = data.corridor;
+  const fs = data.financial_summary;
+  const sb = data.surcharges_breakdown;
+  const qv = data.forwarder_quote_verification;
+
+  const advisoryEl = document.getElementById('ocean-advisory-text');
+  const statusEl = document.getElementById('ocean-route-status');
+  const baseEl = document.getElementById('ocean-res-base');
+  const surchargesEl = document.getElementById('ocean-res-surcharges');
+  const surchargesDescEl = document.getElementById('ocean-res-surcharges-desc');
+  const totalUsdEl = document.getElementById('ocean-res-total-usd');
+  const totalInrEl = document.getElementById('ocean-res-total-inr');
+  const containersDescEl = document.getElementById('ocean-res-containers-desc');
+
+  const quoteCardEl = document.getElementById('ocean-quote-card');
+  const quoteBadgeEl = document.getElementById('ocean-quote-badge');
+  const quoteDescEl = document.getElementById('ocean-quote-desc');
+
+  if (advisoryEl && c) advisoryEl.textContent = ` ${c.routing_advisory}`;
+  if (statusEl && c) {
+    statusEl.textContent = c.active_via_cape ? `Cape Routing Active (${c.transit_days}d)` : `Direct Express (${c.transit_days}d)`;
+    statusEl.className = c.active_via_cape ? 'text-[9px] font-mono font-bold text-amber-500' : 'text-[9px] font-mono font-bold text-emerald-500';
+  }
+
+  if (baseEl && fs) baseEl.textContent = `$${Math.round(fs.base_ocean_freight_usd).toLocaleString('en-US')}`;
+  if (surchargesEl && fs) surchargesEl.textContent = `+$${Math.round(fs.total_surcharges_usd).toLocaleString('en-US')}`;
+  if (surchargesDescEl && sb) {
+    const baf = sb.bunker_adjustment_baf?.rate_per_unit_usd || 0;
+    const cape = sb.cape_of_good_hope_transit?.rate_per_unit_usd || 0;
+    surchargesDescEl.textContent = `BAF: $${baf} | Cape/Risk: $${cape}`;
+  }
+  if (totalUsdEl && fs) totalUsdEl.textContent = `$${Math.round(fs.total_ocean_freight_usd).toLocaleString('en-US')}`;
+  if (totalInrEl && fs) totalInrEl.textContent = `₹${Math.round(fs.total_ocean_freight_inr).toLocaleString('en-IN')}`;
+  if (containersDescEl && data.consignment) containersDescEl.textContent = `${data.consignment.container_count} Container(s)`;
+
+  if (quoteCardEl) {
+    if (qv) {
+      quoteCardEl.classList.remove('hidden');
+      if (quoteBadgeEl) {
+        quoteBadgeEl.textContent = `${qv.rating} (${qv.variance_pct >= 0 ? '+' : ''}${qv.variance_pct}%)`;
+        if (qv.status === 'PREDATORY') {
+          quoteBadgeEl.style.background = 'rgba(239, 68, 68, 0.15)';
+          quoteBadgeEl.style.color = '#EF4444';
+        } else if (qv.status === 'ELEVATED') {
+          quoteBadgeEl.style.background = 'rgba(245, 158, 11, 0.15)';
+          quoteBadgeEl.style.color = '#F59E0B';
+        } else {
+          quoteBadgeEl.style.background = 'rgba(16, 185, 129, 0.15)';
+          quoteBadgeEl.style.color = '#10B981';
+        }
+      }
+      if (quoteDescEl) quoteDescEl.textContent = qv.recommendation;
+    } else {
+      quoteCardEl.classList.add('hidden');
+    }
+  }
+}
+
 setInterval(updateTimers, 1000);
 
 // 12. 8-DIGIT ITC-HS TARIFF SELECTOR
@@ -3978,6 +4129,8 @@ window.trackVesselBerthing = trackVesselBerthing;
 window.runPortDemurrageCalc = runPortDemurrageCalc;
 window.selectConcorCorridor = selectConcorCorridor;
 window.runConcorFreightCalc = runConcorFreightCalc;
+window.selectOceanRoute = selectOceanRoute;
+window.runOceanFreightCalc = runOceanFreightCalc;
 window.calculateFtaValueAddition = calculateFtaValueAddition;
 window.copyBreakdownNotice = copyBreakdownNotice;
 window.updateDistrictDeepDive = updateDistrictDeepDive;
@@ -4028,6 +4181,7 @@ window.addEventListener('DOMContentLoaded', () => {
   selectTariffCommodity('85171300', 10000, 'USD');
   selectPortLogistics('INNSA1');
   selectConcorCorridor('tkd_jnpt');
+  selectOceanRoute('IN_EU_ROTTERDAM');
   selectConsortiumCluster('guntur_chilli');
   selectPitchCorridor('surat_textiles');
   selectTitan('rockefeller');

@@ -2411,6 +2411,107 @@
           </div>
         </div>
 
+        <!-- Provider 3.3: Maritime Ocean Freight Benchmark Radar (Drewry WCI & Baltic FBX Mirror) -->
+        <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-4">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <div>
+              <h3 class="font-extrabold text-sm tracking-wide flex items-center gap-2">
+                <span>🌊</span>
+                <span>Maritime Ocean Freight Benchmark Radar</span>
+              </h3>
+              <p class="text-[11px]" style="color: var(--text-muted);">
+                Drewry WCI &amp; Baltic FBX Mirror • Surcharge Decomposition • Forwarder Quote Verifier
+              </p>
+            </div>
+            <span id="ocean-composite-badge" class="text-[9px] font-mono px-2 py-0.5 rounded-full font-bold uppercase" style="background: rgba(59, 130, 246, 0.15); color: #3B82F6;">WCI Composite: $3,180 (-2.4%)</span>
+          </div>
+
+          <!-- Active Routing & Geopolitical Advisory -->
+          <div id="ocean-routing-advisory" class="p-2.5 rounded-xl border text-[11px] leading-relaxed flex items-start gap-2" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <span class="text-sm">⚠️</span>
+            <div>
+              <strong style="color: var(--text-main);">Cape of Good Hope Diversion Active:</strong>
+              <span id="ocean-advisory-text" style="color: var(--text-muted);"> Red Sea security rerouting adds ~13 days and $650/FEU Cape transit surcharge on European &amp; USEC corridors.</span>
+            </div>
+          </div>
+
+          <!-- 6 Maritime Corridor Chips -->
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] uppercase font-bold tracking-wider" style="color: var(--text-muted);">Major Export Shipping Corridors</span>
+              <span id="ocean-route-status" class="text-[9px] font-mono font-bold text-emerald-500">Cape Routing Active</span>
+            </div>
+            <div class="flex gap-1.5 overflow-x-auto pb-1 text-xs no-scrollbar">
+              <button type="button" onclick="selectOceanRoute('IN_EU_ROTTERDAM')" id="ocean-chip-IN_EU_ROTTERDAM" class="ocean-route-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🚢 Nhava/Mundra ➔ Rotterdam (35d)</button>
+              <button type="button" onclick="selectOceanRoute('IN_ME_JEBEL_ALI')" id="ocean-chip-IN_ME_JEBEL_ALI" class="ocean-route-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🚢 Nhava/Mundra ➔ Jebel Ali (4d)</button>
+              <button type="button" onclick="selectOceanRoute('IN_US_NEW_YORK')" id="ocean-chip-IN_US_NEW_YORK" class="ocean-route-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🚢 Nhava/Mundra ➔ New York (38d)</button>
+              <button type="button" onclick="selectOceanRoute('IN_SE_SINGAPORE')" id="ocean-chip-IN_SE_SINGAPORE" class="ocean-route-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🚢 Chennai/Vizag ➔ Singapore (5d)</button>
+              <button type="button" onclick="selectOceanRoute('IN_EA_SHANGHAI')" id="ocean-chip-IN_EA_SHANGHAI" class="ocean-route-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🚢 Mundra/JNPT ➔ Shanghai (15d)</button>
+              <button type="button" onclick="selectOceanRoute('IN_AF_MOMBASA')" id="ocean-chip-IN_AF_MOMBASA" class="ocean-route-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🚢 Nhava Sheva ➔ Mombasa (11d)</button>
+            </div>
+          </div>
+
+          <!-- Consignment Inputs & Forwarder Quote Verifier -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+            <div class="space-y-1">
+              <label class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">Container Size</label>
+              <select id="ocean-size" onchange="runOceanFreightCalc()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);">
+                <option value="40ft">40ft High Cube (FEU)</option>
+                <option value="20ft">20ft Standard Dry (TEU)</option>
+              </select>
+            </div>
+            <div class="space-y-1">
+              <label class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">Container Count</label>
+              <input type="number" id="ocean-count" value="1" min="1" max="50" oninput="runOceanFreightCalc()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+            </div>
+            <div class="space-y-1">
+              <label class="text-[10px] font-bold uppercase tracking-wider block text-blue-500">Forwarder Quote ($/unit)</label>
+              <input type="number" id="ocean-quote" placeholder="e.g. 4600" oninput="runOceanFreightCalc()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+            </div>
+          </div>
+
+          <!-- 4-Card Ocean Freight Benchmark Breakdown -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              <span class="text-[9px] uppercase font-bold block" style="color: var(--text-muted);">Base Ocean Freight</span>
+              <span id="ocean-res-base" class="text-sm font-extrabold font-mono block mt-1" style="color: var(--text-main);">$2,950</span>
+              <span class="text-[9px] font-mono" style="color: var(--text-muted);">Per Unit (Pure Ocean)</span>
+            </div>
+            <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              <span class="text-[9px] uppercase font-bold block text-amber-500">Surcharges (BAF + Cape)</span>
+              <span id="ocean-res-surcharges" class="text-sm font-extrabold font-mono block mt-1 text-amber-500">+$1,450</span>
+              <span id="ocean-res-surcharges-desc" class="text-[9px] font-mono" style="color: var(--text-muted);">BAF: $420 | Cape: $650</span>
+            </div>
+            <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              <span class="text-[9px] uppercase font-bold block text-purple-500">Total Benchmark ($)</span>
+              <span id="ocean-res-total-usd" class="text-sm font-extrabold font-mono block mt-1 text-purple-500">$4,400</span>
+              <span id="ocean-res-teu-desc" class="text-[9px] font-mono" style="color: var(--text-muted);">All-In Spot / Unit</span>
+            </div>
+            <div class="p-2.5 rounded-2xl border" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3);">
+              <div class="flex items-center justify-between">
+                <span class="text-[9px] uppercase font-bold text-[#10B981]">Total Landing (INR)</span>
+                <span class="text-[9px] font-mono text-[#10B981] font-bold">₹84.55/$</span>
+              </div>
+              <span id="ocean-res-total-inr" class="text-base font-extrabold font-mono block mt-1 text-[#10B981]">₹3,72,020</span>
+              <span id="ocean-res-containers-desc" class="text-[9px] font-mono" style="color: var(--text-muted);">1 Container(s)</span>
+            </div>
+          </div>
+
+          <!-- Forwarder Quote Appraisal Card -->
+          <div id="ocean-quote-card" class="p-3 rounded-2xl border space-y-1.5 text-xs hidden" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm">⚖️</span>
+                <span class="font-bold text-[11px]" style="color: var(--text-main);">Forwarder Quote Fair-Value Appraisal</span>
+              </div>
+              <span id="ocean-quote-badge" class="text-[9px] font-mono px-2 py-0.5 rounded-full font-bold">Fair Market Rate</span>
+            </div>
+            <p id="ocean-quote-desc" class="text-[10px] leading-relaxed" style="color: var(--text-muted);">
+              Your quote is within statutory spot index threshold. Safe to book space.
+            </p>
+          </div>
+        </div>
+
         <!-- Timer 6: FEMA 9-Month Export Realization Statutory Window -->
         <div class="p-4 rounded-2xl border space-y-2 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
           <div class="flex items-center justify-between">

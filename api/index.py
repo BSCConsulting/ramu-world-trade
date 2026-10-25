@@ -503,7 +503,20 @@ class handler(BaseHTTPRequestHandler):
     def _handle_logistics(self, query_str: str = ""):
         try:
             params = urllib.parse.parse_qs(query_str) if query_str else {}
-            if "concor" in params or "rail" in params:
+            if "ocean" in params or "freight" in params or "wci" in params or "fbx" in params:
+                from sources.freight_indices import get_freight_master, get_corridor_freight, calculate_ocean_freight
+                if "calc" in params or "size" in params or "quote" in params:
+                    r_id = params.get("route", params.get("corridor", ["IN_EU_ROTTERDAM"]))[0]
+                    size = params.get("size", ["40ft"])[0]
+                    count = int(params.get("count", params.get("containers", [1]))[0])
+                    quote = float(params.get("quote", [0.0])[0])
+                    data = calculate_ocean_freight(r_id, size, count, quote)
+                elif "route" in params or "corridor" in params:
+                    r_id = params.get("route", params.get("corridor", ["IN_EU_ROTTERDAM"]))[0]
+                    data = get_corridor_freight(r_id) or {"error": "Corridor not found"}
+                else:
+                    data = get_freight_master()
+            elif "concor" in params or "rail" in params:
                 from sources.concor_icd import get_concor_overview, get_corridor_details, calculate_concor_freight
                 if "corridor" in params or "route" in params:
                     c_id = params.get("corridor", params.get("route", ["tkd_jnpt"]))[0]
@@ -548,7 +561,14 @@ class handler(BaseHTTPRequestHandler):
     def _handle_logistics_calc(self, payload: dict):
         try:
             action = payload.get("action", "demurrage")
-            if action in ["concor_rail", "rail_freight", "concor"]:
+            if action in ["ocean_freight", "ocean", "freight"]:
+                from sources.freight_indices import calculate_ocean_freight
+                r_id = str(payload.get("route_id", payload.get("corridor_id", "IN_EU_ROTTERDAM")))[:30]
+                size = str(payload.get("container_size", "40ft"))[:10]
+                count = int(payload.get("container_count", 1))
+                quote = float(payload.get("forwarder_quote_usd", payload.get("quote", 0.0)))
+                data = calculate_ocean_freight(r_id, size, count, quote)
+            elif action in ["concor_rail", "rail_freight", "concor"]:
                 from sources.concor_icd import calculate_concor_freight
                 c_id = str(payload.get("corridor_id", "tkd_jnpt"))[:30]
                 size = str(payload.get("container_size", "40ft"))[:10]
