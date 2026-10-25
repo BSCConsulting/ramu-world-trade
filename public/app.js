@@ -6941,3 +6941,37 @@ if ('serviceWorker' in navigator) {
     });
   });
 }
+
+// iOS Native Swipe-to-Dismiss Gesture Physics for Bottom Sheet
+(function initBottomSheetSwipe() {
+  if (typeof window === 'undefined') return;
+  window.addEventListener('DOMContentLoaded', () => {
+    const sheet = document.getElementById('bottom-sheet');
+    if (!sheet) return;
+
+    let touchStartY = 0;
+    let touchCurrentY = 0;
+
+    sheet.addEventListener('touchstart', (e) => {
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    sheet.addEventListener('touchmove', (e) => {
+      touchCurrentY = e.touches[0].clientY;
+      const diff = touchCurrentY - touchStartY;
+      if (diff > 0) {
+        sheet.style.transform = `translateY(${diff}px)`;
+      }
+    }, { passive: true });
+
+    sheet.addEventListener('touchend', () => {
+      const diff = touchCurrentY - touchStartY;
+      sheet.style.transform = '';
+      if (diff > 100) {
+        if (typeof closeBottomSheet === 'function') closeBottomSheet();
+      }
+      touchStartY = 0;
+      touchCurrentY = 0;
+    });
+  });
+})();
