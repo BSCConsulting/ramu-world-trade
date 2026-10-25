@@ -2307,7 +2307,145 @@ function printInvoiceDocument() {
 }
 
 
+
+// ==================== TITAN STRATEGIC BENCHMARK DATA & FUNCTIONS ====================
+const TITAN_BENCHMARK_DATA = {
+  "titans": [
+    {
+      "id": "rockefeller",
+      "name": "John D. Rockefeller",
+      "empire": "Standard Oil (Refining, Transport, Pipelines)",
+      "doctrine": "Control the Physical Bottleneck & Transport Arteries; Eliminate Middlemen.",
+      "score": 3.0,
+      "score_label": "3.0 / 10 (SME Information vs Bottleneck Ownership)",
+      "historical_leverage": "Controlled 90% of US oil refining by securing secret 25-50% railroad rebates and laying private pipeline networks. Competitors literally could not afford to ship oil.",
+      "diagnostic_gap": "Our platform informs the trader about CHA charges and shipping schedules, but we own zero physical transit assets. We are at the mercy of shipping line spot surcharges (-/day detention) and CFS ground rent.",
+      "sme_leap_blueprint": "Form an Aggregated Sourcing Cartel: Pool 50-100 SME exporters in a single cluster (e.g., Tirupur or Surat) into a registered consortium to negotiate bulk annual volume contracts (FMC-registered service contracts) with shipping lines, capturing 15-25% lower ocean freight than spot rates.",
+      "infographic_id": "chokehold"
+    },
+    {
+      "id": "buffett",
+      "name": "Warren Buffett",
+      "empire": "Berkshire Hathaway (Insurance Float, Moats, Cash Compounding)",
+      "doctrine": "Zero-Cost Float Capital & Invariant Pricing Power Moats.",
+      "score": 4.0,
+      "score_label": "4.0 / 10 (8.5% Bank Debt vs Zero-Cost Liquidity)",
+      "historical_leverage": "Utilized over  Billion in insurance premium float (cash held before claims are disbursed) as free leverage to acquire cash-generative businesses with permanent pricing power.",
+      "diagnostic_gap": "Our Deal Memo models bank packing credit at 8.5%-9.5% interest with 40% promoter margin money lockup. In commodity export, we are price-takers; a 3% price rise diverts buyers to Vietnam or Bangladesh.",
+      "sme_leap_blueprint": "TReDS & Reverse Factoring Arbitrage: Integrate non-recourse export bill discounting (factoring) to convert accepted shipping bills into cash within 24 hours at 4-6% annualized discount, recycling capital 8 times a year instead of locking money in 75-day bank credit cycles.",
+      "infographic_id": "float"
+    },
+    {
+      "id": "ambani",
+      "name": "Mukesh Ambani",
+      "empire": "Reliance Industries (Petrochemicals, Refining, Retail, Telecom)",
+      "doctrine": "The Tyranny of Scale & Ruthless Backward Integration.",
+      "score": 3.5,
+      "score_label": "3.5 / 10 (Single Container vs Asset Pyramid)",
+      "historical_leverage": "Built the world's largest refining complex at Jamnagar (1.24M barrels/day). Backward-integrated from fabric to polyester fibers, purified terephthalic acid (PTA), paraxylene, and crude oil cracking.",
+      "diagnostic_gap": "We operate at the transactional edge, shipping single 20ft/40ft containers. We do not own raw material processing, quality sorting plants, or port logistics hubs, leaving the lion's share of margin with primary processors.",
+      "sme_leap_blueprint": "ODOP Primary Processing Moat: Instead of trading raw commodity lots, co-invest in local primary processing (e.g., a shared optical color-sorter for chillies or a pre-cooling packhouse for grapes) to capture the 22-30% margin uplift between uncleaned raw farm produce and export-grade A-grade sorted lots.",
+      "infographic_id": "pyramid"
+    },
+    {
+      "id": "musk",
+      "name": "Elon Musk",
+      "empire": "Tesla / SpaceX (First-Principles Engineering, Telemetry, Automation)",
+      "doctrine": "First-Principles Cost Breakdown & Closed-Loop Real-Time Telemetry.",
+      "score": 4.5,
+      "score_label": "4.5 / 10 (Static Gazette Lookup vs Sensor Telematics)",
+      "historical_leverage": "Rebuilt rockets and electric vehicles from atomic raw material costs (carbon fiber, lithium, aluminum alloys) rather than market tier-supplier markups. Continuous hardware-software telemetry loops.",
+      "diagnostic_gap": "We currently rely on manual query lookups and static gazette data. We lack live real-time event triggers (e.g., automated satellite AIS tracking of delayed vessels, or automated EDI ledger webhooks when an export scrip is credited).",
+      "sme_leap_blueprint": "Algorithmic Customs & Route Automation: Implement automated API webhooks tracking container gate-in at port terminals and instant forex forward booking alerts whenever RBI exchange gazette spreads create >50 bps currency arbitrage.",
+      "infographic_id": "telemetry"
+    },
+    {
+      "id": "tata_birla",
+      "name": "Tata & Birla Dynasties",
+      "empire": "Tata Sons & Aditya Birla Group (Nation Building, Institutional Trust)",
+      "doctrine": "Institutional Integrity, Multigenerational Stewardship & Policy Shaping.",
+      "score": 4.0,
+      "score_label": "4.0 / 10 (Reactive Defense vs Sovereign Policy Shaping)",
+      "historical_leverage": "Over a century of ethical institutional capital. Global banks and governments extend sovereign-level credit and expedited customs fast-tracks because of verified compliance track records.",
+      "diagnostic_gap": "Our platform is in a reactive stance\u2014we show how to fight an SCN after a customs officer issues a detention notice. We do not participate in foreign trade policy drafting committees or bilateral trade consultations.",
+      "sme_leap_blueprint": "AEO-T2 Accreditation & Institutional Paperwork: Systematize company operations to achieve Authorised Economic Operator (AEO-T2) certification with CBIC, granting statutory exemption from bank guarantees, 24x7 direct port clearance, and mutual recognition with overseas customs.",
+      "infographic_id": "trust"
+    }
+  ]
+};
+
+function selectTitan(titanKey) {
+  const keys = ['rockefeller', 'buffett', 'ambani', 'musk', 'tata_birla'];
+  keys.forEach(k => {
+    const btn = document.getElementById(`titan-btn-${k}`);
+    if (btn) {
+      btn.style.background = 'var(--card-inner-bg)';
+      btn.style.borderColor = 'var(--card-inner-border)';
+      btn.style.color = 'var(--text-main)';
+    }
+  });
+
+  const activeBtn = document.getElementById(`titan-btn-${titanKey}`);
+  if (activeBtn) {
+    activeBtn.style.background = 'var(--accent)';
+    activeBtn.style.borderColor = 'var(--accent)';
+    activeBtn.style.color = '#ffffff';
+  }
+
+  const t = TITAN_BENCHMARK_DATA.titans.find(item => item.id === titanKey) || TITAN_BENCHMARK_DATA.titans[0];
+  
+  const nameEl = document.getElementById('titan-name');
+  const empireEl = document.getElementById('titan-empire');
+  const badgeEl = document.getElementById('titan-doctrine-badge');
+  const scoreBadgeEl = document.getElementById('titan-score-badge');
+  const doctrineEl = document.getElementById('titan-doctrine');
+  const historicalEl = document.getElementById('titan-historical');
+  const gapEl = document.getElementById('titan-gap');
+  const leapEl = document.getElementById('titan-leap');
+
+  if (nameEl) nameEl.textContent = t.name;
+  if (empireEl) empireEl.textContent = t.empire;
+  if (badgeEl) {
+    const badges = {
+      'rockefeller': 'Bottleneck Monopoly',
+      'buffett': 'Zero-Cost Float',
+      'ambani': 'Scale Tyranny',
+      'musk': 'First-Principles Telemetry',
+      'tata_birla': 'Institutional Trust'
+    };
+    badgeEl.textContent = badges[t.id] || 'Empire Doctrine';
+  }
+  if (scoreBadgeEl) {
+    scoreBadgeEl.textContent = t.score_label;
+    if (t.score >= 4.0) {
+      scoreBadgeEl.style.background = 'rgba(16, 185, 129, 0.15)';
+      scoreBadgeEl.style.color = '#10B981';
+    } else {
+      scoreBadgeEl.style.background = 'rgba(245, 158, 11, 0.15)';
+      scoreBadgeEl.style.color = '#F59E0B';
+    }
+  }
+  if (doctrineEl) doctrineEl.textContent = t.doctrine;
+  if (historicalEl) historicalEl.textContent = t.historical_leverage;
+  if (gapEl) gapEl.textContent = t.diagnostic_gap;
+  if (leapEl) leapEl.textContent = t.sme_leap_blueprint;
+}
+
+function openTitanInfographicModal() {
+  const modal = document.getElementById('titan-infographic-modal');
+  if (modal) modal.classList.remove('hidden');
+}
+
+function closeTitanInfographicModal() {
+  const modal = document.getElementById('titan-infographic-modal');
+  if (modal) modal.classList.add('hidden');
+}
+
 // Global Window Bindings for Inline HTML Handlers
+window.selectTitan = selectTitan;
+window.openTitanInfographicModal = openTitanInfographicModal;
+window.closeTitanInfographicModal = closeTitanInfographicModal;
+
 // Ground-Trade Module window bindings
 window.selectTradeGapCountry = selectTradeGapCountry;
 window.renderTradeGaps = renderTradeGaps;
@@ -2379,6 +2517,7 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   // 5. Initialize Ground-Trade Advanced Modules
+  selectTitan('rockefeller');
   selectTradeGapCountry('US');
   calculateContainerStuffing();
   selectCaseStudy('case-agri-aflatoxin');

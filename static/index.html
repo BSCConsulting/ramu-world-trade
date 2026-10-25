@@ -368,6 +368,7 @@
     #deal-memo-modal.hidden,
     #entity-dossier-modal.hidden,
     #invoice-modal.hidden,
+    #titan-infographic-modal.hidden,
     #bottom-sheet.hidden,
     #bottom-sheet-backdrop.hidden {
       display: none !important;
@@ -1129,6 +1130,65 @@
           <span id="scn-copy-status" class="text-[10px] font-mono text-center block text-[#10B981] font-bold h-3"></span>
         </div>
       </div>
+
+<!-- Titan Strategic Benchmark Card (Empire Machinery vs Ground Reality) -->
+        <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3.5 border" style="border-color: var(--card-border);">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="text-base">🏛️</span>
+              <div>
+                <span class="text-[9px] font-mono uppercase tracking-widest px-2 py-0.5 rounded border" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">Empire vs Ground Reality</span>
+                <h3 class="text-sm font-extrabold pt-0.5" style="color: var(--text-main);">Titan Strategic Benchmark</h3>
+              </div>
+            </div>
+            <span id="titan-score-badge" class="text-[10px] px-2.5 py-0.5 rounded-full font-mono font-bold" style="background: rgba(245, 158, 11, 0.15); color: #F59E0B;">3.0 / 10 • SME Reality</span>
+          </div>
+          <p class="text-[11px]" style="color: var(--text-muted);">Deconstruct the structural monopoly doctrines of history's greatest commercial empires, diagnose where SME exporters lack, and execute the ground leap.</p>
+
+          <!-- Titan Selector Pills -->
+          <div class="flex gap-1.5 overflow-x-auto pb-1 text-[11px] font-bold no-scrollbar">
+            <button type="button" onclick="selectTitan('rockefeller')" id="titan-btn-rockefeller" class="titan-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">Standard Oil (Rockefeller)</button>
+            <button type="button" onclick="selectTitan('buffett')" id="titan-btn-buffett" class="titan-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">Berkshire (Buffett)</button>
+            <button type="button" onclick="selectTitan('ambani')" id="titan-btn-ambani" class="titan-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">Reliance (Ambani)</button>
+            <button type="button" onclick="selectTitan('musk')" id="titan-btn-musk" class="titan-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">SpaceX / Tesla (Musk)</button>
+            <button type="button" onclick="selectTitan('tata_birla')" id="titan-btn-tata_birla" class="titan-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">Tata &amp; Birla Dynasties</button>
+          </div>
+
+          <!-- Active Titan Details Card -->
+          <div id="titan-details-card" class="p-3.5 rounded-xl border space-y-2.5 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="border-b pb-2 flex items-start justify-between gap-2" style="border-color: var(--card-border);">
+              <div>
+                <span id="titan-name" class="font-extrabold text-sm block" style="color: var(--text-main);">John D. Rockefeller</span>
+                <span id="titan-empire" class="text-[10px] font-mono" style="color: var(--text-muted);">Standard Oil (Refining, Transport, Pipelines)</span>
+              </div>
+              <span id="titan-doctrine-badge" class="text-[9px] px-2 py-0.5 rounded font-mono font-bold" style="background: var(--accent-light); color: var(--accent);">Bottleneck Monopoly</span>
+            </div>
+
+            <div>
+              <span class="font-bold uppercase text-[10px] block" style="color: var(--accent);">1. Core Empire Doctrine:</span>
+              <p id="titan-doctrine" class="pt-0.5 font-medium" style="color: var(--text-main);">Control the Physical Bottleneck &amp; Transport Arteries; Eliminate Middlemen.</p>
+            </div>
+
+            <div>
+              <span class="font-bold uppercase text-[10px] block" style="color: var(--text-dim);">2. Historical Leverage Mechanism:</span>
+              <p id="titan-historical" class="pt-0.5" style="color: var(--text-muted);">Controlled 90% of US oil refining by securing secret 25-50% railroad rebates and laying private pipeline networks. Competitors literally could not afford to ship oil.</p>
+            </div>
+
+            <div class="p-2.5 rounded-xl border" style="background: rgba(239, 68, 68, 0.06); border-color: rgba(239, 68, 68, 0.25);">
+              <span class="font-bold uppercase text-[10px] block" style="color: #EF4444;">🔍 Deep-Dive: Exactly Where We Lack:</span>
+              <p id="titan-gap" class="pt-0.5 text-[11px]" style="color: var(--text-main);">Our platform informs the trader about CHA charges and shipping schedules, but we own zero physical transit assets. We are at the mercy of shipping line spot surcharges ($100-$150/day detention) and CFS ground rent.</p>
+            </div>
+
+            <div class="p-2.5 rounded-xl border" style="background: rgba(16, 185, 129, 0.06); border-color: rgba(16, 185, 129, 0.25);">
+              <span class="font-bold uppercase text-[10px] block" style="color: #10B981;">🚀 The SME Ground Leap Blueprint:</span>
+              <p id="titan-leap" class="pt-0.5 text-[11px]" style="color: var(--text-main);">Form an Aggregated Sourcing Cartel: Pool 50-100 SME exporters in a single cluster into a registered consortium to negotiate bulk annual volume contracts (FMC-registered service contracts) with shipping lines, capturing 15-25% lower ocean freight than spot rates.</p>
+            </div>
+
+            <button type="button" onclick="openTitanInfographicModal()" class="w-full py-2.5 px-3 rounded-xl border font-bold text-xs flex items-center justify-center gap-2 active:scale-95 transition-transform" style="background: var(--accent); color: #ffffff;">
+              <span>📊 Inspect Visual Infographics &amp; Evolution Blueprints</span>
+            </button>
+          </div>
+        </div>
     </section>
 
     <!-- ==================== TAB 3: SCRATCHPAD (10x Export Cash Calculator) ==================== -->
@@ -2120,6 +2180,171 @@
         </button>
         <button type="button" onclick="closeInvoiceModal()" class="px-5 py-3 rounded-xl border font-bold text-xs active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
           <span>Close</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+<!-- ==================== TITAN VISUAL INFOGRAPHICS & EVOLUTION BLUEPRINTS MODAL ==================== -->
+  <div id="titan-infographic-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-3">
+    <div class="glass-panel w-full max-w-3xl max-h-[94vh] rounded-3xl p-5 shadow-2xl flex flex-col space-y-4 overflow-hidden animate-slide-up" style="background: var(--dropdown-bg); border-color: var(--card-border);">
+      <div class="flex items-center justify-between border-b pb-3" style="border-color: var(--card-border);">
+        <div class="flex items-center gap-2">
+          <span class="text-lg">🏛️</span>
+          <div>
+            <span class="text-[9px] font-mono uppercase tracking-widest px-2 py-0.5 rounded border" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">Visual Systems Analysis</span>
+            <h3 class="text-base font-extrabold font-mono pt-0.5">Empire-Scale Strategy vs. Ground SME Reality</h3>
+          </div>
+        </div>
+        <button onclick="closeTitanInfographicModal()" class="w-8 h-8 rounded-full border flex items-center justify-center font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">✕</button>
+      </div>
+
+      <div class="overflow-y-auto space-y-4 text-xs pr-1 ios-scroll">
+        <!-- 1. Infographic: The Rockefeller Chokehold -->
+        <div class="p-4 rounded-2xl border space-y-2.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between">
+            <span class="font-extrabold text-xs uppercase tracking-wider" style="color: var(--accent);">1. The Rockefeller Bottleneck vs. Middleman Pipeline</span>
+            <span class="text-[9px] font-mono px-2 py-0.5 rounded border font-bold" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">Transport Dominance</span>
+          </div>
+          <p class="text-[11px]" style="color: var(--text-muted);">Why information alone doesn't grant pricing power: Rockefeller didn't trade oil; he owned the railroad tank cars and pipelines.</p>
+          
+          <div class="grid grid-cols-2 gap-2 text-[10px]">
+            <div class="p-2.5 rounded-xl border space-y-1.5" style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);">
+              <span class="font-bold text-[#EF4444] uppercase block">Typical SME Reality (Price-Taker)</span>
+              <div class="space-y-1 font-mono">
+                <div class="p-1 rounded bg-black/10">Farm / Mill &rarr; 8% Broker Markup</div>
+                <div class="p-1 rounded bg-black/10">CHA Port Filing &rarr; ₹15,000/Bill</div>
+                <div class="p-1 rounded bg-black/10">Shipping Line &rarr; Spot Freight + Detention</div>
+                <div class="p-1 rounded bg-black/10 text-[#EF4444] font-bold">Result: 4-6% Net Margin &bull; Zero Pricing Power</div>
+              </div>
+            </div>
+
+            <div class="p-2.5 rounded-xl border space-y-1.5" style="background: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.2);">
+              <span class="font-bold text-[#10B981] uppercase block">Rockefeller Doctrine (Bottleneck Monopoly)</span>
+              <div class="space-y-1 font-mono">
+                <div class="p-1 rounded bg-black/10">Pool 100 Exporters &rarr; Direct Liner Contract</div>
+                <div class="p-1 rounded bg-black/10">Private CFS / Warehousing &rarr; Zero Demurrage</div>
+                <div class="p-1 rounded bg-black/10">Volume Rebate &rarr; $300/TEU Discount Moat</div>
+                <div class="p-1 rounded bg-black/10 text-[#10B981] font-bold">Result: 22% Margin &bull; Competitors Cannot Ship</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Infographic: Buffett's Float vs Bank Debt -->
+        <div class="p-4 rounded-2xl border space-y-2.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between">
+            <span class="font-extrabold text-xs uppercase tracking-wider" style="color: var(--accent);">2. Buffett's Zero-Cost Float vs. 9% Bank Packing Debt</span>
+            <span class="text-[9px] font-mono px-2 py-0.5 rounded border font-bold" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">Capital Velocity</span>
+          </div>
+          <p class="text-[11px]" style="color: var(--text-muted);">Bank packing credit destroys margins through interest compounding and 40% promoter margin lockup. Factoring turns invoices into instant float.</p>
+
+          <div class="grid grid-cols-2 gap-2 text-[10px]">
+            <div class="p-2.5 rounded-xl border space-y-1" style="background: rgba(245, 158, 11, 0.05); border-color: rgba(245, 158, 11, 0.2);">
+              <span class="font-bold text-[#F59E0B] uppercase block">Bank Packing Credit (Slow &amp; Expensive)</span>
+              <p>&bull; 8.5% &ndash; 9.5% per annum bank interest</p>
+              <p>&bull; 40% promoter margin money frozen as collateral</p>
+              <p>&bull; 75-day turnaround &rarr; Max 4.8 cycles/year</p>
+              <p class="font-bold text-[#F59E0B] pt-1">Effective Return on Capital: ~18%</p>
+            </div>
+
+            <div class="p-2.5 rounded-xl border space-y-1" style="background: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.2);">
+              <span class="font-bold text-[#10B981] uppercase block">TReDS / Non-Recourse Factoring Float</span>
+              <p>&bull; 24-hour instant liquidity against accepted bill</p>
+              <p>&bull; 0.9% flat invoice discounting fee (no debt on book)</p>
+              <p>&bull; 20-day turnaround &rarr; 18 cycles/year</p>
+              <p class="font-bold text-[#10B981] pt-1">Effective Return on Capital: ~72% (4x Multiplier)</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Infographic: Ambani's Integration Pyramid -->
+        <div class="p-4 rounded-2xl border space-y-2.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between">
+            <span class="font-extrabold text-xs uppercase tracking-wider" style="color: var(--accent);">3. Ambani's Scale &amp; Backward Integration Pyramid</span>
+            <span class="text-[9px] font-mono px-2 py-0.5 rounded border font-bold" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">Asset Moats</span>
+          </div>
+          <p class="text-[11px]" style="color: var(--text-muted);">Moving from vulnerable transactional arbitrage up the industrial value chain.</p>
+
+          <div class="space-y-1.5 text-[10px] font-mono">
+            <div class="p-2 rounded-xl border flex items-center justify-between" style="background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.3);">
+              <span class="font-bold text-[#10B981]">Tier 4: Sovereign Scale &amp; Dedicated Infrastructure</span>
+              <span>Jamnagar Refinery / Private Port Berths</span>
+            </div>
+            <div class="p-2 rounded-xl border flex items-center justify-between" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2);">
+              <span class="font-bold">Tier 3: Cluster Processing &amp; Quality Hub</span>
+              <span>Shared Optical Sorting &bull; NABL Lab Co-ownership</span>
+            </div>
+            <div class="p-2 rounded-xl border flex items-center justify-between" style="background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.2);">
+              <span class="font-bold">Tier 2: Direct ODOP Farmer/Weaver Contracts</span>
+              <span>Bypassing Mandi Middlemen &bull; 12% Cost Floor</span>
+            </div>
+            <div class="p-2 rounded-xl border flex items-center justify-between" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2);">
+              <span class="font-bold text-[#EF4444]">Tier 1: Transactional Box Broker (Our Platform Today)</span>
+              <span>Single 20ft FCL &bull; Price-Taker Risk</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Infographic: Musk's First-Principles Telemetry Loop -->
+        <div class="p-4 rounded-2xl border space-y-2.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between">
+            <span class="font-extrabold text-xs uppercase tracking-wider" style="color: var(--accent);">4. Musk's First-Principles Telemetry &amp; Automation</span>
+            <span class="text-[9px] font-mono px-2 py-0.5 rounded border font-bold" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">Feedback Loops</span>
+          </div>
+          <div class="p-3 rounded-xl border space-y-2 text-[10px]" style="background: var(--card-bg); border-color: var(--card-border);">
+            <div class="flex items-center justify-between font-mono font-bold" style="color: var(--accent);">
+              <span>Physical Raw Metal / Cotton</span>
+              <span>&rarr;</span>
+              <span>Live Port AIS Sensor</span>
+              <span>&rarr;</span>
+              <span>Automated Hedging</span>
+            </div>
+            <p style="color: var(--text-muted);">Elon Musk calculates the price of steel and carbon fiber per kg, then designs machines that approach that physical limit. In international trade, this means calculating farmgate chemical cost and using automated telemetry webhooks to eliminate human friction.</p>
+          </div>
+        </div>
+
+        <!-- 5. The 3-Stage Evolutionary Roadmap for Ground Exporters -->
+        <div class="p-4 rounded-2xl border space-y-3" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between">
+            <span class="font-extrabold text-xs uppercase tracking-wider" style="color: var(--accent);">5. The 3-Stage Roadmap from Ground Broker to Sovereign Moat</span>
+            <span class="text-[9px] font-mono px-2 py-0.5 rounded border font-bold" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">Action Plan</span>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 text-[10px]">
+            <div class="p-2.5 rounded-xl border space-y-1" style="background: var(--card-bg); border-color: var(--card-border);">
+              <span class="font-mono font-bold text-xs block" style="color: var(--accent);">Stage 1: Operator</span>
+              <span class="text-[9px] font-bold uppercase block text-[#10B981]">Where We Are Today</span>
+              <p>&bull; Zero-capital brokerage</p>
+              <p>&bull; 1-tap statutory invoices</p>
+              <p>&bull; SCN customs defense</p>
+              <p>&bull; Single container optimization</p>
+            </div>
+
+            <div class="p-2.5 rounded-xl border space-y-1" style="background: var(--card-bg); border-color: var(--card-border);">
+              <span class="font-mono font-bold text-xs block" style="color: var(--accent);">Stage 2: Cartel</span>
+              <span class="text-[9px] font-bold uppercase block text-[#F59E0B]">The Next Leap</span>
+              <p>&bull; Pool 50-100 ODOP exporters</p>
+              <p>&bull; FMC volume liner contracts</p>
+              <p>&bull; TReDS invoice discounting float</p>
+              <p>&bull; Shared NABL testing labs</p>
+            </div>
+
+            <div class="p-2.5 rounded-xl border space-y-1" style="background: var(--card-bg); border-color: var(--card-border);">
+              <span class="font-mono font-bold text-xs block" style="color: var(--accent);">Stage 3: Sovereign</span>
+              <span class="text-[9px] font-bold uppercase block text-[#6366F1]">Titan Scale</span>
+              <p>&bull; AEO-T3 certified fast-track</p>
+              <p>&bull; Proprietary cold-chain hubs</p>
+              <p>&bull; Branded Origin GI products</p>
+              <p>&bull; Bilateral policy shaping</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-2 border-t" style="border-color: var(--card-border);">
+        <button type="button" onclick="closeTitanInfographicModal()" class="w-full py-2.5 rounded-xl border text-xs font-bold active:scale-95 transition-transform" style="background: var(--accent); color: #ffffff;">
+          <span>Back to Strategy Terminal</span>
         </button>
       </div>
     </div>
