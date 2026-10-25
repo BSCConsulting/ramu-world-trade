@@ -6259,6 +6259,140 @@ function switchBlueprintSection(secId) {
   }
 }
 
+
+function renderSeasonalVolatilityChartSvg(seasonalData) {
+  if (!Array.isArray(seasonalData) || seasonalData.length === 0) return '';
+
+  const W = 560;
+  const H = 165;
+  const padL = 52;
+  const padR = 15;
+  const padT = 15;
+  const padB = 32;
+  const plotW = W - padL - padR;
+  const plotH = H - padT - padB;
+
+  const allMins = seasonalData.map(d => Number(d.min_price) || 0);
+  const allMaxs = seasonalData.map(d => Number(d.max_price) || 0);
+  const minPrice = Math.min(...allMins);
+  const maxPrice = Math.max(...allMaxs);
+  const yMin = Math.floor(minPrice * 0.95);
+  const yMax = Math.ceil(maxPrice * 1.05);
+  const yRange = yMax - yMin || 1;
+
+  const points = seasonalData.map((d, i) => {
+    const x = padL + (i * plotW) / (seasonalData.length - 1);
+    const yModal = padT + plotH - (((Number(d.modal_price_qtl) || 0) - yMin) / yRange) * plotH;
+    const yMinPt = padT + plotH - (((Number(d.min_price) || 0) - yMin) / yRange) * plotH;
+    const yMaxPt = padT + plotH - (((Number(d.max_price) || 0) - yMin) / yRange) * plotH;
+    const barH = Math.min(24, Math.max(4, ((Number(d.arrival_share_pct) || 0) / 25) * 24));
+    return { x, yModal, yMinPt, yMaxPt, barH, ...d };
+  });
+
+  // Build area band path: max points forward, min points backward
+  let areaD = `M ${points[0].x} ${points[0].yMaxPt}`;
+  for (let i = 1; i < points.length; i++) {
+    areaD += ` L ${points[i].x} ${points[i].yMaxPt}`;
+  }
+  for (let i = points.length - 1; i >= 0; i--) {
+    areaD += ` L ${points[i].x} ${points[i].yMinPt}`;
+  }
+  areaD += ' Z';
+
+  // Build modal polyline
+  const polylinePts = points.map(p => `${p.x.toFixed(1)},${p.yModal.toFixed(1)}`).join(' ');
+
+  // Y-axis grid levels (3 tiers)
+  const gridLevels = [
+    { val: yMin + yRange * 0.9, y: padT + plotH * 0.1 },
+    { val: yMin + yRange * 0.5, y: padT + plotH * 0.5 },
+    { val: yMin + yRange * 0.1, y: padT + plotH * 0.9 }
+  ];
+
+  return `
+    <div class="p-3.5 rounded-2xl border space-y-2.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-1.5">
+          <span class="text-xs">📈</span>
+          <span class="font-bold text-accent text-[11px]">5-Year Mandi Seasonal Volatility &amp; Cyclical Arrival Corridor</span>
+        </div>
+        <span class="text-[9px] font-mono px-2 py-0.5 rounded font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">Harvest Wave Calibrated</span>
+      </div>
+
+      <!-- Zero-Dependency Native SVG Chart -->
+      <div class="w-full overflow-x-auto pb-1 ios-scroll no-scrollbar">
+        <svg viewBox="0 0 ${W} ${H}" class="w-full min-w-[500px] h-[165px] block font-mono" style="font-size: 9px;">
+          <defs>
+            <linearGradient id="corridorGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.25" />
+              <stop offset="100%" stop-color="var(--accent)" stop-opacity="0.03" />
+            </linearGradient>
+            <linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#10B981" stop-opacity="0.8" />
+              <stop offset="100%" stop-color="#10B981" stop-opacity="0.2" />
+            </linearGradient>
+          </defs>
+
+          <!-- Horizontal Grid Lines & Y-Labels -->
+          ${gridLevels.map(g => `
+            <line x1="${padL}" y1="${g.y.toFixed(1)}" x2="${W - padR}" y2="${g.y.toFixed(1)}" stroke="var(--card-inner-border)" stroke-dasharray="3 3" opacity="0.6" />
+            <text x="${padL - 6}" y="${(g.y + 3).toFixed(1)}" text-anchor="end" fill="var(--text-dim)">₹${Math.round(g.val).toLocaleString('en-IN')}</text>
+          `).join('')}
+
+          <!-- Min-Max Corridor Shaded Area -->
+          <path d="${areaD}" fill="url(#corridorGrad)" />
+
+          <!-- Arrival Share Bars at base -->
+          ${points.map(p => `
+            <rect x="${(p.x - 7).toFixed(1)}" y="${(padT + plotH - p.barH).toFixed(1)}" width="14" height="${p.barH.toFixed(1)}" rx="2" fill="url(#barGrad)" opacity="0.75" />
+          `).join('')}
+
+          <!-- Modal Price Trendline -->
+          <polyline points="${polylinePts}" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+
+          <!-- Data Node Dots & X-Labels -->
+          ${points.map(p => {
+            const isOpt = p.procurement_advice && p.procurement_advice.includes('Buy');
+            const dotColor = isOpt ? '#10B981' : 'var(--accent)';
+            return `
+              <circle cx="${p.x.toFixed(1)}" cy="${p.yModal.toFixed(1)}" r="${isOpt ? 4.5 : 3.5}" fill="${dotColor}" stroke="#ffffff" stroke-width="1.5" />
+              <text x="${p.x.toFixed(1)}" y="${H - 12}" text-anchor="middle" fill="var(--text-main)" font-weight="${isOpt ? 'bold' : 'normal'}">${escapeHtml(p.month)}</text>
+              <text x="${p.x.toFixed(1)}" y="${H - 2}" text-anchor="middle" fill="var(--text-dim)" font-size="7.5px">${Number(p.arrival_share_pct) || 0}%</text>
+            `;
+          }).join('')}
+        </svg>
+      </div>
+
+      <!-- Legend & Procurement Guidance Tags -->
+      <div class="flex items-center justify-between text-[10px] pt-1 border-t flex-wrap gap-2" style="border-color: var(--card-border);">
+        <div class="flex items-center gap-3">
+          <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full inline-block" style="background: var(--accent);"></span> <span class="text-muted">Modal Mandi Price</span></span>
+          <span class="flex items-center gap-1"><span class="w-3 h-2 rounded inline-block" style="background: rgba(16, 185, 129, 0.4);"></span> <span class="text-muted">Arrival Volume Bar</span></span>
+          <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full inline-block" style="background: #10B981;"></span> <span class="text-emerald-500 font-bold">Optimal Buy Window</span></span>
+        </div>
+        <span class="text-[9px] font-mono text-dim">Prices normalized per Quintal</span>
+      </div>
+
+      <!-- 12-Month Harvest Wave Matrix -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-1.5 pt-1 text-[10px]">
+        ${points.map(p => {
+          const isPrime = p.procurement_advice && (p.procurement_advice.includes('Strong Buy') || p.procurement_advice.includes('Prime') || p.procurement_advice.includes('Optimal'));
+          return `
+            <div class="p-1.5 rounded-lg border text-center space-y-0.5" style="background: ${isPrime ? 'rgba(16, 185, 129, 0.08)' : 'var(--card-bg)'}; border-color: ${isPrime ? '#10B981' : 'var(--card-inner-border)'};">
+              <div class="flex items-center justify-between font-bold">
+                <span class="text-main">${escapeHtml(p.month)}</span>
+                <span class="font-mono ${isPrime ? 'text-emerald-500' : 'text-accent'}">₹${Number(p.modal_price_qtl).toLocaleString('en-IN')}</span>
+              </div>
+              <div class="text-[8.5px] text-muted truncate">${escapeHtml(p.harvest_phase)}</div>
+              <div class="text-[8.5px] font-bold ${isPrime ? 'text-emerald-500' : 'text-dim'} truncate">${escapeHtml(p.procurement_advice)}</div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
 function renderBlueprintSectionContent(secId, data) {
   if (secId === 'formalities') {
     const list = data.section_1_statutory_formalities || [];
@@ -6320,6 +6454,9 @@ function renderBlueprintSectionContent(secId, data) {
           </div>
         </div>
 
+        <!-- Seasonal Volatility & Arrival Wave SVG Chart -->
+        ${sm.monthly_seasonal_index ? renderSeasonalVolatilityChartSvg(sm.monthly_seasonal_index) : ''}
+
         <div class="p-3 rounded-xl border space-y-1.5" style="background: var(--card-bg); border-color: var(--card-inner-border);">
           <span class="font-bold text-main block uppercase text-[10px] tracking-wider">Mandatory Farmgate Quality Calibration</span>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-1.5 text-[11px]">
@@ -6368,6 +6505,43 @@ function renderBlueprintSectionContent(secId, data) {
             ${labs.map(l => `<li>${escapeHtml(l)}</li>`).join('')}
           </ul>
         </div>
+
+        <!-- DPPQS / PQIS Statutory Phytosanitary Compliance Gateway -->
+        ${qg.plant_quarantine_pqis ? `
+          <div class="p-3.5 rounded-2xl border space-y-2" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm">🌱</span>
+                <span class="font-bold text-main uppercase text-[10px] tracking-wider">DPPQS / PQIS Statutory Phytosanitary Compliance</span>
+              </div>
+              <span class="text-[9px] font-mono px-2 py-0.5 rounded font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">e-Phyto IPPC Verified</span>
+            </div>
+            <div class="text-[11px] text-muted leading-relaxed">
+              <strong>Mandatory Protocol:</strong> ${escapeHtml(qg.plant_quarantine_pqis.certificate_type)} via 
+              <a href="${escapeHtml(qg.plant_quarantine_pqis.portal)}" target="_blank" rel="noopener noreferrer" class="text-accent underline font-mono">PQMS Official Portal ↗</a>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs pt-1">
+              <div class="p-2.5 rounded-xl border space-y-1" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+                <span class="text-dim text-[10px] font-bold block uppercase">Approved Fumigation Protocol</span>
+                <span class="text-[11px] font-mono text-emerald-500 font-bold block">${escapeHtml(qg.plant_quarantine_pqis.fumigation_protocol)}</span>
+                <span class="text-[9px] text-muted block">NSPM-12 / NSPM-22 Certified Operator Treatment</span>
+              </div>
+              <div class="p-2.5 rounded-xl border space-y-1" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+                <span class="text-dim text-[10px] font-bold block uppercase">Designated Inspection Station</span>
+                <span class="text-[11px] text-main font-semibold block">${escapeHtml(qg.plant_quarantine_pqis.inspection_hub)}</span>
+                <span class="text-[9px] text-muted block">Turnaround: ${escapeHtml(qg.plant_quarantine_pqis.turnaround_time)} • Fee: ${escapeHtml(qg.plant_quarantine_pqis.statutory_fee_inr)}</span>
+              </div>
+            </div>
+            <div class="pt-1">
+              <span class="text-[10px] font-bold text-dim uppercase tracking-wider block mb-1">Regulated Quarantine Pests (Mandatory 100% Free / Excluded):</span>
+              <div class="flex flex-wrap gap-1.5">
+                ${(qg.plant_quarantine_pqis.regulated_quarantine_pests || []).map(pest => `
+                  <span class="text-[9px] font-mono px-2 py-0.5 rounded border" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.25); color: #EF4444;">✕ ${escapeHtml(pest)}</span>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        ` : ''}
       </div>
     `;
   } else if (secId === 'logistics') {
@@ -6529,8 +6703,9 @@ function openBlueprintModal() {
           <p class="text-[10px] text-muted"><strong>Distance:</strong> ${escapeHtml(d.section_2_sourcing_and_mandi?.distance_from_madhira_km)} km haulage from origin packhouse</p>
         </div>
         <div>
-          <h4 class="font-bold text-accent text-xs uppercase tracking-wider mb-1">3. Foreign Quality Gateway</h4>
+          <h4 class="font-bold text-accent text-xs uppercase tracking-wider mb-1">3. Quality &amp; PQIS Phytosanitary Gateway</h4>
           <p class="text-[10px] text-muted"><strong>Regulatory Rule:</strong> ${escapeHtml(d.section_3_quality_and_lab_gateway?.target_standards)}</p>
+          <p class="text-[10px] text-muted"><strong>DPPQS e-Phyto:</strong> ${escapeHtml(d.section_3_quality_and_lab_gateway?.plant_quarantine_pqis?.fumigation_protocol || 'Standard Fumigation Required')}</p>
           <p class="text-[10px] text-muted"><strong>NABL Labs:</strong> ${(d.section_3_quality_and_lab_gateway?.authorized_nabl_labs || []).map(escapeHtml).join(', ')}</p>
         </div>
       </div>
@@ -6723,3 +6898,14 @@ window.addEventListener('keydown', (e) => {
     closeBlueprintModal();
   }
 });
+
+// Register Sovereign PWA Service Worker (Offline Mandi Packhouse Mode)
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').then((reg) => {
+      console.log('[PWA] Sovereign Service Worker active:', reg.scope);
+    }).catch((err) => {
+      console.warn('[PWA] Service Worker registration failed:', err);
+    });
+  });
+}

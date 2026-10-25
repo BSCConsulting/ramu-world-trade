@@ -89,21 +89,161 @@
           "foreign_matter": "Max 1.0% by weight",
           "lead_chromate": "Strict Zero Tolerance (Prohibited artificial yellow polishing agent)",
           "broken_fingers": "Max 5.0%"
-        }
+        },
+        "monthly_seasonal_index": [
+          {
+            "month": "Jan",
+            "modal_price_qtl": 14200,
+            "min_price": 13000,
+            "max_price": 15000,
+            "arrival_share_pct": 6,
+            "harvest_phase": "Pre-Harvest Sowing / Late Storage",
+            "procurement_advice": "Holding Pattern"
+          },
+          {
+            "month": "Feb",
+            "modal_price_qtl": 13200,
+            "min_price": 12100,
+            "max_price": 14200,
+            "arrival_share_pct": 14,
+            "harvest_phase": "New Crop Arrivals Begin",
+            "procurement_advice": "Optimal Procurement Window"
+          },
+          {
+            "month": "Mar",
+            "modal_price_qtl": 12600,
+            "min_price": 11500,
+            "max_price": 13800,
+            "arrival_share_pct": 22,
+            "harvest_phase": "Peak Rabi Crop Market Inflow",
+            "procurement_advice": "Strong Buy / Lowest Annual Pricing"
+          },
+          {
+            "month": "Apr",
+            "modal_price_qtl": 12900,
+            "min_price": 11800,
+            "max_price": 14000,
+            "arrival_share_pct": 18,
+            "harvest_phase": "Heavy Market Arrivals",
+            "procurement_advice": "Strong Buy / Stocking Window"
+          },
+          {
+            "month": "May",
+            "modal_price_qtl": 13500,
+            "min_price": 12400,
+            "max_price": 14600,
+            "arrival_share_pct": 10,
+            "harvest_phase": "Arrivals Slowing Down",
+            "procurement_advice": "Regular Procurement"
+          },
+          {
+            "month": "Jun",
+            "modal_price_qtl": 13900,
+            "min_price": 12800,
+            "max_price": 15000,
+            "arrival_share_pct": 6,
+            "harvest_phase": "Monsoon Sowing Period",
+            "procurement_advice": "Fair Value"
+          },
+          {
+            "month": "Jul",
+            "modal_price_qtl": 14100,
+            "min_price": 13000,
+            "max_price": 15200,
+            "arrival_share_pct": 4,
+            "harvest_phase": "Lean Arrival Supply",
+            "procurement_advice": "Moderate"
+          },
+          {
+            "month": "Aug",
+            "modal_price_qtl": 14400,
+            "min_price": 13200,
+            "max_price": 15500,
+            "arrival_share_pct": 4,
+            "harvest_phase": "Early Festive Demand Build-up",
+            "procurement_advice": "Price Firming Up"
+          },
+          {
+            "month": "Sep",
+            "modal_price_qtl": 14800,
+            "min_price": 13600,
+            "max_price": 16000,
+            "arrival_share_pct": 4,
+            "harvest_phase": "Domestic Festive Rush",
+            "procurement_advice": "High Demand / Elevated Rates"
+          },
+          {
+            "month": "Oct",
+            "modal_price_qtl": 15200,
+            "min_price": 14000,
+            "max_price": 16500,
+            "arrival_share_pct": 4,
+            "harvest_phase": "Diwali Export & Domestic Peak",
+            "procurement_advice": "Annual High Range"
+          },
+          {
+            "month": "Nov",
+            "modal_price_qtl": 14900,
+            "min_price": 13700,
+            "max_price": 16100,
+            "arrival_share_pct": 4,
+            "harvest_phase": "Post-Festive Stabilisation",
+            "procurement_advice": "Moderate"
+          },
+          {
+            "month": "Dec",
+            "modal_price_qtl": 14500,
+            "min_price": 13300,
+            "max_price": 15700,
+            "arrival_share_pct": 4,
+            "harvest_phase": "Year-End Inventory Clearance",
+            "procurement_advice": "Moderate"
+          }
+        ]
       },
       "quality_and_lab_gateway": {
         "target_standards": "Saudi Food and Drug Authority (SFDA) Regulation GSO 1016/2014 & CODEX STAN 326",
         "key_parameters": [
-          {"test": "Curcuminoids Content", "limit": ">= 3.0%", "importance": "Pricing and extraction grade benchmark"},
-          {"test": "Total Aflatoxins (B1+B2+G1+G2)", "limit": "< 10.0 ppb (ug/kg)", "importance": "SFDA mandatory threshold"},
-          {"test": "Lead (Pb) & Heavy Metals", "limit": "< 2.5 mg/kg", "importance": "Strict screening against lead chromate powder"},
-          {"test": "Pesticide Residue Screen", "limit": "Compliant with SFDA MRL list", "importance": "Organochlorine / Chlorpyrifos screen"}
+          {
+            "test": "Curcuminoids Content",
+            "limit": ">= 3.0%",
+            "importance": "Pricing and extraction grade benchmark"
+          },
+          {
+            "test": "Total Aflatoxins (B1+B2+G1+G2)",
+            "limit": "< 10.0 ppb (ug/kg)",
+            "importance": "SFDA mandatory threshold"
+          },
+          {
+            "test": "Lead (Pb) & Heavy Metals",
+            "limit": "< 2.5 mg/kg",
+            "importance": "Strict screening against lead chromate powder"
+          },
+          {
+            "test": "Pesticide Residue Screen",
+            "limit": "Compliant with SFDA MRL list",
+            "importance": "Organochlorine / Chlorpyrifos screen"
+          }
         ],
         "authorized_nabl_labs": [
           "Spices Board Quality Evaluation Laboratory (QEL), Guntur (Andhra Pradesh)",
           "Vimta Labs Ltd, Cherlapally, Hyderabad (Telangana)",
           "Intertek India Pvt Ltd, Hyderabad Food Testing Facility"
-        ]
+        ],
+        "plant_quarantine_pqis": {
+          "authority": "Directorate of Plant Protection, Quarantine & Storage (DPPQS), Ministry of Agriculture",
+          "portal": "https://pqms.cdaq.gov.in",
+          "certificate_type": "e-Phyto (Electronic Phytosanitary Certificate) under IPPC Standards",
+          "inspection_hub": "Plant Quarantine Station at ICD Sanathnagar (Hyderabad) or JNPT Port Station",
+          "fumigation_protocol": "Methyl Bromide (MBr) @ 32 g/m³ for 24h at 21°C or Phosphine (PH3) @ 2 g/m³ for 120h by accredited pest control operator (NSPM-12 / NSPM-22 compliant)",
+          "regulated_quarantine_pests": [
+            "Lasioderma serricorne (Cigarette beetle)",
+            "Stegobium paniceum (Drugstore beetle)",
+            "Tribolium castaneum (Red flour beetle)"
+          ],
+          "turnaround_time": "24 - 48 Hours post container stuffing & sealing",
+          "statutory_fee_inr": "₹1,500 - ₹2,500 per 20 MT container"
+        }
       },
       "multimodal_logistics": {
         "recommended_route": "Madhira / Nizamabad Packhouse -> Road Haulage to ICD Sanathnagar (Hyderabad) -> CONCOR DFC Rail Freight to JNPT Port (Nhava Sheva, Mumbai) -> Ocean Transit to Jeddah Islamic Port (Saudi Arabia)",
@@ -123,9 +263,9 @@
         "saudi_vat_pct": 15.0,
         "government_cash_rebates": {
           "rodtep_rate_pct": 2.5,
-          "rodtep_cap_per_kg_inr": 3.20,
+          "rodtep_cap_per_kg_inr": 3.2,
           "duty_drawback_rate_pct": 1.1,
-          "duty_drawback_cap_per_kg_inr": 1.80,
+          "duty_drawback_cap_per_kg_inr": 1.8,
           "total_government_rebate_pct": 3.6
         }
       },
@@ -220,19 +360,155 @@
           "neck_thickness": "Thin, well-cured neck (prevents neck rot)",
           "sprouting_rot": "Zero tolerance for sprouted, wet, or black-mold affected bulbs",
           "moisture_loss": "Cured under shade with 3%-5% allowable shrinkage factor"
-        }
+        },
+        "monthly_seasonal_index": [
+          {
+            "month": "Jan",
+            "modal_price_qtl": 2900,
+            "min_price": 2400,
+            "max_price": 3500,
+            "arrival_share_pct": 8,
+            "harvest_phase": "Late Kharif Crop Depleting",
+            "procurement_advice": "High Volatility"
+          },
+          {
+            "month": "Feb",
+            "modal_price_qtl": 2500,
+            "min_price": 2000,
+            "max_price": 3000,
+            "arrival_share_pct": 10,
+            "harvest_phase": "Early Rabi Arrivals Begin",
+            "procurement_advice": "Prices Moderating"
+          },
+          {
+            "month": "Mar",
+            "modal_price_qtl": 2200,
+            "min_price": 1800,
+            "max_price": 2700,
+            "arrival_share_pct": 15,
+            "harvest_phase": "Main Rabi Harvest Influx",
+            "procurement_advice": "Prime Buying Window"
+          },
+          {
+            "month": "Apr",
+            "modal_price_qtl": 1900,
+            "min_price": 1500,
+            "max_price": 2400,
+            "arrival_share_pct": 20,
+            "harvest_phase": "Peak Garwa Crop (Storability 6 Mo)",
+            "procurement_advice": "Strong Buy / Lowest Price / Storage Window"
+          },
+          {
+            "month": "May",
+            "modal_price_qtl": 2100,
+            "min_price": 1700,
+            "max_price": 2600,
+            "arrival_share_pct": 16,
+            "harvest_phase": "Garwa Influx Continues",
+            "procurement_advice": "Strong Buy for Cold/Ventilated Storage"
+          },
+          {
+            "month": "Jun",
+            "modal_price_qtl": 2400,
+            "min_price": 2000,
+            "max_price": 2900,
+            "arrival_share_pct": 8,
+            "harvest_phase": "Arrivals End / Chawl Storage Starts",
+            "procurement_advice": "Storage Stock Phase"
+          },
+          {
+            "month": "Jul",
+            "modal_price_qtl": 2600,
+            "min_price": 2200,
+            "max_price": 3100,
+            "arrival_share_pct": 5,
+            "harvest_phase": "Monsoon / Reliance on Stored Stock",
+            "procurement_advice": "Moderate Sourcing"
+          },
+          {
+            "month": "Aug",
+            "modal_price_qtl": 2800,
+            "min_price": 2300,
+            "max_price": 3400,
+            "arrival_share_pct": 4,
+            "harvest_phase": "Stored Stock Depleting",
+            "procurement_advice": "Prices Climbing"
+          },
+          {
+            "month": "Sep",
+            "modal_price_qtl": 3200,
+            "min_price": 2600,
+            "max_price": 3900,
+            "arrival_share_pct": 3,
+            "harvest_phase": "Pre-Kharif Supply Crunch",
+            "procurement_advice": "Annual Peak Volatility"
+          },
+          {
+            "month": "Oct",
+            "modal_price_qtl": 3600,
+            "min_price": 3000,
+            "max_price": 4500,
+            "arrival_share_pct": 3,
+            "harvest_phase": "Festive Demand / Supply Deficit",
+            "procurement_advice": "Peak Pricing / High Risk"
+          },
+          {
+            "month": "Nov",
+            "modal_price_qtl": 3300,
+            "min_price": 2700,
+            "max_price": 4100,
+            "arrival_share_pct": 4,
+            "harvest_phase": "Early Kharif Crop Arrivals",
+            "procurement_advice": "Watch for Moisture/Neck Rot"
+          },
+          {
+            "month": "Dec",
+            "modal_price_qtl": 3000,
+            "min_price": 2500,
+            "max_price": 3700,
+            "arrival_share_pct": 5,
+            "harvest_phase": "Kharif Inflow Stabilising",
+            "procurement_advice": "Moderate"
+          }
+        ]
       },
       "quality_and_lab_gateway": {
         "target_standards": "AGMARK Rules for Edible Onions (Grading and Marking) Rules, 2004",
         "key_parameters": [
-          {"test": "Size & Diameter", "limit": "Grade I: >= 50mm, Grade II: 40-50mm", "importance": "Direct price determinant"},
-          {"test": "Dry Matter / Total Solids", "limit": "11.0% - 13.5%", "importance": "Long shelf life and storage endurance"},
-          {"test": "Smut / Black Mold Screen", "limit": "Nil Aspergillus niger fungal spores", "importance": "Mandatory for container transit"}
+          {
+            "test": "Size & Diameter",
+            "limit": "Grade I: >= 50mm, Grade II: 40-50mm",
+            "importance": "Direct price determinant"
+          },
+          {
+            "test": "Dry Matter / Total Solids",
+            "limit": "11.0% - 13.5%",
+            "importance": "Long shelf life and storage endurance"
+          },
+          {
+            "test": "Smut / Black Mold Screen",
+            "limit": "Nil Aspergillus niger fungal spores",
+            "importance": "Mandatory for container transit"
+          }
         ],
         "authorized_nabl_labs": [
           "State AGMARK Testing Laboratory, Guntur",
           "National Horticultural Research and Development Foundation (NHRDF), Hyderabad"
-        ]
+        ],
+        "plant_quarantine_pqis": {
+          "authority": "Directorate of Plant Protection, Quarantine & Storage (DPPQS), Ministry of Agriculture",
+          "portal": "https://pqms.cdaq.gov.in",
+          "certificate_type": "Plant Health / Phytosanitary Certificate for Fresh Perishables",
+          "inspection_hub": "Regional Plant Quarantine Station, Chennai Port (INMAA1) / Hyderabad Ag Quarantine Cell",
+          "fumigation_protocol": "Phosphine (Aluminium Phosphide) fumigation for storage bulbs or regulated cold treatment (+2 to +4°C continuous log)",
+          "regulated_quarantine_pests": [
+            "Ditylenchus dipsaci (Stem and bulb nematode)",
+            "Urocystis cepulae (Onion smut fungus)",
+            "Delia antiqua (Onion maggot fly)"
+          ],
+          "turnaround_time": "12 - 24 Hours for fresh perishables",
+          "statutory_fee_inr": "₹1,000 - ₹1,800 per consignment"
+        }
       },
       "multimodal_logistics": {
         "recommended_route": "Madhira Packhouse -> Road Haulage via NH65 to Hyderabad (220 km) or Vijayawada (85 km) for domestic distribution; OR to Chennai Port (440 km) for sea export.",
