@@ -1,0 +1,69 @@
+{
+  "corridors": [
+    {
+      "id": "surat_textiles",
+      "sector": "Technical & Synthetic Textiles",
+      "origin": "Surat (Gujarat) \u2022 ICD Sachin",
+      "destination": "New York / Savannah, USA",
+      "hs_code": "5911.90.00",
+      "rodtep_rate_pct": 2.5,
+      "potential_rebate_per_fcl": 125000,
+      "dead_air_savings_per_fcl": 82000,
+      "tariff_benefit": "US MTB 0% GSP Eligible vs 6.5% MFN Normal Duty",
+      "scn_vulnerability": "Misclassification risk under HS 5903 vs 5911; requires technical specification sheet.",
+      "headline_hook": "Surat Synthetic Weavers: How to capture \u20b92.07 Lakhs in uncollected cash incentives and ocean freight savings on every US-bound container."
+    },
+    {
+      "id": "guntur_spices",
+      "sector": "Agricultural & Spices",
+      "origin": "Guntur (Andhra Pradesh) \u2022 JNPT Gateway",
+      "destination": "Rotterdam, Netherlands (EU)",
+      "hs_code": "0904.21.10",
+      "rodtep_rate_pct": 2.5,
+      "potential_rebate_per_fcl": 95000,
+      "dead_air_savings_per_fcl": 45000,
+      "tariff_benefit": "EU General Duty 0% with Pre-Cleared Spices Board CoA",
+      "scn_vulnerability": "Aflatoxin threshold hold (> 10 ppb); CFS detention can reach \u20b919,500/day without on-dock protocol.",
+      "headline_hook": "Guntur Red Chilli Exporters: Eliminate port detention risks and recover \u20b91.4 Lakhs in cash rebates per European shipment."
+    },
+    {
+      "id": "tirupur_apparel",
+      "sector": "Cotton Knitwear & Apparel",
+      "origin": "Tirupur (Tamil Nadu) \u2022 Tuticorin Port",
+      "destination": "Felixstowe / London Gateway, UK",
+      "hs_code": "6109.10.00",
+      "rodtep_rate_pct": 4.3,
+      "potential_rebate_per_fcl": 148000,
+      "dead_air_savings_per_fcl": 98000,
+      "tariff_benefit": "UK Developing Countries Trading Scheme (DCTS) 0% Duty",
+      "scn_vulnerability": "PFMS drawback scroll hold due to AD Bank e-BRC delays; easily resolved with automated reconciliation.",
+      "headline_hook": "Tirupur Garment Exporters: Unlock \u20b92.46 Lakhs in hidden RoSCTL ledger value and box volumetric freight efficiency per 40ft HC."
+    },
+    {
+      "id": "moradabad_metal",
+      "sector": "Handcrafted Brass & Metalware",
+      "origin": "Moradabad (Uttar Pradesh) \u2022 ICD Moradabad",
+      "destination": "Hamburg, Germany (EU)",
+      "hs_code": "7419.80.30",
+      "rodtep_rate_pct": 2.8,
+      "potential_rebate_per_fcl": 112000,
+      "dead_air_savings_per_fcl": 65000,
+      "tariff_benefit": "0% Preferential Tariffs under GSP Scheme with Form-A",
+      "scn_vulnerability": "EU REACH Regulation chemical audits; requires NABL lead test to avoid destination port rejection.",
+      "headline_hook": "Moradabad Brass Houses: Cut transit breakages and claim \u20b91.77 Lakhs in combined cash rebates and logistics optimization."
+    },
+    {
+      "id": "jodhpur_wood",
+      "sector": "Wooden Furniture & Handicrafts",
+      "origin": "Jodhpur (Rajasthan) \u2022 ICD Bhagat Ki Kothi",
+      "destination": "Jebel Ali, Dubai (UAE)",
+      "hs_code": "9403.60.00",
+      "rodtep_rate_pct": 1.8,
+      "potential_rebate_per_fcl": 78000,
+      "dead_air_savings_per_fcl": 52000,
+      "tariff_benefit": "India-UAE CEPA 0% Zero Customs Duty (Saves 5% normal duty)",
+      "scn_vulnerability": "VRIKSH Timber legality verification missing; causes detention at gateway ports without CITES declaration.",
+      "headline_hook": "Jodhpur Furniture Exporters: Leverage CEPA 0% duty certificates and recover \u20b91.3 Lakhs in freight & rebate margins per shipment."
+    }
+  ]
+}

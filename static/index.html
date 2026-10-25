@@ -369,6 +369,8 @@
     #entity-dossier-modal.hidden,
     #invoice-modal.hidden,
     #titan-infographic-modal.hidden,
+    #consortium-ledger-modal.hidden,
+    #exporter-pitch-modal.hidden,
     #bottom-sheet.hidden,
     #bottom-sheet-backdrop.hidden {
       display: none !important;
@@ -1356,6 +1358,97 @@
         </div>
       </div>
 
+<!-- ODOP Micro-Producer Consortium & Aggregation Engine -->
+      <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-base">🌾</span>
+            <h2 class="text-base font-extrabold tracking-tight">ODOP Micro-Producer Aggregation Engine</h2>
+          </div>
+          <span class="text-[10px] border px-2.5 py-0.5 rounded-full font-mono font-bold uppercase" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">Consortium Math</span>
+        </div>
+        <p class="text-xs" style="color: var(--text-muted);">Aggregate 10-100 micro-producers into export-grade container batches with pre-shipment NABL testing, QR batch traceability, and working capital float.</p>
+
+        <!-- Cluster Selector Pills -->
+        <div class="flex gap-1.5 overflow-x-auto pb-1 text-[11px] font-bold no-scrollbar">
+          <button type="button" onclick="selectConsortiumCluster('guntur_chilli')" id="cluster-btn-guntur_chilli" class="cluster-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🌶️ Guntur Chilli (AP)</button>
+          <button type="button" onclick="selectConsortiumCluster('tirupur_garments')" id="cluster-btn-tirupur_garments" class="cluster-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">👕 Tirupur Garments (TN)</button>
+          <button type="button" onclick="selectConsortiumCluster('moradabad_brass')" id="cluster-btn-moradabad_brass" class="cluster-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🏺 Moradabad Brass (UP)</button>
+          <button type="button" onclick="selectConsortiumCluster('karnal_rice')" id="cluster-btn-karnal_rice" class="cluster-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🌾 Karnal Basmati (HR)</button>
+          <button type="button" onclick="selectConsortiumCluster('bhadohi_rugs')" id="cluster-btn-bhadohi_rugs" class="cluster-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🧶 Bhadohi Rugs (UP)</button>
+        </div>
+
+        <!-- Dynamic Cluster Info Banner -->
+        <div class="p-2.5 rounded-xl border flex items-center justify-between text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div>
+            <span id="csm-cluster-title" class="font-extrabold block text-xs" style="color: var(--text-main);">Guntur S17 Teja Red Chilli</span>
+            <span id="csm-target-container" class="text-[10px] font-mono" style="color: var(--text-muted);">Target: 1 x 20ft FCL (14,000 kg) &bull; GI Tag: AP-12</span>
+          </div>
+          <span id="csm-test-badge" class="px-2 py-0.5 rounded text-[9px] font-bold font-mono" style="background: var(--accent-light); color: var(--accent);">HPLC-FLD Testing</span>
+        </div>
+
+        <!-- Interactive Input Controls -->
+        <div class="grid grid-cols-3 gap-2 text-xs">
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">No. of Producers:</label>
+            <input type="number" id="csm-producer-count" value="50" oninput="calculateConsortiumAggregation()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Lot/Producer (<span id="csm-unit-label-1">kg</span>):</label>
+            <input type="number" id="csm-lot-size" value="280" oninput="calculateConsortiumAggregation()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Farmgate Rate (₹):</label>
+            <input type="number" id="csm-farmgate-rate" value="180" oninput="calculateConsortiumAggregation()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" />
+          </div>
+        </div>
+
+        <!-- Quality & Stacking Toggles -->
+        <div class="space-y-1.5 text-xs">
+          <label class="flex items-center justify-between p-2 rounded-xl border cursor-pointer active:scale-[0.99] transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="flex items-center gap-2">
+              <input type="checkbox" id="csm-check-nabl" checked onchange="calculateConsortiumAggregation()" class="rounded accent-[#C25E34]" />
+              <span class="font-bold text-[11px]">NABL Lab Pre-Shipment Batch Testing</span>
+            </div>
+            <span id="csm-nabl-cost" class="font-mono text-[10px] font-bold" style="color: var(--accent);">₹25,000</span>
+          </label>
+          <label class="flex items-center justify-between p-2 rounded-xl border cursor-pointer active:scale-[0.99] transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="flex items-center gap-2">
+              <input type="checkbox" id="csm-check-qr" checked onchange="calculateConsortiumAggregation()" class="rounded accent-[#C25E34]" />
+              <span class="font-bold text-[11px]">Export Barrier Packaging &amp; QR Provenance Tags</span>
+            </div>
+            <span id="csm-pkg-cost" class="font-mono text-[10px] font-bold" style="color: var(--accent);">₹15 / unit</span>
+          </label>
+        </div>
+
+        <!-- Financial Realization Grid -->
+        <div class="grid grid-cols-2 gap-2 p-3 rounded-xl border text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div>
+            <span class="text-[10px] block" style="color: var(--text-dim);">Total Raw Procurement:</span>
+            <span id="csm-res-procure-cost" class="font-extrabold font-mono text-sm" style="color: var(--text-main);">₹25,20,000</span>
+            <span id="csm-res-advance-disburse" class="text-[9px] block text-[#10B981] font-bold">₹18.9L (75% Upfront via Bank Packing Credit)</span>
+          </div>
+          <div>
+            <span class="text-[10px] block" style="color: var(--text-dim);">Consortium FOB Export Value:</span>
+            <span id="csm-res-export-val" class="font-extrabold font-mono text-sm" style="color: var(--accent);">₹37,80,000</span>
+            <span id="csm-res-rebate-val" class="text-[9px] block text-[#10B981] font-bold">+₹94,500 Statutory RoDTEP Cash Rebate</span>
+          </div>
+        </div>
+
+        <div class="p-2.5 rounded-xl border flex items-center justify-between text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div>
+            <span class="text-[10px] block" style="color: var(--text-dim);">Net Aggregation Commercial Margin:</span>
+            <span id="csm-res-net-profit" class="text-sm font-extrabold font-mono" style="color: #10B981;">₹9,06,500 (23.9% Net)</span>
+          </div>
+          <span class="px-2 py-0.5 rounded-full text-[9px] font-bold font-mono" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">Bankable Lot</span>
+        </div>
+
+        <button type="button" onclick="openConsortiumModal()" class="w-full py-3 rounded-xl border text-xs font-extrabold uppercase tracking-wider active:scale-95 transition-transform flex items-center justify-center gap-2" style="background: var(--accent); color: #ffffff;">
+          <span>📋 View Farmer Payout Ledger &amp; Export Batch Spec Sheet</span>
+          <span>&rarr;</span>
+        </button>
+      </div>
+
       <!-- Container Stuffing & Freight Volumetric (CBM / TEU) Optimizer -->
       <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5">
         <div class="flex items-center justify-between">
@@ -1734,6 +1827,71 @@
             <p><span class="font-bold" style="color: var(--text-dim);">Legal Prerequisites:</span> <span id="cp-legal" class="font-medium">Proprietorship / LLP + GSTIN (for commission invoicing) + Current Bank Account. (No IEC required for domestic brokerage).</span></p>
           </div>
         </div>
+      </div>
+
+<!-- 1-Page Exporter Diagnostic & Client Pitch Generator -->
+      <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-base">🎯</span>
+            <h2 class="text-base font-extrabold tracking-tight">1-Page Exporter Diagnostic &amp; Pitch Generator</h2>
+          </div>
+          <span class="text-[10px] border px-2.5 py-0.5 rounded-full font-mono font-bold uppercase" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">Client Acquisition</span>
+        </div>
+        <p class="text-xs" style="color: var(--text-muted);">Generate an executive commercial diagnostic showing active exporters their unclaimed cash rebates, container dead-air waste, and SCN risks to land consulting or brokerage mandates.</p>
+
+        <!-- Pitch Target Corridor Selector -->
+        <div class="flex gap-1.5 overflow-x-auto pb-1 text-[11px] font-bold no-scrollbar">
+          <button type="button" onclick="selectPitchCorridor('surat_textiles')" id="pitch-btn-surat_textiles" class="pitch-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">Surat Tech-Textiles (USA)</button>
+          <button type="button" onclick="selectPitchCorridor('guntur_spices')" id="pitch-btn-guntur_spices" class="pitch-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">Guntur Spices (EU)</button>
+          <button type="button" onclick="selectPitchCorridor('tirupur_apparel')" id="pitch-btn-tirupur_apparel" class="pitch-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">Tirupur Garments (UK)</button>
+          <button type="button" onclick="selectPitchCorridor('moradabad_metal')" id="pitch-btn-moradabad_metal" class="pitch-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">Moradabad Metal (EU)</button>
+          <button type="button" onclick="selectPitchCorridor('jodhpur_wood')" id="pitch-btn-jodhpur_wood" class="pitch-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">Jodhpur Furniture (UAE)</button>
+        </div>
+
+        <!-- Target Enterprise Volume Input -->
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Target Enterprise Monthly Volume:</label>
+            <div class="flex items-center gap-2">
+              <input type="number" id="pitch-vol-input" value="4" min="1" max="50" oninput="generateExporterPitchAudit()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" />
+              <span class="text-xs font-bold font-mono whitespace-nowrap" style="color: var(--text-muted);">Containers/mo</span>
+            </div>
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Statutory Tariff Advantage:</label>
+            <div class="p-2 rounded-xl border text-[11px] font-mono font-bold truncate" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: #10B981;" id="pitch-tariff-benefit">
+              US MTB 0% GSP vs 6.5% Normal
+            </div>
+          </div>
+        </div>
+
+        <!-- Real-Time Leakage Summary Grid -->
+        <div class="grid grid-cols-2 gap-2 p-3 rounded-xl border text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div>
+            <span class="text-[10px] block" style="color: var(--text-dim);">Monthly Unclaimed Cash Rebates:</span>
+            <span id="pitch-res-rebate" class="font-extrabold font-mono text-sm" style="color: var(--accent);">₹5,00,000 / mo</span>
+            <span id="pitch-res-rebate-sub" class="text-[9px] block text-[#10B981] font-bold">₹1.25L RoDTEP / container</span>
+          </div>
+          <div>
+            <span class="text-[10px] block" style="color: var(--text-dim);">Monthly Freight Dead-Air Waste:</span>
+            <span id="pitch-res-freight" class="font-extrabold font-mono text-sm" style="color: #EF4444;">₹3,28,000 / mo</span>
+            <span id="pitch-res-freight-sub" class="text-[9px] block text-[#EF4444] font-bold">14 CBM unused volume / box</span>
+          </div>
+        </div>
+
+        <div class="p-2.5 rounded-xl border flex items-center justify-between text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div>
+            <span class="text-[10px] block" style="color: var(--text-dim);">Total Annual Recoverable Leakage:</span>
+            <span id="pitch-res-annual" class="text-sm font-extrabold font-mono" style="color: #10B981;">₹99,36,000 / year</span>
+          </div>
+          <span class="px-2 py-0.5 rounded-full text-[9px] font-bold font-mono" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">High Client Hook</span>
+        </div>
+
+        <button type="button" onclick="openPitchModal()" class="w-full py-3 rounded-xl border text-xs font-extrabold uppercase tracking-wider active:scale-95 transition-transform flex items-center justify-center gap-2" style="background: var(--accent); color: #ffffff;">
+          <span>📄 View 1-Page Diagnostic Pitch &amp; LinkedIn/WhatsApp Script</span>
+          <span>&rarr;</span>
+        </button>
       </div>
 
       <!-- Daily Ground-Trade Forensic Case Studies & Simulations -->
@@ -2345,6 +2503,141 @@
       <div class="pt-2 border-t" style="border-color: var(--card-border);">
         <button type="button" onclick="closeTitanInfographicModal()" class="w-full py-2.5 rounded-xl border text-xs font-bold active:scale-95 transition-transform" style="background: var(--accent); color: #ffffff;">
           <span>Back to Strategy Terminal</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+<!-- ==================== CONSORTIUM LEDGER & SPEC SHEET MODAL ==================== -->
+  <div id="consortium-ledger-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-3">
+    <div class="glass-panel w-full max-w-2xl max-h-[94vh] rounded-3xl p-5 shadow-2xl flex flex-col space-y-3.5 overflow-hidden animate-slide-up" style="background: var(--dropdown-bg); border-color: var(--card-border);">
+      <div class="flex items-center justify-between border-b pb-3" style="border-color: var(--card-border);">
+        <div class="flex items-center gap-2">
+          <span class="text-base">📋</span>
+          <div>
+            <span class="text-[9px] font-mono uppercase tracking-widest px-2 py-0.5 rounded border" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">ODOP Consortium Ledger</span>
+            <h3 class="text-base font-extrabold font-mono pt-0.5">Farmer Disbursement &amp; Export Batch Spec</h3>
+          </div>
+        </div>
+        <button onclick="closeConsortiumModal()" class="w-8 h-8 rounded-full border flex items-center justify-center font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">✕</button>
+      </div>
+
+      <div class="overflow-y-auto space-y-3 text-xs pr-1 ios-scroll">
+        <!-- Consortium Summary Banner -->
+        <div class="p-3 rounded-xl border space-y-1.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between">
+            <span id="clm-commodity-name" class="font-extrabold text-xs" style="color: var(--accent);">Guntur S17 Teja Red Chilli</span>
+            <span id="clm-gi-badge" class="text-[9px] font-mono px-2 py-0.5 rounded border" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">GI Tag Verified</span>
+          </div>
+          <div class="grid grid-cols-3 gap-2 text-[10px] font-mono">
+            <div>Batch: <span id="clm-total-batch" class="font-bold">14,000 kg</span></div>
+            <div>Producers: <span id="clm-farmer-count" class="font-bold">50 Farmers</span></div>
+            <div>Avg Lot: <span id="clm-avg-lot" class="font-bold">280 kg</span></div>
+          </div>
+        </div>
+
+        <!-- Individual Farmer Payout Schedule Table -->
+        <div class="p-3 rounded-xl border space-y-2" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-dim);">1. Sample Producer Payout Schedule (Batch Split)</span>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-[10px] font-mono">
+              <thead class="border-b" style="border-color: var(--card-border);">
+                <tr style="color: var(--text-dim);">
+                  <th class="py-1">Producer ID / Village</th>
+                  <th class="py-1 text-right">Lot (<span id="clm-table-unit">kg</span>)</th>
+                  <th class="py-1 text-right">Advance (75%)</th>
+                  <th class="py-1 text-right">Balance (25%)</th>
+                  <th class="py-1 text-right">Total Payout</th>
+                </tr>
+              </thead>
+              <tbody id="clm-payout-rows" class="divide-y" style="divide-color: var(--card-border);">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Statutory Master Batch Spec Certificate -->
+        <div class="p-3 rounded-xl border space-y-2" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-dim);">2. Buyer Pre-Shipment Spec &amp; Quality Warranty</span>
+          <div class="space-y-1 text-[11px]">
+            <p><span class="font-bold">NABL Protocol:</span> <span id="clm-spec-test" class="font-mono">HPLC-FLD Total Aflatoxin (&lt; 10 ppb) &amp; B1 (&lt; 5 ppb)</span></p>
+            <p><span class="font-bold">Packaging &amp; Traceability:</span> <span class="font-mono">Food-grade vacuum export bags with Batch QR Geo-Provenance Tag</span></p>
+            <p><span class="font-bold">Inland Handling:</span> <span class="font-mono">Moisture-controlled CFS de-stuffing &amp; re-stuffing within 48h</span></p>
+            <p><span class="font-bold">Statutory Exim Rule:</span> <span class="italic text-[#10B981]">Cleared under DGFT Rule 96A LUT without IGST payment.</span></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-2 border-t flex items-center gap-2" style="border-color: var(--card-border);">
+        <button type="button" onclick="window.print()" class="flex-1 py-2.5 rounded-xl border text-xs font-bold active:scale-95 transition-transform" style="background: var(--accent); color: #ffffff;">
+          <span>🖨️ Print Consortium Certificate PDF</span>
+        </button>
+        <button type="button" onclick="closeConsortiumModal()" class="px-5 py-2.5 rounded-xl border text-xs font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <span>Close</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+<!-- ==================== EXPORTER PITCH DIAGNOSTIC MODAL ==================== -->
+  <div id="exporter-pitch-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-3">
+    <div class="glass-panel w-full max-w-2xl max-h-[94vh] rounded-3xl p-5 shadow-2xl flex flex-col space-y-3.5 overflow-hidden animate-slide-up" style="background: var(--dropdown-bg); border-color: var(--card-border);">
+      <div class="flex items-center justify-between border-b pb-3" style="border-color: var(--card-border);">
+        <div class="flex items-center gap-2">
+          <span class="text-base">📄</span>
+          <div>
+            <span class="text-[9px] font-mono uppercase tracking-widest px-2 py-0.5 rounded border" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">Executive Audit</span>
+            <h3 class="text-base font-extrabold font-mono pt-0.5">1-Page Exporter Commercial Pitch</h3>
+          </div>
+        </div>
+        <button onclick="closePitchModal()" class="w-8 h-8 rounded-full border flex items-center justify-center font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">✕</button>
+      </div>
+
+      <div class="overflow-y-auto space-y-3 text-xs pr-1 ios-scroll">
+        <!-- 1-Tap Copy Script Box -->
+        <div class="p-3 rounded-xl border space-y-2" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-bold uppercase tracking-wider" style="color: var(--accent);">LinkedIn / WhatsApp Cold Outreach Script:</span>
+            <button type="button" onclick="copyPitchLetter()" class="px-2.5 py-1 rounded-lg border font-mono text-[10px] font-bold active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">
+              <span>📋 Copy Outreach Text</span>
+            </button>
+          </div>
+          <div id="epm-outreach-preview" class="p-2.5 rounded-lg border font-mono text-[11px] whitespace-pre-wrap leading-relaxed" style="background: var(--card-bg); border-color: var(--card-border);">
+            <!-- Dynamic outreach text -->
+          </div>
+          <span id="pitch-copy-status" class="text-[10px] font-mono text-center block text-[#10B981] font-bold h-3"></span>
+        </div>
+
+        <!-- Printable Diagnostic Audit Letter View -->
+        <div class="p-4 rounded-xl border space-y-2.5 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="border-b pb-2 flex items-start justify-between">
+            <div>
+              <span class="font-extrabold text-sm block" style="color: var(--text-main);">COMMERCIAL EXPORT LEAKAGE DIAGNOSTIC</span>
+              <span id="epm-corridor-title" class="text-[10px] font-mono" style="color: var(--text-muted);">Surat Technical Textiles to USA • ITC-HS: 5911.90.00</span>
+            </div>
+            <span class="text-[9px] font-mono font-bold px-2 py-0.5 rounded border" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">Confidential Audit</span>
+          </div>
+
+          <div class="space-y-1.5 text-[11px]">
+            <p><span class="font-bold" style="color: var(--accent);">1. Cash Incentive Optimization:</span> Statutory RoDTEP/Drawback rate is <span id="epm-rebate-rate" class="font-bold">2.5%</span>. At <span id="epm-vol-text" class="font-bold">4 containers/month</span>, your monthly unclaimed incentive potential is <span id="epm-monthly-rebate" class="font-bold text-[#10B981]">₹5,00,000</span>.</p>
+            <p><span class="font-bold" style="color: #EF4444;">2. Freight Volumetric Waste:</span> Estimated dead-air under current packaging is <span id="epm-dead-air" class="font-bold text-[#EF4444]">₹3,28,000/month</span> in avoidable ocean freight charges.</p>
+            <p><span class="font-bold" style="color: var(--text-dim);">3. Tariff &amp; Duty Concession:</span> <span id="epm-tariff-desc">US MTB 0% GSP Eligible vs 6.5% MFN Normal Duty.</span></p>
+            <p><span class="font-bold" style="color: #F59E0B;">4. Customs SCN Defense:</span> <span id="epm-scn-desc">Misclassification risk under HS 5903 vs 5911; requires technical specification sheet.</span></p>
+          </div>
+
+          <div class="p-2.5 rounded-lg border text-[10px] italic" style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-muted);">
+            Prepared via World of Trade Intelligence Terminal &bull; Confidential Assessment for Managing Director / Sourcing Head.
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-2 border-t flex items-center gap-2" style="border-color: var(--card-border);">
+        <button type="button" onclick="window.print()" class="flex-1 py-2.5 rounded-xl border text-xs font-bold active:scale-95 transition-transform" style="background: var(--accent); color: #ffffff;">
+          <span>🖨️ Print Executive Diagnostic Audit</span>
+        </button>
+        <button type="button" onclick="closePitchModal()" class="px-5 py-2.5 rounded-xl border text-xs font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <span>Close</span>
         </button>
       </div>
     </div>

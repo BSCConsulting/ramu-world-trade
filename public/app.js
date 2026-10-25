@@ -2441,7 +2441,430 @@ function closeTitanInfographicModal() {
   if (modal) modal.classList.add('hidden');
 }
 
+
+// ==================== ODOP CONSORTIUM & EXPORTER PITCH DATA & FUNCTIONS ====================
+const ODOP_CONSORTIUM_DATA = {
+  "clusters": [
+    {
+      "id": "guntur_chilli",
+      "name": "Guntur S17 Teja Red Chilli",
+      "state": "Andhra Pradesh",
+      "unit": "kg",
+      "target_container": "1 x 20ft FCL (14,000 kg)",
+      "default_farmers": 50,
+      "default_lot_per_farmer": 280,
+      "default_farmgate_price": 180,
+      "export_fob_price": 270,
+      "nabl_test_cost": 25000,
+      "packaging_cost_per_unit": 15,
+      "inland_logistics_per_unit": 12,
+      "rodtep_rebate_pct": 2.5,
+      "key_test": "HPLC-FLD Total Aflatoxin (< 10 ppb) & B1 (< 5 ppb)",
+      "gi_origin": "Guntur Sannam Chilli (GI Tag: AP-12)"
+    },
+    {
+      "id": "tirupur_garments",
+      "name": "Tirupur Knitted Cotton Garments",
+      "state": "Tamil Nadu",
+      "unit": "pcs",
+      "target_container": "1 x 40ft HC (10,000 pcs)",
+      "default_farmers": 20,
+      "default_lot_per_farmer": 500,
+      "default_farmgate_price": 160,
+      "export_fob_price": 260,
+      "nabl_test_cost": 18000,
+      "packaging_cost_per_unit": 8,
+      "inland_logistics_per_unit": 6,
+      "rodtep_rebate_pct": 4.3,
+      "key_test": "OEKO-TEX Standard 100 & 9-Point Calibrated Needle Detection",
+      "gi_origin": "Tirupur Cotton Knitwear Cluster"
+    },
+    {
+      "id": "moradabad_brass",
+      "name": "Moradabad Handcrafted Brass Artware",
+      "state": "Uttar Pradesh",
+      "unit": "units",
+      "target_container": "1 x 20ft FCL (4,000 units)",
+      "default_farmers": 40,
+      "default_lot_per_farmer": 100,
+      "default_farmgate_price": 450,
+      "export_fob_price": 820,
+      "nabl_test_cost": 15000,
+      "packaging_cost_per_unit": 25,
+      "inland_logistics_per_unit": 20,
+      "rodtep_rebate_pct": 2.8,
+      "key_test": "XRF Spectrometry Lead Content (< 90 ppm) & Salt Spray Lacquer Test",
+      "gi_origin": "Moradabad Metal Craft (GI Tag: UP-19)"
+    },
+    {
+      "id": "karnal_rice",
+      "name": "Karnal Traditional Aged Basmati Rice",
+      "state": "Haryana",
+      "unit": "kg",
+      "target_container": "1 x 20ft FCL (25,000 kg)",
+      "default_farmers": 25,
+      "default_lot_per_farmer": 1000,
+      "default_farmgate_price": 85,
+      "export_fob_price": 130,
+      "nabl_test_cost": 30000,
+      "packaging_cost_per_unit": 6,
+      "inland_logistics_per_unit": 5,
+      "rodtep_rebate_pct": 2.0,
+      "key_test": "DNA Hybridization Purity (> 95%) & Tricyclazole Pesticide Screen",
+      "gi_origin": "Basmati Heritage Belt (GI Tag: 145)"
+    },
+    {
+      "id": "bhadohi_rugs",
+      "name": "Bhadohi Hand-Tufted Woolen Rugs",
+      "state": "Uttar Pradesh",
+      "unit": "sq.m",
+      "target_container": "1 x 20ft FCL (600 sq.m)",
+      "default_farmers": 30,
+      "default_lot_per_farmer": 20,
+      "default_farmgate_price": 1200,
+      "export_fob_price": 2400,
+      "nabl_test_cost": 20000,
+      "packaging_cost_per_unit": 40,
+      "inland_logistics_per_unit": 50,
+      "rodtep_rebate_pct": 3.1,
+      "key_test": "Woolmark Fiber Purity & Care & Fair Child-Labor Free Certification",
+      "gi_origin": "Handmade Carpet of Bhadohi (GI Tag: UP-28)"
+    }
+  ]
+};
+
+const EXPORTER_PITCH_DATA = {
+  "corridors": [
+    {
+      "id": "surat_textiles",
+      "sector": "Technical & Synthetic Textiles",
+      "origin": "Surat (Gujarat) \u2022 ICD Sachin",
+      "destination": "New York / Savannah, USA",
+      "hs_code": "5911.90.00",
+      "rodtep_rate_pct": 2.5,
+      "potential_rebate_per_fcl": 125000,
+      "dead_air_savings_per_fcl": 82000,
+      "tariff_benefit": "US MTB 0% GSP Eligible vs 6.5% MFN Normal Duty",
+      "scn_vulnerability": "Misclassification risk under HS 5903 vs 5911; requires technical specification sheet.",
+      "headline_hook": "Surat Synthetic Weavers: How to capture \u20b92.07 Lakhs in uncollected cash incentives and ocean freight savings on every US-bound container."
+    },
+    {
+      "id": "guntur_spices",
+      "sector": "Agricultural & Spices",
+      "origin": "Guntur (Andhra Pradesh) \u2022 JNPT Gateway",
+      "destination": "Rotterdam, Netherlands (EU)",
+      "hs_code": "0904.21.10",
+      "rodtep_rate_pct": 2.5,
+      "potential_rebate_per_fcl": 95000,
+      "dead_air_savings_per_fcl": 45000,
+      "tariff_benefit": "EU General Duty 0% with Pre-Cleared Spices Board CoA",
+      "scn_vulnerability": "Aflatoxin threshold hold (> 10 ppb); CFS detention can reach \u20b919,500/day without on-dock protocol.",
+      "headline_hook": "Guntur Red Chilli Exporters: Eliminate port detention risks and recover \u20b91.4 Lakhs in cash rebates per European shipment."
+    },
+    {
+      "id": "tirupur_apparel",
+      "sector": "Cotton Knitwear & Apparel",
+      "origin": "Tirupur (Tamil Nadu) \u2022 Tuticorin Port",
+      "destination": "Felixstowe / London Gateway, UK",
+      "hs_code": "6109.10.00",
+      "rodtep_rate_pct": 4.3,
+      "potential_rebate_per_fcl": 148000,
+      "dead_air_savings_per_fcl": 98000,
+      "tariff_benefit": "UK Developing Countries Trading Scheme (DCTS) 0% Duty",
+      "scn_vulnerability": "PFMS drawback scroll hold due to AD Bank e-BRC delays; easily resolved with automated reconciliation.",
+      "headline_hook": "Tirupur Garment Exporters: Unlock \u20b92.46 Lakhs in hidden RoSCTL ledger value and box volumetric freight efficiency per 40ft HC."
+    },
+    {
+      "id": "moradabad_metal",
+      "sector": "Handcrafted Brass & Metalware",
+      "origin": "Moradabad (Uttar Pradesh) \u2022 ICD Moradabad",
+      "destination": "Hamburg, Germany (EU)",
+      "hs_code": "7419.80.30",
+      "rodtep_rate_pct": 2.8,
+      "potential_rebate_per_fcl": 112000,
+      "dead_air_savings_per_fcl": 65000,
+      "tariff_benefit": "0% Preferential Tariffs under GSP Scheme with Form-A",
+      "scn_vulnerability": "EU REACH Regulation chemical audits; requires NABL lead test to avoid destination port rejection.",
+      "headline_hook": "Moradabad Brass Houses: Cut transit breakages and claim \u20b91.77 Lakhs in combined cash rebates and logistics optimization."
+    },
+    {
+      "id": "jodhpur_wood",
+      "sector": "Wooden Furniture & Handicrafts",
+      "origin": "Jodhpur (Rajasthan) \u2022 ICD Bhagat Ki Kothi",
+      "destination": "Jebel Ali, Dubai (UAE)",
+      "hs_code": "9403.60.00",
+      "rodtep_rate_pct": 1.8,
+      "potential_rebate_per_fcl": 78000,
+      "dead_air_savings_per_fcl": 52000,
+      "tariff_benefit": "India-UAE CEPA 0% Zero Customs Duty (Saves 5% normal duty)",
+      "scn_vulnerability": "VRIKSH Timber legality verification missing; causes detention at gateway ports without CITES declaration.",
+      "headline_hook": "Jodhpur Furniture Exporters: Leverage CEPA 0% duty certificates and recover \u20b91.3 Lakhs in freight & rebate margins per shipment."
+    }
+  ]
+};
+
+let activeConsortiumCluster = 'guntur_chilli';
+let activePitchCorridor = 'surat_textiles';
+
+// ==================== 1. ODOP CONSORTIUM AGGREGATION ENGINE ====================
+function selectConsortiumCluster(clusterId) {
+  const clusters = ['guntur_chilli', 'tirupur_garments', 'moradabad_brass', 'karnal_rice', 'bhadohi_rugs'];
+  clusters.forEach(id => {
+    const btn = document.getElementById(`cluster-btn-${id}`);
+    if (btn) {
+      btn.style.background = 'var(--card-inner-bg)';
+      btn.style.borderColor = 'var(--card-inner-border)';
+      btn.style.color = 'var(--text-main)';
+    }
+  });
+
+  const activeBtn = document.getElementById(`cluster-btn-${clusterId}`);
+  if (activeBtn) {
+    activeBtn.style.background = 'var(--accent)';
+    activeBtn.style.borderColor = 'var(--accent)';
+    activeBtn.style.color = '#ffffff';
+  }
+
+  activeConsortiumCluster = clusterId;
+  const c = ODOP_CONSORTIUM_DATA.clusters.find(item => item.id === clusterId) || ODOP_CONSORTIUM_DATA.clusters[0];
+
+  const titleEl = document.getElementById('csm-cluster-title');
+  const targetEl = document.getElementById('csm-target-container');
+  const badgeEl = document.getElementById('csm-test-badge');
+  const unitLabel1 = document.getElementById('csm-unit-label-1');
+  const prodCountEl = document.getElementById('csm-producer-count');
+  const lotSizeEl = document.getElementById('csm-lot-size');
+  const farmgateEl = document.getElementById('csm-farmgate-rate');
+  const nablCostEl = document.getElementById('csm-nabl-cost');
+  const pkgCostEl = document.getElementById('csm-pkg-cost');
+
+  if (titleEl) titleEl.textContent = c.name;
+  if (targetEl) targetEl.textContent = `Target: ${c.target_container} • GI: ${c.gi_origin}`;
+  if (badgeEl) badgeEl.textContent = c.key_test.split('(')[0].trim();
+  if (unitLabel1) unitLabel1.textContent = c.unit;
+  if (prodCountEl) prodCountEl.value = c.default_farmers;
+  if (lotSizeEl) lotSizeEl.value = c.default_lot_per_farmer;
+  if (farmgateEl) farmgateEl.value = c.default_farmgate_price;
+  if (nablCostEl) nablCostEl.textContent = `₹${c.nabl_test_cost.toLocaleString('en-IN')}`;
+  if (pkgCostEl) pkgCostEl.textContent = `₹${c.packaging_cost_per_unit} / ${c.unit}`;
+
+  calculateConsortiumAggregation();
+}
+
+function calculateConsortiumAggregation() {
+  const c = ODOP_CONSORTIUM_DATA.clusters.find(item => item.id === activeConsortiumCluster) || ODOP_CONSORTIUM_DATA.clusters[0];
+  const prodCount = parseInt(document.getElementById('csm-producer-count')?.value) || c.default_farmers;
+  const lotSize = parseFloat(document.getElementById('csm-lot-size')?.value) || c.default_lot_per_farmer;
+  const farmgateRate = parseFloat(document.getElementById('csm-farmgate-rate')?.value) || c.default_farmgate_price;
+  const isNabl = document.getElementById('csm-check-nabl')?.checked ?? true;
+  const isQr = document.getElementById('csm-check-qr')?.checked ?? true;
+
+  const totalUnits = prodCount * lotSize;
+  const rawCost = totalUnits * farmgateRate;
+  const nablCost = isNabl ? c.nabl_test_cost : 0;
+  const pkgCost = isQr ? (totalUnits * c.packaging_cost_per_unit) : 0;
+  const inlandCost = totalUnits * c.inland_logistics_per_unit;
+  const totalLandedCost = rawCost + nablCost + pkgCost + inlandCost;
+
+  const exportVal = totalUnits * c.export_fob_price;
+  const rebateVal = exportVal * (c.rodtep_rebate_pct / 100);
+  const netProfit = (exportVal + rebateVal) - totalLandedCost;
+  const marginPct = exportVal > 0 ? ((netProfit / exportVal) * 100).toFixed(1) : '0';
+  const advanceDisburse = rawCost * 0.75;
+
+  const procEl = document.getElementById('csm-res-procure-cost');
+  const advEl = document.getElementById('csm-res-advance-disburse');
+  const expEl = document.getElementById('csm-res-export-val');
+  const rebEl = document.getElementById('csm-res-rebate-val');
+  const profitEl = document.getElementById('csm-res-net-profit');
+
+  if (procEl) procEl.textContent = `₹${Math.round(rawCost).toLocaleString('en-IN')}`;
+  if (advEl) advEl.textContent = `₹${(advanceDisburse / 100000).toFixed(1)}L (75% Upfront via Bank Packing Credit)`;
+  if (expEl) expEl.textContent = `₹${Math.round(exportVal).toLocaleString('en-IN')}`;
+  if (rebEl) rebEl.textContent = `+₹${Math.round(rebateVal).toLocaleString('en-IN')} Statutory RoDTEP Cash Rebate`;
+  if (profitEl) profitEl.textContent = `₹${Math.round(netProfit).toLocaleString('en-IN')} (${marginPct}% Net)`;
+}
+
+function openConsortiumModal() {
+  const modal = document.getElementById('consortium-ledger-modal');
+  if (!modal) return;
+
+  const c = ODOP_CONSORTIUM_DATA.clusters.find(item => item.id === activeConsortiumCluster) || ODOP_CONSORTIUM_DATA.clusters[0];
+  const prodCount = parseInt(document.getElementById('csm-producer-count')?.value) || c.default_farmers;
+  const lotSize = parseFloat(document.getElementById('csm-lot-size')?.value) || c.default_lot_per_farmer;
+  const farmgateRate = parseFloat(document.getElementById('csm-farmgate-rate')?.value) || c.default_farmgate_price;
+  const totalUnits = prodCount * lotSize;
+
+  const commEl = document.getElementById('clm-commodity-name');
+  const giEl = document.getElementById('clm-gi-badge');
+  const batchEl = document.getElementById('clm-total-batch');
+  const countEl = document.getElementById('clm-farmer-count');
+  const lotEl = document.getElementById('clm-avg-lot');
+  const unitEl = document.getElementById('clm-table-unit');
+  const specEl = document.getElementById('clm-spec-test');
+
+  if (commEl) commEl.textContent = c.name;
+  if (giEl) giEl.textContent = c.gi_origin;
+  if (batchEl) batchEl.textContent = `${totalUnits.toLocaleString('en-IN')} ${c.unit}`;
+  if (countEl) countEl.textContent = `${prodCount} Producers`;
+  if (lotEl) lotEl.textContent = `${lotSize} ${c.unit}`;
+  if (unitEl) unitEl.textContent = c.unit;
+  if (specEl) specEl.textContent = c.key_test;
+
+  const tbody = document.getElementById('clm-payout-rows');
+  if (tbody) {
+    const sampleProducers = [
+      { id: 'PR-01', village: 'Kovvur Village Hub', lot: Math.round(lotSize * 1.1) },
+      { id: 'PR-02', village: 'Pedakakani Cluster', lot: Math.round(lotSize * 0.95) },
+      { id: 'PR-03', village: 'Medikonduru Area', lot: Math.round(lotSize * 1.05) },
+      { id: 'PR-04', village: 'Tadikonda Co-op', lot: Math.round(lotSize * 0.98) },
+      { id: 'PR-05', village: 'Chebrolu Micro-Farm', lot: Math.round(lotSize * 1.02) }
+    ];
+
+    tbody.innerHTML = sampleProducers.map(p => {
+      const total = p.lot * farmgateRate;
+      const adv = total * 0.75;
+      const bal = total * 0.25;
+      return `
+        <tr>
+          <td class="py-1.5"><span class="font-bold">${p.id}</span> <span style="color: var(--text-dim);">(${p.village})</span></td>
+          <td class="py-1.5 text-right font-bold">${p.lot.toLocaleString('en-IN')}</td>
+          <td class="py-1.5 text-right text-[#10B981]">₹${Math.round(adv).toLocaleString('en-IN')}</td>
+          <td class="py-1.5 text-right" style="color: var(--text-dim);">₹${Math.round(bal).toLocaleString('en-IN')}</td>
+          <td class="py-1.5 text-right font-bold" style="color: var(--accent);">₹${Math.round(total).toLocaleString('en-IN')}</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  modal.classList.remove('hidden');
+}
+
+function closeConsortiumModal() {
+  document.getElementById('consortium-ledger-modal')?.classList.add('hidden');
+}
+
+// ==================== 2. EXPORTER PITCH DIAGNOSTIC GENERATOR ====================
+function selectPitchCorridor(corridorId) {
+  const corridors = ['surat_textiles', 'guntur_spices', 'tirupur_apparel', 'moradabad_metal', 'jodhpur_wood'];
+  corridors.forEach(id => {
+    const btn = document.getElementById(`pitch-btn-${id}`);
+    if (btn) {
+      btn.style.background = 'var(--card-inner-bg)';
+      btn.style.borderColor = 'var(--card-inner-border)';
+      btn.style.color = 'var(--text-main)';
+    }
+  });
+
+  const activeBtn = document.getElementById(`pitch-btn-${corridorId}`);
+  if (activeBtn) {
+    activeBtn.style.background = 'var(--accent)';
+    activeBtn.style.borderColor = 'var(--accent)';
+    activeBtn.style.color = '#ffffff';
+  }
+
+  activePitchCorridor = corridorId;
+  generateExporterPitchAudit();
+}
+
+function generateExporterPitchAudit() {
+  const p = EXPORTER_PITCH_DATA.corridors.find(item => item.id === activePitchCorridor) || EXPORTER_PITCH_DATA.corridors[0];
+  const vol = parseInt(document.getElementById('pitch-vol-input')?.value) || 4;
+
+  const monthlyRebate = vol * p.potential_rebate_per_fcl;
+  const monthlyFreight = vol * p.dead_air_savings_per_fcl;
+  const annualTotal = (monthlyRebate + monthlyFreight) * 12;
+
+  const tariffEl = document.getElementById('pitch-tariff-benefit');
+  const rebateEl = document.getElementById('pitch-res-rebate');
+  const rebateSubEl = document.getElementById('pitch-res-rebate-sub');
+  const freightEl = document.getElementById('pitch-res-freight');
+  const annualEl = document.getElementById('pitch-res-annual');
+
+  if (tariffEl) tariffEl.textContent = p.tariff_benefit;
+  if (rebateEl) rebateEl.textContent = `₹${monthlyRebate.toLocaleString('en-IN')} / mo`;
+  if (rebateSubEl) rebateSubEl.textContent = `₹${(p.potential_rebate_per_fcl / 100000).toFixed(2)}L RoDTEP / container`;
+  if (freightEl) freightEl.textContent = `₹${monthlyFreight.toLocaleString('en-IN')} / mo`;
+  if (annualEl) annualEl.textContent = `₹${annualTotal.toLocaleString('en-IN')} / year`;
+}
+
+function openPitchModal() {
+  const modal = document.getElementById('exporter-pitch-modal');
+  if (!modal) return;
+
+  const p = EXPORTER_PITCH_DATA.corridors.find(item => item.id === activePitchCorridor) || EXPORTER_PITCH_DATA.corridors[0];
+  const vol = parseInt(document.getElementById('pitch-vol-input')?.value) || 4;
+  const monthlyRebate = vol * p.potential_rebate_per_fcl;
+  const monthlyFreight = vol * p.dead_air_savings_per_fcl;
+
+  const outreachText = `Subject: Operational Audit: Recovering ₹${(monthlyRebate / 100000).toFixed(1)} Lakhs in uncollected cash rebates & container freight for your export house
+
+Dear Managing Director / Head of Supply Chain,
+
+I reviewed your active export shipments in ${p.sector} from ${p.origin} to ${p.destination}. Based on current DGFT RoDTEP notifications and container volumetric stuffing analysis under ITC-HS ${p.hs_code}:
+
+1. Cash Rebate Recovery: At your volume of ${vol} containers/month, your team has approximately ₹${monthlyRebate.toLocaleString('en-IN')} in uncollected statutory RoDTEP/Duty Drawback scrips.
+2. Freight Volumetric Savings: Packaging re-dimensioning can eliminate dead air per 40ft HC, recovering ~₹${monthlyFreight.toLocaleString('en-IN')} in avoidable ocean freight charges.
+3. Tariff Advantage: Your shipments qualify for ${p.tariff_benefit}.
+4. Customs SCN Immunity: ${p.scn_vulnerability}.
+
+I would be glad to share the 1-page line-by-line diagnostic report and assist your logistics team on an advisory or contingency-brokerage basis.
+
+Warm regards,
+[Your Name]
+Exim Strategist & Supply Chain Specialist
+World of Trade Intelligence Terminal`;
+
+  const previewEl = document.getElementById('epm-outreach-preview');
+  const titleEl = document.getElementById('epm-corridor-title');
+  const rebateRateEl = document.getElementById('epm-rebate-rate');
+  const volTextEl = document.getElementById('epm-vol-text');
+  const monthlyRebateEl = document.getElementById('epm-monthly-rebate');
+  const deadAirEl = document.getElementById('epm-dead-air');
+  const tariffDescEl = document.getElementById('epm-tariff-desc');
+  const scnDescEl = document.getElementById('epm-scn-desc');
+
+  if (previewEl) previewEl.textContent = outreachText;
+  if (titleEl) titleEl.textContent = `${p.sector} (${p.origin} &rarr; ${p.destination}) • ITC-HS: ${p.hs_code}`;
+  if (rebateRateEl) rebateRateEl.textContent = `${p.rodtep_rate_pct}%`;
+  if (volTextEl) volTextEl.textContent = `${vol} containers/month`;
+  if (monthlyRebateEl) monthlyRebateEl.textContent = `₹${monthlyRebate.toLocaleString('en-IN')}`;
+  if (deadAirEl) deadAirEl.textContent = `₹${monthlyFreight.toLocaleString('en-IN')}/month`;
+  if (tariffDescEl) tariffDescEl.textContent = p.tariff_benefit;
+  if (scnDescEl) scnDescEl.textContent = p.scn_vulnerability;
+
+  modal.classList.remove('hidden');
+}
+
+function closePitchModal() {
+  document.getElementById('exporter-pitch-modal')?.classList.add('hidden');
+}
+
+function copyPitchLetter() {
+  const previewEl = document.getElementById('epm-outreach-preview');
+  if (!previewEl) return;
+  navigator.clipboard.writeText(previewEl.textContent).then(() => {
+    const status = document.getElementById('pitch-copy-status');
+    if (status) {
+      status.textContent = '✓ Outreach script copied to clipboard!';
+      setTimeout(() => {
+        status.textContent = '';
+      }, 2500);
+    }
+  });
+}
+
 // Global Window Bindings for Inline HTML Handlers
+window.selectConsortiumCluster = selectConsortiumCluster;
+window.calculateConsortiumAggregation = calculateConsortiumAggregation;
+window.openConsortiumModal = openConsortiumModal;
+window.closeConsortiumModal = closeConsortiumModal;
+window.selectPitchCorridor = selectPitchCorridor;
+window.generateExporterPitchAudit = generateExporterPitchAudit;
+window.openPitchModal = openPitchModal;
+window.closePitchModal = closePitchModal;
+window.copyPitchLetter = copyPitchLetter;
+
 window.selectTitan = selectTitan;
 window.openTitanInfographicModal = openTitanInfographicModal;
 window.closeTitanInfographicModal = closeTitanInfographicModal;
@@ -2517,6 +2940,8 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   // 5. Initialize Ground-Trade Advanced Modules
+  selectConsortiumCluster('guntur_chilli');
+  selectPitchCorridor('surat_textiles');
   selectTitan('rockefeller');
   selectTradeGapCountry('US');
   calculateContainerStuffing();
