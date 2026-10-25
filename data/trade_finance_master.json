@@ -1,0 +1,115 @@
+{
+  "metadata": {
+    "source": "RBI Master Direction on Export Credit / DGFT IES / ICC UCP 600 / IFSCA ITFS",
+    "updated": "2024-Q3",
+    "currency_rates_inr": {
+      "USD": 84.55,
+      "EUR": 92.10,
+      "INR": 1.00
+    }
+  },
+  "benchmarks": {
+    "USD": {
+      "name": "Secured Overnight Financing Rate (SOFR)",
+      "symbol": "$",
+      "base_rate_pct": 5.30,
+      "typical_spread_pct": 1.75
+    },
+    "EUR": {
+      "name": "Euro Interbank Offered Rate (EURIBOR 6M)",
+      "symbol": "€",
+      "base_rate_pct": 3.65,
+      "typical_spread_pct": 1.60
+    },
+    "INR": {
+      "name": "RBI Repo Linked / 1-Yr Marginal Cost of Funds Lending Rate (MCLR)",
+      "symbol": "₹",
+      "base_rate_pct": 8.50,
+      "typical_spread_pct": 1.25
+    }
+  },
+  "interest_equalisation_scheme": {
+    "statutory_authority": "Ministry of Commerce & Industry / Directorate General of Foreign Trade (DGFT) & Reserve Bank of India",
+    "circular_ref": "RBI/2023-24/Circular / DGFT Trade Notice No. 07/2024-25",
+    "eligibility_categories": {
+      "msme_manufacturer": {
+        "title": "Manufacturer MSME (Udyam Registered)",
+        "subvention_rate_pct": 3.00,
+        "eligible_hs_chapters": "All ITC-HS Chapters (01 to 99)",
+        "description": "3.00% per annum government interest subsidy directly credited on pre- and post-shipment rupee export credit."
+      },
+      "merchant_exporter": {
+        "title": "Merchant Exporter (Identified 410 HS Lines)",
+        "subvention_rate_pct": 2.00,
+        "eligible_hs_chapters": "410 Specific Tariff Lines (Textiles, Garments, Leather, Handlooms, Agriculture)",
+        "description": "2.00% per annum government interest subsidy on pre- and post-shipment credit for labor-intensive exports."
+      },
+      "standard_corporate": {
+        "title": "Large Corporate / Non-MSME Exporter",
+        "subvention_rate_pct": 0.00,
+        "eligible_hs_chapters": "None",
+        "description": "Standard commercial bank interest rates without statutory interest subvention."
+      }
+    },
+    "annual_cap_per_iec_inr": 100000000.0,
+    "statutory_conditions": [
+      "Exporter must hold valid Udyam Registration Certificate (URC) for MSME tier.",
+      "Credit must be liquidated within statutory FEMA realization window (9 months).",
+      "Bank submits claim directly to RBI export credit refinance window."
+    ]
+  },
+  "lc_discounting_rules": {
+    "framework": "ICC Uniform Customs and Practice for Documentary Credits (UCP 600)",
+    "tenors_supported": [30, 60, 90, 120, 180],
+    "without_recourse_forfaiting_addon_pct": 0.75,
+    "handling_fee_pct": 0.15,
+    "min_handling_fee_inr": 2500.0,
+    "discrepancy_risk_factors": [
+      {"code": "ART_14C", "title": "Late Presentation", "desc": "Documents presented after 21 calendar days from onboard bill of lading date (UCP 600 Art 14c)."},
+      {"code": "ART_14E", "title": "Inconsistent Description", "desc": "Description in commercial invoice does not correspond strictly with description in LC (Art 14e / Art 18c)."},
+      {"code": "ART_20A", "title": "Claused Bill of Lading", "desc": "Transport document contains express clause declaring defective condition of goods or packaging."},
+      {"code": "ART_28B", "title": "Insurance Cover Date", "desc": "Insurance cover date is subsequent to date of shipment or transport document."}
+    ]
+  },
+  "export_factoring_rules": {
+    "framework": "IFSCA (GIFT City ITFS) & TReDS International Factoring",
+    "advance_ratio_default_pct": 85.0,
+    "advance_ratio_range": [75.0, 90.0],
+    "factoring_commission_pct": 0.45,
+    "retention_buffer_pct": 15.0,
+    "non_recourse_coverage_pct": 100.0,
+    "settlement_timeline": "Day-1 Advance within 24 hours of bill of lading confirmation; balance retention credited upon foreign buyer settlement."
+  },
+  "presets": [
+    {
+      "id": "us_msme_lc_90d",
+      "title": "🇺🇸 US Buyer $100k (90d Usance LC, MSME)",
+      "mode": "lc_discounting",
+      "currency": "USD",
+      "invoice_value": 100000.0,
+      "tenor_days": 90,
+      "exporter_category": "msme_manufacturer",
+      "is_without_recourse": true
+    },
+    {
+      "id": "eu_factoring_60d",
+      "title": "🇪🇺 EU Buyer €75k (60d Open Account, Factoring)",
+      "mode": "export_factoring",
+      "currency": "EUR",
+      "invoice_value": 75000.0,
+      "tenor_days": 60,
+      "advance_pct": 85.0,
+      "factor_commission_pct": 0.45
+    },
+    {
+      "id": "uae_merchant_lc_45d",
+      "title": "🇦🇪 UAE Buyer ₹50 Lakh (45d DA LC, Merchant)",
+      "mode": "lc_discounting",
+      "currency": "INR",
+      "invoice_value": 5000000.0,
+      "tenor_days": 45,
+      "exporter_category": "merchant_exporter",
+      "is_without_recourse": false
+    }
+  ]
+}

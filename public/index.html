@@ -1601,6 +1601,133 @@
         </div>
       </div>
 
+      <!-- Export Factoring & LC Discounting Engine (UCP 600 & RBI Interest Equalisation Scheme) -->
+      <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="text-base">🏦</span>
+            <div>
+              <h2 class="text-base font-extrabold tracking-tight">Export Factoring &amp; LC Discounting Engine</h2>
+              <span class="text-[10px] block" style="color: var(--text-dim);">UCP 600 Usance Discounting &bull; RBI Interest Equalisation Scheme &bull; ITFS / TReDS Factoring</span>
+            </div>
+          </div>
+          <span id="tf-statutory-badge" class="text-[9px] font-mono px-2 py-0.5 rounded-full font-bold uppercase" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">RBI 3% MSME Subvention</span>
+        </div>
+        <p class="text-xs" style="color: var(--text-muted);">Model Day-1 immediate cash liquidity, compare bank discounting interest vs factoring commissions, deduct statutory RBI IES subvention savings, and audit for UCP 600 discrepancy risks.</p>
+
+        <!-- Mode Toggle & Quick Presets -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <span class="text-[10px] uppercase font-bold tracking-wider" style="color: var(--text-dim);">Trade Finance Facility Mode:</span>
+            <div class="flex rounded-xl p-0.5 border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              <button type="button" id="tf-mode-lc" onclick="setTradeFinanceMode('lc_discounting')" class="px-2.5 py-1 rounded-lg text-[10px] font-bold font-mono transition-all" style="background: var(--accent); color: #ffffff;">📄 LC Discounting</button>
+              <button type="button" id="tf-mode-factoring" onclick="setTradeFinanceMode('export_factoring')" class="px-2.5 py-1 rounded-lg text-[10px] font-bold font-mono transition-all" style="color: var(--text-muted);">🔄 Export Factoring</button>
+            </div>
+          </div>
+
+          <div class="flex gap-1.5 overflow-x-auto pb-1 text-[11px] font-bold no-scrollbar">
+            <button type="button" onclick="selectTradeFinancePreset('us_msme_lc_90d')" id="tf-preset-us_msme_lc_90d" class="tf-preset-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🇺🇸 US Buyer $100k (90d Usance, MSME)</button>
+            <button type="button" onclick="selectTradeFinancePreset('eu_factoring_60d')" id="tf-preset-eu_factoring_60d" class="tf-preset-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇪🇺 EU Buyer €75k (60d Factoring 85%)</button>
+            <button type="button" onclick="selectTradeFinancePreset('uae_merchant_lc_45d')" id="tf-preset-uae_merchant_lc_45d" class="tf-preset-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇦🇪 UAE Buyer ₹50L (45d DA, Merchant)</button>
+          </div>
+        </div>
+
+        <!-- Input Parameters Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-2 text-xs">
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <label class="block text-[10px] font-bold" style="color: var(--text-dim);">Invoice Value:</label>
+              <select id="tf-currency-select" onchange="runTradeFinanceCalc()" class="text-[9px] font-mono px-1 py-0.5 rounded border font-bold" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+                <option value="USD">USD ($)</option>
+                <option value="EUR">EUR (€)</option>
+                <option value="INR">INR (₹)</option>
+              </select>
+            </div>
+            <input type="number" id="tf-invoice-val" value="100000" step="5000" oninput="runTradeFinanceCalc()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Tenor / Usance Days:</label>
+            <select id="tf-tenor-select" onchange="runTradeFinanceCalc()" class="w-full border rounded-xl p-2.5 text-xs focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);">
+              <option value="30">30 Days Usance</option>
+              <option value="45">45 Days Usance</option>
+              <option value="60">60 Days Usance</option>
+              <option value="90" selected>90 Days Usance</option>
+              <option value="120">120 Days Usance</option>
+              <option value="180">180 Days Usance (Max FEMA)</option>
+            </select>
+          </div>
+
+          <div id="tf-field-category">
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Exporter IES Category:</label>
+            <select id="tf-category-select" onchange="runTradeFinanceCalc()" class="w-full border rounded-xl p-2.5 text-xs focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);">
+              <option value="msme_manufacturer" selected>MSME Manufacturer (3% Subvention)</option>
+              <option value="merchant_exporter">Merchant Exporter 410 Lines (2% Subvention)</option>
+              <option value="standard_corporate">Standard Corporate (0% Subvention)</option>
+            </select>
+          </div>
+
+          <div id="tf-field-recourse">
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Recourse Structure:</label>
+            <select id="tf-recourse-select" onchange="runTradeFinanceCalc()" class="w-full border rounded-xl p-2.5 text-xs focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);">
+              <option value="1" selected>Without Recourse (Forfaiting Shield)</option>
+              <option value="0">With Recourse (Contingent Exporter)</option>
+            </select>
+          </div>
+
+          <div id="tf-field-advance" class="hidden">
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Factoring Advance Ratio:</label>
+            <select id="tf-advance-select" onchange="runTradeFinanceCalc()" class="w-full border rounded-xl p-2.5 text-xs focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);">
+              <option value="75">75% Day-1 Advance</option>
+              <option value="80">80% Day-1 Advance</option>
+              <option value="85" selected>85% Day-1 Advance (ITFS Std)</option>
+              <option value="90">90% Day-1 Advance</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Dynamic Results Waterfall (4 Cards) -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-center pt-1 font-mono">
+          <div class="p-2.5 rounded-xl border space-y-0.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <span class="text-[9px] block uppercase" style="color: var(--text-dim);">Day-1 Cash Liquidity</span>
+            <span id="tf-res-day1" class="text-sm font-extrabold text-emerald-500 block mt-1">$98,666</span>
+            <span id="tf-res-day1-inr" class="text-[9px] block opacity-70">₹83,42,248</span>
+          </div>
+
+          <div class="p-2.5 rounded-xl border space-y-0.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <span class="text-[9px] block uppercase" style="color: var(--text-dim);">Gross Discount Interest</span>
+            <span id="tf-res-gross" class="text-sm font-extrabold text-rose-500 block mt-1">$1,923</span>
+            <span id="tf-res-rate-badge" class="text-[9px] block opacity-70">SOFR + Spread (7.80% p.a.)</span>
+          </div>
+
+          <div class="p-2.5 rounded-xl border space-y-0.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <span class="text-[9px] block uppercase" style="color: var(--text-dim);">RBI IES Subvention Savings</span>
+            <span id="tf-res-subsidy" class="text-sm font-extrabold text-blue-500 block mt-1">-$740</span>
+            <span id="tf-res-subsidy-desc" class="text-[9px] block text-emerald-400">3.00% Govt Funded</span>
+          </div>
+
+          <div class="p-2.5 rounded-xl border space-y-0.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <span class="text-[9px] block uppercase" style="color: var(--text-dim);">Net Financing Cost</span>
+            <span id="tf-res-net" class="text-sm font-extrabold text-amber-500 block mt-1">$1,183 (4.80%)</span>
+            <span id="tf-res-retention-badge" class="text-[9px] block opacity-70">+ $150 Bank Handling</span>
+          </div>
+        </div>
+
+        <!-- Statutory Compliance & Discrepancy Prevention Protocol -->
+        <div class="p-3 rounded-2xl border space-y-1.5 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <div class="flex items-center gap-1.5">
+              <span class="text-sm">🛡️</span>
+              <span id="tf-protocol-title" class="font-bold text-[11px]" style="color: var(--text-main);">ICC UCP 600 &amp; Forfaiting Shield Protection</span>
+            </div>
+            <span id="tf-protocol-badge" class="text-[9px] font-mono px-2 py-0.5 rounded-full font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">WITHOUT RECOURSE</span>
+          </div>
+          <p id="tf-protocol-desc" class="text-[10px] leading-relaxed" style="color: var(--text-muted);">
+            Discounted without recourse to exporter under ICC UCP 600 rules. In the event of foreign issuing bank insolvency or sovereign exchange restriction, discounting bank cannot debit the exporter. Presentation must comply with Article 14 (within 21 days of shipment).
+          </p>
+        </div>
+      </div>
+
       <!-- Middleman & Sourcing Agent Anti-Bypass Protection Suite -->
       <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3">
         <div class="flex items-center justify-between">

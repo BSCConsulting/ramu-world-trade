@@ -384,6 +384,25 @@ class handler(BaseHTTPRequestHandler):
             elif "deficit" in params or "surplus" in params:
                 from sources.dgcis_tradestat import get_deficit_rankings
                 data = get_deficit_rankings()
+            elif "finance" in params or "rates" in params or "benchmarks" in params:
+                from sources.trade_finance import get_finance_overview
+                data = get_finance_overview()
+            elif "discount" in params or "lc" in params:
+                from sources.trade_finance import calculate_lc_discounting
+                val = float(params.get("val", params.get("value", [100000.0]))[0])
+                cur = str(params.get("cur", params.get("currency", ["USD"]))[0])
+                tenor = int(params.get("tenor", params.get("days", [90]))[0])
+                cat = str(params.get("cat", params.get("category", ["msme_manufacturer"]))[0])
+                recourse = params.get("without_recourse", ["1"])[0] in ["1", "true", "True"]
+                data = calculate_lc_discounting(val, cur, tenor, cat, recourse)
+            elif "factoring" in params:
+                from sources.trade_finance import calculate_export_factoring
+                val = float(params.get("val", params.get("value", [75000.0]))[0])
+                cur = str(params.get("cur", params.get("currency", ["EUR"]))[0])
+                tenor = int(params.get("tenor", params.get("days", [60]))[0])
+                adv = float(params.get("advance", [85.0])[0])
+                comm = float(params.get("comm", [0.45])[0])
+                data = calculate_export_factoring(val, cur, tenor, adv, comm)
             else:
                 from sources.dgcis_tradestat import get_tradestat_overview, get_partner_profile, get_port_profile
                 if "country" in params:
@@ -413,6 +432,22 @@ class handler(BaseHTTPRequestHandler):
             elif action in ["deficit_rankings", "deficit", "surplus"]:
                 from sources.dgcis_tradestat import get_deficit_rankings
                 data = get_deficit_rankings()
+            elif action in ["lc_discounting", "lc", "discount"]:
+                from sources.trade_finance import calculate_lc_discounting
+                val = float(payload.get("invoice_value", payload.get("value", 100000.0)))
+                cur = str(payload.get("currency", "USD"))[:10]
+                tenor = int(payload.get("usance_days", payload.get("tenor_days", payload.get("tenor", 90))))
+                cat = str(payload.get("exporter_category", payload.get("category", "msme_manufacturer")))[:50]
+                recourse = bool(payload.get("is_without_recourse", True))
+                data = calculate_lc_discounting(val, cur, tenor, cat, recourse)
+            elif action in ["export_factoring", "factoring"]:
+                from sources.trade_finance import calculate_export_factoring
+                val = float(payload.get("invoice_value", payload.get("value", 75000.0)))
+                cur = str(payload.get("currency", "EUR"))[:10]
+                tenor = int(payload.get("credit_period_days", payload.get("tenor_days", payload.get("tenor", 60))))
+                adv = float(payload.get("advance_pct", 85.0))
+                comm = float(payload.get("factor_commission_pct", payload.get("commission", 0.45)))
+                data = calculate_export_factoring(val, cur, tenor, adv, comm)
             else:
                 from sources.ecgc_risk import get_country_risk
                 c = str(payload.get("country", "USA"))[:50]

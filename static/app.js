@@ -4424,6 +4424,196 @@ function renderTradestatMatrix(data, partnerCode) {
   `;
 }
 
+let currentTradeFinanceMode = 'lc_discounting';
+
+function setTradeFinanceMode(mode) {
+  currentTradeFinanceMode = mode;
+  const lcBtn = document.getElementById('tf-mode-lc');
+  const factBtn = document.getElementById('tf-mode-factoring');
+  const catField = document.getElementById('tf-field-category');
+  const recourseField = document.getElementById('tf-field-recourse');
+  const advField = document.getElementById('tf-field-advance');
+
+  if (mode === 'lc_discounting') {
+    if (lcBtn) {
+      lcBtn.style.background = 'var(--accent)';
+      lcBtn.style.color = '#ffffff';
+    }
+    if (factBtn) {
+      factBtn.style.background = 'transparent';
+      factBtn.style.color = 'var(--text-muted)';
+    }
+    if (catField) catField.classList.remove('hidden');
+    if (recourseField) recourseField.classList.remove('hidden');
+    if (advField) advField.classList.add('hidden');
+  } else {
+    if (factBtn) {
+      factBtn.style.background = 'var(--accent)';
+      factBtn.style.color = '#ffffff';
+    }
+    if (lcBtn) {
+      lcBtn.style.background = 'transparent';
+      lcBtn.style.color = 'var(--text-muted)';
+    }
+    if (catField) catField.classList.add('hidden');
+    if (recourseField) recourseField.classList.add('hidden');
+    if (advField) advField.classList.remove('hidden');
+  }
+  runTradeFinanceCalc();
+}
+
+function selectTradeFinancePreset(presetId) {
+  document.querySelectorAll('.tf-preset-chip').forEach(btn => {
+    btn.style.background = 'var(--card-inner-bg)';
+    btn.style.color = 'var(--text-main)';
+    btn.style.borderColor = 'var(--card-inner-border)';
+  });
+  const activeBtn = document.getElementById(`tf-preset-${presetId}`);
+  if (activeBtn) {
+    activeBtn.style.background = 'var(--accent)';
+    activeBtn.style.color = '#ffffff';
+    activeBtn.style.borderColor = 'transparent';
+  }
+
+  const curEl = document.getElementById('tf-currency-select');
+  const valEl = document.getElementById('tf-invoice-val');
+  const tenorEl = document.getElementById('tf-tenor-select');
+  const catEl = document.getElementById('tf-category-select');
+  const recourseEl = document.getElementById('tf-recourse-select');
+  const advEl = document.getElementById('tf-advance-select');
+
+  if (presetId === 'us_msme_lc_90d') {
+    setTradeFinanceMode('lc_discounting');
+    if (curEl) curEl.value = 'USD';
+    if (valEl) valEl.value = '100000';
+    if (tenorEl) tenorEl.value = '90';
+    if (catEl) catEl.value = 'msme_manufacturer';
+    if (recourseEl) recourseEl.value = '1';
+  } else if (presetId === 'eu_factoring_60d') {
+    setTradeFinanceMode('export_factoring');
+    if (curEl) curEl.value = 'EUR';
+    if (valEl) valEl.value = '75000';
+    if (tenorEl) tenorEl.value = '60';
+    if (advEl) advEl.value = '85';
+  } else if (presetId === 'uae_merchant_lc_45d') {
+    setTradeFinanceMode('lc_discounting');
+    if (curEl) curEl.value = 'INR';
+    if (valEl) valEl.value = '5000000';
+    if (tenorEl) tenorEl.value = '45';
+    if (catEl) catEl.value = 'merchant_exporter';
+    if (recourseEl) recourseEl.value = '0';
+  }
+  runTradeFinanceCalc();
+}
+
+async function runTradeFinanceCalc() {
+  const cur = (document.getElementById('tf-currency-select') || {}).value || 'USD';
+  const val = parseFloat((document.getElementById('tf-invoice-val') || {}).value || 100000);
+  const tenor = parseInt((document.getElementById('tf-tenor-select') || {}).value || 90);
+  const cat = (document.getElementById('tf-category-select') || {}).value || 'msme_manufacturer';
+  const recourse = (document.getElementById('tf-recourse-select') || {}).value || '1';
+  const adv = parseFloat((document.getElementById('tf-advance-select') || {}).value || 85);
+
+  const badgeEl = document.getElementById('tf-statutory-badge');
+  const day1El = document.getElementById('tf-res-day1');
+  const day1InrEl = document.getElementById('tf-res-day1-inr');
+  const grossEl = document.getElementById('tf-res-gross');
+  const rateBadgeEl = document.getElementById('tf-res-rate-badge');
+  const subsidyEl = document.getElementById('tf-res-subsidy');
+  const subsidyDescEl = document.getElementById('tf-res-subsidy-desc');
+  const netEl = document.getElementById('tf-res-net');
+  const retentionEl = document.getElementById('tf-res-retention-badge');
+  const protTitleEl = document.getElementById('tf-protocol-title');
+  const protBadgeEl = document.getElementById('tf-protocol-badge');
+  const protDescEl = document.getElementById('tf-protocol-desc');
+
+  try {
+    if (currentTradeFinanceMode === 'lc_discounting') {
+      const res = await fetch(`/api/tradestat?discount=1&val=${val}&cur=${cur}&tenor=${tenor}&cat=${cat}&without_recourse=${recourse}`);
+      if (!res.ok) return;
+      const data = await res.json();
+      const sym = data.symbol || '$';
+      const w = data.waterfall || {};
+      const winr = data.waterfall_inr || {};
+      const rb = data.rates_breakdown || {};
+
+      if (badgeEl) {
+        if (rb.rbi_ies_subvention_pct > 0) {
+          badgeEl.textContent = `RBI ${rb.rbi_ies_subvention_pct}% IES Subvention`;
+          badgeEl.style.background = 'rgba(16, 185, 129, 0.15)';
+          badgeEl.style.color = '#10B981';
+        } else {
+          badgeEl.textContent = 'Standard Bank Spread';
+          badgeEl.style.background = 'rgba(107, 114, 128, 0.15)';
+          badgeEl.style.color = '#9CA3AF';
+        }
+      }
+      if (day1El) day1El.textContent = `${sym}${w.day1_cash_liquidity?.toLocaleString()}`;
+      if (day1InrEl) day1InrEl.textContent = `₹${winr.day1_cash_liquidity_inr?.toLocaleString()}`;
+      if (grossEl) grossEl.textContent = `${sym}${w.gross_bank_discounting_interest?.toLocaleString()}`;
+      if (rateBadgeEl) rateBadgeEl.textContent = `Gross Rate: ${rb.gross_interest_rate_pct}% p.a.`;
+      if (subsidyEl) subsidyEl.textContent = `-${sym}${w.rbi_ies_subvention_savings?.toLocaleString()}`;
+      if (subsidyDescEl) {
+        subsidyDescEl.textContent = rb.rbi_ies_subvention_pct > 0 ? `${rb.rbi_ies_subvention_pct}% Govt Funded` : '0% (Standard Tier)';
+        subsidyDescEl.className = rb.rbi_ies_subvention_pct > 0 ? 'text-[9px] block text-emerald-400' : 'text-[9px] block text-gray-400';
+      }
+      if (netEl) netEl.textContent = `${sym}${w.net_interest_cost?.toLocaleString()} (${rb.net_effective_rate_pct}%)`;
+      if (retentionEl) retentionEl.textContent = `+ ${sym}${w.bank_handling_fee?.toLocaleString()} Bank Fee`;
+
+      if (protTitleEl) protTitleEl.textContent = 'ICC UCP 600 & Forfaiting Shield Protection';
+      if (protBadgeEl) {
+        const isWithout = recourse === '1' || recourse === true;
+        protBadgeEl.textContent = isWithout ? 'WITHOUT RECOURSE' : 'WITH RECOURSE';
+        protBadgeEl.style.background = isWithout ? 'rgba(16, 185, 129, 0.15)' : 'rgba(245, 158, 11, 0.15)';
+        protBadgeEl.style.color = isWithout ? '#10B981' : '#F59E0B';
+      }
+      if (protDescEl) {
+        protDescEl.innerHTML = (recourse === '1' || recourse === true)
+          ? `Discounted <strong>without recourse (Forfaiting)</strong> under ICC UCP 600 rules. If issuing bank defaults, discounting bank cannot charge-back the exporter. Presentation must comply with Article 14 within 21 days.`
+          : `Discounted <strong>with recourse</strong>. Exporter acts as contingent guarantor. If issuing bank fails to honor at maturity, the discounting bank reserves full charge-back rights against your account.`;
+      }
+    } else {
+      // Export Factoring
+      const res = await fetch(`/api/tradestat?factoring=1&val=${val}&cur=${cur}&tenor=${tenor}&advance=${adv}`);
+      if (!res.ok) return;
+      const data = await res.json();
+      const sym = data.symbol || '€';
+      const w = data.waterfall || {};
+      const winr = data.waterfall_inr || {};
+      const rb = data.rates_breakdown || {};
+
+      if (badgeEl) {
+        badgeEl.textContent = 'IFSCA GIFT City ITFS Factoring';
+        badgeEl.style.background = 'rgba(59, 130, 246, 0.15)';
+        badgeEl.style.color = '#3B82F6';
+      }
+      if (day1El) day1El.textContent = `${sym}${w.day1_cash_net_credited?.toLocaleString()}`;
+      if (day1InrEl) day1InrEl.textContent = `₹${winr.day1_cash_net_credited_inr?.toLocaleString()}`;
+      if (grossEl) grossEl.textContent = `${sym}${w.advance_discount_interest?.toLocaleString()}`;
+      if (rateBadgeEl) rateBadgeEl.textContent = `Advance Interest (${rb.annualized_financing_rate_pct}% p.a.)`;
+      if (subsidyEl) subsidyEl.textContent = `+${sym}${w.retention_buffer_on_maturity?.toLocaleString()}`;
+      if (subsidyDescEl) {
+        subsidyDescEl.textContent = 'Retention on Buyer Maturity';
+        subsidyDescEl.className = 'text-[9px] block text-blue-400';
+      }
+      if (netEl) netEl.textContent = `${sym}${w.factoring_service_commission?.toLocaleString()} (${rb.factoring_commission_pct}%)`;
+      if (retentionEl) retentionEl.textContent = 'Factoring Service Fee';
+
+      if (protTitleEl) protTitleEl.textContent = 'IFSCA ITFS / TReDS Non-Recourse Receivables';
+      if (protBadgeEl) {
+        protBadgeEl.textContent = `NON-RECOURSE ${adv}% ADVANCE`;
+        protBadgeEl.style.background = 'rgba(16, 185, 129, 0.15)';
+        protBadgeEl.style.color = '#10B981';
+      }
+      if (protDescEl) {
+        protDescEl.innerHTML = `Immediate Day-1 cash liquidity credited within 24 hours of bill of lading confirmation. The factor assumes 100% foreign buyer commercial credit risk under cross-border factoring frameworks.`;
+      }
+    }
+  } catch (e) {
+    console.error('Error running trade finance calculation:', e);
+  }
+}
+
 window.fetchLiveForexRates = fetchLiveForexRates;
 window.fetchLiveCbicGazette = fetchLiveCbicGazette;
 window.toggleCbicSchedule = toggleCbicSchedule;
@@ -4432,6 +4622,9 @@ window.fetchLiveMandiPrice = fetchLiveMandiPrice;
 window.selectTradestatItem = selectTradestatItem;
 window.selectTradestatMatrix = selectTradestatMatrix;
 window.renderTradestatMatrix = renderTradestatMatrix;
+window.setTradeFinanceMode = setTradeFinanceMode;
+window.selectTradeFinancePreset = selectTradeFinancePreset;
+window.runTradeFinanceCalc = runTradeFinanceCalc;
 
 // Global Window Bindings for Inline HTML Handlers
 window.selectConsortiumCluster = selectConsortiumCluster;
@@ -4551,6 +4744,7 @@ window.addEventListener('DOMContentLoaded', () => {
   selectConcorCorridor('tkd_jnpt');
   selectOceanRoute('IN_EU_ROTTERDAM');
   selectEcgcCountry('USA');
+  runTradeFinanceCalc();
   selectConsortiumCluster('guntur_chilli');
   selectPitchCorridor('surat_textiles');
   selectTitan('rockefeller');
