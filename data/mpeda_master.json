@@ -1,0 +1,401 @@
+{
+  "metadata": {
+    "source": "MPEDA (Marine Products Export Development Authority), Ministry of Commerce & Industry, GoI",
+    "portal": "https://mpeda.gov.in",
+    "statutory_act": "Marine Products Export Development Authority Act, 1972",
+    "headquarters": "MPEDA House, Panampilly Nagar, Kochi, Kerala - 682036",
+    "digital_portals": [
+      {
+        "name": "e-Catch Certificate Portal",
+        "url": "https://mpeda.gov.in/e-catch",
+        "purpose": "Validation and issuance of EU Catch Certificates under IUU Fishing Regulation (EC No 1005/2008)"
+      },
+      {
+        "name": "e-SANTA",
+        "url": "https://esanta.gov.in",
+        "purpose": "Electronic Solution for Augmenting NaCSA farmers Trade in Aquaculture (Direct Farmer-Exporter Trading)"
+      },
+      {
+        "name": "NaCSA",
+        "url": "https://nacsa.mpeda.gov.in",
+        "purpose": "National Centre for Sustainable Aquaculture (Cluster farming societies for disease control & traceability)"
+      },
+      {
+        "name": "US SIMP Traceability Module",
+        "url": "https://mpeda.gov.in/simp",
+        "purpose": "NOAA Seafood Import Monitoring Program harvest event and supply chain audit trails"
+      }
+    ],
+    "rcmc_guidelines": {
+      "authority": "MPEDA Head Office, Kochi & 18 Regional / Sub-Regional Offices",
+      "validity_years": 3,
+      "eligibility": "Mandatory for all entities engaged in export of marine products from India.",
+      "fee_structure_inr": {
+        "manufacturer_exporter": 11800.0,
+        "merchant_exporter": 8850.0,
+        "route_through_exporter": 5900.0,
+        "processing_plant_registration": 17700.0,
+        "storage_premises_registration": 8850.0
+      },
+      "mandatory_documents": [
+        "Import Export Code (IEC) issued by DGFT",
+        "PAN Card copy & GST Registration Certificate",
+        "EIC (Export Inspection Council) Approval Certificate for Processing Plant / Storage",
+        "Lease / Ownership deed of processing unit or tie-up agreement with EIC approved packer",
+        "Pollution Control Board (PCB) consent to operate",
+        "Bank Reference Certificate / AD Code letter"
+      ]
+    },
+    "updated": "2024-Q3"
+  },
+  "species_catalog": {
+    "03061720": {
+      "name": "Frozen Vannamei Shrimp (Whiteleg Shrimp)",
+      "scientific_name": "Litopenaeus vannamei",
+      "harvest_type": "Aquaculture",
+      "share_pct": 54.2,
+      "export_forms": ["Head-on Shell-on (HOSO)", "Headless Shell-on (HLSO)", "Peeled & Deveined (PD)", "Peeled Undeveined (PUD)", "Cooked / EZ Peel"],
+      "primary_landing_regions": ["Andhra Pradesh (Nellore, Bhimavaram)", "Odisha (Balasore)", "West Bengal (Midnapore)", "Gujarat (Surat)"],
+      "ted_exemption_ds2031_required": true,
+      "eu_50pct_testing_regime": true,
+      "simp_priority_species": true,
+      "standard_lab_residues": {
+        "chloramphenicol": 0.05,
+        "nitrofuran_aoz": 0.25,
+        "cadmium": 0.15,
+        "histamine": 15.0
+      },
+      "market_mrls": {
+        "EU": {
+          "stance": "Strict Pharmacologically Active Substance Zero-Tolerance (EU Decision 2016/1774)",
+          "testing_intensity": "50% Mandatory Testing of all consignments at EU Border Inspection Posts (BIP)",
+          "catch_doc_required": "Aquaculture Health Certificate by EIC + Traceability to Registered Farm",
+          "limits": {
+            "chloramphenicol": {"mrl": 0.10, "unit": "ppb (µg/kg)", "type": "Minimum Required Performance Limit (MRPL)"},
+            "nitrofuran_aoz": {"mrl": 0.50, "unit": "ppb (µg/kg)", "type": "Reference Point for Action (RPA)"},
+            "cadmium": {"mrl": 0.50, "unit": "mg/kg (ppm)", "type": "Heavy Metal Maximum Limit"},
+            "histamine": {"mrl": 100.0, "unit": "mg/kg (ppm)", "type": "Scombrotoxin Limit"}
+          }
+        },
+        "USA": {
+          "stance": "US FDA Import Alert 16-124 (DWPE) & NOAA SIMP Audit",
+          "testing_intensity": "Targeted Random Screening at Port of Entry; Form DS-2031 mandatory",
+          "catch_doc_required": "NOAA SIMP Form 370 + DS-2031 Aquaculture Exemption Certification",
+          "limits": {
+            "chloramphenicol": {"mrl": 0.10, "unit": "ppb (µg/kg)", "type": "Action Level (Zero Tolerance)"},
+            "nitrofuran_aoz": {"mrl": 0.50, "unit": "ppb (µg/kg)", "type": "Action Level (Zero Tolerance)"},
+            "cadmium": {"mrl": 0.50, "unit": "mg/kg (ppm)", "type": "Heavy Metal Guidance Limit"},
+            "histamine": {"mrl": 50.0, "unit": "mg/kg (ppm)", "type": "FDA Defect Action Level (DAL)"}
+          }
+        },
+        "CHN": {
+          "stance": "GACC Decree 248/249 Registration & Nucleic Acid Viral Cold-Chain Screening",
+          "testing_intensity": "Batch-wise packaging surface swab test and aquaculture residue screening",
+          "catch_doc_required": "GACC Registered Processing Plant Certificate + EIC Health Certificate",
+          "limits": {
+            "chloramphenicol": {"mrl": 0.30, "unit": "ppb (µg/kg)", "type": "National Food Safety Standard"},
+            "nitrofuran_aoz": {"mrl": 1.00, "unit": "ppb (µg/kg)", "type": "Banned Substance Limit"},
+            "cadmium": {"mrl": 0.50, "unit": "mg/kg (ppm)", "type": "GB 2762-2022 Heavy Metal Limit"},
+            "histamine": {"mrl": 100.0, "unit": "mg/kg (ppm)", "type": "Aquatic Product Standard"}
+          }
+        },
+        "JPN": {
+          "stance": "MHLW Positive List System & Uniform Default 0.01 ppm Standard",
+          "testing_intensity": "Order Inspection on specific anti-microbial groups",
+          "catch_doc_required": "Standard Sanitary Health Certificate issued by Competent Authority (EIC)",
+          "limits": {
+            "chloramphenicol": {"mrl": 0.10, "unit": "ppb (µg/kg)", "type": "Zero Detection Standard"},
+            "nitrofuran_aoz": {"mrl": 0.50, "unit": "ppb (µg/kg)", "type": "Not Detected (0.001 ppm)"},
+            "cadmium": {"mrl": 1.00, "unit": "mg/kg (ppm)", "type": "Food Sanitation Law Standard"},
+            "histamine": {"mrl": 100.0, "unit": "mg/kg (ppm)", "type": "Safety Guidance Level"}
+          }
+        }
+      }
+    },
+    "03061711": {
+      "name": "Frozen Black Tiger Shrimp (Giant Tiger Prawn)",
+      "scientific_name": "Penaeus monodon",
+      "harvest_type": "Coastal Aquaculture / Traditional Bheries",
+      "share_pct": 12.8,
+      "export_forms": ["Head-on Shell-on (HOSO)", "Headless Shell-on (HLSO)", "Raw IQF Blocks"],
+      "primary_landing_regions": ["West Bengal (Sundarbans / 24 Parganas)", "Kerala (Vypeen, Alappuzha)", "Andhra Pradesh (Kakinada)"],
+      "ted_exemption_ds2031_required": true,
+      "eu_50pct_testing_regime": true,
+      "simp_priority_species": true,
+      "standard_lab_residues": {
+        "chloramphenicol": 0.04,
+        "nitrofuran_aoz": 0.20,
+        "cadmium": 0.10,
+        "histamine": 10.0
+      },
+      "market_mrls": {
+        "EU": {
+          "stance": "Strict Pharmacologically Active Substance Zero-Tolerance (EU Decision 2016/1774)",
+          "testing_intensity": "50% Mandatory Testing of all consignments at EU Border Inspection Posts (BIP)",
+          "catch_doc_required": "Aquaculture Health Certificate by EIC + Organic / GAP Traceability",
+          "limits": {
+            "chloramphenicol": {"mrl": 0.10, "unit": "ppb (µg/kg)", "type": "MRPL Limit"},
+            "nitrofuran_aoz": {"mrl": 0.50, "unit": "ppb (µg/kg)", "type": "RPA Limit"},
+            "cadmium": {"mrl": 0.50, "unit": "mg/kg (ppm)", "type": "Heavy Metal Limit"},
+            "histamine": {"mrl": 100.0, "unit": "mg/kg (ppm)", "type": "Scombrotoxin Limit"}
+          }
+        },
+        "USA": {
+          "stance": "US FDA Import Alert 16-124 (DWPE) & NOAA SIMP Audit",
+          "testing_intensity": "Form DS-2031 mandatory; SIMP harvest log audit",
+          "catch_doc_required": "NOAA SIMP Form 370 + DS-2031 Certification",
+          "limits": {
+            "chloramphenicol": {"mrl": 0.10, "unit": "ppb (µg/kg)", "type": "Zero Tolerance"},
+            "nitrofuran_aoz": {"mrl": 0.50, "unit": "ppb (µg/kg)", "type": "Zero Tolerance"},
+            "cadmium": {"mrl": 0.50, "unit": "mg/kg (ppm)", "type": "Heavy Metal Limit"},
+            "histamine": {"mrl": 50.0, "unit": "mg/kg (ppm)", "type": "FDA DAL"}
+          }
+        },
+        "CHN": {
+          "stance": "GACC Customs Clearance & Cold-Chain Quarantine",
+          "testing_intensity": "Routine quarantine sampling",
+          "catch_doc_required": "EIC Official Health Certificate",
+          "limits": {
+            "chloramphenicol": {"mrl": 0.30, "unit": "ppb (µg/kg)", "type": "National Standard"},
+            "nitrofuran_aoz": {"mrl": 1.00, "unit": "ppb (µg/kg)", "type": "Banned Substance Limit"},
+            "cadmium": {"mrl": 0.50, "unit": "mg/kg (ppm)", "type": "GB 2762-2022"},
+            "histamine": {"mrl": 100.0, "unit": "mg/kg (ppm)", "type": "Standard Limit"}
+          }
+        },
+        "JPN": {
+          "stance": "Premium Black Tiger Market (High demand in sushi & tempura trade)",
+          "testing_intensity": "Random sanitary sampling",
+          "catch_doc_required": "EIC Health Certificate",
+          "limits": {
+            "chloramphenicol": {"mrl": 0.10, "unit": "ppb (µg/kg)", "type": "Zero Standard"},
+            "nitrofuran_aoz": {"mrl": 0.50, "unit": "ppb (µg/kg)", "type": "Not Detected"},
+            "cadmium": {"mrl": 1.00, "unit": "mg/kg (ppm)", "type": "MHLW Standard"},
+            "histamine": {"mrl": 100.0, "unit": "mg/kg (ppm)", "type": "Guidance Level"}
+          }
+        }
+      }
+    },
+    "03074310": {
+      "name": "Frozen Squid Tubes & Whole Cleaned (Indian Squid)",
+      "scientific_name": "Loligo duvauceli",
+      "harvest_type": "Marine Capture (Wild Caught)",
+      "share_pct": 7.5,
+      "export_forms": ["Tubes & Tentacles", "Whole Cleaned (IQF)", "Rings", "Fillets"],
+      "primary_landing_regions": ["Gujarat (Veraval, Porbandar)", "Maharashtra (Sassoon Dock, Ratnagiri)", "Kerala (Cochin, Munambam)"],
+      "ted_exemption_ds2031_required": false,
+      "eu_50pct_testing_regime": false,
+      "simp_priority_species": false,
+      "standard_lab_residues": {
+        "chloramphenicol": 0.01,
+        "nitrofuran_aoz": 0.05,
+        "cadmium": 0.85,
+        "histamine": 25.0
+      },
+      "market_mrls": {
+        "EU": {
+          "stance": "Mandatory EU Catch Certificate under IUU Fishing Regulation (EC 1005/2008)",
+          "testing_intensity": "Heavy Metal (Cadmium in Cephalopods) High Scrutiny",
+          "catch_doc_required": "Validated EU Catch Certificate from MPEDA / Competent Authority + Vessel Log",
+          "limits": {
+            "chloramphenicol": {"mrl": 0.10, "unit": "ppb (µg/kg)", "type": "MRPL Limit"},
+            "nitrofuran_aoz": {"mrl": 0.50, "unit": "ppb (µg/kg)", "type": "RPA Limit"},
+            "cadmium": {"mrl": 1.00, "unit": "mg/kg (ppm)", "type": "EU Regulation 2021/1323 (Cephalopods without viscera)"},
+            "histamine": {"mrl": 100.0, "unit": "mg/kg (ppm)", "type": "Quality Standard"}
+          }
+        },
+        "USA": {
+          "stance": "Wild Capture Cephalopod Inspection",
+          "testing_intensity": "Standard FDA physical & organoleptic sensory testing",
+          "catch_doc_required": "Commercial Invoice, Packing List, and Captain's Log extract",
+          "limits": {
+            "chloramphenicol": {"mrl": 0.10, "unit": "ppb (µg/kg)", "type": "Zero Tolerance"},
+            "nitrofuran_aoz": {"mrl": 0.50, "unit": "ppb (µg/kg)", "type": "Zero Tolerance"},
+            "cadmium": {"mrl": 1.50, "unit": "mg/kg (ppm)", "type": "Action Level"},
+            "histamine": {"mrl": 50.0, "unit": "mg/kg (ppm)", "type": "FDA DAL"}
+          }
+        },
+        "CHN": {
+          "stance": "GACC Major Inbound Processing Re-Export Market",
+          "testing_intensity": "Random batch testing",
+          "catch_doc_required": "EIC Catch & Health Certificate",
+          "limits": {
+            "chloramphenicol": {"mrl": 0.30, "unit": "ppb (µg/kg)", "type": "Standard Limit"},
+            "nitrofuran_aoz": {"mrl": 1.00, "unit": "ppb (µg/kg)", "type": "Standard Limit"},
+            "cadmium": {"mrl": 2.00, "unit": "mg/kg (ppm)", "type": "GB 2762-2022 Cephalopod Limit"},
+            "histamine": {"mrl": 100.0, "unit": "mg/kg (ppm)", "type": "Standard Limit"}
+          }
+        },
+        "JPN": {
+          "stance": "MHLW Strict Sensory and Cadmium Scrutiny",
+          "testing_intensity": "Random quarantine sampling",
+          "catch_doc_required": "EIC Sanitary Certificate",
+          "limits": {
+            "chloramphenicol": {"mrl": 0.10, "unit": "ppb (µg/kg)", "type": "Zero Tolerance"},
+            "nitrofuran_aoz": {"mrl": 0.50, "unit": "ppb (µg/kg)", "type": "Not Detected"},
+            "cadmium": {"mrl": 2.00, "unit": "mg/kg (ppm)", "type": "Food Sanitation Law"},
+            "histamine": {"mrl": 100.0, "unit": "mg/kg (ppm)", "type": "Guideline"}
+          }
+        }
+      }
+    },
+    "03075200": {
+      "name": "Frozen Octopus (Common Octopus / Baby Octopus)",
+      "scientific_name": "Octopus vulgaris",
+      "harvest_type": "Marine Capture (Wild Caught)",
+      "share_pct": 3.8,
+      "export_forms": ["Gutted / Cleaned (IQF)", "Whole Round", "Blanched / Cooked"],
+      "primary_landing_regions": ["Kerala (Kollam, Cochin)", "Tamil Nadu (Tuticorin, Chennai)", "Gujarat (Veraval)"],
+      "ted_exemption_ds2031_required": false,
+      "eu_50pct_testing_regime": false,
+      "simp_priority_species": false,
+      "standard_lab_residues": {
+        "chloramphenicol": 0.01,
+        "nitrofuran_aoz": 0.02,
+        "cadmium": 0.60,
+        "histamine": 15.0
+      },
+      "market_mrls": {
+        "EU": {
+          "stance": "Mandatory EU Catch Certificate under IUU Fishing Regulation (EC 1005/2008)",
+          "testing_intensity": "Cadmium and heavy metal monitoring",
+          "catch_doc_required": "Validated EU Catch Certificate from MPEDA",
+          "limits": {
+            "chloramphenicol": {"mrl": 0.10, "unit": "ppb (µg/kg)", "type": "MRPL Limit"},
+            "nitrofuran_aoz": {"mrl": 0.50, "unit": "ppb (µg/kg)", "type": "RPA Limit"},
+            "cadmium": {"mrl": 1.00, "unit": "mg/kg (ppm)", "type": "EU Regulation 2021/1323"},
+            "histamine": {"mrl": 100.0, "unit": "mg/kg (ppm)", "type": "Quality Standard"}
+          }
+        },
+        "USA": {
+          "stance": "Standard FDA Food Safety Modernization Act (FSMA) Scrutiny",
+          "testing_intensity": "Routine import checks",
+          "catch_doc_required": "Standard commercial documentation",
+          "limits": {
+            "chloramphenicol": {"mrl": 0.10, "unit": "ppb (µg/kg)", "type": "Zero Tolerance"},
+            "nitrofuran_aoz": {"mrl": 0.50, "unit": "ppb (µg/kg)", "type": "Zero Tolerance"},
+            "cadmium": {"mrl": 1.50, "unit": "mg/kg (ppm)", "type": "Action Limit"},
+            "histamine": {"mrl": 50.0, "unit": "mg/kg (ppm)", "type": "FDA DAL"}
+          }
+        },
+        "CHN": {
+          "stance": "GACC Registered Facility Inbound Inspection",
+          "testing_intensity": "Random sampling",
+          "catch_doc_required": "EIC Official Health Certificate",
+          "limits": {
+            "chloramphenicol": {"mrl": 0.30, "unit": "ppb (µg/kg)", "type": "National Standard"},
+            "nitrofuran_aoz": {"mrl": 1.00, "unit": "ppb (µg/kg)", "type": "National Standard"},
+            "cadmium": {"mrl": 2.00, "unit": "mg/kg (ppm)", "type": "GB 2762-2022"},
+            "histamine": {"mrl": 100.0, "unit": "mg/kg (ppm)", "type": "Standard Limit"}
+          }
+        },
+        "JPN": {
+          "stance": "Major Asian Consumer Market for Octopus (Tako)",
+          "testing_intensity": "High organoleptic and microbiological quality demand",
+          "catch_doc_required": "EIC Health Certificate",
+          "limits": {
+            "chloramphenicol": {"mrl": 0.10, "unit": "ppb (µg/kg)", "type": "Zero Detection"},
+            "nitrofuran_aoz": {"mrl": 0.50, "unit": "ppb (µg/kg)", "type": "Not Detected"},
+            "cadmium": {"mrl": 2.00, "unit": "mg/kg (ppm)", "type": "Food Sanitation Law"},
+            "histamine": {"mrl": 100.0, "unit": "mg/kg (ppm)", "type": "Quality Level"}
+          }
+        }
+      }
+    },
+    "03038900": {
+      "name": "Frozen Ribbon Fish / Croaker (Marine Capture Finfish)",
+      "scientific_name": "Trichiurus lepturus",
+      "harvest_type": "Marine Capture (Wild Caught Trawlers)",
+      "share_pct": 5.1,
+      "export_forms": ["Whole Round (IQF Blocks)", "Headless Gutted"],
+      "primary_landing_regions": ["Gujarat (Veraval, Mangrol, Okha)", "Maharashtra (Mumbai, Malvan)", "Andhra Pradesh (Visakhapatnam)"],
+      "ted_exemption_ds2031_required": false,
+      "eu_50pct_testing_regime": false,
+      "simp_priority_species": false,
+      "standard_lab_residues": {
+        "chloramphenicol": 0.01,
+        "nitrofuran_aoz": 0.02,
+        "cadmium": 0.08,
+        "histamine": 30.0
+      },
+      "market_mrls": {
+        "EU": {
+          "stance": "EU IUU Catch Certificate Mandatory + Histamine Testing",
+          "testing_intensity": "Scombrotoxin / Histamine and vessel hygiene compliance",
+          "catch_doc_required": "Validated EU Catch Certificate + Cold Chain Log",
+          "limits": {
+            "chloramphenicol": {"mrl": 0.10, "unit": "ppb (µg/kg)", "type": "MRPL Limit"},
+            "nitrofuran_aoz": {"mrl": 0.50, "unit": "ppb (µg/kg)", "type": "RPA Limit"},
+            "cadmium": {"mrl": 0.10, "unit": "mg/kg (ppm)", "type": "Regulation 2021/1323 (Finfish muscle)"},
+            "histamine": {"mrl": 100.0, "unit": "mg/kg (ppm)", "type": "Commission Regulation (EC) 2073/2005"}
+          }
+        },
+        "USA": {
+          "stance": "FDA Seafood HACCP & Histamine Strict Compliance",
+          "testing_intensity": "Cold chain time-temperature log verification",
+          "catch_doc_required": "HACCP Processing Records & Commercial Documents",
+          "limits": {
+            "chloramphenicol": {"mrl": 0.10, "unit": "ppb (µg/kg)", "type": "Zero Tolerance"},
+            "nitrofuran_aoz": {"mrl": 0.50, "unit": "ppb (µg/kg)", "type": "Zero Tolerance"},
+            "cadmium": {"mrl": 0.50, "unit": "mg/kg (ppm)", "type": "Action Limit"},
+            "histamine": {"mrl": 50.0, "unit": "mg/kg (ppm)", "type": "FDA DAL"}
+          }
+        },
+        "CHN": {
+          "stance": "Primary Destination for Indian Ribbon Fish (>70% of total export volume)",
+          "testing_intensity": "Routine port clearance and sensory verification",
+          "catch_doc_required": "EIC Official Health Certificate with GACC Registration Number",
+          "limits": {
+            "chloramphenicol": {"mrl": 0.30, "unit": "ppb (µg/kg)", "type": "National Standard"},
+            "nitrofuran_aoz": {"mrl": 1.00, "unit": "ppb (µg/kg)", "type": "Standard Limit"},
+            "cadmium": {"mrl": 0.10, "unit": "mg/kg (ppm)", "type": "GB 2762-2022 Finfish Limit"},
+            "histamine": {"mrl": 100.0, "unit": "mg/kg (ppm)", "type": "Standard Limit"}
+          }
+        },
+        "JPN": {
+          "stance": "MHLW Sanitary Clearance",
+          "testing_intensity": "Random sampling",
+          "catch_doc_required": "EIC Sanitary Certificate",
+          "limits": {
+            "chloramphenicol": {"mrl": 0.10, "unit": "ppb (µg/kg)", "type": "Zero Tolerance"},
+            "nitrofuran_aoz": {"mrl": 0.50, "unit": "ppb (µg/kg)", "type": "Not Detected"},
+            "cadmium": {"mrl": 0.50, "unit": "mg/kg (ppm)", "type": "Standard"},
+            "histamine": {"mrl": 100.0, "unit": "mg/kg (ppm)", "type": "Guideline"}
+          }
+        }
+      }
+    }
+  },
+  "statutory_schemes": {
+    "eu_catch_certificate_scheme": {
+      "regulation": "Council Regulation (EC) No 1005/2008 on Illegal, Unreported and Unregulated (IUU) Fishing",
+      "competent_authority": "Designated Assistant Directors of MPEDA / EIC Officials",
+      "portal": "https://mpeda.gov.in/e-catch",
+      "required_fields": [
+        "Vessel Name & Registration Number issued by State Fisheries Department / MMD",
+        "Fishing License Number & Validity Date",
+        "Log sheet of Catch (Date, Fishing Grounds, Gear Type, GPS Coordinates)",
+        "Landing Date & Authorized Coastal Landing Center (e.g., Cochin Port, Sassoon Dock, Veraval)",
+        "Master of Vessel / Captain Signature & Declarations",
+        "Estimated Live Weight (kg) vs Processed Product Weight (kg)"
+      ],
+      "exemptions": ["Freshwater fish", "Aquaculture products (farmed shrimp/tilapia) accompanied by aquaculture health certificate"]
+    },
+    "us_noaa_simp_scheme": {
+      "regulation": "Magnuson-Stevens Fishery Conservation and Management Act / NOAA Seafood Import Monitoring Program",
+      "covered_indian_species": ["Shrimp (farmed & wild)", "Crab", "Tuna", "Swordfish"],
+      "mandatory_audit_trail": [
+        "Small-scale harvest event date and location",
+        "Unique Farm Registration Number (NaCSA / CAA) for aquaculture",
+        "Vessel Flag State, Identification, Gear Type",
+        "Chain of Custody tracking from farm/dock to processor, cold storage, and export container",
+        "US Importer of Record SIMP permit number"
+      ]
+    },
+    "us_ted_exemption_ds2031": {
+      "regulation": "Section 609 of Public Law 101-162 (16 U.S.C. 1537) - Protection of Sea Turtles",
+      "embargo_status": "Wild-caught trawl shrimp from India is subject to US import embargo due to lack of certified Turtle Excluder Devices (TEDs).",
+      "exemption_mechanism": "Farmed / Aquaculture Shrimp (Vannamei & Black Tiger) is 100% EXEMPT under Box 7(B) of US State Department Form DS-2031, certifying harvested from aquaculture facilities.",
+      "signing_authority": "MPEDA Designated Officer / Marine Exporter under perjury declarations"
+    }
+  }
+}

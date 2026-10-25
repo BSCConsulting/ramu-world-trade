@@ -879,6 +879,57 @@
         </div>
       </div>
 
+      
+      <!-- MPEDA Marine Products & Catch Documentation Gateway -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3.5">
+        <div class="flex flex-wrap items-center justify-between gap-1">
+          <div class="flex items-center gap-1.5">
+            <span class="text-xs font-extrabold uppercase tracking-wider">MPEDA Marine Products &amp; Catch Certificate Gateway</span>
+            <span id="mpeda-statutory-badge" class="text-[9px] px-1.5 py-0.5 rounded font-mono font-bold" style="background: rgba(6, 182, 212, 0.15); color: #06B6D4;">● MPEDA STATUTORY RCMC</span>
+          </div>
+          <span class="text-[10px] font-mono" style="color: var(--text-dim);">mpeda.gov.in / e-Catch</span>
+        </div>
+        <p class="text-[11px]" style="color: var(--text-muted);">Audit export consignments against destination statutory antibiotic limits (Nitrofurans, Chloramphenicol), evaluate EU Catch Certificate (IUU Reg EC 1005/2008), US NOAA SIMP compliance, and US Section 609 TED Form DS-2031 certification.</p>
+
+        <!-- Scheduled Seafood Species Chips -->
+        <div class="flex gap-1 overflow-x-auto pb-1 text-[10px] font-bold no-scrollbar">
+          <button type="button" onclick="selectMpedaSpecies('03061720', 'EU')" id="mpeda-chip-03061720" class="mpeda-species-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🦐 Vannamei Shrimp (EU 50% Test)</button>
+          <button type="button" onclick="selectMpedaSpecies('03061711', 'USA')" id="mpeda-chip-03061711" class="mpeda-species-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🦐 Black Tiger (US SIMP / TED)</button>
+          <button type="button" onclick="selectMpedaSpecies('03074310', 'EU')" id="mpeda-chip-03074310" class="mpeda-species-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🦑 Frozen Squid Tubes (EU IUU)</button>
+          <button type="button" onclick="selectMpedaSpecies('03075200', 'JPN')" id="mpeda-chip-03075200" class="mpeda-species-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🐙 Frozen Octopus (Japan MHLW)</button>
+          <button type="button" onclick="selectMpedaSpecies('03038900', 'CHN')" id="mpeda-chip-03038900" class="mpeda-species-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🐟 Ribbon Fish (China GACC)</button>
+        </div>
+
+        <!-- Controls: Species, Market & Residue Test Inputs -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Seafood Species / Form:</label>
+            <select id="mpeda-species-select" onchange="onMpedaSpeciesChange()" class="w-full border rounded-xl p-2.5 text-xs focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);">
+              <option value="03061720" selected>🦐 Frozen Vannamei Shrimp (HS 03061720 - Aquaculture)</option>
+              <option value="03061711">🦐 Frozen Black Tiger Shrimp (HS 03061711 - Coastal Bheries)</option>
+              <option value="03074310">🦑 Frozen Squid Tubes &amp; Rings (HS 03074310 - Marine Catch)</option>
+              <option value="03075200">🐙 Frozen Octopus Cleaned (HS 03075200 - Marine Catch)</option>
+              <option value="03038900">🐟 Frozen Ribbon Fish / Croaker (HS 03038900 - Marine Finfish)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Destination Market Protocol:</label>
+            <select id="mpeda-market-select" onchange="runMpedaAudit()" class="w-full border rounded-xl p-2.5 text-xs focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);">
+              <option value="EU" selected>🇪🇺 European Union (50% BIP Testing / IUU Catch Cert)</option>
+              <option value="USA">🇺🇸 United States (US FDA Import Alert 16-124 / NOAA SIMP / TED DS-2031)</option>
+              <option value="CHN">🇨🇳 China (GACC Decree 248/249 Registration &amp; Cold-Chain Disinfection)</option>
+              <option value="JPN">🇯🇵 Japan (MHLW Positive List System &amp; Anti-microbial Screening)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Dynamic MPEDA Audit Container -->
+        <div id="mpeda-audit-container" class="space-y-2 text-xs">
+          <!-- Populated dynamically by renderMpedaResults -->
+        </div>
+      </div>
+
       <!-- Reconciled Statutory Intelligence Output -->
       <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3">
         <div class="flex items-center justify-between border-b pb-3" style="border-color: var(--card-border);">
