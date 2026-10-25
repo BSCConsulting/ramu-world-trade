@@ -737,6 +737,66 @@
         </div>
       </div>
 
+      <!-- DGCI&S TradeStat Macro Intelligence Hub -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-1">
+          <div class="flex items-center gap-1.5">
+            <span class="text-xs font-extrabold uppercase tracking-wider">DGCI&S TradeStat Macro Explorer</span>
+            <span class="text-[9px] px-1.5 py-0.5 rounded font-mono font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">● OFFICIAL STATUTORY</span>
+          </div>
+          <span class="text-[10px] font-mono" style="color: var(--text-dim);">tradestat.commerce.gov.in</span>
+        </div>
+        <p class="text-[11px]" style="color: var(--text-muted);">Audited bilateral merchandise flows, mirror CIF/FOB spreads, and major container seaport dwell analytics.</p>
+
+        <!-- Segment Filters (Countries / Seaports / Commodities) -->
+        <div class="flex gap-1 overflow-x-auto pb-1 text-[10px] font-bold no-scrollbar">
+          <button type="button" onclick="selectTradestatItem('country', 'USA')" id="ts-btn-USA" class="tradestat-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🇺🇸 USA (Top Market)</button>
+          <button type="button" onclick="selectTradestatItem('country', 'UAE')" id="ts-btn-UAE" class="tradestat-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇦🇪 UAE (CEPA)</button>
+          <button type="button" onclick="selectTradestatItem('country', 'China')" id="ts-btn-China" class="tradestat-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇨🇳 China (Imports)</button>
+          <button type="button" onclick="selectTradestatItem('country', 'Netherlands')" id="ts-btn-Netherlands" class="tradestat-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇳🇱 Netherlands (EU Hub)</button>
+          <button type="button" onclick="selectTradestatItem('port', 'Nhava Sheva')" id="ts-btn-Nhava" class="tradestat-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">⚓ JNPT Nhava Sheva</button>
+          <button type="button" onclick="selectTradestatItem('port', 'Mundra')" id="ts-btn-Mundra" class="tradestat-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">⚓ Mundra Port</button>
+          <button type="button" onclick="selectTradestatItem('port', 'Delhi Air Cargo')" id="ts-btn-Delhi" class="tradestat-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">✈️ Delhi Air Cargo</button>
+        </div>
+
+        <!-- Dynamic Tradestat Detail Panel -->
+        <div id="tradestat-detail-card" class="p-3 rounded-xl border space-y-2 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between">
+            <span id="ts-card-title" class="font-extrabold text-sm" style="color: var(--accent);">India ↔ USA Bilateral Trade Profile</span>
+            <span id="ts-card-badge" class="text-[9px] font-mono px-2 py-0.5 rounded font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">TRADE SURPLUS: +$35.3B</span>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 text-center pt-1 font-mono">
+            <div class="p-2 rounded-lg border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+              <span class="text-[9px] block uppercase" style="color: var(--text-dim);">Exports (FOB)</span>
+              <span id="ts-stat-1" class="text-xs font-extrabold text-emerald-500">$77.5 Billion</span>
+              <span id="ts-sub-1" class="text-[8px] block opacity-70">17.7% Share (Rank #1)</span>
+            </div>
+            <div class="p-2 rounded-lg border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+              <span class="text-[9px] block uppercase" style="color: var(--text-dim);">Imports (CIF)</span>
+              <span id="ts-stat-2" class="text-xs font-extrabold text-rose-500">$42.2 Billion</span>
+              <span id="ts-sub-2" class="text-[8px] block opacity-70">6.2% Share (Rank #4)</span>
+            </div>
+            <div class="p-2 rounded-lg border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+              <span class="text-[9px] block uppercase" style="color: var(--text-dim);">Total Volume</span>
+              <span id="ts-stat-3" class="text-xs font-extrabold text-blue-500">$119.7 Billion</span>
+              <span id="ts-sub-3" class="text-[8px] block opacity-70">Audited FY2023-24</span>
+            </div>
+          </div>
+
+          <div id="ts-card-desc" class="p-2 rounded-lg border text-[10px] leading-relaxed" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+            🇺🇸 <strong>Mirror Triangulation:</strong> US Census Bureau reports $83.2B CIF imports vs India DGCI&S $77.5B FOB exports. +7.35% spread verified as standard maritime freight & insurance under Incoterms 2020.
+          </div>
+
+          <div class="flex justify-between items-center pt-1">
+            <span class="text-[9px] font-mono" style="color: var(--text-dim);">Statutory Source: DGCI&S Kolkata / MOCI</span>
+            <button id="ts-action-btn" onclick="setQuery('Compare trade between India and USA')" class="text-[10px] font-bold text-blue-500 hover:underline flex items-center gap-1">
+              <span>Deep-Dive in Terminal &rarr;</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
       <!-- Reconciled Statutory Intelligence Output -->
       <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3">
         <div class="flex items-center justify-between border-b pb-3" style="border-color: var(--card-border);">

@@ -3042,11 +3042,92 @@ async function fetchLiveMandiPrice(commodity = 'Chilli Red', state = 'Andhra Pra
   } catch (e) {}
 }
 
+async function selectTradestatItem(type, key) {
+  // 1. Update chip styling
+  document.querySelectorAll('.tradestat-chip').forEach(btn => {
+    btn.style.background = 'var(--card-inner-bg)';
+    btn.style.color = 'var(--text-main)';
+    btn.style.borderColor = 'var(--card-inner-border)';
+  });
+  
+  const safeId = key.replace(/\s+/g, '');
+  const activeBtn = document.getElementById(`ts-btn-${safeId}`) || Array.from(document.querySelectorAll('.tradestat-chip')).find(b => b.textContent.includes(key));
+  if (activeBtn) {
+    activeBtn.style.background = 'var(--accent)';
+    activeBtn.style.color = '#ffffff';
+    activeBtn.style.borderColor = 'transparent';
+  }
+
+  try {
+    const url = type === 'country' ? `/api/tradestat?country=${encodeURIComponent(key)}` : `/api/tradestat?port=${encodeURIComponent(key)}`;
+    const res = await fetch(url);
+    if (!res.ok) return;
+    const data = await res.json();
+
+    const titleEl = document.getElementById('ts-card-title');
+    const badgeEl = document.getElementById('ts-card-badge');
+    const stat1El = document.getElementById('ts-stat-1');
+    const sub1El = document.getElementById('ts-sub-1');
+    const stat2El = document.getElementById('ts-stat-2');
+    const sub2El = document.getElementById('ts-sub-2');
+    const stat3El = document.getElementById('ts-stat-3');
+    const sub3El = document.getElementById('ts-sub-3');
+    const descEl = document.getElementById('ts-card-desc');
+    const actBtn = document.getElementById('ts-action-btn');
+
+    if (type === 'country') {
+      if (titleEl) titleEl.textContent = `India ↔ ${data.country} Bilateral Trade Profile`;
+      const isSurplus = data.trade_balance_usd_billion >= 0;
+      if (badgeEl) {
+        badgeEl.textContent = `${isSurplus ? 'TRADE SURPLUS' : 'TRADE DEFICIT'}: ${isSurplus ? '+' : ''}$${data.trade_balance_usd_billion}B`;
+        badgeEl.style.background = isSurplus ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.15)';
+        badgeEl.style.color = isSurplus ? '#10B981' : '#EF4444';
+      }
+      if (stat1El) stat1El.textContent = `$${data.exports_fob_usd_billion} Billion`;
+      if (sub1El) sub1El.textContent = `${data.export_share_pct ? data.export_share_pct + '% Share ' : ''}(Rank #${data.export_rank || 'N/A'})`;
+      if (stat2El) stat2El.textContent = `$${data.imports_cif_usd_billion} Billion`;
+      if (sub2El) sub2El.textContent = `${data.import_share_pct ? data.import_share_pct + '% Share ' : ''}(Rank #${data.import_rank || 'N/A'})`;
+      if (stat3El) stat3El.textContent = `$${data.bilateral_trade_volume_usd_billion} Billion`;
+      if (sub3El) sub3El.textContent = `Audited ${data.reporting_fy}`;
+      
+      if (descEl) {
+        if (data.mirror_reconciliation) {
+          descEl.innerHTML = `<strong>Mirror Triangulation:</strong> Partner customs reports $${data.mirror_reconciliation.us_reported_imports_cif_usd_billion || data.mirror_reconciliation.uae_reported_imports_cif_usd_billion || data.mirror_reconciliation.china_reported_exports_fob_usd_billion || data.mirror_reconciliation.netherlands_reported_imports_cif_usd_billion || 'N/A'}B. ${data.mirror_reconciliation.explanation} (CIF/FOB spread: +${data.mirror_reconciliation.fob_cif_spread_pct}%).`;
+        } else {
+          descEl.innerHTML = `<strong>Statutory Trade:</strong> Audited DGCI&S Kolkata foreign trade figures. Export transactions cleared via ICEGATE shipping bills with customs duty drawbacks and RoDTEP claims.`;
+        }
+      }
+      if (actBtn) actBtn.setAttribute('onclick', `setQuery('Compare trade between India and ${data.country}')`);
+    } else {
+      // Port Profile
+      if (titleEl) titleEl.textContent = `${data.name} (${data.port_code})`;
+      if (badgeEl) {
+        badgeEl.textContent = data.type || 'Maritime Hub';
+        badgeEl.style.background = 'rgba(59, 130, 246, 0.15)';
+        badgeEl.style.color = '#3B82F6';
+      }
+      if (stat1El) stat1El.textContent = data.annual_container_teu_million ? `${data.annual_container_teu_million}M TEU` : `${data.annual_tonnage_thousand}k MT`;
+      if (sub1El) sub1El.textContent = data.national_container_share_pct ? `${data.national_container_share_pct}% National Share` : `${data.national_air_cargo_share_pct}% Air Share`;
+      if (stat2El) stat2El.textContent = `${data.avg_dwell_time_hours} Hours`;
+      if (sub2El) sub2El.textContent = 'Avg Dwell Turnaround';
+      if (stat3El) stat3El.textContent = `${data.direct_port_delivery_pct}%`;
+      if (sub3El) sub3El.textContent = 'DPD Clearance Rate';
+      if (descEl) {
+        descEl.innerHTML = `<strong>Primary Cargo:</strong> ${data.primary_cargo}.<br><strong>Nearest Rail Connected ICDs:</strong> ${(data.nearest_icds || []).join(', ')}.`;
+      }
+      if (actBtn) actBtn.setAttribute('onclick', `setQuery('What is the port turnaround and dwell time at ${data.name}?')`);
+    }
+  } catch (e) {
+    // Silent fallback
+  }
+}
+
 window.fetchLiveForexRates = fetchLiveForexRates;
 window.fetchLiveCbicGazette = fetchLiveCbicGazette;
 window.toggleCbicSchedule = toggleCbicSchedule;
 window.runCbicValuationSim = runCbicValuationSim;
 window.fetchLiveMandiPrice = fetchLiveMandiPrice;
+window.selectTradestatItem = selectTradestatItem;
 
 // Global Window Bindings for Inline HTML Handlers
 window.selectConsortiumCluster = selectConsortiumCluster;
@@ -3138,6 +3219,7 @@ window.addEventListener('DOMContentLoaded', () => {
   fetchLiveForexRates();
   fetchLiveCbicGazette();
   fetchLiveMandiPrice();
+  selectTradestatItem('country', 'USA');
   selectConsortiumCluster('guntur_chilli');
   selectPitchCorridor('surat_textiles');
   selectTitan('rockefeller');

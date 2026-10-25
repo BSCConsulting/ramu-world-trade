@@ -70,6 +70,9 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
         elif parsed.path == "/api/cbic-gazette":
             self._handle_cbic_gazette()
             return
+        elif parsed.path == "/api/tradestat":
+            self._handle_tradestat(parsed.query)
+            return
         elif parsed.path == "/api/mandi":
             self._handle_mandi(parsed.query)
             return
@@ -331,6 +334,20 @@ class TradeAppRequestHandler(SimpleHTTPRequestHandler):
             self._send_json(res)
         except Exception as e:
             self._send_json({"error": str(e)}, status=400)
+
+    def _handle_tradestat(self, query_str: str = ""):
+        try:
+            from sources.dgcis_tradestat import get_tradestat_overview, get_partner_profile, get_port_profile
+            params = urllib.parse.parse_qs(query_str) if query_str else {}
+            if "country" in params:
+                data = get_partner_profile(params["country"][0])
+            elif "port" in params:
+                data = get_port_profile(params["port"][0]) or {"error": "Port not found"}
+            else:
+                data = get_tradestat_overview()
+            self._send_json(data)
+        except Exception as e:
+            self._send_json({"error": str(e)}, status=500)
 
     def _handle_mandi(self, query_str):
         try:
