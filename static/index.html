@@ -810,6 +810,7 @@
       <div class="sub-tab-nav flex gap-1 p-1 rounded-2xl border backdrop-blur-md overflow-x-auto no-scrollbar shadow-sm mb-3" style="background: var(--card-bg); border-color: var(--card-border);">
         <button type="button" onclick="switchSubTab('tab-apps', 'sub-apps-macro', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: var(--accent); color: #ffffff;">📊 Macro &amp; Search</button>
         <button type="button" onclick="switchSubTab('tab-apps', 'sub-apps-arbitrage', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">🎯 Arbitrage Radar</button>
+        <button type="button" onclick="switchSubTab('tab-apps', 'sub-apps-scenarios', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">⚡ Ground Scenarios</button>
       </div>
       <!-- Sub-Pane 1: Macro Intelligence & Search -->
       <div id="sub-apps-macro" class="sub-pane space-y-4">
@@ -1427,6 +1428,90 @@
 
       <div class="h-16 w-full" aria-hidden="true"></div>
       </div>
+    
+      <!-- Sub-Pane 3: Ground Scenario Intelligence Engine -->
+      <div id="sub-apps-scenarios" class="sub-pane hidden space-y-4">
+        <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <div class="flex items-center gap-2">
+              <span class="text-base">⚡</span>
+              <div>
+                <h3 class="text-xs font-extrabold uppercase tracking-wider flex items-center gap-1.5">
+                  <span>Ground Trade Scenario Intelligence Engine</span>
+                </h3>
+                <p class="text-[10px]" style="color: var(--text-muted);">Real-World Andhra/Telangana Mandi Arbitrage, Cold Storage Flips &amp; Exporter Sourcing</p>
+              </div>
+            </div>
+            <span class="text-[9px] font-mono px-2 py-0.5 rounded-full font-bold uppercase" style="background: var(--accent-light); color: var(--accent); border: 1px solid var(--accent-border);">Dual-Engine Active</span>
+          </div>
+
+          <!-- Scenario Preset Strip -->
+          <div class="scroll-chip-strip">
+            <button type="button" onclick="selectScenarioPreset('mandi_vja_mdh')" id="scen-chip-mandi_vja_mdh" class="scen-preset-chip px-3 py-1.5 rounded-xl border text-xs font-bold active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🌾 Vijayawada ➔ Madhira Veg</button>
+            <button type="button" onclick="selectScenarioPreset('chilli_gnt_exp')" id="scen-chip-chilli_gnt_exp" class="scen-preset-chip px-3 py-1.5 rounded-xl border text-xs font-bold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🌶️ Cold Storage Chilli ➔ Exporter</button>
+            <button type="button" onclick="selectScenarioPreset('forwarder_audit_demo')" id="scen-chip-forwarder_audit_demo" class="scen-preset-chip px-3 py-1.5 rounded-xl border text-xs font-bold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🚢 Forwarder Junk Fee Auditor</button>
+          </div>
+
+          <!-- Dynamic Scenario Model Selector (Model A / B / C) -->
+          <div class="p-3 rounded-2xl border space-y-2.5 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="flex items-center justify-between">
+              <span id="scen-strategy-title" class="font-extrabold text-xs" style="color: var(--text-main);">Scenario: Vijayawada Mandi ➔ Madhira Retail</span>
+              <span id="scen-strategy-code" class="text-[9px] font-mono font-bold text-emerald-500">CORRIDOR: 78 KM</span>
+            </div>
+
+            <!-- Strategy Radio Selector -->
+            <div class="grid grid-cols-3 gap-1.5 pt-1" id="scen-model-buttons">
+              <button type="button" onclick="switchScenarioModel(1)" id="scen-btn-model-1" class="p-2 rounded-xl border text-center font-bold text-[10px] active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">Model A: Micro Retail</button>
+              <button type="button" onclick="switchScenarioModel(2)" id="scen-btn-model-2" class="p-2 rounded-xl border text-center font-bold text-[10px] active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border);">Model B: B2B Wholesaler</button>
+              <button type="button" onclick="switchScenarioModel(3)" id="scen-btn-model-3" class="p-2 rounded-xl border text-center font-bold text-[10px] active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border);">Model C: Titan Asymmetric</button>
+            </div>
+
+            <!-- Dynamic Waterfall Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-xs">
+              <div class="p-2.5 rounded-xl border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+                <span class="text-[9px] uppercase font-bold block" style="color: var(--text-dim);">Operating Capital</span>
+                <span id="scen-metric-capital" class="text-base font-extrabold font-mono block mt-0.5 text-blue-500">₹7,500</span>
+                <span id="scen-metric-capital-sub" class="text-[9px] font-mono" style="color: var(--text-muted);">Daily revolving float</span>
+              </div>
+              <div class="p-2.5 rounded-xl border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+                <span class="text-[9px] uppercase font-bold block" style="color: var(--text-dim);">Payload Volume</span>
+                <span id="scen-metric-volume" class="text-base font-extrabold font-mono block mt-0.5" style="color: var(--text-main);">380 kg</span>
+                <span id="scen-metric-volume-sub" class="text-[9px] font-mono text-emerald-500">Fast-rotational</span>
+              </div>
+              <div class="p-2.5 rounded-xl border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+                <span class="text-[9px] uppercase font-bold block text-emerald-500">Net Daily Cash</span>
+                <span id="scen-metric-daily" class="text-base font-extrabold font-mono block mt-0.5 text-emerald-500">₹3,450</span>
+                <span id="scen-metric-daily-sub" class="text-[9px] font-mono" style="color: var(--text-muted);">After freight &amp; buffer</span>
+              </div>
+              <div class="p-2.5 rounded-xl border" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3);">
+                <span class="text-[9px] uppercase font-bold block text-[#10B981]">Monthly Net Realization</span>
+                <span id="scen-metric-monthly" class="text-base font-extrabold font-mono block mt-0.5 text-[#10B981]">₹1,03,500</span>
+                <span id="scen-metric-monthly-sub" class="text-[9px] font-mono font-bold text-[#10B981]">30-Day Turnover</span>
+              </div>
+            </div>
+
+            <!-- Ground Syndicate & Practical Trap Notes -->
+            <div id="scen-trap-box" class="p-2.5 rounded-xl border text-[11px] leading-relaxed space-y-1" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+              <span class="font-bold text-[10px] uppercase block text-amber-500">Ground Reality &amp; Syndicate Trap:</span>
+              <p id="scen-trap-text" style="color: var(--text-muted);">
+                Arrive at Gollapudi Wholesale Mandi at 3:30 AM sharp. Never buy from secondary brokers at 6:00 AM. Buy directly from arriving farmer tractor trailers to save 40% wholesale margin. Keep original APMC Mandi receipt in truck for zero-GST inter-state border clearance into Telangana.
+              </p>
+            </div>
+
+            <!-- Dual Action Triggers: 1-Click WhatsApp + Download PDF Dossier -->
+            <div class="grid grid-cols-2 gap-2 pt-1">
+              <button type="button" onclick="shareCurrentScenarioWhatsApp()" class="py-2.5 px-3 rounded-xl border text-xs font-bold active:scale-95 transition-transform flex items-center justify-center gap-1.5 shadow-sm" style="background: #25D366; color: #ffffff; border-color: #20BA5C;">
+                <span class="text-sm">📲</span>
+                <span>Share to WhatsApp</span>
+              </button>
+              <a id="scen-pdf-link" href="/mandi-strategy-1.html" target="_blank" class="py-2.5 px-3 rounded-xl border text-xs font-bold active:scale-95 transition-transform flex items-center justify-center gap-1.5 shadow-sm text-center" style="background: var(--accent); color: #ffffff; border-color: var(--accent);">
+                <span>📥 View / Print Full PDF</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </section>
 
     <!-- ==================== TAB 2: AGENDA (Operating Timetable) ==================== -->

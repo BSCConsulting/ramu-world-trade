@@ -6956,6 +6956,7 @@ window.addEventListener('DOMContentLoaded', () => {
   renderIcegateChecklist();
   runPcfcArbitrage();
   runForwarderQuoteAudit();
+  renderCurrentScenario();
 
 });
 
@@ -7375,3 +7376,206 @@ window.copyIcegateAuditClearance = copyIcegateAuditClearance;
 window.runPcfcArbitrage = runPcfcArbitrage;
 window.runForwarderQuoteAudit = runForwarderQuoteAudit;
 window.copyForwarderRebuttal = copyForwarderRebuttal;
+
+
+// =============================================================================
+// GROUND SCENARIO INTELLIGENCE ENGINE (Vijayawada -> Madhira, Chilli, etc.)
+// =============================================================================
+
+const GROUND_SCENARIOS_DATA = {
+  mandi_vja_mdh: {
+    title: "Scenario: Vijayawada Mandi ➔ Madhira Retail",
+    code: "CORRIDOR: 78 KM (AP ➔ TELANGANA)",
+    btnLabels: ["Model A: Micro Retail", "Model B: B2B Wholesaler", "Model C: Titan Asymmetric"],
+    models: {
+      1: {
+        capital: "₹7,500", capitalSub: "Daily revolving float",
+        volume: "380 kg", volumeSub: "Fast-rotational basket",
+        daily: "₹3,450", dailySub: "After freight & 12% shrinkage",
+        monthly: "₹1,03,500", monthlySub: "30-Day Turnover",
+        trap: "Arrive at Gollapudi Wholesale Mandi at 3:30 AM sharp. Never buy from secondary brokers at 6:00 AM. Buy directly from arriving farmer tractor trailers to save 40% wholesale margin. Keep original APMC Mandi receipt in truck for zero-GST inter-state border clearance into Telangana.",
+        pdfLink: "/mandi-strategy-1.html",
+        shareText: "*WORLD OF TRADE — VIJAYAWADA ➔ MADHIRA VEG ARBITRAGE (MODEL A)* 🌾\n• Daily Capital: ₹7,500\n• Volume: 380 kg\n• Net Daily Cash: ₹3,450\n• Monthly Net Profit: ₹1,03,500\n• Logistics: Gollapudi 3:30 AM ➔ Madhira Morning Stall\n🔗 https://ramu-world-trade.vercel.app/mandi-strategy-1.html"
+      },
+      2: {
+        capital: "₹35,000", capitalSub: "Dedicated Bolero truck",
+        volume: "1,800 kg", volumeSub: "1.8 MT (Staples basket)",
+        daily: "₹7,200", dailySub: "Zero retail spoilage",
+        monthly: "₹2,16,000", monthlySub: "Sold in 2.5 hours",
+        trap: "You supply 15 local Madhira vendors, 10 tiffin centers, and 3 function halls by 7:30 AM. They save 5 hours travel time and eagerly pay cash on delivery. Zero evening spoilage because 100% of crates are liquidated before 8:00 AM.",
+        pdfLink: "/mandi-strategy-2.html",
+        shareText: "*WORLD OF TRADE — VIJAYAWADA ➔ MADHIRA B2B WHOLESALE (MODEL B)* 🚛\n• Daily Capital: ₹35,000\n• Payload: 1.8 Metric Tonnes\n• Liquidation Speed: 2.5 Hours\n• Net Daily Cash: ₹7,200\n• Monthly Net Profit: ₹2,16,000\n🔗 https://ramu-world-trade.vercel.app/mandi-strategy-2.html"
+      },
+      3: {
+        capital: "₹1,50,000", capitalSub: "Buffer + daily perishables",
+        volume: "1,400 kg", volumeSub: "Two-tier graded assort.",
+        daily: "₹12,400", dailySub: "Dual-stream cash capture",
+        monthly: "₹3,72,000", monthlySub: "0% Wastage • Buffett Float",
+        trap: "Rockefeller Two-Tier Slicing: Grade-A sealed in eco-mesh bags at 120% markup for 150 Madhira families. Grade-B mass-supplied to fast-food stalls and messes. 70% semi-perishable buffer (Onion/Potato) stored in local depot gives pricing power during market spikes.",
+        pdfLink: "/mandi-strategy-3.html",
+        shareText: "*WORLD OF TRADE — TITAN ASYMMETRIC MANDI ENGINE (MODEL C)* 🏛️\n• Buffer Capital: ₹1,50,000 (Financed by customer advance float)\n• Wastage: Exactly 0.0%\n• Net Daily Cash: ₹12,400\n• Monthly Net Profit: ₹3,72,000\n🔗 https://ramu-world-trade.vercel.app/mandi-strategy-3.html"
+      }
+    }
+  },
+  chilli_gnt_exp: {
+    title: "Scenario: Guntur Cold Storage Chilli ➔ Exporter",
+    code: "COMMODITY: TEJA S17 (14 MT FCL)",
+    btnLabels: ["Strategy A: Mandate Broker", "Strategy B: Principal Trader", "Strategy C: Titan Asymmetric"],
+    models: {
+      1: {
+        capital: "₹0.00", capitalSub: "Zero capital at risk",
+        volume: "14,000 kg", volumeSub: "1 x 20ft FCL container",
+        daily: "₹35,000", dailySub: "Single lot clearing fee",
+        monthly: "₹1,40,000", monthlySub: "4 Consignments / Month",
+        trap: "Execute a 1-page Sourcing Mandate & Non-Circumvention Protection Agreement with the cold storage owner before introducing the buyer. Draw blind representative samples (WOT-LOT-701) to stop the exporter from jumping the broker.",
+        pdfLink: "/strategy-a.html",
+        shareText: "*WORLD OF TRADE — COLD STORAGE CHILLI SOURCING (STRATEGY A)* 🌶️\n• Capital: ₹0.00\n• Consignment: 14 MT\n• Brokerage Cut: ₹2.50/kg\n• Realized Fee: ₹35,000 - ₹42,000\n🔗 https://ramu-world-trade.vercel.app/strategy-a.html"
+      },
+      2: {
+        capital: "₹23,68,600", capitalSub: "Stock purchase + transit",
+        volume: "14,000 kg", volumeSub: "Own balance sheet",
+        daily: "₹3,19,400", dailySub: "Net profit per container",
+        monthly: "₹6,38,800", monthlySub: "2 Turnovers / Month",
+        trap: "You buy at ₹160/kg ex-cold storage and sell at ₹192/kg delivered port CFS. Must manage loading hamali (₹4.2k), chilling dues (₹28k), freight (₹48k), and 1.5% moisture shrinkage buffer. Beware of 45-day payment freezes until Let Export Order (LEO).",
+        pdfLink: "/strategy-b.html",
+        shareText: "*WORLD OF TRADE — PRINCIPAL CHILLI TRADER (STRATEGY B)* 📦\n• Capital Outlay: ₹23,68,600\n• Spread: ₹32/kg\n• Net Profit: ₹3,19,400 per 14 MT (+13.5% ROI)\n🔗 https://ramu-world-trade.vercel.app/strategy-b.html"
+      },
+      3: {
+        capital: "₹39,500", capitalSub: "Lab test + Token option",
+        volume: "14,000 kg", volumeSub: "NABL certified lot",
+        daily: "₹6,52,500", dailySub: "1,650% Return on Outlay",
+        monthly: "₹13,05,000", monthlySub: "2 Deals / Month",
+        trap: "The Testing Blindspot: Cold storage owner prices at domestic ₹160/kg. You spend ₹4,500 on express NABL test (Aflatoxin < 5 ppb, Moisture < 10%). You pay ₹35,000 token deposit for 10-day price lock at ₹160. Exporter eagerly buys at ₹208/kg. Tripartite settlement yields ₹6.52L profit with ₹35k risk!",
+        pdfLink: "/strategy-c.html",
+        shareText: "*WORLD OF TRADE — ASYMMETRIC TITAN CHILLI ARBITRAGE (STRATEGY C)* 🪙\n• Outlay: ₹39,500\n• Locked Price: ₹160/kg | Realized: ₹208/kg\n• Net Realized Profit: ₹6,52,500 (1,650% ROI)\n🔗 https://ramu-world-trade.vercel.app/strategy-c.html"
+      }
+    }
+  },
+  forwarder_audit_demo: {
+    title: "Scenario: Maritime Ocean Freight & Junk Fee Auditor",
+    code: "ROUTE: NHAVA/MUNDRA ➔ ROTTERDAM",
+    btnLabels: ["Standard Quote", "Elevated Markup", "Predatory Junk Markup"],
+    models: {
+      1: {
+        capital: "$4,400", capitalSub: "Per 40ft container",
+        volume: "1 x 40ft HC", volumeSub: "FEU Benchmark Spot",
+        daily: "₹0", dailySub: "Clean transparent rate",
+        monthly: "Fair Rate", monthlySub: "Drewry WCI Indexed",
+        trap: "Base freight $2,950 + BAF $420 + Cape Bypass $650 + THC $180 + BL $65. Safe to book space.",
+        pdfLink: "/#timer",
+        shareText: "*WORLD OF TRADE — MARITIME BENCHMARK AUDIT* 🌊\n• Spot Benchmark: $4,400/unit\n• Status: Clean Transparent Quote\n🔗 https://ramu-world-trade.vercel.app/#timer"
+      },
+      2: {
+        capital: "$4,850", capitalSub: "Elevated Quote",
+        volume: "1 x 40ft HC", volumeSub: "+$450 Premium",
+        daily: "$450", dailySub: "₹38,047 negotiation buffer",
+        monthly: "Negotiate", monthlySub: "Counter-offer required",
+        trap: "Forwarder added arbitrary Peak Season Surcharge (PSS) and elevated documentation fee. Issue standard counter-offer matching spot benchmark $4,400.",
+        pdfLink: "/#timer",
+        shareText: "*WORLD OF TRADE — ELEVATED FREIGHT AUDIT* ⚠️\n• Quote: $4,850 vs Spot: $4,400\n• Potential Negotiation Recovery: $450 (₹38,047)\n🔗 https://ramu-world-trade.vercel.app/#timer"
+      },
+      3: {
+        capital: "$5,200", capitalSub: "Predatory Markup",
+        volume: "1 x 40ft HC", volumeSub: "+$800 Overcharge",
+        daily: "$800", dailySub: "₹67,640 Recoverable",
+        monthly: "Rebuttal", monthlySub: "CBIC Circular 24/2020",
+        trap: "Flagged $355 in illegal junk fees: Delivery Order (DO) handover $120, Tracking fee $85, Agency clerical markup $150. Copy 1-tap legal rebuttal citing CBIC Circular 24/2020 to deduct immediately.",
+        pdfLink: "/#timer",
+        shareText: "*WORLD OF TRADE — JUNK FEE DETECTOR NOTICE* 🚨\n• Surcharges Flagged: $355 (₹30,015) in illegal local handover markups\n• Action: 1-Tap Legal Rebuttal under CBIC Circular 24/2020\n🔗 https://ramu-world-trade.vercel.app/#timer"
+      }
+    }
+  }
+};
+
+let currentScenarioPreset = 'mandi_vja_mdh';
+let currentScenarioModel = 1;
+
+function selectScenarioPreset(presetId) {
+  currentScenarioPreset = presetId;
+  currentScenarioModel = 1;
+
+  // Update chips styling
+  document.querySelectorAll('.scen-preset-chip').forEach(btn => {
+    btn.style.background = 'var(--card-inner-bg)';
+    btn.style.borderColor = 'var(--card-inner-border)';
+    btn.style.color = 'var(--text-main)';
+  });
+  const activeBtn = document.getElementById(`scen-chip-${presetId}`);
+  if (activeBtn) {
+    activeBtn.style.background = 'var(--accent)';
+    activeBtn.style.color = '#ffffff';
+  }
+
+  renderCurrentScenario();
+}
+
+function switchScenarioModel(modelNum) {
+  currentScenarioModel = modelNum;
+  renderCurrentScenario();
+}
+
+function renderCurrentScenario() {
+  const scen = GROUND_SCENARIOS_DATA[currentScenarioPreset];
+  if (!scen) return;
+
+  const m = scen.models[currentScenarioModel] || scen.models[1];
+
+  // Update Header
+  const titleEl = document.getElementById('scen-strategy-title');
+  const codeEl = document.getElementById('scen-strategy-code');
+  if (titleEl) titleEl.innerText = scen.title;
+  if (codeEl) codeEl.innerText = scen.code;
+
+  // Update Model Buttons text and active state
+  for (let i = 1; i <= 3; i++) {
+    const btn = document.getElementById(`scen-btn-model-${i}`);
+    if (btn) {
+      btn.innerText = scen.btnLabels[i - 1] || `Model ${i}`;
+      if (i === currentScenarioModel) {
+        btn.style.background = 'var(--accent)';
+        btn.style.color = '#ffffff';
+      } else {
+        btn.style.background = 'var(--card-bg)';
+        btn.style.borderColor = 'var(--card-inner-border)';
+        btn.style.color = 'var(--text-muted)';
+      }
+    }
+  }
+
+  // Update Metrics
+  const capEl = document.getElementById('scen-metric-capital');
+  const capSubEl = document.getElementById('scen-metric-capital-sub');
+  const volEl = document.getElementById('scen-metric-volume');
+  const volSubEl = document.getElementById('scen-metric-volume-sub');
+  const dailyEl = document.getElementById('scen-metric-daily');
+  const dailySubEl = document.getElementById('scen-metric-daily-sub');
+  const monthlyEl = document.getElementById('scen-metric-monthly');
+  const monthlySubEl = document.getElementById('scen-metric-monthly-sub');
+  const trapTextEl = document.getElementById('scen-trap-text');
+  const pdfLinkEl = document.getElementById('scen-pdf-link');
+
+  if (capEl) capEl.innerText = m.capital;
+  if (capSubEl) capSubEl.innerText = m.capitalSub;
+  if (volEl) volEl.innerText = m.volume;
+  if (volSubEl) volSubEl.innerText = m.volumeSub;
+  if (dailyEl) dailyEl.innerText = m.daily;
+  if (dailySubEl) dailySubEl.innerText = m.dailySub;
+  if (monthlyEl) monthlyEl.innerText = m.monthly;
+  if (monthlySubEl) monthlySubEl.innerText = m.monthlySub;
+  if (trapTextEl) trapTextEl.innerText = m.trap;
+  if (pdfLinkEl) pdfLinkEl.href = m.pdfLink;
+}
+
+function shareCurrentScenarioWhatsApp() {
+  const scen = GROUND_SCENARIOS_DATA[currentScenarioPreset];
+  if (!scen) return;
+  const m = scen.models[currentScenarioModel] || scen.models[1];
+  const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(m.shareText)}`;
+  window.open(url, '_blank');
+}
+
+// Expose window methods
+window.selectScenarioPreset = selectScenarioPreset;
+window.switchScenarioModel = switchScenarioModel;
+window.renderCurrentScenario = renderCurrentScenario;
+window.shareCurrentScenarioWhatsApp = shareCurrentScenarioWhatsApp;
