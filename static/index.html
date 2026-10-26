@@ -436,6 +436,24 @@
       display: none !important;
     }
 
+        /* iPhone 15 Super Retina XDR & Safe Area Inset Support */
+    .pt-\[env\(safe-area-inset-top\)\] {
+      padding-top: env(safe-area-inset-top, 48px) !important;
+    }
+    .pb-\[env\(safe-area-inset-bottom\)\] {
+      padding-bottom: env(safe-area-inset-bottom, 20px) !important;
+    }
+    /* Apple HIG Tap Target Rule: Minimum 44x44pt on touch devices */
+    @media (max-width: 767px) {
+      .touch-target-44, 
+      button:not(.chip-compact), 
+      select, 
+      input[type="button"], 
+      input[type="submit"] {
+        min-height: 44px;
+      }
+    }
+
     /* Print & PDF Export Optimization */
     @media print {
       body {
@@ -4854,47 +4872,47 @@
   <nav id="bottom-dock-nav" class="fixed bottom-0 inset-x-0 md:hidden border-t z-40 pb-safe-bottom pt-2 shadow-2xl" style="background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-color: var(--card-border);">
     <div class="grid grid-cols-5 h-14 w-full px-1">
       
-      <!-- Tab 1: Arbitrage & Scenarios -->
+      <!-- Tab 1: Apps (Primary Ground Scenarios & Triangulation) -->
       <button onclick="switchNativeTab('apps')" id="nav-btn-apps" class="flex flex-col items-center justify-center min-h-[44px] min-w-[44px] active:scale-95 transition-transform focus:outline-none focus:ring-0 select-none" style="color: var(--accent);">
-        <svg class="w-5 h-5 mb-1" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+        <svg class="w-5 h-5 mb-0.5" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
         </svg>
-        <span class="text-[10px] font-extrabold tracking-tight">⚡ Arbitrage</span>
+        <span class="text-[10px] font-extrabold tracking-tight">Apps</span>
       </button>
 
-      <!-- Tab 2: Intelligence & Radar -->
+      <!-- Tab 2: Agenda (Compliance, Customs & Due Diligence) -->
       <button onclick="switchNativeTab('agenda')" id="nav-btn-agenda" class="flex flex-col items-center justify-center min-h-[44px] min-w-[44px] active:scale-95 transition-transform focus:outline-none focus:ring-0 select-none" style="color: var(--text-dim);">
-        <svg class="w-5 h-5 mb-1" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        <svg class="w-5 h-5 mb-0.5" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
         </svg>
-        <span class="text-[10px] font-bold tracking-tight">🔍 Intel</span>
+        <span class="text-[10px] font-bold tracking-tight">Agenda</span>
       </button>
 
-      <!-- Tab 3: Executive Dossiers Hub -->
+      <!-- Tab 3: Scratchpad (Universal Arbitrage & Working Capital Calculator) -->
       <button onclick="switchNativeTab('scratchpad')" id="nav-btn-scratchpad" class="flex flex-col items-center justify-center min-h-[44px] min-w-[44px] active:scale-95 transition-transform focus:outline-none focus:ring-0 select-none" style="color: var(--text-dim);">
         <div class="relative">
-          <svg class="w-5 h-5 mb-1" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          <svg class="w-5 h-5 mb-0.5" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
           </svg>
           <span class="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full" style="background: var(--accent);"></span>
         </div>
-        <span class="text-[10px] font-bold tracking-tight">💼 Dossiers</span>
+        <span class="text-[10px] font-bold tracking-tight">Scratchpad</span>
       </button>
 
-      <!-- Tab 4: Markets & Maritime -->
+      <!-- Tab 4: Timer (Port Congestion, e-Way & Presentation Clocks) -->
       <button onclick="switchNativeTab('timer')" id="nav-btn-timer" class="flex flex-col items-center justify-center min-h-[44px] min-w-[44px] active:scale-95 transition-transform focus:outline-none focus:ring-0 select-none" style="color: var(--text-dim);">
-        <svg class="w-5 h-5 mb-1" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+        <svg class="w-5 h-5 mb-0.5" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
         </svg>
-        <span class="text-[10px] font-bold tracking-tight">📊 Markets</span>
+        <span class="text-[10px] font-bold tracking-tight">Timer</span>
       </button>
 
-      <!-- Tab 5: Profile & Identity -->
+      <!-- Tab 5: Profile (Identity, Dossiers & Entity Directory) -->
       <button onclick="switchNativeTab('profile')" id="nav-btn-profile" class="flex flex-col items-center justify-center min-h-[44px] min-w-[44px] active:scale-95 transition-transform focus:outline-none focus:ring-0 select-none" style="color: var(--text-dim);">
-        <svg class="w-5 h-5 mb-1" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <svg class="w-5 h-5 mb-0.5" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
         </svg>
-        <span class="text-[10px] font-bold tracking-tight">👤 Profile</span>
+        <span class="text-[10px] font-bold tracking-tight">Profile</span>
       </button>
 
     </div>

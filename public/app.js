@@ -802,10 +802,56 @@ async function handleCalculate(event) {
 }
 
 // 10. NATIVE iOS BOTTOM SHEET CONTROLLER (<768px swipeable sheet)
-function openBottomSheet(type) {
+function openBottomSheet(type, payload) {
   const sheet = document.getElementById('bottom-sheet');
   const backdrop = document.getElementById('bottom-sheet-backdrop');
   const content = document.getElementById('bottom-sheet-content');
+
+  if (type === 'scratchpad') {
+    content.innerHTML = `
+      <div class="space-y-4">
+        <div class="flex items-center justify-between border-b pb-3" style="border-color: var(--card-inner-border);">
+          <div class="flex items-center gap-2">
+            <span class="text-base">📝</span>
+            <h3 class="text-sm font-extrabold uppercase tracking-tight" style="color: var(--text-main);">Quick Scratchpad &amp; Margin Estimator</h3>
+          </div>
+          <span class="text-[9px] font-mono px-2 py-0.5 rounded-full font-bold uppercase text-emerald-500" style="background: rgba(16, 185, 129, 0.15);">Mobile Sheet</span>
+        </div>
+        <div class="space-y-3">
+          <div>
+            <label class="block text-[10px] font-bold uppercase mb-1" style="color: var(--text-dim);">Product / Consignment Name</label>
+            <input type="text" id="sheet-prod-name" value="${escapeHtml(payload?.product || 'Garments to UK')}" class="w-full p-2.5 rounded-xl border text-xs font-semibold" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);" />
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[10px] font-bold uppercase mb-1" style="color: var(--text-dim);">FOB Value (₹)</label>
+              <input type="number" id="sheet-fob" value="${payload?.fob || 2500000}" class="w-full p-2.5 rounded-xl border text-xs font-mono font-bold" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);" />
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold uppercase mb-1" style="color: var(--text-dim);">Rebate Rate %</label>
+              <input type="number" id="sheet-rebate" value="${payload?.rate || 3.9}" class="w-full p-2.5 rounded-xl border text-xs font-mono font-bold" style="background: var(--card-bg); border-color: var(--card-inner-border); color: #10B981;" />
+            </div>
+          </div>
+          <button onclick="switchNativeTab('scratchpad'); closeBottomSheet();" class="w-full py-3.5 rounded-2xl text-xs font-bold active:scale-95 transition-transform flex items-center justify-center gap-2" style="background: var(--accent); color: #ffffff;">
+            <span>Open Full Scratchpad Workspace &rarr;</span>
+          </button>
+        </div>
+      </div>
+    `;
+  } else if (type === 'preview') {
+    content.innerHTML = `
+      <div class="space-y-4">
+        <div class="flex items-center justify-between border-b pb-3" style="border-color: var(--card-inner-border);">
+          <h3 class="text-sm font-extrabold uppercase tracking-tight" style="color: var(--text-main);">${escapeHtml(payload?.title || 'Operational Preview')}</h3>
+          <span class="text-[9px] font-mono px-2 py-0.5 rounded-full font-bold uppercase" style="background: var(--accent-light); color: var(--accent);">iOS Native Sheet</span>
+        </div>
+        <p class="text-xs leading-relaxed" style="color: var(--text-muted);">${escapeHtml(payload?.desc || 'Interactive operational preview on mobile Super Retina XDR viewport.')}</p>
+        <button onclick="closeBottomSheet()" class="w-full py-3 rounded-2xl text-xs font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border: 1px solid var(--card-inner-border); color: var(--text-main);">
+          Dismiss
+        </button>
+      </div>
+    `;
+  } else 
 
   if (type === 'audit') {
     content.innerHTML = `
