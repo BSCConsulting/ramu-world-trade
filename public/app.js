@@ -530,7 +530,40 @@ async function handleSearch(event) {
     // Render Sanitized High-Contrast Markdown (XSS Hardened)
     if (data.formatted_markdown) {
       currentRawMarkdown = data.formatted_markdown;
-      outputEl.innerHTML = sanitizeHtml(renderMarkdownSafe(data.formatted_markdown));
+      let htmlContent = sanitizeHtml(renderMarkdownSafe(data.formatted_markdown));
+
+      // Executive Action Banner for Flagship Strategies
+      if (data.type === 'flagship_strategy' && data.pdf_link) {
+        const bannerHtml = `
+          <div class="mb-4 p-4 rounded-3xl border flex items-center justify-between flex-wrap gap-3 shadow-lg" style="background: var(--card-inner-bg); border-color: var(--accent);">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-[9px] font-mono uppercase font-bold text-emerald-500 px-2.5 py-0.5 rounded-full" style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3);">${data.level}</span>
+                <span class="text-[10px] font-mono font-bold" style="color: var(--accent);">SOVEREIGN STRATEGY BLUEPRINT</span>
+              </div>
+              <h3 class="text-sm sm:text-base font-extrabold mt-1" style="color: var(--text-main);">${data.title}</h3>
+              <p class="text-[11px] mt-0.5" style="color: var(--text-muted);">Authoritative 6-Pillar Statutory Blueprint • Ready for Immediate Field Operations</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <a href="${data.pdf_link}" target="_blank" class="px-4 py-2.5 rounded-xl text-xs font-extrabold text-white active:scale-95 transition-transform flex items-center gap-1.5 shadow-md" style="background: var(--accent);">
+                <span>📥 Download PDF Dossier</span>
+              </a>
+              <button type="button" onclick="shareOutputMarkdownWhatsApp()" class="px-3.5 py-2.5 rounded-xl text-xs font-bold text-white active:scale-95 transition-transform flex items-center gap-1.5 shadow-md" style="background: #25D366;">
+                <span>📲 WhatsApp</span>
+              </button>
+            </div>
+          </div>
+        `;
+        htmlContent = bannerHtml + htmlContent;
+      }
+
+      outputEl.innerHTML = htmlContent;
+
+      // Smooth scroll into view
+      setTimeout(() => {
+        const target = document.getElementById('classification-card') || outputEl;
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 150);
     }
 
     // Render OLED Optimized Chart
