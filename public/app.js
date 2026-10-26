@@ -7484,6 +7484,40 @@ const GROUND_SCENARIOS_DATA = {
         shareText: "*WORLD OF TRADE — JUNK FEE DETECTOR NOTICE* 🚨\n• Surcharges Flagged: $355 (₹30,015) in illegal local handover markups\n• Action: 1-Tap Legal Rebuttal under CBIC Circular 24/2020\n🔗 https://ramu-world-trade.vercel.app/#timer"
       }
     }
+  },
+  ev_assembly_arbitrage: {
+    title: "Scenario: Electric Cycle & E-Scooter Component Assembly",
+    code: "RULE 2(a) DEFENSE • <25 KM/H EXEMPTION",
+    btnLabels: ["Model A: E-Bicycle Pilot", "Model B: Low-Speed Scooter", "Model C: 50-Unit Assembly Hub"],
+    models: {
+      1: {
+        capital: "₹1,25,000", capitalSub: "5 Pilot E-Bikes Float",
+        volume: "5 Units", volumeSub: "250W Hub Motor Kit",
+        daily: "₹17,400", dailySub: "Per unit margin",
+        monthly: "₹87,000", monthlySub: "5-Unit Pilot Run",
+        trap: "Never import complete kits from China in one box (Customs Rule 2(a) reclassification risk). Procure Hub Motor + Controller from Shenzhen, alloy cycle frame from Ludhiana, tires from Ralco. Exempt from RTO registration (<25 km/h).",
+        pdfLink: "/ev-assembly-dossier.html",
+        shareText: "*WORLD OF TRADE — EV ASSEMBLY ARBITRAGE (MODEL A)* ⚡\n• Capital: ₹1,25,000\n• Unit Cost: ₹24,600 | Retail: ₹42,000\n• Net Margin: ₹17,400 / unit (70.7% ROI)\n• Regulatory: <25 km/h Non-RTO Exempt\n🔗 https://ramu-world-trade.vercel.app/ev-assembly-dossier.html"
+      },
+      2: {
+        capital: "₹2,65,000", capitalSub: "10 E-Scooter Assemblies",
+        volume: "10 Units", volumeSub: "Lithium 48V 20Ah",
+        daily: "₹21,500", dailySub: "Per unit margin",
+        monthly: "₹2,15,000", monthlySub: "10-Unit Batch Turnover",
+        trap: "Low-speed scooter chassis sourced from Coimbatore/Delhi. Spot-weld 18650 cells into 48V packs locally with smart BMS to save ₹6,000 battery markup. Submit ICAT Type 1 exemption test (~₹35k) once.",
+        pdfLink: "/ev-assembly-dossier.html",
+        shareText: "*WORLD OF TRADE — LOW-SPEED E-SCOOTER ASSEMBLY (MODEL B)* 🛵\n• Batch: 10 Units\n• Production Cost: ₹29,500 | Retail: ₹51,000\n• Net Profit: ₹2,15,000\n• Statutory: Type 1 Exemption (ICAT/ARAI)\n🔗 https://ramu-world-trade.vercel.app/ev-assembly-dossier.html"
+      },
+      3: {
+        capital: "₹12,30,000", capitalSub: "Workshop + 50 units",
+        volume: "50 Units/mo", volumeSub: "3 ITI Mechanics (Madhira)",
+        daily: "₹28,500", dailySub: "Daily realized net cash",
+        monthly: "₹7,50,000", monthlySub: "Net Cash (Post Overhead)",
+        trap: "Rent 1,200 sq.ft shed in Madhira/Khammam outskirts (₹10,000/mo). Employ 3 ITI diploma technicians @ ₹15k/mo. Assemble 6-8 units/day. Direct-to-consumer rural/semi-urban brand targeting delivery riders and college students.",
+        pdfLink: "/ev-assembly-dossier.html",
+        shareText: "*WORLD OF TRADE — 50-UNIT EV ASSEMBLY WORKSHOP (MODEL C)* 🏛️\n• Scale: 50 Units / Month\n• Skilled Labor: 3 ITI Technicians in Madhira\n• Gross Revenue: ₹21,00,000\n• Net Monthly Cash Profit: ₹7,50,000\n🔗 https://ramu-world-trade.vercel.app/ev-assembly-dossier.html"
+      }
+    }
   }
 };
 
