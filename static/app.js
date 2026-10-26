@@ -209,6 +209,7 @@ function switchNativeTab(tabName) {
     }
     if (navBtn) {
       navBtn.style.color = (t === tabName) ? 'var(--accent)' : 'var(--text-dim)';
+      navBtn.blur();
     }
     if (deskNavBtn) {
       if (t === tabName) {
@@ -218,6 +219,7 @@ function switchNativeTab(tabName) {
         deskNavBtn.style.background = 'transparent';
         deskNavBtn.style.color = 'var(--text-muted)';
       }
+      deskNavBtn.blur();
     }
   });
 
