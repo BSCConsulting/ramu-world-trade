@@ -443,6 +443,21 @@
     .pb-\[env\(safe-area-inset-bottom\)\] {
       padding-bottom: env(safe-area-inset-bottom, 20px) !important;
     }
+    /* Universal Badge & Tag Non-Wrapping Protection */
+    span[class*="rounded-full"], .badge, .chip {
+      white-space: nowrap !important;
+      flex-shrink: 0 !important;
+    }
+    :root {
+      --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Plus Jakarta Sans", system-ui, sans-serif;
+      --font-mono: "SF Mono", "JetBrains Mono", Menlo, Monaco, Consolas, monospace;
+    }
+    .font-mono, .mono-data {
+      font-family: var(--font-mono) !important;
+      font-feature-settings: "tnum" 1, "zero" 1 !important;
+      letter-spacing: -0.01em;
+    }
+
     /* Apple HIG Tap Target Rule: Minimum 44x44pt on touch devices */
     @media (max-width: 767px) {
       .touch-target-44, 
@@ -739,139 +754,139 @@
 </head>
 <body class="theme-kyoto-tea min-h-screen overflow-x-hidden font-sans">
 
-  <!-- TOP HEADER (Clean, Uncluttered, Clears Dynamic Island) -->
-  <header class="pt-safe-top px-4 pb-3.5 border-b sticky top-0 z-40 backdrop-blur-xl" style="background: var(--nav-bg); border-color: var(--card-border);">
-    <div class="max-w-4xl mx-auto w-full flex items-center justify-between">
-    <div class="flex items-center space-x-2.5">
-      <div class="w-9 h-9 rounded-2xl flex items-center justify-center shadow-lg active:scale-95 transition-transform" style="background: var(--accent); color: #ffffff;">
-        <svg class="w-5 h-5 font-extrabold" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-        </svg>
-      </div>
-      <div>
-        <div class="flex items-center gap-1.5">
-          <h1 class="text-base font-extrabold tracking-tight">World of Trade</h1>
-          <span class="inline-flex items-center px-1.5 py-0.2 rounded-md border text-[9px] font-bold font-mono tracking-wide uppercase" style="background: var(--accent-light); color: var(--accent); border-color: var(--accent-border);">
-            <span class="w-1.5 h-1.5 rounded-full animate-pulse mr-1" style="background: var(--accent);"></span>
-            Live
-          </span>
+  <!-- TOP HEADER (Clean, Single-Row, Never Wraps, Clears Dynamic Island) -->
+  <header class="pt-safe-top px-3 sm:px-4 py-2 sm:py-2.5 border-b sticky top-0 z-40 backdrop-blur-xl" style="background: var(--nav-bg); border-color: var(--card-border);">
+    <div class="max-w-4xl mx-auto w-full flex items-center justify-between gap-2">
+      <!-- Brand & Live Indicator (Single Line, Never Wraps) -->
+      <div class="flex items-center space-x-2 min-w-0">
+        <div class="w-8 h-8 rounded-xl flex items-center justify-center shadow-md shrink-0 active:scale-95 transition-transform" style="background: var(--accent); color: #ffffff;">
+          <svg class="w-4 h-4 font-extrabold" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
         </div>
-        <p class="text-[10px] font-medium tracking-tight" style="color: var(--text-muted);">India Statutory Commerce &bull; 100% Free</p>
+        <div class="min-w-0">
+          <div class="flex items-center gap-1.5 flex-nowrap">
+            <h1 class="text-sm sm:text-base font-extrabold tracking-tight truncate whitespace-nowrap" style="color: var(--text-main);">World of Trade</h1>
+            <span class="inline-flex items-center px-1.5 py-0.2 rounded border text-[9px] font-bold font-mono tracking-wide uppercase shrink-0" style="background: var(--accent-light); color: var(--accent); border-color: var(--accent-border);">
+              <span class="w-1.5 h-1.5 rounded-full animate-pulse mr-1" style="background: var(--accent);"></span>
+              Live
+            </span>
+          </div>
+          <p class="text-[9px] sm:text-[10px] font-medium tracking-tight truncate hidden sm:block" style="color: var(--text-muted);">India Statutory Commerce • 100% Free</p>
+        </div>
       </div>
-    </div>
 
-    <!-- Header Actions (Theme Switcher, Verified Seal, Share) -->
-    <div class="flex items-center space-x-1.5">
-      
-      <!-- REFINED EDITORIAL THEME TRIGGER PILL (Matches Screenshot) -->
-      <div class="relative">
-        <button 
-          onclick="toggleThemeDropdown(event)" 
-          id="theme-btn" 
-          title="Switch Editorial Theme" 
-          class="min-h-[44px] px-3 py-1.5 rounded-2xl border text-xs font-bold active:scale-95 transition-all flex items-center gap-1.5 shadow-sm"
-          style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);"
-        >
-          <span id="theme-btn-emoji">🌿</span>
-          <span id="theme-btn-label" class="text-[11px] font-bold">Kyoto</span>
-          <svg class="w-3 h-3 opacity-60" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+      <!-- Header Actions (Touch-Optimized & Compact for Mobile) -->
+      <div class="flex items-center space-x-1 sm:space-x-1.5 shrink-0">
+        <!-- REFINED EDITORIAL THEME TRIGGER PILL -->
+        <div class="relative">
+          <button 
+            onclick="toggleThemeDropdown(event)" 
+            id="theme-btn" 
+            title="Switch Editorial Theme" 
+            class="h-9 px-2 sm:px-2.5 rounded-xl border text-xs font-bold active:scale-95 transition-all flex items-center gap-1 shadow-sm"
+            style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);"
+          >
+            <span id="theme-btn-emoji">🌿</span>
+            <span id="theme-btn-label" class="text-[11px] font-bold hidden sm:inline">Kyoto</span>
+            <svg class="w-3 h-3 opacity-60" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+
+          <!-- REFINED EDITORIAL THEMES DROPDOWN -->
+          <div 
+            id="theme-dropdown" 
+            class="hidden absolute right-0 mt-2 w-64 rounded-3xl p-3 z-50 shadow-2xl border transition-all duration-200 transform origin-top-right scale-95 opacity-0"
+            style="background-color: var(--dropdown-bg); border-color: var(--card-border); color: var(--text-main);"
+          >
+            <div class="px-2 pt-1 pb-2">
+              <span class="text-[10px] font-extrabold uppercase tracking-widest block" style="color: var(--text-dim);">
+                REFINED EDITORIAL THEMES
+              </span>
+            </div>
+            <div class="h-px w-full my-1" style="background-color: var(--card-border);"></div>
+            
+            <div class="space-y-1 pt-1 text-xs font-medium">
+              <!-- 1. Warm Sand -->
+              <button onclick="selectTheme('warm-sand')" class="theme-option-row w-full flex items-center justify-between px-3 py-2.5 rounded-2xl active:scale-[0.98] transition-all text-left" data-theme="warm-sand">
+                <div class="flex items-center space-x-2.5">
+                  <span class="text-base">🏜️</span>
+                  <span class="theme-option-name font-semibold">Warm Sand</span>
+                </div>
+                <span class="w-3 h-3 rounded-full" style="background-color: #C25E34;"></span>
+              </button>
+
+              <!-- 2. Editorial Ivory -->
+              <button onclick="selectTheme('editorial-ivory')" class="theme-option-row w-full flex items-center justify-between px-3 py-2.5 rounded-2xl active:scale-[0.98] transition-all text-left" data-theme="editorial-ivory">
+                <div class="flex items-center space-x-2.5">
+                  <span class="text-base">📰</span>
+                  <span class="theme-option-name font-semibold">Editorial Ivory</span>
+                </div>
+                <span class="w-3 h-3 rounded-full" style="background-color: #9E2A2B;"></span>
+              </button>
+
+              <!-- 3. Oxford Alabaster -->
+              <button onclick="selectTheme('oxford-alabaster')" class="theme-option-row w-full flex items-center justify-between px-3 py-2.5 rounded-2xl active:scale-[0.98] transition-all text-left" data-theme="oxford-alabaster">
+                <div class="flex items-center space-x-2.5">
+                  <span class="text-base">🏛️</span>
+                  <span class="theme-option-name font-semibold">Oxford Alabaster</span>
+                </div>
+                <span class="w-3 h-3 rounded-full" style="background-color: #1E40AF;"></span>
+              </button>
+
+              <!-- 4. Kyoto Tea Paper -->
+              <button onclick="selectTheme('kyoto-tea')" class="theme-option-row w-full flex items-center justify-between px-3 py-2.5 rounded-2xl active:scale-[0.98] transition-all text-left active" data-theme="kyoto-tea">
+                <div class="flex items-center space-x-2.5">
+                  <span class="text-base">🌿</span>
+                  <span class="theme-option-name font-semibold">Kyoto Tea Paper</span>
+                </div>
+                <span class="w-3 h-3 rounded-full" style="background-color: #2D6A4F;"></span>
+              </button>
+
+              <!-- 5. Cashmere & Bronze -->
+              <button onclick="selectTheme('cashmere-bronze')" class="theme-option-row w-full flex items-center justify-between px-3 py-2.5 rounded-2xl active:scale-[0.98] transition-all text-left" data-theme="cashmere-bronze">
+                <div class="flex items-center space-x-2.5">
+                  <span class="text-base">☕</span>
+                  <span class="theme-option-name font-semibold">Cashmere & Bronze</span>
+                </div>
+                <span class="w-3 h-3 rounded-full" style="background-color: #9A6B38;"></span>
+              </button>
+
+              <!-- 6. Midnight OLED -->
+              <div class="h-px w-full my-1 opacity-50" style="background-color: var(--card-border);"></div>
+              <button onclick="selectTheme('midnight-oled')" class="theme-option-row w-full flex items-center justify-between px-3 py-2.5 rounded-2xl active:scale-[0.98] transition-all text-left" data-theme="midnight-oled">
+                <div class="flex items-center space-x-2.5">
+                  <span class="text-base">🌑</span>
+                  <span class="theme-option-name font-semibold">Midnight OLED</span>
+                </div>
+                <span class="w-3 h-3 rounded-full" style="background-color: #3f3f46;"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Clean Capture Action (Desktop Only) -->
+        <button onclick="toggleCleanCaptureMode()" id="btn-clean-capture" title="Toggle Clean Capture View" class="hidden md:flex h-9 px-2.5 rounded-xl border text-xs font-bold active:scale-95 transition-all items-center gap-1 shadow-sm" style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);">
+          <span class="text-xs">📷</span>
+          <span class="text-[10px] font-mono uppercase font-bold">Clean</span>
+        </button>
+
+        <!-- Share Action -->
+        <button onclick="shareOrPrintReport()" title="Export / Share Report" class="h-9 w-9 flex items-center justify-center rounded-xl border active:scale-95 transition-transform shrink-0" style="background: var(--card-bg); border-color: var(--card-border);">
+          <svg class="w-4 h-4" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
           </svg>
         </button>
 
-        <!-- REFINED EDITORIAL THEMES DROPDOWN (Exact Match to User's Uploaded Image) -->
-        <div 
-          id="theme-dropdown" 
-          class="hidden absolute right-0 mt-2 w-64 rounded-3xl p-3 z-50 shadow-2xl border transition-all duration-200 transform origin-top-right scale-95 opacity-0"
-          style="background-color: var(--dropdown-bg); border-color: var(--card-border); color: var(--text-main);"
-        >
-          <div class="px-2 pt-1 pb-2">
-            <span class="text-[10px] font-extrabold uppercase tracking-widest block" style="color: var(--text-dim);">
-              REFINED EDITORIAL THEMES
-            </span>
-          </div>
-          <div class="h-px w-full my-1" style="background-color: var(--card-border);"></div>
-          
-          <div class="space-y-1 pt-1 text-xs font-medium">
-            <!-- 1. Warm Sand -->
-            <button onclick="selectTheme('warm-sand')" class="theme-option-row w-full flex items-center justify-between px-3 py-2.5 rounded-2xl active:scale-[0.98] transition-all text-left" data-theme="warm-sand">
-              <div class="flex items-center space-x-2.5">
-                <span class="text-base">🏜️</span>
-                <span class="theme-option-name font-semibold">Warm Sand</span>
-              </div>
-              <span class="w-3 h-3 rounded-full" style="background-color: #C25E34;"></span>
-            </button>
-
-            <!-- 2. Editorial Ivory -->
-            <button onclick="selectTheme('editorial-ivory')" class="theme-option-row w-full flex items-center justify-between px-3 py-2.5 rounded-2xl active:scale-[0.98] transition-all text-left" data-theme="editorial-ivory">
-              <div class="flex items-center space-x-2.5">
-                <span class="text-base">📰</span>
-                <span class="theme-option-name font-semibold">Editorial Ivory</span>
-              </div>
-              <span class="w-3 h-3 rounded-full" style="background-color: #9E2A2B;"></span>
-            </button>
-
-            <!-- 3. Oxford Alabaster -->
-            <button onclick="selectTheme('oxford-alabaster')" class="theme-option-row w-full flex items-center justify-between px-3 py-2.5 rounded-2xl active:scale-[0.98] transition-all text-left" data-theme="oxford-alabaster">
-              <div class="flex items-center space-x-2.5">
-                <span class="text-base">🏛️</span>
-                <span class="theme-option-name font-semibold">Oxford Alabaster</span>
-              </div>
-              <span class="w-3 h-3 rounded-full" style="background-color: #1E40AF;"></span>
-            </button>
-
-            <!-- 4. Kyoto Tea Paper -->
-            <button onclick="selectTheme('kyoto-tea')" class="theme-option-row w-full flex items-center justify-between px-3 py-2.5 rounded-2xl active:scale-[0.98] transition-all text-left active" data-theme="kyoto-tea">
-              <div class="flex items-center space-x-2.5">
-                <span class="text-base">🌿</span>
-                <span class="theme-option-name font-semibold">Kyoto Tea Paper</span>
-              </div>
-              <span class="w-3 h-3 rounded-full" style="background-color: #2D6A4F;"></span>
-            </button>
-
-            <!-- 5. Cashmere & Bronze -->
-            <button onclick="selectTheme('cashmere-bronze')" class="theme-option-row w-full flex items-center justify-between px-3 py-2.5 rounded-2xl active:scale-[0.98] transition-all text-left" data-theme="cashmere-bronze">
-              <div class="flex items-center space-x-2.5">
-                <span class="text-base">☕</span>
-                <span class="theme-option-name font-semibold">Cashmere & Bronze</span>
-              </div>
-              <span class="w-3 h-3 rounded-full" style="background-color: #9A6B38;"></span>
-            </button>
-
-            <!-- 6. Midnight OLED -->
-            <div class="h-px w-full my-1 opacity-50" style="background-color: var(--card-border);"></div>
-            <button onclick="selectTheme('midnight-oled')" class="theme-option-row w-full flex items-center justify-between px-3 py-2.5 rounded-2xl active:scale-[0.98] transition-all text-left" data-theme="midnight-oled">
-              <div class="flex items-center space-x-2.5">
-                <span class="text-base">🌑</span>
-                <span class="theme-option-name font-semibold">Midnight OLED</span>
-              </div>
-              <span class="w-3 h-3 rounded-full" style="background-color: #3f3f46;"></span>
-            </button>
-          </div>
-        </div>
+        <!-- Audit Badge -->
+        <button onclick="openBottomSheet('audit')" class="h-9 px-2 sm:px-2.5 rounded-xl border text-xs font-bold active:scale-95 transition-transform flex items-center gap-1 shadow-sm shrink-0" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">
+          <svg class="w-3.5 h-3.5" width="14" height="14" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+          </svg>
+          <span class="text-[11px] font-bold">Seal</span>
+        </button>
       </div>
-
-      <!-- Clean Capture / Full View Action -->
-      <button onclick="toggleCleanCaptureMode()" id="btn-clean-capture" title="Toggle Clean Capture View (Hides Floats & Bars for Screenshots/Printing)" class="min-h-[44px] px-2.5 rounded-2xl border text-xs font-bold active:scale-95 transition-all flex items-center gap-1.5 shadow-sm" style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);">
-        <span class="text-xs">📷</span>
-        <span class="hidden sm:inline text-[10px] font-mono uppercase font-bold">Clean</span>
-      </button>
-
-      <!-- Share Action -->
-      <button onclick="shareOrPrintReport()" title="Export / Share Report" class="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-2xl border active:scale-95 transition-transform" style="background: var(--card-bg); border-color: var(--card-border);">
-        <svg class="w-4 h-4" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
-        </svg>
-      </button>
-
-      <!-- Audit Badge -->
-      <button onclick="openBottomSheet('audit')" class="min-h-[44px] px-3 rounded-2xl border text-xs font-bold active:scale-95 transition-transform flex items-center gap-1.5 shadow-sm" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">
-        <svg class="w-3.5 h-3.5" width="14" height="14" fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-        </svg>
-        <span class="hidden sm:inline">Audit</span> Seal
-      </button>
-    </div>
     </div>
   </header>
 
@@ -4436,12 +4451,12 @@
       <div id="sub-profile-pitch" class="sub-pane hidden space-y-4">
 <!-- 1-Page Exporter Diagnostic & Client Pitch Generator -->
       <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <span class="text-base">🎯</span>
-            <h2 class="text-base font-extrabold tracking-tight">1-Page Exporter Diagnostic &amp; Pitch Generator</h2>
+        <div class="flex items-start sm:items-center justify-between gap-2 flex-wrap sm:flex-nowrap">
+          <div class="flex items-center gap-1.5 min-w-0">
+            <span class="text-base shrink-0">🎯</span>
+            <h2 class="text-xs sm:text-base font-extrabold tracking-tight" style="color: var(--text-main);">1-Page Exporter Diagnostic &amp; Pitch Generator</h2>
           </div>
-          <span class="text-[10px] border px-2.5 py-0.5 rounded-full font-mono font-bold uppercase" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">Client Acquisition</span>
+          <span class="text-[9px] sm:text-[10px] border px-2 py-0.5 rounded-full font-mono font-bold uppercase whitespace-nowrap shrink-0" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">Client Pitch</span>
         </div>
         <p class="text-xs" style="color: var(--text-muted);">Generate an executive commercial diagnostic showing active exporters their unclaimed cash rebates, container dead-air waste, and SCN risks to land consulting or brokerage mandates.</p>
 
@@ -4455,7 +4470,7 @@
         </div>
 
         <!-- Target Enterprise Volume Input -->
-        <div class="grid grid-cols-2 gap-2 text-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
           <div>
             <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Target Enterprise Monthly Volume:</label>
             <div class="flex items-center gap-2">
