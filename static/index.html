@@ -322,7 +322,7 @@
       overscroll-behavior-y: contain;
     }
     .pt-safe-top {
-      padding-top: max(env(safe-area-inset-top), 50px);
+      padding-top: max(env(safe-area-inset-top, 0px), 10px);
     }
     .pb-safe-nav {
       padding-bottom: max(calc(env(safe-area-inset-bottom) + 84px), 110px);
@@ -876,7 +876,7 @@
   </header>
 
     <!-- TOP QUICK-SWITCHER PILL BAR (Effortless 1-Tap Toggle) -->
-  <div id="qj-bar-container" class="px-4 pt-1.5 pb-2 border-b backdrop-blur-xl sticky top-[57px] z-30" style="background: var(--nav-bg); border-color: var(--card-border);">
+  <div id="qj-bar-container" class="hidden md:block px-4 pt-1.5 pb-2 border-b backdrop-blur-xl sticky top-[53px] z-30" style="background: var(--nav-bg); border-color: var(--card-border);">
     <div class="max-w-4xl mx-auto w-full">
       <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar scroll-smooth py-0.5">
       <button type="button" onclick="quickJump('scenarios')" id="qj-scenarios" class="px-3 py-1.5 rounded-full text-[11px] font-extrabold active:scale-95 transition-all whitespace-nowrap shadow-sm flex items-center gap-1.5" style="background: var(--accent); color: #ffffff;">
@@ -911,7 +911,7 @@
     <!-- ==================== TAB 1: APPS (Radar & Triangulation) ==================== -->
     <section id="tab-apps" class="space-y-4">
       <!-- Tab 1 Sub-Navigation Segmented Control -->
-      <div class="sub-tab-nav flex gap-1 p-1 rounded-2xl border backdrop-blur-md overflow-x-auto no-scrollbar shadow-sm mb-3 sticky top-0 z-20" style="background: var(--card-bg); border-color: var(--card-border);">
+      <div class="sub-tab-nav flex gap-1 p-1 rounded-2xl border backdrop-blur-md overflow-x-auto no-scrollbar shadow-sm mb-3 relative z-10" style="background: var(--card-bg); border-color: var(--card-border);">
         <button type="button" onclick="switchSubTab('tab-apps', 'sub-apps-scenarios', this)" id="sub-btn-scenarios" class="sub-tab-btn flex-1 min-w-fit px-3 py-2 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: var(--accent); color: #ffffff;">⚡ Ground Scenarios</button>
         <button type="button" onclick="switchSubTab('tab-apps', 'sub-apps-macro', this)" id="sub-btn-macro" class="sub-tab-btn flex-1 min-w-fit px-3 py-2 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">🔍 Ask Intelligence</button>
         <button type="button" onclick="switchSubTab('tab-apps', 'sub-apps-arbitrage', this)" id="sub-btn-arbitrage" class="sub-tab-btn flex-1 min-w-fit px-3 py-2 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">🎯 Corridor Radar</button>
@@ -3155,7 +3155,7 @@
     <section id="tab-scratchpad" class="hidden space-y-4">
       <!-- Tab 3 Sub-Navigation Segmented Control -->
             <!-- Tab 3 Sub-Navigation Segmented Control -->
-      <div class="sub-tab-nav flex gap-1 p-1 rounded-2xl border backdrop-blur-md overflow-x-auto no-scrollbar shadow-sm mb-3 sticky top-0 z-20" style="background: var(--card-bg); border-color: var(--card-border);">
+      <div class="sub-tab-nav flex gap-1 p-1 rounded-2xl border backdrop-blur-md overflow-x-auto no-scrollbar shadow-sm mb-3 relative z-10" style="background: var(--card-bg); border-color: var(--card-border);">
         <button type="button" onclick="switchSubTab('tab-scratchpad', 'sub-scratchpad-dossiers', this)" id="sub-btn-dossiers" class="sub-tab-btn flex-1 min-w-fit px-3 py-2 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: var(--accent); color: #ffffff;">📑 11 PDF Dossiers</button>
         <button type="button" onclick="switchSubTab('tab-scratchpad', 'sub-scratchpad-cash', this)" id="sub-btn-cash" class="sub-tab-btn flex-1 min-w-fit px-3 py-2 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">💰 Cash &amp; Invoices</button>
         <button type="button" onclick="switchSubTab('tab-scratchpad', 'sub-scratchpad-consortium', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-2 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">🌾 ODOP Consortium</button>
