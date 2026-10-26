@@ -305,10 +305,23 @@
       border-radius: 12px;
       overflow: hidden;
     }
+    #markdown-output table {
+      width: 100% !important;
+      display: table !important;
+      overflow-x: auto !important;
+      font-size: 0.75rem !important;
+    }
     #markdown-output th, #markdown-output td {
-      padding: 8px 10px;
+      padding: 8px 12px;
       border: 1px solid var(--card-border);
       text-align: left;
+      font-size: 0.75rem;
+    }
+    #markdown-output th {
+      background: var(--card-inner-bg);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
     }
     #markdown-output th {
       background: var(--accent-light);
@@ -489,6 +502,14 @@
       border-color: var(--card-border) !important;
     }
     /* iOS Native Horizontal Scroll Strips with Smooth Edge Fade */
+    @media (min-width: 768px) {
+      #bottom-dock-nav {
+        display: none !important;
+      }
+      main {
+        padding-bottom: 48px !important;
+      }
+    }
     .scroll-chip-strip {
       display: flex !important;
       align-items: center !important;
@@ -625,6 +646,15 @@
         <p class="text-[10px] font-medium tracking-tight" style="color: var(--text-muted);">India Statutory Commerce &bull; 100% Free</p>
       </div>
     </div>
+
+    <!-- Center: Desktop Primary 5 Tabs (Apps, Agenda, Scratchpad, Timer, Profile) -->
+    <nav id="desktop-header-nav" class="hidden md:flex items-center gap-1 p-1 rounded-2xl border shadow-sm" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+      <button onclick="switchNativeTab('apps')" id="desk-nav-btn-apps" class="desk-nav-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all active:scale-95" style="background: var(--accent); color: #ffffff;">Apps</button>
+      <button onclick="switchNativeTab('agenda')" id="desk-nav-btn-agenda" class="desk-nav-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all active:scale-95" style="background: transparent; color: var(--text-muted);">Agenda</button>
+      <button onclick="switchNativeTab('scratchpad')" id="desk-nav-btn-scratchpad" class="desk-nav-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all active:scale-95" style="background: transparent; color: var(--text-muted);">Scratchpad</button>
+      <button onclick="switchNativeTab('timer')" id="desk-nav-btn-timer" class="desk-nav-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all active:scale-95" style="background: transparent; color: var(--text-muted);">Timer</button>
+      <button onclick="switchNativeTab('profile')" id="desk-nav-btn-profile" class="desk-nav-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all active:scale-95" style="background: transparent; color: var(--text-muted);">Profile</button>
+    </nav>
 
     <!-- Header Actions (Theme Switcher, Verified Seal, Share) -->
     <div class="flex items-center space-x-1.5">
@@ -1760,8 +1790,8 @@
         </p>
 
         <!-- Quick Commodity Preset Chips -->
-        <div class="flex items-center gap-1.5 overflow-x-auto pb-1 text-[10px]">
-          <span class="text-[9px] font-bold uppercase shrink-0" style="color: var(--text-dim);">Presets:</span>
+        <div class="scroll-chip-strip">
+          <span class="text-[10px] font-bold uppercase whitespace-nowrap flex-shrink-0 mr-1" style="color: var(--text-dim);">Presets:</span>
           <button type="button" onclick="selectTariffCommodity('85171300', 10000, 'USD')" class="px-2 py-1 rounded-lg border whitespace-nowrap font-medium hover:border-emerald-500 transition-colors" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">📱 Smartphones (37.5%)</button>
           <button type="button" onclick="selectTariffCommodity('84713010', 15000, 'USD')" class="px-2 py-1 rounded-lg border whitespace-nowrap font-medium hover:border-emerald-500 transition-colors" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">💻 Laptops (18.0%)</button>
           <button type="button" onclick="selectTariffCommodity('84798999', 50000, 'EUR')" class="px-2 py-1 rounded-lg border whitespace-nowrap font-medium hover:border-emerald-500 transition-colors" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">⚙️ Machinery (27.7%)</button>
@@ -1803,7 +1833,7 @@
         </div>
 
         <!-- 5-Layer Waterfall Results Grid -->
-        <div id="tariff-results-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2 pt-1 text-xs">
+        <div id="tariff-results-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5 pt-1 text-xs">
           <!-- Step 1: Assessable Value -->
           <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
             <div class="flex items-center justify-between">
@@ -2578,9 +2608,9 @@
           <button 
             type="submit" 
             class="w-full min-h-[44px] py-2.5 px-4 text-white font-bold text-xs rounded-xl shadow-md active:scale-95 transition-transform flex items-center justify-center space-x-1.5"
-            style="background: var(--accent);"
+            style="background: var(--accent); color: #ffffff !important;"
           >
-            <span>⚡ Compute Bank Cash Deposit</span>
+            <span style="color: #ffffff !important;">⚡ Compute Bank Cash Deposit</span>
           </button>
         </form>
       </div>
@@ -2966,7 +2996,7 @@
 
           <!-- 1-Tap Port Selector Chips -->
           <div class="scroll-chip-strip">
-            <span class="text-[9px] font-bold uppercase shrink-0" style="color: var(--text-dim);">Gateway:</span>
+            <span class="text-[10px] font-bold uppercase whitespace-nowrap flex-shrink-0 mr-1" style="color: var(--text-dim);">Gateway:</span>
             <button type="button" onclick="selectPortLogistics('INNSA1')" id="port-chip-INNSA1" class="port-radar-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">⚓ Nhava Sheva (JNPT)</button>
             <button type="button" onclick="selectPortLogistics('INMUN1')" id="port-chip-INMUN1" class="port-radar-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">⚓ Mundra (APSEZ)</button>
             <button type="button" onclick="selectPortLogistics('INMAA1')" id="port-chip-INMAA1" class="port-radar-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">⚓ Chennai (ChPT)</button>
@@ -3055,7 +3085,7 @@
               <span class="text-[9px] font-mono px-2 py-0.5 rounded-md border" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-dim);">Port Scale of Rates (SOR)</span>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5">
               <div>
                 <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Container Size:</label>
                 <select id="port-demurrage-size" onchange="runPortDemurrageCalc()" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);">
@@ -3071,13 +3101,15 @@
                 <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Days in Port CY:</label>
                 <input type="number" id="port-demurrage-days" value="12" min="1" max="60" oninput="runPortDemurrageCalc()" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
               </div>
-              <div class="p-2 rounded-xl border flex flex-col justify-center" style="background: rgba(239, 68, 68, 0.08); border-color: rgba(239, 68, 68, 0.25);">
-                <div class="flex items-center justify-between">
-                  <span class="text-[9px] uppercase font-bold text-red-500">Demurrage + GST</span>
-                  <span id="port-demurrage-chargeable-days" class="text-[9px] font-mono text-red-400">7 chargeable days</span>
+              <div class="p-2.5 rounded-xl border flex flex-col justify-between" style="background: rgba(239, 68, 68, 0.08); border-color: rgba(239, 68, 68, 0.25);">
+                <div class="flex items-center justify-between gap-1">
+                  <span class="text-[9px] uppercase font-bold text-red-500 whitespace-nowrap">Demurrage + GST</span>
+                  <span id="port-demurrage-chargeable-days" class="text-[9px] font-semibold text-red-500 whitespace-nowrap">7 chargeable days</span>
                 </div>
-                <span id="port-demurrage-total-val" class="text-sm font-extrabold font-mono text-red-500 mt-0.5">₹77,644</span>
-                <span class="text-[8px] font-mono" style="color: var(--text-muted);">Free time: 5 days</span>
+                <div class="mt-1">
+                  <span id="port-demurrage-total-val" class="text-base font-extrabold text-red-500 block">₹77,644</span>
+                  <span class="text-[9px]" style="color: var(--text-muted);">Free time: 5 days</span>
+                </div>
               </div>
             </div>
           </div>
@@ -3132,7 +3164,7 @@
 
           <!-- 1-Tap Corridor Preset Chips -->
           <div class="scroll-chip-strip">
-            <span class="text-[9px] font-bold uppercase shrink-0" style="color: var(--text-dim);">Corridors:</span>
+            <span class="text-[10px] font-bold uppercase whitespace-nowrap flex-shrink-0 mr-1" style="color: var(--text-dim);">Corridors:</span>
             <button type="button" onclick="selectConcorCorridor('tkd_jnpt')" id="concor-chip-tkd_jnpt" class="concor-corridor-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🚆 Delhi TKD ➔ JNPT (30h)</button>
             <button type="button" onclick="selectConcorCorridor('dadri_mundra')" id="concor-chip-dadri_mundra" class="concor-corridor-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🚆 Dadri ➔ Mundra (26h)</button>
             <button type="button" onclick="selectConcorCorridor('khatuwas_mundra')" id="concor-chip-khatuwas_mundra" class="concor-corridor-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🚆 Khatuwas ➔ Mundra (22h)</button>
@@ -3211,9 +3243,9 @@
               <span class="text-[9px] font-mono" style="color: var(--text-muted);">Notif 11/2017-CT(R)</span>
             </div>
             <div class="p-2.5 rounded-2xl border" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3);">
-              <div class="flex items-center justify-between">
-                <span class="text-[9px] uppercase font-bold text-[#10B981]">Total Rake Freight</span>
-                <span class="text-[9px] font-mono text-[#10B981] font-bold">All-In</span>
+              <div class="flex items-center justify-between gap-1">
+                <span class="text-[9px] uppercase font-bold text-[#10B981] whitespace-nowrap">Total Rake Freight</span>
+                <span class="text-[9px] text-[#10B981] font-bold px-1.5 py-0.5 rounded border border-[#10B981]/30 whitespace-nowrap flex-shrink-0">All-In</span>
               </div>
               <span id="concor-res-grand-total" class="text-base font-extrabold font-mono block mt-1 text-[#10B981]">₹76,125</span>
               <span class="text-[9px] font-mono" style="color: var(--text-muted);">Ex-ICD to Port Hook</span>
@@ -3788,7 +3820,7 @@
   </div>
 
   <!-- ==================== FIXED 5-TAB BOTTOM NAVIGATION BAR (Thumb Zone) ==================== -->
-  <nav id="bottom-dock-nav" class="fixed bottom-0 inset-x-0 border-t z-40 pb-safe-bottom pt-2" style="background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-color: var(--card-border);">
+  <nav id="bottom-dock-nav" class="fixed bottom-0 inset-x-0 border-t z-40 pb-safe-bottom pt-2 md:hidden" style="background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-color: var(--card-border);">
     <div class="grid grid-cols-5 h-14 max-w-md mx-auto px-1">
       
       <!-- Tab 1: Apps -->

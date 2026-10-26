@@ -199,13 +199,24 @@ function switchNativeTab(tabName) {
   tabs.forEach(t => {
     const section = document.getElementById(`tab-${t}`);
     const navBtn = document.getElementById(`nav-btn-${t}`);
-    if (section && navBtn) {
+    const deskNavBtn = document.getElementById(`desk-nav-btn-${t}`);
+    if (section) {
       if (t === tabName) {
         section.classList.remove('hidden');
-        navBtn.style.color = 'var(--accent)';
       } else {
         section.classList.add('hidden');
-        navBtn.style.color = 'var(--text-dim)';
+      }
+    }
+    if (navBtn) {
+      navBtn.style.color = (t === tabName) ? 'var(--accent)' : 'var(--text-dim)';
+    }
+    if (deskNavBtn) {
+      if (t === tabName) {
+        deskNavBtn.style.background = 'var(--accent)';
+        deskNavBtn.style.color = '#ffffff';
+      } else {
+        deskNavBtn.style.background = 'transparent';
+        deskNavBtn.style.color = 'var(--text-muted)';
       }
     }
   });
