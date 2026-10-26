@@ -438,7 +438,7 @@
        ============================================================ */
     :root {
       --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Plus Jakarta Sans", system-ui, sans-serif;
-      --font-mono: "SF Mono", "JetBrains Mono", ui-monospace, Menlo, Monaco, Consolas, monospace;
+      --font-mono: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Plus Jakarta Sans", system-ui, sans-serif;
     }
     html, body {
       max-width: 100vw;
@@ -455,18 +455,29 @@
       -moz-osx-font-smoothing: grayscale;
       box-sizing: border-box;
     }
-    .font-mono, code, pre, .mono-data {
-      font-family: var(--font-mono) !important;
-      font-feature-settings: "tnum" 1, "zero" 1;
+    .font-mono, .mono-data {
+      font-family: var(--font-sans) !important;
+      font-feature-settings: "tnum" 1, "zero" 1 !important;
+      letter-spacing: -0.01em;
+    }
+    pre, code, kbd, samp {
+      font-family: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace !important;
     }
     main {
       max-width: 100vw !important;
       width: 100% !important;
       overflow-x: hidden !important;
       box-sizing: border-box !important;
-      padding-bottom: max(calc(env(safe-area-inset-bottom) + 84px), 110px) !important;
+      padding-bottom: max(calc(env(safe-area-inset-bottom) + 160px), 190px) !important;
     }
-    .glass-panel, .glass-card, .sub-pane {
+    main > section, .sub-pane, #tab-apps, #tab-agenda, #tab-scratchpad, #tab-timer, #tab-profile {
+      max-width: 52rem !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+    .glass-panel, .glass-card {
       max-width: 100% !important;
       box-sizing: border-box !important;
       overflow: hidden !important;
@@ -504,8 +515,9 @@
       max-width: 100% !important;
       width: 100% !important;
       box-sizing: border-box !important;
-      -webkit-mask-image: linear-gradient(to right, black calc(100% - 16px), transparent 100%);
-      mask-image: linear-gradient(to right, black calc(100% - 16px), transparent 100%);
+      background: var(--card-bg) !important;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06) !important;
+      border: 1px solid var(--card-border) !important;
     }
     .overflow-x-auto {
       overflow-x: auto !important;
@@ -577,7 +589,7 @@
     .font-semibold { font-weight: 600; }
     .font-bold { font-weight: 700; }
     .font-extrabold { font-weight: 800; }
-    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .font-mono { font-family: var(--font-sans) !important; font-feature-settings: 'tnum' 1, 'zero' 1 !important; }
     .fixed { position: fixed; }
     .sticky { position: sticky; }
     .relative { position: relative; }
@@ -594,7 +606,8 @@
 <body class="theme-kyoto-tea h-full overflow-x-hidden flex flex-col font-sans">
 
   <!-- TOP HEADER (Clean, Uncluttered, Clears Dynamic Island) -->
-  <header class="pt-safe-top px-4 pb-3.5 border-b sticky top-0 z-40 flex items-center justify-between">
+  <header class="pt-safe-top px-4 pb-3.5 border-b sticky top-0 z-40 backdrop-blur-xl" style="background: var(--nav-bg); border-color: var(--card-border);">
+    <div class="max-w-4xl mx-auto w-full flex items-center justify-between">
     <div class="flex items-center space-x-2.5">
       <div class="w-9 h-9 rounded-2xl flex items-center justify-center shadow-lg active:scale-95 transition-transform" style="background: var(--accent); color: #ffffff;">
         <svg class="w-5 h-5 font-extrabold" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -719,6 +732,7 @@
         <span class="hidden sm:inline">Audit</span> Seal
       </button>
     </div>
+    </div>
   </header>
 
   <!-- MAIN SCROLLABLE CONTENT (Safe Bottom Area for 5-Tab Bar) -->
@@ -727,7 +741,7 @@
     <!-- ==================== TAB 1: APPS (Radar & Triangulation) ==================== -->
     <section id="tab-apps" class="space-y-4">
       <!-- Tab 1 Sub-Navigation Segmented Control -->
-      <div class="sub-tab-nav sticky top-0 z-30 flex gap-1 p-1 rounded-2xl border backdrop-blur-md overflow-x-auto no-scrollbar shadow-sm" style="background: var(--card-bg); border-color: var(--card-border);">
+      <div class="sub-tab-nav flex gap-1 p-1 rounded-2xl border backdrop-blur-md overflow-x-auto no-scrollbar shadow-sm mb-3" style="background: var(--card-bg); border-color: var(--card-border);">
         <button type="button" onclick="switchSubTab('tab-apps', 'sub-apps-macro', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: var(--accent); color: #ffffff;">📊 Macro &amp; Search</button>
         <button type="button" onclick="switchSubTab('tab-apps', 'sub-apps-arbitrage', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">🎯 Arbitrage Radar</button>
       </div>
@@ -1345,13 +1359,14 @@
         </div>
       </div>
 
+      <div class="h-16 w-full" aria-hidden="true"></div>
       </div>
     </section>
 
     <!-- ==================== TAB 2: AGENDA (Operating Timetable) ==================== -->
     <section id="tab-agenda" class="hidden space-y-4">
       <!-- Tab 2 Sub-Navigation Segmented Control -->
-      <div class="sub-tab-nav sticky top-0 z-30 flex gap-1 p-1 rounded-2xl border backdrop-blur-md overflow-x-auto no-scrollbar shadow-sm" style="background: var(--card-bg); border-color: var(--card-border);">
+      <div class="sub-tab-nav flex gap-1 p-1 rounded-2xl border backdrop-blur-md overflow-x-auto no-scrollbar shadow-sm mb-3" style="background: var(--card-bg); border-color: var(--card-border);">
         <button type="button" onclick="switchSubTab('tab-agenda', 'sub-agenda-forex', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: var(--accent); color: #ffffff;">⏱️ Agenda &amp; Forex</button>
         <button type="button" onclick="switchSubTab('tab-agenda', 'sub-agenda-risk', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">🛡️ Due Diligence</button>
         <button type="button" onclick="switchSubTab('tab-agenda', 'sub-agenda-dispute', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">⚖️ Customs &amp; SCN</button>
@@ -1553,7 +1568,7 @@
         <div id="icegate-view-solver" class="space-y-2.5">
           <p class="text-[11px]" style="color: var(--text-muted);">Quick-resolve shipping bill rejections, scroll holds, and bank PFMS name mismatch errors:</p>
           
-          <div class="flex overflow-x-auto space-x-1.5 pb-1 ios-scroll no-scrollbar text-[10px]">
+          <div class="scroll-chip-strip">
             <button id="icegate-chip-SB001" onclick="decodeIcegateError('SB001')" class="icegate-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">SB001 (PAN Mismatch)</button>
             <button id="icegate-chip-SB002" onclick="decodeIcegateError('SB002')" class="icegate-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">SB002 (Bank PFMS)</button>
             <button id="icegate-chip-SB003" onclick="decodeIcegateError('SB003')" class="icegate-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">SB003 (GSTR-1 6A)</button>
@@ -1596,11 +1611,11 @@
             </div>
             <div>
               <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Document Number:</label>
-              <input type="text" id="icegate-track-num" value="7492104" placeholder="e.g. 7492104" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);" />
+              <input type="text" id="icegate-track-num" value="7492104" placeholder="e.g. 7492104" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);" />
             </div>
             <div>
               <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Customs Port:</label>
-              <select id="icegate-track-port" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+              <select id="icegate-track-port" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
                 <option value="INNSA1" selected>INNSA1 — Nhava Sheva (JNPT)</option>
                 <option value="INMUN1">INMUN1 — Mundra Port (APSEZ)</option>
                 <option value="INMAA1">INMAA1 — Chennai Seaport</option>
@@ -1653,29 +1668,29 @@
         </div>
 
         <!-- Quick Commodity Selectors -->
-        <div class="flex overflow-x-auto space-x-1.5 pb-1 ios-scroll no-scrollbar text-[10px]">
-          <button id="dgft-chip-61091000" onclick="selectDgftCommodity('61091000', 2500000, 5000)" class="dgft-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">👕 Cotton Garments (3.9% RoSCTL)</button>
-          <button id="dgft-chip-03061720" onclick="selectDgftCommodity('03061720', 3000000, 2000)" class="dgft-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">🦐 Marine Shrimp (2.5%)</button>
-          <button id="dgft-chip-09103020" onclick="selectDgftCommodity('09103020', 1500000, 4000)" class="dgft-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">🌶️ Spices & Turmeric (1.5%)</button>
-          <button id="dgft-chip-73181500" onclick="selectDgftCommodity('73181500', 2000000, 3000)" class="dgft-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">🔩 Steel Fasteners (1.4%)</button>
-          <button id="dgft-chip-74181022" onclick="selectDgftCommodity('74181022', 1200000, 800)" class="dgft-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">🏺 Brass Artware (2.0%)</button>
-          <button id="dgft-chip-64039190" onclick="selectDgftCommodity('64039190', 1800000, 1000)" class="dgft-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">👞 Leather Footwear (3.0%)</button>
-          <button id="dgft-chip-85171300" onclick="selectDgftCommodity('85171300', 5000000, 250)" class="dgft-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border font-mono font-bold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">📱 Mobile / PCBs (0.8%)</button>
+        <div class="scroll-chip-strip">
+          <button id="dgft-chip-61091000" onclick="selectDgftCommodity('61091000', 2500000, 5000)" class="dgft-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-transform" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">👕 Cotton Garments (3.9% RoSCTL)</button>
+          <button id="dgft-chip-03061720" onclick="selectDgftCommodity('03061720', 3000000, 2000)" class="dgft-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">🦐 Marine Shrimp (2.5%)</button>
+          <button id="dgft-chip-09103020" onclick="selectDgftCommodity('09103020', 1500000, 4000)" class="dgft-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">🌶️ Spices &amp; Turmeric (1.5%)</button>
+          <button id="dgft-chip-73181500" onclick="selectDgftCommodity('73181500', 2000000, 3000)" class="dgft-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">🔩 Steel Fasteners (1.4%)</button>
+          <button id="dgft-chip-74181022" onclick="selectDgftCommodity('74181022', 1200000, 800)" class="dgft-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">🏺 Brass Artware (2.0%)</button>
+          <button id="dgft-chip-64039190" onclick="selectDgftCommodity('64039190', 1800000, 1000)" class="dgft-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">👞 Leather Footwear (3.0%)</button>
+          <button id="dgft-chip-85171300" onclick="selectDgftCommodity('85171300', 5000000, 250)" class="dgft-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-transform" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">📱 Mobile / PCBs (0.8%)</button>
         </div>
 
         <!-- Calculator Inputs -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
           <div>
             <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">FOB Export Value (₹):</label>
-            <input type="number" id="dgft-calc-value" value="2500000" oninput="runDgftCalculation()" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);" />
+            <input type="number" id="dgft-calc-value" value="2500000" oninput="runDgftCalculation()" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);" />
           </div>
           <div>
             <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">ITC(HS) Tariff Code:</label>
-            <input type="text" id="dgft-calc-hs" value="61091000" onchange="runDgftCalculation()" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);" />
+            <input type="text" id="dgft-calc-hs" value="61091000" onchange="runDgftCalculation()" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);" />
           </div>
           <div>
             <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Consignment Quantity (Units):</label>
-            <input type="number" id="dgft-calc-qty" value="5000" oninput="runDgftCalculation()" placeholder="Optional unit cap check" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);" />
+            <input type="number" id="dgft-calc-qty" value="5000" oninput="runDgftCalculation()" placeholder="Optional unit cap check" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);" />
           </div>
         </div>
 
@@ -1687,7 +1702,7 @@
               <span id="dgft-res-scheme" class="text-[9px] font-mono font-bold" style="color: var(--accent);">RoSCTL</span>
             </div>
             <span id="dgft-res-scrip" class="text-base font-extrabold font-mono block mt-1" style="color: var(--accent);">₹97,500</span>
-            <span id="dgft-res-scrip-pct" class="text-[10px] font-mono" style="color: var(--text-muted);">3.9% rebate rate</span>
+            <span id="dgft-res-scrip-pct" class="text-[10px] font-medium" style="color: var(--text-muted);">3.9% rebate rate</span>
           </div>
 
           <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
@@ -1696,7 +1711,7 @@
               <span class="text-[9px] font-mono font-bold text-emerald-500">AIR DBK</span>
             </div>
             <span id="dgft-res-drawback" class="text-base font-extrabold font-mono block mt-1 text-emerald-500">₹80,000</span>
-            <span id="dgft-res-drawback-pct" class="text-[10px] font-mono" style="color: var(--text-muted);">3.2% bank credit</span>
+            <span id="dgft-res-drawback-pct" class="text-[10px] font-medium" style="color: var(--text-muted);">3.2% bank credit</span>
           </div>
 
           <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
@@ -1705,7 +1720,7 @@
               <span class="text-[9px] font-mono font-bold text-blue-500">IES (3%)</span>
             </div>
             <span id="dgft-res-subvention" class="text-base font-extrabold font-mono block mt-1 text-blue-500">₹18,493</span>
-            <span class="text-[10px] font-mono" style="color: var(--text-muted);">90-day PCFC subvention</span>
+            <span class="text-[10px] font-medium" style="color: var(--text-muted);">90-day PCFC subvention</span>
           </div>
 
           <div class="p-2.5 rounded-2xl border" style="background: var(--accent-light); border-color: var(--accent-border);">
@@ -1714,7 +1729,7 @@
               <span id="dgft-res-effective-pct" class="text-[9px] font-mono font-bold" style="color: var(--accent);">7.77%</span>
             </div>
             <span id="dgft-res-total-cash" class="text-base font-extrabold font-mono block mt-1" style="color: var(--accent);">₹1,94,238</span>
-            <span class="text-[10px] font-mono" style="color: var(--text-muted);">After 1.8% scrip discount</span>
+            <span class="text-[10px] font-medium" style="color: var(--text-muted);">After 1.8% scrip discount</span>
           </div>
         </div>
 
@@ -1722,7 +1737,7 @@
         <div id="dgft-advisory-box" class="p-3 rounded-2xl border space-y-1.5 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
           <div class="flex items-center justify-between">
             <span id="dgft-advisory-commodity" class="font-bold text-[11px]" style="color: var(--text-main);">Knitted Cotton T-Shirts & Ready-Made Garments (ITC-HS 6109.10.00)</span>
-            <span id="dgft-advisory-cluster" class="text-[9px] font-mono" style="color: var(--text-dim);">Tirupur (TN) / Surat (GJ)</span>
+            <span id="dgft-advisory-cluster" class="text-[10px] font-medium" style="color: var(--text-muted);">Tirupur (TN) / Surat (GJ)</span>
           </div>
           <p id="dgft-advisory-notice" class="text-[10px] leading-relaxed" style="color: var(--text-muted);">
             Statutory Basis: MoT Gazette Notification No. 12015/11/2020-T&A &bull; Claim electronic scrip under Scheme Code 'ROSCTL' in Shipping Bill before LEO.
@@ -1760,11 +1775,11 @@
         <div class="grid grid-cols-1 md:grid-cols-4 gap-2 text-xs">
           <div>
             <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">CIF Consignment Value:</label>
-            <input type="number" id="tariff-cif-val" value="10000" step="100" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+            <input type="number" id="tariff-cif-val" value="10000" step="100" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
           </div>
           <div>
             <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Invoice Currency:</label>
-            <select id="tariff-currency" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);">
+            <select id="tariff-currency" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);">
               <option value="USD" selected>USD (US Dollar)</option>
               <option value="EUR">EUR (Euro)</option>
               <option value="GBP">GBP (British Pound)</option>
@@ -1777,7 +1792,7 @@
           </div>
           <div>
             <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">ITC-HS Code / Commodity:</label>
-            <input type="text" id="tariff-hs-input" value="85171300" placeholder="e.g. 85171300 or Smartphones" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+            <input type="text" id="tariff-hs-input" value="85171300" placeholder="e.g. 85171300 or Smartphones" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
           </div>
           <div class="flex items-end">
             <button type="button" onclick="runTariffCalculation()" class="w-full py-2.5 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md text-white bg-emerald-600 hover:bg-emerald-700">
@@ -1885,7 +1900,7 @@
         <p class="text-[11px]" style="color: var(--text-muted);">Audit WTO Bound vs Applied Tariff Overhang ('water in the tariff'), calculate Anti-Dumping Duties under the Lesser Duty Rule (Customs Tariff Act Sec 9A), and monitor active trade remedy disputes.</p>
 
         <!-- Scheduled Tariff Line Chips -->
-        <div class="flex gap-1 overflow-x-auto pb-1 text-[10px] font-bold no-scrollbar">
+        <div class="scroll-chip-strip">
           <button type="button" onclick="selectWtoCommodity('854143')" id="wto-chip-854143" class="wto-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">☀️ Solar Cells (Disputed Bound 0%)</button>
           <button type="button" onclick="selectWtoCommodity('721933')" id="wto-chip-721933" class="wto-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">⚙️ Stainless Steel (ADD $300/MT)</button>
           <button type="button" onclick="selectWtoCommodity('390410')" id="wto-chip-390410" class="wto-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🧪 PVC Resin (ADD $110/MT)</button>
@@ -1955,7 +1970,7 @@
         <p class="text-[11px]" style="color: var(--text-muted);">Model FTA preferential tariffs, calculate Regional Value Content (RVC/Value Addition), verify Change in Tariff Classification (CTC), and audit compliance under CBIC CAROTAR 2020 (Customs Act Sec 28DA).</p>
 
         <!-- One-Tap FTA / RoO Commodity Presets -->
-        <div class="flex space-x-1.5 overflow-x-auto pb-1 text-[11px] font-mono no-scrollbar">
+        <div class="scroll-chip-strip">
           <button type="button" onclick="selectMacmapProduct('711319')" id="macmap-chip-711319" class="macmap-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">💎 UAE CEPA: Gold Jewellery (3% VA)</button>
           <button type="button" onclick="selectMacmapProduct('610910')" id="macmap-chip-610910" class="macmap-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">👕 Aus ECTA: Cotton Apparel (35% RVC)</button>
           <button type="button" onclick="selectMacmapProduct('870829')" id="macmap-chip-870829" class="macmap-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">⚙️ ASEAN AIFTA: Auto Parts (5% Duty)</button>
@@ -2054,7 +2069,7 @@
             <span class="text-[10px] font-bold uppercase tracking-wider" style="color: var(--text-dim);">Top Buyer Export Destinations:</span>
             <span id="ecgc-tenor-badge" class="text-[9px] font-mono font-bold text-emerald-500">Max Tenor: 180 Days</span>
           </div>
-          <div class="flex gap-1.5 overflow-x-auto pb-1 text-xs no-scrollbar">
+          <div class="scroll-chip-strip">
             <button type="button" onclick="selectEcgcCountry('USA')" id="ecgc-chip-USA" class="ecgc-country-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🇺🇸 USA (A1)</button>
             <button type="button" onclick="selectEcgcCountry('ARE')" id="ecgc-chip-ARE" class="ecgc-country-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇦🇪 UAE (A1)</button>
             <button type="button" onclick="selectEcgcCountry('DEU')" id="ecgc-chip-DEU" class="ecgc-country-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇩🇪 Germany (A1)</button>
@@ -2182,7 +2197,7 @@
             </div>
           </div>
 
-          <div class="flex gap-1.5 overflow-x-auto pb-1 text-[11px] font-bold no-scrollbar">
+          <div class="scroll-chip-strip">
             <button type="button" onclick="selectTradeFinancePreset('us_msme_lc_90d')" id="tf-preset-us_msme_lc_90d" class="tf-preset-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🇺🇸 US Buyer $100k (90d Usance, MSME)</button>
             <button type="button" onclick="selectTradeFinancePreset('eu_factoring_60d')" id="tf-preset-eu_factoring_60d" class="tf-preset-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇪🇺 EU Buyer €75k (60d Factoring 85%)</button>
             <button type="button" onclick="selectTradeFinancePreset('uae_merchant_lc_45d')" id="tf-preset-uae_merchant_lc_45d" class="tf-preset-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇦🇪 UAE Buyer ₹50L (45d DA, Merchant)</button>
@@ -2300,7 +2315,7 @@
           </div>
           <div>
             <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Commission Fee (% on FOB):</label>
-            <input type="number" id="legal-commission-pct" value="2.5" step="0.1" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" />
+            <input type="number" id="legal-commission-pct" value="2.5" step="0.1" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" />
           </div>
         </div>
 
@@ -2445,7 +2460,7 @@
           <p class="text-[11px]" style="color: var(--text-muted);">Deconstruct the structural monopoly doctrines of history's greatest commercial empires, diagnose where SME exporters lack, and execute the ground leap.</p>
 
           <!-- Titan Selector Pills -->
-          <div class="flex gap-1.5 overflow-x-auto pb-1 text-[11px] font-bold no-scrollbar">
+        <div class="scroll-chip-strip">
             <button type="button" onclick="selectTitan('rockefeller')" id="titan-btn-rockefeller" class="titan-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">Standard Oil (Rockefeller)</button>
             <button type="button" onclick="selectTitan('buffett')" id="titan-btn-buffett" class="titan-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">Berkshire (Buffett)</button>
             <button type="button" onclick="selectTitan('ambani')" id="titan-btn-ambani" class="titan-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">Reliance (Ambani)</button>
@@ -2488,13 +2503,14 @@
             </button>
           </div>
         </div>
+      <div class="h-16 w-full" aria-hidden="true"></div>
       </div>
     </section>
 
     <!-- ==================== TAB 3: SCRATCHPAD (10x Export Cash Calculator) ==================== -->
     <section id="tab-scratchpad" class="hidden space-y-4">
       <!-- Tab 3 Sub-Navigation Segmented Control -->
-      <div class="sub-tab-nav sticky top-0 z-30 flex gap-1 p-1 rounded-2xl border backdrop-blur-md overflow-x-auto no-scrollbar shadow-sm" style="background: var(--card-bg); border-color: var(--card-border);">
+      <div class="sub-tab-nav flex gap-1 p-1 rounded-2xl border backdrop-blur-md overflow-x-auto no-scrollbar shadow-sm mb-3" style="background: var(--card-bg); border-color: var(--card-border);">
         <button type="button" onclick="switchSubTab('tab-scratchpad', 'sub-scratchpad-cash', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: var(--accent); color: #ffffff;">💰 Cash &amp; Invoices</button>
         <button type="button" onclick="switchSubTab('tab-scratchpad', 'sub-scratchpad-consortium', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">🌾 ODOP Consortium</button>
         <button type="button" onclick="switchSubTab('tab-scratchpad', 'sub-scratchpad-cbm', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">📦 Container Stuffing</button>
@@ -2513,7 +2529,7 @@
         <form onsubmit="handleCalculate(event)" class="space-y-3 pt-1">
           <div>
             <label class="block text-[11px] font-bold mb-1.5 uppercase tracking-wide" style="color: var(--text-muted);">Export Commodity Sector:</label>
-            <select id="calc-product" class="w-full border rounded-2xl px-3.5 py-3.5 text-xs focus:outline-none min-h-[48px]">
+            <select id="calc-product" class="w-full border rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[44px]">
               <option value="cotton shirts and readymade garments">Cotton T-Shirts & Garments (HS 6109)</option>
               <option value="frozen vannamei shrimp and seafood">Frozen Shrimp & Marine Seafood (HS 0306)</option>
               <option value="turmeric powder and packaged spices">Turmeric Powder & Spices (HS 0910)</option>
@@ -2533,12 +2549,12 @@
                 id="calc-quantity" 
                 placeholder="e.g. 10000" 
                 value="10000" 
-                class="w-full border rounded-2xl px-3.5 py-3.5 text-xs focus:outline-none min-h-[48px] font-mono"
+                class="w-full border rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[44px]"
               />
             </div>
             <div>
               <label class="block text-[11px] font-bold mb-1.5 uppercase tracking-wide" style="color: var(--text-muted);">Unit of Measurement:</label>
-              <select id="calc-unit" class="w-full border rounded-2xl px-3 py-3.5 text-xs focus:outline-none min-h-[48px]">
+              <select id="calc-unit" class="w-full border rounded-xl px-3 py-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[44px]">
                 <option value="pcs">Pieces (pcs)</option>
                 <option value="kg">Kilograms (kg)</option>
                 <option value="pair">Pairs</option>
@@ -2555,13 +2571,13 @@
               id="calc-amount" 
               placeholder="e.g. 50000 USD, 20 Lakhs, or 200k AED" 
               value="50000 USD" 
-              class="w-full border rounded-2xl px-4 py-3.5 text-sm focus:outline-none min-h-[48px] font-mono"
+              class="w-full border rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[44px]"
             />
           </div>
 
           <button 
             type="submit" 
-            class="w-full min-h-[48px] py-3.5 text-white font-extrabold text-xs rounded-2xl shadow-lg active:scale-95 transition-transform flex items-center justify-center space-x-1.5"
+            class="w-full min-h-[44px] py-2.5 px-4 text-white font-bold text-xs rounded-xl shadow-md active:scale-95 transition-transform flex items-center justify-center space-x-1.5"
             style="background: var(--accent);"
           >
             <span>⚡ Compute Bank Cash Deposit</span>
@@ -2585,19 +2601,19 @@
           <div class="glass-card rounded-2xl p-4 space-y-1">
             <div class="flex items-center justify-between">
               <span id="card-scheme-type" class="text-[10px] uppercase font-bold tracking-wider" style="color: var(--text-dim);">RoSCTL Scrip</span>
-              <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded" style="background: var(--accent-light); color: var(--accent);">Duty Scrip</span>
+              <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase" style="background: var(--accent-light); color: var(--accent);">Duty Scrip</span>
             </div>
             <span id="card-rodtep" class="text-xl font-extrabold font-mono block" style="color: var(--accent);">₹0</span>
-            <span id="card-rodtep-pct" class="text-[10px] font-mono" style="color: var(--text-muted);">3.9% rebate</span>
+            <span id="card-rodtep-pct" class="text-[10px] font-medium" style="color: var(--text-muted);">3.9% rebate</span>
           </div>
 
           <div class="glass-card rounded-2xl p-4 space-y-1">
             <div class="flex items-center justify-between">
               <span class="text-[10px] uppercase font-bold tracking-wider" style="color: var(--text-dim);">Duty Drawback</span>
-              <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">Bank Cash</span>
+              <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">Bank Cash</span>
             </div>
             <span id="card-drawback" class="text-xl font-extrabold font-mono block" style="color: var(--accent);">₹0</span>
-            <span id="card-drawback-pct" class="text-[10px] font-mono" style="color: var(--text-muted);">3.2% scroll</span>
+            <span id="card-drawback-pct" class="text-[10px] font-medium" style="color: var(--text-muted);">3.2% scroll</span>
           </div>
         </div>
 
@@ -2605,7 +2621,7 @@
         <div class="glass-card rounded-3xl p-5 shadow-2xl space-y-2 relative overflow-hidden" style="border: 2px solid var(--accent-border) !important;">
           <div class="flex items-center justify-between">
             <span class="text-[11px] uppercase font-extrabold tracking-wider" style="color: var(--accent);">Total Statutory Cash Liquidity</span>
-            <span id="card-margin-boost" class="px-2.5 py-0.5 rounded-full border font-extrabold font-mono text-[10px]" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">+7.1% Margin Boost</span>
+            <span id="card-margin-boost" class="px-2.5 py-0.5 rounded-full border font-bold text-[10px]" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">+7.1% Margin Boost</span>
           </div>
           <span id="card-total-cash" class="text-3xl font-black font-mono tracking-tight block">₹0</span>
           
@@ -2680,7 +2696,7 @@
         <p class="text-xs" style="color: var(--text-muted);">Aggregate 10-100 micro-producers into export-grade container batches with pre-shipment NABL testing, QR batch traceability, and working capital float.</p>
 
         <!-- Cluster Selector Pills -->
-        <div class="flex gap-1.5 overflow-x-auto pb-1 text-[11px] font-bold no-scrollbar">
+        <div class="scroll-chip-strip">
           <button type="button" onclick="selectConsortiumCluster('guntur_chilli')" id="cluster-btn-guntur_chilli" class="cluster-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🌶️ Guntur Chilli (AP)</button>
           <button type="button" onclick="selectConsortiumCluster('tirupur_garments')" id="cluster-btn-tirupur_garments" class="cluster-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">👕 Tirupur Garments (TN)</button>
           <button type="button" onclick="selectConsortiumCluster('moradabad_brass')" id="cluster-btn-moradabad_brass" class="cluster-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🏺 Moradabad Brass (UP)</button>
@@ -2701,15 +2717,15 @@
         <div class="grid grid-cols-3 gap-2 text-xs">
           <div>
             <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">No. of Producers:</label>
-            <input type="number" id="csm-producer-count" value="50" oninput="calculateConsortiumAggregation()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" />
+            <input type="number" id="csm-producer-count" value="50" oninput="calculateConsortiumAggregation()" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" />
           </div>
           <div>
             <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Lot/Producer (<span id="csm-unit-label-1">kg</span>):</label>
-            <input type="number" id="csm-lot-size" value="280" oninput="calculateConsortiumAggregation()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" />
+            <input type="number" id="csm-lot-size" value="280" oninput="calculateConsortiumAggregation()" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" />
           </div>
           <div>
             <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Farmgate Rate (₹):</label>
-            <input type="number" id="csm-farmgate-rate" value="180" oninput="calculateConsortiumAggregation()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" />
+            <input type="number" id="csm-farmgate-rate" value="180" oninput="calculateConsortiumAggregation()" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" />
           </div>
         </div>
 
@@ -2785,26 +2801,26 @@
         <div class="grid grid-cols-3 gap-2 text-xs">
           <div>
             <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Length (cm):</label>
-            <input type="number" id="cbm-len" value="50" oninput="calculateContainerStuffing()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" />
+            <input type="number" id="cbm-len" value="50" oninput="calculateContainerStuffing()" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" />
           </div>
           <div>
             <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Width (cm):</label>
-            <input type="number" id="cbm-width" value="40" oninput="calculateContainerStuffing()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" />
+            <input type="number" id="cbm-width" value="40" oninput="calculateContainerStuffing()" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" />
           </div>
           <div>
             <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Height (cm):</label>
-            <input type="number" id="cbm-height" value="30" oninput="calculateContainerStuffing()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" />
+            <input type="number" id="cbm-height" value="30" oninput="calculateContainerStuffing()" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" />
           </div>
         </div>
 
         <div class="grid grid-cols-2 gap-2 text-xs">
           <div>
             <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Gross Weight / Box (kg):</label>
-            <input type="number" id="cbm-box-wt" value="18" oninput="calculateContainerStuffing()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" />
+            <input type="number" id="cbm-box-wt" value="18" oninput="calculateContainerStuffing()" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" />
           </div>
           <div>
             <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Consignment Cartons:</label>
-            <input type="number" id="cbm-box-qty" value="450" oninput="calculateContainerStuffing()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" />
+            <input type="number" id="cbm-box-qty" value="450" oninput="calculateContainerStuffing()" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" />
           </div>
         </div>
 
@@ -2830,6 +2846,7 @@
           <span class="px-2 py-0.5 rounded-full text-[9px] font-bold font-mono" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">Optimal Pack</span>
         </div>
       </div>
+      <div class="h-16 w-full" aria-hidden="true"></div>
       </div>
     </section>
 
@@ -2868,23 +2885,23 @@
           </div>
 
           <!-- Corridor Quick-Select Chips -->
-          <div class="flex gap-1 overflow-x-auto pb-1 text-[10px] font-bold no-scrollbar">
-            <button type="button" onclick="selectEwayCorridor('surat_jnpt', 310)" id="eway-chip-surat_jnpt" class="eway-corridor-chip flex-shrink-0 px-2 py-1 rounded-lg border active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">Surat ➔ JNPT (310 km)</button>
-            <button type="button" onclick="selectEwayCorridor('tirupur_chennai', 480)" id="eway-chip-tirupur_chennai" class="eway-corridor-chip flex-shrink-0 px-2 py-1 rounded-lg border active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border);">Tirupur ➔ Chennai (480 km)</button>
-            <button type="button" onclick="selectEwayCorridor('guntur_krishnapatnam', 290)" id="eway-chip-guntur_krishnapatnam" class="eway-corridor-chip flex-shrink-0 px-2 py-1 rounded-lg border active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border);">Guntur ➔ Port (290 km)</button>
-            <button type="button" onclick="selectEwayCorridor('ludhiana_mundra', 1180)" id="eway-chip-ludhiana_mundra" class="eway-corridor-chip flex-shrink-0 px-2 py-1 rounded-lg border active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border);">Ludhiana ➔ Mundra (1,180 km)</button>
-            <button type="button" onclick="selectEwayCorridor('moradabad_dadri', 165)" id="eway-chip-moradabad_dadri" class="eway-corridor-chip flex-shrink-0 px-2 py-1 rounded-lg border active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border);">Moradabad ➔ Dadri (165 km)</button>
+          <div class="scroll-chip-strip">
+            <button type="button" onclick="selectEwayCorridor('surat_jnpt', 310)" id="eway-chip-surat_jnpt" class="eway-corridor-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">Surat ➔ JNPT (310 km)</button>
+            <button type="button" onclick="selectEwayCorridor('tirupur_chennai', 480)" id="eway-chip-tirupur_chennai" class="eway-corridor-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border);">Tirupur ➔ Chennai (480 km)</button>
+            <button type="button" onclick="selectEwayCorridor('guntur_krishnapatnam', 290)" id="eway-chip-guntur_krishnapatnam" class="eway-corridor-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border);">Guntur ➔ Port (290 km)</button>
+            <button type="button" onclick="selectEwayCorridor('ludhiana_mundra', 1180)" id="eway-chip-ludhiana_mundra" class="eway-corridor-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border);">Ludhiana ➔ Mundra (1,180 km)</button>
+            <button type="button" onclick="selectEwayCorridor('moradabad_dadri', 165)" id="eway-chip-moradabad_dadri" class="eway-corridor-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border);">Moradabad ➔ Dadri (165 km)</button>
           </div>
 
           <!-- Interactive Distance & Cargo Type Inputs -->
           <div class="grid grid-cols-2 gap-2 text-xs">
             <div>
               <label class="text-[9px] font-bold block mb-0.5" style="color: var(--text-dim);">Highway Distance (KM)</label>
-              <input type="number" id="eway-calc-distance" value="310" oninput="runEwayCalc()" class="w-full text-xs p-1.5 rounded-lg border font-mono font-bold" style="background: var(--input-bg); border-color: var(--input-border); color: var(--text);">
+              <input type="number" id="eway-calc-distance" value="310" oninput="runEwayCalc()" class="w-full text-xs sm:text-sm p-2.5 rounded-xl border font-medium min-h-[42px]" style="background: var(--input-bg); border-color: var(--input-border); color: var(--text);">
             </div>
             <div>
               <label class="text-[9px] font-bold block mb-0.5" style="color: var(--text-dim);">Consignment Cargo Type</label>
-              <select id="eway-calc-cargo" onchange="runEwayCalc()" class="w-full text-xs p-1.5 rounded-lg border font-mono font-bold" style="background: var(--input-bg); border-color: var(--input-border); color: var(--text);">
+              <select id="eway-calc-cargo" onchange="runEwayCalc()" class="w-full text-xs sm:text-sm p-2.5 rounded-xl border font-medium min-h-[42px]" style="background: var(--input-bg); border-color: var(--input-border); color: var(--text);">
                 <option value="normal">Normal Cargo (200 km/day)</option>
                 <option value="odc">Over Dimensional (20 km/day)</option>
               </select>
@@ -2896,14 +2913,14 @@
             <span class="text-3xl font-black font-mono tracking-wider" id="eway-timer" style="color: var(--accent);">
               18:32:05
             </span>
-            <span id="eway-validity-summary" class="text-xs font-bold font-mono" style="color: var(--text-dim);">2 Days Permissible (Rule 138(10))</span>
+            <span id="eway-validity-summary" class="text-xs font-semibold" style="color: var(--text-muted);">2 Days Permissible (Rule 138(10))</span>
           </div>
           <div class="w-full h-2 rounded-full overflow-hidden" style="background: var(--card-inner-border);">
             <div id="eway-progress-bar" class="h-full w-3/4 rounded-full transition-all" style="background: var(--accent);"></div>
           </div>
 
           <!-- Corridor Transit Density & FASTag Telemetry -->
-          <div id="eway-telemetry-box" class="p-2.5 rounded-xl border text-[11px] space-y-1 font-mono" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+          <div id="eway-telemetry-box" class="p-3 rounded-xl border text-xs space-y-1.5" style="background: var(--card-bg); border-color: var(--card-inner-border);">
             <div class="flex justify-between items-center">
               <span style="color: var(--text-dim);">Typical Transit Dwell:</span>
               <span id="eway-transit-hours" class="font-bold text-emerald-500">8.5 Hours across 5 Toll Checkpoints</span>
@@ -2948,7 +2965,7 @@
           </p>
 
           <!-- 1-Tap Port Selector Chips -->
-          <div class="flex items-center gap-1.5 overflow-x-auto pb-1 text-[10px]">
+          <div class="scroll-chip-strip">
             <span class="text-[9px] font-bold uppercase shrink-0" style="color: var(--text-dim);">Gateway:</span>
             <button type="button" onclick="selectPortLogistics('INNSA1')" id="port-chip-INNSA1" class="port-radar-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">⚓ Nhava Sheva (JNPT)</button>
             <button type="button" onclick="selectPortLogistics('INMUN1')" id="port-chip-INMUN1" class="port-radar-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">⚓ Mundra (APSEZ)</button>
@@ -2992,7 +3009,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
               <div>
                 <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Vessel Name / Voyage:</label>
-                <input type="text" id="port-vessel-name" value="MAERSK_KAVERI" placeholder="e.g. MAERSK_KAVERI or MSC_DANIELA" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+                <input type="text" id="port-vessel-name" value="MAERSK_KAVERI" placeholder="e.g. MAERSK_KAVERI or MSC_DANIELA" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
               </div>
               <div>
                 <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Terminal Facility:</label>
@@ -3041,18 +3058,18 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
               <div>
                 <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Container Size:</label>
-                <select id="port-demurrage-size" onchange="runPortDemurrageCalc()" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);">
+                <select id="port-demurrage-size" onchange="runPortDemurrageCalc()" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);">
                   <option value="40ft" selected>40ft High Cube (HC)</option>
                   <option value="20ft">20ft General Purpose (GP)</option>
                 </select>
               </div>
               <div>
                 <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Box Count:</label>
-                <input type="number" id="port-demurrage-count" value="2" min="1" max="100" oninput="runPortDemurrageCalc()" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+                <input type="number" id="port-demurrage-count" value="2" min="1" max="100" oninput="runPortDemurrageCalc()" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
               </div>
               <div>
                 <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Days in Port CY:</label>
-                <input type="number" id="port-demurrage-days" value="12" min="1" max="60" oninput="runPortDemurrageCalc()" class="w-full border rounded-xl p-2 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+                <input type="number" id="port-demurrage-days" value="12" min="1" max="60" oninput="runPortDemurrageCalc()" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
               </div>
               <div class="p-2 rounded-xl border flex flex-col justify-center" style="background: rgba(239, 68, 68, 0.08); border-color: rgba(239, 68, 68, 0.25);">
                 <div class="flex items-center justify-between">
@@ -3114,7 +3131,7 @@
           </p>
 
           <!-- 1-Tap Corridor Preset Chips -->
-          <div class="flex items-center gap-1.5 overflow-x-auto pb-1 text-[10px]">
+          <div class="scroll-chip-strip">
             <span class="text-[9px] font-bold uppercase shrink-0" style="color: var(--text-dim);">Corridors:</span>
             <button type="button" onclick="selectConcorCorridor('tkd_jnpt')" id="concor-chip-tkd_jnpt" class="concor-corridor-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🚆 Delhi TKD ➔ JNPT (30h)</button>
             <button type="button" onclick="selectConcorCorridor('dadri_mundra')" id="concor-chip-dadri_mundra" class="concor-corridor-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🚆 Dadri ➔ Mundra (26h)</button>
@@ -3128,18 +3145,18 @@
           <div class="grid grid-cols-1 md:grid-cols-4 gap-2 text-xs">
             <div>
               <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Container Standard:</label>
-              <select id="concor-size" onchange="runConcorFreightCalc()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);">
+              <select id="concor-size" onchange="runConcorFreightCalc()" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);">
                 <option value="40ft" selected>40ft High Cube (2 TEU)</option>
                 <option value="20ft">20ft General Purpose (1 TEU)</option>
               </select>
             </div>
             <div>
               <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Container Quantity:</label>
-              <input type="number" id="concor-count" value="1" min="1" max="90" oninput="runConcorFreightCalc()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+              <input type="number" id="concor-count" value="1" min="1" max="90" oninput="runConcorFreightCalc()" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
             </div>
             <div>
               <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Cargo Positioning:</label>
-              <select id="concor-cargo-type" onchange="runConcorFreightCalc()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);">
+              <select id="concor-cargo-type" onchange="runConcorFreightCalc()" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);">
                 <option value="laden" selected>Laden Commercial Export</option>
                 <option value="empty">Empty Rake Repositioning</option>
               </select>
@@ -3248,13 +3265,13 @@
               <span class="text-[10px] uppercase font-bold tracking-wider" style="color: var(--text-muted);">Major Export Shipping Corridors</span>
               <span id="ocean-route-status" class="text-[9px] font-mono font-bold text-emerald-500">Cape Routing Active</span>
             </div>
-            <div class="flex gap-1.5 overflow-x-auto pb-1 text-xs no-scrollbar">
-              <button type="button" onclick="selectOceanRoute('IN_EU_ROTTERDAM')" id="ocean-chip-IN_EU_ROTTERDAM" class="ocean-route-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🚢 Nhava/Mundra ➔ Rotterdam (35d)</button>
-              <button type="button" onclick="selectOceanRoute('IN_ME_JEBEL_ALI')" id="ocean-chip-IN_ME_JEBEL_ALI" class="ocean-route-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🚢 Nhava/Mundra ➔ Jebel Ali (4d)</button>
-              <button type="button" onclick="selectOceanRoute('IN_US_NEW_YORK')" id="ocean-chip-IN_US_NEW_YORK" class="ocean-route-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🚢 Nhava/Mundra ➔ New York (38d)</button>
-              <button type="button" onclick="selectOceanRoute('IN_SE_SINGAPORE')" id="ocean-chip-IN_SE_SINGAPORE" class="ocean-route-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🚢 Chennai/Vizag ➔ Singapore (5d)</button>
-              <button type="button" onclick="selectOceanRoute('IN_EA_SHANGHAI')" id="ocean-chip-IN_EA_SHANGHAI" class="ocean-route-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🚢 Mundra/JNPT ➔ Shanghai (15d)</button>
-              <button type="button" onclick="selectOceanRoute('IN_AF_MOMBASA')" id="ocean-chip-IN_AF_MOMBASA" class="ocean-route-chip px-2.5 py-1 rounded-lg border whitespace-nowrap font-medium active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🚢 Nhava Sheva ➔ Mombasa (11d)</button>
+            <div class="scroll-chip-strip">
+              <button type="button" onclick="selectOceanRoute('IN_EU_ROTTERDAM')" id="ocean-chip-IN_EU_ROTTERDAM" class="ocean-route-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold whitespace-nowrap active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🚢 Nhava/Mundra ➔ Rotterdam (35d)</button>
+              <button type="button" onclick="selectOceanRoute('IN_ME_JEBEL_ALI')" id="ocean-chip-IN_ME_JEBEL_ALI" class="ocean-route-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🚢 Nhava/Mundra ➔ Jebel Ali (4d)</button>
+              <button type="button" onclick="selectOceanRoute('IN_US_NEW_YORK')" id="ocean-chip-IN_US_NEW_YORK" class="ocean-route-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🚢 Nhava/Mundra ➔ New York (38d)</button>
+              <button type="button" onclick="selectOceanRoute('IN_SE_SINGAPORE')" id="ocean-chip-IN_SE_SINGAPORE" class="ocean-route-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🚢 Chennai/Vizag ➔ Singapore (5d)</button>
+              <button type="button" onclick="selectOceanRoute('IN_EA_SHANGHAI')" id="ocean-chip-IN_EA_SHANGHAI" class="ocean-route-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🚢 Mundra/JNPT ➔ Shanghai (15d)</button>
+              <button type="button" onclick="selectOceanRoute('IN_AF_MOMBASA')" id="ocean-chip-IN_AF_MOMBASA" class="ocean-route-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🚢 Nhava Sheva ➔ Mombasa (11d)</button>
             </div>
           </div>
 
@@ -3262,18 +3279,18 @@
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
             <div class="space-y-1">
               <label class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">Container Size</label>
-              <select id="ocean-size" onchange="runOceanFreightCalc()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);">
+              <select id="ocean-size" onchange="runOceanFreightCalc()" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);">
                 <option value="40ft">40ft High Cube (FEU)</option>
                 <option value="20ft">20ft Standard Dry (TEU)</option>
               </select>
             </div>
             <div class="space-y-1">
               <label class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-muted);">Container Count</label>
-              <input type="number" id="ocean-count" value="1" min="1" max="50" oninput="runOceanFreightCalc()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+              <input type="number" id="ocean-count" value="1" min="1" max="50" oninput="runOceanFreightCalc()" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
             </div>
             <div class="space-y-1">
               <label class="text-[10px] font-bold uppercase tracking-wider block text-blue-500">Forwarder Quote ($/unit)</label>
-              <input type="number" id="ocean-quote" placeholder="e.g. 4600" oninput="runOceanFreightCalc()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
+              <input type="number" id="ocean-quote" placeholder="e.g. 4600" oninput="runOceanFreightCalc()" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);" />
             </div>
           </div>
 
@@ -3282,17 +3299,17 @@
             <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
               <span class="text-[9px] uppercase font-bold block" style="color: var(--text-muted);">Base Ocean Freight</span>
               <span id="ocean-res-base" class="text-sm font-extrabold font-mono block mt-1" style="color: var(--text-main);">$2,950</span>
-              <span class="text-[9px] font-mono" style="color: var(--text-muted);">Per Unit (Pure Ocean)</span>
+              <span class="text-[9px] font-medium" style="color: var(--text-muted);">Per Unit (Pure Ocean)</span>
             </div>
             <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
               <span class="text-[9px] uppercase font-bold block text-amber-500">Surcharges (BAF + Cape)</span>
               <span id="ocean-res-surcharges" class="text-sm font-extrabold font-mono block mt-1 text-amber-500">+$1,450</span>
-              <span id="ocean-res-surcharges-desc" class="text-[9px] font-mono" style="color: var(--text-muted);">BAF: $420 | Cape: $650</span>
+              <span id="ocean-res-surcharges-desc" class="text-[9px] font-medium" style="color: var(--text-muted);">BAF: $420 | Cape: $650</span>
             </div>
             <div class="p-2.5 rounded-2xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
               <span class="text-[9px] uppercase font-bold block text-purple-500">Total Benchmark ($)</span>
               <span id="ocean-res-total-usd" class="text-sm font-extrabold font-mono block mt-1 text-purple-500">$4,400</span>
-              <span id="ocean-res-teu-desc" class="text-[9px] font-mono" style="color: var(--text-muted);">All-In Spot / Unit</span>
+              <span id="ocean-res-teu-desc" class="text-[9px] font-medium" style="color: var(--text-muted);">All-In Spot / Unit</span>
             </div>
             <div class="p-2.5 rounded-2xl border" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3);">
               <div class="flex items-center justify-between">
@@ -3330,13 +3347,14 @@
           </div>
           <p class="text-[10px]" style="color: var(--text-muted);">Section 8 FEMA 1999: Foreign exchange proceeds must be repatriated via AD Code within 270 days to prevent RBI caution listing.</p>
         </div>
+      <div class="h-16 w-full" aria-hidden="true"></div>
       </div>
     </section>
 
     <!-- ==================== TAB 5: PROFILE (Mood Selector & Diagnostics) ==================== -->
     <section id="tab-profile" class="hidden space-y-4">
       <!-- Tab 5 Sub-Navigation Segmented Control -->
-      <div class="sub-tab-nav sticky top-0 z-30 flex gap-1 p-1 rounded-2xl border backdrop-blur-md overflow-x-auto no-scrollbar shadow-sm" style="background: var(--card-bg); border-color: var(--card-border);">
+      <div class="sub-tab-nav flex gap-1 p-1 rounded-2xl border backdrop-blur-md overflow-x-auto no-scrollbar shadow-sm mb-3" style="background: var(--card-bg); border-color: var(--card-border);">
         <button type="button" onclick="switchSubTab('tab-profile', 'sub-profile-directory', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: var(--accent); color: #ffffff;">📇 Entity Directory</button>
         <button type="button" onclick="switchSubTab('tab-profile', 'sub-profile-pitch', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">🎯 Pitch Generator</button>
         <button type="button" onclick="switchSubTab('tab-profile', 'sub-profile-personas', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">👔 Career Personas</button>
@@ -3355,12 +3373,12 @@
         <p class="text-xs" style="color: var(--text-muted);">Direct phone numbers, emails, websites, port specializations, and complementary business intelligence for verified trade counterparties.</p>
 
         <!-- Category Filter Pills -->
-        <div class="flex gap-1.5 overflow-x-auto pb-1 text-[11px] font-bold no-scrollbar">
-          <button type="button" onclick="filterEntityCategory('all')" id="ent-filter-all" class="ent-pill-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">All Entities (8)</button>
-          <button type="button" onclick="filterEntityCategory('Customs Broker (CHA)')" id="ent-filter-cha" class="ent-pill-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">Customs Brokers (CHA)</button>
-          <button type="button" onclick="filterEntityCategory('Cold Chain / CFS Operator')" id="ent-filter-cfs" class="ent-pill-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">Cold Storage / CFS</button>
-          <button type="button" onclick="filterEntityCategory('Accredited Inspection & Testing Agency')" id="ent-filter-lab" class="ent-pill-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">NABL Testing Labs</button>
-          <button type="button" onclick="filterEntityCategory('Export Promotion Council (EPC)')" id="ent-filter-epc" class="ent-pill-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">Export Councils (EPC)</button>
+        <div class="scroll-chip-strip">
+          <button type="button" onclick="filterEntityCategory('all')" id="ent-filter-all" class="ent-pill-btn min-h-[38px] px-3.5 py-1.5 rounded-xl border text-xs font-semibold whitespace-nowrap active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">All Entities (8)</button>
+          <button type="button" onclick="filterEntityCategory('Customs Broker (CHA)')" id="ent-filter-cha" class="ent-pill-btn min-h-[38px] px-3.5 py-1.5 rounded-xl border text-xs font-semibold whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">Customs Brokers (CHA)</button>
+          <button type="button" onclick="filterEntityCategory('Cold Chain / CFS Operator')" id="ent-filter-cfs" class="ent-pill-btn min-h-[38px] px-3.5 py-1.5 rounded-xl border text-xs font-semibold whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">Cold Storage / CFS</button>
+          <button type="button" onclick="filterEntityCategory('Accredited Inspection & Testing Agency')" id="ent-filter-lab" class="ent-pill-btn min-h-[38px] px-3.5 py-1.5 rounded-xl border text-xs font-semibold whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">NABL Testing Labs</button>
+          <button type="button" onclick="filterEntityCategory('Export Promotion Council (EPC)')" id="ent-filter-epc" class="ent-pill-btn min-h-[38px] px-3.5 py-1.5 rounded-xl border text-xs font-semibold whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">Export Councils (EPC)</button>
         </div>
 
         <!-- Entity Search Box -->
@@ -3449,7 +3467,7 @@
         <p class="text-xs" style="color: var(--text-muted);">Generate an executive commercial diagnostic showing active exporters their unclaimed cash rebates, container dead-air waste, and SCN risks to land consulting or brokerage mandates.</p>
 
         <!-- Pitch Target Corridor Selector -->
-        <div class="flex gap-1.5 overflow-x-auto pb-1 text-[11px] font-bold no-scrollbar">
+        <div class="scroll-chip-strip">
           <button type="button" onclick="selectPitchCorridor('surat_textiles')" id="pitch-btn-surat_textiles" class="pitch-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">Surat Tech-Textiles (USA)</button>
           <button type="button" onclick="selectPitchCorridor('guntur_spices')" id="pitch-btn-guntur_spices" class="pitch-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">Guntur Spices (EU)</button>
           <button type="button" onclick="selectPitchCorridor('tirupur_apparel')" id="pitch-btn-tirupur_apparel" class="pitch-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">Tirupur Garments (UK)</button>
@@ -3462,7 +3480,7 @@
           <div>
             <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Target Enterprise Monthly Volume:</label>
             <div class="flex items-center gap-2">
-              <input type="number" id="pitch-vol-input" value="4" min="1" max="50" oninput="generateExporterPitchAudit()" class="w-full border rounded-xl p-2.5 text-xs font-mono focus:outline-none" />
+              <input type="number" id="pitch-vol-input" value="4" min="1" max="50" oninput="generateExporterPitchAudit()" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" />
               <span class="text-xs font-bold font-mono whitespace-nowrap" style="color: var(--text-muted);">Containers/mo</span>
             </div>
           </div>
@@ -3646,7 +3664,7 @@
         <p class="text-xs" style="color: var(--text-muted);">Real-world micro-level trade friction dissections: port rejections, LC disputes, zero-capital brokerage, and PFMS refund freezes.</p>
 
         <!-- Case Study Selector Pills -->
-        <div class="flex gap-1.5 overflow-x-auto pb-1 text-[11px] font-bold no-scrollbar">
+        <div class="scroll-chip-strip">
           <button type="button" onclick="selectCaseStudy('case-agri-aflatoxin')" id="cs-btn-case-agri-aflatoxin" class="cs-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">1. Guntur Spices (JNPT Hold)</button>
           <button type="button" onclick="selectCaseStudy('case-banking-ucp600')" id="cs-btn-case-banking-ucp600" class="cs-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">2. Dubai Bank (LC Dispute)</button>
           <button type="button" onclick="selectCaseStudy('case-broker-zero-capital')" id="cs-btn-case-broker-zero-capital" class="cs-tab-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">3. Moradabad Brass (₹0 Broker)</button>
@@ -3744,6 +3762,7 @@
           </a>
         </div>
       </div>
+      <div class="h-16 w-full" aria-hidden="true"></div>
       </div>
     </section>
 
