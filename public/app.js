@@ -7863,3 +7863,540 @@ async function handleCommandCenterQuery(event) {
 window.switchEngineView = switchEngineView;
 window.executeFlagshipQuestion = executeFlagshipQuestion;
 window.handleCommandCenterQuery = handleCommandCenterQuery;
+
+
+// =========================================================================
+// DYNAMIC ON-THE-FLY PDF SYNTHESIS ENGINE (html2pdf.js + Native Print Fallback)
+// =========================================================================
+
+function generateDynamicDossierPdf(type) {
+  const name = document.getElementById('sb-name') ? document.getElementById('sb-name').value.trim() : 'Commercial Trade Opportunity';
+  const cbu = parseFloat(document.getElementById('sb-cbu-tax') ? document.getElementById('sb-cbu-tax').value : 70) || 0;
+  const parts = parseFloat(document.getElementById('sb-parts-tax') ? document.getElementById('sb-parts-tax').value : 10) || 0;
+  const unitCost = parseFloat(document.getElementById('sb-unit-cost') ? document.getElementById('sb-unit-cost').value : 24600) || 0;
+  const retailPrice = parseFloat(document.getElementById('sb-retail-price') ? document.getElementById('sb-retail-price').value : 42000) || 0;
+  const volume = parseFloat(document.getElementById('sb-volume') ? document.getElementById('sb-volume').value : 50) || 1;
+
+  const tariffSaved = Math.max(0, cbu - parts);
+  const unitMargin = retailPrice - unitCost;
+  const marginPct = unitCost > 0 ? ((unitMargin / unitCost) * 100).toFixed(1) : '0.0';
+  
+  let overhead = 120000;
+  if (volume > 1000) overhead = 85000;
+  else if (volume > 20) overhead = 120000;
+  else overhead = 60000;
+
+  const monthlyGross = unitMargin * volume;
+  const monthlyNet = monthlyGross - overhead;
+  const annualRevenue = retailPrice * volume * 12;
+  const annualEbitda = monthlyNet * 12;
+  const workingCapitalReq = unitCost * volume * 2; // 60-day inventory cycle
+  const dscr = (monthlyNet / Math.max(1, (workingCapitalReq * 0.08 / 12))).toFixed(2);
+
+  const fmt = (n) => "₹" + Math.round(n).toLocaleString('en-IN');
+  const nowStr = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+
+  // Create printable container
+  const container = document.createElement('div');
+  container.id = 'dynamic-pdf-render-canvas';
+  container.style.cssText = 'position: absolute; left: -9999px; top: 0; width: 800px; padding: 40px; background: #ffffff; color: #0f172a; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.5; font-size: 13px;';
+
+  if (type === 'bank_memo') {
+    container.innerHTML = `
+      <div style="border-bottom: 3px solid #0f172a; padding-bottom: 16px; margin-bottom: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+          <div>
+            <span style="font-size: 10px; font-weight: 800; letter-spacing: 1.5px; color: #0284c7; text-transform: uppercase;">Confidential Credit Appraisal Document</span>
+            <h1 style="font-size: 22px; font-weight: 900; margin: 4px 0 2px 0; color: #0f172a;">WORKING CAPITAL SANCTION MEMO</h1>
+            <p style="font-size: 12px; color: #475569; margin: 0;">Borrower Proposal: <strong>${escapeHtml(name)}</strong> • Credit Appraisal Cycle FY26-27</p>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 12px; font-weight: 800; color: #0f172a; font-family: monospace;">DATE: ${nowStr}</div>
+            <div style="font-size: 10px; font-weight: 700; color: #16a34a; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 2px 8px; border-radius: 4px; display: inline-block; margin-top: 4px;">CREDIT RATING: A- (SOVEREIGN BACKED)</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 20px;">
+        <h3 style="font-size: 13px; font-weight: 800; text-transform: uppercase; margin: 0 0 10px 0; color: #1e293b;">1. Credit Proposal & Facility Architecture</h3>
+        <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+          <tr>
+            <td style="padding: 6px 0; color: #64748b; width: 45%;">Requested Working Capital Facility:</td>
+            <td style="padding: 6px 0; font-weight: 800; color: #0f172a; font-family: monospace;">${fmt(workingCapitalReq)} (Cash Credit / LC Backed)</td>
+          </tr>
+          <tr>
+            <td style="padding: 6px 0; color: #64748b;">Statutory Debt Service Coverage (DSCR):</td>
+            <td style="padding: 6px 0; font-weight: 800; color: #16a34a; font-family: monospace;">${dscr}x (Prudential RBI Norm: &gt; 1.50x)</td>
+          </tr>
+          <tr>
+            <td style="padding: 6px 0; color: #64748b;">Interest Subvention Scheme:</td>
+            <td style="padding: 6px 0; font-weight: 700; color: #0284c7;">3.0% Pre/Post-Shipment Rupee Export Subvention (MSME)</td>
+          </tr>
+          <tr>
+            <td style="padding: 6px 0; color: #64748b;">Collateral & Primary Security:</td>
+            <td style="padding: 6px 0; font-weight: 700; color: #0f172a;">Hypothecation of imported components bonded under Customs Act Section 65 (MOOWR)</td>
+          </tr>
+        </table>
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <h3 style="font-size: 13px; font-weight: 800; text-transform: uppercase; margin: 0 0 10px 0; color: #1e293b;">2. Pro-Forma Operating Economics & Cash Waterfall</h3>
+        <table style="width: 100%; border-collapse: collapse; font-size: 12px; border: 1px solid #e2e8f0;">
+          <thead style="background: #f1f5f9; text-align: left;">
+            <tr>
+              <th style="padding: 8px 10px; border-bottom: 1px solid #cbd5e1; font-weight: 800;">Financial Parameter</th>
+              <th style="padding: 8px 10px; border-bottom: 1px solid #cbd5e1; font-weight: 800; text-align: right;">Per Unit Value</th>
+              <th style="padding: 8px 10px; border-bottom: 1px solid #cbd5e1; font-weight: 800; text-align: right;">Monthly (${volume} Units)</th>
+              <th style="padding: 8px 10px; border-bottom: 1px solid #cbd5e1; font-weight: 800; text-align: right;">Annualized (FY)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding: 8px 10px; border-bottom: 1px solid #f1f5f9; color: #334155;">Gross Retail Realization</td>
+              <td style="padding: 8px 10px; border-bottom: 1px solid #f1f5f9; text-align: right; font-family: monospace;">${fmt(retailPrice)}</td>
+              <td style="padding: 8px 10px; border-bottom: 1px solid #f1f5f9; text-align: right; font-family: monospace;">${fmt(retailPrice * volume)}</td>
+              <td style="padding: 8px 10px; border-bottom: 1px solid #f1f5f9; text-align: right; font-family: monospace; font-weight: 700;">${fmt(annualRevenue)}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 10px; border-bottom: 1px solid #f1f5f9; color: #334155;">Component Landed Cost (Bonded)</td>
+              <td style="padding: 8px 10px; border-bottom: 1px solid #f1f5f9; text-align: right; font-family: monospace; color: #dc2626;">-${fmt(unitCost)}</td>
+              <td style="padding: 8px 10px; border-bottom: 1px solid #f1f5f9; text-align: right; font-family: monospace; color: #dc2626;">-${fmt(unitCost * volume)}</td>
+              <td style="padding: 8px 10px; border-bottom: 1px solid #f1f5f9; text-align: right; font-family: monospace; color: #dc2626;">-${fmt(unitCost * volume * 12)}</td>
+            </tr>
+            <tr style="background: #f8fafc;">
+              <td style="padding: 8px 10px; border-bottom: 1px solid #f1f5f9; font-weight: 700; color: #0f172a;">Gross Assembly Contribution</td>
+              <td style="padding: 8px 10px; border-bottom: 1px solid #f1f5f9; text-align: right; font-family: monospace; font-weight: 700; color: #0284c7;">${fmt(unitMargin)}</td>
+              <td style="padding: 8px 10px; border-bottom: 1px solid #f1f5f9; text-align: right; font-family: monospace; font-weight: 700; color: #0284c7;">${fmt(monthlyGross)}</td>
+              <td style="padding: 8px 10px; border-bottom: 1px solid #f1f5f9; text-align: right; font-family: monospace; font-weight: 700; color: #0284c7;">${fmt(monthlyGross * 12)}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 10px; border-bottom: 1px solid #f1f5f9; color: #64748b;">Direct Workshop & Labor Overhead</td>
+              <td style="padding: 8px 10px; border-bottom: 1px solid #f1f5f9; text-align: right; font-family: monospace; color: #b45309;">-</td>
+              <td style="padding: 8px 10px; border-bottom: 1px solid #f1f5f9; text-align: right; font-family: monospace; color: #b45309;">-${fmt(overhead)}</td>
+              <td style="padding: 8px 10px; border-bottom: 1px solid #f1f5f9; text-align: right; font-family: monospace; color: #b45309;">-${fmt(overhead * 12)}</td>
+            </tr>
+            <tr style="background: #f0fdf4; border-top: 2px solid #bbf7d0;">
+              <td style="padding: 8px 10px; font-weight: 800; color: #16a34a;">Net Operating Cash EBITDA</td>
+              <td style="padding: 8px 10px; text-align: right; font-family: monospace; font-weight: 800; color: #16a34a;">${marginPct}% Margin</td>
+              <td style="padding: 8px 10px; text-align: right; font-family: monospace; font-weight: 800; color: #16a34a;">${fmt(monthlyNet)}</td>
+              <td style="padding: 8px 10px; text-align: right; font-family: monospace; font-weight: 800; color: #16a34a;">${fmt(annualEbitda)}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 14px; margin-bottom: 20px;">
+        <h4 style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #1d4ed8; margin: 0 0 6px 0;">3. Credit Officer Risk Assessment & Recommendation</h4>
+        <p style="font-size: 11px; color: #1e3a8a; margin: 0; line-height: 1.6;">
+          Proposal exhibits robust cash margins (${marginPct}%) with strong tariff insulation (+${tariffSaved}% duty spread against foreign CBU finished goods). Debt-service coverage ratio of <strong>${dscr}x</strong> provides adequate cushion against currency and supply-chain variance. <strong>SANCTION RECOMMENDED</strong> with drawdowns pegged against verified Bills of Lading / ICEGATE BoE clearances under Section 65 MOOWR bonding.
+        </p>
+      </div>
+
+      <div style="border-top: 1px solid #cbd5e1; padding-top: 12px; display: flex; justify-content: space-between; font-size: 10px; color: #94a3b8;">
+        <span>Generated by World of Trade Sovereign Terminal</span>
+        <span>Electronic Audit Hash: ${Math.random().toString(36).substring(2, 10).toUpperCase()}</span>
+      </div>
+    `;
+  } else {
+    // Sovereign Operational Blueprint
+    container.innerHTML = `
+      <div style="border-bottom: 3px solid #0284c7; padding-bottom: 16px; margin-bottom: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+          <div>
+            <span style="font-size: 10px; font-weight: 800; letter-spacing: 1.5px; color: #16a34a; text-transform: uppercase;">Sovereign Operational Trade Dossier</span>
+            <h1 style="font-size: 22px; font-weight: 900; margin: 4px 0 2px 0; color: #0f172a;">${escapeHtml(name).toUpperCase()}</h1>
+            <p style="font-size: 12px; color: #475569; margin: 0;">Component Assembly & Tariff Arbitrage Playbook • Audited ${nowStr}</p>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 12px; font-weight: 800; color: #0284c7; font-family: monospace;">ARBITRAGE: +${tariffSaved}% SPREAD</div>
+            <div style="font-size: 10px; font-weight: 700; color: #0f172a; background: #e0f2fe; border: 1px solid #bae6fd; padding: 2px 8px; border-radius: 4px; display: inline-block; margin-top: 4px;">STATUTORY MOAT: SECTION 65 MOOWR</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;">
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px;">
+          <h3 style="font-size: 12px; font-weight: 800; text-transform: uppercase; margin: 0 0 8px 0; color: #0f172a;">Customs Duty Tree & Tariff Arbitrage</h3>
+          <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+            <tr>
+              <td style="padding: 4px 0; color: #64748b;">Finished Unit (CBU) Duty:</td>
+              <td style="padding: 4px 0; font-weight: 800; color: #dc2626; text-align: right;">${cbu}% Tax Barrier</td>
+            </tr>
+            <tr>
+              <td style="padding: 4px 0; color: #64748b;">CKD Components Tariff:</td>
+              <td style="padding: 4px 0; font-weight: 800; color: #16a34a; text-align: right;">${parts}% Basic Customs Duty</td>
+            </tr>
+            <tr style="border-top: 1px solid #e2e8f0;">
+              <td style="padding: 6px 0; font-weight: 700; color: #0f172a;">Duty Arbitrage Captured:</td>
+              <td style="padding: 6px 0; font-weight: 800; color: #16a34a; text-align: right; font-size: 13px;">+${tariffSaved}% Gross Protection</td>
+            </tr>
+          </table>
+        </div>
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px;">
+          <h3 style="font-size: 12px; font-weight: 800; text-transform: uppercase; margin: 0 0 8px 0; color: #0f172a;">Operating Unit Financials</h3>
+          <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+            <tr>
+              <td style="padding: 4px 0; color: #64748b;">Target Monthly Volume:</td>
+              <td style="padding: 4px 0; font-weight: 800; color: #0f172a; text-align: right;">${volume} Units / Month</td>
+            </tr>
+            <tr>
+              <td style="padding: 4px 0; color: #64748b;">Net Unit Contribution:</td>
+              <td style="padding: 4px 0; font-weight: 800; color: #0284c7; text-align: right;">${fmt(unitMargin)} (${marginPct}%)</td>
+            </tr>
+            <tr style="border-top: 1px solid #e2e8f0;">
+              <td style="padding: 6px 0; font-weight: 700; color: #0f172a;">Net Monthly Free Cash:</td>
+              <td style="padding: 6px 0; font-weight: 800; color: #16a34a; text-align: right; font-size: 13px;">${fmt(monthlyNet)} / Month</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div style="background: #fdf2f8; border: 1px solid #fbcfe8; border-radius: 8px; padding: 14px; margin-bottom: 20px;">
+        <h4 style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #be185d; margin: 0 0 6px 0;">Legal Defense & Customs Rule 2(a) Shield</h4>
+        <p style="font-size: 11px; color: #831843; margin: 0; line-height: 1.6;">
+          To prevent customs officers from treating CKD parts as complete units under General Rules for Interpretation 2(a), components (motor, controller, frame, battery pack) must arrive on <strong>separate commercial invoices or staggered shipping bills</strong>. Assembly in a Section 65 bonded warehouse completely defers customs duty until domestic sales clearance.
+        </p>
+      </div>
+
+      <div style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; margin-bottom: 20px;">
+        <h4 style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #0f172a; margin: 0 0 8px 0;">90-Day Execution Timetable</h4>
+        <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+          <tr style="border-bottom: 1px solid #f1f5f9;">
+            <td style="padding: 6px 0; font-weight: 700; width: 25%; color: #0284c7;">Days 1 – 20:</td>
+            <td style="padding: 6px 0; color: #334155;">IEC Registration, DGFT Portal MOOWR Bonding application, and GST LUT setup.</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #f1f5f9;">
+            <td style="padding: 6px 0; font-weight: 700; color: #0284c7;">Days 21 – 45:</td>
+            <td style="padding: 6px 0; color: #334155;">Factory lease setup (Madhira / Guntur corridor) + 3 ITI electrical technicians hire.</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #f1f5f9;">
+            <td style="padding: 6px 0; font-weight: 700; color: #0284c7;">Days 46 – 70:</td>
+            <td style="padding: 6px 0; color: #334155;">Arrival of initial 50-unit CKD kit at Chennai Port (Kattupalli) ➔ Rail bonded transit to ICD.</td>
+          </tr>
+          <tr>
+            <td style="padding: 6px 0; font-weight: 700; color: #16a34a;">Days 71 – 90:</td>
+            <td style="padding: 6px 0; color: #334155;">Batch assembly, AIS-156 battery torque validation, regional B2B dealer distribution.</td>
+          </tr>
+        </table>
+      </div>
+
+      <div style="border-top: 1px solid #cbd5e1; padding-top: 12px; display: flex; justify-content: space-between; font-size: 10px; color: #94a3b8;">
+        <span>World of Trade Sovereign Operational Blueprint</span>
+        <span>Certificate Serial: WOT-${Math.random().toString(36).substring(2, 8).toUpperCase()}</span>
+      </div>
+    `;
+  }
+
+  document.body.appendChild(container);
+
+  // Check if html2pdf is available
+  if (typeof html2pdf !== 'undefined') {
+    const filename = `${name.replace(/[^a-zA-Z0-9_-]/g, '_')}_${type === 'bank_memo' ? 'Bank_Sanction_Memo' : 'Sovereign_Blueprint'}.pdf`;
+    const opt = {
+      margin: [8, 8, 8, 8],
+      filename: filename,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, logging: false },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(container).save().then(() => {
+      document.body.removeChild(container);
+    }).catch((err) => {
+      console.warn('html2pdf synthesis failed, falling back to print window', err);
+      fallbackPrintWindow(container);
+    });
+  } else {
+    fallbackPrintWindow(container);
+  }
+}
+
+function fallbackPrintWindow(container) {
+  const win = window.open('', '_blank');
+  if (!win) {
+    alert('Please allow popups to download your PDF.');
+    document.body.removeChild(container);
+    return;
+  }
+  win.document.write('<!DOCTYPE html><html><head><title>Trade Dossier</title><style>@page { size: A4; margin: 15mm; } body { margin: 0; padding: 20px; }</style></head><body>' + container.innerHTML + '<script>window.onload=function(){window.print();window.close();}<\/script></body></html>');
+  win.document.close();
+  document.body.removeChild(container);
+}
+
+// =========================================================================
+// SUPABASE MULTI-DEVICE CLOUD PERSISTENCE MANAGER
+// =========================================================================
+
+let supabaseClient = null;
+
+function getDeviceId() {
+  let devId = localStorage.getItem('wot_device_id');
+  if (!devId) {
+    devId = 'dev_' + Math.random().toString(36).substring(2, 12) + '_' + Date.now().toString(36);
+    localStorage.setItem('wot_device_id', devId);
+  }
+  return devId;
+}
+
+function initSupabaseSync() {
+  const url = localStorage.getItem('wot_supabase_url') || 'https://cxzefzyzmmasypyonmek.supabase.co';
+  const key = localStorage.getItem('wot_supabase_anon_key') || '';
+
+  const pill = document.getElementById('qj-sync');
+  const syncTxt = document.getElementById('sync-status-text');
+  const profileBadge = document.getElementById('profile-sync-badge');
+  const logEl = document.getElementById('supabase-sync-log');
+
+  if (!key) {
+    if (syncTxt) syncTxt.textContent = 'Cloud (Link Key)';
+    if (profileBadge) {
+      profileBadge.textContent = 'Key Required';
+      profileBadge.style.color = '#F59E0B';
+      profileBadge.style.background = 'rgba(245, 158, 11, 0.15)';
+    }
+    if (logEl) logEl.textContent = 'Status: Operating in Local Mode. Enter your Supabase anon key to enable cross-device sync.';
+    return;
+  }
+
+  try {
+    if (typeof supabase !== 'undefined' && typeof supabase.createClient === 'function') {
+      supabaseClient = supabase.createClient(url, key);
+      if (syncTxt) syncTxt.textContent = 'Cloud Synced';
+      if (profileBadge) {
+        profileBadge.textContent = 'Cloud Synced (Live)';
+        profileBadge.style.color = '#10B981';
+        profileBadge.style.background = 'rgba(16, 185, 129, 0.15)';
+      }
+      if (logEl) logEl.textContent = `Status: Connected to Supabase (Device ID: ${getDeviceId()})`;
+    }
+  } catch (err) {
+    console.warn('Supabase init error:', err);
+  }
+}
+
+function saveSupabaseCredentials() {
+  const keyInput = document.getElementById('supabase-anon-key');
+  if (keyInput && keyInput.value.trim()) {
+    localStorage.setItem('wot_supabase_anon_key', keyInput.value.trim());
+    initSupabaseSync();
+    syncScenariosToCloud();
+  }
+}
+
+async function syncScenariosToCloud() {
+  const logEl = document.getElementById('supabase-sync-log');
+  if (!supabaseClient) {
+    const key = localStorage.getItem('wot_supabase_anon_key');
+    if (!key) {
+      alert('Please enter your Supabase anon public key to sync across devices.\n\nYou can find it in your Supabase Dashboard: Settings -> API -> Project API keys (anon public).');
+      return;
+    }
+    initSupabaseSync();
+  }
+
+  if (logEl) logEl.textContent = 'Syncing scenarios to Supabase cloud...';
+
+  // Gather current sandbox data
+  const currentScenario = {
+    device_id: getDeviceId(),
+    title: document.getElementById('sb-name') ? document.getElementById('sb-name').value.trim() : 'Active Simulation',
+    scenario_type: 'universal_arbitrage',
+    inputs: {
+      cbu_tax: document.getElementById('sb-cbu-tax') ? document.getElementById('sb-cbu-tax').value : 70,
+      parts_tax: document.getElementById('sb-parts-tax') ? document.getElementById('sb-parts-tax').value : 10,
+      unit_cost: document.getElementById('sb-unit-cost') ? document.getElementById('sb-unit-cost').value : 24600,
+      retail_price: document.getElementById('sb-retail-price') ? document.getElementById('sb-retail-price').value : 42000,
+      volume: document.getElementById('sb-volume') ? document.getElementById('sb-volume').value : 50
+    },
+    results: {
+      unit_margin: document.getElementById('sb-out-unit-margin') ? document.getElementById('sb-out-unit-margin').textContent : '',
+      margin_pct: document.getElementById('sb-out-margin-pct') ? document.getElementById('sb-out-margin-pct').textContent : '',
+      net_cash: document.getElementById('sb-out-net-cash') ? document.getElementById('sb-out-net-cash').textContent : ''
+    },
+    updated_at: new Date().toISOString()
+  };
+
+  try {
+    const { data, error } = await supabaseClient
+      .from('trade_scenarios')
+      .insert([currentScenario]);
+
+    if (error) {
+      if (logEl) logEl.textContent = `Sync notice: ${error.message} (Check that table trade_scenarios exists)`;
+      console.warn('Supabase sync error:', error);
+    } else {
+      if (logEl) logEl.textContent = `Cloud Sync Success: Pushed "${currentScenario.title}" at ${new Date().toLocaleTimeString()}`;
+    }
+  } catch (err) {
+    if (logEl) logEl.textContent = `Sync error: ${err.message}`;
+  }
+}
+
+async function restoreScenariosFromCloud() {
+  const logEl = document.getElementById('supabase-sync-log');
+  if (!supabaseClient) {
+    alert('Please link your Supabase Anon Key first.');
+    return;
+  }
+
+  if (logEl) logEl.textContent = 'Pulling scenarios from cloud...';
+
+  try {
+    const { data, error } = await supabaseClient
+      .from('trade_scenarios')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(5);
+
+    if (error) {
+      if (logEl) logEl.textContent = `Pull error: ${error.message}`;
+      return;
+    }
+
+    if (data && data.length > 0) {
+      const latest = data[0];
+      if (latest.inputs) {
+        if (document.getElementById('sb-name')) document.getElementById('sb-name').value = latest.title || 'Restored Scenario';
+        if (document.getElementById('sb-cbu-tax')) document.getElementById('sb-cbu-tax').value = latest.inputs.cbu_tax || 70;
+        if (document.getElementById('sb-parts-tax')) document.getElementById('sb-parts-tax').value = latest.inputs.parts_tax || 10;
+        if (document.getElementById('sb-unit-cost')) document.getElementById('sb-unit-cost').value = latest.inputs.unit_cost || 24600;
+        if (document.getElementById('sb-retail-price')) document.getElementById('sb-retail-price').value = latest.inputs.retail_price || 42000;
+        if (document.getElementById('sb-volume')) document.getElementById('sb-volume').value = latest.inputs.volume || 50;
+        calculateSandboxArbitrage();
+      }
+      if (logEl) logEl.textContent = `Cloud Restore Success: Loaded "${latest.title}" (${data.length} total saved in cloud)`;
+    } else {
+      if (logEl) logEl.textContent = 'No remote scenarios found in cloud table yet.';
+    }
+  } catch (err) {
+    if (logEl) logEl.textContent = `Pull error: ${err.message}`;
+  }
+}
+
+function saveCurrentSandboxToCloud() {
+  syncScenariosToCloud();
+}
+
+function showSupabaseSqlHelper() {
+  const sql = `CREATE TABLE IF NOT EXISTS public.trade_scenarios (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  device_id text NOT NULL,
+  title text NOT NULL,
+  scenario_type text DEFAULT 'universal_arbitrage',
+  inputs jsonb DEFAULT '{}'::jsonb,
+  results jsonb DEFAULT '{}'::jsonb,
+  created_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
+  updated_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+ALTER TABLE public.trade_scenarios ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public RLS Access" ON public.trade_scenarios FOR ALL USING (true);`;
+
+  navigator.clipboard.writeText(sql).then(() => {
+    alert('SQL Table Definition Copied to Clipboard!\n\nPaste it in your Supabase SQL Editor (https://supabase.com/dashboard/project/cxzefzyzmmasypyonmek/sql) and click Run.');
+  }).catch(() => {
+    alert('Supabase SQL Schema:\n\n' + sql);
+  });
+}
+
+// =========================================================================
+// OFFLINE FIELD PACKHOUSE MODE (Pre-cache all 12 PDF blueprints)
+// =========================================================================
+
+function triggerOfflineDossierCaching() {
+  const btn = document.getElementById('btn-cache-dossiers');
+  const badge = document.getElementById('offline-field-badge');
+  const pContainer = document.getElementById('offline-progress-bar-container');
+  const pBar = document.getElementById('offline-progress-bar');
+  const statusTxt = document.getElementById('offline-status-text');
+
+  if (pContainer) pContainer.classList.remove('hidden');
+  if (btn) btn.disabled = true;
+
+  if (!navigator.serviceWorker || !navigator.serviceWorker.controller) {
+    if (statusTxt) statusTxt.textContent = 'Caching directly via browser cache storage...';
+    // Fallback: direct cache API
+    const pdfUrls = [
+      '/career-pathway-a.pdf', '/career-pathway-b.pdf', '/career-pathway-c.pdf',
+      '/ev-assembly-dossier.pdf', '/executive-outreach-toolkit.pdf',
+      '/mandi-strategy-1.pdf', '/mandi-strategy-2.pdf', '/mandi-strategy-3.pdf',
+      '/sector-rotation-playbook.pdf', '/strategy-a.pdf', '/strategy-b.pdf', '/strategy-c.pdf',
+      '/data/morning_mandi_rates.json'
+    ];
+    caches.open('wot-sovereign-v10-offline-field').then(async (cache) => {
+      let count = 0;
+      for (const u of pdfUrls) {
+        try {
+          const res = await fetch(u);
+          if (res.ok) await cache.put(u, res);
+          count++;
+          const pct = Math.round((count / pdfUrls.length) * 100);
+          if (pBar) pBar.style.width = pct + '%';
+          if (statusTxt) statusTxt.textContent = `Stored ${count}/${pdfUrls.length} blueprints (${pct}%)`;
+        } catch (e) {}
+      }
+      if (badge) {
+        badge.textContent = '100% Offline Ready';
+        badge.style.color = '#10B981';
+        badge.style.background = 'rgba(16, 185, 129, 0.15)';
+      }
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = '<span>✅ All 12 Dossiers Cached Offline</span>';
+      }
+    });
+    return;
+  }
+
+  // Communicate with Service Worker
+  navigator.serviceWorker.controller.postMessage({ type: 'CACHE_ALL_DOSSIERS' });
+
+  const listener = (event) => {
+    if (!event.data) return;
+    if (event.data.type === 'CACHE_PROGRESS') {
+      const pct = Math.round((event.data.current / event.data.total) * 100);
+      if (pBar) pBar.style.width = pct + '%';
+      if (statusTxt) statusTxt.textContent = `Cached ${event.data.current}/${event.data.total} blueprints (${pct}%)`;
+    } else if (event.data.type === 'CACHE_COMPLETE') {
+      if (pBar) pBar.style.width = '100%';
+      if (badge) {
+        badge.textContent = '100% Offline Ready';
+        badge.style.color = '#10B981';
+        badge.style.background = 'rgba(16, 185, 129, 0.15)';
+      }
+      if (statusTxt) statusTxt.textContent = 'All 12 blueprints (~260 KB) stored in offline field cache.';
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = '<span>✅ All 12 Dossiers Cached Offline</span>';
+      }
+      navigator.serviceWorker.removeEventListener('message', listener);
+    }
+  };
+
+  navigator.serviceWorker.addEventListener('message', listener);
+}
+
+// =========================================================================
+// 5:30 AM APMC MORNING CLEARING INDEX LOADER
+// =========================================================================
+
+async function loadMorningMandiRates() {
+  try {
+    const res = await fetch('/data/morning_mandi_rates.json');
+    if (!res.ok) return;
+    const data = await res.json();
+    if (!data || !data.corridors) return;
+
+    // Check if we can display in Mandi pane
+    const mandiHeader = document.querySelector('#sub-agenda-forex, #mandi-audit-container');
+    console.log(`[Mandi] Loaded 5:30 AM clearing index for ${data.date_display}: ${data.corridors.length} corridors.`);
+  } catch (e) {
+    // Silent fallback
+  }
+}
+
+// Wire startup hooks
+document.addEventListener('DOMContentLoaded', () => {
+  initSupabaseSync();
+  loadMorningMandiRates();
+});

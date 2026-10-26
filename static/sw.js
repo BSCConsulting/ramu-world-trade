@@ -1,10 +1,10 @@
 /**
- * World of Trade - Sovereign PWA Service Worker (v5)
- * Offline Mandi Packhouse Mode & Runtime Cache
+ * World of Trade - Sovereign PWA Service Worker (v10-offline-field)
+ * Offline Mandi Packhouse Mode & Runtime Cache with Complete Dossier Offline Pre-Caching
  * 100% Native Web Standards (Zero External Libraries)
  */
 
-const CACHE_NAME = 'wot-sovereign-v5';
+const CACHE_NAME = 'wot-sovereign-v10-offline-field';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -13,7 +13,20 @@ const STATIC_ASSETS = [
   '/tailwind.min.css',
   '/chart.min.js',
   '/marked.min.js',
-  '/sw.js'
+  '/sw.js',
+  '/data/morning_mandi_rates.json',
+  '/career-pathway-a.pdf',
+  '/career-pathway-b.pdf',
+  '/career-pathway-c.pdf',
+  '/ev-assembly-dossier.pdf',
+  '/executive-outreach-toolkit.pdf',
+  '/mandi-strategy-1.pdf',
+  '/mandi-strategy-2.pdf',
+  '/mandi-strategy-3.pdf',
+  '/sector-rotation-playbook.pdf',
+  '/strategy-a.pdf',
+  '/strategy-b.pdf',
+  '/strategy-c.pdf'
 ];
 
 self.addEventListener('install', (event) => {
@@ -34,6 +47,64 @@ self.addEventListener('activate', (event) => {
       );
     }).then(() => self.clients.claim())
   );
+});
+
+// Interactive Message Handler for On-Demand Caching with Progress
+self.addEventListener('message', async (event) => {
+  if (event.data && event.data.type === 'CACHE_ALL_DOSSIERS') {
+    const pdfUrls = [
+      '/career-pathway-a.pdf',
+      '/career-pathway-b.pdf',
+      '/career-pathway-c.pdf',
+      '/ev-assembly-dossier.pdf',
+      '/executive-outreach-toolkit.pdf',
+      '/mandi-strategy-1.pdf',
+      '/mandi-strategy-2.pdf',
+      '/mandi-strategy-3.pdf',
+      '/sector-rotation-playbook.pdf',
+      '/strategy-a.pdf',
+      '/strategy-b.pdf',
+      '/strategy-c.pdf',
+      '/data/morning_mandi_rates.json'
+    ];
+    
+    try {
+      const cache = await caches.open(CACHE_NAME);
+      let count = 0;
+      for (const url of pdfUrls) {
+        try {
+          const res = await fetch(url);
+          if (res.ok) {
+            await cache.put(url, res);
+            count++;
+            if (event.source) {
+              event.source.postMessage({
+                type: 'CACHE_PROGRESS',
+                current: count,
+                total: pdfUrls.length,
+                url: url
+              });
+            }
+          }
+        } catch (fetchErr) {
+          console.warn('[SW] Error caching item:', url, fetchErr);
+        }
+      }
+      if (event.source) {
+        event.source.postMessage({
+          type: 'CACHE_COMPLETE',
+          total: count
+        });
+      }
+    } catch (err) {
+      if (event.source) {
+        event.source.postMessage({
+          type: 'CACHE_ERROR',
+          error: err.message
+        });
+      }
+    }
+  }
 });
 
 self.addEventListener('fetch', (event) => {
@@ -72,18 +143,25 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Handle Static Assets with Stale-While-Revalidate
+  // Handle Static Assets & PDFs with Cache-First / Stale-While-Revalidate
   event.respondWith(
     caches.match(req).then((cached) => {
-      const fetchPromise = fetch(req).then((networkRes) => {
+      if (cached) {
+        // Return cached immediately, fetch network in background to revalidate
+        fetch(req).then((networkRes) => {
+          if (networkRes.status === 200) {
+            caches.open(CACHE_NAME).then((cache) => cache.put(req, networkRes));
+          }
+        }).catch(() => {});
+        return cached;
+      }
+      return fetch(req).then((networkRes) => {
         if (networkRes.status === 200) {
           const clone = networkRes.clone();
           caches.open(CACHE_NAME).then((cache) => cache.put(req, clone));
         }
         return networkRes;
-      }).catch(() => cached);
-
-      return cached || fetchPromise;
+      });
     })
   );
 });

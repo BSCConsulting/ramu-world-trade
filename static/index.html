@@ -23,6 +23,10 @@
   <script src="/chart.min.js"></script>
   <!-- Self-Hosted Marked.js -->
   <script src="/marked.min.js"></script>
+  <!-- Dynamic Client-Side PDF Synthesis (html2pdf.js) -->
+  <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
+  <!-- Supabase Multi-Device Cloud Sync Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     /* Universal Focus & Tap Highlight Reset (Eliminates Blue Focus Rings) */
@@ -821,6 +825,10 @@
       </button>
       <button type="button" onclick="quickJump('profile')" id="qj-profile" class="px-3 py-1.5 rounded-full text-[11px] font-semibold active:scale-95 transition-all whitespace-nowrap border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
         <span>👤 Profile</span>
+      </button>
+      <button type="button" onclick="quickJump('profile')" id="qj-sync" class="px-2.5 py-1.5 rounded-full text-[10px] font-bold active:scale-95 transition-all whitespace-nowrap border flex items-center gap-1.5" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); color: #10B981;">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span id="sync-status-text">Cloud Sync</span>
       </button>
     </div>
   </div>
@@ -1747,14 +1755,22 @@
               </div>
             </div>
 
-            <!-- Action Buttons -->
-            <div class="grid grid-cols-2 gap-2 pt-1">
+            <!-- Action Buttons with Dynamic PDF Synthesis & Cloud Sync -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+              <button type="button" onclick="generateDynamicDossierPdf('sovereign_blueprint')" class="py-2.5 px-3 rounded-xl border text-xs font-extrabold active:scale-95 transition-transform flex items-center justify-center gap-1.5 shadow-md" style="background: var(--accent); color: #ffffff; border-color: var(--accent);">
+                <span>📑 Export Sovereign Blueprint (PDF)</span>
+              </button>
+              <button type="button" onclick="generateDynamicDossierPdf('bank_memo')" class="py-2.5 px-3 rounded-xl border text-xs font-extrabold active:scale-95 transition-transform flex items-center justify-center gap-1.5 shadow-md" style="background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.35); color: #10B981;">
+                <span>🏦 Export Bank Credit Memo (PDF)</span>
+              </button>
+            </div>
+            <div class="grid grid-cols-2 gap-2 pt-0.5">
+              <button type="button" onclick="saveCurrentSandboxToCloud()" class="py-2 px-3 rounded-xl border text-xs font-bold active:scale-95 transition-transform flex items-center justify-center gap-1.5 shadow-sm" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                <span>☁️ Save to Cloud</span>
+              </button>
               <button type="button" onclick="shareSandboxWhatsApp()" class="py-2 px-3 rounded-xl border text-xs font-bold active:scale-95 transition-transform flex items-center justify-center gap-1.5 shadow-sm" style="background: #25D366; color: #ffffff; border-color: #20BA5C;">
                 <span class="text-sm">📲</span>
                 <span>Share Custom Memo</span>
-              </button>
-              <button type="button" onclick="window.print()" class="py-2 px-3 rounded-xl border text-xs font-bold active:scale-95 transition-transform flex items-center justify-center gap-1.5 shadow-sm" style="background: var(--accent); color: #ffffff; border-color: var(--accent);">
-                <span>🖨️ Print Diagnostic Sheet</span>
               </button>
             </div>
           </div>
@@ -3089,6 +3105,31 @@
             <span class="text-[9px] font-mono px-2 py-0.5 rounded-full font-bold uppercase text-emerald-500" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25);">11 Dossiers Ready</span>
           </div>
 
+          <!-- Offline Field Packhouse Mode Card -->
+          <div class="p-3.5 rounded-2xl border space-y-2.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <div class="flex items-center gap-2">
+                <span class="text-sm">📦</span>
+                <div>
+                  <h4 class="text-xs font-bold uppercase tracking-wider text-main">Offline Field Packhouse Mode</h4>
+                  <p class="text-[10px] text-muted">Pre-cache all 12 PDF blueprints for remote mandi yards without cellular signal</p>
+                </div>
+              </div>
+              <span id="offline-field-badge" class="text-[9px] font-mono px-2 py-0.5 rounded-full font-bold uppercase" style="background: rgba(59, 130, 246, 0.15); color: #3B82F6;">Ready to Pre-Cache</span>
+            </div>
+            
+            <div id="offline-progress-bar-container" class="hidden w-full h-1.5 rounded-full overflow-hidden bg-black/20">
+              <div id="offline-progress-bar" class="h-full bg-emerald-500 transition-all duration-300" style="width: 0%;"></div>
+            </div>
+
+            <div class="flex items-center justify-between pt-0.5">
+              <button type="button" onclick="triggerOfflineDossierCaching()" id="btn-cache-dossiers" class="px-3.5 py-2 rounded-xl border text-[11px] font-extrabold active:scale-95 transition-transform flex items-center gap-1.5 shadow-sm" style="background: var(--accent); color: #ffffff;">
+                <span>⚡ Pre-Cache All 12 PDF Dossiers</span>
+              </button>
+              <span id="offline-status-text" class="text-[10px] font-mono text-muted">Total Payload: ~260 KB</span>
+            </div>
+          </div>
+
           <!-- Section 1: Manufacturing & Hardware Assembly Arbitrage -->
           <div class="space-y-2 pt-1">
             <span class="text-[10px] font-bold uppercase tracking-wider block text-amber-500">1. Light Manufacturing &amp; Hardware Assembly</span>
@@ -4189,6 +4230,45 @@
       </div>
       <!-- Sub-Pane 1: High-Trust Entity Directory -->
       <div id="sub-profile-directory" class="sub-pane space-y-4">
+
+      <!-- Supabase Multi-Device Cloud Sync Card -->
+      <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5 border" style="background: var(--card-bg); border-color: var(--card-border);">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span class="text-base">☁️</span>
+            <div>
+              <h2 class="text-xs font-extrabold uppercase tracking-wider flex items-center gap-1.5 text-main">
+                <span>Supabase Multi-Device Cloud Sync</span>
+              </h2>
+              <p class="text-[10px] text-muted">Sync your custom arbitrage simulations, margins &amp; bookmarks across iPhone and Desktop</p>
+            </div>
+          </div>
+          <span id="profile-sync-badge" class="text-[9px] font-mono px-2 py-0.5 rounded-full font-bold uppercase" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">Cloud Ready</span>
+        </div>
+
+        <div class="p-3 rounded-2xl border space-y-2.5 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div>
+            <label class="block text-[10px] font-bold uppercase mb-1 text-muted">Supabase Project Endpoint</label>
+            <input type="text" id="supabase-url" value="https://cxzefzyzmmasypyonmek.supabase.co" readonly class="w-full p-2 rounded-xl border text-[11px] font-mono focus:outline-none opacity-80" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold uppercase mb-1 text-muted">Anon Public Key (Required for live multi-device sync)</label>
+            <input type="password" id="supabase-anon-key" placeholder="Paste your anon public key from Project Settings -> API..." onchange="saveSupabaseCredentials()" class="w-full p-2 rounded-xl border text-[11px] font-mono focus:outline-none" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);" />
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
+            <button type="button" onclick="syncScenariosToCloud()" class="py-2 px-2.5 rounded-xl border text-[10px] font-bold active:scale-95 transition-transform flex items-center justify-center gap-1 shadow-sm" style="background: var(--accent); color: #ffffff;">
+              <span>☁️ Sync Scenarios</span>
+            </button>
+            <button type="button" onclick="restoreScenariosFromCloud()" class="py-2 px-2.5 rounded-xl border text-[10px] font-bold active:scale-95 transition-transform flex items-center justify-center gap-1 shadow-sm" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+              <span>📥 Pull from Cloud</span>
+            </button>
+            <button type="button" onclick="showSupabaseSqlHelper()" class="py-2 px-2.5 rounded-xl border text-[10px] font-bold active:scale-95 transition-transform flex items-center justify-center gap-1 shadow-sm" style="background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.3); color: #10B981;">
+              <span>📜 View SQL Schema</span>
+            </button>
+          </div>
+          <div id="supabase-sync-log" class="text-[10px] font-mono pt-1 text-muted">Status: Connected to local device cache.</div>
+        </div>
+      </div>
       <!-- Phase 1: High-Trust Trade Directory & 360° Entity Dossier -->
       <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5">
         <div class="flex items-center justify-between">
