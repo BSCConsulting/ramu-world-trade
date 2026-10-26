@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Mandi Blueprint 3: Asymmetric Titan Buffer & Packaged B2C Depot</title>
+  
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Plus Jakarta Sans", "Segoe UI", sans-serif;
+    background: #f8fafc;
+    color: #0f172a;
+    line-height: 1.5;
+    padding: 30px;
+  }
+  .dossier-card {
+    max-width: 840px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+  }
+  .header {
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    letter-spacing: 0.5px;
+  }
+  h1 { font-size: 22px; font-weight: 800; color: #0f172a; margin-top: 6px; letter-spacing: -0.5px; }
+  h2 { font-size: 14px; font-weight: 800; color: #1e293b; margin: 24px 0 12px 0; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px; }
+  h3 { font-size: 13px; font-weight: 700; color: #334155; margin: 14px 0 6px 0; }
+  p, li { font-size: 12px; color: #475569; leading: 1.6; }
+  ul, ol { padding-left: 20px; margin-bottom: 14px; }
+  li { margin-bottom: 6px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 14px 0; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin: 14px 0; }
+  .metric-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px 14px;
+  }
+  .metric-label { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 4px; }
+  .metric-val { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 800; color: #0f172a; }
+  .metric-sub { font-size: 10px; color: #94a3b8; margin-top: 2px; }
+  .callout {
+    background: #f8fafc;
+    border-left: 4px solid #C25E34;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 16px 0;
+    font-size: 11px;
+  }
+  .callout-green { border-left-color: #10B981; background: rgba(16, 185, 129, 0.04); }
+  .callout-red { border-left-color: #EF4444; background: rgba(239, 68, 68, 0.04); }
+  .callout-blue { border-left-color: #3B82F6; background: rgba(59, 130, 246, 0.04); }
+  .table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 11px; }
+  .table th { background: #f1f5f9; text-align: left; padding: 8px 10px; font-weight: 700; color: #475569; border-bottom: 1px solid #cbd5e1; }
+  .table td { padding: 8px 10px; border-bottom: 1px solid #e2e8f0; color: #334155; }
+  .btn-print {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #C25E34;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 12px 20px;
+    border-radius: 9999px;
+    border: none;
+    box-shadow: 0 10px 15px -3px rgba(194, 94, 52, 0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 100;
+  }
+  .btn-print:hover { background: #ab4f2a; }
+  @media print {
+    body { padding: 0; background: #ffffff; }
+    .dossier-card { box-shadow: none; border: none; padding: 0; max-width: 100%; }
+    .btn-print { display: none !important; }
+  }
+</style>
+
+</head>
+<body>
+  <button class="btn-print" onclick="window.print()">📥 Print / Save as PDF</button>
+  <div class="dossier-card">
+    <div class="header">
+      <div>
+        <span class="tag" style="background: rgba(16, 185, 129, 0.1); color: #059669; border: 1px solid rgba(16, 185, 129, 0.25);">OPERATIONAL MANDI BLUEPRINT • STRATEGY 3</span>
+        <h1>The Asymmetric Titan Mandi Engine</h1>
+        <p style="color: #64748b; margin-top: 4px;">Tier 3 Capital (₹1.5 Lakh Buffer) • Model C (Pre-Sorted, Washed &amp; Packaged) • Zero Waste</p>
+      </div>
+      <div style="text-align: right;">
+        <span style="font-size: 10px; font-weight: 700; color: #94a3b8; font-family: 'JetBrains Mono', monospace;">MANDI-VJA-MDH-03</span>
+        <div style="font-size: 11px; font-weight: 700; color: #0f172a; margin-top: 2px;">Highest Profit Execution</div>
+      </div>
+    </div>
+
+    <div class="grid-4">
+      <div class="metric-box">
+        <span class="metric-label">Revolving Capital</span>
+        <span class="metric-val" style="color: #10b981;">₹1.50 L</span>
+        <div class="metric-sub">Buffer stock + daily runner</div>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Wastage Rate</span>
+        <span class="metric-val" style="color: #059669;">0.0%</span>
+        <div class="metric-sub">2-Tier sorting &amp; processing</div>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Daily Realization</span>
+        <span class="metric-val" style="color: #059669;">₹12,400</span>
+        <div class="metric-sub">Dual-stream cash capture</div>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Monthly Net Profit</span>
+        <span class="metric-val" style="color: #059669;">₹3,72,000</span>
+        <div class="metric-sub">248% Monthly Capital ROI</div>
+      </div>
+    </div>
+
+    <h2>1. The Titan Principle: Eliminating Perishability via Two-Tier Grading</h2>
+    <p>Traditional vendors lose 20% of their vegetables to heat, rotting, and bargain discounting in the evening. Strategy 3 eliminates waste completely using **Rockefeller’s Two-Tier Slicing**:
+    <br><br>
+    • <strong>Grade-A (Top 65% visually flawless):</strong> Cleaned, weighed, and sealed into 1kg/2kg eco-mesh bags for premium residential consumers, teachers, bank employees, and healthcare staff in Madhira at a <strong>100% to 150% markup</strong>.
+    <br>• <strong>Grade-B (35% smaller or cosmetic cuts):</strong> Immediately sold in bulk at wholesale cost to local street-food stalls, fast-food noodles vendors, and hostel messes who chop everything anyway. <strong>Net result: Exactly 0% waste!</strong></p>
+
+    <h2>2. Sourcing Split: 70% Semi-Perishable Buffer + 30% Perishables</h2>
+    <div class="callout callout-green">
+      <strong>The Semi-Perishable Buffer Moat:</strong>
+      You maintain a small dry storage depot in Madhira (a ₹3,000/month garage/room) stocked with 2–3 tonnes of <strong>Nasik Onion, Agra Potato, Dry Ginger, and Garlic</strong> bought directly during price dips in Vijayawada. These items do not rot for 14–21 days. Whenever local Madhira market prices spike due to rain or transport strikes, you sell from your buffer at peak retail profit.
+    </div>
+
+    <h2>3. Revenue &amp; Profit Waterfall (Daily Model)</h2>
+    <table class="table">
+      <thead>
+        <tr><th>Revenue Stream</th><th>Target Segment</th><th>Volume / Day</th><th>Daily Net Revenue</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Grade-A Eco-Mesh Consumer Packs</td><td>150 Madhira families (WhatsApp list)</td><td>650 kg assorted</td><td>₹22,750</td></tr>
+        <tr><td>Grade-B Commercial Mass Supply</td><td>12 fast-food &amp; tiffin messes</td><td>350 kg</td><td>₹5,600</td></tr>
+        <tr><td>Semi-Perishable Buffer Release (Onion/Potato)</td><td>Retail &amp; Kirana top-ups</td><td>400 kg</td><td>₹10,400</td></tr>
+        <tr style="background: #f8fafc; font-weight: 700;">
+          <td colspan="3">TOTAL COMBINED DAILY TURNOVER</td>
+          <td style="color: #10b981; font-family: 'JetBrains Mono';">₹38,750</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="table">
+      <thead>
+        <tr><th>Expense Category</th><th>Monthly Details</th><th>Daily Equiv (INR)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Wholesale Produce Procurement</td><td>Gollapudi auction procurement</td><td>₹22,500</td></tr>
+        <tr><td>Chartered Truck &amp; Fuel</td><td>Daily 85 km transit</td><td>₹2,200</td></tr>
+        <tr><td>Packing Mesh Bags &amp; Labels</td><td>₹0.80 per 1kg pack × 650 packs</td><td>₹520</td></tr>
+        <tr><td>2 Part-Time Sorters (College students/helpers)</td><td>2 hours morning cleaning &amp; packing</td><td>₹600</td></tr>
+        <tr><td>Depot Rent &amp; Electricity</td><td>₹4,500 / month</td><td>₹150</td></tr>
+        <tr><td>Buffer Capital Depreciation / Losses</td><td>Dry shrinkage buffer</td><td>₹380</td></tr>
+        <tr style="background: #f8fafc; font-weight: 700;">
+          <td colspan="2">TOTAL DAILY OPERATIONAL EXPENDITURE</td>
+          <td style="color: #d97706; font-family: 'JetBrains Mono';">₹26,350</td>
+        </tr>
+        <tr style="background: rgba(16, 185, 129, 0.08); font-weight: 800;">
+          <td colspan="2" style="color: #059669;">NET DAILY CASH PROFIT</td>
+          <td style="color: #059669; font-family: 'JetBrains Mono'; font-size: 14px;">₹12,400 / day (₹3,72,000 / month)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>4. The Customer Lock-In Moat (WhatsApp Vegetable Club)</h2>
+    <ul>
+      <li><strong>Pre-Orders via WhatsApp:</strong> You create a "Madhira Fresh Farm Club" WhatsApp group for 150 local households. Every evening at 7:00 PM, you post the fresh list. Families pre-order their morning vegetable packs.</li>
+      <li><strong>Guaranteed Quality:</strong> If an onion is bad, you replace it for free with the next pack. Local street vendors never offer replacements; your institutional trust creates a permanent monopoly.</li>
+      <li><strong>Cash Advance Float:</strong> Offer a "Monthly Vegetable Pass" where families pay ₹3,000 upfront for daily doorstep delivery. 50 families = <strong>₹1,50,000 in zero-cost customer float</strong> that fully finances your working capital!</li>
+    </ul>
+
+    <div class="callout callout-green">
+      <strong>Strategy 3 Verdict:</strong> The highest-profit, zero-waste system. Generates over ₹3.7 Lakhs/month by turning a chaotic street trade into a predictable, branded supply-chain business.
+    </div>
+  </div>
+</body>
+</html>

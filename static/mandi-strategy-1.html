@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Mandi Blueprint 1: Micro-Agile Direct Retail (Vijayawada ➔ Madhira)</title>
+  
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Plus Jakarta Sans", "Segoe UI", sans-serif;
+    background: #f8fafc;
+    color: #0f172a;
+    line-height: 1.5;
+    padding: 30px;
+  }
+  .dossier-card {
+    max-width: 840px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+  }
+  .header {
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    letter-spacing: 0.5px;
+  }
+  h1 { font-size: 22px; font-weight: 800; color: #0f172a; margin-top: 6px; letter-spacing: -0.5px; }
+  h2 { font-size: 14px; font-weight: 800; color: #1e293b; margin: 24px 0 12px 0; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px; }
+  h3 { font-size: 13px; font-weight: 700; color: #334155; margin: 14px 0 6px 0; }
+  p, li { font-size: 12px; color: #475569; leading: 1.6; }
+  ul, ol { padding-left: 20px; margin-bottom: 14px; }
+  li { margin-bottom: 6px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 14px 0; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin: 14px 0; }
+  .metric-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px 14px;
+  }
+  .metric-label { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 4px; }
+  .metric-val { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 800; color: #0f172a; }
+  .metric-sub { font-size: 10px; color: #94a3b8; margin-top: 2px; }
+  .callout {
+    background: #f8fafc;
+    border-left: 4px solid #C25E34;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 16px 0;
+    font-size: 11px;
+  }
+  .callout-green { border-left-color: #10B981; background: rgba(16, 185, 129, 0.04); }
+  .callout-red { border-left-color: #EF4444; background: rgba(239, 68, 68, 0.04); }
+  .callout-blue { border-left-color: #3B82F6; background: rgba(59, 130, 246, 0.04); }
+  .table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 11px; }
+  .table th { background: #f1f5f9; text-align: left; padding: 8px 10px; font-weight: 700; color: #475569; border-bottom: 1px solid #cbd5e1; }
+  .table td { padding: 8px 10px; border-bottom: 1px solid #e2e8f0; color: #334155; }
+  .btn-print {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #C25E34;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 12px 20px;
+    border-radius: 9999px;
+    border: none;
+    box-shadow: 0 10px 15px -3px rgba(194, 94, 52, 0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 100;
+  }
+  .btn-print:hover { background: #ab4f2a; }
+  @media print {
+    body { padding: 0; background: #ffffff; }
+    .dossier-card { box-shadow: none; border: none; padding: 0; max-width: 100%; }
+    .btn-print { display: none !important; }
+  }
+</style>
+
+</head>
+<body>
+  <button class="btn-print" onclick="window.print()">📥 Print / Save as PDF</button>
+  <div class="dossier-card">
+    <div class="header">
+      <div>
+        <span class="tag" style="background: rgba(59, 130, 246, 0.1); color: #2563eb; border: 1px solid rgba(59, 130, 246, 0.25);">OPERATIONAL MANDI BLUEPRINT • STRATEGY 1</span>
+        <h1>Micro-Agile Direct Retail Arbitrage</h1>
+        <p style="color: #64748b; margin-top: 4px;">Tier 1 Capital (₹7,500/day) • Model A Retail • Gollapudi ➔ Madhira Corridor (80 km)</p>
+      </div>
+      <div style="text-align: right;">
+        <span style="font-size: 10px; font-weight: 700; color: #94a3b8; font-family: 'JetBrains Mono', monospace;">MANDI-VJA-MDH-01</span>
+        <div style="font-size: 11px; font-weight: 700; color: #0f172a; margin-top: 2px;">AP ➔ Telangana Inter-State</div>
+      </div>
+    </div>
+
+    <div class="grid-4">
+      <div class="metric-box">
+        <span class="metric-label">Daily Capital</span>
+        <span class="metric-val" style="color: #2563eb;">₹7,500</span>
+        <div class="metric-sub">Self-revolving float</div>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Cargo Volume</span>
+        <span class="metric-val">380 kg</span>
+        <div class="metric-sub">Fast-rotational basket</div>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Net Daily Profit</span>
+        <span class="metric-val" style="color: #10b981;">₹3,450</span>
+        <div class="metric-sub">After freight &amp; 12% shrinkage</div>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Monthly Earning</span>
+        <span class="metric-val" style="color: #10b981;">₹1,03,500</span>
+        <div class="metric-sub">Based on 30 operational days</div>
+      </div>
+    </div>
+
+    <h2>1. Executive Concept & Corridor Dynamics</h2>
+    <p>Operating a lean, rapid 14-hour cycle from Gollapudi Wholesale Market (Vijayawada, AP) to Madhira Town (Khammam District, Telangana). You procure fast-rotational essentials at 3:30 AM wholesale auctions, transport via shared commercial freight or passenger express, and sell directly to consumers at a premium morning stall or dedicated residential cluster in Madhira.</p>
+
+    <h2>2. Daily Unit Economics & Profit Waterfall</h2>
+    <table class="table">
+      <thead>
+        <tr><th>Commodity</th><th>Procurement (kg)</th><th>Gollapudi Cost/kg</th><th>Madhira Retail/kg</th><th>Daily Gross Margin</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Tomato (Hybrid Grade-A)</td><td>120 kg</td><td>₹14.00</td><td>₹32.00</td><td>₹2,160</td></tr>
+        <tr><td>Green Chilli (G4 Hot)</td><td>30 kg</td><td>₹35.00</td><td>₹65.00</td><td>₹900</td></tr>
+        <tr><td>Brinjal / Eggplant</td><td>60 kg</td><td>₹16.00</td><td>₹35.00</td><td>₹1,140</td></tr>
+        <tr><td>Lady Finger (Bhendi)</td><td>50 kg</td><td>₹18.00</td><td>₹40.00</td><td>₹1,100</td></tr>
+        <tr><td>Leafy Greens (Palak/Methi/Coriander)</td><td>120 bunches</td><td>₹4.50</td><td>₹12.00</td><td>₹900</td></tr>
+        <tr style="background: #f8fafc; font-weight: 700;">
+          <td colspan="4">TOTAL GROSS SALES REVENUE</td>
+          <td style="color: #10b981; font-family: 'JetBrains Mono';">₹12,400</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="table">
+      <thead>
+        <tr><th>Operational Expense Item</th><th>Calculation / Details</th><th>Daily Cost (INR)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Raw Wholesale Inventory</td><td>380 kg total assortment</td><td>₹6,200</td></tr>
+        <tr><td>Hamali &amp; Loading at Gollapudi</td><td>₹5 per bag/crate × 12 packages</td><td>₹60</td></tr>
+        <tr><td>Shared Freight Transport</td><td>Vijayawada ➔ Madhira shared truck / auto</td><td>₹650</td></tr>
+        <tr><td>Shrinkage &amp; Moisture Wastage (12%)</td><td>Bruising and dehydration buffer</td><td>₹740</td></tr>
+        <tr><td>Stall Fee / Municipal Vendor Token</td><td>Madhira local daily market fee</td><td>₹50</td></tr>
+        <tr><td>Poly-bags &amp; Packing Materials</td><td>Bio-degradable carry bags</td><td>₹50</td></tr>
+        <tr style="background: #f8fafc; font-weight: 700;">
+          <td colspan="2">TOTAL DAILY OUTFLOW</td>
+          <td style="color: #d97706; font-family: 'JetBrains Mono';">₹7,750</td>
+        </tr>
+        <tr style="background: rgba(16, 185, 129, 0.08); font-weight: 800;">
+          <td colspan="2" style="color: #059669;">NET DAILY CASH REALIZATION</td>
+          <td style="color: #059669; font-family: 'JetBrains Mono'; font-size: 14px;">₹3,450 / day (₹1,03,500 / month)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>3. Ground Politics, Syndicates &amp; How to Win</h2>
+    <ul>
+      <li><strong>Gollapudi 3:30 AM Entry Advantage:</strong> Never buy at 6:00 AM from secondary brokers. Arrive at 3:30 AM at the farmer arrival bays. Buy direct from the arriving tractor trailers ("Direct Rythu Malu") to avoid the 8% commission agent markup.</li>
+      <li><strong>Inter-State Checkpost:</strong> Fresh vegetables are 100% exempt from GST under Notification No. 2/2017-Central Tax (Rate). Keep the white APMC Mandi receipt in the truck to easily cross the AP-Telangana border without border delays.</li>
+      <li><strong>Local Street Politics in Madhira:</strong> Established cart vendors will complain if you park directly in front of their stalls. Counter-Strategy: Position your setup near high-traffic morning junctions (near Madhira Railway Station road or SBI branch junction) where office commuters and morning walkers buy quickly for convenience.</li>
+    </ul>
+
+    <h2>4. Licenses Required (Zero-Bureaucracy Setup)</h2>
+    <div class="callout callout-blue">
+      1. <strong>FSSAI Registration:</strong> Basic petty food business registration online (₹100/yr via <code>foscos.fssai.gov.in</code>).<br>
+      2. <strong>APMC Gollapudi Buyer Entry Token:</strong> Obtained at the gate counter daily (₹10).<br>
+      3. <strong>Madhira Town Vending Pass:</strong> Daily municipality token ticket (₹30–₹50).
+    </div>
+  </div>
+</body>
+</html>
