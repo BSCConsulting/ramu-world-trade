@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Strategy C: Asymmetric Titan Framework (Quality Arbitrage + Float)</title>
+  
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Plus Jakarta Sans", "Segoe UI", sans-serif;
+    background: #f8fafc;
+    color: #0f172a;
+    line-height: 1.5;
+    padding: 30px;
+  }
+  .dossier-card {
+    max-width: 820px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+  }
+  .header {
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    letter-spacing: 0.5px;
+  }
+  h1 { font-size: 22px; font-weight: 800; color: #0f172a; margin-top: 6px; letter-spacing: -0.5px; }
+  h2 { font-size: 15px; font-weight: 800; color: #1e293b; margin: 24px 0 12px 0; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px; }
+  h3 { font-size: 13px; font-weight: 700; color: #334155; margin: 14px 0 6px 0; }
+  p, li { font-size: 12px; color: #475569; leading: 1.6; }
+  ul, ol { padding-left: 20px; margin-bottom: 14px; }
+  li { margin-bottom: 6px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 14px 0; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin: 14px 0; }
+  .metric-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px 14px;
+  }
+  .metric-label { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 4px; }
+  .metric-val { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 800; color: #0f172a; }
+  .metric-sub { font-size: 10px; color: #94a3b8; margin-top: 2px; }
+  .callout {
+    background: #f8fafc;
+    border-left: 4px solid #C25E34;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 16px 0;
+    font-size: 11px;
+  }
+  .callout-green { border-left-color: #10B981; background: rgba(16, 185, 129, 0.04); }
+  .callout-red { border-left-color: #EF4444; background: rgba(239, 68, 68, 0.04); }
+  .callout-blue { border-left-color: #3B82F6; background: rgba(59, 130, 246, 0.04); }
+  .table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 11px; }
+  .table th { background: #f1f5f9; text-align: left; padding: 8px 10px; font-weight: 700; color: #475569; border-bottom: 1px solid #cbd5e1; }
+  .table td { padding: 8px 10px; border-bottom: 1px solid #e2e8f0; color: #334155; }
+  .btn-print {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #C25E34;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 12px 20px;
+    border-radius: 9999px;
+    border: none;
+    box-shadow: 0 10px 15px -3px rgba(194, 94, 52, 0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 100;
+  }
+  .btn-print:hover { background: #ab4f2a; }
+  @media print {
+    body { padding: 0; background: #ffffff; }
+    .dossier-card { box-shadow: none; border: none; padding: 0; max-width: 100%; }
+    .btn-print { display: none !important; }
+  }
+</style>
+
+</head>
+<body>
+  <button class="btn-print" onclick="window.print()">📥 Print / Save as PDF</button>
+  <div class="dossier-card">
+    <div class="header">
+      <div>
+        <span class="tag" style="background: rgba(16, 185, 129, 0.1); color: #059669; border: 1px solid rgba(16, 185, 129, 0.25);">OPERATIONAL DOSSIER • STRATEGY C</span>
+        <h1>The Asymmetric Titan Framework</h1>
+        <p style="color: #64748b; margin-top: 4px;">Rockefeller Bottleneck • NABL Quality Arbitrage • Buffett Float Option</p>
+      </div>
+      <div style="text-align: right;">
+        <span style="font-size: 10px; font-weight: 700; color: #94a3b8; font-family: 'JetBrains Mono', monospace;">WOT-REDCHILLI-01C</span>
+        <div style="font-size: 11px; font-weight: 700; color: #0f172a; margin-top: 2px;">Highest Profit Execution</div>
+      </div>
+    </div>
+
+    <div class="grid-4">
+      <div class="metric-box">
+        <span class="metric-label">Your Capital</span>
+        <span class="metric-val" style="color: #10b981;">₹39,500</span>
+        <div class="metric-sub">Token option + Lab test</div>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Locked Price</span>
+        <span class="metric-val">₹160 / kg</span>
+        <div class="metric-sub">10-day option contract</div>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Export Realization</span>
+        <span class="metric-val" style="color: #059669;">₹208 / kg</span>
+        <div class="metric-sub">Certified EU-grade lot</div>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Net Profit Realized</span>
+        <span class="metric-val" style="color: #059669;">₹6,52,500</span>
+        <div class="metric-sub">1,650% Return on Outlay</div>
+      </div>
+    </div>
+
+    <h2>1. The Titan Philosophy: Quality Arbitrage &amp; Float Control</h2>
+    <p>Traditional traders compete on raw price and lock up lakhs of rupees. Strategy C exploits the <strong>Testing Blindspot</strong>. Cold storage owners price stock at generic domestic rates (₹160/kg) because they lack certified lab data. Global buyers pay premium rates (₹208–₹220/kg) for verified low-aflatoxin lots. By controlling the testing data and locking the stock with a nominal option deposit, you capture the entire quality spread without purchasing the cargo.</p>
+
+    <h2>2. The 4-Step Asymmetric Execution Protocol</h2>
+    <div class="callout callout-green">
+      <strong>Step 1: The 24-Hour Express NABL Test (Outlay: ₹4,500):</strong>
+      Before negotiating with anyone, pay ₹4,500 to an accredited NABL laboratory (e.g. Vimta Labs or Spices Board Quality Lab). Test for: <em>Total Aflatoxin (&lt; 5 ppb), Moisture (&lt; 10%), and ASTA Color (&gt; 90)</em>. If it passes, you have just converted a generic domestic lot into an international export asset worth an extra ₹48 per kg.
+    </div>
+
+    <div class="callout callout-green">
+      <strong>Step 2: The 10-Day Token Option Lock (Outlay: ₹35,000):</strong>
+      Approach the storage owner with a cash token of ₹35,000 (₹2.50/kg). Execute an exclusive 10-day <em>Price Lock &amp; First Right of Refusal Contract</em> at ₹160/kg. If you don't lift it in 10 days, the owner keeps the deposit. The owner eagerly accepts; you now legally control a ₹22.4 Lakh asset for ₹35,000.
+    </div>
+
+    <div class="callout callout-green">
+      <strong>Step 3: Direct Reverse Pitch to Active Exporters:</strong>
+      Contact the Head of Sourcing at top export houses with an executive, unrejectable offer:
+      <br><code>"Locked 14 MT Guntur S17 Stemless (Lot #402). Certified NABL: Total Aflatoxin 3.8 ppb, Moisture 9.2%, ASTA 98. Ex-cold storage price: ₹208/kg. Lab report attached. Ready for immediate loading."</code>
+      <br>Exporters facing European vessel cut-offs will issue an immediate Purchase Order.
+    </div>
+
+    <div class="callout callout-green">
+      <strong>Step 4: Tripartite Escrow Settlement:</strong>
+      The exporter sends their container truck directly to the cold storage.
+      <br>• Exporter transfers ₹22,40,000 directly to the Cold Storage Owner (owner returns your ₹35,000 deposit).
+      <br>• Exporter transfers the spread differential (14,000 kg × ₹48 = ₹6,72,000) directly to your account as a Quality Sourcing &amp; Procurement Fee.
+    </div>
+
+    <h2>3. Comparative Profit &amp; Risk Matrix</h2>
+    <table class="table">
+      <thead>
+        <tr><th>Dimension</th><th>Strategy A (Broker)</th><th>Strategy B (Merchant)</th><th>Strategy C (Titan)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Capital Required</td><td>₹0</td><td>₹23,68,600</td><td>₹39,500</td></tr>
+        <tr><td>Gross Spread Captured</td><td>₹2.50 / kg</td><td>₹32.00 / kg</td><td>₹48.00 / kg</td></tr>
+        <tr><td>Net Realized Profit</td><td>₹35,000</td><td>₹3,19,400</td><td><strong>₹6,52,500</strong></td></tr>
+        <tr><td>Return on Invested Capital</td><td>N/A (Infinite)</td><td>13.5%</td><td><strong>1,650%</strong></td></tr>
+        <tr><td>Maximum Downside Risk</td><td>₹0</td><td>₹23.7 Lakhs</td><td>Capped at ₹35,000</td></tr>
+        <tr><td>Speed of Execution</td><td>3–5 Days</td><td>15–30 Days</td><td>7–10 Days</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-green">
+      <strong>Strategy C Verdict:</strong> The highest-leverage commercial model. Generates principal-level profits while strictly limiting downside risk to a token deposit.
+    </div>
+  </div>
+</body>
+</html>
