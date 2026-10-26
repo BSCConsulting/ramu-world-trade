@@ -431,74 +431,100 @@
         max-height: 20px !important;
       }
     }
-      header,
-      nav,
-      #toast,
-      #bottom-sheet,
-      #bottom-sheet-backdrop,
-      #bottom-nav,
-      #theme-dropdown,
-      .sub-tab-nav,
-      .no-print {
-        display: none !important;
-      }
-      #trade-blueprint-modal:not(.hidden) {
-        position: static !important;
-        background: #ffffff !important;
-        color: #000000 !important;
-        padding: 0 !important;
-        display: block !important;
-        max-height: none !important;
-        overflow: visible !important;
-      }
-      #trade-blueprint-modal .glass-panel {
-        max-width: 100% !important;
-        box-shadow: none !important;
-        border: 1px solid #d1d5db !important;
-        background: #ffffff !important;
-        color: #000000 !important;
-        max-height: none !important;
-        overflow: visible !important;
-      }
-      .hidden {
-        display: none !important;
-      }
-      svg {
-        max-width: 20px !important;
-        max-height: 20px !important;
-      }
-    }
 
         /* ============================================================
-       SOVEREIGN HIGH-CONTRAST TYPOGRAPHY & DESIGN SYSTEM
+       SOVEREIGN MOBILE-FIRST TYPOGRAPHY & RIGID CONTAINMENT SYSTEM
+       (Tailored for iPhone 15 & Super Retina XDR Viewports)
        ============================================================ */
-    body, button, input, select, textarea {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+    :root {
+      --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Plus Jakarta Sans", system-ui, sans-serif;
+      --font-mono: "SF Mono", "JetBrains Mono", ui-monospace, Menlo, Monaco, Consolas, monospace;
+    }
+    html, body {
+      max-width: 100vw;
+      overflow-x: hidden;
+      width: 100%;
+      box-sizing: border-box;
+      font-family: var(--font-sans) !important;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
-    .font-mono, code, pre {
-      font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+    body, button, input, select, textarea {
+      font-family: var(--font-sans) !important;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      box-sizing: border-box;
     }
-    .glass-panel, .glass-card {
-      border: 1px solid rgba(0, 0, 0, 0.14) !important;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
-    }
-    .border {
-      border-color: rgba(0, 0, 0, 0.12) !important;
+    .font-mono, code, pre, .mono-data {
+      font-family: var(--font-mono) !important;
+      font-feature-settings: "tnum" 1, "zero" 1;
     }
     main {
-      padding-bottom: 120px !important;
+      max-width: 100vw !important;
+      width: 100% !important;
+      overflow-x: hidden !important;
+      box-sizing: border-box !important;
+      padding-bottom: max(calc(env(safe-area-inset-bottom) + 84px), 110px) !important;
+    }
+    .glass-panel, .glass-card, .sub-pane {
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+      overflow: hidden !important;
+      word-break: break-word;
+      border: 1px solid var(--card-border) !important;
+      box-shadow: 0 4px 20px -2px var(--shadow-color), inset 0 1px 0 var(--card-inner-border);
+    }
+    .border {
+      border-color: var(--card-border) !important;
+    }
+    /* iOS Native Horizontal Scroll Strips with Smooth Edge Fade */
+    .scroll-chip-strip {
+      display: flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch !important;
+      overscroll-behavior-x: contain !important;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+      padding: 3px 2px 5px 2px !important;
+      max-width: 100% !important;
+      width: 100% !important;
+      scroll-padding-right: 28px !important;
+      -webkit-mask-image: linear-gradient(to right, black calc(100% - 24px), transparent 100%) !important;
+      mask-image: linear-gradient(to right, black calc(100% - 24px), transparent 100%) !important;
+    }
+    .scroll-chip-strip::-webkit-scrollbar {
+      display: none !important;
+    }
+    .scroll-chip-strip > * {
+      flex-shrink: 0 !important;
+    }
+    .sub-tab-nav {
+      max-width: 100% !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      -webkit-mask-image: linear-gradient(to right, black calc(100% - 16px), transparent 100%);
+      mask-image: linear-gradient(to right, black calc(100% - 16px), transparent 100%);
+    }
+    .overflow-x-auto {
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch !important;
+      overscroll-behavior-x: contain !important;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+      max-width: 100% !important;
+    }
+    .overflow-x-auto::-webkit-scrollbar {
+      display: none !important;
     }
     /* ============================================================
        SOVEREIGN CSS FALLBACK CORE (100% Offline & Ad-Blocker Immune)
-       Guarantees tab isolation, typography, & layout even if
-       cdn.tailwindcss.com fails or is blocked.
        ============================================================ */
     .hidden {
       display: none !important;
     }
     body {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background-color: var(--bg-app);
       color: var(--text-main);
     }
@@ -743,26 +769,26 @@
         </form>
 
         <!-- Horizontal Scrollable Quick Suggestion Chips (Thumb-zone friendly) -->
-        <div class="mt-3.5 flex overflow-x-auto space-x-2 pb-1 ios-scroll no-scrollbar">
-          <button onclick="setQuery('Export product and potential for Nizamabad')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl border text-xs font-semibold active:scale-95 transition-transform flex items-center gap-1" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">
+        <div class="mt-3 scroll-chip-strip">
+          <button onclick="setQuery('Export product and potential for Nizamabad')" class="min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-transform flex items-center gap-1.5" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">
             📍 <span>Nizamabad (Turmeric ODOP)</span>
           </button>
-          <button onclick="setQuery('What is the ODOP export profile of Guntur?')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl border text-xs font-semibold active:scale-95 transition-transform flex items-center gap-1" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">
+          <button onclick="setQuery('What is the ODOP export profile of Guntur?')" class="min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-transform flex items-center gap-1.5" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">
             🌶️ <span>Guntur (Mirchi ODOP)</span>
           </button>
-          <button onclick="setQuery('Show me India foreign trade 6-year trend and trajectory')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl border text-xs font-semibold active:scale-95 transition-transform flex items-center gap-1" style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);">
+          <button onclick="setQuery('Show me India foreign trade 6-year trend and trajectory')" class="min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-transform flex items-center gap-1.5" style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);">
             📈 <span>6-Year Macro Trend</span>
           </button>
-          <button onclick="setQuery('Tell me about octopus export tariff HS 0307 51 00')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl border text-xs font-semibold active:scale-95 transition-transform flex items-center gap-1" style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);">
+          <button onclick="setQuery('Tell me about octopus export tariff HS 0307 51 00')" class="min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-transform flex items-center gap-1.5" style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);">
             🐙 <span>HS 0307 (Octopus)</span>
           </button>
-          <button onclick="setQuery('Compare trade between India and USA')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl border text-xs font-medium active:scale-95 transition-transform flex items-center gap-1" style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);">
+          <button onclick="setQuery('Compare trade between India and USA')" class="min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-transform flex items-center gap-1.5" style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);">
             🇺🇸 <span>India ↔ USA (FOB/CIF)</span>
           </button>
-          <button onclick="setQuery('How much goods do we buy from China versus sell to them?')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl border text-xs font-medium active:scale-95 transition-transform flex items-center gap-1" style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);">
+          <button onclick="setQuery('How much goods do we buy from China versus sell to them?')" class="min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-transform flex items-center gap-1.5" style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);">
             🇨🇳 <span>China Deficit</span>
           </button>
-          <button onclick="setQuery('What are India top export commodities?')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2 rounded-xl border text-xs font-medium active:scale-95 transition-transform flex items-center gap-1" style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);">
+          <button onclick="setQuery('What are India top export commodities?')" class="min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-transform flex items-center gap-1.5" style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);">
             🏆 <span>Top 10 Exports</span>
           </button>
         </div>
@@ -770,18 +796,18 @@
         <!-- 8-Digit ITC-HS Statutory Disambiguator & Duty Tree -->
         <div class="mt-2.5 pt-2.5 border-t" style="border-color: var(--card-border);">
           <div class="flex items-center justify-between pb-1.5">
-            <span class="text-[10px] font-bold uppercase tracking-wider" style="color: var(--text-dim);">8-Digit ITC-HS Statutory Lines</span>
-            <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded" style="background: var(--accent-light); color: var(--accent);">BCD &bull; SWS &bull; IGST</span>
+            <span class="text-xs font-bold uppercase tracking-wider" style="color: var(--text-main);">8-Digit ITC-HS Statutory Lines</span>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full" style="background: var(--accent-light); color: var(--accent);">BCD • SWS • IGST</span>
           </div>
-          <div class="flex overflow-x-auto space-x-1.5 pb-1 ios-scroll no-scrollbar text-[11px]">
-            <button onclick="setHsTariff('6109.10.00')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2.5 rounded-xl border font-mono font-semibold active:scale-95 transition-transform flex items-center justify-center" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">6109.10.00 Cotton T-Shirts</button>
-            <button onclick="setHsTariff('0306.17.20')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2.5 rounded-xl border font-mono font-semibold active:scale-95 transition-transform flex items-center justify-center" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">0306.17.20 Frozen Shrimp</button>
-            <button onclick="setHsTariff('0910.30.20')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2.5 rounded-xl border font-mono font-semibold active:scale-95 transition-transform flex items-center justify-center" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">0910.30.20 Turmeric Powder</button>
-            <button onclick="setHsTariff('7318.15.00')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2.5 rounded-xl border font-mono font-semibold active:scale-95 transition-transform flex items-center justify-center" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">7318.15.00 Steel Fasteners</button>
-            <button onclick="setHsTariff('7418.10.22')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2.5 rounded-xl border font-mono font-semibold active:scale-95 transition-transform flex items-center justify-center" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">7418.10.22 Brass Artware</button>
-            <button onclick="setHsTariff('6403.91.90')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2.5 rounded-xl border font-mono font-semibold active:scale-95 transition-transform flex items-center justify-center" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">6403.91.90 Leather Shoes</button>
-            <button onclick="setHsTariff('3004.90.99')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2.5 rounded-xl border font-mono font-semibold active:scale-95 transition-transform flex items-center justify-center" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">3004.90.99 Pharma Formulations</button>
-            <button onclick="setHsTariff('8517.13.00')" class="flex-shrink-0 min-h-[44px] px-3.5 py-2.5 rounded-xl border font-mono font-semibold active:scale-95 transition-transform flex items-center justify-center" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">8517.13.00 Smartphones</button>
+          <div class="scroll-chip-strip">
+            <button onclick="setHsTariff('6109.10.00')" class="min-h-[38px] px-3 py-1.5 rounded-xl border text-xs active:scale-95 transition-transform flex items-center gap-1.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);"><span class="font-mono font-bold">6109.10.00</span> <span class="font-medium opacity-85">Cotton T-Shirts</span></button>
+            <button onclick="setHsTariff('0306.17.20')" class="min-h-[38px] px-3 py-1.5 rounded-xl border text-xs active:scale-95 transition-transform flex items-center gap-1.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);"><span class="font-mono font-bold">0306.17.20</span> <span class="font-medium opacity-85">Frozen Shrimp</span></button>
+            <button onclick="setHsTariff('0910.30.20')" class="min-h-[38px] px-3 py-1.5 rounded-xl border text-xs active:scale-95 transition-transform flex items-center gap-1.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);"><span class="font-mono font-bold">0910.30.20</span> <span class="font-medium opacity-85">Turmeric Powder</span></button>
+            <button onclick="setHsTariff('7318.15.00')" class="min-h-[38px] px-3 py-1.5 rounded-xl border text-xs active:scale-95 transition-transform flex items-center gap-1.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);"><span class="font-mono font-bold">7318.15.00</span> <span class="font-medium opacity-85">Steel Fasteners</span></button>
+            <button onclick="setHsTariff('7418.10.22')" class="min-h-[38px] px-3 py-1.5 rounded-xl border text-xs active:scale-95 transition-transform flex items-center gap-1.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);"><span class="font-mono font-bold">7418.10.22</span> <span class="font-medium opacity-85">Brass Artware</span></button>
+            <button onclick="setHsTariff('6403.91.90')" class="min-h-[38px] px-3 py-1.5 rounded-xl border text-xs active:scale-95 transition-transform flex items-center gap-1.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);"><span class="font-mono font-bold">6403.91.90</span> <span class="font-medium opacity-85">Leather Shoes</span></button>
+            <button onclick="setHsTariff('3004.90.99')" class="min-h-[38px] px-3 py-1.5 rounded-xl border text-xs active:scale-95 transition-transform flex items-center gap-1.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);"><span class="font-mono font-bold">3004.90.99</span> <span class="font-medium opacity-85">Pharma Formulations</span></button>
+            <button onclick="setHsTariff('8517.13.00')" class="min-h-[38px] px-3 py-1.5 rounded-xl border text-xs active:scale-95 transition-transform flex items-center gap-1.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);"><span class="font-mono font-bold">8517.13.00</span> <span class="font-medium opacity-85">Smartphones</span></button>
           </div>
         </div>
       </div>
@@ -828,17 +854,17 @@
           </div>
         </div>
         <!-- Duty Tree & Compliance Badges -->
-        <div id="class-duty-tree" class="p-2.5 rounded-xl border space-y-1.5 text-[11px]" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-          <div class="flex items-center justify-between font-mono text-[10px]">
-            <span style="color: var(--text-dim);">Statutory Duty Tree:</span>
-            <span id="duty-tree-rates" class="font-bold" style="color: var(--accent);">BCD 10% &bull; SWS 1% &bull; IGST 12%</span>
+        <div id="class-duty-tree" class="p-2.5 rounded-xl border space-y-1.5 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between text-[11px]">
+            <span class="font-medium" style="color: var(--text-muted);">Statutory Duty Tree:</span>
+            <span id="duty-tree-rates" class="font-bold font-mono text-xs" style="color: var(--accent);">BCD 10% • SWS 1% • IGST 12%</span>
           </div>
-          <div class="flex items-center justify-between text-[10px]">
-            <span style="color: var(--text-dim);">Port Dwell Time:</span>
-            <span id="duty-dwell-time" class="font-bold font-mono">Nhava Sheva: 22h &bull; Mundra: 16h</span>
+          <div class="flex items-center justify-between text-[11px]">
+            <span class="font-medium" style="color: var(--text-muted);">Port Dwell Time:</span>
+            <span id="duty-dwell-time" class="font-bold font-mono text-xs">Nhava Sheva: 22h • Mundra: 16h</span>
           </div>
-          <div id="duty-sps-alert" class="p-2 rounded-lg border text-[10px] leading-tight font-medium" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">
-            ⚠️ <strong>SPS / TBT Alert:</strong> EU REACH Annex XVII Azo-dye compliance & Oeko-Tex testing mandatory.
+          <div id="duty-sps-alert" class="p-2 rounded-lg border text-[11px] leading-tight font-medium" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">
+            ⚠️ <strong>SPS / TBT Alert:</strong> EU REACH Annex XVII Azo-dye compliance &amp; Oeko-Tex testing mandatory.
           </div>
         </div>
       </div>
@@ -894,20 +920,20 @@
               <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
               🌐 360° Sovereign Trade Blueprint &amp; Triangulation Engine
             </span>
-            <span class="text-[9px] px-2 py-0.5 rounded-full font-mono font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">18 PROVIDERS INTEGRATED</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full font-semibold uppercase" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">18 Providers Integrated</span>
           </div>
-          <span class="text-[10px] font-mono" style="color: var(--text-dim);">Real-Time Cross-Reference</span>
+          <span class="text-[10px] font-medium" style="color: var(--text-muted);">Real-Time Cross-Reference</span>
         </div>
-        <p class="text-[11px]" style="color: var(--text-muted);">
+        <p class="text-xs leading-relaxed" style="color: var(--text-muted);">
           Ask any end-to-end commercial trade question. All 18 statutory data feeds (Mandi, DGFT, CBIC, Freight, ECGC, Spices/APEDA, WTO, MacMap) triangulate in the background to build your complete execution roadmap.
         </p>
 
         <!-- 1-Tap Real-World Corridors -->
-        <div class="flex space-x-2 overflow-x-auto pb-1 ios-scroll no-scrollbar text-xs">
-          <button type="button" onclick="loadTradeBlueprint('turmeric_saudi')" id="bp-chip-turmeric" class="bp-preset-chip flex-shrink-0 px-3 py-2 rounded-xl border font-bold active:scale-95 transition-all flex items-center gap-1.5" style="background: var(--accent); color: #ffffff;">
+        <div class="scroll-chip-strip">
+          <button type="button" onclick="loadTradeBlueprint('turmeric_saudi')" id="bp-chip-turmeric" class="bp-preset-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all flex items-center gap-1.5" style="background: var(--accent); color: #ffffff;">
             🌿 <span>Export 20T Turmeric to Saudi Arabia</span>
           </button>
-          <button type="button" onclick="loadTradeBlueprint('onion_madhira')" id="bp-chip-onion" class="bp-preset-chip flex-shrink-0 px-3 py-2 rounded-xl border font-bold active:scale-95 transition-all flex items-center gap-1.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+          <button type="button" onclick="loadTradeBlueprint('onion_madhira')" id="bp-chip-onion" class="bp-preset-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all flex items-center gap-1.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
             🧅 <span>Start Onion Trade in Madhira (Telangana)</span>
           </button>
         </div>
@@ -920,42 +946,41 @@
 
       <!-- Infographic: 4-Stage Trade Flow Corridor -->
       <div id="trade-flow-infographic" class="glass-card rounded-2xl p-4 shadow-xl space-y-3">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-1.5">
-            <span class="text-xs font-extrabold uppercase tracking-wider">Statutory Trade Corridor</span>
-            <span class="text-[9px] px-1.5 py-0.5 rounded font-mono font-bold" style="background: var(--accent-light); color: var(--accent);">Flow 360°</span>
+        <div class="flex items-center justify-between border-b pb-2.5" style="border-color: var(--card-border);">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold uppercase tracking-wider text-main">Statutory Trade Corridor</span>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full" style="background: var(--accent-light); color: var(--accent);">Flow 360°</span>
           </div>
-          <span class="text-[10px] font-mono" style="color: var(--text-dim);">GSTN &bull; ICEGATE &bull; UN</span>
+          <span class="text-[10px] font-medium" style="color: var(--text-muted);">GSTN • ICEGATE • UN</span>
         </div>
 
-        <!-- Horizontal Flow Pipeline -->
-        <div class="grid grid-cols-4 gap-1.5 pt-1">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
           <!-- Stage 1 -->
-          <div class="p-2.5 rounded-xl border text-center space-y-1" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="p-2.5 rounded-xl border text-center space-y-1 min-w-0" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
             <div class="w-6 h-6 rounded-lg mx-auto flex items-center justify-center text-xs font-bold" style="background: var(--accent-light); color: var(--accent);">1</div>
-            <span class="text-[10px] font-bold block truncate" id="flow-origin">Mandi / Hub</span>
-            <span class="text-[8px] uppercase block" style="color: var(--text-dim);">Harvest / Mill</span>
+            <span class="text-xs font-bold block truncate" id="flow-origin">Mandi / Hub</span>
+            <span class="text-[9px] uppercase font-medium block" style="color: var(--text-dim);">Harvest / Mill</span>
           </div>
 
           <!-- Stage 2 -->
-          <div class="p-2.5 rounded-xl border text-center space-y-1" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="p-2.5 rounded-xl border text-center space-y-1 min-w-0" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
             <div class="w-6 h-6 rounded-lg mx-auto flex items-center justify-center text-xs font-bold" style="background: var(--accent-light); color: var(--accent);">2</div>
-            <span class="text-[10px] font-bold block truncate" id="flow-transit">e-Way Transit</span>
-            <span class="text-[8px] uppercase block" style="color: var(--text-dim);">Rule 138 GST</span>
+            <span class="text-xs font-bold block truncate" id="flow-transit">e-Way Transit</span>
+            <span class="text-[9px] uppercase font-medium block" style="color: var(--text-dim);">Rule 138 GST</span>
           </div>
 
           <!-- Stage 3 -->
-          <div class="p-2.5 rounded-xl border text-center space-y-1" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="p-2.5 rounded-xl border text-center space-y-1 min-w-0" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
             <div class="w-6 h-6 rounded-lg mx-auto flex items-center justify-center text-xs font-bold" style="background: var(--accent-light); color: var(--accent);">3</div>
-            <span class="text-[10px] font-bold block truncate" id="flow-port">Port (FOB)</span>
-            <span class="text-[8px] uppercase block" style="color: var(--text-dim);">ICEGATE Scroll</span>
+            <span class="text-xs font-bold block truncate" id="flow-port">Port (FOB)</span>
+            <span class="text-[9px] uppercase font-medium block" style="color: var(--text-dim);">ICEGATE Scroll</span>
           </div>
 
           <!-- Stage 4 -->
-          <div class="p-2.5 rounded-xl border text-center space-y-1" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="p-2.5 rounded-xl border text-center space-y-1 min-w-0" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
             <div class="w-6 h-6 rounded-lg mx-auto flex items-center justify-center text-xs font-bold" style="background: var(--accent-light); color: var(--accent);">4</div>
-            <span class="text-[10px] font-bold block truncate" id="flow-dest">Global CIF</span>
-            <span class="text-[8px] uppercase block" style="color: var(--text-dim);">UN Comtrade</span>
+            <span class="text-xs font-bold block truncate" id="flow-dest">Global CIF</span>
+            <span class="text-[9px] uppercase font-medium block" style="color: var(--text-dim);">UN Comtrade</span>
           </div>
         </div>
       </div>
@@ -964,65 +989,65 @@
       <div id="statutory-gateways-container" class="space-y-4 pt-3 border-t" style="border-color: var(--card-border);">
         <div class="flex items-center justify-between px-1">
           <div class="flex items-center gap-2">
-            <span class="text-sm font-extrabold uppercase tracking-wider" style="color: var(--text-main);">🏛️ Pre-Configured Statutory Gateways</span>
-            <span class="text-[9px] font-mono px-2 py-0.5 rounded font-bold" style="background: var(--accent-light); color: var(--accent);">6 Feeds Active</span>
+            <span class="text-xs font-bold uppercase tracking-wider" style="color: var(--text-main);">🏛️ Pre-Configured Statutory Gateways</span>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full" style="background: var(--accent-light); color: var(--accent);">6 Feeds Active</span>
           </div>
-          <span class="text-[10px] font-mono" style="color: var(--text-dim);">Audited Ministry Portals</span>
+          <span class="text-[10px] font-medium" style="color: var(--text-muted);">Audited Ministry Portals</span>
         </div>
 <!-- DGCI&S TradeStat Macro Intelligence Hub -->
       <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3">
         <div class="flex flex-wrap items-center justify-between gap-1">
           <div class="flex items-center gap-1.5">
-            <span class="text-xs font-extrabold uppercase tracking-wider">DGCI&S TradeStat Macro Explorer</span>
-            <span class="text-[9px] px-1.5 py-0.5 rounded font-mono font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">● OFFICIAL STATUTORY</span>
+            <span class="text-xs font-bold uppercase tracking-wider text-main">DGCI&S TradeStat Macro Explorer</span>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">● Official Statutory</span>
           </div>
-          <span class="text-[10px] font-mono" style="color: var(--text-dim);">tradestat.commerce.gov.in</span>
+          <span class="text-[10px] font-medium" style="color: var(--text-muted);">tradestat.commerce.gov.in</span>
         </div>
-        <p class="text-[11px]" style="color: var(--text-muted);">Audited bilateral merchandise flows, mirror CIF/FOB spreads, and major container seaport dwell analytics.</p>
+        <p class="text-xs leading-relaxed" style="color: var(--text-muted);">Audited bilateral merchandise flows, mirror CIF/FOB spreads, and major container seaport dwell analytics.</p>
 
         <!-- Segment Filters (Countries / Seaports / Commodities) -->
-        <div class="flex gap-1 overflow-x-auto pb-1 text-[10px] font-bold no-scrollbar">
-          <button type="button" onclick="selectTradestatItem('country', 'USA')" id="ts-btn-USA" class="tradestat-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🇺🇸 USA (Top Market)</button>
-          <button type="button" onclick="selectTradestatItem('country', 'UAE')" id="ts-btn-UAE" class="tradestat-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇦🇪 UAE (CEPA)</button>
-          <button type="button" onclick="selectTradestatItem('country', 'China')" id="ts-btn-China" class="tradestat-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇨🇳 China (Imports)</button>
-          <button type="button" onclick="selectTradestatItem('country', 'Netherlands')" id="ts-btn-Netherlands" class="tradestat-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇳🇱 Netherlands (EU Hub)</button>
-          <button type="button" onclick="selectTradestatItem('port', 'Nhava Sheva')" id="ts-btn-Nhava" class="tradestat-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">⚓ JNPT Nhava Sheva</button>
-          <button type="button" onclick="selectTradestatItem('port', 'Mundra')" id="ts-btn-Mundra" class="tradestat-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">⚓ Mundra Port</button>
-          <button type="button" onclick="selectTradestatItem('port', 'Delhi Air Cargo')" id="ts-btn-Delhi" class="tradestat-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">✈️ Delhi Air Cargo</button>
+        <div class="scroll-chip-strip">
+          <button type="button" onclick="selectTradestatItem('country', 'USA')" id="ts-btn-USA" class="tradestat-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🇺🇸 USA (Top Market)</button>
+          <button type="button" onclick="selectTradestatItem('country', 'UAE')" id="ts-btn-UAE" class="tradestat-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇦🇪 UAE (CEPA)</button>
+          <button type="button" onclick="selectTradestatItem('country', 'China')" id="ts-btn-China" class="tradestat-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇨🇳 China (Imports)</button>
+          <button type="button" onclick="selectTradestatItem('country', 'Netherlands')" id="ts-btn-Netherlands" class="tradestat-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇳🇱 Netherlands (EU Hub)</button>
+          <button type="button" onclick="selectTradestatItem('port', 'Nhava Sheva')" id="ts-btn-Nhava" class="tradestat-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">⚓ JNPT Nhava Sheva</button>
+          <button type="button" onclick="selectTradestatItem('port', 'Mundra')" id="ts-btn-Mundra" class="tradestat-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">⚓ Mundra Port</button>
+          <button type="button" onclick="selectTradestatItem('port', 'Delhi Air Cargo')" id="ts-btn-Delhi" class="tradestat-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">✈️ Delhi Air Cargo</button>
         </div>
 
         <!-- Dynamic Tradestat Detail Panel -->
         <div id="tradestat-detail-card" class="p-3 rounded-xl border space-y-2 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
           <div class="flex items-center justify-between">
-            <span id="ts-card-title" class="font-extrabold text-sm" style="color: var(--accent);">India ↔ USA Bilateral Trade Profile</span>
-            <span id="ts-card-badge" class="text-[9px] font-mono px-2 py-0.5 rounded font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">TRADE SURPLUS: +$35.3B</span>
+            <span id="ts-card-title" class="font-bold text-xs sm:text-sm text-main" style="color: var(--accent);">India ↔ USA Bilateral Trade Profile</span>
+            <span id="ts-card-badge" class="text-[10px] font-semibold px-2 py-0.5 rounded-full" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">Surplus: +$35.3B</span>
           </div>
 
-          <div class="grid grid-cols-3 gap-2 text-center pt-1 font-mono">
-            <div class="p-2 rounded-lg border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-inner-border);">
-              <span class="text-[9px] block uppercase" style="color: var(--text-dim);">Exports (FOB)</span>
-              <span id="ts-stat-1" class="text-xs font-extrabold text-emerald-500">$77.5 Billion</span>
-              <span id="ts-sub-1" class="text-[8px] block opacity-70">17.7% Share (Rank #1)</span>
+          <div class="grid grid-cols-3 gap-1.5 text-center pt-1">
+            <div class="p-2 rounded-xl border space-y-0.5 min-w-0" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+              <span class="text-[9px] font-semibold uppercase tracking-wider block truncate" style="color: var(--text-muted);">Exports (FOB)</span>
+              <span id="ts-stat-1" class="text-xs sm:text-sm font-bold font-mono text-emerald-500 block truncate">$77.5B</span>
+              <span id="ts-sub-1" class="text-[8px] font-medium block truncate opacity-75">17.7% Share (#1)</span>
             </div>
-            <div class="p-2 rounded-lg border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-inner-border);">
-              <span class="text-[9px] block uppercase" style="color: var(--text-dim);">Imports (CIF)</span>
-              <span id="ts-stat-2" class="text-xs font-extrabold text-rose-500">$42.2 Billion</span>
-              <span id="ts-sub-2" class="text-[8px] block opacity-70">6.2% Share (Rank #4)</span>
+            <div class="p-2 rounded-xl border space-y-0.5 min-w-0" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+              <span class="text-[9px] font-semibold uppercase tracking-wider block truncate" style="color: var(--text-muted);">Imports (CIF)</span>
+              <span id="ts-stat-2" class="text-xs sm:text-sm font-bold font-mono text-rose-500 block truncate">$42.2B</span>
+              <span id="ts-sub-2" class="text-[8px] font-medium block truncate opacity-75">6.2% Share (#4)</span>
             </div>
-            <div class="p-2 rounded-lg border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-inner-border);">
-              <span class="text-[9px] block uppercase" style="color: var(--text-dim);">Total Volume</span>
-              <span id="ts-stat-3" class="text-xs font-extrabold text-blue-500">$119.7 Billion</span>
-              <span id="ts-sub-3" class="text-[8px] block opacity-70">Audited FY2023-24</span>
+            <div class="p-2 rounded-xl border space-y-0.5 min-w-0" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+              <span class="text-[9px] font-semibold uppercase tracking-wider block truncate" style="color: var(--text-muted);">Total Volume</span>
+              <span id="ts-stat-3" class="text-xs sm:text-sm font-bold font-mono text-blue-500 block truncate">$119.7B</span>
+              <span id="ts-sub-3" class="text-[8px] font-medium block truncate opacity-75">Audited FY24</span>
             </div>
           </div>
 
-          <div id="ts-card-desc" class="p-2 rounded-lg border text-[10px] leading-relaxed" style="background: var(--card-bg); border-color: var(--card-inner-border);">
-            🇺🇸 <strong>Mirror Triangulation:</strong> US Census Bureau reports $83.2B CIF imports vs India DGCI&S $77.5B FOB exports. +7.35% spread verified as standard maritime freight & insurance under Incoterms 2020.
+          <div id="ts-card-desc" class="p-2.5 rounded-xl border text-[11px] leading-relaxed" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+            🇺🇸 <strong>Mirror Triangulation:</strong> US Census Bureau reports $83.2B CIF imports vs India DGCI&S $77.5B FOB exports. +7.35% spread verified as standard maritime freight &amp; insurance under Incoterms 2020.
           </div>
 
           <div class="flex justify-between items-center pt-1">
-            <span class="text-[9px] font-mono" style="color: var(--text-dim);">Statutory Source: DGCI&S Kolkata / MOCI</span>
-            <button id="ts-action-btn" onclick="setQuery('Compare trade between India and USA')" class="text-[10px] font-bold text-blue-500 hover:underline flex items-center gap-1">
+            <span class="text-[10px] font-medium" style="color: var(--text-dim);">Source: DGCI&amp;S Kolkata / MOCI</span>
+            <button id="ts-action-btn" onclick="setQuery('Compare trade between India and USA')" class="text-xs font-semibold text-blue-500 hover:underline flex items-center gap-1">
               <span>Deep-Dive in Terminal &rarr;</span>
             </button>
           </div>
@@ -1033,25 +1058,25 @@
       <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3">
         <div class="flex flex-wrap items-center justify-between gap-1">
           <div class="flex items-center gap-1.5">
-            <span class="text-xs font-extrabold uppercase tracking-wider">DGCI&S Bilateral Commodity Matrix & Deficit Radar</span>
-            <span class="text-[9px] px-1.5 py-0.5 rounded font-mono font-bold" style="background: rgba(59, 130, 246, 0.15); color: #3B82F6;">● HS CHAPTER MATRIX</span>
+            <span class="text-xs font-bold uppercase tracking-wider text-main">DGCI&S Bilateral Commodity Matrix &amp; Deficit Radar</span>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase" style="background: rgba(59, 130, 246, 0.15); color: #3B82F6;">● HS Chapter Matrix</span>
           </div>
-          <span class="text-[10px] font-mono" style="color: var(--text-dim);">dgciskol.gov.in / NIRYAT</span>
+          <span class="text-[10px] font-medium" style="color: var(--text-muted);">dgciskol.gov.in / NIRYAT</span>
         </div>
-        <p class="text-[11px]" style="color: var(--text-muted);">Disaggregated merchandise trade, bilateral top 5 HS chapters (India FOB vs Partner CIF), import coverage ratios, and statutory settlement mechanisms.</p>
+        <p class="text-xs leading-relaxed" style="color: var(--text-muted);">Disaggregated merchandise trade, bilateral top 5 HS chapters (India FOB vs Partner CIF), import coverage ratios, and statutory settlement mechanisms.</p>
 
         <!-- Partner Country Chips -->
-        <div class="flex gap-1 overflow-x-auto pb-1 text-[10px] font-bold no-scrollbar">
-          <button type="button" onclick="selectTradestatMatrix('USA')" id="ts-mat-btn-USA" class="tradestat-matrix-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🇺🇸 USA (+$35.3B)</button>
-          <button type="button" onclick="selectTradestatMatrix('China')" id="ts-mat-btn-China" class="tradestat-matrix-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇨🇳 China (-$85.0B)</button>
-          <button type="button" onclick="selectTradestatMatrix('UAE')" id="ts-mat-btn-UAE" class="tradestat-matrix-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇦🇪 UAE (-$12.4B)</button>
-          <button type="button" onclick="selectTradestatMatrix('Russia')" id="ts-mat-btn-Russia" class="tradestat-matrix-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇷🇺 Russia (-$57.2B)</button>
-          <button type="button" onclick="selectTradestatMatrix('Netherlands')" id="ts-mat-btn-Netherlands" class="tradestat-matrix-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇳🇱 Netherlands (+$17.3B)</button>
-          <button type="button" onclick="selectTradestatMatrix('Saudi Arabia')" id="ts-mat-btn-SaudiArabia" class="tradestat-matrix-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇸🇦 Saudi (-$20.3B)</button>
-          <button type="button" onclick="selectTradestatMatrix('Germany')" id="ts-mat-btn-Germany" class="tradestat-matrix-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇩🇪 Germany (-$5.0B)</button>
-          <button type="button" onclick="selectTradestatMatrix('Singapore')" id="ts-mat-btn-Singapore" class="tradestat-matrix-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇸🇬 Singapore (+$2.0B)</button>
-          <button type="button" onclick="selectTradestatMatrix('UK')" id="ts-mat-btn-UK" class="tradestat-matrix-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇬🇧 UK (+$4.5B)</button>
-          <button type="button" onclick="selectTradestatMatrix('OVERVIEW')" id="ts-mat-btn-OVERVIEW" class="tradestat-matrix-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">⚖️ Deficit Overview</button>
+        <div class="scroll-chip-strip">
+          <button type="button" onclick="selectTradestatMatrix('USA')" id="ts-mat-btn-USA" class="tradestat-matrix-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🇺🇸 USA (+$35.3B)</button>
+          <button type="button" onclick="selectTradestatMatrix('China')" id="ts-mat-btn-China" class="tradestat-matrix-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇨🇳 China (-$85.0B)</button>
+          <button type="button" onclick="selectTradestatMatrix('UAE')" id="ts-mat-btn-UAE" class="tradestat-matrix-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇦🇪 UAE (-$12.4B)</button>
+          <button type="button" onclick="selectTradestatMatrix('Russia')" id="ts-mat-btn-Russia" class="tradestat-matrix-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇷🇺 Russia (-$57.2B)</button>
+          <button type="button" onclick="selectTradestatMatrix('Netherlands')" id="ts-mat-btn-Netherlands" class="tradestat-matrix-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇳🇱 Netherlands (+$17.3B)</button>
+          <button type="button" onclick="selectTradestatMatrix('Saudi Arabia')" id="ts-mat-btn-SaudiArabia" class="tradestat-matrix-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇸🇦 Saudi (-$20.3B)</button>
+          <button type="button" onclick="selectTradestatMatrix('Germany')" id="ts-mat-btn-Germany" class="tradestat-matrix-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇩🇪 Germany (-$5.0B)</button>
+          <button type="button" onclick="selectTradestatMatrix('Singapore')" id="ts-mat-btn-Singapore" class="tradestat-matrix-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇸🇬 Singapore (+$2.0B)</button>
+          <button type="button" onclick="selectTradestatMatrix('UK')" id="ts-mat-btn-UK" class="tradestat-matrix-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇬🇧 UK (+$4.5B)</button>
+          <button type="button" onclick="selectTradestatMatrix('OVERVIEW')" id="ts-mat-btn-OVERVIEW" class="tradestat-matrix-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">⚖️ Deficit Overview</button>
         </div>
 
         <!-- Dynamic Bilateral Matrix Container -->
@@ -1065,21 +1090,21 @@
       <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3.5">
         <div class="flex flex-wrap items-center justify-between gap-1">
           <div class="flex items-center gap-1.5">
-            <span class="text-xs font-extrabold uppercase tracking-wider">UN Comtrade Global Mirror Trade &amp; Discrepancy Radar</span>
-            <span id="comtrade-statutory-badge" class="text-[9px] px-1.5 py-0.5 rounded font-mono font-bold" style="background: rgba(99, 102, 241, 0.15); color: #6366F1;">● UN COMTRADE v1 STATISTICAL MIRROR</span>
+            <span class="text-xs font-bold uppercase tracking-wider text-main">UN Comtrade Global Mirror Trade &amp; Discrepancy Radar</span>
+            <span id="comtrade-statutory-badge" class="text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase" style="background: rgba(99, 102, 241, 0.15); color: #6366F1;">● Statistical Mirror</span>
           </div>
-          <span class="text-[10px] font-mono" style="color: var(--text-dim);">comtradeplus.un.org / IMTS 2010</span>
+          <span class="text-[10px] font-medium" style="color: var(--text-muted);">comtradeplus.un.org / IMTS 2010</span>
         </div>
-        <p class="text-[11px]" style="color: var(--text-muted);">Audit bilateral reported exports (FOB) against partner reported imports (CIF). Reconcile transport and insurance margins, identify trade misinvoicing risks, and benchmark global HS-6 market shares.</p>
+        <p class="text-xs leading-relaxed" style="color: var(--text-muted);">Audit bilateral reported exports (FOB) against partner reported imports (CIF). Reconcile transport and insurance margins, identify trade misinvoicing risks, and benchmark global HS-6 market shares.</p>
 
         <!-- Bilateral Corridor Preset Chips -->
-        <div class="flex gap-1 overflow-x-auto pb-1 text-[10px] font-bold no-scrollbar">
-          <button type="button" onclick="selectComtradeCorridor('IND_USA')" id="comtrade-chip-IND_USA" class="comtrade-corridor-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🇺🇸 Ind-USA (Pharma/Diamonds)</button>
-          <button type="button" onclick="selectComtradeCorridor('IND_CHN')" id="comtrade-chip-IND_CHN" class="comtrade-corridor-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇨🇳 Ind-China (Laptops/APIs)</button>
-          <button type="button" onclick="selectComtradeCorridor('IND_ARE')" id="comtrade-chip-IND_ARE" class="comtrade-corridor-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇦🇪 Ind-UAE (Gold/CEPA)</button>
-          <button type="button" onclick="selectComtradeCorridor('IND_DEU')" id="comtrade-chip-IND_DEU" class="comtrade-corridor-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇩🇪 Ind-Germany (Auto/Textiles)</button>
-          <button type="button" onclick="selectComtradeCorridor('IND_GBR')" id="comtrade-chip-IND_GBR" class="comtrade-corridor-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇬🇧 Ind-UK (Apparel/Pharma)</button>
-          <button type="button" onclick="selectComtradeCorridor('IND_NLD')" id="comtrade-chip-IND_NLD" class="comtrade-corridor-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇳🇱 Ind-Netherlands (Refined Fuel)</button>
+        <div class="scroll-chip-strip">
+          <button type="button" onclick="selectComtradeCorridor('IND_USA')" id="comtrade-chip-IND_USA" class="comtrade-corridor-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🇺🇸 Ind-USA (Pharma/Diamonds)</button>
+          <button type="button" onclick="selectComtradeCorridor('IND_CHN')" id="comtrade-chip-IND_CHN" class="comtrade-corridor-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇨🇳 Ind-China (Laptops/APIs)</button>
+          <button type="button" onclick="selectComtradeCorridor('IND_ARE')" id="comtrade-chip-IND_ARE" class="comtrade-corridor-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇦🇪 Ind-UAE (Gold/CEPA)</button>
+          <button type="button" onclick="selectComtradeCorridor('IND_DEU')" id="comtrade-chip-IND_DEU" class="comtrade-corridor-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇩🇪 Ind-Germany (Auto/Textiles)</button>
+          <button type="button" onclick="selectComtradeCorridor('IND_GBR')" id="comtrade-chip-IND_GBR" class="comtrade-corridor-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇬🇧 Ind-UK (Apparel/Pharma)</button>
+          <button type="button" onclick="selectComtradeCorridor('IND_NLD')" id="comtrade-chip-IND_NLD" class="comtrade-corridor-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇳🇱 Ind-Netherlands (Refined Fuel)</button>
         </div>
 
         <!-- Controls: Corridor, Commodity & CIF Margin Slider -->
@@ -1126,20 +1151,20 @@
       <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3.5">
         <div class="flex flex-wrap items-center justify-between gap-1">
           <div class="flex items-center gap-1.5">
-            <span class="text-xs font-extrabold uppercase tracking-wider">APEDA Phytosanitary &amp; TraceNet Quality Gateway</span>
-            <span id="apeda-statutory-badge" class="text-[9px] px-1.5 py-0.5 rounded font-mono font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">● APEDA STATUTORY RCMC</span>
+            <span class="text-xs font-bold uppercase tracking-wider text-main">APEDA Phytosanitary &amp; TraceNet Quality Gateway</span>
+            <span id="apeda-statutory-badge" class="text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">● Statutory RCMC</span>
           </div>
-          <span class="text-[10px] font-mono" style="color: var(--text-dim);">apeda.gov.in / TraceNet</span>
+          <span class="text-[10px] font-medium" style="color: var(--text-muted);">apeda.gov.in / TraceNet</span>
         </div>
-        <p class="text-[11px]" style="color: var(--text-muted);">Audit export consignments against destination market Maximum Residue Limits (MRLs), check mandatory pre-shipment packhouse treatments (VHT, Irradiation), and verify TraceNet Certificate of Inspection (CoI) protocols.</p>
+        <p class="text-xs leading-relaxed" style="color: var(--text-muted);">Audit export consignments against destination market Maximum Residue Limits (MRLs), check mandatory pre-shipment packhouse treatments (VHT, Irradiation), and verify TraceNet Certificate of Inspection (CoI) protocols.</p>
 
         <!-- Scheduled Agri Commodity Chips -->
-        <div class="flex gap-1 overflow-x-auto pb-1 text-[10px] font-bold no-scrollbar">
-          <button type="button" onclick="selectApedaCommodity('10063020', 'EU')" id="apeda-chip-10063020" class="apeda-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🌾 Basmati Rice (EU)</button>
-          <button type="button" onclick="selectApedaCommodity('08061000', 'EU')" id="apeda-chip-08061000" class="apeda-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🍇 Fresh Grapes (GrapeNet)</button>
-          <button type="button" onclick="selectApedaCommodity('08045020', 'USA')" id="apeda-chip-08045020" class="apeda-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🥭 Fresh Mangoes (USA VHT)</button>
-          <button type="button" onclick="selectApedaCommodity('02023000', 'GCC')" id="apeda-chip-02023000" class="apeda-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🥩 Buffalo Meat (MeatNet)</button>
-          <button type="button" onclick="selectApedaCommodity('12024200', 'EU')" id="apeda-chip-12024200" class="apeda-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🥜 Groundnuts (Aflatoxin)</button>
+        <div class="scroll-chip-strip">
+          <button type="button" onclick="selectApedaCommodity('10063020', 'EU')" id="apeda-chip-10063020" class="apeda-comm-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🌾 Basmati Rice (EU)</button>
+          <button type="button" onclick="selectApedaCommodity('08061000', 'EU')" id="apeda-chip-08061000" class="apeda-comm-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🍇 Fresh Grapes (GrapeNet)</button>
+          <button type="button" onclick="selectApedaCommodity('08045020', 'USA')" id="apeda-chip-08045020" class="apeda-comm-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🥭 Fresh Mangoes (USA VHT)</button>
+          <button type="button" onclick="selectApedaCommodity('02023000', 'GCC')" id="apeda-chip-02023000" class="apeda-comm-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🥩 Buffalo Meat (MeatNet)</button>
+          <button type="button" onclick="selectApedaCommodity('12024200', 'EU')" id="apeda-chip-12024200" class="apeda-comm-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🥜 Groundnuts (Aflatoxin)</button>
         </div>
 
         <!-- Controls: Commodity, Market & Residue Test Inputs -->
@@ -1178,20 +1203,20 @@
       <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3.5">
         <div class="flex flex-wrap items-center justify-between gap-1">
           <div class="flex items-center gap-1.5">
-            <span class="text-xs font-extrabold uppercase tracking-wider">MPEDA Marine Products &amp; Catch Certificate Gateway</span>
-            <span id="mpeda-statutory-badge" class="text-[9px] px-1.5 py-0.5 rounded font-mono font-bold" style="background: rgba(6, 182, 212, 0.15); color: #06B6D4;">● MPEDA STATUTORY RCMC</span>
+            <span class="text-xs font-bold uppercase tracking-wider text-main">MPEDA Marine Products &amp; Catch Certificate Gateway</span>
+            <span id="mpeda-statutory-badge" class="text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase" style="background: rgba(6, 182, 212, 0.15); color: #06B6D4;">● Statutory RCMC</span>
           </div>
-          <span class="text-[10px] font-mono" style="color: var(--text-dim);">mpeda.gov.in / e-Catch</span>
+          <span class="text-[10px] font-medium" style="color: var(--text-muted);">mpeda.gov.in / e-Catch</span>
         </div>
-        <p class="text-[11px]" style="color: var(--text-muted);">Audit export consignments against destination statutory antibiotic limits (Nitrofurans, Chloramphenicol), evaluate EU Catch Certificate (IUU Reg EC 1005/2008), US NOAA SIMP compliance, and US Section 609 TED Form DS-2031 certification.</p>
+        <p class="text-xs leading-relaxed" style="color: var(--text-muted);">Audit export consignments against destination statutory antibiotic limits (Nitrofurans, Chloramphenicol), evaluate EU Catch Certificate (IUU Reg EC 1005/2008), US NOAA SIMP compliance, and US Section 609 TED Form DS-2031 certification.</p>
 
         <!-- Scheduled Seafood Species Chips -->
-        <div class="flex gap-1 overflow-x-auto pb-1 text-[10px] font-bold no-scrollbar">
-          <button type="button" onclick="selectMpedaSpecies('03061720', 'EU')" id="mpeda-chip-03061720" class="mpeda-species-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🦐 Vannamei Shrimp (EU 50% Test)</button>
-          <button type="button" onclick="selectMpedaSpecies('03061711', 'USA')" id="mpeda-chip-03061711" class="mpeda-species-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🦐 Black Tiger (US SIMP / TED)</button>
-          <button type="button" onclick="selectMpedaSpecies('03074310', 'EU')" id="mpeda-chip-03074310" class="mpeda-species-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🦑 Frozen Squid Tubes (EU IUU)</button>
-          <button type="button" onclick="selectMpedaSpecies('03075200', 'JPN')" id="mpeda-chip-03075200" class="mpeda-species-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🐙 Frozen Octopus (Japan MHLW)</button>
-          <button type="button" onclick="selectMpedaSpecies('03038900', 'CHN')" id="mpeda-chip-03038900" class="mpeda-species-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🐟 Ribbon Fish (China GACC)</button>
+        <div class="scroll-chip-strip">
+          <button type="button" onclick="selectMpedaSpecies('03061720', 'EU')" id="mpeda-chip-03061720" class="mpeda-species-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🦐 Vannamei Shrimp (EU 50% Test)</button>
+          <button type="button" onclick="selectMpedaSpecies('03061711', 'USA')" id="mpeda-chip-03061711" class="mpeda-species-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🦐 Black Tiger (US SIMP / TED)</button>
+          <button type="button" onclick="selectMpedaSpecies('03074310', 'EU')" id="mpeda-chip-03074310" class="mpeda-species-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🦑 Frozen Squid Tubes (EU IUU)</button>
+          <button type="button" onclick="selectMpedaSpecies('03075200', 'JPN')" id="mpeda-chip-03075200" class="mpeda-species-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🐙 Frozen Octopus (Japan MHLW)</button>
+          <button type="button" onclick="selectMpedaSpecies('03038900', 'CHN')" id="mpeda-chip-03038900" class="mpeda-species-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🐟 Ribbon Fish (China GACC)</button>
         </div>
 
         <!-- Controls: Species, Market & Residue Test Inputs -->
@@ -1229,21 +1254,21 @@
       <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3.5">
         <div class="flex flex-wrap items-center justify-between gap-1">
           <div class="flex items-center gap-1.5">
-            <span class="text-xs font-extrabold uppercase tracking-wider">Spices Board &amp; Tea Board Quality Gateway</span>
-            <span id="spices-statutory-badge" class="text-[9px] px-1.5 py-0.5 rounded font-mono font-bold" style="background: rgba(245, 158, 11, 0.15); color: #F59E0B;">● SPICES CRES &amp; TEA CQC STATUTORY</span>
+            <span class="text-xs font-bold uppercase tracking-wider text-main">Spices Board &amp; Tea Board Quality Gateway</span>
+            <span id="spices-statutory-badge" class="text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase" style="background: rgba(245, 158, 11, 0.15); color: #F59E0B;">● CRES &amp; CQC Statutory</span>
           </div>
-          <span class="text-[10px] font-mono" style="color: var(--text-dim);">indianspices.com / teaboard.gov.in</span>
+          <span class="text-[10px] font-medium" style="color: var(--text-muted);">indianspices.com / teaboard.gov.in</span>
         </div>
-        <p class="text-[11px]" style="color: var(--text-muted);">Audit export consignments against destination statutory limits for Aflatoxin (Total &amp; B1), Sudan Dye (I-IV), Ethylene Oxide (EtO), pesticide MRLs, Anthraquinone in tea, and verify Darjeeling 100% GI Protection.</p>
+        <p class="text-xs leading-relaxed" style="color: var(--text-muted);">Audit export consignments against destination statutory limits for Aflatoxin (Total &amp; B1), Sudan Dye (I-IV), Ethylene Oxide (EtO), pesticide MRLs, Anthraquinone in tea, and verify Darjeeling 100% GI Protection.</p>
 
         <!-- Scheduled Spices & Tea Chips -->
-        <div class="flex gap-1 overflow-x-auto pb-1 text-[10px] font-bold no-scrollbar">
-          <button type="button" onclick="selectSpicesCommodity('09042110', 'EU')" id="spices-chip-09042110" class="spices-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🌶️ Guntur Chilli (Aflatoxin / Sudan)</button>
-          <button type="button" onclick="selectSpicesCommodity('09093129', 'EU')" id="spices-chip-09093129" class="spices-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🌿 Unjha Cumin (EtO / MRLs)</button>
-          <button type="button" onclick="selectSpicesCommodity('09103020', 'EU')" id="spices-chip-09103020" class="spices-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🟡 Alleppey Turmeric (Curcumin >5%)</button>
-          <button type="button" onclick="selectSpicesCommodity('09041110', 'EU')" id="spices-chip-09041110" class="spices-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">⚫ Malabar Pepper (Piperine >4%)</button>
-          <button type="button" onclick="selectSpicesCommodity('09024020', 'EU')" id="spices-chip-09024020" class="spices-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">☕ Darjeeling Tea (100% Pure GI)</button>
-          <button type="button" onclick="selectSpicesCommodity('09024010', 'EU')" id="spices-chip-09024010" class="spices-comm-chip flex-shrink-0 px-2.5 py-1.5 rounded-xl border active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🍵 Assam CTC Tea (Iron Filings)</button>
+        <div class="scroll-chip-strip">
+          <button type="button" onclick="selectSpicesCommodity('09042110', 'EU')" id="spices-chip-09042110" class="spices-comm-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🌶️ Guntur Chilli (Aflatoxin / Sudan)</button>
+          <button type="button" onclick="selectSpicesCommodity('09093129', 'EU')" id="spices-chip-09093129" class="spices-comm-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🌿 Unjha Cumin (EtO / MRLs)</button>
+          <button type="button" onclick="selectSpicesCommodity('09103020', 'EU')" id="spices-chip-09103020" class="spices-comm-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🟡 Alleppey Turmeric (Curcumin >5%)</button>
+          <button type="button" onclick="selectSpicesCommodity('09041110', 'EU')" id="spices-chip-09041110" class="spices-comm-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">⚫ Malabar Pepper (Piperine >4%)</button>
+          <button type="button" onclick="selectSpicesCommodity('09024020', 'EU')" id="spices-chip-09024020" class="spices-comm-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">☕ Darjeeling Tea (100% Pure GI)</button>
+          <button type="button" onclick="selectSpicesCommodity('09024010', 'EU')" id="spices-chip-09024010" class="spices-comm-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🍵 Assam CTC Tea (Iron Filings)</button>
         </div>
 
         <!-- Controls: Commodity & Market Inputs -->
@@ -1286,20 +1311,20 @@
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
             <span class="text-base">🌐</span>
-            <h2 class="text-base font-extrabold tracking-tight">Bilateral Opportunity Arbitrage Radar</h2>
+            <h2 class="text-xs font-bold uppercase tracking-wider text-main">Bilateral Opportunity Arbitrage Radar</h2>
           </div>
-          <span class="text-[10px] border px-2.5 py-0.5 rounded-full font-mono font-bold uppercase" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">Target Markets</span>
+          <span class="text-[10px] border px-2 py-0.5 rounded-full font-semibold uppercase" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">Target Markets</span>
         </div>
-        <p class="text-xs" style="color: var(--text-muted);">Identify high-demand commodities where partner country imports billions from the world, but India holds &lt;5% market share.</p>
+        <p class="text-xs leading-relaxed" style="color: var(--text-muted);">Identify high-demand commodities where partner country imports billions from the world, but India holds &lt;5% market share.</p>
 
         <!-- Partner Country Corridor Selector -->
-        <div class="flex gap-1.5 overflow-x-auto pb-1 text-[11px] font-bold no-scrollbar">
-          <button type="button" onclick="selectTradeGapCountry('US')" id="gap-btn-US" class="gap-corridor-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🇺🇸 USA</button>
-          <button type="button" onclick="selectTradeGapCountry('AE')" id="gap-btn-AE" class="gap-corridor-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇦🇪 UAE</button>
-          <button type="button" onclick="selectTradeGapCountry('DE')" id="gap-btn-DE" class="gap-corridor-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇩🇪 Germany</button>
-          <button type="button" onclick="selectTradeGapCountry('SA')" id="gap-btn-SA" class="gap-corridor-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇸🇦 Saudi Arabia</button>
-          <button type="button" onclick="selectTradeGapCountry('VN')" id="gap-btn-VN" class="gap-corridor-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇻🇳 Vietnam</button>
-          <button type="button" onclick="selectTradeGapCountry('GB')" id="gap-btn-GB" class="gap-corridor-btn px-3 py-1.5 rounded-full border whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇬🇧 UK</button>
+        <div class="scroll-chip-strip">
+          <button type="button" onclick="selectTradeGapCountry('US')" id="gap-btn-US" class="gap-corridor-btn min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold whitespace-nowrap active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🇺🇸 USA</button>
+          <button type="button" onclick="selectTradeGapCountry('AE')" id="gap-btn-AE" class="gap-corridor-btn min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇦🇪 UAE</button>
+          <button type="button" onclick="selectTradeGapCountry('DE')" id="gap-btn-DE" class="gap-corridor-btn min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇩🇪 Germany</button>
+          <button type="button" onclick="selectTradeGapCountry('SA')" id="gap-btn-SA" class="gap-corridor-btn min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇸🇦 Saudi Arabia</button>
+          <button type="button" onclick="selectTradeGapCountry('VN')" id="gap-btn-VN" class="gap-corridor-btn min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇻🇳 Vietnam</button>
+          <button type="button" onclick="selectTradeGapCountry('GB')" id="gap-btn-GB" class="gap-corridor-btn min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold whitespace-nowrap active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🇬🇧 UK</button>
         </div>
 
         <!-- Corridor Trade Metrics Summary Bar -->

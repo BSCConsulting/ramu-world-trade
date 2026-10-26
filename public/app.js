@@ -4210,15 +4210,15 @@ async function selectTradestatItem(type, key) {
       if (titleEl) titleEl.textContent = `India ↔ ${data.country} Bilateral Trade Profile`;
       const isSurplus = data.trade_balance_usd_billion >= 0;
       if (badgeEl) {
-        badgeEl.textContent = `${isSurplus ? 'TRADE SURPLUS' : 'TRADE DEFICIT'}: ${isSurplus ? '+' : ''}$${data.trade_balance_usd_billion}B`;
+        badgeEl.textContent = `${isSurplus ? 'Surplus' : 'Deficit'}: ${isSurplus ? '+' : ''}$${data.trade_balance_usd_billion}B`;
         badgeEl.style.background = isSurplus ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.15)';
         badgeEl.style.color = isSurplus ? '#10B981' : '#EF4444';
       }
-      if (stat1El) stat1El.textContent = `$${data.exports_fob_usd_billion} Billion`;
-      if (sub1El) sub1El.textContent = `${data.export_share_pct ? data.export_share_pct + '% Share ' : ''}(Rank #${data.export_rank || 'N/A'})`;
-      if (stat2El) stat2El.textContent = `$${data.imports_cif_usd_billion} Billion`;
-      if (sub2El) sub2El.textContent = `${data.import_share_pct ? data.import_share_pct + '% Share ' : ''}(Rank #${data.import_rank || 'N/A'})`;
-      if (stat3El) stat3El.textContent = `$${data.bilateral_trade_volume_usd_billion} Billion`;
+      if (stat1El) stat1El.textContent = `$${data.exports_fob_usd_billion}B`;
+      if (sub1El) sub1El.textContent = `${data.export_share_pct ? data.export_share_pct + '% Share ' : ''}(#${data.export_rank || 'N/A'})`;
+      if (stat2El) stat2El.textContent = `$${data.imports_cif_usd_billion}B`;
+      if (sub2El) sub2El.textContent = `${data.import_share_pct ? data.import_share_pct + '% Share ' : ''}(#${data.import_rank || 'N/A'})`;
+      if (stat3El) stat3El.textContent = `$${data.bilateral_trade_volume_usd_billion}B`;
       if (sub3El) sub3El.textContent = `Audited ${data.reporting_fy}`;
       
       if (descEl) {
@@ -4321,21 +4321,21 @@ function renderTradestatMatrix(data, partnerCode) {
 
     container.innerHTML = `
       <div class="p-3 rounded-xl border space-y-3" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-        <div class="grid grid-cols-3 gap-2 text-center font-mono">
-          <div class="p-2 rounded-lg border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-inner-border);">
-            <span class="text-[9px] block uppercase" style="color: var(--text-dim);">Tracked Surplus Engine</span>
-            <span class="text-xs font-extrabold text-emerald-500">+$${data.total_tracked_surplus_usd_billion}B</span>
-            <span class="text-[8px] block opacity-70">4 Key Corridors</span>
+        <div class="grid grid-cols-3 gap-1.5 text-center">
+          <div class="p-2 rounded-xl border space-y-0.5 min-w-0" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+            <span class="text-[9px] font-semibold uppercase tracking-wider block truncate" style="color: var(--text-muted);">Surplus Engine</span>
+            <span class="text-xs sm:text-sm font-bold font-mono text-emerald-500 block truncate">+$${data.total_tracked_surplus_usd_billion}B</span>
+            <span class="text-[8px] font-medium block truncate opacity-75">4 Corridors</span>
           </div>
-          <div class="p-2 rounded-lg border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-inner-border);">
-            <span class="text-[9px] block uppercase" style="color: var(--text-dim);">Structural Deficit</span>
-            <span class="text-xs font-extrabold text-rose-500">$${data.total_tracked_deficit_usd_billion}B</span>
-            <span class="text-[8px] block opacity-70">5 Import Hubs</span>
+          <div class="p-2 rounded-xl border space-y-0.5 min-w-0" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+            <span class="text-[9px] font-semibold uppercase tracking-wider block truncate" style="color: var(--text-muted);">Deficit Hubs</span>
+            <span class="text-xs sm:text-sm font-bold font-mono text-rose-500 block truncate">$${data.total_tracked_deficit_usd_billion}B</span>
+            <span class="text-[8px] font-medium block truncate opacity-75">5 Import Hubs</span>
           </div>
-          <div class="p-2 rounded-lg border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-inner-border);">
-            <span class="text-[9px] block uppercase" style="color: var(--text-dim);">Net Bilateral Gap</span>
-            <span class="text-xs font-extrabold text-amber-500">$${data.net_bilateral_balance_usd_billion}B</span>
-            <span class="text-[8px] block opacity-70">Energy & High-Tech</span>
+          <div class="p-2 rounded-xl border space-y-0.5 min-w-0" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+            <span class="text-[9px] font-semibold uppercase tracking-wider block truncate" style="color: var(--text-muted);">Net Gap</span>
+            <span class="text-xs sm:text-sm font-bold font-mono text-amber-500 block truncate">$${data.net_bilateral_balance_usd_billion}B</span>
+            <span class="text-[8px] font-medium block truncate opacity-75">Energy & Tech</span>
           </div>
         </div>
 
@@ -4404,26 +4404,26 @@ function renderTradestatMatrix(data, partnerCode) {
       </div>
 
       <!-- 4 KPI Waterfall -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-center font-mono">
-        <div class="p-2 rounded-lg border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-inner-border);">
-          <span class="text-[9px] block uppercase" style="color: var(--text-dim);">Exports (FOB)</span>
-          <span class="text-xs font-extrabold text-emerald-500">$${p.exports_usd_billion}B</span>
-          <span class="text-[8px] block opacity-70">India Outbound</span>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+        <div class="p-2 rounded-xl border space-y-0.5 min-w-0" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+          <span class="text-[9px] font-semibold uppercase tracking-wider block truncate" style="color: var(--text-muted);">Exports (FOB)</span>
+          <span class="text-xs sm:text-sm font-bold font-mono text-emerald-500 block truncate">$${p.exports_usd_billion}B</span>
+          <span class="text-[8px] font-medium block truncate opacity-75">India Outbound</span>
         </div>
-        <div class="p-2 rounded-lg border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-inner-border);">
-          <span class="text-[9px] block uppercase" style="color: var(--text-dim);">Imports (CIF)</span>
-          <span class="text-xs font-extrabold text-rose-500">$${p.imports_usd_billion}B</span>
-          <span class="text-[8px] block opacity-70">India Inbound</span>
+        <div class="p-2 rounded-xl border space-y-0.5 min-w-0" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+          <span class="text-[9px] font-semibold uppercase tracking-wider block truncate" style="color: var(--text-muted);">Imports (CIF)</span>
+          <span class="text-xs sm:text-sm font-bold font-mono text-rose-500 block truncate">$${p.imports_usd_billion}B</span>
+          <span class="text-[8px] font-medium block truncate opacity-75">India Inbound</span>
         </div>
-        <div class="p-2 rounded-lg border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-inner-border);">
-          <span class="text-[9px] block uppercase" style="color: var(--text-dim);">Net Trade Balance</span>
-          <span class="text-xs font-extrabold" style="color: ${balanceBadgeColor};">${balanceSign}$${p.trade_balance_usd_billion}B</span>
-          <span class="text-[8px] block opacity-70">${p.balance_type || 'Merchandise'}</span>
+        <div class="p-2 rounded-xl border space-y-0.5 min-w-0" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+          <span class="text-[9px] font-semibold uppercase tracking-wider block truncate" style="color: var(--text-muted);">Net Balance</span>
+          <span class="text-xs sm:text-sm font-bold font-mono block truncate" style="color: ${balanceBadgeColor};">${balanceSign}$${p.trade_balance_usd_billion}B</span>
+          <span class="text-[8px] font-medium block truncate opacity-75">${p.balance_type || 'Merchandise'}</span>
         </div>
-        <div class="p-2 rounded-lg border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-inner-border);">
-          <span class="text-[9px] block uppercase" style="color: var(--text-dim);">Import Coverage</span>
-          <span class="text-xs font-extrabold ${p.import_coverage_pct >= 100 ? 'text-emerald-500' : 'text-amber-500'}">${p.import_coverage_pct}%</span>
-          <span class="text-[8px] block opacity-70">${p.import_coverage_pct >= 100 ? 'Exports Fund Imports' : 'Net FX Outflow'}</span>
+        <div class="p-2 rounded-xl border space-y-0.5 min-w-0" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+          <span class="text-[9px] font-semibold uppercase tracking-wider block truncate" style="color: var(--text-muted);">Import Coverage</span>
+          <span class="text-xs sm:text-sm font-bold font-mono block truncate ${p.import_coverage_pct >= 100 ? 'text-emerald-500' : 'text-amber-500'}">${p.import_coverage_pct}%</span>
+          <span class="text-[8px] font-medium block truncate opacity-75">${p.import_coverage_pct >= 100 ? 'Surplus' : 'Net FX Outflow'}</span>
         </div>
       </div>
 
