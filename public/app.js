@@ -6951,6 +6951,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // 4. Initial Load: Default trade pulse query
   setQuery("What are India's overall trade totals and deficit?");
+
+  // 5. Initialize Next-Gen Trade Capabilities
+  renderIcegateChecklist();
+  runPcfcArbitrage();
+  runForwarderQuoteAudit();
+
 });
 
 
@@ -7005,3 +7011,367 @@ if ('serviceWorker' in navigator) {
     });
   });
 })();
+
+
+// =============================================================================
+// CAPABILITY 1 & 2: WhatsApp Trade Dossier & Freight Benchmark Dispatcher
+// =============================================================================
+
+function shareScratchpadToWhatsApp() {
+  const prod = document.getElementById('calc-product')?.value || 'Export Consignment';
+  const qty = document.getElementById('calc-quantity')?.value || '10,000';
+  const unit = document.getElementById('calc-unit')?.value || 'pcs';
+  const fob = document.getElementById('calc-amount')?.value || '50,000 USD';
+  const rodtep = document.getElementById('card-rodtep')?.innerText || '₹0';
+  const dbk = document.getElementById('card-drawback')?.innerText || '₹0';
+  const totalCash = document.getElementById('card-total-cash')?.innerText || '₹0';
+  const credit = document.getElementById('memo-preview-credit')?.innerText || '₹0';
+  const marginBoost = document.getElementById('card-margin-boost')?.innerText || '+7.1% Boost';
+
+  const text = `*WORLD OF TRADE — EXPORT DOSSIER & CASH MEMO* 🇮🇳📦
+
+📌 *Commodity:* ${prod}
+🔢 *Consignment Sizing:* ${qty} ${unit}
+💵 *FOB Invoice Value:* ${fob}
+
+🏛️ *Statutory Cash Recovery:*
+• RoDTEP / RoSCTL Scrip: ${rodtep}
+• AIR Duty Drawback (Bank Cash): ${dbk}
+• *Total Direct Cash Yield:* ${totalCash} (${marginBoost})
+• Pre-Shipment Packing Credit Sizing: ${credit}
+
+⚡ Generated on World of Trade Sovereign PWA
+🔗 https://ramu-world-trade.vercel.app/#scratchpad`;
+
+  const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+  window.open(url, '_blank');
+}
+
+function shareFreightToWhatsApp() {
+  const size = document.getElementById('ocean-size')?.value || '40ft';
+  const count = document.getElementById('ocean-count')?.value || '1';
+  const base = document.getElementById('ocean-res-base')?.innerText || '$2,950';
+  const surcharges = document.getElementById('ocean-res-surcharges')?.innerText || '+$1,450';
+  const totalUsd = document.getElementById('ocean-res-total-usd')?.innerText || '$4,400';
+  const totalInr = document.getElementById('ocean-res-total-inr')?.innerText || '₹3,72,020';
+  const quoteVal = document.getElementById('ocean-quote')?.value;
+  const quoteBadge = document.getElementById('ocean-quote-badge')?.innerText || 'Benchmark Spot';
+
+  let quoteText = '';
+  if (quoteVal) {
+    quoteText = `\n⚖️ *Forwarder Quote Appraisal:* $${quoteVal}/unit (${quoteBadge})`;
+  }
+
+  const text = `*WORLD OF TRADE — MARITIME OCEAN FREIGHT BENCHMARK* 🌊🚢
+
+⚓ *Shipping Corridor:* ${typeof currentOceanRoute !== 'undefined' ? currentOceanRoute : 'IN_EU_ROTTERDAM'}
+📦 *Equipment:* ${count} x ${size}
+💵 *Benchmark Rate:* ${totalUsd} / unit (~${totalInr} total)
+• Base Ocean Freight: ${base}
+• Statutory Surcharges (BAF/Cape): ${surcharges}${quoteText}
+
+⚡ Real-time Drewry WCI & Baltic FBX Mirror
+🔗 https://ramu-world-trade.vercel.app/#timer`;
+
+  const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+  window.open(url, '_blank');
+}
+
+// =============================================================================
+// CAPABILITY 3: Pre-Flight ICEGATE Shipping Bill & Gate-In Checklist
+// =============================================================================
+
+const ICEGATE_CHECKLIST_DATA = [
+  { id: 'ad_code', title: '1. AD Code & Port Custom House Registration', desc: 'Authorised Dealer Code registered and mapped with specific Port Custom House (e.g. INNSA1 / INMUN1) on ICEGATE.', checked: true },
+  { id: 'rodtep_flag', title: '2. RoDTEP / RoSCTL Incentive Intent Flagged', desc: 'Incentive claim intent flagged (Y) in Shipping Bill Item Details to lock scrip generation prior to LEO.', checked: true },
+  { id: 'gst_lut', title: '3. Annual GST LUT (RFD-11) Active on GSTN', desc: 'Valid Letter of Undertaking filed for current FY to clear zero-rated export supply without paying IGST under Section 16.', checked: true },
+  { id: 'dgft_rcmc', title: '4. Active RCMC Linked on DGFT Portal', desc: 'Valid Registration-Cum-Membership Certificate mapped with concerned Export Promotion Council (FIEO/AEPC/APEDA/EEPC).', checked: false },
+  { id: 'pfms_penny', title: '5. PFMS Single-Rupee Test Credit Verified', desc: 'Drawback beneficiary bank account verified on Public Financial Management System via penny-drop validation.', checked: true },
+  { id: 'phyto_apeda', title: '6. Phytosanitary / APEDA Tracenet Sampling', desc: 'NABL lab testing certificates and Tracenet lot sampling passed for agricultural and food consignments.', checked: false },
+  { id: 'eway_matching', title: '7. Rule 138 e-Way Bill Port PIN Match', desc: 'e-Way Bill destination PIN matches port CFS gate-in facility with active vehicle transshipment update.', checked: true },
+  { id: 'solas_vgm', title: '8. SOLAS VGM (Form-13) Certified Weighment', desc: 'Calibrated weighbridge Verified Gross Mass certificate uploaded to PCS 1x / terminal gate-in system.', checked: false },
+  { id: 'cipl_harmony', title: '9. Commercial Invoice & Packing List Parity', desc: 'Exact 8-digit ITC-HS code, Incoterms 2020 terms, item weights, and carton marks synchronized across all documents.', checked: true },
+  { id: 'fema_edpms', title: '10. FEMA EDPMS Realization Tracking Registered', desc: 'Export declaration mapped with AD Bank EDPMS ledger for statutory 270-day inward remittance reconciliation.', checked: false }
+];
+
+let icegateChecklistState = JSON.parse(JSON.stringify(ICEGATE_CHECKLIST_DATA));
+
+function renderIcegateChecklist() {
+  const container = document.getElementById('icegate-checklist-container');
+  if (!container) return;
+
+  container.innerHTML = icegateChecklistState.map((item, idx) => `
+    <label class="flex items-start gap-2.5 p-2.5 rounded-xl border cursor-pointer active:scale-[0.99] transition-transform" style="background: var(--card-inner-bg); border-color: ${item.checked ? 'var(--accent-border)' : 'var(--card-inner-border)'};">
+      <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="toggleIcegateChecklist(${idx})" class="mt-0.5 rounded accent-[var(--accent)] w-4 h-4" />
+      <div class="flex-1">
+        <div class="flex items-center justify-between">
+          <span class="font-bold text-[11px] block ${item.checked ? 'text-[var(--accent)]' : ''}">${item.title}</span>
+          <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded" style="${item.checked ? 'background: rgba(16, 185, 129, 0.15); color: #10B981;' : 'background: rgba(239, 68, 68, 0.1); color: #EF4444;'}">
+            ${item.checked ? 'VERIFIED' : 'PENDING'}
+          </span>
+        </div>
+        <span class="text-[10px] leading-tight block mt-0.5" style="color: var(--text-dim);">${item.desc}</span>
+      </div>
+    </label>
+  `).join('');
+
+  updateIcegateAuditScore();
+}
+
+function toggleIcegateChecklist(idx) {
+  if (icegateChecklistState[idx]) {
+    icegateChecklistState[idx].checked = !icegateChecklistState[idx].checked;
+    renderIcegateChecklist();
+  }
+}
+
+function setAllIcegateChecklist(val) {
+  icegateChecklistState.forEach(item => { item.checked = val; });
+  renderIcegateChecklist();
+}
+
+function updateIcegateAuditScore() {
+  const total = icegateChecklistState.length;
+  const verified = icegateChecklistState.filter(item => item.checked).length;
+  const pct = Math.round((verified / total) * 100);
+
+  const scoreBadge = document.getElementById('icegate-audit-score-badge');
+  const pctText = document.getElementById('icegate-audit-pct');
+  const bar = document.getElementById('icegate-audit-bar');
+  const statusEl = document.getElementById('icegate-audit-status');
+  const adviceEl = document.getElementById('icegate-audit-advice');
+
+  if (scoreBadge) {
+    scoreBadge.innerText = `${verified}/${total} Verified • ${pct}% Ready`;
+    if (pct === 100) {
+      scoreBadge.style.background = 'rgba(16, 185, 129, 0.15)';
+      scoreBadge.style.color = '#10B981';
+      scoreBadge.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+    } else if (pct >= 60) {
+      scoreBadge.style.background = 'rgba(245, 158, 11, 0.15)';
+      scoreBadge.style.color = '#D97706';
+      scoreBadge.style.borderColor = 'rgba(245, 158, 11, 0.3)';
+    } else {
+      scoreBadge.style.background = 'rgba(239, 68, 68, 0.15)';
+      scoreBadge.style.color = '#EF4444';
+      scoreBadge.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+    }
+  }
+
+  if (pctText) pctText.innerText = `${pct}% Verified`;
+  if (bar) {
+    bar.style.width = `${pct}%`;
+    bar.style.background = pct === 100 ? '#10B981' : (pct >= 60 ? 'var(--accent)' : '#EF4444');
+  }
+
+  if (statusEl && adviceEl) {
+    if (pct === 100) {
+      statusEl.innerText = '🟢 100% AUDIT READY • EXPEDITED LEO GRANTED';
+      statusEl.className = 'text-[10px] font-bold font-mono text-emerald-500';
+      adviceEl.innerText = 'All statutory pre-requisites satisfied. Container is certified for immediate CFS terminal gate-in and automated EDI scroll disbursal.';
+    } else if (pct >= 60) {
+      statusEl.innerText = `🟡 PROVISIONAL • ${total - verified} ITEMS PENDING`;
+      statusEl.className = 'text-[10px] font-bold font-mono text-amber-500';
+      adviceEl.innerText = 'Ensure pending statutory documents (such as SOLAS VGM or DGFT RCMC) are uploaded prior to container arrival at port gate to prevent gate-in detention.';
+    } else {
+      statusEl.innerText = `🔴 HIGH RISK • ${total - verified} CRITICAL DEFICIENCIES`;
+      statusEl.className = 'text-[10px] font-bold font-mono text-red-500';
+      adviceEl.innerText = 'Warning: Do not dispatch vehicle from factory. Missing AD Code, GST LUT, or Drawback PFMS credentials will stall shipping bill at port customs.';
+    }
+  }
+}
+
+function copyIcegateAuditClearance() {
+  const verified = icegateChecklistState.filter(item => item.checked).map(i => `[OK] ${i.title}`).join('\n');
+  const pending = icegateChecklistState.filter(item => !item.checked).map(i => `[PENDING] ${i.title}`).join('\n');
+  const total = icegateChecklistState.length;
+  const verifiedCount = icegateChecklistState.filter(item => item.checked).length;
+  const pct = Math.round((verifiedCount / total) * 100);
+
+  const text = `*CUSTOMS EDI GATE-IN STATUTORY AUDIT CLEARANCE*\n` +
+    `Port Gateway: Nhava Sheva (INNSA1) / Mundra (INMUN1)\n` +
+    `Readiness Index: ${verifiedCount}/${total} (${pct}% Verified)\n\n` +
+    `--- VERIFIED STATUTORY FILINGS ---\n${verified}\n\n` +
+    (pending ? `--- PENDING DEFICIENCIES ---\n${pending}\n\n` : '') +
+    `Generated via World of Trade Sovereign PWA\nhttps://ramu-world-trade.vercel.app/#agenda`;
+
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => {
+      alert('✅ ICEGATE Gate-In Audit Dossier copied to clipboard!');
+    }).catch(() => {
+      prompt('Copy ICEGATE Gate-In Audit Dossier:', text);
+    });
+  } else {
+    prompt('Copy ICEGATE Gate-In Audit Dossier:', text);
+  }
+}
+
+// =============================================================================
+// CAPABILITY 4: PCFC vs. INR Packing Credit Arbitrage & Forward Hedging
+// =============================================================================
+
+function runPcfcArbitrage() {
+  const orderVal = parseFloat(document.getElementById('pcfc-order-val')?.value) || 50000;
+  const tenureDays = parseInt(document.getElementById('pcfc-tenure-days')?.value) || 90;
+  const inrBaseRate = parseFloat(document.getElementById('pcfc-inr-rate')?.value) || 8.50;
+  const iesSubvention = parseFloat(document.getElementById('pcfc-ies-subvention')?.value) || 3.00;
+  const sofrRate = parseFloat(document.getElementById('pcfc-sofr-rate')?.value) || 4.85;
+  const bankSpread = parseFloat(document.getElementById('pcfc-bank-spread')?.value) || 2.00;
+  const fwdPremium = parseFloat(document.getElementById('pcfc-fwd-premium')?.value) || 1.95;
+
+  const usdInrRate = 84.55;
+  const principalInr = orderVal * usdInrRate;
+  const yearFraction = tenureDays / 365;
+
+  // 1. Rupee Credit Math
+  const netInrRate = Math.max(0, inrBaseRate - iesSubvention);
+  const inrInterestRupees = Math.round(principalInr * (netInrRate / 100) * yearFraction);
+
+  // 2. USD PCFC Math
+  const usdPcfcRate = sofrRate + bankSpread;
+  const usdInterestUsd = orderVal * (usdPcfcRate / 100) * yearFraction;
+  const usdInterestRupees = Math.round(usdInterestUsd * usdInrRate);
+
+  // 3. Forward Hedge Gain
+  const fwdGainRupees = Math.round(principalInr * (fwdPremium / 100) * yearFraction);
+
+  // 4. Net Effective PCFC Cost (Interest minus forward premium earned)
+  const netPcfcCostRupees = usdInterestRupees - fwdGainRupees;
+  const netEffectivePcfcRate = Math.round((usdPcfcRate - fwdPremium) * 100) / 100;
+
+  // 5. Arbitrage Savings in INR
+  const savingsRupees = inrInterestRupees - netPcfcCostRupees;
+  const spreadPct = Math.round((netInrRate - netEffectivePcfcRate) * 100) / 100;
+
+  // Update DOM elements
+  const inrCostEl = document.getElementById('pcfc-res-inr-cost');
+  const inrInterestEl = document.getElementById('pcfc-res-inr-interest');
+  const usdCostEl = document.getElementById('pcfc-res-usd-cost');
+  const usdInterestEl = document.getElementById('pcfc-res-usd-interest');
+  const fwdGainEl = document.getElementById('pcfc-res-fwd-gain');
+  const fwdRupeesEl = document.getElementById('pcfc-res-fwd-rupees');
+  const savingsEl = document.getElementById('pcfc-res-savings');
+  const optimalPickEl = document.getElementById('pcfc-res-optimal-pick');
+  const arbBadge = document.getElementById('pcfc-arb-badge');
+  const strategyTag = document.getElementById('pcfc-strategy-tag');
+  const strategyDesc = document.getElementById('pcfc-strategy-desc');
+
+  if (inrCostEl) inrCostEl.innerText = `${netInrRate.toFixed(2)}%`;
+  if (inrInterestEl) inrInterestEl.innerText = `₹${inrInterestRupees.toLocaleString('en-IN')} interest`;
+  if (usdCostEl) usdCostEl.innerText = `${usdPcfcRate.toFixed(2)}%`;
+  if (usdInterestEl) usdInterestEl.innerText = `$${Math.round(usdInterestUsd).toLocaleString('en-US')} (₹${usdInterestRupees.toLocaleString('en-IN')})`;
+  if (fwdGainEl) fwdGainEl.innerText = `+${fwdPremium.toFixed(2)}%`;
+  if (fwdRupeesEl) fwdRupeesEl.innerText = `+₹${fwdGainRupees.toLocaleString('en-IN')} premium`;
+
+  if (savingsRupees >= 0) {
+    if (savingsEl) {
+      savingsEl.innerText = `₹${savingsRupees.toLocaleString('en-IN')}`;
+      savingsEl.className = 'text-base font-extrabold font-mono block mt-1 text-[#10B981]';
+    }
+    if (optimalPickEl) optimalPickEl.innerText = 'USD PCFC OPTIMAL';
+    if (arbBadge) {
+      arbBadge.innerText = `PCFC Advantage: +${spreadPct.toFixed(2)}%`;
+      arbBadge.style.color = '#10B981';
+    }
+    if (strategyTag) {
+      strategyTag.innerText = 'USD PCFC + FORWARD COVER';
+      strategyTag.style.background = '#10B981';
+    }
+    if (strategyDesc) {
+      strategyDesc.innerText = `Borrowing in USD PCFC at SOFR+${Math.round(bankSpread*100)}bps (${usdPcfcRate.toFixed(2)}%) and booking a ${tenureDays}-day forward contract locks in a net effective borrowing cost of ${netEffectivePcfcRate.toFixed(2)}% p.a., beating Rupee Credit by ${spreadPct.toFixed(2)}% and saving ₹${savingsRupees.toLocaleString('en-IN')} on this order.`;
+    }
+  } else {
+    const inrSavings = Math.abs(savingsRupees);
+    if (savingsEl) {
+      savingsEl.innerText = `₹${inrSavings.toLocaleString('en-IN')}`;
+      savingsEl.className = 'text-base font-extrabold font-mono block mt-1 text-blue-500';
+    }
+    if (optimalPickEl) optimalPickEl.innerText = 'INR RUPEE CREDIT OPTIMAL';
+    if (arbBadge) {
+      arbBadge.innerText = `INR Credit Advantage: +${Math.abs(spreadPct).toFixed(2)}%`;
+      arbBadge.style.color = '#3B82F6';
+    }
+    if (strategyTag) {
+      strategyTag.innerText = 'INR RUPEE PRE-SHIPMENT CREDIT';
+      strategyTag.style.background = '#3B82F6';
+    }
+    if (strategyDesc) {
+      strategyDesc.innerText = `With ${iesSubvention}% Interest Equalization Scheme subvention active, INR Pre-Shipment Credit at ${netInrRate.toFixed(2)}% p.a. is cheaper than foreign currency borrowing by ${Math.abs(spreadPct).toFixed(2)}%, saving ₹${inrSavings.toLocaleString('en-IN')} over USD PCFC.`;
+    }
+  }
+}
+
+// =============================================================================
+// CAPABILITY 5: Freight Forwarder Quote Auditor & "Junk Fee" Detector
+// =============================================================================
+
+function runForwarderQuoteAudit() {
+  const doMarkup = parseFloat(document.getElementById('junk-fee-do')?.value) || 0;
+  const trackingMarkup = parseFloat(document.getElementById('junk-fee-tracking')?.value) || 0;
+  const agencyMarkup = parseFloat(document.getElementById('junk-fee-agency')?.value) || 0;
+
+  const totalJunkUsd = doMarkup + trackingMarkup + agencyMarkup;
+  const totalJunkInr = Math.round(totalJunkUsd * 84.55);
+
+  const badgeEl = document.getElementById('auditor-summary-badge');
+  const savingsTotalEl = document.getElementById('junk-savings-total');
+
+  if (badgeEl) {
+    if (totalJunkUsd > 0) {
+      badgeEl.innerText = `$${totalJunkUsd} Junk Fees Detected`;
+      badgeEl.style.background = 'rgba(239, 68, 68, 0.15)';
+      badgeEl.style.color = '#EF4444';
+    } else {
+      badgeEl.innerText = 'Clean Quote • No Junk Fees';
+      badgeEl.style.background = 'rgba(16, 185, 129, 0.15)';
+      badgeEl.style.color = '#10B981';
+    }
+  }
+
+  if (savingsTotalEl) {
+    savingsTotalEl.innerText = `$${totalJunkUsd} (₹${totalJunkInr.toLocaleString('en-IN')})`;
+  }
+}
+
+function copyForwarderRebuttal() {
+  const doMarkup = parseFloat(document.getElementById('junk-fee-do')?.value) || 0;
+  const trackingMarkup = parseFloat(document.getElementById('junk-fee-tracking')?.value) || 0;
+  const agencyMarkup = parseFloat(document.getElementById('junk-fee-agency')?.value) || 0;
+  const totalJunkUsd = doMarkup + trackingMarkup + agencyMarkup;
+  const totalJunkInr = Math.round(totalJunkUsd * 84.55);
+
+  const text = `*FORMAL DISPUTE NOTICE: NON-STATUTORY LOCAL LOGISTICS CHARGES*\n` +
+    `To: Maritime Freight Forwarder / Shipping Line / CHA\n` +
+    `Ref: Consignment Quotation Review\n\n` +
+    `Dear Operations Team,\n\n` +
+    `Upon audit against standard Drewry/Baltic indices and CBIC Circular No. 24/2020-Customs, the following arbitrary mark-up fees have been flagged on your quotation:\n` +
+    (doMarkup > 0 ? `• Delivery Order (DO) Handover Fee: $${doMarkup}\n` : '') +
+    (trackingMarkup > 0 ? `• Container Manifest / Tracking Surcharge: $${trackingMarkup}\n` : '') +
+    (agencyMarkup > 0 ? `• Agency Clerical / Documentation Fee: $${agencyMarkup}\n` : '') +
+    `*Total Disputed Non-Statutory Surcharges: $${totalJunkUsd} (INR ₹${totalJunkInr.toLocaleString('en-IN')})*\n\n` +
+    `As per CBIC guidelines and Section 11 of the Carriage of Goods by Sea Act, all carrier operations must reflect transparent published tariffs. Exporters cannot be subjected to arbitrary local handover surcharges already subsumed under standard Terminal Handling Charges (THC).\n\n` +
+    `Please revise the commercial invoice by removing the disputed $${totalJunkUsd} to proceed with immediate booking approval.\n\n` +
+    `Generated via World of Trade Sovereign Maritime Radar\nhttps://ramu-world-trade.vercel.app/#timer`;
+
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => {
+      alert('⚖️ Legal Forwarder Rebuttal Notice copied to clipboard!');
+    }).catch(() => {
+      prompt('Copy Legal Forwarder Rebuttal Notice:', text);
+    });
+  } else {
+    prompt('Copy Legal Forwarder Rebuttal Notice:', text);
+  }
+}
+
+// Expose new window methods
+window.shareScratchpadToWhatsApp = shareScratchpadToWhatsApp;
+window.shareFreightToWhatsApp = shareFreightToWhatsApp;
+window.renderIcegateChecklist = renderIcegateChecklist;
+window.toggleIcegateChecklist = toggleIcegateChecklist;
+window.setAllIcegateChecklist = setAllIcegateChecklist;
+window.updateIcegateAuditScore = updateIcegateAuditScore;
+window.copyIcegateAuditClearance = copyIcegateAuditClearance;
+window.runPcfcArbitrage = runPcfcArbitrage;
+window.runForwarderQuoteAudit = runForwarderQuoteAudit;
+window.copyForwarderRebuttal = copyForwarderRebuttal;

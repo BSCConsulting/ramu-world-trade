@@ -1,10 +1,10 @@
 /**
- * World of Trade - Sovereign PWA Service Worker
+ * World of Trade - Sovereign PWA Service Worker (v5)
  * Offline Mandi Packhouse Mode & Runtime Cache
  * 100% Native Web Standards (Zero External Libraries)
  */
 
-const CACHE_NAME = 'wot-sovereign-v4';
+const CACHE_NAME = 'wot-sovereign-v5';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -12,7 +12,8 @@ const STATIC_ASSETS = [
   '/manifest.json',
   '/tailwind.min.css',
   '/chart.min.js',
-  '/marked.min.js'
+  '/marked.min.js',
+  '/sw.js'
 ];
 
 self.addEventListener('install', (event) => {
@@ -39,7 +40,7 @@ self.addEventListener('fetch', (event) => {
   const req = event.request;
   const url = new URL(req.url);
 
-  // Ignore non-GET requests (e.g. POST /api/query recalculations handled online)
+  // Ignore non-GET requests
   if (req.method !== 'GET') {
     return;
   }
