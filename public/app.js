@@ -4438,14 +4438,14 @@ function renderTradestatMatrix(data, partnerCode) {
   const balanceSign = isSurplus ? '+' : '';
 
   const exportRows = (p.top_export_commodities || []).map((c, i) => `
-    <div class="flex items-center justify-between p-1.5 rounded border text-[11px]" style="background: var(--card-bg); border-color: var(--card-inner-border);">
-      <div class="flex items-center gap-1.5 overflow-hidden">
-        <span class="px-1 py-0.5 rounded font-mono text-[9px] font-bold flex-shrink-0" style="background: rgba(59, 130, 246, 0.15); color: #3B82F6;">HS ${c.hs}</span>
-        <span class="truncate font-medium" title="${c.commodity}">${c.commodity}</span>
+    <div class="flex items-center justify-between p-2 rounded-xl border text-[11px]" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+      <div class="flex items-center gap-2 overflow-hidden min-w-0">
+        <span class="px-1.5 py-0.5 rounded font-mono text-[10px] font-bold flex-shrink-0" style="background: rgba(59, 130, 246, 0.15); color: #3B82F6;">HS ${c.hs}</span>
+        <span class="truncate font-medium" style="color: var(--text-main);" title="${c.commodity}">${c.commodity}</span>
       </div>
       <div class="text-right font-mono flex-shrink-0 ml-2">
-        <span class="text-emerald-400 font-bold">$${c.value_usd_billion}B</span>
-        <span class="text-[9px] text-gray-400 ml-1">(${c.share_pct}%)</span>
+        <span class="font-bold text-emerald-600">$${c.value_usd_billion}B</span>
+        <span class="text-[9px] ml-1 font-semibold" style="color: var(--text-dim);">(${c.share_pct}%)</span>
       </div>
     </div>
   `).join('');
@@ -4509,7 +4509,7 @@ function renderTradestatMatrix(data, partnerCode) {
         <span class="text-base flex-shrink-0">💳</span>
         <div>
           <span class="font-bold text-[10px] uppercase tracking-wider block" style="color: var(--accent);">Statutory Settlement Protocol:</span>
-          <span class="text-gray-300">${p.settlement_mechanism || 'Standard SWIFT / Nostro-Vostro Framework'}</span>
+          <span style="color: var(--text-main); font-weight: 500;">${p.settlement_mechanism || 'Standard SWIFT / Nostro-Vostro Framework'}</span>
         </div>
       </div>
 
@@ -4912,8 +4912,8 @@ function renderApedaResults(data) {
     </div>
 
     <!-- Interactive Chemical Residue / MRL Testing Ledger -->
-    <div class="rounded-xl border overflow-hidden" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-      <div class="p-2.5 border-b flex items-center justify-between" style="border-color: var(--card-inner-border);">
+    <div class="rounded-xl border overflow-x-auto no-scrollbar scroll-smooth" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+      <div class="p-2.5 border-b flex min-w-[540px] items-center justify-between" style="border-color: var(--card-inner-border);">
         <div class="flex items-center gap-2">
           <span class="font-extrabold text-xs uppercase tracking-wider" style="color: var(--text-main);">Sanitary &amp; Phytosanitary (SPS) MRL Ledger</span>
           <span class="text-[9px] font-mono px-1.5 py-0.5 rounded font-bold" style="background: rgba(59, 130, 246, 0.15); color: #3B82F6;">INTERACTIVE LAB SIMULATOR</span>
@@ -5170,8 +5170,8 @@ function renderMpedaResults(data) {
     </div>
 
     <!-- Interactive Marine Antibiotic & Heavy Metal Testing Ledger -->
-    <div class="rounded-xl border overflow-hidden" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-      <div class="p-2.5 border-b flex items-center justify-between" style="border-color: var(--card-inner-border);">
+    <div class="rounded-xl border overflow-x-auto no-scrollbar scroll-smooth" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+      <div class="p-2.5 border-b flex min-w-[540px] items-center justify-between" style="border-color: var(--card-inner-border);">
         <div class="flex items-center gap-2">
           <span class="font-extrabold text-xs uppercase tracking-wider" style="color: var(--text-main);">Marine Anti-Microbial &amp; Contaminant Ledger</span>
           <span class="text-[9px] font-mono px-1.5 py-0.5 rounded font-bold" style="background: rgba(6, 182, 212, 0.15); color: #06B6D4;">EIC / MPEDA LAB BENCHMARK</span>
@@ -5432,8 +5432,8 @@ function renderSpicesResults(data) {
     </div>
 
     <!-- Interactive Contaminant, Mycotoxin & Bioactive Testing Ledger -->
-    <div class="rounded-xl border overflow-hidden" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-      <div class="p-2.5 border-b flex items-center justify-between" style="border-color: var(--card-inner-border);">
+    <div class="rounded-xl border overflow-x-auto no-scrollbar scroll-smooth" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+      <div class="p-2.5 border-b flex min-w-[540px] items-center justify-between" style="border-color: var(--card-inner-border);">
         <div class="flex items-center gap-2">
           <span class="font-extrabold text-xs uppercase tracking-wider" style="color: var(--text-main);">Spices &amp; Tea Pre-Shipment Quality Ledger</span>
           <span class="text-[9px] font-mono px-1.5 py-0.5 rounded font-bold" style="background: rgba(245, 158, 11, 0.15); color: #F59E0B;">QEL / CQC NABL BENCHMARK</span>

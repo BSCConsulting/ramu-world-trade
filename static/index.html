@@ -441,6 +441,8 @@
       body {
         background: #ffffff !important;
         color: #000000 !important;
+        height: auto !important;
+        overflow: visible !important;
       }
       header,
       nav,
@@ -451,12 +453,23 @@
       #bottom-sheet-backdrop,
       #theme-dropdown,
       .sub-tab-nav,
-      .no-print {
+      .no-print,
+      #qj-sync,
+      .sticky {
         display: none !important;
         visibility: hidden !important;
         position: static !important;
         height: 0 !important;
+        max-height: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
         overflow: hidden !important;
+      }
+      main {
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: visible !important;
       }
       #trade-blueprint-modal:not(.hidden) {
         position: static !important;
@@ -673,7 +686,7 @@
     .z-50 { z-index: 50; }
   </style>
 </head>
-<body class="theme-kyoto-tea h-full overflow-x-hidden flex flex-col font-sans">
+<body class="theme-kyoto-tea min-h-screen overflow-x-hidden font-sans">
 
   <!-- TOP HEADER (Clean, Uncluttered, Clears Dynamic Island) -->
   <header class="pt-safe-top px-4 pb-3.5 border-b sticky top-0 z-40 backdrop-blur-xl" style="background: var(--nav-bg); border-color: var(--card-border);">
@@ -807,7 +820,8 @@
 
     <!-- TOP QUICK-SWITCHER PILL BAR (Effortless 1-Tap Toggle) -->
   <div class="px-4 pt-1.5 pb-2 border-b backdrop-blur-xl sticky top-[57px] z-30" style="background: var(--nav-bg); border-color: var(--card-border);">
-    <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar scroll-smooth">
+    <div class="max-w-4xl mx-auto w-full">
+      <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar scroll-smooth py-0.5">
       <button type="button" onclick="quickJump('scenarios')" id="qj-scenarios" class="px-3 py-1.5 rounded-full text-[11px] font-extrabold active:scale-95 transition-all whitespace-nowrap shadow-sm flex items-center gap-1.5" style="background: var(--accent); color: #ffffff;">
         <span>⚡ Scenarios</span>
       </button>
@@ -831,10 +845,11 @@
         <span id="sync-status-text">Cloud Sync</span>
       </button>
     </div>
+    </div>
   </div>
 
-  <!-- MAIN SCROLLABLE CONTENT (Safe Bottom Area for 5-Tab Bar) -->
-  <main class="flex-1 ios-scroll overflow-y-auto px-4 py-4 pb-safe-nav space-y-4">
+  <!-- MAIN CONTENT CONTAINER (Unified max-w-4xl grid alignment) -->
+  <main class="max-w-4xl mx-auto w-full px-4 py-5 pb-28 sm:pb-32 space-y-5">
 
     <!-- ==================== TAB 1: APPS (Radar & Triangulation) ==================== -->
     <section id="tab-apps" class="space-y-4">
@@ -1499,69 +1514,69 @@
               <span class="text-[9px] font-mono text-emerald-500 font-bold">1-Tap 6-Pillar Analysis + PDF</span>
             </div>
 
-            <!-- 4 Level Question Cards Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <!-- 4 Level Question Cards Grid (Harmonized, Clean Spacing, No Badge Clipping) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <!-- Level 1: Micro Ground Arbitrage -->
-              <button type="button" onclick="executeFlagshipQuestion('level 1')" class="p-3 rounded-2xl border text-left border-l-4 border-l-emerald-500 flex flex-col justify-between active:scale-[0.98] transition-all hover:border-accent shadow-sm" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              <button type="button" onclick="executeFlagshipQuestion('level 1')" class="p-3.5 rounded-2xl border text-left border-l-4 border-l-emerald-500 h-full flex flex-col justify-between active:scale-[0.98] transition-all hover:border-accent shadow-sm" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
                 <div>
-                  <div class="flex items-center justify-between">
-                    <span class="text-[9px] font-mono uppercase font-bold text-emerald-500 px-1.5 py-0.2 rounded" style="background: rgba(16, 185, 129, 0.1);">Level 1: Micro Arbitrage</span>
-                    <span class="text-[9px] font-mono font-bold text-emerald-600">₹3,450 / DAY</span>
+                  <div class="flex items-center justify-between gap-1.5 flex-nowrap mb-1.5">
+                    <span class="text-[9px] font-mono uppercase font-bold text-emerald-600 px-2 py-0.5 rounded-md whitespace-nowrap" style="background: rgba(16, 185, 129, 0.12);">Level 1 • Micro</span>
+                    <span class="text-[10px] font-mono font-extrabold text-emerald-600 whitespace-nowrap">₹3,450/Day</span>
                   </div>
-                  <h4 class="font-extrabold text-xs mt-1" style="color: var(--text-main);">🌾 Vijayawada APMC ➔ Madhira Veg Flips</h4>
-                  <p class="text-[10px] mt-1 line-clamp-2" style="color: var(--text-muted);">Gollapudi 3:30 AM tractor auction, zero-GST Notification 2/2017 &amp; ₹7,500 daily revolving float.</p>
+                  <h4 class="font-extrabold text-xs leading-snug" style="color: var(--text-main);">🌾 Vijayawada APMC ➔ Madhira Veg Flips</h4>
+                  <p class="text-[10px] mt-1 line-clamp-2 leading-relaxed" style="color: var(--text-muted);">Gollapudi 3:30 AM tractor auction, zero-GST Notification 2/2017 &amp; ₹7,500 daily revolving float.</p>
                 </div>
-                <div class="mt-2 text-[10px] font-bold text-accent flex items-center justify-between pt-1 border-t" style="border-color: var(--card-inner-border); color: var(--accent);">
+                <div class="mt-2.5 text-[10px] font-bold flex items-center justify-between pt-1.5 border-t" style="border-color: var(--card-inner-border); color: var(--accent);">
                   <span>Run 6-Pillar Blueprint &rarr;</span>
-                  <span class="text-[9px] opacity-75">PDF Ready</span>
+                  <span class="text-[9px] font-mono opacity-80">PDF Ready</span>
                 </div>
               </button>
 
               <!-- Level 2: Zero-Capital Bulk Mandate -->
-              <button type="button" onclick="executeFlagshipQuestion('level 2')" class="p-3 rounded-2xl border text-left border-l-4 border-l-rose-500 flex flex-col justify-between active:scale-[0.98] transition-all hover:border-accent shadow-sm" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              <button type="button" onclick="executeFlagshipQuestion('level 2')" class="p-3.5 rounded-2xl border text-left border-l-4 border-l-rose-500 h-full flex flex-col justify-between active:scale-[0.98] transition-all hover:border-accent shadow-sm" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
                 <div>
-                  <div class="flex items-center justify-between">
-                    <span class="text-[9px] font-mono uppercase font-bold text-rose-500 px-1.5 py-0.2 rounded" style="background: rgba(244, 63, 94, 0.1);">Level 2: Sourcing Mandate</span>
-                    <span class="text-[9px] font-mono font-bold text-rose-600">₹42,000 / LOT</span>
+                  <div class="flex items-center justify-between gap-1.5 flex-nowrap mb-1.5">
+                    <span class="text-[9px] font-mono uppercase font-bold text-rose-600 px-2 py-0.5 rounded-md whitespace-nowrap" style="background: rgba(244, 63, 94, 0.12);">Level 2 • Mandate</span>
+                    <span class="text-[10px] font-mono font-extrabold text-rose-600 whitespace-nowrap">₹42,000/Lot</span>
                   </div>
-                  <h4 class="font-extrabold text-xs mt-1" style="color: var(--text-main);">🌶️ Guntur Cold Storage Chilli for Exporters</h4>
-                  <p class="text-[10px] mt-1 line-clamp-2" style="color: var(--text-muted);">14 MT Teja S17 lot, binding NCNDA anti-bypass protection &amp; blind lot sampling with ₹0 capital.</p>
+                  <h4 class="font-extrabold text-xs leading-snug" style="color: var(--text-main);">🌶️ Guntur Cold Storage Chilli for Exporters</h4>
+                  <p class="text-[10px] mt-1 line-clamp-2 leading-relaxed" style="color: var(--text-muted);">14 MT Teja S17 lot, binding NCNDA anti-bypass protection &amp; blind lot sampling with ₹0 capital.</p>
                 </div>
-                <div class="mt-2 text-[10px] font-bold text-accent flex items-center justify-between pt-1 border-t" style="border-color: var(--card-inner-border); color: var(--accent);">
+                <div class="mt-2.5 text-[10px] font-bold flex items-center justify-between pt-1.5 border-t" style="border-color: var(--card-inner-border); color: var(--accent);">
                   <span>Run 6-Pillar Blueprint &rarr;</span>
-                  <span class="text-[9px] opacity-75">PDF Ready</span>
+                  <span class="text-[9px] font-mono opacity-80">PDF Ready</span>
                 </div>
               </button>
 
               <!-- Level 3: Component Assembly & Tariff Arbitrage -->
-              <button type="button" onclick="executeFlagshipQuestion('level 3')" class="p-3 rounded-2xl border text-left border-l-4 border-l-blue-500 flex flex-col justify-between active:scale-[0.98] transition-all hover:border-accent shadow-sm" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              <button type="button" onclick="executeFlagshipQuestion('level 3')" class="p-3.5 rounded-2xl border text-left border-l-4 border-l-blue-500 h-full flex flex-col justify-between active:scale-[0.98] transition-all hover:border-accent shadow-sm" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
                 <div>
-                  <div class="flex items-center justify-between">
-                    <span class="text-[9px] font-mono uppercase font-bold text-blue-500 px-1.5 py-0.2 rounded" style="background: rgba(59, 130, 246, 0.1);">Level 3: Assembly Arbitrage</span>
-                    <span class="text-[9px] font-mono font-bold text-blue-600">₹17,400 / UNIT</span>
+                  <div class="flex items-center justify-between gap-1.5 flex-nowrap mb-1.5">
+                    <span class="text-[9px] font-mono uppercase font-bold text-blue-600 px-2 py-0.5 rounded-md whitespace-nowrap" style="background: rgba(59, 130, 246, 0.12);">Level 3 • Assembly</span>
+                    <span class="text-[10px] font-mono font-extrabold text-blue-600 whitespace-nowrap">₹17,400/Unit</span>
                   </div>
-                  <h4 class="font-extrabold text-xs mt-1" style="color: var(--text-main);">⚡ EV Scooters &amp; Cycles Micro-Assembly</h4>
-                  <p class="text-[10px] mt-1 line-clamp-2" style="color: var(--text-muted);">Parts vs CBU duty (10% vs 100%), Customs Rule 2(a) defense, &lt;25 km/h non-RTO &amp; Madhira ITI workshop.</p>
+                  <h4 class="font-extrabold text-xs leading-snug" style="color: var(--text-main);">⚡ EV Scooters &amp; Cycles Micro-Assembly</h4>
+                  <p class="text-[10px] mt-1 line-clamp-2 leading-relaxed" style="color: var(--text-muted);">Parts vs CBU duty (10% vs 100%), Customs Rule 2(a) defense, &lt;25 km/h non-RTO &amp; Madhira ITI workshop.</p>
                 </div>
-                <div class="mt-2 text-[10px] font-bold text-accent flex items-center justify-between pt-1 border-t" style="border-color: var(--card-inner-border); color: var(--accent);">
+                <div class="mt-2.5 text-[10px] font-bold flex items-center justify-between pt-1.5 border-t" style="border-color: var(--card-inner-border); color: var(--accent);">
                   <span>Run 6-Pillar Blueprint &rarr;</span>
-                  <span class="text-[9px] opacity-75">PDF Ready</span>
+                  <span class="text-[9px] font-mono opacity-80">PDF Ready</span>
                 </div>
               </button>
 
               <!-- Level 4: Executive Career & Advisory -->
-              <button type="button" onclick="executeFlagshipQuestion('level 4')" class="p-3 rounded-2xl border text-left border-l-4 border-l-purple-500 flex flex-col justify-between active:scale-[0.98] transition-all hover:border-accent shadow-sm" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              <button type="button" onclick="executeFlagshipQuestion('level 4')" class="p-3.5 rounded-2xl border text-left border-l-4 border-l-purple-500 h-full flex flex-col justify-between active:scale-[0.98] transition-all hover:border-accent shadow-sm" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
                 <div>
-                  <div class="flex items-center justify-between">
-                    <span class="text-[9px] font-mono uppercase font-bold text-purple-500 px-1.5 py-0.2 rounded" style="background: rgba(168, 85, 247, 0.1);">Level 4: Executive Lead</span>
-                    <span class="text-[9px] font-mono font-bold text-purple-600">₹1.5L–₹3.5L/MO</span>
+                  <div class="flex items-center justify-between gap-1.5 flex-nowrap mb-1.5">
+                    <span class="text-[9px] font-mono uppercase font-bold text-purple-600 px-2 py-0.5 rounded-md whitespace-nowrap" style="background: rgba(168, 85, 247, 0.12);">Level 4 • Advisory</span>
+                    <span class="text-[10px] font-mono font-extrabold text-purple-600 whitespace-nowrap">₹1.5L–3.5L/Mo</span>
                   </div>
-                  <h4 class="font-extrabold text-xs mt-1" style="color: var(--text-main);">💼 Exim Sourcing Advisory &amp; Consortium Lead</h4>
-                  <p class="text-[10px] mt-1 line-clamp-2" style="color: var(--text-muted);">Leverage B.Tech + TISS M.A. without paid certificates. Pitch promoters with 1-page operational diagnostic.</p>
+                  <h4 class="font-extrabold text-xs leading-snug" style="color: var(--text-main);">💼 Exim Sourcing Advisory &amp; Consortium Lead</h4>
+                  <p class="text-[10px] mt-1 line-clamp-2 leading-relaxed" style="color: var(--text-muted);">Leverage B.Tech + TISS M.A. without paid certificates. Pitch promoters with 1-page operational diagnostic.</p>
                 </div>
-                <div class="mt-2 text-[10px] font-bold text-accent flex items-center justify-between pt-1 border-t" style="border-color: var(--card-inner-border); color: var(--accent);">
+                <div class="mt-2.5 text-[10px] font-bold flex items-center justify-between pt-1.5 border-t" style="border-color: var(--card-inner-border); color: var(--accent);">
                   <span>Run 6-Pillar Blueprint &rarr;</span>
-                  <span class="text-[9px] opacity-75">PDF Ready</span>
+                  <span class="text-[9px] font-mono opacity-80">PDF Ready</span>
                 </div>
               </button>
             </div>
@@ -4797,8 +4812,8 @@
   </div>
 
   <!-- ==================== FIXED 5-TAB BOTTOM NAVIGATION BAR (Thumb Zone) ==================== -->
-  <nav id="bottom-dock-nav" class="fixed bottom-0 inset-x-0 border-t z-40 pb-safe-bottom pt-2" style="background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-color: var(--card-border);">
-    <div class="grid grid-cols-5 h-14 max-w-md mx-auto px-1">
+  <nav id="bottom-dock-nav" class="fixed bottom-0 inset-x-0 md:bottom-4 md:left-1/2 md:right-auto md:-translate-x-1/2 md:max-w-lg md:w-full md:rounded-3xl border-t md:border z-40 pb-safe-bottom pt-2 md:pt-0 md:pb-0 shadow-2xl" style="background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-color: var(--card-border);">
+    <div class="grid grid-cols-5 h-14 w-full px-1">
       
       <!-- Tab 1: Arbitrage & Scenarios -->
       <button onclick="switchNativeTab('apps')" id="nav-btn-apps" class="flex flex-col items-center justify-center min-h-[44px] min-w-[44px] active:scale-95 transition-transform focus:outline-none focus:ring-0 select-none" style="color: var(--accent);">
