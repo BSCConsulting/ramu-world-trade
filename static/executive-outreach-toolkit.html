@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Executive Outreach Toolkit: Contact Intelligence & Pitch Scripts</title>
+  
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Plus Jakarta Sans", "Segoe UI", sans-serif;
+    background: #f8fafc;
+    color: #0f172a;
+    line-height: 1.5;
+    padding: 30px;
+  }
+  .dossier-card {
+    max-width: 840px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+  }
+  .header {
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    letter-spacing: 0.5px;
+  }
+  h1 { font-size: 22px; font-weight: 800; color: #0f172a; margin-top: 6px; letter-spacing: -0.5px; }
+  h2 { font-size: 14px; font-weight: 800; color: #1e293b; margin: 24px 0 12px 0; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px; }
+  h3 { font-size: 13px; font-weight: 700; color: #334155; margin: 14px 0 6px 0; }
+  p, li { font-size: 12px; color: #475569; leading: 1.6; }
+  ul, ol { padding-left: 20px; margin-bottom: 14px; }
+  li { margin-bottom: 6px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 14px 0; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin: 14px 0; }
+  .metric-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px 14px;
+  }
+  .metric-label { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 4px; }
+  .metric-val { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 800; color: #0f172a; }
+  .metric-sub { font-size: 10px; color: #94a3b8; margin-top: 2px; }
+  .callout {
+    background: #f8fafc;
+    border-left: 4px solid #C25E34;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 16px 0;
+    font-size: 11px;
+  }
+  .callout-green { border-left-color: #10B981; background: rgba(16, 185, 129, 0.04); }
+  .callout-blue { border-left-color: #3B82F6; background: rgba(59, 130, 246, 0.04); }
+  .callout-amber { border-left-color: #F59E0B; background: rgba(245, 158, 11, 0.04); }
+  .table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 11px; }
+  .table th { background: #f1f5f9; text-align: left; padding: 8px 10px; font-weight: 700; color: #475569; border-bottom: 1px solid #cbd5e1; }
+  .table td { padding: 8px 10px; border-bottom: 1px solid #e2e8f0; color: #334155; }
+  .code-block {
+    background: #0f172a;
+    color: #f8fafc;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 14px;
+    border-radius: 12px;
+    line-height: 1.5;
+    margin: 14px 0;
+    white-space: pre-wrap;
+  }
+  .btn-print {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #C25E34;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 12px 20px;
+    border-radius: 9999px;
+    border: none;
+    box-shadow: 0 10px 15px -3px rgba(194, 94, 52, 0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 100;
+  }
+  .btn-print:hover { background: #ab4f2a; }
+  @media print {
+    body { padding: 0; background: #ffffff; }
+    .dossier-card { box-shadow: none; border: none; padding: 0; max-width: 100%; }
+    .btn-print { display: none !important; }
+  }
+</style>
+
+</head>
+<body>
+  <button class="btn-print" onclick="window.print()">📥 Print / Save as PDF</button>
+  <div class="dossier-card">
+    <div class="header">
+      <div>
+        <span class="tag" style="background: rgba(16, 185, 129, 0.1); color: #059669; border: 1px solid rgba(16, 185, 129, 0.25);">OPERATIONAL TOOLKIT • CONTACT INTELLIGENCE</span>
+        <h1>Executive Outreach Toolkit &amp; Pitch Scripts</h1>
+        <p style="color: #64748b; margin-top: 4px;">Promoter Contact Extraction • LinkedIn InMail • Direct WhatsApp • Postal Letters</p>
+      </div>
+      <div style="text-align: right;">
+        <span style="font-size: 10px; font-weight: 700; color: #94a3b8; font-family: 'JetBrains Mono', monospace;">OUTREACH-TOOLKIT-01</span>
+        <div style="font-size: 11px; font-weight: 700; color: #0f172a; margin-top: 2px;">C-Suite Direct Access</div>
+      </div>
+    </div>
+
+    <h2>1. How to Extract Real Contact Details (Promoter Mobiles &amp; Emails)</h2>
+    <ul>
+      <li><strong>MCA Director Master Data (Ministry of Corporate Affairs):</strong> Go to <code>mca.gov.in</code> ➔ <em>Master Data ➔ View Company/LLP Master Data</em>. Enter company name. Gives complete registered office address, company email, and Director DIN numbers. Search DIN on Zauba Corp or Tofler to get direct mobile numbers.</li>
+      <li><strong>DGFT IEC Master Portal:</strong> Look up company IEC on <code>dgft.gov.in</code>. Displays registered port branch addresses and authorized signatory details.</li>
+      <li><strong>Spices Board / EPC Registered Exporter Lists:</strong> Download official member directories (PDF/Excel) from Spices Board, AEPC, EEPC, or FIEO. These documents list direct proprietor mobile numbers and factory email IDs.</li>
+    </ul>
+
+    <h2>2. Template 1: Direct Executive WhatsApp Pitch (High Conversion)</h2>
+    <div class="code-block">
+*CONFIDENTIAL MEMO: Operational Export Margin Diagnostic* 🇮🇳📦
+
+Dear Mr. [Promoter Last Name],
+
+I am an independent supply chain & trade operations analyst (B.Tech | TISS alumni). 
+
+Upon auditing recent export corridors in your sector out of Nhava Sheva / Chennai, I identified an average *₹1.35 Lakhs per container margin leakage* across three recurring areas:
+1. Unclaimed Appendix 4R RoDTEP/Drawback scrip scrolls stalled at ICEGATE.
+2. Arbitrary forwarder delivery order handover markups ($355/box non-statutory fees).
+3. 14% un-optimized container dead-air space.
+
+I have modeled a 1-page operational recovery roadmap specifically for your shipments that can recover ₹15L–₹22L in annual margin without disrupting existing buyer relationships.
+
+May I share the 1-page PDF summary with you here on WhatsApp?
+
+Regards,
+[Your Name]
+Trade Operations & Sourcing Specialist
+[Your Mobile Number]
+    </div>
+
+    <h2>3. Template 2: Professional LinkedIn InMail Script</h2>
+    <div class="code-block">
+Subject: Quick diagnostic: 5.8% margin optimization on [Company Name]'s export shipments
+
+Dear [First Name],
+
+I follow [Company Name]'s impressive expansion in the [EU / Middle East / US] export markets.
+
+With recent geopolitical routing surcharges (+$650/FEU Cape bypass) compressing operating spreads, mid-sized exporters in your sector are frequently losing ₹1.2L to ₹1.6L per box through non-statutory freight handover markups and delayed PFMS drawback scroll reconciliation.
+
+Combining an engineering foundation with grassroots supply-chain aggregation (TISS Masters), I assist export promoters in plugging statutory leakages and engineering direct farmgate procurement pipelines.
+
+I would welcome the opportunity to share a 1-page diagnostic audit tailored to your shipping corridors. Would you be open to a 10-minute introductory conversation this week?
+
+Best regards,
+[Your Name]
+    </div>
+
+    <h2>4. Template 3: Formal Printed Executive Audit Letter (Postal / Speed Post)</h2>
+    <div class="callout callout-blue">
+      <strong>Why Postal Speed Post Works:</strong> While emails and LinkedIn messages can be screened by executive assistants, a formal, high-grammage physical envelope marked <em>"STRICTLY PRIVATE &amp; CONFIDENTIAL — ATTN: MANAGING DIRECTOR"</em> sent via India Post Speed Post is opened directly by the promoter 90% of the time. Print the 1-page audit on clean bond paper and enclose your business card.
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Pathway C: Merchant Consortium Aggregator (Sovereign Brand)</title>
+  
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Plus Jakarta Sans", "Segoe UI", sans-serif;
+    background: #f8fafc;
+    color: #0f172a;
+    line-height: 1.5;
+    padding: 30px;
+  }
+  .dossier-card {
+    max-width: 840px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+  }
+  .header {
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    letter-spacing: 0.5px;
+  }
+  h1 { font-size: 22px; font-weight: 800; color: #0f172a; margin-top: 6px; letter-spacing: -0.5px; }
+  h2 { font-size: 14px; font-weight: 800; color: #1e293b; margin: 24px 0 12px 0; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px; }
+  h3 { font-size: 13px; font-weight: 700; color: #334155; margin: 14px 0 6px 0; }
+  p, li { font-size: 12px; color: #475569; leading: 1.6; }
+  ul, ol { padding-left: 20px; margin-bottom: 14px; }
+  li { margin-bottom: 6px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 14px 0; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin: 14px 0; }
+  .metric-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px 14px;
+  }
+  .metric-label { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 4px; }
+  .metric-val { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 800; color: #0f172a; }
+  .metric-sub { font-size: 10px; color: #94a3b8; margin-top: 2px; }
+  .callout {
+    background: #f8fafc;
+    border-left: 4px solid #C25E34;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 16px 0;
+    font-size: 11px;
+  }
+  .callout-green { border-left-color: #10B981; background: rgba(16, 185, 129, 0.04); }
+  .callout-blue { border-left-color: #3B82F6; background: rgba(59, 130, 246, 0.04); }
+  .callout-amber { border-left-color: #F59E0B; background: rgba(245, 158, 11, 0.04); }
+  .table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 11px; }
+  .table th { background: #f1f5f9; text-align: left; padding: 8px 10px; font-weight: 700; color: #475569; border-bottom: 1px solid #cbd5e1; }
+  .table td { padding: 8px 10px; border-bottom: 1px solid #e2e8f0; color: #334155; }
+  .code-block {
+    background: #0f172a;
+    color: #f8fafc;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 14px;
+    border-radius: 12px;
+    line-height: 1.5;
+    margin: 14px 0;
+    white-space: pre-wrap;
+  }
+  .btn-print {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #C25E34;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 12px 20px;
+    border-radius: 9999px;
+    border: none;
+    box-shadow: 0 10px 15px -3px rgba(194, 94, 52, 0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 100;
+  }
+  .btn-print:hover { background: #ab4f2a; }
+  @media print {
+    body { padding: 0; background: #ffffff; }
+    .dossier-card { box-shadow: none; border: none; padding: 0; max-width: 100%; }
+    .btn-print { display: none !important; }
+  }
+</style>
+
+</head>
+<body>
+  <button class="btn-print" onclick="window.print()">📥 Print / Save as PDF</button>
+  <div class="dossier-card">
+    <div class="header">
+      <div>
+        <span class="tag" style="background: rgba(16, 185, 129, 0.1); color: #059669; border: 1px solid rgba(16, 185, 129, 0.25);">CAREER BLUEPRINT • PATHWAY C</span>
+        <h1>Merchant Consortium Aggregator (Sovereign Brand)</h1>
+        <p style="color: #64748b; margin-top: 4px;">FPO Consolidation • ODOP Cluster Scaling • The Ultimate TISS + Engineering Synthesis</p>
+      </div>
+      <div style="text-align: right;">
+        <span style="font-size: 10px; font-weight: 700; color: #94a3b8; font-family: 'JetBrains Mono', monospace;">CAREER-EXIM-01C</span>
+        <div style="font-size: 11px; font-weight: 700; color: #0f172a; margin-top: 2px;">Enterprise Builder</div>
+      </div>
+    </div>
+
+    <div class="grid-4">
+      <div class="metric-box">
+        <span class="metric-label">Enterprise Value</span>
+        <span class="metric-val" style="color: #059669;">₹1Cr - ₹5Cr+</span>
+        <div class="metric-sub">Sovereign Trading House</div>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Sourcing Base</span>
+        <span class="metric-val">50 - 200 Farmers</span>
+        <div class="metric-sub">Cluster FPO aggregation</div>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Financing Engine</span>
+        <span class="metric-val" style="color: #3b82f6;">Bank Float / IES</span>
+        <div class="metric-sub">3% Subvention + TReDS</div>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Government Grants</span>
+        <span class="metric-val" style="color: #10b981;">Up to ₹15 Lakhs</span>
+        <div class="metric-sub">APEDA / ODOP subsidies</div>
+      </div>
+    </div>
+
+    <h2>1. The Vision: The Sovereign Agricultural Trading House</h2>
+    <p>This is where your **TISS Rural Development education** and your **Engineering foundation** reach their zenith. Instead of acting as an employee or a lone broker, you establish an **ODOP Export Consortium**. You organize 50–100 micro-farmers or small village aggregators in your district into a unified export-grade supply stream, obtain an IEC code, and export under your own sovereign enterprise brand.</p>
+
+    <h2>2. The 4-Pillar Aggregation Architecture</h2>
+    <ul>
+      <li><strong>Pillar 1 — Rural Aggregation Depot:</strong> Contract a local packhouse / warehouse in Khammam or Guntur. Institute NABL quality pre-testing, grading, and batch QR code traceability.</li>
+      <li><strong>Pillar 2 — Working Capital Float (TReDS &amp; Packing Credit):</strong> Leverage your entity status to secure 75% Pre-Shipment Packing Credit under the RBI Master Direction with **3.0% MSME Interest Equalization Scheme (IES)**. Once the shipping bill is generated, discount invoices within 24 hours on the TReDS platform (RXIL / M1xchange) at 5% annualized interest.</li>
+      <li><strong>Pillar 3 — Statutory Incentive Collection:</strong> Capture the full stack of government rebates: 3.9% RoSCTL/RoDTEP scrip + 3.2% Duty Drawback + Mandi cess exemptions.</li>
+      <li><strong>Pillar 4 — Direct Buyer Supply:</strong> Sell directly to overseas buyers (Gulf supermarkets, European ingredient processors) on CIF/FOB contracts, securing 25%–35% gross profit margins.</li>
+    </ul>
+
+    <h2>3. The Progression Roadmap (A ➔ B ➔ C)</h2>
+    <div class="callout callout-green">
+      <strong>Phase 1 (Months 1–3 — Pathway A):</strong> Execute 3 to 5 risk-free sourcing broker deals (Chilli / Vegetables). Generate ₹1.5L to ₹3L in seed capital; master NABL testing, CHAs, and port handling.
+      <br><br>
+      <strong>Phase 2 (Months 4–8 — Pathway B):</strong> Take on consulting retainers with 3 export houses or work in a strategic corporate capacity to master institutional financing, bank letters of credit (UCP 600), and foreign buyer negotiations.
+      <br><br>
+      <strong>Phase 3 (Months 9+ — Pathway C):</strong> Launch your own registered Merchant Export House. Apply for your IEC code, Spices Board CRES registration, APEDA RCMC, and execute sovereign FCL export shipments under your own brand.
+    </div>
+
+    <h2>4. Free Institutional Grants &amp; Learning Support</h2>
+    <div class="callout callout-blue">
+      • <strong>APEDA Financial Assistance Scheme:</strong> Up to 50% subsidy for setting up packhouse quality grading infrastructure and NABL testing certifications (Details at <code>apeda.gov.in</code>).<br>
+      • <strong>NABARD FPO Financing:</strong> Zero-collateral credit guarantee schemes for agricultural producer consortiums.
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Pathway A: Independent Exim Sourcing Consultant & Broker</title>
+  
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Plus Jakarta Sans", "Segoe UI", sans-serif;
+    background: #f8fafc;
+    color: #0f172a;
+    line-height: 1.5;
+    padding: 30px;
+  }
+  .dossier-card {
+    max-width: 840px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+  }
+  .header {
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    letter-spacing: 0.5px;
+  }
+  h1 { font-size: 22px; font-weight: 800; color: #0f172a; margin-top: 6px; letter-spacing: -0.5px; }
+  h2 { font-size: 14px; font-weight: 800; color: #1e293b; margin: 24px 0 12px 0; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px; }
+  h3 { font-size: 13px; font-weight: 700; color: #334155; margin: 14px 0 6px 0; }
+  p, li { font-size: 12px; color: #475569; leading: 1.6; }
+  ul, ol { padding-left: 20px; margin-bottom: 14px; }
+  li { margin-bottom: 6px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 14px 0; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin: 14px 0; }
+  .metric-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px 14px;
+  }
+  .metric-label { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 4px; }
+  .metric-val { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 800; color: #0f172a; }
+  .metric-sub { font-size: 10px; color: #94a3b8; margin-top: 2px; }
+  .callout {
+    background: #f8fafc;
+    border-left: 4px solid #C25E34;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 16px 0;
+    font-size: 11px;
+  }
+  .callout-green { border-left-color: #10B981; background: rgba(16, 185, 129, 0.04); }
+  .callout-blue { border-left-color: #3B82F6; background: rgba(59, 130, 246, 0.04); }
+  .callout-amber { border-left-color: #F59E0B; background: rgba(245, 158, 11, 0.04); }
+  .table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 11px; }
+  .table th { background: #f1f5f9; text-align: left; padding: 8px 10px; font-weight: 700; color: #475569; border-bottom: 1px solid #cbd5e1; }
+  .table td { padding: 8px 10px; border-bottom: 1px solid #e2e8f0; color: #334155; }
+  .code-block {
+    background: #0f172a;
+    color: #f8fafc;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 14px;
+    border-radius: 12px;
+    line-height: 1.5;
+    margin: 14px 0;
+    white-space: pre-wrap;
+  }
+  .btn-print {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #C25E34;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 12px 20px;
+    border-radius: 9999px;
+    border: none;
+    box-shadow: 0 10px 15px -3px rgba(194, 94, 52, 0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 100;
+  }
+  .btn-print:hover { background: #ab4f2a; }
+  @media print {
+    body { padding: 0; background: #ffffff; }
+    .dossier-card { box-shadow: none; border: none; padding: 0; max-width: 100%; }
+    .btn-print { display: none !important; }
+  }
+</style>
+
+</head>
+<body>
+  <button class="btn-print" onclick="window.print()">📥 Print / Save as PDF</button>
+  <div class="dossier-card">
+    <div class="header">
+      <div>
+        <span class="tag" style="background: rgba(59, 130, 246, 0.1); color: #2563eb; border: 1px solid rgba(59, 130, 246, 0.25);">CAREER BLUEPRINT • PATHWAY A</span>
+        <h1>Independent Exim Sourcing Consultant &amp; Broker</h1>
+        <p style="color: #64748b; margin-top: 4px;">Zero Overhead • Commission &amp; Retainer Model • Value-First Positioning</p>
+      </div>
+      <div style="text-align: right;">
+        <span style="font-size: 10px; font-weight: 700; color: #94a3b8; font-family: 'JetBrains Mono', monospace;">CAREER-EXIM-01A</span>
+        <div style="font-size: 11px; font-weight: 700; color: #0f172a; margin-top: 2px;">Freelance Sovereignty</div>
+      </div>
+    </div>
+
+    <div class="grid-4">
+      <div class="metric-box">
+        <span class="metric-label">Income Potential</span>
+        <span class="metric-val" style="color: #10b981;">₹1.5L - ₹3.5L</span>
+        <div class="metric-sub">Monthly retainers + cuts</div>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Capital Required</span>
+        <span class="metric-val" style="color: #2563eb;">₹0.00</span>
+        <div class="metric-sub">Pure intellect &amp; phone</div>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Client Target</span>
+        <span class="metric-val">5 - 8 SME Exporters</span>
+        <div class="metric-sub">Regional manufacturing firms</div>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Key Moat</span>
+        <span class="metric-val" style="color: #059669;">Found Cash</span>
+        <div class="metric-sub">Unclaimed incentives audit</div>
+      </div>
+    </div>
+
+    <h2>1. The Strategic Positioning: The "Found Money" Consultant</h2>
+    <p>You never present yourself as an "unemployed candidate looking for a job" or a "traditional broker begging for business." You position yourself as an **External Supply-Chain &amp; Statutory Incentive Auditor**. By combining your **Engineering background** (process optimization, quantitative modeling) and your **TISS Masters** (deep understanding of grassroots supply bases, FPOs, and regional producer networks), you bring a degree of analytical rigor that 95% of traditional commission brokers completely lack.</p>
+
+    <h2>2. The Monetization Architecture</h2>
+    <ul>
+      <li><strong>Monthly Retainer Model:</strong> Charge 4 to 6 mid-sized SME exporters ₹25,000 to ₹35,000/month to oversee their customs filing audit, freight forwarder quote verification, and incentive tracking. (4 clients @ ₹30k = **₹1,20,000/month baseline cash flow**).</li>
+      <li><strong>Success Fee / Recovery Cut:</strong> Take 15% to 20% of uncollected RoDTEP/RoSCTL scrips or stuck PFMS drawback scrolls that you successfully recover through ICEGATE Section 149 amendments.</li>
+      <li><strong>Sourcing Commission:</strong> ₹2 to ₹4 per kg on verified agricultural/commodity lots (e.g., ₹35,000 per 14 MT container of chilli or spices).</li>
+    </ul>
+
+    <h2>3. The 3-Step Client Acquisition Process</h2>
+    <div class="callout callout-blue">
+      <strong>Step 1 — The Pre-Flight Audit:</strong> Look up the target company on Zauba / Volza or DGCI&amp;S shipping bill records. Identify their shipping ports (e.g. INNSA1 or INMAA1) and export commodities. Calculate their uncollected scrip spread or container dead-air waste.
+    </div>
+    <div class="callout callout-blue">
+      <strong>Step 2 — The Executive Diagnostic Delivery:</strong> Send a 1-page "Diagnostic Cash Memo" directly to the Managing Director's WhatsApp/email showing them how your audit will save them ₹1.5 Lakhs per container.
+    </div>
+    <div class="callout callout-blue">
+      <strong>Step 3 — The Retainer Closing:</strong> Meet the promoter. Offer: <em>"Engage me for 60 days on a nominal retainer. If I do not uncover at least 3x my fee in statutory cash savings and lower freight, you owe me nothing."</em> They cannot refuse this offer.
+    </div>
+
+    <h2>4. Free Learning, Certifications &amp; Field Mastery Resources</h2>
+    <div class="callout callout-green">
+      <strong>1. Free Zero-Cost Certifications (Recognized Government &amp; Global Bodies):</strong>
+      <br>• <strong>DGFT "Niryat Bandhu" Training:</strong> Free official Directorate General of Foreign Trade program for budding exporters &amp; consultants. Access via <code>dgft.gov.in/CP/?opt=niryat-bandhu</code>.
+      <br>• <strong>ITC SME Trade Academy (United Nations / WTO):</strong> 100% free online courses with certified downloadable credentials on Export Sourcing, Logistics &amp; Trade Finance. (Course: <em>"Setting up an Export Enterprise"</em> and <em>"Managing Logistics"</em> at <code>learning.intracen.org</code>).
+      <br>• <strong>Swayam / NPTEL (Govt of India):</strong> Free courses on <em>"International Trade Theory &amp; Operations"</em> by IIT/IIM professors.
+    </div>
+    <div class="callout callout-amber">
+      <strong>2. Practical High-Yield Video Channels (Hands-On Field Fluency):</strong>
+      <br>• <strong>FIEO Official YouTube Channel:</strong> Federation of Indian Export Organisations webinars on FTP 2023, RoDTEP claims, and ICEGATE procedures.
+      <br>• <strong>Customs &amp; ICEGATE Official Tutorials:</strong> Detailed walkthroughs of Bill of Entry, Shipping Bill, and e-Sanchit uploading.
+    </div>
+  </div>
+</body>
+</html>

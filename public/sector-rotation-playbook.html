@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Sector Selector Matrix & 4-Week Rotation Playbook</title>
+  
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Plus Jakarta Sans", "Segoe UI", sans-serif;
+    background: #f8fafc;
+    color: #0f172a;
+    line-height: 1.5;
+    padding: 30px;
+  }
+  .dossier-card {
+    max-width: 840px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+  }
+  .header {
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    letter-spacing: 0.5px;
+  }
+  h1 { font-size: 22px; font-weight: 800; color: #0f172a; margin-top: 6px; letter-spacing: -0.5px; }
+  h2 { font-size: 14px; font-weight: 800; color: #1e293b; margin: 24px 0 12px 0; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px; }
+  h3 { font-size: 13px; font-weight: 700; color: #334155; margin: 14px 0 6px 0; }
+  p, li { font-size: 12px; color: #475569; leading: 1.6; }
+  ul, ol { padding-left: 20px; margin-bottom: 14px; }
+  li { margin-bottom: 6px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 14px 0; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin: 14px 0; }
+  .metric-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px 14px;
+  }
+  .metric-label { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 4px; }
+  .metric-val { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 800; color: #0f172a; }
+  .metric-sub { font-size: 10px; color: #94a3b8; margin-top: 2px; }
+  .callout {
+    background: #f8fafc;
+    border-left: 4px solid #C25E34;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 16px 0;
+    font-size: 11px;
+  }
+  .callout-green { border-left-color: #10B981; background: rgba(16, 185, 129, 0.04); }
+  .callout-blue { border-left-color: #3B82F6; background: rgba(59, 130, 246, 0.04); }
+  .callout-amber { border-left-color: #F59E0B; background: rgba(245, 158, 11, 0.04); }
+  .table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 11px; }
+  .table th { background: #f1f5f9; text-align: left; padding: 8px 10px; font-weight: 700; color: #475569; border-bottom: 1px solid #cbd5e1; }
+  .table td { padding: 8px 10px; border-bottom: 1px solid #e2e8f0; color: #334155; }
+  .code-block {
+    background: #0f172a;
+    color: #f8fafc;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 14px;
+    border-radius: 12px;
+    line-height: 1.5;
+    margin: 14px 0;
+    white-space: pre-wrap;
+  }
+  .btn-print {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #C25E34;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 12px 20px;
+    border-radius: 9999px;
+    border: none;
+    box-shadow: 0 10px 15px -3px rgba(194, 94, 52, 0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 100;
+  }
+  .btn-print:hover { background: #ab4f2a; }
+  @media print {
+    body { padding: 0; background: #ffffff; }
+    .dossier-card { box-shadow: none; border: none; padding: 0; max-width: 100%; }
+    .btn-print { display: none !important; }
+  }
+</style>
+
+</head>
+<body>
+  <button class="btn-print" onclick="window.print()">📥 Print / Save as PDF</button>
+  <div class="dossier-card">
+    <div class="header">
+      <div>
+        <span class="tag" style="background: rgba(168, 85, 247, 0.1); color: #9333ea; border: 1px solid rgba(168, 85, 247, 0.25);">OPERATIONAL PLAYBOOK • SECTOR SPRINT</span>
+        <h1>Sector Selector Matrix &amp; 4-Week Rotation Playbook</h1>
+        <p style="color: #64748b; margin-top: 4px;">Systematic Multi-Sector Discovery • Zero Overwhelm • Field Testing Protocol</p>
+      </div>
+      <div style="text-align: right;">
+        <span style="font-size: 10px; font-weight: 700; color: #94a3b8; font-family: 'JetBrains Mono', monospace;">SECTOR-SPRINT-01</span>
+        <div style="font-size: 11px; font-weight: 700; color: #0f172a; margin-top: 2px;">Agile Discovery</div>
+      </div>
+    </div>
+
+    <h2>1. The 5 Core High-Yield Export Sectors (Comparison Matrix)</h2>
+    <table class="table">
+      <thead>
+        <tr><th>Export Sector</th><th>Key Cluster Hubs</th><th>Avg Margin Spread</th><th>Statutory Scrips</th><th>Testing &amp; Compliance Bar</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>1. Spices &amp; Agri</strong></td><td>Guntur, Nizamabad, Unjha</td><td>18% – 30%</td><td>2.5% RoDTEP + 2.8% DBK</td><td>High (Aflatoxin, Pesticides, APEDA)</td></tr>
+        <tr><td><strong>2. Textiles &amp; Garments</strong></td><td>Tirupur, Surat, Ludhiana</td><td>12% – 22%</td><td>3.9% RoSCTL + 3.2% DBK</td><td>Medium (OEKO-TEX, Needle detection)</td></tr>
+        <tr><td><strong>3. Engineering &amp; Fasteners</strong></td><td>Ludhiana, Rajkot, Coimbatore</td><td>15% – 25%</td><td>1.4% RoDTEP + 2.0% DBK</td><td>High (XRF Metallurgy, ISO 9001)</td></tr>
+        <tr><td><strong>4. Marine Seafood</strong></td><td>Bhimavaram, Kochi, Vizag</td><td>14% – 20%</td><td>2.5% RoDTEP + 2.8% DBK</td><td>Extremely High (Antibiotics, MPEDA)</td></tr>
+        <tr><td><strong>5. Handicrafts &amp; Brass</strong></td><td>Moradabad, Jodhpur, Saharanpur</td><td>25% – 45%</td><td>2.0% RoDTEP + 3.0% DBK</td><td>Low-Medium (REACH Lead compliance)</td></tr>
+      </tbody>
+    </table>
+
+    <h2>2. The 4-Week Agile Sector Rotation Sprint</h2>
+    <div class="callout callout-blue">
+      <strong>Week 1 — Spices &amp; Agro-Commodities (Guntur / Khammam Basin):</strong>
+      <br>Focus: Teja Chilli, Turmeric, Cumin.
+      <br>Action: Map 5 cold storages; audit 3 local spice exporters; study Spices Board CRES requirements.
+    </div>
+    <div class="callout callout-blue">
+      <strong>Week 2 — Ready-Made Garments &amp; Technical Textiles (Tirupur / Surat):</strong>
+      <br>Focus: Knitted cotton shirts, industrial fabrics.
+      <br>Action: Audit 5 apparel export houses on RoSCTL scrip monetization; test container CBM stuffing calculations.
+    </div>
+    <div class="callout callout-blue">
+      <strong>Week 3 — Engineering Goods &amp; Fasteners (Coimbatore / Rajkot):</strong>
+      <br>Focus: Steel bolts, industrial valves, automotive forgings.
+      <br>Action: Contact export managers regarding CBIC Section 12 landed duties and scrap import advance authorizations.
+    </div>
+    <div class="callout callout-blue">
+      <strong>Week 4 — Marine Seafood or Handcrafted Artware:</strong>
+      <br>Focus: Vannamei frozen shrimp (Bhimavaram) or Moradabad brassware.
+      <br>Action: Evaluate cold-chain reefer demurrage rules vs high-margin handcrafted gift export channels.
+    </div>
+
+    <h2>3. The Sector Decision Filter (How to Pick Your Winning Sector)</h2>
+    <p>At the end of the 4-week sprint, evaluate each sector against your 3 Personal Filters:
+    <br>1. <strong>Physical Proximity:</strong> Can you physically visit the source within 2–3 hours? (Favors Agri/Spices in AP/Telangana).
+    <br>2. <strong>Promoter Receptivity:</strong> Which promoters responded fastest to your Diagnostic Audit Memo?
+    <br>3. <strong>Cash Velocity:</strong> Which sector settles receivables quickest without prolonged customs holds?</p>
+  </div>
+</body>
+</html>
