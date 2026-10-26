@@ -223,6 +223,13 @@ function switchNativeTab(tabName) {
     }
   });
 
+  // Update browser URL hash for shareable routing and navigation
+  try {
+    if (window.location.hash !== `#${tabName}`) {
+      history.replaceState(null, '', `#${tabName}`);
+    }
+  } catch (e) {}
+
   // Smooth scroll to top on tab switch
   const mainEl = document.querySelector('main');
   if (mainEl) mainEl.scrollTo({ top: 0, behavior: 'smooth' });
@@ -232,6 +239,26 @@ function switchNativeTab(tabName) {
   if (tabName === 'scratchpad') {
     handleCalculate();
   }
+}
+
+// Support direct hash navigation on page load and back/forward navigation
+window.addEventListener('hashchange', () => {
+  const hash = (window.location.hash || '').replace('#', '').toLowerCase();
+  const tabs = ['apps', 'agenda', 'scratchpad', 'timer', 'profile'];
+  if (tabs.includes(hash)) {
+    switchNativeTab(hash);
+  }
+});
+
+// Auto-activate tab from URL hash on load
+if (typeof window !== 'undefined') {
+  window.addEventListener('DOMContentLoaded', () => {
+    const hash = (window.location.hash || '').replace('#', '').toLowerCase();
+    const tabs = ['apps', 'agenda', 'scratchpad', 'timer', 'profile'];
+    if (tabs.includes(hash)) {
+      switchNativeTab(hash);
+    }
+  });
 }
 
 // 2. QUICK SUGGESTION CHIP HANDLER
