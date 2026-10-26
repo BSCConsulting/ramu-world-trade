@@ -7613,3 +7613,88 @@ window.selectScenarioPreset = selectScenarioPreset;
 window.switchScenarioModel = switchScenarioModel;
 window.renderCurrentScenario = renderCurrentScenario;
 window.shareCurrentScenarioWhatsApp = shareCurrentScenarioWhatsApp;
+
+
+// =============================================================================
+// UNIVERSAL OPPORTUNITY & ARBITRAGE SANDBOX LOGIC
+// =============================================================================
+
+const SANDBOX_ARCHETYPES = {
+  ev: {
+    name: "Electric Bicycle / Low-Speed E-Scooter Assembly",
+    cbu: 70, parts: 10, cost: 24600, retail: 42000, vol: 50, overhead: 120000
+  },
+  solar: {
+    name: "Solar Micro-Inverter & Pump Micro-Assembly",
+    cbu: 40, parts: 7.5, cost: 38000, retail: 64000, vol: 30, overhead: 140000
+  },
+  drone: {
+    name: "Agri-Spraying Drone Kit Assembly (Micro-Category)",
+    cbu: 60, parts: 12.5, cost: 145000, retail: 260000, vol: 8, overhead: 180000
+  },
+  onion: {
+    name: "Mandi Onion & Staple Inter-State Arbitrage",
+    cbu: 0, parts: 0, cost: 18, retail: 34, vol: 25000, overhead: 85000
+  }
+};
+
+function loadSandboxArchetype(key) {
+  const arc = SANDBOX_ARCHETYPES[key];
+  if (!arc) return;
+  document.getElementById('sb-name').value = arc.name;
+  document.getElementById('sb-cbu-tax').value = arc.cbu;
+  document.getElementById('sb-parts-tax').value = arc.parts;
+  document.getElementById('sb-unit-cost').value = arc.cost;
+  document.getElementById('sb-retail-price').value = arc.retail;
+  document.getElementById('sb-volume').value = arc.vol;
+  calculateSandboxArbitrage();
+}
+
+function calculateSandboxArbitrage() {
+  const cbu = parseFloat(document.getElementById('sb-cbu-tax').value) || 0;
+  const parts = parseFloat(document.getElementById('sb-parts-tax').value) || 0;
+  const cost = parseFloat(document.getElementById('sb-unit-cost').value) || 0;
+  const retail = parseFloat(document.getElementById('sb-retail-price').value) || 0;
+  const vol = parseFloat(document.getElementById('sb-volume').value) || 0;
+
+  const tariffSaved = Math.max(0, cbu - parts);
+  const unitMargin = retail - cost;
+  const marginPct = cost > 0 ? ((unitMargin / cost) * 100).toFixed(1) : 0;
+  
+  // Overhead scales dynamically with volume
+  let overhead = 120000;
+  if (vol > 1000) {
+    overhead = 85000; // commodity trading
+  } else if (vol > 20) {
+    overhead = 120000;
+  } else {
+    overhead = 60000;
+  }
+
+  const grossProfit = unitMargin * vol;
+  const netCash = grossProfit - overhead;
+
+  const fmt = (n) => "₹" + Math.round(n).toLocaleString('en-IN');
+
+  document.getElementById('sb-out-tariff-saved').textContent = tariffSaved > 0 ? tariffSaved + "%" : "Zero-GST";
+  document.getElementById('sb-out-unit-margin').textContent = fmt(unitMargin);
+  document.getElementById('sb-out-margin-pct').textContent = marginPct + "% Margin";
+  document.getElementById('sb-out-overhead').textContent = fmt(overhead);
+  document.getElementById('sb-out-net-cash').textContent = fmt(netCash);
+}
+
+function shareSandboxWhatsApp() {
+  const name = document.getElementById('sb-name').value;
+  const cost = document.getElementById('sb-unit-cost').value;
+  const retail = document.getElementById('sb-retail-price').value;
+  const vol = document.getElementById('sb-volume').value;
+  const netCash = document.getElementById('sb-out-net-cash').textContent;
+  const tariffSaved = document.getElementById('sb-out-tariff-saved').textContent;
+
+  const text = `*WORLD OF TRADE — OPPORTUNITY DIAGNOSTIC MEMO* ⚡\n• Product: ${name}\n• Unit Cost: ₹${cost} | Retail: ₹${retail}\n• Tariff Saved vs CBU: ${tariffSaved}\n• Monthly Volume: ${vol} units\n• Net Realized Cash / Month: ${netCash}\n🔗 https://ramu-world-trade.vercel.app`;
+  window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(text), "_blank");
+}
+
+window.loadSandboxArchetype = loadSandboxArchetype;
+window.calculateSandboxArbitrage = calculateSandboxArbitrage;
+window.shareSandboxWhatsApp = shareSandboxWhatsApp;

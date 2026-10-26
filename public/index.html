@@ -1513,6 +1513,102 @@
         </div>
       </div>
 
+    
+        <!-- Universal Opportunity & Arbitrage Sandbox -->
+        <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5 mt-4">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <div class="flex items-center gap-2">
+              <span class="text-base">🛠️</span>
+              <div>
+                <h3 class="text-xs font-extrabold uppercase tracking-wider flex items-center gap-1.5">
+                  <span>Universal Opportunity &amp; Arbitrage Sandbox</span>
+                </h3>
+                <p class="text-[10px]" style="color: var(--text-muted);">6-Pillar Diagnostic Simulator for ANY Product, Assembly or Trade Idea</p>
+              </div>
+            </div>
+            <span class="text-[9px] font-mono px-2 py-0.5 rounded-full font-bold uppercase text-emerald-500" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25);">Live Simulator</span>
+          </div>
+
+          <!-- Quick Archetype Loaders -->
+          <div class="scroll-chip-strip">
+            <button type="button" onclick="loadSandboxArchetype('ev')" class="px-2.5 py-1 rounded-lg border text-[10px] font-bold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">⚡ EV / Cycle Assembly</button>
+            <button type="button" onclick="loadSandboxArchetype('solar')" class="px-2.5 py-1 rounded-lg border text-[10px] font-bold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">☀️ Solar Pump Assembly</button>
+            <button type="button" onclick="loadSandboxArchetype('drone')" class="px-2.5 py-1 rounded-lg border text-[10px] font-bold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🚁 Agri Drone Assembly</button>
+            <button type="button" onclick="loadSandboxArchetype('onion')" class="px-2.5 py-1 rounded-lg border text-[10px] font-bold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🧅 Mandi Onion Arbitrage</button>
+          </div>
+
+          <!-- Sandbox Form Grid -->
+          <div class="p-3 rounded-2xl border space-y-3 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div>
+                <label class="block text-[10px] font-bold uppercase mb-1" style="color: var(--text-dim);">Product / Opportunity Name</label>
+                <input type="text" id="sb-name" value="Electric Bicycle Assembly" oninput="calculateSandboxArbitrage()" class="w-full p-2 rounded-xl border text-xs font-semibold focus:outline-none" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);" />
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-[10px] font-bold uppercase mb-1" style="color: var(--text-dim);">CBU Tax %</label>
+                  <input type="number" id="sb-cbu-tax" value="70" oninput="calculateSandboxArbitrage()" class="w-full p-2 rounded-xl border text-xs font-mono font-bold focus:outline-none" style="background: var(--card-bg); border-color: var(--card-inner-border); color: #EF4444;" />
+                </div>
+                <div>
+                  <label class="block text-[10px] font-bold uppercase mb-1" style="color: var(--text-dim);">Parts Duty %</label>
+                  <input type="number" id="sb-parts-tax" value="10" oninput="calculateSandboxArbitrage()" class="w-full p-2 rounded-xl border text-xs font-mono font-bold focus:outline-none" style="background: var(--card-bg); border-color: var(--card-inner-border); color: #10B981;" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Cost & Volume Inputs -->
+            <div class="grid grid-cols-3 gap-2">
+              <div>
+                <label class="block text-[10px] font-bold uppercase mb-1" style="color: var(--text-dim);">Total Unit Cost (₹)</label>
+                <input type="number" id="sb-unit-cost" value="24600" oninput="calculateSandboxArbitrage()" class="w-full p-2 rounded-xl border text-xs font-mono font-bold focus:outline-none text-blue-500" style="background: var(--card-bg); border-color: var(--card-inner-border);" />
+              </div>
+              <div>
+                <label class="block text-[10px] font-bold uppercase mb-1" style="color: var(--text-dim);">Retail Realization (₹)</label>
+                <input type="number" id="sb-retail-price" value="42000" oninput="calculateSandboxArbitrage()" class="w-full p-2 rounded-xl border text-xs font-mono font-bold focus:outline-none text-emerald-500" style="background: var(--card-bg); border-color: var(--card-inner-border);" />
+              </div>
+              <div>
+                <label class="block text-[10px] font-bold uppercase mb-1" style="color: var(--text-dim);">Monthly Volume</label>
+                <input type="number" id="sb-volume" value="50" oninput="calculateSandboxArbitrage()" class="w-full p-2 rounded-xl border text-xs font-mono font-bold focus:outline-none" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);" />
+              </div>
+            </div>
+
+            <!-- Real-time Output Metric Cards -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-xs">
+              <div class="p-2.5 rounded-xl border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+                <span class="text-[9px] uppercase font-bold block text-emerald-500">Tariff Saved vs CBU</span>
+                <span id="sb-out-tariff-saved" class="text-base font-extrabold font-mono block mt-0.5 text-emerald-500">60%</span>
+                <span class="text-[9px] font-mono" style="color: var(--text-muted);">Duty spread captured</span>
+              </div>
+              <div class="p-2.5 rounded-xl border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+                <span class="text-[9px] uppercase font-bold block" style="color: var(--text-dim);">Unit Margin</span>
+                <span id="sb-out-unit-margin" class="text-base font-extrabold font-mono block mt-0.5 text-blue-500">₹17,400</span>
+                <span id="sb-out-margin-pct" class="text-[9px] font-mono text-blue-500 font-bold">70.7% Return</span>
+              </div>
+              <div class="p-2.5 rounded-xl border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+                <span class="text-[9px] uppercase font-bold block" style="color: var(--text-dim);">Monthly Overhead</span>
+                <span id="sb-out-overhead" class="text-base font-extrabold font-mono block mt-0.5 text-amber-500">₹1,20,000</span>
+                <span class="text-[9px] font-mono" style="color: var(--text-muted);">Rent + 3 ITI labor</span>
+              </div>
+              <div class="p-2.5 rounded-xl border" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3);">
+                <span class="text-[9px] uppercase font-bold block text-[#10B981]">Net Monthly Cash</span>
+                <span id="sb-out-net-cash" class="text-base font-extrabold font-mono block mt-0.5 text-[#10B981]">₹7,50,000</span>
+                <span class="text-[9px] font-mono font-bold text-[#10B981]">Cash Profit / Mo</span>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="grid grid-cols-2 gap-2 pt-1">
+              <button type="button" onclick="shareSandboxWhatsApp()" class="py-2 px-3 rounded-xl border text-xs font-bold active:scale-95 transition-transform flex items-center justify-center gap-1.5 shadow-sm" style="background: #25D366; color: #ffffff; border-color: #20BA5C;">
+                <span class="text-sm">📲</span>
+                <span>Share Custom Memo</span>
+              </button>
+              <button type="button" onclick="window.print()" class="py-2 px-3 rounded-xl border text-xs font-bold active:scale-95 transition-transform flex items-center justify-center gap-1.5 shadow-sm" style="background: var(--accent); color: #ffffff; border-color: var(--accent);">
+                <span>🖨️ Print Diagnostic Sheet</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
     </section>
 
     <!-- ==================== TAB 2: AGENDA (Operating Timetable) ==================== -->
