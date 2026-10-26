@@ -24,6 +24,68 @@ from incentives_calculator import incentives_calculator
 from cache import init_db, CACHE_DB_PATH
 import sqlite3
 
+import time
+import math
+
+_RATE_LIMIT_BUCKET = {}
+MAX_REQUESTS_PER_MINUTE = 60
+
+def _get_client_ip(headers) -> str:
+    xff = headers.get("x-forwarded-for")
+    if xff:
+        return xff.split(",")[0].strip()
+    x_real = headers.get("x-real-ip")
+    if x_real:
+        return x_real.strip()
+    return "127.0.0.1"
+
+def _is_rate_limited(ip: str) -> bool:
+    now = time.time()
+    cutoff = now - 60.0
+    times = _RATE_LIMIT_BUCKET.get(ip, [])
+    times = [t for t in times if t > cutoff]
+    if len(times) >= MAX_REQUESTS_PER_MINUTE:
+        _RATE_LIMIT_BUCKET[ip] = times
+        return True
+    times.append(now)
+    _RATE_LIMIT_BUCKET[ip] = times
+    if len(_RATE_LIMIT_BUCKET) > 1000:
+        stale = [k for k, v in _RATE_LIMIT_BUCKET.items() if not v or v[-1] < cutoff]
+        for k in stale[:500]:
+            del _RATE_LIMIT_BUCKET[k]
+    return False
+
+def _safe_float(val, default=0.0, min_val=-1e12, max_val=1e12):
+    try:
+        if val is None:
+            return default
+        f = float(val)
+        if math.isnan(f) or math.isinf(f):
+            return default
+        if f < min_val:
+            return min_val
+        if f > max_val:
+            return max_val
+        return f
+    except (ValueError, TypeError):
+        return default
+
+def _safe_int(val, default=0, min_val=-1_000_000, max_val=1_000_000):
+    try:
+        if val is None:
+            return default
+        f = float(val)
+        if math.isnan(f) or math.isinf(f):
+            return default
+        i = int(f)
+        if i < min_val:
+            return min_val
+        if i > max_val:
+            return max_val
+        return i
+    except (ValueError, TypeError):
+        return default
+
 class handler(BaseHTTPRequestHandler):
     MAX_PAYLOAD_BYTES = 1_048_576  # 1 MB strict upper bound to prevent DoS
 
@@ -39,9 +101,17 @@ class handler(BaseHTTPRequestHandler):
         self.send_header("X-XSS-Protection", "1; mode=block")
         self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
         self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+        self.send_header("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload")
+        self.send_header("X-Permitted-Cross-Domain-Policies", "none")
         self.send_header("Content-Length", str(len(body)))
         self.end_headers()
         self.wfile.write(body)
+
+    def _send_error(self, message: str, status: int = 400):
+        safe_msg = str(message)
+        if "/" in safe_msg or "\\" in safe_msg or "Traceback" in safe_msg or "sqlite" in safe_msg.lower():
+            safe_msg = "An internal processing error occurred while handling the statutory request."
+        self._send_json({"error": safe_msg}, status=status)
 
     def _parse_json_body(self):
         try:
@@ -73,6 +143,10 @@ class handler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
+        client_ip = _get_client_ip(self.headers)
+        if _is_rate_limited(client_ip):
+            self._send_json({"error": "Too many requests. Rate limit exceeded (60 req/min). Please slow down."}, status=429)
+            return
         parsed = urllib.parse.urlparse(self.path)
         path = parsed.path.rstrip("/")
         if path.endswith("/health"):
@@ -103,6 +177,10 @@ class handler(BaseHTTPRequestHandler):
             self._send_json({"status": "ok", "message": "World of Trade API is active"}, status=200)
 
     def do_POST(self):
+        client_ip = _get_client_ip(self.headers)
+        if _is_rate_limited(client_ip):
+            self._send_json({"error": "Too many requests. Rate limit exceeded (60 req/min). Please slow down."}, status=429)
+            return
         parsed = urllib.parse.urlparse(self.path)
         path = parsed.path.rstrip("/")
         payload, err = self._parse_json_body()
@@ -661,16 +739,16 @@ class handler(BaseHTTPRequestHandler):
         try:
             rates = get_live_rbi_reference_rates()
             self._send_json(rates)
-        except Exception as e:
-            self._send_json({"error": str(e)}, status=500)
+        except Exception:
+            self._send_error("Failed to fetch RBI foreign exchange reference rates", status=500)
 
     def _handle_cbic_gazette(self):
         try:
             from sources.cbic_gazette import get_cbic_gazette_data
             data = get_cbic_gazette_data()
             self._send_json(data)
-        except Exception as e:
-            self._send_json({"error": str(e)}, status=500)
+        except Exception:
+            self._send_error("Failed to fetch CBIC exchange rate gazette notifications", status=500)
 
     def _handle_cbic_valuation(self, payload: dict):
         try:
@@ -681,8 +759,8 @@ class handler(BaseHTTPRequestHandler):
             live_rate = float(payload.get("live_rate", 0)) if payload.get("live_rate") else None
             res = calculate_valuation_impact(currency, amount, trade_flow=trade_flow, live_rate=live_rate)
             self._send_json(res)
-        except Exception as e:
-            self._send_json({"error": str(e)}, status=400)
+        except Exception:
+            self._send_error("Invalid parameters for CBIC customs valuation calculation", status=400)
 
     def _handle_tradestat(self, query_str: str = ""):
         try:
@@ -765,8 +843,8 @@ class handler(BaseHTTPRequestHandler):
                 else:
                     data = get_tradestat_overview()
             self._send_json(data)
-        except Exception as e:
-            self._send_json({"error": str(e)}, status=500)
+        except Exception:
+            self._send_error("Failed to compute trade statistics or export metrics", status=500)
 
     def _handle_tradestat_calc(self, payload: dict):
         try:
@@ -816,8 +894,8 @@ class handler(BaseHTTPRequestHandler):
                 c = str(payload.get("country", "USA"))[:50]
                 data = get_country_risk(c) or {"error": "Country not found"}
             self._send_json(data)
-        except Exception as e:
-            self._send_json({"error": str(e)}, status=400)
+        except Exception:
+            self._send_error("Invalid parameters for trade statistics computation", status=400)
 
     def _handle_eway(self, query_str: str = ""):
         try:
@@ -848,8 +926,8 @@ class handler(BaseHTTPRequestHandler):
             else:
                 data = get_gstn_overview()
             self._send_json(data)
-        except Exception as e:
-            self._send_json({"error": str(e)}, status=500)
+        except Exception:
+            self._send_error("Failed to compute E-Way bill validity and statutory thresholds", status=500)
 
     def _handle_eway_calc(self, payload: dict):
         try:
@@ -858,8 +936,8 @@ class handler(BaseHTTPRequestHandler):
             cargo_type = str(payload.get("cargo_type", "normal"))[:30]
             data = calculate_eway_validity(distance, cargo_type)
             self._send_json(data)
-        except Exception as e:
-            self._send_json({"error": str(e)}, status=400)
+        except Exception:
+            self._send_error("Invalid parameters for E-Way bill calculation", status=400)
 
     def _handle_icegate(self, query_str: str = ""):
         try:
@@ -897,8 +975,8 @@ class handler(BaseHTTPRequestHandler):
             else:
                 data = get_icegate_overview()
             self._send_json(data)
-        except Exception as e:
-            self._send_json({"error": str(e)}, status=500)
+        except Exception:
+            self._send_error("Failed to query ICEGATE documentation status", status=500)
 
     def _handle_icegate_tracking(self, payload: dict):
         try:
@@ -908,8 +986,8 @@ class handler(BaseHTTPRequestHandler):
             port_code = str(payload.get("port_code", "INNSA1"))[:10]
             data = track_customs_document(doc_type, doc_number, port_code)
             self._send_json(data)
-        except Exception as e:
-            self._send_json({"error": str(e)}, status=400)
+        except Exception:
+            self._send_error("Invalid parameters for ICEGATE status check", status=400)
 
     def _handle_dgft(self, query_str: str = ""):
         try:
@@ -945,8 +1023,8 @@ class handler(BaseHTTPRequestHandler):
             else:
                 data = get_dgft_overview()
             self._send_json(data)
-        except Exception as e:
-            self._send_json({"error": str(e)}, status=500)
+        except Exception:
+            self._send_error("Failed to retrieve DGFT RoDTEP/RoSCTL incentive rates", status=500)
 
     def _handle_dgft_calc(self, payload: dict):
         try:
@@ -956,8 +1034,8 @@ class handler(BaseHTTPRequestHandler):
             qty = float(payload.get("quantity", 0.0))
             data = calculate_export_incentives(val, hs, qty)
             self._send_json(data)
-        except Exception as e:
-            self._send_json({"error": str(e)}, status=400)
+        except Exception:
+            self._send_error("Invalid parameters for DGFT incentive calculation", status=400)
 
     def _handle_tariff(self, query_str: str = ""):
         try:
@@ -1010,8 +1088,8 @@ class handler(BaseHTTPRequestHandler):
             else:
                 data = get_tariff_overview()
             self._send_json(data)
-        except Exception as e:
-            self._send_json({"error": str(e)}, status=500)
+        except Exception:
+            self._send_error("Failed to compute customs tariff and duty schedule", status=500)
 
     def _handle_tariff_calc(self, payload: dict):
         try:
@@ -1044,8 +1122,8 @@ class handler(BaseHTTPRequestHandler):
             rate = float(payload.get("exchange_rate", payload.get("rate", 0.0)))
             data = calculate_landed_customs_duty(val, currency, hs, rate if rate > 0 else None)
             self._send_json(data)
-        except Exception as e:
-            self._send_json({"error": str(e)}, status=400)
+        except Exception:
+            self._send_error("Invalid parameters for tariff calculation", status=400)
 
     def _handle_logistics(self, query_str: str = ""):
         try:
@@ -1104,8 +1182,8 @@ class handler(BaseHTTPRequestHandler):
                 from sources.port_logistics import get_ports_overview
                 data = get_ports_overview()
             self._send_json(data)
-        except Exception as e:
-            self._send_json({"error": str(e)}, status=500)
+        except Exception:
+            self._send_error("Failed to calculate freight logistics and demurrage rates", status=500)
 
     def _handle_logistics_calc(self, payload: dict):
         try:
@@ -1141,8 +1219,8 @@ class handler(BaseHTTPRequestHandler):
                 days = int(payload.get("days_in_port", 12))
                 data = calculate_demurrage_liability(port, size, count, days)
             self._send_json(data)
-        except Exception as e:
-            self._send_json({"error": str(e)}, status=400)
+        except Exception:
+            self._send_error("Invalid parameters for logistics and port calculation", status=400)
 
     def _handle_mandi(self, query_str):
         try:
@@ -1234,8 +1312,8 @@ class handler(BaseHTTPRequestHandler):
                 limit=limit
             )
             self._send_json(data)
-        except Exception as e:
-            self._send_json({"error": str(e), "records": []}, status=200)
+        except Exception:
+            self._send_json({"error": "Failed to retrieve recent trade queries", "records": []}, status=200)
 
     def _handle_mandi_calc(self, payload: dict):
         try:
@@ -1272,8 +1350,8 @@ class handler(BaseHTTPRequestHandler):
             else:
                 data = get_apeda_overview()
             self._send_json(data)
-        except Exception as e:
-            self._send_json({"error": str(e)}, status=400)
+        except Exception:
+            self._send_error("Invalid parameters for mandi commodity pricing analysis", status=400)
 
     def _handle_history(self):
         history = []

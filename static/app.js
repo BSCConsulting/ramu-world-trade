@@ -359,28 +359,42 @@ function sanitizeHtml(dirty) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(dirty, 'text/html');
     
-    // Remove active script and embedding tags
-    const dangerousTags = ['script', 'iframe', 'object', 'embed', 'form', 'base', 'meta', 'link', 'style', 'input', 'textarea', 'button'];
+    // Strict blocklist of dangerous/executable tags including SVG/MathML mXSS vectors
+    const dangerousTags = [
+      'script', 'iframe', 'object', 'embed', 'form', 'base', 'meta', 
+      'link', 'style', 'input', 'textarea', 'button', 'select', 'option',
+      'svg', 'math', 'template', 'canvas', 'audio', 'video', 'source', 
+      'track', 'applet', 'frameset', 'frame', 'noscript'
+    ];
     dangerousTags.forEach(tag => {
       doc.body.querySelectorAll(tag).forEach(el => el.remove());
     });
 
-    // Strip inline event listeners (on*) and javascript: / data: protocols
+    // Strip inline event listeners (on*), data/javascript/vbscript/blob URIs, and dangerous attributes
     const allEls = doc.body.querySelectorAll('*');
     allEls.forEach(el => {
       Array.from(el.attributes).forEach(attr => {
         const attrName = attr.name.toLowerCase();
-        const attrVal = attr.value.toLowerCase().trim();
-        if (attrName.startsWith('on') || attrVal.startsWith('javascript:') || attrVal.startsWith('vbscript:') || attrVal.startsWith('data:text/html')) {
+        // Remove whitespace and control characters from attribute values before protocol check
+        const cleanVal = attr.value.replace(/[\u0000-\u001F\u007F-\u009F\s]+/g, '').toLowerCase();
+
+        // Strip any on* handler (onclick, onerror, onload, etc.) or form execution targets
+        if (attrName.startsWith('on') || attrName === 'srcdoc' || attrName === 'formaction' || attrName === 'action') {
           el.removeAttribute(attr.name);
+          return;
+        }
+
+        // Protocol validation for URI attributes
+        if (attrName === 'href' || attrName === 'src' || attrName === 'xlink:href') {
+          const isSafeProtocol = /^(https?:|\/|#|mailto:)/i.test(cleanVal);
+          if (!isSafeProtocol) {
+            el.removeAttribute(attr.name);
+          }
         }
       });
-      // Enforce rel="noopener noreferrer" and protocol safety on links
+
+      // Enforce rel="noopener noreferrer" on external links
       if (el.tagName === 'A') {
-        const href = (el.getAttribute('href') || '').toLowerCase().trim();
-        if (href.startsWith('javascript:') || href.startsWith('data:')) {
-          el.removeAttribute('href');
-        }
         if (el.getAttribute('target') === '_blank') {
           el.setAttribute('rel', 'noopener noreferrer');
         }
@@ -4307,7 +4321,7 @@ async function selectTradestatItem(type, key) {
       if (stat3El) stat3El.textContent = `${data.direct_port_delivery_pct}%`;
       if (sub3El) sub3El.textContent = 'DPD Clearance Rate';
       if (descEl) {
-        descEl.innerHTML = `<strong>Primary Cargo:</strong> ${data.primary_cargo}.<br><strong>Nearest Rail Connected ICDs:</strong> ${(data.nearest_icds || []).join(', ')}.`;
+        descEl.innerHTML = `<strong>Primary Cargo:</strong> ${escapeHtml(data.primary_cargo || "")}.<br><strong>Nearest Rail Connected ICDs:</strong> ${escapeHtml((data.nearest_icds || []).join(', '))}.`;
       }
       if (actBtn) actBtn.setAttribute('onclick', `setQuery('What is the port turnaround and dwell time at ${data.name}?')`);
     }
@@ -4793,7 +4807,7 @@ async function runApedaAudit(userOverrides = apedaOverrides) {
     renderApedaResults(data);
   } catch (err) {
     console.error('APEDA Audit fetch error:', err);
-    container.innerHTML = `<div class="p-3 text-red-500 bg-red-50/10 rounded-xl border border-red-500/20">Failed to load APEDA Phytosanitary audit: ${err.message}</div>`;
+    container.innerHTML = `<div class="p-3 text-red-500 bg-red-50/10 rounded-xl border border-red-500/20">Failed to load APEDA Phytosanitary audit: ${escapeHtml(err.message)}</div>`;
   }
 }
 
@@ -5034,7 +5048,7 @@ async function runMpedaAudit(userOverrides = mpedaOverrides) {
     renderMpedaResults(data);
   } catch (err) {
     console.error('MPEDA Audit fetch error:', err);
-    container.innerHTML = `<div class="p-3 text-red-500 bg-red-50/10 rounded-xl border border-red-500/20">Failed to load MPEDA Marine audit: ${err.message}</div>`;
+    container.innerHTML = `<div class="p-3 text-red-500 bg-red-50/10 rounded-xl border border-red-500/20">Failed to load MPEDA Marine audit: ${escapeHtml(err.message)}</div>`;
   }
 }
 
@@ -5296,7 +5310,7 @@ async function runSpicesAudit(userOverrides = spicesOverrides) {
     renderSpicesResults(data);
   } catch (err) {
     console.error('Spices/Tea Audit fetch error:', err);
-    container.innerHTML = `<div class="p-3 text-red-500 bg-red-50/10 rounded-xl border border-red-500/20">Failed to load Spices/Tea audit: ${err.message}</div>`;
+    container.innerHTML = `<div class="p-3 text-red-500 bg-red-50/10 rounded-xl border border-red-500/20">Failed to load Spices/Tea audit: ${escapeHtml(err.message)}</div>`;
   }
 }
 
@@ -5594,7 +5608,7 @@ async function runComtradeAnalysis() {
     renderComtradeResults(dataMirror, dataShare);
   } catch (err) {
     console.error('UN Comtrade fetch error:', err);
-    container.innerHTML = `<div class="p-3 text-red-500 bg-red-50/10 rounded-xl border border-red-500/20">Failed to load UN Comtrade mirror statistics: ${err.message}</div>`;
+    container.innerHTML = `<div class="p-3 text-red-500 bg-red-50/10 rounded-xl border border-red-500/20">Failed to load UN Comtrade mirror statistics: ${escapeHtml(err.message)}</div>`;
   }
 }
 
@@ -5826,7 +5840,7 @@ async function runWtoCalculation() {
     renderWtoResults(dataWto, dataDisputes);
   } catch (err) {
     console.error('WTO Trade Defense fetch error:', err);
-    container.innerHTML = `<div class="p-3 text-red-500 bg-red-50/10 rounded-xl border border-red-500/20">Failed to load WTO trade defense calculation: ${err.message}</div>`;
+    container.innerHTML = `<div class="p-3 text-red-500 bg-red-50/10 rounded-xl border border-red-500/20">Failed to load WTO trade defense calculation: ${escapeHtml(err.message)}</div>`;
   }
 }
 
