@@ -199,7 +199,6 @@ function switchNativeTab(tabName) {
   tabs.forEach(t => {
     const section = document.getElementById(`tab-${t}`);
     const navBtn = document.getElementById(`nav-btn-${t}`);
-    const deskNavBtn = document.getElementById(`desk-nav-btn-${t}`);
     if (section) {
       if (t === tabName) {
         section.classList.remove('hidden');
@@ -209,17 +208,8 @@ function switchNativeTab(tabName) {
     }
     if (navBtn) {
       navBtn.style.color = (t === tabName) ? 'var(--accent)' : 'var(--text-dim)';
+      navBtn.style.fontWeight = (t === tabName) ? '700' : '500';
       navBtn.blur();
-    }
-    if (deskNavBtn) {
-      if (t === tabName) {
-        deskNavBtn.style.background = 'var(--accent)';
-        deskNavBtn.style.color = '#ffffff';
-      } else {
-        deskNavBtn.style.background = 'transparent';
-        deskNavBtn.style.color = 'var(--text-muted)';
-      }
-      deskNavBtn.blur();
     }
   });
 
