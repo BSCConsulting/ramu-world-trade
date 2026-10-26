@@ -1455,6 +1455,126 @@
     
       <!-- Sub-Pane 3: Ground Scenario Intelligence Engine -->
       <div id="sub-apps-scenarios" class="sub-pane space-y-4">
+        <!-- ========================================================================= -->
+        <!-- DUAL-ENGINE SOVEREIGN COMMAND CENTER: ENGINE 1 (AI) & ENGINE 2 (TACTICAL)   -->
+        <!-- ========================================================================= -->
+        <div class="glass-panel rounded-3xl p-4 shadow-2xl space-y-4 border relative overflow-hidden" style="background: var(--card-bg); border-color: var(--accent-border);">
+          <div class="flex items-center justify-between flex-wrap gap-2 border-b pb-3" style="border-color: var(--card-inner-border);">
+            <div class="flex items-center gap-2.5">
+              <span class="text-xl">🏛️</span>
+              <div>
+                <div class="flex items-center gap-2">
+                  <h2 class="text-sm font-extrabold uppercase tracking-wider text-accent" style="color: var(--accent);">Dual-Engine Sovereign Command Center</h2>
+                  <span class="text-[9px] font-mono px-2 py-0.5 rounded-full font-bold uppercase" style="background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.3);">All 4 Levels Active</span>
+                </div>
+                <p class="text-[11px]" style="color: var(--text-muted);">Engine 1 (Conversational Strategic AI) + Engine 2 (Tactical Arbitrage Simulator)</p>
+              </div>
+            </div>
+            <!-- Engine Switcher Segmented Control -->
+            <div class="flex items-center gap-1 p-1 rounded-xl border text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              <button type="button" onclick="switchEngineView('engine1')" id="btn-engine-1" class="px-3 py-1.5 rounded-lg font-extrabold active:scale-95 transition-all text-[11px]" style="background: var(--accent); color: #ffffff;">🤖 Engine 1: Strategic AI</button>
+              <button type="button" onclick="switchEngineView('engine2')" id="btn-engine-2" class="px-3 py-1.5 rounded-lg font-bold active:scale-95 transition-all text-[11px]" style="background: transparent; color: var(--text-muted);">⚡ Engine 2: Tactical Sandbox</button>
+            </div>
+          </div>
+
+          <!-- ENGINE 1: 4 NEWLY DESIGNED SOVEREIGN QUESTIONS ACROSS ALL LEVELS -->
+          <div id="engine-1-view" class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-amber-500">Select Flagship Trade Problem (Or Type Any Query Below):</span>
+              <span class="text-[9px] font-mono text-emerald-500 font-bold">1-Tap 6-Pillar Analysis + PDF</span>
+            </div>
+
+            <!-- 4 Level Question Cards Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <!-- Level 1: Micro Ground Arbitrage -->
+              <button type="button" onclick="executeFlagshipQuestion('level 1')" class="p-3 rounded-2xl border text-left flex flex-col justify-between active:scale-[0.98] transition-all hover:border-accent shadow-sm" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+                <div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-[9px] font-mono uppercase font-bold text-emerald-500 px-1.5 py-0.2 rounded" style="background: rgba(16, 185, 129, 0.1);">Level 1: Micro Arbitrage</span>
+                    <span class="text-[9px] font-mono font-bold text-emerald-600">₹3,450 / DAY</span>
+                  </div>
+                  <h4 class="font-extrabold text-xs mt-1" style="color: var(--text-main);">🌾 Vijayawada APMC ➔ Madhira Veg Flips</h4>
+                  <p class="text-[10px] mt-1 line-clamp-2" style="color: var(--text-muted);">Gollapudi 3:30 AM tractor auction, zero-GST Notification 2/2017 &amp; ₹7,500 daily revolving float.</p>
+                </div>
+                <div class="mt-2 text-[10px] font-bold text-accent flex items-center justify-between pt-1 border-t" style="border-color: var(--card-inner-border); color: var(--accent);">
+                  <span>Run 6-Pillar Blueprint &rarr;</span>
+                  <span class="text-[9px] opacity-75">PDF Ready</span>
+                </div>
+              </button>
+
+              <!-- Level 2: Zero-Capital Bulk Mandate -->
+              <button type="button" onclick="executeFlagshipQuestion('level 2')" class="p-3 rounded-2xl border text-left flex flex-col justify-between active:scale-[0.98] transition-all hover:border-accent shadow-sm" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+                <div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-[9px] font-mono uppercase font-bold text-rose-500 px-1.5 py-0.2 rounded" style="background: rgba(244, 63, 94, 0.1);">Level 2: Sourcing Mandate</span>
+                    <span class="text-[9px] font-mono font-bold text-rose-600">₹42,000 / LOT</span>
+                  </div>
+                  <h4 class="font-extrabold text-xs mt-1" style="color: var(--text-main);">🌶️ Guntur Cold Storage Chilli for Exporters</h4>
+                  <p class="text-[10px] mt-1 line-clamp-2" style="color: var(--text-muted);">14 MT Teja S17 lot, binding NCNDA anti-bypass protection &amp; blind lot sampling with ₹0 capital.</p>
+                </div>
+                <div class="mt-2 text-[10px] font-bold text-accent flex items-center justify-between pt-1 border-t" style="border-color: var(--card-inner-border); color: var(--accent);">
+                  <span>Run 6-Pillar Blueprint &rarr;</span>
+                  <span class="text-[9px] opacity-75">PDF Ready</span>
+                </div>
+              </button>
+
+              <!-- Level 3: Component Assembly & Tariff Arbitrage -->
+              <button type="button" onclick="executeFlagshipQuestion('level 3')" class="p-3 rounded-2xl border text-left flex flex-col justify-between active:scale-[0.98] transition-all hover:border-accent shadow-sm" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+                <div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-[9px] font-mono uppercase font-bold text-blue-500 px-1.5 py-0.2 rounded" style="background: rgba(59, 130, 246, 0.1);">Level 3: Assembly Arbitrage</span>
+                    <span class="text-[9px] font-mono font-bold text-blue-600">₹17,400 / UNIT</span>
+                  </div>
+                  <h4 class="font-extrabold text-xs mt-1" style="color: var(--text-main);">⚡ EV Scooters &amp; Cycles Micro-Assembly</h4>
+                  <p class="text-[10px] mt-1 line-clamp-2" style="color: var(--text-muted);">Parts vs CBU duty (10% vs 100%), Customs Rule 2(a) defense, &lt;25 km/h non-RTO &amp; Madhira ITI workshop.</p>
+                </div>
+                <div class="mt-2 text-[10px] font-bold text-accent flex items-center justify-between pt-1 border-t" style="border-color: var(--card-inner-border); color: var(--accent);">
+                  <span>Run 6-Pillar Blueprint &rarr;</span>
+                  <span class="text-[9px] opacity-75">PDF Ready</span>
+                </div>
+              </button>
+
+              <!-- Level 4: Executive Career & Advisory -->
+              <button type="button" onclick="executeFlagshipQuestion('level 4')" class="p-3 rounded-2xl border text-left flex flex-col justify-between active:scale-[0.98] transition-all hover:border-accent shadow-sm" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+                <div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-[9px] font-mono uppercase font-bold text-purple-500 px-1.5 py-0.2 rounded" style="background: rgba(168, 85, 247, 0.1);">Level 4: Executive Lead</span>
+                    <span class="text-[9px] font-mono font-bold text-purple-600">₹1.5L–₹3.5L/MO</span>
+                  </div>
+                  <h4 class="font-extrabold text-xs mt-1" style="color: var(--text-main);">💼 Exim Sourcing Advisory &amp; Consortium Lead</h4>
+                  <p class="text-[10px] mt-1 line-clamp-2" style="color: var(--text-muted);">Leverage B.Tech + TISS M.A. without paid certificates. Pitch promoters with 1-page operational diagnostic.</p>
+                </div>
+                <div class="mt-2 text-[10px] font-bold text-accent flex items-center justify-between pt-1 border-t" style="border-color: var(--card-inner-border); color: var(--accent);">
+                  <span>Run 6-Pillar Blueprint &rarr;</span>
+                  <span class="text-[9px] opacity-75">PDF Ready</span>
+                </div>
+              </button>
+            </div>
+
+            <!-- Natural Language Trade Search Terminal Input -->
+            <div class="pt-2">
+              <form onsubmit="handleCommandCenterQuery(event)" class="relative flex items-center">
+                <input 
+                  type="text" 
+                  id="cc-query-input" 
+                  placeholder="Or ask ANY new trade, tariff, or assembly question..." 
+                  class="w-full border rounded-2xl pl-4 pr-24 py-3 text-xs sm:text-sm focus:outline-none min-h-[46px] transition-all font-medium"
+                  style="background: var(--input-bg); border-color: var(--card-inner-border); color: var(--text-main);"
+                  autocomplete="off"
+                />
+                <button 
+                  type="submit" 
+                  id="cc-submit-btn" 
+                  class="absolute right-1.5 px-4 py-2 text-white font-extrabold text-xs rounded-xl active:scale-95 transition-transform min-h-[38px] flex items-center justify-center shadow-md"
+                  style="background: var(--accent);"
+                >
+                  <span>Analyse &rarr;</span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
         <div class="glass-panel rounded-3xl p-4 shadow-xl space-y-3.5">
           <div class="flex items-center justify-between flex-wrap gap-2">
             <div class="flex items-center gap-2">

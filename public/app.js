@@ -7749,3 +7749,70 @@ function quickJump(target) {
 }
 
 window.quickJump = quickJump;
+
+
+// =============================================================================
+// DUAL-ENGINE COMMAND CENTER ACTIONS & 4 FLAGSHIP LEVEL QUESTION EXECUTORS
+// =============================================================================
+
+function switchEngineView(view) {
+  const btn1 = document.getElementById('btn-engine-1');
+  const btn2 = document.getElementById('btn-engine-2');
+  const e1 = document.getElementById('engine-1-view');
+  const e2 = document.getElementById('sb-name');
+
+  if (view === 'engine1') {
+    btn1.style.background = 'var(--accent)';
+    btn1.style.color = '#ffffff';
+    btn2.style.background = 'transparent';
+    btn2.style.color = 'var(--text-muted)';
+    if (e1) e1.classList.remove('hidden');
+    if (e1) e1.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    btn2.style.background = 'var(--accent)';
+    btn2.style.color = '#ffffff';
+    btn1.style.background = 'transparent';
+    btn1.style.color = 'var(--text-muted)';
+    if (e2) e2.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+async function executeFlagshipQuestion(levelKey) {
+  const queries = {
+    'level 1': 'Level 1: How do I execute Vijayawada APMC to Madhira vegetable arbitrage with zero-GST and 4 AM tractor procurement?',
+    'level 2': 'Level 2: How do I broker a Guntur cold storage chilli lot to exporters with zero capital and NCNDA mandate protection?',
+    'level 3': 'Level 3: How do I assemble electric cycles and low-speed scooters under CMVR <25km/h and avoid Customs Rule 2(a) CBU duty?',
+    'level 4': 'Level 4: How do I pitch exim sourcing advisory and consortium leadership using my B.Tech and TISS background without paid certificates?'
+  };
+
+  const q = queries[levelKey] || levelKey;
+  
+  // Switch to Search Pane to render rich markdown output
+  switchSubTab('tab-apps', 'sub-apps-macro', document.getElementById('sub-btn-macro'));
+  const input = document.getElementById('query-input');
+  if (input) {
+    input.value = q;
+  }
+  
+  // Execute search via standard handler
+  await handleSearch();
+}
+
+async function handleCommandCenterQuery(event) {
+  if (event) event.preventDefault();
+  const input = document.getElementById('cc-query-input');
+  const q = input.value.trim();
+  if (!q) return;
+
+  // Switch to macro tab and trigger search
+  switchSubTab('tab-apps', 'sub-apps-macro', document.getElementById('sub-btn-macro'));
+  const mainInput = document.getElementById('query-input');
+  if (mainInput) {
+    mainInput.value = q;
+  }
+  await handleSearch();
+}
+
+window.switchEngineView = switchEngineView;
+window.executeFlagshipQuestion = executeFlagshipQuestion;
+window.handleCommandCenterQuery = handleCommandCenterQuery;
