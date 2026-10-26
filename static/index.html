@@ -567,6 +567,18 @@
       input, select, textarea {
         font-size: 16px !important; /* Prevents auto-zoom in iOS Safari */
       }
+      .text-\[8px\] {
+        font-size: 0.625rem !important; /* 10px minimum on mobile */
+        line-height: 0.875rem !important;
+      }
+      .text-\[9px\] {
+        font-size: 0.6875rem !important; /* 11px on mobile for optimal legibility */
+        line-height: 1rem !important;
+      }
+      .text-\[10px\] {
+        font-size: 0.6875rem !important; /* 11px on mobile */
+        line-height: 1rem !important;
+      }
     }
     .font-mono, .mono-data {
       font-family: var(--font-mono) !important;
@@ -974,9 +986,9 @@
     <section id="tab-apps" class="space-y-4">
       <!-- Tab 1 Sub-Navigation Segmented Control -->
       <div class="sub-tab-nav flex gap-1 p-1 rounded-2xl border backdrop-blur-md overflow-x-auto no-scrollbar shadow-sm mb-3 relative z-10" style="background: var(--card-bg); border-color: var(--card-border);">
-        <button type="button" onclick="switchSubTab('tab-apps', 'sub-apps-scenarios', this)" id="sub-btn-scenarios" class="sub-tab-btn flex-1 min-w-fit px-3 py-2 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: var(--accent); color: #ffffff;">⚡ Ground Scenarios</button>
-        <button type="button" onclick="switchSubTab('tab-apps', 'sub-apps-macro', this)" id="sub-btn-macro" class="sub-tab-btn flex-1 min-w-fit px-3 py-2 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">🔍 Ask Intelligence</button>
-        <button type="button" onclick="switchSubTab('tab-apps', 'sub-apps-arbitrage', this)" id="sub-btn-arbitrage" class="sub-tab-btn flex-1 min-w-fit px-3 py-2 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">🎯 Corridor Radar</button>
+        <button type="button" onclick="switchSubTab('tab-apps', 'sub-apps-scenarios', this)" id="sub-btn-scenarios" class="sub-tab-btn whitespace-nowrap shrink-0 sm:flex-1 px-3 py-2 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: var(--accent); color: #ffffff;">⚡ Ground Scenarios</button>
+        <button type="button" onclick="switchSubTab('tab-apps', 'sub-apps-macro', this)" id="sub-btn-macro" class="sub-tab-btn whitespace-nowrap shrink-0 sm:flex-1 px-3 py-2 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">🔍 Ask Intelligence</button>
+        <button type="button" onclick="switchSubTab('tab-apps', 'sub-apps-arbitrage', this)" id="sub-btn-arbitrage" class="sub-tab-btn whitespace-nowrap shrink-0 sm:flex-1 px-3 py-2 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">🎯 Corridor Radar</button>
       </div>
       <!-- Sub-Pane 1: Macro Intelligence & Search -->
       <div id="sub-apps-macro" class="sub-pane hidden space-y-4">
@@ -1804,7 +1816,6 @@
             </div>
           </div>
         </div>
-      </div>
 
     
         <!-- Universal Opportunity & Arbitrage Sandbox -->
@@ -1909,6 +1920,7 @@
             </div>
           </div>
         </div>
+      </div>
 
     </section>
 
@@ -1916,10 +1928,10 @@
     <section id="tab-agenda" class="hidden space-y-4">
       <!-- Tab 2 Sub-Navigation Segmented Control -->
       <div class="sub-tab-nav flex gap-1 p-1 rounded-2xl border backdrop-blur-md overflow-x-auto no-scrollbar shadow-sm mb-3 relative z-10" style="background: var(--card-bg); border-color: var(--card-border);">
-        <button type="button" onclick="switchSubTab('tab-agenda', 'sub-agenda-forex', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: var(--accent); color: #ffffff;">⏱️ Agenda &amp; Forex</button>
-        <button type="button" onclick="switchSubTab('tab-agenda', 'sub-agenda-risk', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">🛡️ Due Diligence</button>
-        <button type="button" onclick="switchSubTab('tab-agenda', 'sub-agenda-dispute', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">⚖️ Customs &amp; SCN</button>
-        <button type="button" onclick="switchSubTab('tab-agenda', 'sub-agenda-titan', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">🏛️ Titans</button>
+        <button type="button" onclick="switchSubTab('tab-agenda', 'sub-agenda-forex', this)" class="sub-tab-btn whitespace-nowrap shrink-0 sm:flex-1 px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: var(--accent); color: #ffffff;">⏱️ Agenda &amp; Forex</button>
+        <button type="button" onclick="switchSubTab('tab-agenda', 'sub-agenda-risk', this)" class="sub-tab-btn whitespace-nowrap shrink-0 sm:flex-1 px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">🛡️ Due Diligence</button>
+        <button type="button" onclick="switchSubTab('tab-agenda', 'sub-agenda-dispute', this)" class="sub-tab-btn whitespace-nowrap shrink-0 sm:flex-1 px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">⚖️ Customs &amp; SCN</button>
+        <button type="button" onclick="switchSubTab('tab-agenda', 'sub-agenda-titan', this)" class="sub-tab-btn whitespace-nowrap shrink-0 sm:flex-1 px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">🏛️ Titans</button>
       </div>
       <!-- Sub-Pane 1: Operating Agenda & Forex -->
       <div id="sub-agenda-forex" class="sub-pane space-y-4">
@@ -3218,10 +3230,10 @@
       <!-- Tab 3 Sub-Navigation Segmented Control -->
             <!-- Tab 3 Sub-Navigation Segmented Control -->
       <div class="sub-tab-nav flex gap-1 p-1 rounded-2xl border backdrop-blur-md overflow-x-auto no-scrollbar shadow-sm mb-3 relative z-10" style="background: var(--card-bg); border-color: var(--card-border);">
-        <button type="button" onclick="switchSubTab('tab-scratchpad', 'sub-scratchpad-dossiers', this)" id="sub-btn-dossiers" class="sub-tab-btn flex-1 min-w-fit px-3 py-2 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: var(--accent); color: #ffffff;">📑 11 PDF Dossiers</button>
-        <button type="button" onclick="switchSubTab('tab-scratchpad', 'sub-scratchpad-cash', this)" id="sub-btn-cash" class="sub-tab-btn flex-1 min-w-fit px-3 py-2 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">💰 Cash &amp; Invoices</button>
-        <button type="button" onclick="switchSubTab('tab-scratchpad', 'sub-scratchpad-consortium', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-2 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">🌾 ODOP Consortium</button>
-        <button type="button" onclick="switchSubTab('tab-scratchpad', 'sub-scratchpad-cbm', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-2 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">📦 Stuffing</button>
+        <button type="button" onclick="switchSubTab('tab-scratchpad', 'sub-scratchpad-dossiers', this)" id="sub-btn-dossiers" class="sub-tab-btn whitespace-nowrap shrink-0 sm:flex-1 px-3 py-2 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: var(--accent); color: #ffffff;">📑 11 PDF Dossiers</button>
+        <button type="button" onclick="switchSubTab('tab-scratchpad', 'sub-scratchpad-cash', this)" id="sub-btn-cash" class="sub-tab-btn whitespace-nowrap shrink-0 sm:flex-1 px-3 py-2 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">💰 Cash &amp; Invoices</button>
+        <button type="button" onclick="switchSubTab('tab-scratchpad', 'sub-scratchpad-consortium', this)" class="sub-tab-btn whitespace-nowrap shrink-0 sm:flex-1 px-3 py-2 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">🌾 ODOP Consortium</button>
+        <button type="button" onclick="switchSubTab('tab-scratchpad', 'sub-scratchpad-cbm', this)" class="sub-tab-btn whitespace-nowrap shrink-0 sm:flex-1 px-3 py-2 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">📦 Stuffing</button>
       </div>
       <!-- Sub-Pane 0: Executive Dossiers & PDF Playbooks (Default Active) -->
       <div id="sub-scratchpad-dossiers" class="sub-pane space-y-4">
@@ -4357,10 +4369,10 @@
     <section id="tab-profile" class="hidden space-y-4">
       <!-- Tab 5 Sub-Navigation Segmented Control -->
       <div class="sub-tab-nav flex gap-1 p-1 rounded-2xl border backdrop-blur-md overflow-x-auto no-scrollbar shadow-sm mb-3 relative z-10" style="background: var(--card-bg); border-color: var(--card-border);">
-        <button type="button" onclick="switchSubTab('tab-profile', 'sub-profile-directory', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: var(--accent); color: #ffffff;">📇 Entity Directory</button>
-        <button type="button" onclick="switchSubTab('tab-profile', 'sub-profile-pitch', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">🎯 Pitch Generator</button>
-        <button type="button" onclick="switchSubTab('tab-profile', 'sub-profile-personas', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">👔 Career Personas</button>
-        <button type="button" onclick="switchSubTab('tab-profile', 'sub-profile-cases', this)" class="sub-tab-btn flex-1 min-w-fit px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">🔬 Case Studies</button>
+        <button type="button" onclick="switchSubTab('tab-profile', 'sub-profile-directory', this)" class="sub-tab-btn whitespace-nowrap shrink-0 sm:flex-1 px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: var(--accent); color: #ffffff;">📇 Entity Directory</button>
+        <button type="button" onclick="switchSubTab('tab-profile', 'sub-profile-pitch', this)" class="sub-tab-btn whitespace-nowrap shrink-0 sm:flex-1 px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">🎯 Pitch Generator</button>
+        <button type="button" onclick="switchSubTab('tab-profile', 'sub-profile-personas', this)" class="sub-tab-btn whitespace-nowrap shrink-0 sm:flex-1 px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">👔 Career Personas</button>
+        <button type="button" onclick="switchSubTab('tab-profile', 'sub-profile-cases', this)" class="sub-tab-btn whitespace-nowrap shrink-0 sm:flex-1 px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-center" style="background: transparent; color: var(--text-muted);">🔬 Case Studies</button>
       </div>
       <!-- Sub-Pane 1: High-Trust Entity Directory -->
       <div id="sub-profile-directory" class="sub-pane space-y-4">
@@ -4672,7 +4684,7 @@
           <!-- Pathway A -->
           <div class="p-3 rounded-2xl border flex items-center justify-between gap-2" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
             <div>
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-2 flex-wrap">
                 <span class="font-extrabold text-xs" style="color: var(--text-main);">Pathway A: Exim Sourcing Consultant &amp; Broker</span>
                 <span class="text-[9px] font-mono px-1.5 py-0.2 rounded font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">₹0 CAPITAL</span>
               </div>
@@ -4686,7 +4698,7 @@
           <!-- Pathway B -->
           <div class="p-3 rounded-2xl border flex items-center justify-between gap-2" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
             <div>
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-2 flex-wrap">
                 <span class="font-extrabold text-xs" style="color: var(--text-main);">Pathway B: Strategic In-House Corporate Lead</span>
                 <span class="text-[9px] font-mono px-1.5 py-0.2 rounded font-bold" style="background: rgba(245, 158, 11, 0.15); color: #D97706;">₹15L–₹28L CTC</span>
               </div>
@@ -4700,7 +4712,7 @@
           <!-- Pathway C -->
           <div class="p-3 rounded-2xl border flex items-center justify-between gap-2" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
             <div>
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-2 flex-wrap">
                 <span class="font-extrabold text-xs" style="color: var(--text-main);">Pathway C: Merchant Consortium Aggregator</span>
                 <span class="text-[9px] font-mono px-1.5 py-0.2 rounded font-bold" style="background: rgba(59, 130, 246, 0.15); color: #3B82F6;">SOVEREIGN BRAND</span>
               </div>
@@ -4816,13 +4828,13 @@
 
         <!-- Forensic Case Study Card Body -->
         <div id="case-study-details-card" class="p-4 rounded-2xl border space-y-3 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-          <div class="flex items-start justify-between gap-2 border-b pb-2.5" style="border-color: var(--card-border);">
-            <div>
+          <div class="flex items-start justify-between gap-2 border-b pb-2.5 flex-wrap sm:flex-nowrap" style="border-color: var(--card-border);">
+            <div class="min-w-0 flex-1">
               <span id="cs-sector-badge" class="text-[9px] font-mono uppercase tracking-wider px-2 py-0.5 rounded border" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">Agricultural & Spices</span>
-              <h3 id="cs-title" class="text-sm font-extrabold pt-1" style="color: var(--text-main);">Guntur Red Chilli JNPT Port Detention: Aflatoxin &gt; 10 ppb Crisis</h3>
+              <h3 id="cs-title" class="text-sm font-extrabold pt-1 leading-snug" style="color: var(--text-main);">Guntur Red Chilli JNPT Port Detention: Aflatoxin &gt; 10 ppb Crisis</h3>
               <span id="cs-route" class="text-[10px] block" style="color: var(--text-muted);">Consignment: ₹38,50,000 (20ft FCL • 14 MT) &bull; Destination: Rotterdam, Netherlands</span>
             </div>
-            <span id="cs-tag-badge" class="px-2 py-0.5 rounded-full text-[9px] font-bold font-mono flex-shrink-0" style="background: rgba(239, 68, 68, 0.15); color: #EF4444;">Quality & Customs Hold</span>
+            <span id="cs-tag-badge" class="px-2 py-0.5 rounded-full text-[9px] font-bold font-mono shrink-0" style="background: rgba(239, 68, 68, 0.15); color: #EF4444;">Quality & Customs Hold</span>
           </div>
 
           <div class="space-y-2 text-[11px]">

@@ -4448,17 +4448,17 @@ function renderTradestatMatrix(data, partnerCode) {
           <div class="p-2 rounded-xl border space-y-0.5 min-w-0" style="background: var(--card-bg); border-color: var(--card-inner-border);">
             <span class="text-[9px] font-semibold uppercase tracking-wider block truncate" style="color: var(--text-muted);">Surplus Engine</span>
             <span class="text-xs sm:text-sm font-bold font-mono text-emerald-500 block truncate">+$${data.total_tracked_surplus_usd_billion}B</span>
-            <span class="text-[8px] font-medium block truncate opacity-75">4 Corridors</span>
+            <span class="text-[10px] font-medium block truncate opacity-75">4 Corridors</span>
           </div>
           <div class="p-2 rounded-xl border space-y-0.5 min-w-0" style="background: var(--card-bg); border-color: var(--card-inner-border);">
             <span class="text-[9px] font-semibold uppercase tracking-wider block truncate" style="color: var(--text-muted);">Deficit Hubs</span>
             <span class="text-xs sm:text-sm font-bold font-mono text-rose-500 block truncate">$${data.total_tracked_deficit_usd_billion}B</span>
-            <span class="text-[8px] font-medium block truncate opacity-75">5 Import Hubs</span>
+            <span class="text-[10px] font-medium block truncate opacity-75">5 Import Hubs</span>
           </div>
           <div class="p-2 rounded-xl border space-y-0.5 min-w-0" style="background: var(--card-bg); border-color: var(--card-inner-border);">
             <span class="text-[9px] font-semibold uppercase tracking-wider block truncate" style="color: var(--text-muted);">Net Gap</span>
             <span class="text-xs sm:text-sm font-bold font-mono text-amber-500 block truncate">$${data.net_bilateral_balance_usd_billion}B</span>
-            <span class="text-[8px] font-medium block truncate opacity-75">Energy & Tech</span>
+            <span class="text-[10px] font-medium block truncate opacity-75">Energy & Tech</span>
           </div>
         </div>
 
@@ -4531,22 +4531,22 @@ function renderTradestatMatrix(data, partnerCode) {
         <div class="p-2 rounded-xl border space-y-0.5 min-w-0" style="background: var(--card-bg); border-color: var(--card-inner-border);">
           <span class="text-[9px] font-semibold uppercase tracking-wider block truncate" style="color: var(--text-muted);">Exports (FOB)</span>
           <span class="text-xs sm:text-sm font-bold font-mono text-emerald-500 block truncate">$${p.exports_usd_billion}B</span>
-          <span class="text-[8px] font-medium block truncate opacity-75">India Outbound</span>
+          <span class="text-[10px] font-medium block truncate opacity-75">India Outbound</span>
         </div>
         <div class="p-2 rounded-xl border space-y-0.5 min-w-0" style="background: var(--card-bg); border-color: var(--card-inner-border);">
           <span class="text-[9px] font-semibold uppercase tracking-wider block truncate" style="color: var(--text-muted);">Imports (CIF)</span>
           <span class="text-xs sm:text-sm font-bold font-mono text-rose-500 block truncate">$${p.imports_usd_billion}B</span>
-          <span class="text-[8px] font-medium block truncate opacity-75">India Inbound</span>
+          <span class="text-[10px] font-medium block truncate opacity-75">India Inbound</span>
         </div>
         <div class="p-2 rounded-xl border space-y-0.5 min-w-0" style="background: var(--card-bg); border-color: var(--card-inner-border);">
           <span class="text-[9px] font-semibold uppercase tracking-wider block truncate" style="color: var(--text-muted);">Net Balance</span>
           <span class="text-xs sm:text-sm font-bold font-mono block truncate" style="color: ${balanceBadgeColor};">${balanceSign}$${p.trade_balance_usd_billion}B</span>
-          <span class="text-[8px] font-medium block truncate opacity-75">${p.balance_type || 'Merchandise'}</span>
+          <span class="text-[10px] font-medium block truncate opacity-75">${p.balance_type || 'Merchandise'}</span>
         </div>
         <div class="p-2 rounded-xl border space-y-0.5 min-w-0" style="background: var(--card-bg); border-color: var(--card-inner-border);">
           <span class="text-[9px] font-semibold uppercase tracking-wider block truncate" style="color: var(--text-muted);">Import Coverage</span>
           <span class="text-xs sm:text-sm font-bold font-mono block truncate ${p.import_coverage_pct >= 100 ? 'text-emerald-500' : 'text-amber-500'}">${p.import_coverage_pct}%</span>
-          <span class="text-[8px] font-medium block truncate opacity-75">${p.import_coverage_pct >= 100 ? 'Surplus' : 'Net FX Outflow'}</span>
+          <span class="text-[10px] font-medium block truncate opacity-75">${p.import_coverage_pct >= 100 ? 'Surplus' : 'Net FX Outflow'}</span>
         </div>
       </div>
 
