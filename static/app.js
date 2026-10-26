@@ -8400,3 +8400,35 @@ document.addEventListener('DOMContentLoaded', () => {
   initSupabaseSync();
   loadMorningMandiRates();
 });
+
+// ==================== CLEAN CAPTURE & PRESENTATION VIEW ====================
+function toggleCleanCaptureMode() {
+  const isClean = document.body.classList.toggle('clean-capture-active');
+  let banner = document.getElementById('clean-capture-banner');
+  if (isClean) {
+    if (!banner) {
+      banner = document.createElement('div');
+      banner.id = 'clean-capture-banner';
+      banner.className = 'w-full py-2 px-4 text-center text-xs font-bold bg-amber-500 text-black cursor-pointer shadow-md select-none sticky top-0 z-50';
+      banner.innerHTML = '📷 Clean Capture View Active (Floats & Docks Hidden). <u>Click here or press ESC to restore navigation.</u>';
+      banner.onclick = toggleCleanCaptureMode;
+      document.body.prepend(banner);
+    } else {
+      banner.style.display = 'block';
+    }
+    if (typeof showToast === 'function') {
+      showToast('Clean Capture View Active. Floats hidden.');
+    }
+  } else {
+    if (banner) banner.style.display = 'none';
+    if (typeof showToast === 'function') {
+      showToast('Standard Navigation Restored.');
+    }
+  }
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && document.body.classList.contains('clean-capture-active')) {
+    toggleCleanCaptureMode();
+  }
+});
