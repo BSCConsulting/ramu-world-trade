@@ -7698,3 +7698,54 @@ function shareSandboxWhatsApp() {
 window.loadSandboxArchetype = loadSandboxArchetype;
 window.calculateSandboxArbitrage = calculateSandboxArbitrage;
 window.shareSandboxWhatsApp = shareSandboxWhatsApp;
+
+
+// =============================================================================
+// QUICK JUMP NAVIGATION (Effortless 1-Tap Toggle)
+// =============================================================================
+
+function quickJump(target) {
+  // Reset all quick-jump pill styling
+  const pills = ['scenarios', 'sandbox', 'dossiers', 'search', 'markets', 'profile'];
+  pills.forEach(p => {
+    const el = document.getElementById(`qj-${p}`);
+    if (el) {
+      if (p === target) {
+        el.style.background = 'var(--accent)';
+        el.style.color = '#ffffff';
+        el.style.borderColor = 'var(--accent)';
+      } else {
+        el.style.background = 'var(--card-inner-bg)';
+        el.style.color = 'var(--text-main)';
+        el.style.borderColor = 'var(--card-inner-border)';
+      }
+    }
+  });
+
+  if (target === 'scenarios') {
+    switchNativeTab('apps');
+    switchSubTab('tab-apps', 'sub-apps-scenarios', document.getElementById('sub-btn-scenarios'));
+    const sc = document.getElementById('scen-strategy-title');
+    if (sc) sc.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else if (target === 'sandbox') {
+    switchNativeTab('apps');
+    switchSubTab('tab-apps', 'sub-apps-scenarios', document.getElementById('sub-btn-scenarios'));
+    const sb = document.getElementById('sb-name');
+    if (sb) sb.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  } else if (target === 'dossiers') {
+    switchNativeTab('scratchpad');
+    switchSubTab('tab-scratchpad', 'sub-scratchpad-dossiers', document.getElementById('sub-btn-dossiers'));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else if (target === 'search') {
+    switchNativeTab('apps');
+    switchSubTab('tab-apps', 'sub-apps-macro', document.getElementById('sub-btn-macro'));
+    const q = document.getElementById('query-input');
+    if (q) { q.focus(); q.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+  } else if (target === 'markets') {
+    switchNativeTab('timer');
+  } else if (target === 'profile') {
+    switchNativeTab('profile');
+  }
+}
+
+window.quickJump = quickJump;
