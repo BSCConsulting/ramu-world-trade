@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>EV Assembly & Component Tariff Arbitrage Blueprint</title>
+  
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Plus Jakarta Sans", "Segoe UI", sans-serif;
+    background: #f8fafc;
+    color: #0f172a;
+    line-height: 1.5;
+    padding: 30px;
+  }
+  .dossier-card {
+    max-width: 840px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+  }
+  .header {
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    letter-spacing: 0.5px;
+  }
+  h1 { font-size: 22px; font-weight: 800; color: #0f172a; margin-top: 6px; letter-spacing: -0.5px; }
+  h2 { font-size: 14px; font-weight: 800; color: #1e293b; margin: 24px 0 12px 0; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px; }
+  h3 { font-size: 13px; font-weight: 700; color: #334155; margin: 14px 0 6px 0; }
+  p, li { font-size: 12px; color: #475569; leading: 1.6; }
+  ul, ol { padding-left: 20px; margin-bottom: 14px; }
+  li { margin-bottom: 6px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 14px 0; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin: 14px 0; }
+  .metric-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px 14px;
+  }
+  .metric-label { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 4px; }
+  .metric-val { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 800; color: #0f172a; }
+  .metric-sub { font-size: 10px; color: #94a3b8; margin-top: 2px; }
+  .callout {
+    background: #f8fafc;
+    border-left: 4px solid #C25E34;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 16px 0;
+    font-size: 11px;
+  }
+  .callout-green { border-left-color: #10B981; background: rgba(16, 185, 129, 0.04); }
+  .callout-blue { border-left-color: #3B82F6; background: rgba(59, 130, 246, 0.04); }
+  .callout-red { border-left-color: #EF4444; background: rgba(239, 68, 68, 0.04); }
+  .table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 11px; }
+  .table th { background: #f1f5f9; text-align: left; padding: 8px 10px; font-weight: 700; color: #475569; border-bottom: 1px solid #cbd5e1; }
+  .table td { padding: 8px 10px; border-bottom: 1px solid #e2e8f0; color: #334155; }
+  .btn-print {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #C25E34;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 12px 20px;
+    border-radius: 9999px;
+    border: none;
+    box-shadow: 0 10px 15px -3px rgba(194, 94, 52, 0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 100;
+  }
+  .btn-print:hover { background: #ab4f2a; }
+  @media print {
+    body { padding: 0; background: #ffffff; }
+    .dossier-card { box-shadow: none; border: none; padding: 0; max-width: 100%; }
+    .btn-print { display: none !important; }
+  }
+</style>
+
+</head>
+<body>
+  <button class="btn-print" onclick="window.print()">📥 Print / Save as PDF</button>
+  <div class="dossier-card">
+    <div class="header">
+      <div>
+        <span class="tag" style="background: rgba(16, 185, 129, 0.1); color: #059669; border: 1px solid rgba(16, 185, 129, 0.25);">MANUFACTURING &amp; EXIM ARBITRAGE</span>
+        <h1>Electric Cycles &amp; Low-Speed E-Scooters Assembly Blueprint</h1>
+        <p style="color: #64748b; margin-top: 4px;">Component Tariff Arbitrage • Rule 2(a) Defense • Local Assembly Labor • Own Brand</p>
+      </div>
+      <div style="text-align: right;">
+        <span style="font-size: 10px; font-weight: 700; color: #94a3b8; font-family: 'JetBrains Mono', monospace;">EV-ARBITRAGE-01</span>
+        <div style="font-size: 11px; font-weight: 700; color: #0f172a; margin-top: 2px;">Low-Speed Exemption Gateway</div>
+      </div>
+    </div>
+
+    <div class="grid-4">
+      <div class="metric-box">
+        <span class="metric-label">CBU Import Duty</span>
+        <span class="metric-val" style="color: #ef4444;">70% - 135%</span>
+        <div class="metric-sub">Kills commercial margins</div>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Component Duty</span>
+        <span class="metric-val" style="color: #10b981;">10% - 15%</span>
+        <div class="metric-sub">Weighted landed tax rate</div>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Unit Production Cost</span>
+        <span class="metric-val" style="color: #2563eb;">₹24,600</span>
+        <div class="metric-sub">BOM + Local assembly</div>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Retail Selling Price</span>
+        <span class="metric-val" style="color: #059669;">₹42,000+</span>
+        <div class="metric-sub">₹17,400 profit per unit</div>
+      </div>
+    </div>
+
+    <h2>1. The Core Tariff Arbitrage (CBU vs. Component Import)</h2>
+    <p>Your intuition is 100% commercially and statutorily correct. Under Indian Customs Tariff (First Schedule to Customs Tariff Act 1975) and Ministry of Heavy Industries Phased Manufacturing Programme (PMP):</p>
+    <ul>
+      <li><strong>Completely Built Unit (CBU - HS 8711.60):</strong> Attracts <strong>50% to 100% BCD + 10% SWS + 18% IGST</strong>. Total effective landed duty exceeds <strong>75%–135%</strong>! Importing ready-made scooters from China/Vietnam destroys your capital.</li>
+      <li><strong>Individual Components / Parts Route:</strong>
+        <br>• BLDC Hub Motor (HS 8501.31): <strong>7.5% - 10% BCD</strong>
+        <br>• Lithium-ion battery cells (HS 8507.60): <strong>5% - 10% BCD</strong>
+        <br>• Motor Controller &amp; Wiring Harness (HS 8504.40): <strong>7.5% BCD</strong>
+        <br>• Alloy Bicycle Frame &amp; Chassis (Ludhiana domestic sourcing): <strong>0% Import Duty</strong>
+        <br>• Tires, Tubes &amp; Rims (Domestic TVS/Ralco): <strong>0% Import Duty</strong>
+      </li>
+    </ul>
+
+    <h2>2. The Critical Legal Trap: Rule 2(a) "Essential Character" Seizure</h2>
+    <div class="callout callout-red">
+      <strong>Customs Tariff Interpretation Rule 2(a) Warning:</strong>
+      If you order complete assembly kits from a single supplier in Ningbo or Shenzhen and pack matching quantities of motors, frames, controllers, and batteries into one container, Indian Customs will rule under <strong>Rule 2(a) of General Rules of Interpretation (GRI)</strong> that the unassembled components have the <em>"essential character of a complete vehicle"</em>. They will reclassify the whole container as CBU, demand 100% duty, and levy penalties for misdeclaration!
+      <br><br>
+      <strong>The Legal Defense (Component Disaggregation):</strong>
+      <br>1. Import <em>only</em> high-tech electronics (Motors, Controllers, Lithium Cells) from Shenzhen/Taiwan.
+      <br>2. Procure structural chassis, cycle frames, forks, handlebars, and disc brakes domestically from India's bicycle manufacturing capital (<strong>Ludhiana, Punjab</strong>).
+      <br>3. Source tires and wheels domestically from Indian manufacturers (CEAT/Ralco).
+      <br>By integrating 45%+ domestic Indian mechanical parts, you completely defeat Rule 2(a) scrutiny!
+    </div>
+
+    <h2>3. The Regulatory Gateway: Low-Speed (<25 km/h) Exemption Moat</h2>
+    <div class="callout callout-green">
+      <strong>The Secret to Starting Without Millions in R&amp;D:</strong>
+      <br>• If an electric two-wheeler has a top speed of <strong>&lt; 25 km/h</strong> and a motor rated <strong>&le; 250 Watts</strong>, it is statutorily classified as a <em>"Non-Motorised Vehicle"</em> under Central Motor Vehicles Rules (CMVR) 1989.
+      <br>• <strong>NO RTO Vehicle Registration required</strong>.
+      <br>• <strong>NO Driving License required for customer</strong>.
+      <br>• <strong>NO Road Tax required</strong>.
+      <br>• <strong>NO expensive ₹25-Lakh ARAI crash testing required</strong>.
+      <br>• You only need a one-time <strong>Type Exemption Test Certificate</strong> from ARAI / ICAT (cost: ~₹35,000) verifying speed &lt; 25 km/h and 250W power limit. You can assemble, brand, and sell legally immediately!
+    </div>
+
+    <h2>4. BOM Cost Waterfall (Electric Cycle / Low-Speed E-Scooter)</h2>
+    <table class="table">
+      <thead>
+        <tr><th>Sub-Assembly / Component</th><th>Source</th><th>Landed Cost (INR)</th><th>Statutory HSN</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>250W BLDC Hub Motor + Sine Controller</td><td>Import (Shenzhen)</td><td>₹6,500</td><td>HSN 8501</td></tr>
+        <tr><td>36V 10Ah Lithium Battery Pack (with Smart BMS)</td><td>Import cells / Local pack</td><td>₹8,200</td><td>HSN 8507</td></tr>
+        <tr><td>Aircraft Alloy Bicycle Frame + Fork + Disc Brakes</td><td>Domestic (Ludhiana)</td><td>₹4,800</td><td>HSN 8714</td></tr>
+        <tr><td>Double-Wall Rims, Tires, Tubes &amp; Saddle</td><td>Domestic (TVS/Ralco)</td><td>₹2,500</td><td>HSN 8714</td></tr>
+        <tr><td>Local Assembly Labor &amp; Quality Wiring (2.5 hrs/unit)</td><td>Local ITI Technician</td><td>₹1,200</td><td>Internal Labor</td></tr>
+        <tr><td>Packaging, Manual, Charger &amp; Brand Decals</td><td>Domestic Printer</td><td>₹800</td><td>Own Brand</td></tr>
+        <tr><td>Inward Freight &amp; Transit Buffer</td><td>Logistics</td><td>₹600</td><td>Commercial Transport</td></tr>
+        <tr style="background: #f8fafc; font-weight: 700;">
+          <td colspan="2">TOTAL UNIT PRODUCTION COST</td>
+          <td colspan="2" style="color: #2563eb; font-family: 'JetBrains Mono'; font-size: 13px;">₹24,600</td>
+        </tr>
+        <tr style="background: rgba(16, 185, 129, 0.08); font-weight: 800;">
+          <td colspan="2" style="color: #059669;">MARKET RETAIL REALIZATION (D2C)</td>
+          <td colspan="2" style="color: #059669; font-family: 'JetBrains Mono'; font-size: 13px;">₹42,000 (NET PROFIT: ₹17,400 / unit)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>5. Skilled Labor &amp; Workshop Setup (Madhira / Regional Hub)</h2>
+    <ul>
+      <li><strong>Workshop Space:</strong> 1,200 to 1,500 sq.ft rented shed or godown (rent: ₹8,000–₹12,000/month).</li>
+      <li><strong>Skilled Technicians:</strong> Hire 2–3 ITI-certified mechanics (Electrical &amp; Mechanical trade). Monthly salary in rural AP/Telangana: ₹14,000–₹16,000/month.</li>
+      <li><strong>Assembly Throughput:</strong> A team of 3 trained technicians can assemble and test <strong>6 to 8 units per day</strong> (150 units/month).</li>
+      <li><strong>Monthly Profit Potential (50 Units / Month):</strong> 50 × ₹17,400 = <strong>₹8,70,000</strong> gross profit; minus ₹1.2L operating overhead = <strong>₹7.5 Lakhs net cash profit per month</strong>!</li>
+    </ul>
+
+    <h2>6. Free Certifications &amp; Practical Video Resources</h2>
+    <div class="callout callout-green">
+      <strong>1. Free Zero-Cost Technical Training &amp; Certifications:</strong>
+      <br>• <strong>Skill India / NSDC Free E-Mobility Modules:</strong> Automotive Skills Development Council (ASDC) free courses on EV Technician &amp; Battery Assembly at <code>skillindia.gov.in</code>.
+      <br>• <strong>Ministry of Micro, Small &amp; Medium Enterprises (MSME):</strong> Technology Centre Development Programme (TCDP) subsidies for local EV assembly workshops.
+    </div>
+    <div class="callout callout-blue">
+      <strong>2. Practical Video Understanding:</strong>
+      <br>• <em>"Electric Bicycle Hub Motor Assembly from Scratch"</em> &bull; <em>"Lithium Battery Pack Spot Welding &amp; BMS Wiring Walkthrough"</em> &bull; ICAT Type 1 Exemption testing protocols.
+    </div>
+  </div>
+</body>
+</html>
