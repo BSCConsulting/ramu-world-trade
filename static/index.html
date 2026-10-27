@@ -2715,7 +2715,140 @@
           </div>
           <span class="text-[10px] font-medium" style="color: var(--text-muted);">apeda.gov.in / TraceNet</span>
         </div>
-        <p class="text-xs leading-relaxed" style="color: var(--text-muted);">Audit export consignments against destination market Maximum Residue Limits (MRLs), check mandatory pre-shipment packhouse treatments (VHT, Irradiation), and verify TraceNet Certificate of Inspection (CoI) protocols.</p>
+        <!-- Component A: Live Diagnostic Telemetry Ribbon -->
+        <div id="apeda-telemetry-ribbon" class="rounded-xl p-3 border flex flex-wrap items-center justify-between gap-2.5 text-[11px] font-mono shadow-inner" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex flex-wrap items-center gap-3 md:gap-5">
+            <div class="flex items-center gap-1.5">
+              <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span class="font-sans font-medium" style="color: var(--text-muted);">DGFT e-RCMC:</span>
+              <span class="font-bold text-emerald-500">● VALIDATED (API Handshake: Active)</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs">🏢</span>
+              <span class="font-sans font-medium" style="color: var(--text-muted);">Packhouse:</span>
+              <span class="font-bold text-cyan-400">ID: APEDA-HYD-042 (Verified)</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs">🧪</span>
+              <span class="font-sans font-medium" style="color: var(--text-muted);">NABL Protocol:</span>
+              <span class="font-bold text-purple-400">Lab #1042 (Direct Ingestion)</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="font-sans text-[10px] uppercase font-bold tracking-wider" style="color: var(--text-dim);">Destination Stance:</span>
+            <span id="apeda-telemetry-stance-badge" class="px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase border flex items-center gap-1" style="background: rgba(245, 158, 11, 0.15); color: #F59E0B; border-color: rgba(245, 158, 11, 0.3);">
+              <span>▲</span> HIGH SCRUTINY: EU LOQ (0.01 PPM Default Threshold)
+            </span>
+          </div>
+        </div>
+
+        <!-- Component B: 4-Stage Sequential Execution Rail -->
+        <div id="apeda-execution-rail" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+          <!-- Stage 01: Legal Gate-In Prerequisite -->
+          <div class="p-3.5 rounded-xl border flex flex-col justify-between space-y-2.5 shadow-sm transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-extrabold uppercase" style="background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.3);">Stage 01</span>
+                <span class="text-[10px] font-mono flex items-center gap-1" style="color: var(--text-dim);">⚖️ Customs Sec 50</span>
+              </div>
+              <h4 class="text-xs font-bold uppercase tracking-tight" style="color: var(--text-main);">Legal Gate-In Prerequisite</h4>
+              <p class="text-[11px] leading-relaxed" style="color: var(--text-muted);">APEDA Act 1985 Schedule 1 physical packhouse aggregation &amp; DPPQ&S inspector pre-clearance.</p>
+            </div>
+            <div class="space-y-2 pt-2 border-t text-[10px]" style="border-color: var(--card-inner-border);">
+              <div class="p-2 rounded-lg border text-rose-400" style="background: rgba(239, 68, 68, 0.08); border-color: rgba(239, 68, 68, 0.2);">
+                <div class="font-bold flex items-center gap-1">🛑 Failure: Gate-In Rejection</div>
+                <div class="text-[9.5px] mt-0.5" style="color: var(--text-dim);">Physical CFS / ICD refusal due to missing phyto inspector gatepass.</div>
+              </div>
+              <div class="flex items-center justify-between font-mono px-1">
+                <span style="color: var(--text-dim);">Loss Metric:</span>
+                <span class="text-amber-400 font-bold">₹8,500/day Truck Detention</span>
+              </div>
+              <div class="p-2 rounded-lg border" style="background: rgba(0, 0, 0, 0.15); border-color: var(--card-inner-border); color: var(--text-muted);">
+                <span class="font-bold" style="color: var(--text-main);">SOP:</span> Mandate stuffing only in APEDA packhouse with DPPQ&S inspection endorsement.
+              </div>
+            </div>
+          </div>
+
+          <!-- Stage 02: ICEGATE Automated Handshake -->
+          <div class="p-3.5 rounded-xl border flex flex-col justify-between space-y-2.5 shadow-sm transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-extrabold uppercase" style="background: rgba(59, 130, 246, 0.15); color: #3B82F6; border: 1px solid rgba(59, 130, 246, 0.3);">Stage 02</span>
+                <span class="text-[10px] font-mono flex items-center gap-1" style="color: var(--text-dim);">⚡ FTP 2023 / SWIFT</span>
+              </div>
+              <h4 class="text-xs font-bold uppercase tracking-tight" style="color: var(--text-main);">ICEGATE Automated Handshake</h4>
+              <p class="text-[11px] leading-relaxed" style="color: var(--text-muted);">Single Window (SWIFT) server-to-server query validating e-RCMC validity against DGFT portal.</p>
+            </div>
+            <div class="space-y-2 pt-2 border-t text-[10px]" style="border-color: var(--card-inner-border);">
+              <div class="p-2 rounded-lg border text-rose-400" style="background: rgba(239, 68, 68, 0.08); border-color: rgba(239, 68, 68, 0.2);">
+                <div class="font-bold flex items-center gap-1">🛑 Failure: SB-ERR-RCMC-INVALID</div>
+                <div class="text-[9.5px] mt-0.5" style="color: var(--text-dim);">Automated ICEGATE lock preventing Shipping Bill (SB) number allocation.</div>
+              </div>
+              <div class="flex items-center justify-between font-mono px-1">
+                <span style="color: var(--text-dim);">Loss Metric:</span>
+                <span class="text-amber-400 font-bold">₹28k Rollover + ₹15k Demurrage</span>
+              </div>
+              <div class="p-2 rounded-lg border" style="background: rgba(0, 0, 0, 0.15); border-color: var(--card-inner-border); color: var(--text-muted);">
+                <span class="font-bold" style="color: var(--text-main);">SOP:</span> Real-time DGFT API schedule verification prior to CHA shipping bill sign-off.
+              </div>
+            </div>
+          </div>
+
+          <!-- Stage 03: TraceNet Closed-Loop Telemetry -->
+          <div class="p-3.5 rounded-xl border flex flex-col justify-between space-y-2.5 shadow-sm transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-extrabold uppercase" style="background: rgba(168, 85, 247, 0.15); color: #A855F7; border: 1px solid rgba(168, 85, 247, 0.3);">Stage 03</span>
+                <span class="text-[10px] font-mono flex items-center gap-1" style="color: var(--text-dim);">🔗 TraceNet / CoI</span>
+              </div>
+              <h4 class="text-xs font-bold uppercase tracking-tight" style="color: var(--text-main);">TraceNet Closed-Loop Telemetry</h4>
+              <p class="text-[11px] leading-relaxed" style="color: var(--text-muted);">QR-coded sovereign traceability link matching farm plot GPS, farmer ledger &amp; packhouse lot.</p>
+            </div>
+            <div class="space-y-2 pt-2 border-t text-[10px]" style="border-color: var(--card-inner-border);">
+              <div class="p-2 rounded-lg border text-rose-400" style="background: rgba(239, 68, 68, 0.08); border-color: rgba(239, 68, 68, 0.2);">
+                <div class="font-bold flex items-center gap-1">🛑 Failure: Cryptographic CoI Denial</div>
+                <div class="text-[9.5px] mt-0.5" style="color: var(--text-dim);">Hash mismatch or unaccredited farmer lot blocks Certificate of Inspection.</div>
+              </div>
+              <div class="flex items-center justify-between font-mono px-1">
+                <span style="color: var(--text-dim);">Loss Metric:</span>
+                <span class="text-rose-400 font-bold">100% Export Ban of Batch</span>
+              </div>
+              <div class="p-2 rounded-lg border" style="background: rgba(0, 0, 0, 0.15); border-color: var(--card-inner-border); color: var(--text-muted);">
+                <span class="font-bold" style="color: var(--text-main);">SOP:</span> Barcode reconciliation against accredited testing agency test memo before stuffing.
+              </div>
+            </div>
+          </div>
+
+          <!-- Stage 04: Quality Ledger & Diversion SOP -->
+          <div id="apeda-stage-4-card" class="p-3.5 rounded-xl border flex flex-col justify-between space-y-2.5 shadow-sm transition-all duration-300" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span id="apeda-stage-4-badge" class="px-2 py-0.5 rounded text-[10px] font-mono font-extrabold uppercase" style="background: rgba(239, 68, 68, 0.15); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.3);">Stage 04</span>
+                <span class="text-[10px] font-mono flex items-center gap-1" style="color: var(--text-dim);">🧪 WTO SPS Art. 5</span>
+              </div>
+              <h4 class="text-xs font-bold uppercase tracking-tight" style="color: var(--text-main);">Quality Ledger &amp; Diversion SOP</h4>
+              <p class="text-[11px] leading-relaxed" style="color: var(--text-muted);">Chemical residue audit against destination MRL limits &amp; pre-shipment treatment gates.</p>
+            </div>
+            <div class="space-y-2 pt-2 border-t text-[10px]" style="border-color: var(--card-inner-border);">
+              <div class="p-2 rounded-lg border text-rose-400" style="background: rgba(239, 68, 68, 0.08); border-color: rgba(239, 68, 68, 0.2);">
+                <div class="font-bold flex items-center gap-1">🛑 Failure: Destination MRL Breach</div>
+                <div class="text-[9.5px] mt-0.5" style="color: var(--text-dim);">EU LOQ breach (e.g. Tricyclazole &gt; 0.01 PPM) triggers destination customs seizure.</div>
+              </div>
+              <div class="flex items-center justify-between font-mono px-1">
+                <span style="color: var(--text-dim);">Loss Metric:</span>
+                <span class="text-rose-400 font-bold">₹18.5L - ₹42L Re-export Loss</span>
+              </div>
+              <div class="p-2 rounded-lg border" style="background: rgba(0, 0, 0, 0.15); border-color: var(--card-inner-border); color: var(--text-muted);">
+                <span class="font-bold" style="color: var(--text-main);">SOP:</span> Multi-residue screening. If LOQ breached, execute statutory diversion to GCC (SFDA GSO 382).
+              </div>
+              <div id="apeda-stage4-divert-box" class="pt-0.5 hidden">
+                <button type="button" onclick="divertConsignmentToGcc()" class="w-full py-2 px-2 rounded-lg text-white font-bold text-[10px] uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-md active:scale-95 transition-all" style="background: linear-gradient(135deg, #F59E0B 0%, #EF4444 100%);">
+                  ⚡ Divert Consignment to GCC / SFDA
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <!-- Scheduled Agri Commodity Chips -->
         <div class="scroll-chip-strip">

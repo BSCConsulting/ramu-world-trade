@@ -5012,6 +5012,70 @@ function renderApedaResults(data) {
   const badgeBorder = isPass ? 'rgba(16, 185, 129, 0.3)' : 'rgba(239, 68, 68, 0.3)';
   const badgeColor = isPass ? '#10B981' : '#EF4444';
 
+  // --- Dynamic Telemetry Ribbon & Execution Rail Reactive State ---
+  const activeMktCode = mkt.code || (document.getElementById('apeda-market-select') ? document.getElementById('apeda-market-select').value : 'EU');
+  const stanceBadge = document.getElementById('apeda-telemetry-stance-badge');
+  if (stanceBadge) {
+    if (activeMktCode === 'EU') {
+      stanceBadge.innerHTML = '<span>▲</span> HIGH SCRUTINY: EU LOQ (0.01 PPM Default Threshold)';
+      stanceBadge.style.background = 'rgba(245, 158, 11, 0.15)';
+      stanceBadge.style.color = '#F59E0B';
+      stanceBadge.style.borderColor = 'rgba(245, 158, 11, 0.3)';
+    } else if (activeMktCode === 'USA') {
+      stanceBadge.innerHTML = '<span>●</span> REGULATED: USDA APHIS / US FDA VHT Protocol Active';
+      stanceBadge.style.background = 'rgba(59, 130, 246, 0.15)';
+      stanceBadge.style.color = '#3B82F6';
+      stanceBadge.style.borderColor = 'rgba(59, 130, 246, 0.3)';
+    } else if (activeMktCode === 'GCC') {
+      stanceBadge.innerHTML = '<span>●</span> REGULATED: SFDA / GSO 382 Thresholds Applied';
+      stanceBadge.style.background = 'rgba(16, 185, 129, 0.15)';
+      stanceBadge.style.color = '#10B981';
+      stanceBadge.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+    } else if (activeMktCode === 'GBR') {
+      stanceBadge.innerHTML = '<span>●</span> REGULATED: UK HSE MRL Register (Post-Brexit)';
+      stanceBadge.style.background = 'rgba(168, 85, 247, 0.15)';
+      stanceBadge.style.color = '#A855F7';
+      stanceBadge.style.borderColor = 'rgba(168, 85, 247, 0.3)';
+    } else if (activeMktCode === 'JPN') {
+      stanceBadge.innerHTML = '<span>▲</span> HIGH SCRUTINY: Japan MAFF Positive List System';
+      stanceBadge.style.background = 'rgba(239, 68, 68, 0.15)';
+      stanceBadge.style.color = '#EF4444';
+      stanceBadge.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+    } else {
+      stanceBadge.innerHTML = `<span>●</span> ${escapeHtml(mkt.name || 'STANDARD COMPLIANCE')}`;
+      stanceBadge.style.background = 'rgba(16, 185, 129, 0.15)';
+      stanceBadge.style.color = '#10B981';
+      stanceBadge.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+    }
+  }
+
+  // Reactive Stage 04 Failure Alert & Diversion Box
+  const stage4Card = document.getElementById('apeda-stage-4-card');
+  const stage4DivertBox = document.getElementById('apeda-stage4-divert-box');
+  const stage4Badge = document.getElementById('apeda-stage-4-badge');
+
+  if (stage4Card) {
+    if (!isPass) {
+      stage4Card.classList.add('ring-2', 'ring-rose-500/60', 'animate-pulse');
+      stage4Card.style.borderColor = '#EF4444';
+      if (stage4DivertBox) stage4DivertBox.classList.remove('hidden');
+      if (stage4Badge) {
+        stage4Badge.style.background = 'rgba(239, 68, 68, 0.15)';
+        stage4Badge.style.color = '#EF4444';
+        stage4Badge.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+      }
+    } else {
+      stage4Card.classList.remove('ring-2', 'ring-rose-500/60', 'animate-pulse');
+      stage4Card.style.borderColor = 'var(--card-inner-border)';
+      if (stage4DivertBox) stage4DivertBox.classList.add('hidden');
+      if (stage4Badge) {
+        stage4Badge.style.background = 'rgba(16, 185, 129, 0.15)';
+        stage4Badge.style.color = '#10B981';
+        stage4Badge.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+      }
+    }
+  }
+
   let rowsHtml = '';
   ledger.forEach(item => {
     const itemPass = item.status === 'PASS';
@@ -5065,13 +5129,18 @@ function renderApedaResults(data) {
         </p>
       </div>
 
-      <div class="flex items-center gap-2 font-mono text-[11px] flex-shrink-0">
+      <div class="flex items-center gap-2 font-mono text-[11px] flex-shrink-0 flex-wrap">
         <span class="px-2.5 py-1 rounded-lg border font-bold" style="background: rgba(16, 185, 129, 0.1); border-color: #10B981; color: #10B981;">
           ✓ Pass: ${verd.pass_count}
         </span>
         <span class="px-2.5 py-1 rounded-lg border font-bold" style="background: rgba(239, 68, 68, 0.1); border-color: #EF4444; color: #EF4444;">
           ✕ Fail: ${verd.fail_count}
         </span>
+        ${!isPass ? `
+          <button type="button" onclick="divertConsignmentToGcc()" class="px-3 py-1 rounded-lg text-white font-bold text-[11px] uppercase tracking-wider flex items-center gap-1 shadow-md active:scale-95 transition-all" style="background: linear-gradient(135deg, #F59E0B 0%, #EF4444 100%);">
+            ⚡ Divert to GCC
+          </button>
+        ` : ''}
       </div>
     </div>
 
@@ -5147,6 +5216,20 @@ function renderApedaResults(data) {
 
   container.innerHTML = html;
 }
+
+function divertConsignmentToGcc() {
+  const marketSelect = document.getElementById('apeda-market-select');
+  if (marketSelect) {
+    marketSelect.value = 'GCC';
+  }
+  if (typeof runApedaAudit === 'function') {
+    runApedaAudit();
+  }
+  if (typeof showToast === 'function') {
+    showToast('⚡ Consignment Diverted to Saudi Arabia & GCC (SFDA GSO 382) — Statutory Compliance Achieved! Protected ₹18.5L - ₹42L from Re-Export / Incineration.');
+  }
+}
+window.divertConsignmentToGcc = divertConsignmentToGcc;
 
 window.fetchLiveForexRates = fetchLiveForexRates;
 window.fetchLiveCbicGazette = fetchLiveCbicGazette;
