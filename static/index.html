@@ -2946,28 +2946,71 @@
           </div>
         </div>
 
-        <!-- Controls: Commodity, Market & Residue Test Inputs -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
-          <div>
-            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Scheduled Commodity:</label>
-            <select id="apeda-commodity-select" onchange="onApedaCommodityChange()" class="w-full border rounded-xl p-2.5 text-xs focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);">
-              <option value="10063020" selected>🌾 Basmati Rice (HS 10063020 - BasmatiNet)</option>
-              <option value="08061000">🍇 Fresh Table Grapes (HS 08061000 - GrapeNet)</option>
-              <option value="08045020">🥭 Fresh Mangoes (HS 08045020 - HortiNet)</option>
-              <option value="02023000">🥩 Boneless Buffalo Meat (HS 02023000 - MeatNet)</option>
-              <option value="12024200">🥜 Peanuts / Groundnuts (HS 12024200 - TraceNet)</option>
-            </select>
+        <!-- Section 3: Sovereign Routing & Regulatory Divergence Console -->
+        <div class="rounded-2xl p-4 border shadow-xl space-y-3.5 mb-2" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b" style="border-color: var(--card-inner-border);">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+              <span class="text-xs font-extrabold uppercase tracking-wider" style="color: var(--text-main);">
+                Sovereign Routing &amp; Regulatory Divergence Console
+              </span>
+            </div>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded-full font-bold uppercase" style="background: rgba(6, 182, 212, 0.15); color: #06B6D4;">
+              ITC-HS 8-Digit Binding • WTO SPS Arbitrage
+            </span>
           </div>
 
-          <div>
-            <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">Destination Market Protocol:</label>
-            <select id="apeda-market-select" onchange="runApedaAudit()" class="w-full border rounded-xl p-2.5 text-xs focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border);">
-              <option value="EU" selected>🇪🇺 European Union (Strict Default 0.01 mg/kg LOQ)</option>
-              <option value="USA">🇺🇸 United States (US FDA / USDA APHIS)</option>
-              <option value="GCC">🇸🇦 Saudi Arabia &amp; GCC (SFDA / GSO 382)</option>
-              <option value="GBR">🇬🇧 United Kingdom (UK HSE MRL Register)</option>
-              <option value="JPN">🇯🇵 Japan (MAFF Positive List System)</option>
-            </select>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+            {/* Selector 1: Scheduled Commodity */}
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <label class="text-[10px] font-extrabold uppercase tracking-wider flex items-center gap-1 text-emerald-400">
+                  <span>●</span> STATUTORY ITC-HS TARIFF CODE
+                </label>
+                <span class="text-[9.5px] font-mono" style="color: var(--text-dim);">Customs Act Sec 50</span>
+              </div>
+              <select id="apeda-commodity-select" onchange="onApedaCommodityChange()" class="w-full border rounded-xl p-2.5 text-xs font-semibold focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                <option value="10063020" selected>1006 30 20 - Basmati Rice (GI Certified - BasmatiNet)</option>
+                <option value="08061000">0806 10 00 - Fresh Table Grapes (GrapeNet Plot-Tagged)</option>
+                <option value="08045020">0804 50 20 - Fresh Mangoes (Alphonso/Kesar - HortiNet)</option>
+                <option value="02023000">0202 30 00 - Boneless Buffalo Meat (APEDA Abattoir - MeatNet)</option>
+                <option value="12024200">1202 42 00 - Peanuts / Groundnuts (Aflatoxin Screened - Peanut.Net)</option>
+              </select>
+              <p class="text-[10px] leading-tight" style="color: var(--text-muted);">
+                <strong class="text-emerald-400 font-mono">[🛡️ Defense]:</strong> Enforces Section 111(m) Customs Act immunity. Binds MEP floors, RoDTEP rebate lines, and APEDA statutory cess.
+              </p>
+            </div>
+
+            {/* Selector 2: Destination Market Protocol */}
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <label class="text-[10px] font-extrabold uppercase tracking-wider flex items-center gap-1 text-cyan-400">
+                  <span>●</span> JURISDICTIONAL SPS MRL BENCHMARK
+                </label>
+                <span class="text-[9.5px] font-mono" style="color: var(--text-dim);">WTO SPS Art. 5</span>
+              </div>
+              <select id="apeda-market-select" onchange="runApedaAudit()" class="w-full border rounded-xl p-2.5 text-xs font-semibold focus:outline-none min-h-[42px]" style="background: var(--input-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                <option value="EU" selected>European Union (Strict Default 0.01 mg/kg LOQ - Regulation EC 396/2005)</option>
+                <option value="USA">United States (US FDA / EPA Risk-Assessment Benchmarks)</option>
+                <option value="GCC">Saudi Arabia &amp; GCC (SFDA.FD 382 / GSO MRL Standards)</option>
+                <option value="GBR">United Kingdom (UK HSE Statutory Pesticide Register)</option>
+                <option value="CODEX">Codex Alimentarius (FAO/WHO International Benchmark)</option>
+                <option value="JPN">Japan (MAFF Positive List System - 0.01 ppm Default)</option>
+              </select>
+              <p class="text-[10px] leading-tight" style="color: var(--text-muted);">
+                <strong class="text-amber-400 font-mono">[⚡ Arbitrage]:</strong> Enables live cargo re-routing. If EU LOQ fails, evaluate GCC/Codex limits to divert container before bill of lading issuance.
+              </p>
+            </div>
+          </div>
+
+          <!-- Live Diversion Callout Banner (Appears dynamically only on FAIL) -->
+          <div id="apeda-selector-diversion-callout" class="hidden rounded-xl p-3 border flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 transition-all" style="background: rgba(245, 158, 11, 0.12); border-color: rgba(245, 158, 11, 0.4);">
+            <div class="text-xs text-amber-300">
+              <span class="font-bold">⚠️ SPS Non-Compliance Detected:</span> <span id="apeda-selector-diversion-msg">Batch exceeds active destination tolerance. Do not move container to port CFS gate (demurrage risk).</span>
+            </div>
+            <button type="button" onclick="divertConsignmentToGcc()" class="px-3 py-1.5 rounded-lg text-slate-950 font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1 shadow-md active:scale-95 transition-all flex-shrink-0" style="background: #F59E0B;">
+              ⚡ Simulate Diversion to GCC / SFDA
+            </button>
           </div>
         </div>
 

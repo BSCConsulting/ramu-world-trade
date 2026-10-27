@@ -32,7 +32,8 @@ MARKET_ALIASES = {
     "gcc": "GCC", "saudi": "GCC", "saudi arabia": "GCC", "uae": "GCC", "dubai": "GCC", "kuwait": "GCC", "qatar": "GCC",
     "uk": "GBR", "gbr": "GBR", "britain": "GBR", "united kingdom": "GBR",
     "japan": "JPN", "jpn": "JPN",
-    "vietnam": "VNM", "vnm": "VNM"
+    "vietnam": "VNM", "vnm": "VNM",
+    "codex": "CODEX", "fao": "CODEX", "who": "CODEX"
 }
 
 def get_apeda_overview() -> Dict[str, Any]:

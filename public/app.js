@@ -5350,116 +5350,383 @@ function renderApedaResults(data) {
     }
   }
 
+  // --- Synchronize Section 3 Diversion Callout Banner ---
+  const failedItems = ledger.filter(i => i.status === 'FAIL');
+  const failedNames = failedItems.map(i => i.chemical).join(', ');
+  const diversionCallout = document.getElementById('apeda-selector-diversion-callout');
+  const diversionMsg = document.getElementById('apeda-selector-diversion-msg');
+  if (diversionCallout) {
+    if (!isPass) {
+      diversionCallout.classList.remove('hidden');
+      if (diversionMsg) {
+        diversionMsg.textContent = `Batch exceeds ${mkt.name || 'target'} tolerance (${failedNames}). Do not move container to port CFS gate (demurrage risk).`;
+      }
+    } else {
+      diversionCallout.classList.add('hidden');
+    }
+  }
+
+  // --- SECTION 4: Live Emergency Defense & Capital Protection Console ---
+  let bannerHtml = '';
+  if (isPass) {
+    bannerHtml = `
+      <div class="rounded-2xl p-4 border shadow-lg backdrop-blur-sm transition-all duration-300"
+           style="background: rgba(6, 78, 59, 0.25); border-color: rgba(16, 185, 129, 0.4);">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <h3 class="font-extrabold text-sm uppercase tracking-tight text-emerald-400 flex items-center gap-1.5">
+                <span>✓</span> APEDA TRACENET DIGITAL RELEASE READY (e-NOC ISSUABLE)
+              </h3>
+            </div>
+            <p class="text-xs leading-relaxed" style="color: var(--text-main);">
+              All chemical &amp; microbiological parameters comply with <strong class="text-emerald-300">${escapeHtml(mkt.name)}</strong> statutory tolerances. Sovereign QR Certificate of Inspection (CoI) cleared for ICEGATE transmission.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2 font-mono text-[11px] flex-shrink-0 flex-wrap">
+            <span class="px-2.5 py-1 rounded-lg border font-bold" style="background: rgba(16, 185, 129, 0.1); border-color: #10B981; color: #10B981;">
+              ● LEO RISK: 0%
+            </span>
+            <span class="px-2.5 py-1 rounded-lg border font-bold" style="background: rgba(16, 185, 129, 0.1); border-color: #10B981; color: #10B981;">
+              ● ZERO DEMURRAGE
+            </span>
+            <span class="px-2.5 py-1 rounded-lg border font-extrabold" style="background: rgba(16, 185, 129, 0.25); border-color: #10B981; color: #10B981;">
+              ● GREEN CHANNEL
+            </span>
+          </div>
+        </div>
+      </div>
+    `;
+  } else {
+    bannerHtml = `
+      <div class="rounded-2xl p-4 border-2 shadow-2xl space-y-3.5 backdrop-blur-sm transition-all duration-300"
+           style="background: rgba(136, 19, 55, 0.35); border-color: rgba(225, 29, 72, 0.8);">
+        <div class="flex flex-col md:flex-row md:items-start justify-between gap-2.5">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="text-rose-400 text-base">🚨</span>
+              <h3 class="font-extrabold text-sm uppercase tracking-tight text-rose-300">
+                STATUTORY INTERCEPTION: TRACENET DIGITAL COI LOCKED
+              </h3>
+            </div>
+            <p class="text-xs leading-relaxed text-rose-200">
+              <strong class="text-white">Breach Detected:</strong> <span class="underline decoration-rose-500 font-semibold">${escapeHtml(failedNames)}</span> exceeds statutory limit for <strong class="text-white">${escapeHtml(mkt.name)}</strong>. Under APEDA Trade Regulations, accredited laboratories are electronically prohibited from issuing a physical or digital CoI.
+            </p>
+          </div>
+
+          <span class="px-3 py-1 rounded-full border text-[10px] font-mono font-bold uppercase tracking-wider flex-shrink-0"
+                style="background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.4); color: #FCA5A5;">
+            ● ZERO-TOLERANCE SPS RULE: 1 Failure = 100% Lot Rejection
+          </span>
+        </div>
+
+        <!-- Live Capital Exposure Radar (3-Column Strip) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5 pt-1 text-xs">
+          <div class="p-2.5 rounded-xl border space-y-1" style="background: rgba(0, 0, 0, 0.25); border-color: rgba(255, 255, 255, 0.1);">
+            <div class="flex items-center justify-between text-[10px] font-mono" style="color: var(--text-dim);">
+              <span>CFS Demurrage &amp; Detention Risk:</span>
+              <span class="text-amber-400">⏱️</span>
+            </div>
+            <div class="text-sm font-bold font-mono text-amber-400">
+              ₹12,500 – ₹20,000 / Day ($150–$250/day)
+            </div>
+            <div class="text-[9.5px]" style="color: var(--text-muted);">
+              Accrues starting 48h after container gate-in at port CFS/ICD.
+            </div>
+          </div>
+
+          <div class="p-2.5 rounded-xl border space-y-1" style="background: rgba(0, 0, 0, 0.25); border-color: rgba(255, 255, 255, 0.1);">
+            <div class="flex items-center justify-between text-[10px] font-mono" style="color: var(--text-dim);">
+              <span>Cargo Capital at Risk:</span>
+              <span class="text-rose-400">💵</span>
+            </div>
+            <div class="text-sm font-bold font-mono text-rose-400">
+              ₹28,50,000 (Full Invoice Value)
+            </div>
+            <div class="text-[9.5px]" style="color: var(--text-muted);">
+              Total payload valuation subject to destination seizure or high-seas re-routing.
+            </div>
+          </div>
+
+          <div class="p-2.5 rounded-xl border space-y-1" style="background: rgba(0, 0, 0, 0.25); border-color: rgba(255, 255, 255, 0.1);">
+            <div class="flex items-center justify-between text-[10px] font-mono" style="color: var(--text-dim);">
+              <span>Insurance Defense Status:</span>
+              <span class="text-rose-400">❌</span>
+            </div>
+            <div class="text-sm font-bold font-mono text-rose-400">
+              0% RECOVERABLE (UNINSURED)
+            </div>
+            <div class="text-[9.5px] leading-tight" style="color: var(--text-muted);">
+              Institute Cargo Clauses (A) Cl. 4.4 strictly excludes SPS rejections. 100% loss falls on exporter.
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Immediate Remediation Action Buttons -->
+        <div class="pt-2 border-t flex flex-wrap items-center gap-2" style="border-color: rgba(225, 29, 72, 0.3);">
+          <button type="button" onclick="divertConsignmentToGcc()"
+                  class="py-2 px-3 rounded-lg text-white font-extrabold text-[11px] uppercase tracking-wider flex items-center gap-1.5 shadow-md active:scale-95 transition-all"
+                  style="background: linear-gradient(135deg, #F59E0B 0%, #EF4444 100%);">
+            <span>⚡</span> Reroute Consignment to GCC / Saudi Arabia (SFDA)
+          </button>
+          <button type="button" onclick="divertToDomesticStock()"
+                  class="py-2 px-3 rounded-lg border font-bold text-[11px] uppercase tracking-wider flex items-center gap-1.5 active:scale-95 transition-all"
+                  style="background: var(--input-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+            <span class="text-amber-400">🌾</span> Divert to Domestic Processing Stock
+          </button>
+          <button type="button" onclick="lockBatchQuarantine()"
+                  class="py-2 px-3 rounded-lg border font-bold text-[11px] uppercase tracking-wider flex items-center gap-1.5 active:scale-95 transition-all"
+                  style="background: var(--input-bg); border-color: var(--card-inner-border); color: var(--text-muted);">
+            <span class="text-purple-400">🔒</span> Lock Batch for Quarantine &amp; Lab Re-Check
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  // --- SECTION 5: Audited Tripartite Clearance Cockpit ---
+  const activePreset = (typeof TRACEABILITY_ECOSYSTEMS !== 'undefined' && TRACEABILITY_ECOSYSTEMS[currentApedaPresetId]) 
+    ? TRACEABILITY_ECOSYSTEMS[currentApedaPresetId]
+    : {
+        engineName: comm.traceability_system || 'TraceNet',
+        hsCode: comm.hs_code || '10063020',
+        scope: comm.gi_status || 'Geographical Indication Registered',
+        mandatoryTreatment: mkt.mandatory_treatment || 'Standard Pre-Shipment Inspection',
+        treatmentAuthority: 'DPPQ&S / NABL Accredited Agency'
+      };
+
+  const tripartiteHtml = `
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 my-2 text-xs">
+      <!-- Card 1: Origin Provenance & GI Integrity -->
+      <div class="p-3.5 rounded-2xl border flex flex-col justify-between space-y-2.5 shadow-sm"
+           style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase"
+                  style="background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.3);">
+              ● Cryptographic Provenance
+            </span>
+            <span class="text-[10px] font-mono" style="color: var(--text-dim);">HS ${activePreset.hsCode}</span>
+          </div>
+          <h4 class="text-xs font-bold uppercase tracking-tight" style="color: var(--text-main);">
+            ${escapeHtml(activePreset.engineName)} (HS ${activePreset.hsCode})
+          </h4>
+          <div class="text-[11px] leading-relaxed" style="color: var(--text-muted);">
+            <strong style="color: var(--text-main);">Origin Scope:</strong> ${escapeHtml(activePreset.scope)}
+          </div>
+          <div class="p-2 rounded-lg border text-[10px]" style="background: rgba(0, 0, 0, 0.15); border-color: var(--card-inner-border); color: var(--text-muted);">
+            <span class="font-bold" style="color: var(--text-main);">🛡️ What It Prevents:</span> Prevents illicit adulteration (e.g. blending non-notified grain into GI Basmati) and protects against export license suspension under the APEDA Act.
+          </div>
+        </div>
+        <div class="pt-2 border-t flex items-center justify-between text-[10px] font-mono font-bold text-emerald-400" style="border-color: var(--card-inner-border);">
+          <span>✓ Field / Plot Mapped</span>
+          <span>✓ Mandi Form 9 Linked</span>
+        </div>
+      </div>
+
+      <!-- Card 2: Destination Stance & Sampling Audit -->
+      <div class="p-3.5 rounded-2xl border flex flex-col justify-between space-y-2.5 shadow-sm"
+           style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase"
+                  style="background: rgba(59, 130, 246, 0.15); color: #3B82F6; border: 1px solid rgba(59, 130, 246, 0.3);">
+              ● Statutory Sampling Protocol
+            </span>
+            <span class="text-[10px] font-mono text-amber-400 font-bold">High Scrutiny</span>
+          </div>
+          <h4 class="text-xs font-bold uppercase tracking-tight" style="color: var(--text-main);">
+            ${escapeHtml(mkt.name)} Stance &amp; Verification
+          </h4>
+          <div class="space-y-1 pt-0.5 text-[10px] font-mono">
+            <div class="p-1.5 rounded border" style="background: rgba(0, 0, 0, 0.15); border-color: var(--card-inner-border); color: var(--text-muted);">
+              <span class="text-cyan-400 font-bold">● Pull:</span> Min 10% stratified bags per export lot
+            </div>
+            <div class="p-1.5 rounded border" style="background: rgba(0, 0, 0, 0.15); border-color: var(--card-inner-border); color: var(--text-muted);">
+              <span class="text-cyan-400 font-bold">● Split:</span> 3 Samples (Testing / 6-Mo Dispute Counter / Control)
+            </div>
+            <div class="p-1.5 rounded border" style="background: rgba(0, 0, 0, 0.15); border-color: var(--card-inner-border); color: var(--text-muted);">
+              <span class="text-cyan-400 font-bold">● Data:</span> Raw chromatogram uploaded directly to TraceNet
+            </div>
+          </div>
+        </div>
+        <div class="pt-2 border-t text-[10px]" style="border-color: var(--card-inner-border); color: var(--text-dim);">
+          <strong style="color: var(--text-main);">🛡️ Defense:</strong> Prevents sample tampering flags and provides an unalterable defense sample during foreign port disputes.
+        </div>
+      </div>
+
+      <!-- Card 3: Dual Statutory Release Gate (Bio vs Chemical) -->
+      <div class="p-3.5 rounded-2xl border flex flex-col justify-between space-y-2.5 shadow-sm"
+           style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase"
+                  style="background: rgba(168, 85, 247, 0.15); color: #A855F7; border: 1px solid rgba(168, 85, 247, 0.3);">
+              ● Dual-Agency Clearance Gate
+            </span>
+            <span class="text-[10px] font-mono text-purple-400 font-bold">Customs Sec 50</span>
+          </div>
+          <h4 class="text-xs font-bold uppercase tracking-tight" style="color: var(--text-main);">
+            Pre-Shipment Treatment &amp; Release
+          </h4>
+          <div class="space-y-1 text-[10px]">
+            <div class="p-1.5 rounded border" style="background: rgba(0, 0, 0, 0.15); border-color: var(--card-inner-border);">
+              <div class="font-bold text-emerald-400 flex items-center justify-between">
+                <span>1. Biological Gate (DPPQ&amp;S):</span>
+                <span class="font-mono text-[9px]" style="color: var(--text-dim);">Phytosanitary Cert (PSC)</span>
+              </div>
+              <div class="mt-0.5" style="color: var(--text-muted);">${escapeHtml(mkt.mandatory_treatment || activePreset.mandatoryTreatment)}</div>
+            </div>
+            <div class="p-1.5 rounded border" style="background: rgba(0, 0, 0, 0.15); border-color: var(--card-inner-border);">
+              <div class="font-bold text-cyan-400 flex items-center justify-between">
+                <span>2. Chemical Gate (APEDA):</span>
+                <span class="font-mono text-[9px]" style="color: var(--text-dim);">Certificate of Insp (CoI)</span>
+              </div>
+              <div class="mt-0.5" style="color: var(--text-muted);">${escapeHtml(activePreset.treatmentAuthority)} (&lt;0.01 ppm LOQ)</div>
+            </div>
+          </div>
+        </div>
+        <div class="pt-2 border-t text-[10px] font-mono text-amber-400 p-1.5 rounded border"
+             style="background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.25);">
+          ⚠️ ICEGATE Section 50 Rule: Customs will NOT grant LEO without BOTH the DPPQ&amp;S PSC and TraceNet CoI.
+        </div>
+      </div>
+    </div>
+  `;
+
+  // --- SECTION 6: High-Resolution Analytical Chromatography Matrix ---
   let rowsHtml = '';
   ledger.forEach(item => {
-    const itemPass = item.status === 'PASS';
-    const rowColor = itemPass ? '#10B981' : '#EF4444';
-    const rowBg = itemPass ? 'rgba(16, 185, 129, 0.08)' : 'rgba(239, 68, 68, 0.08)';
+    const limit = item.statutory_mrl;
+    const tested = item.tested_value;
+    const isDirectFail = (limit === 0.0 && tested > 0.0001) || (limit > 0 && tested > limit);
+    const isHoldPrecaution = !isDirectFail && limit > 0 && (tested >= limit * 0.8);
+
+    let statusText = '✓ PASS (COMPLIANT)';
+    let statusBadgeBg = 'rgba(16, 185, 129, 0.15)';
+    let statusColor = '#10B981';
+    let inputBorder = 'var(--card-inner-border)';
+
+    if (isDirectFail) {
+      statusText = '✕ FAIL (STATUTORY BREACH)';
+      statusBadgeBg = 'rgba(239, 68, 68, 0.15)';
+      statusColor = '#EF4444';
+      inputBorder = '#EF4444';
+    } else if (isHoldPrecaution) {
+      statusText = '⚠️ HOLD (SANTE 50% MU ZONE)';
+      statusBadgeBg = 'rgba(245, 158, 11, 0.15)';
+      statusColor = '#F59E0B';
+      inputBorder = '#F59E0B';
+    }
+
+    const phiDays = item.chemical.toLowerCase().includes('chlorpyrifos') ? 30 
+      : item.chemical.toLowerCase().includes('tricyclazole') ? 21
+      : item.chemical.toLowerCase().includes('imidacloprid') ? 15
+      : item.chemical.toLowerCase().includes('carbendazim') ? 14 : 21;
 
     rowsHtml += `
-      <tr class="border-b" style="border-color: var(--card-inner-border);">
-        <td class="py-2 px-2.5 font-bold">
-          <div>${item.chemical}</div>
-          <div class="text-[9px] font-mono font-normal" style="color: var(--text-dim);">${item.statutory_note || ''}</div>
+      <tr class="border-b transition-colors" style="border-color: var(--card-inner-border);">
+        <td class="py-2.5 px-3 font-bold" style="color: var(--text-main);">
+          <div class="flex items-center gap-1.5">
+            <span>${escapeHtml(item.chemical)}</span>
+            ${isDirectFail ? '<span class="text-rose-400">🛑</span>' : isHoldPrecaution ? '<span class="text-amber-400">⚠️</span>' : ''}
+          </div>
+          <div class="text-[9.5px] font-mono font-normal" style="color: var(--text-dim);">${escapeHtml(item.statutory_note || '')}</div>
         </td>
-        <td class="py-2 px-2.5 text-center font-mono">
+        <td class="py-2.5 px-3 text-center font-mono">
           <input type="number" step="0.001" value="${item.tested_value}" 
             id="apeda-input-${item.chemical_key}"
             onchange="onApedaResidueChange('${item.chemical_key}', this.value)"
             class="w-20 text-center font-bold font-mono border rounded px-1.5 py-1 text-xs focus:outline-none"
-            style="background: var(--input-bg); border-color: var(--card-inner-border); color: var(--text-main);" />
+            style="background: var(--input-bg); border-color: ${inputBorder}; color: var(--text-main);" />
         </td>
-        <td class="py-2 px-2.5 text-center font-mono font-bold" style="color: var(--text-main);">
+        <td class="py-2.5 px-3 text-center font-mono font-bold" style="color: var(--text-main);">
           ${item.statutory_mrl} <span class="text-[9px] font-normal" style="color: var(--text-dim);">${item.unit}</span>
         </td>
-        <td class="py-2 px-2.5 text-center">
-          <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold font-mono" style="background: ${rowBg}; color: ${rowColor}; border: 1px solid ${rowColor}40;">
-            ${item.status === 'PASS' ? '✓ PASS' : '✕ FAIL'}
+        <td class="py-2.5 px-3 text-center">
+          <span class="inline-block px-2.5 py-0.5 rounded text-[10px] font-bold font-mono border"
+                style="background: ${statusBadgeBg}; color: ${statusColor}; border-color: ${statusColor}40;">
+            ${statusText}
           </span>
         </td>
-        <td class="py-2 px-2.5 text-[11px]" style="color: var(--text-muted);">
-          ${item.action_guidance}
+        <td class="py-2.5 px-3 text-right">
+          <button type="button" onclick="toggleApedaDrawer('${item.chemical_key}')"
+                  class="px-2 py-1 rounded text-[10px] font-mono font-semibold border transition-all active:scale-95"
+                  style="background: var(--input-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+            PHI &amp; Root-Cause ▾
+          </button>
+        </td>
+      </tr>
+
+      <!-- Expandable Agronomic Defense Drawer -->
+      <tr id="apeda-drawer-${item.chemical_key}" class="hidden border-b" style="background: rgba(0,0,0,0.18); border-color: var(--card-inner-border);">
+        <td colspan="5" class="p-3 space-y-2 text-xs">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5 text-xs">
+            <div class="p-2 rounded-lg border space-y-0.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              <div class="text-[10px] font-bold uppercase font-mono text-cyan-400">⏱️ Pre-Harvest Interval (PHI)</div>
+              <div class="font-bold text-[11px]" style="color: var(--text-main);">Standard PHI: ${phiDays} Days</div>
+              <p class="text-[10px]" style="color: var(--text-muted);">Required wait period between field spraying and crop cutting to allow biochemical pesticide breakdown.</p>
+            </div>
+
+            <div class="p-2 rounded-lg border space-y-0.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              <div class="text-[10px] font-bold uppercase font-mono text-amber-400">📦 Packaging / Jute Leaching Risk</div>
+              <div class="font-bold text-[11px] text-amber-300">Food-Grade Jute / Liner Mandate</div>
+              <p class="text-[10px]" style="color: var(--text-muted);">Batching oil in low-grade jute contains mineral hydrocarbons (MOSH). Use only certified hydrocarbon-free packaging.</p>
+            </div>
+
+            <div class="p-2 rounded-lg border space-y-0.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              <div class="text-[10px] font-bold uppercase font-mono text-rose-400">🛡️ Blending Prohibition</div>
+              <div class="font-bold text-[11px] text-rose-300">Strict Zero-Blending Rule</div>
+              <p class="text-[10px]" style="color: var(--text-muted);">Statutory Notice: Batch blending with compliant export lots is strictly illegal under EU Food Law &amp; APEDA regulations.</p>
+            </div>
+          </div>
+
+          <div class="text-[10px] font-mono pt-1" style="color: var(--text-main);">
+            <strong class="text-cyan-400">Statutory Action Guidance:</strong> ${escapeHtml(item.action_guidance || '')}
+          </div>
         </td>
       </tr>
     `;
   });
 
-  const html = `
-    <!-- Verdict Banner -->
-    <div class="p-3.5 rounded-xl border flex flex-col md:flex-row md:items-center justify-between gap-3" 
-         style="background: ${badgeBg}; border-color: ${badgeBorder};">
-      <div>
+  const matrixHtml = `
+    <div class="rounded-2xl border overflow-hidden shadow-xl space-y-0 text-xs"
+         style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+      <div class="p-3 border-b flex flex-wrap items-center justify-between gap-2" style="border-color: var(--card-inner-border);">
         <div class="flex items-center gap-2">
-          <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase font-mono tracking-wider" 
-                style="background: ${badgeColor}; color: #ffffff;">
-            ${verd.status}
+          <span class="text-cyan-400 font-bold">🧪</span>
+          <h4 class="font-extrabold text-xs uppercase tracking-wider" style="color: var(--text-main);">
+            High-Resolution Analytical Chromatography Matrix
+          </h4>
+          <span class="text-[10px] font-mono px-2 py-0.5 rounded font-bold"
+                style="background: rgba(6, 182, 212, 0.15); color: #06B6D4;">
+            GC-MS/MS &amp; LC-MS/MS Direct
           </span>
-          <span class="font-extrabold text-xs" style="color: ${badgeColor};">
-            ${verd.verdict_title}
+        </div>
+        <div class="flex items-center gap-2.5 text-[10px] font-mono" style="color: var(--text-dim);">
+          <span class="flex items-center gap-1">
+            <span class="inline-block w-2 h-2 rounded-full bg-emerald-500"></span> &lt;80% Pass
+          </span>
+          <span class="flex items-center gap-1">
+            <span class="inline-block w-2 h-2 rounded-full bg-amber-500"></span> 80–100% Precaution Hold
+          </span>
+          <span class="flex items-center gap-1">
+            <span class="inline-block w-2 h-2 rounded-full bg-rose-500"></span> &gt;100% Breach
           </span>
         </div>
-        <p class="text-xs mt-1" style="color: var(--text-main);">
-          ${verd.summary}
-        </p>
-      </div>
-
-      <div class="flex items-center gap-2 font-mono text-[11px] flex-shrink-0 flex-wrap">
-        <span class="px-2.5 py-1 rounded-lg border font-bold" style="background: rgba(16, 185, 129, 0.1); border-color: #10B981; color: #10B981;">
-          ✓ Pass: ${verd.pass_count}
-        </span>
-        <span class="px-2.5 py-1 rounded-lg border font-bold" style="background: rgba(239, 68, 68, 0.1); border-color: #EF4444; color: #EF4444;">
-          ✕ Fail: ${verd.fail_count}
-        </span>
-        ${!isPass ? `
-          <button type="button" onclick="divertConsignmentToGcc()" class="px-3 py-1 rounded-lg text-white font-bold text-[11px] uppercase tracking-wider flex items-center gap-1 shadow-md active:scale-95 transition-all" style="background: linear-gradient(135deg, #F59E0B 0%, #EF4444 100%);">
-            ⚡ Divert to GCC
-          </button>
-        ` : ''}
-      </div>
-    </div>
-
-    <!-- Commodity & Market Protocol Metadata -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
-      <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-        <div class="text-[9px] uppercase tracking-wider font-bold" style="color: var(--text-dim);">Traceability Ecosystem</div>
-        <div class="font-bold text-xs mt-0.5 flex items-center gap-1.5" style="color: var(--text-main);">
-          <span class="text-xs">🔗</span> ${comm.traceability_system}
-        </div>
-        <div class="text-[10px] mt-1" style="color: var(--text-muted);">${comm.gi_status}</div>
-      </div>
-
-      <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-        <div class="text-[9px] uppercase tracking-wider font-bold" style="color: var(--text-dim);">Destination Market Stance</div>
-        <div class="font-bold text-xs mt-0.5" style="color: var(--text-main);">${mkt.name}</div>
-        <div class="text-[10px] mt-1" style="color: var(--text-muted);">${mkt.stance}</div>
-      </div>
-
-      <div class="p-2.5 rounded-xl border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-        <div class="text-[9px] uppercase tracking-wider font-bold" style="color: var(--text-dim);">Mandatory Pre-Shipment Treatment</div>
-        <div class="font-bold text-xs mt-0.5" style="color: var(--accent);">${mkt.mandatory_treatment}</div>
-        <div class="text-[10px] mt-1" style="color: var(--text-muted);">DPPQ&S / Phytosanitary Certificate Required</div>
-      </div>
-    </div>
-
-    <!-- Interactive Chemical Residue / MRL Testing Ledger -->
-    <div class="rounded-xl border overflow-x-auto no-scrollbar scroll-smooth" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-      <div class="p-2.5 border-b flex min-w-[540px] items-center justify-between" style="border-color: var(--card-inner-border);">
-        <div class="flex items-center gap-2">
-          <span class="font-extrabold text-xs uppercase tracking-wider" style="color: var(--text-main);">Sanitary &amp; Phytosanitary (SPS) MRL Ledger</span>
-          <span class="text-[9px] font-mono px-1.5 py-0.5 rounded font-bold" style="background: rgba(59, 130, 246, 0.15); color: #3B82F6;">INTERACTIVE LAB SIMULATOR</span>
-        </div>
-        <span class="text-[10px] font-mono" style="color: var(--text-dim);">Edit values in table to re-test</span>
       </div>
 
       <div class="overflow-x-auto">
         <table class="w-full text-left text-xs border-collapse">
           <thead>
-            <tr class="border-b text-[10px] uppercase font-bold" style="background: rgba(0,0,0,0.02); border-color: var(--card-inner-border); color: var(--text-dim);">
-              <th class="py-2 px-2.5">Compound / Toxin</th>
-              <th class="py-2 px-2.5 text-center">Tested Lab Value</th>
-              <th class="py-2 px-2.5 text-center">Statutory MRL</th>
-              <th class="py-2 px-2.5 text-center">Audit Status</th>
-              <th class="py-2 px-2.5">Statutory Action Guidance</th>
+            <tr class="border-b text-[10px] uppercase font-bold" style="background: rgba(0,0,0,0.03); border-color: var(--card-inner-border); color: var(--text-dim);">
+              <th class="py-2.5 px-3">Compound / Contaminant</th>
+              <th class="py-2.5 px-3 text-center">Tested Lab Value</th>
+              <th class="py-2.5 px-3 text-center">Statutory MRL</th>
+              <th class="py-2.5 px-3 text-center">Analytical Status</th>
+              <th class="py-2.5 px-3 text-right">Agronomic Defense</th>
             </tr>
           </thead>
           <tbody>
@@ -5467,28 +5734,21 @@ function renderApedaResults(data) {
           </tbody>
         </table>
       </div>
-    </div>
 
-    <!-- Statutory Export Compliance Bar -->
-    <div class="p-3 rounded-xl border flex flex-wrap items-center justify-between gap-2 text-xs"
-         style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-      <div class="flex items-center gap-2">
-        <span class="text-sm">📋</span>
-        <span class="font-bold text-[11px]" style="color: var(--text-main);">APEDA Statutory Packhouse &amp; CoI Dispatch Protocol:</span>
-        <span class="text-[11px]" style="color: var(--text-muted);">
-          ${isPass 
-            ? 'All compounds within statutory tolerances. Batch eligible for APEDA Certificate of Inspection (CoI) and Export Packhouse stuffing.' 
-            : 'Non-compliant batch! Re-testing or crop diversion required. Consignment cannot receive APEDA phyto-clearance.'}
-        </span>
+      <div class="p-3 border-t flex flex-wrap items-center justify-between gap-2 text-xs" style="border-color: var(--card-inner-border);">
+        <div class="text-[11px]" style="color: var(--text-muted);">
+          <strong style="color: var(--text-main);">Measurement Uncertainty (MU) Directive:</strong> EU SANTE 11312/2021 enforces a 50% analytical MU buffer zone on border testing enforcement.
+        </div>
+        <button type="button" onclick="selectApedaCommodity('${comm.hs_code || '10063020'}', '${mkt.code || 'EU'}', '${currentApedaPresetId}')"
+                class="px-3 py-1.5 rounded-lg font-bold text-xs border transition-all active:scale-95"
+                style="background: var(--accent); color: #ffffff; border-color: transparent;">
+          ↺ Reset Lab Values
+        </button>
       </div>
-      <button type="button" onclick="selectApedaCommodity('${comm.hs_code}', '${mkt.code}')" class="px-3 py-1.5 rounded-lg font-bold text-xs border transition-all active:scale-95"
-              style="background: var(--accent); color: #ffffff; border-color: transparent;">
-        ↺ Reset Lab Values
-      </button>
     </div>
   `;
 
-  container.innerHTML = html;
+  container.innerHTML = bannerHtml + tripartiteHtml + matrixHtml;
 }
 
 function divertConsignmentToGcc() {
@@ -5500,10 +5760,32 @@ function divertConsignmentToGcc() {
     runApedaAudit();
   }
   if (typeof showToast === 'function') {
-    showToast('⚡ Consignment Diverted to Saudi Arabia & GCC (SFDA GSO 382) — Statutory Compliance Achieved! Protected ₹18.5L - ₹42L from Re-Export / Incineration.');
+    showToast('⚡ Consignment Rerouted to Saudi Arabia & GCC (SFDA.FD 382) — Statutory Compliance Achieved! Protected ₹28,50,000 from destination destruction.');
   }
 }
 window.divertConsignmentToGcc = divertConsignmentToGcc;
+
+function divertToDomesticStock() {
+  if (typeof showToast === 'function') {
+    showToast('🌾 Statutory Notice: Batch blending with compliant export lots is strictly illegal under EU Food Law & FSSAI rules. Lot diverted to domestic processing.');
+  }
+}
+window.divertToDomesticStock = divertToDomesticStock;
+
+function lockBatchQuarantine() {
+  if (typeof showToast === 'function') {
+    showToast('🔒 Batch locked under APEDA Rule 14 (QUARANTINE_PENDING_GCMS_MS). Re-check memo dispatched to accredited NABL referral lab.');
+  }
+}
+window.lockBatchQuarantine = lockBatchQuarantine;
+
+function toggleApedaDrawer(key) {
+  const drawer = document.getElementById(`apeda-drawer-${key}`);
+  if (drawer) {
+    drawer.classList.toggle('hidden');
+  }
+}
+window.toggleApedaDrawer = toggleApedaDrawer;
 
 window.fetchLiveForexRates = fetchLiveForexRates;
 window.fetchLiveCbicGazette = fetchLiveCbicGazette;

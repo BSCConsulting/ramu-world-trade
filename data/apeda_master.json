@@ -2,7 +2,13 @@
   "metadata": {
     "source": "APEDA (Agricultural & Processed Food Products Export Development Authority), Ministry of Commerce & Industry, GoI",
     "portal": "https://apeda.gov.in",
-    "traceability_systems": ["TraceNet", "GrapeNet", "BasmatiNet", "MeatNet", "HortiNet"],
+    "traceability_systems": [
+      "TraceNet",
+      "GrapeNet",
+      "BasmatiNet",
+      "MeatNet",
+      "HortiNet"
+    ],
     "updated": "2024-Q3"
   },
   "rcmc_guidelines": {
@@ -32,10 +38,22 @@
           "market_name": "European Union (EU)",
           "compliance_stance": "High Scrutiny (Mandatory Pre-Shipment Inspection Certificate)",
           "mrls": {
-            "tricyclazole": {"limit_mg_kg": 0.01, "desc": "Default Limit of Quantification (EU Regulation 2017/978)"},
-            "isoprothiolane": {"limit_mg_kg": 1.00, "desc": "Fungicide tolerance"},
-            "chlorpyrifos": {"limit_mg_kg": 0.01, "desc": "Strict EU pesticide ban limit"},
-            "thiamethoxam": {"limit_mg_kg": 0.01, "desc": "Neonicotinoid LOQ"}
+            "tricyclazole": {
+              "limit_mg_kg": 0.01,
+              "desc": "Default Limit of Quantification (EU Regulation 2017/978)"
+            },
+            "isoprothiolane": {
+              "limit_mg_kg": 1.0,
+              "desc": "Fungicide tolerance"
+            },
+            "chlorpyrifos": {
+              "limit_mg_kg": 0.01,
+              "desc": "Strict EU pesticide ban limit"
+            },
+            "thiamethoxam": {
+              "limit_mg_kg": 0.01,
+              "desc": "Neonicotinoid LOQ"
+            }
           },
           "treatment_required": "None (Chemical residue compliance mandatory at accredited lab)"
         },
@@ -43,10 +61,22 @@
           "market_name": "United States (US FDA / USDA)",
           "compliance_stance": "Standard EPA / FDA Tolerances",
           "mrls": {
-            "tricyclazole": {"limit_mg_kg": 3.00, "desc": "US EPA established tolerance"},
-            "isoprothiolane": {"limit_mg_kg": 6.00, "desc": "US EPA establish tolerance"},
-            "chlorpyrifos": {"limit_mg_kg": 0.10, "desc": "EPA action level"},
-            "thiamethoxam": {"limit_mg_kg": 0.02, "desc": "EPA import tolerance"}
+            "tricyclazole": {
+              "limit_mg_kg": 3.0,
+              "desc": "US EPA established tolerance"
+            },
+            "isoprothiolane": {
+              "limit_mg_kg": 6.0,
+              "desc": "US EPA establish tolerance"
+            },
+            "chlorpyrifos": {
+              "limit_mg_kg": 0.1,
+              "desc": "EPA action level"
+            },
+            "thiamethoxam": {
+              "limit_mg_kg": 0.02,
+              "desc": "EPA import tolerance"
+            }
           },
           "treatment_required": "Pre-shipment fumigation with Methyl Bromide or Phosphine"
         },
@@ -54,12 +84,47 @@
           "market_name": "Saudi Arabia & GCC (SFDA / GSO 382)",
           "compliance_stance": "GSO Standard & DNA Authenticity Check",
           "mrls": {
-            "tricyclazole": {"limit_mg_kg": 1.00, "desc": "GSO 382 tolerance"},
-            "isoprothiolane": {"limit_mg_kg": 1.50, "desc": "GSO established MRL"},
-            "chlorpyrifos": {"limit_mg_kg": 0.05, "desc": "SFDA tolerance"},
-            "thiamethoxam": {"limit_mg_kg": 0.05, "desc": "GSO limit"}
+            "tricyclazole": {
+              "limit_mg_kg": 1.0,
+              "desc": "GSO 382 tolerance"
+            },
+            "isoprothiolane": {
+              "limit_mg_kg": 1.5,
+              "desc": "GSO established MRL"
+            },
+            "chlorpyrifos": {
+              "limit_mg_kg": 0.05,
+              "desc": "SFDA tolerance"
+            },
+            "thiamethoxam": {
+              "limit_mg_kg": 0.05,
+              "desc": "GSO limit"
+            }
           },
           "treatment_required": "Clean shipment inspection certificate with non-GMO declaration"
+        },
+        "CODEX": {
+          "market_name": "Codex Alimentarius (FAO / WHO)",
+          "compliance_stance": "Codex Committee on Pesticide Residues (CCPR)",
+          "mrls": {
+            "tricyclazole": {
+              "limit_mg_kg": 1.0,
+              "desc": "Codex MRL adopted under CX/PR"
+            },
+            "isoprothiolane": {
+              "limit_mg_kg": 1.5,
+              "desc": "Codex established tolerance"
+            },
+            "chlorpyrifos": {
+              "limit_mg_kg": 0.05,
+              "desc": "Codex standard"
+            },
+            "thiamethoxam": {
+              "limit_mg_kg": 0.05,
+              "desc": "Codex MRL"
+            }
+          },
+          "treatment_required": "Standard pre-shipment fumigation with Phosphine"
         }
       }
     },
@@ -74,23 +139,70 @@
           "market_name": "European Union (EU)",
           "compliance_stance": "GrapeNet Digital Certificate of Inspection (CoI) Mandatory",
           "mrls": {
-            "imidacloprid": {"limit_mg_kg": 0.01, "desc": "Strict EU LOQ threshold"},
-            "metalaxyl": {"limit_mg_kg": 1.00, "desc": "EU fungicide MRL"},
-            "lambda_cyhalothrin": {"limit_mg_kg": 0.08, "desc": "Insecticide limit"},
-            "chlormequat": {"limit_mg_kg": 0.05, "desc": "Plant growth regulator LOQ"}
+            "imidacloprid": {
+              "limit_mg_kg": 0.01,
+              "desc": "Strict EU LOQ threshold"
+            },
+            "metalaxyl": {
+              "limit_mg_kg": 1.0,
+              "desc": "EU fungicide MRL"
+            },
+            "lambda_cyhalothrin": {
+              "limit_mg_kg": 0.08,
+              "desc": "Insecticide limit"
+            },
+            "chlormequat": {
+              "limit_mg_kg": 0.05,
+              "desc": "Plant growth regulator LOQ"
+            }
           },
-          "treatment_required": "Pre-cooling to 0-1°C in APEDA approved packhouse within 6h of harvest"
+          "treatment_required": "Pre-cooling to 0-1\u00b0C in APEDA approved packhouse within 6h of harvest"
         },
         "GBR": {
           "market_name": "United Kingdom (UK HSE MRL Register)",
           "compliance_stance": "Direct Packhouse Traceability",
           "mrls": {
-            "imidacloprid": {"limit_mg_kg": 0.01, "desc": "GB Statutory MRL"},
-            "metalaxyl": {"limit_mg_kg": 1.00, "desc": "UK HSE limit"},
-            "lambda_cyhalothrin": {"limit_mg_kg": 0.08, "desc": "UK HSE limit"},
-            "chlormequat": {"limit_mg_kg": 0.05, "desc": "UK limit"}
+            "imidacloprid": {
+              "limit_mg_kg": 0.01,
+              "desc": "GB Statutory MRL"
+            },
+            "metalaxyl": {
+              "limit_mg_kg": 1.0,
+              "desc": "UK HSE limit"
+            },
+            "lambda_cyhalothrin": {
+              "limit_mg_kg": 0.08,
+              "desc": "UK HSE limit"
+            },
+            "chlormequat": {
+              "limit_mg_kg": 0.05,
+              "desc": "UK limit"
+            }
           },
           "treatment_required": "Sulphur Dioxide (SO2) generator pads in export carton boxes"
+        },
+        "CODEX": {
+          "market_name": "Codex Alimentarius (FAO / WHO)",
+          "compliance_stance": "Codex Fresh Fruits & Vegetables Standard",
+          "mrls": {
+            "imidacloprid": {
+              "limit_mg_kg": 1.0,
+              "desc": "Codex MRL"
+            },
+            "metalaxyl": {
+              "limit_mg_kg": 1.0,
+              "desc": "Codex limit"
+            },
+            "lambda_cyhalothrin": {
+              "limit_mg_kg": 0.2,
+              "desc": "Codex tolerance"
+            },
+            "chlormequat": {
+              "limit_mg_kg": 0.05,
+              "desc": "Codex LOQ"
+            }
+          },
+          "treatment_required": "Forced-air pre-cooling pull-down to 0\u20131\u00b0C"
         }
       }
     },
@@ -105,9 +217,18 @@
           "market_name": "United States (USDA APHIS)",
           "compliance_stance": "Mandatory USDA APHIS Pre-Clearance & Irradiation",
           "mrls": {
-            "carbendazim": {"limit_mg_kg": 0.20, "desc": "FDA action level"},
-            "cypermethrin": {"limit_mg_kg": 0.20, "desc": "EPA MRL"},
-            "deltamethrin": {"limit_mg_kg": 0.05, "desc": "Insecticide limit"}
+            "carbendazim": {
+              "limit_mg_kg": 0.2,
+              "desc": "FDA action level"
+            },
+            "cypermethrin": {
+              "limit_mg_kg": 0.2,
+              "desc": "EPA MRL"
+            },
+            "deltamethrin": {
+              "limit_mg_kg": 0.05,
+              "desc": "Insecticide limit"
+            }
           },
           "treatment_required": "Mandatory Gamma Irradiation (minimum 400 Gray dose) at Vashi (BARC) or Lasalgaon facility under USDA joint supervision."
         },
@@ -115,21 +236,58 @@
           "market_name": "Japan (MAFF)",
           "compliance_stance": "Mandatory Vapour Heat Treatment (VHT)",
           "mrls": {
-            "carbendazim": {"limit_mg_kg": 0.10, "desc": "MAFF positive list"},
-            "cypermethrin": {"limit_mg_kg": 0.10, "desc": "Japanese MRL"},
-            "deltamethrin": {"limit_mg_kg": 0.05, "desc": "MAFF limit"}
+            "carbendazim": {
+              "limit_mg_kg": 0.1,
+              "desc": "MAFF positive list"
+            },
+            "cypermethrin": {
+              "limit_mg_kg": 0.1,
+              "desc": "Japanese MRL"
+            },
+            "deltamethrin": {
+              "limit_mg_kg": 0.05,
+              "desc": "MAFF limit"
+            }
           },
-          "treatment_required": "Vapour Heat Treatment (VHT) chamber at core pulp temperature 47.5°C held for 20 minutes."
+          "treatment_required": "Vapour Heat Treatment (VHT) chamber at core pulp temperature 47.5\u00b0C held for 20 minutes."
         },
         "EU": {
           "market_name": "European Union (EU)",
           "compliance_stance": "Hot Water Immersion Treatment (HWIT)",
           "mrls": {
-            "carbendazim": {"limit_mg_kg": 0.10, "desc": "Strict EU MRL"},
-            "cypermethrin": {"limit_mg_kg": 0.07, "desc": "EU regulation"},
-            "deltamethrin": {"limit_mg_kg": 0.05, "desc": "EU LOQ"}
+            "carbendazim": {
+              "limit_mg_kg": 0.1,
+              "desc": "Strict EU MRL"
+            },
+            "cypermethrin": {
+              "limit_mg_kg": 0.07,
+              "desc": "EU regulation"
+            },
+            "deltamethrin": {
+              "limit_mg_kg": 0.05,
+              "desc": "EU LOQ"
+            }
           },
-          "treatment_required": "Hot Water Immersion (48°C for 60 minutes) to eliminate fruit fly (Bactrocera dorsalis) larvae."
+          "treatment_required": "Hot Water Immersion (48\u00b0C for 60 minutes) to eliminate fruit fly (Bactrocera dorsalis) larvae."
+        },
+        "CODEX": {
+          "market_name": "Codex Alimentarius (FAO / WHO)",
+          "compliance_stance": "Codex Phytosanitary Treatment Standard",
+          "mrls": {
+            "carbendazim": {
+              "limit_mg_kg": 2.0,
+              "desc": "Codex MRL"
+            },
+            "cypermethrin": {
+              "limit_mg_kg": 0.7,
+              "desc": "Codex tolerance"
+            },
+            "deltamethrin": {
+              "limit_mg_kg": 0.05,
+              "desc": "Codex limit"
+            }
+          },
+          "treatment_required": "Hot Water Immersion (48\u00b0C for 60 mins) or certified VHT"
         }
       }
     },
@@ -144,21 +302,58 @@
           "market_name": "Saudi Arabia & GCC (SFDA)",
           "compliance_stance": "Mandatory SFDA Approved Abattoir & Halal Certification",
           "mrls": {
-            "salmonella": {"limit_mg_kg": 0.00, "desc": "Zero tolerance (Absence in 25g sample)"},
-            "nitrofuran_aoz": {"limit_mg_kg": 0.00, "desc": "Zero tolerance (<0.5 ppb banned antibiotic)"},
-            "chloramphenicol": {"limit_mg_kg": 0.00, "desc": "Zero tolerance (<0.3 ppb banned drug)"}
+            "salmonella": {
+              "limit_mg_kg": 0.0,
+              "desc": "Zero tolerance (Absence in 25g sample)"
+            },
+            "nitrofuran_aoz": {
+              "limit_mg_kg": 0.0,
+              "desc": "Zero tolerance (<0.5 ppb banned antibiotic)"
+            },
+            "chloramphenicol": {
+              "limit_mg_kg": 0.0,
+              "desc": "Zero tolerance (<0.3 ppb banned drug)"
+            }
           },
-          "treatment_required": "Halal slaughter according to GSO 993; deep frozen to -18°C within 24 hours of deboning."
+          "treatment_required": "Halal slaughter according to GSO 993; deep frozen to -18\u00b0C within 24 hours of deboning."
         },
         "VNM": {
           "market_name": "Vietnam (Department of Animal Health DAH)",
           "compliance_stance": "Registered Processing Plant Protocol",
           "mrls": {
-            "salmonella": {"limit_mg_kg": 0.00, "desc": "Absence in 25g"},
-            "nitrofuran_aoz": {"limit_mg_kg": 0.00, "desc": "Zero tolerance"},
-            "chloramphenicol": {"limit_mg_kg": 0.00, "desc": "Zero tolerance"}
+            "salmonella": {
+              "limit_mg_kg": 0.0,
+              "desc": "Absence in 25g"
+            },
+            "nitrofuran_aoz": {
+              "limit_mg_kg": 0.0,
+              "desc": "Zero tolerance"
+            },
+            "chloramphenicol": {
+              "limit_mg_kg": 0.0,
+              "desc": "Zero tolerance"
+            }
           },
-          "treatment_required": "Blast freezing to -40°C with veterinarian export health certificate"
+          "treatment_required": "Blast freezing to -40\u00b0C with veterinarian export health certificate"
+        },
+        "CODEX": {
+          "market_name": "Codex Alimentarius (FAO / WHO)",
+          "compliance_stance": "Codex Code of Hygienic Practice for Meat (CAC/RCP 58-2005)",
+          "mrls": {
+            "salmonella": {
+              "limit_mg_kg": 0.0,
+              "desc": "Zero tolerance (Absence in 25g sample)"
+            },
+            "nitrofuran_aoz": {
+              "limit_mg_kg": 0.0,
+              "desc": "Zero tolerance (<0.5 ppb banned antibiotic)"
+            },
+            "chloramphenicol": {
+              "limit_mg_kg": 0.0,
+              "desc": "Zero tolerance (<0.3 ppb banned drug)"
+            }
+          },
+          "treatment_required": "Ante-mortem & post-mortem veterinary inspection + deep freezing"
         }
       }
     },
@@ -173,9 +368,18 @@
           "market_name": "European Union (EU)",
           "compliance_stance": "Mandatory Pre-Shipment Aflatoxin Certificate (CoI)",
           "mrls": {
-            "aflatoxin_b1": {"limit_mg_kg": 0.002, "desc": "Max 2.0 ppb (parts per billion) B1 fraction"},
-            "aflatoxin_total": {"limit_mg_kg": 0.004, "desc": "Max 4.0 ppb total (B1+B2+G1+G2)"},
-            "chlorpyrifos": {"limit_mg_kg": 0.010, "desc": "EU LOQ threshold"}
+            "aflatoxin_b1": {
+              "limit_mg_kg": 0.002,
+              "desc": "Max 2.0 ppb (parts per billion) B1 fraction"
+            },
+            "aflatoxin_total": {
+              "limit_mg_kg": 0.004,
+              "desc": "Max 4.0 ppb total (B1+B2+G1+G2)"
+            },
+            "chlorpyrifos": {
+              "limit_mg_kg": 0.01,
+              "desc": "EU LOQ threshold"
+            }
           },
           "treatment_required": "Electronic color optical sorting & aflatoxin TLC/HPLC lab testing at APEDA recognized lab."
         },
@@ -183,10 +387,35 @@
           "market_name": "United States (US FDA)",
           "compliance_stance": "US FDA Action Level Compliance",
           "mrls": {
-            "aflatoxin_total": {"limit_mg_kg": 0.020, "desc": "Max 20.0 ppb total aflatoxin action level"},
-            "chlorpyrifos": {"limit_mg_kg": 0.100, "desc": "FDA tolerance"}
+            "aflatoxin_total": {
+              "limit_mg_kg": 0.02,
+              "desc": "Max 20.0 ppb total aflatoxin action level"
+            },
+            "chlorpyrifos": {
+              "limit_mg_kg": 0.1,
+              "desc": "FDA tolerance"
+            }
           },
           "treatment_required": "Moisture content strictly below 7.0% to prevent Aspergillus flavus fungal germination."
+        },
+        "CODEX": {
+          "market_name": "Codex Alimentarius (FAO / WHO)",
+          "compliance_stance": "Codex General Standard for Contaminants (CXS 193-1995)",
+          "mrls": {
+            "aflatoxin_b1": {
+              "limit_mg_kg": 0.01,
+              "desc": "Codex B1 advisory level"
+            },
+            "aflatoxin_total": {
+              "limit_mg_kg": 0.015,
+              "desc": "Max 15.0 ppb total aflatoxin (ready for consumption)"
+            },
+            "chlorpyrifos": {
+              "limit_mg_kg": 0.05,
+              "desc": "Codex tolerance"
+            }
+          },
+          "treatment_required": "Moisture control strictly below 7.0% & electronic color sorting"
         }
       }
     }
@@ -194,7 +423,7 @@
   "presets": [
     {
       "id": "basmati_eu_alert",
-      "title": "🌾 Basmati Rice to EU (Tricyclazole Alert Test)",
+      "title": "\ud83c\udf3e Basmati Rice to EU (Tricyclazole Alert Test)",
       "hs_code": "10063020",
       "market": "EU",
       "sample_test_values": {
@@ -206,7 +435,7 @@
     },
     {
       "id": "grapes_eu_clean",
-      "title": "🍇 Nashik Grapes to EU (Clean GrapeNet Batch)",
+      "title": "\ud83c\udf47 Nashik Grapes to EU (Clean GrapeNet Batch)",
       "hs_code": "08061000",
       "market": "EU",
       "sample_test_values": {
@@ -218,7 +447,7 @@
     },
     {
       "id": "mangoes_usa_vht",
-      "title": "🥭 Alphonso Mangoes to USA (Irradiation Protocol)",
+      "title": "\ud83e\udd6d Alphonso Mangoes to USA (Irradiation Protocol)",
       "hs_code": "08045020",
       "market": "USA",
       "sample_test_values": {
@@ -229,7 +458,7 @@
     },
     {
       "id": "peanuts_eu_aflatoxin",
-      "title": "🥜 Groundnuts to EU (Aflatoxin B1 Screener)",
+      "title": "\ud83e\udd5c Groundnuts to EU (Aflatoxin B1 Screener)",
       "hs_code": "12024200",
       "market": "EU",
       "sample_test_values": {
