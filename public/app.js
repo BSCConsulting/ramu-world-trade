@@ -3595,35 +3595,80 @@ function selectTradeGapCountry(code) {
 
   runCorridorMarginSim();
   renderTradeGaps(corridor.gaps);
+  // Dynamically update SCN Playbook based on active corridor (Gap 9)
+  if (typeof selectScnSection === 'function') {
+    if (code === 'US') selectScnSection('sec-124');
+    else if (code === 'AE') selectScnSection('sec-28');
+    else if (code === 'DE' || code === 'GB') selectScnSection('sec-110a');
+  }
 }
+
+let activeSimCurrency = 'USD';
+const SIM_FOREX_RATES = {
+  USD: 86.50,
+  EUR: 93.80,
+  AED: 23.55,
+  GBP: 110.20
+};
+let activeFreightBafPct = 0; // Bunker Adjustment Factor (±25%)
+
+function setSimCurrency(curr) {
+  activeSimCurrency = curr;
+  const btns = ['USD', 'EUR', 'AED', 'GBP'];
+  btns.forEach(b => {
+    const el = document.getElementById(`sim-curr-${b}`);
+    if (el) {
+      if (b === curr) {
+        el.style.background = 'var(--accent)';
+        el.style.color = '#ffffff';
+      } else {
+        el.style.background = 'var(--card-inner-bg)';
+        el.style.color = 'var(--text-muted)';
+      }
+    }
+  });
+  runCorridorMarginSim();
+}
+window.setSimCurrency = setSimCurrency;
+
+function setFreightBaf(deltaPct) {
+  activeFreightBafPct = deltaPct;
+  runCorridorMarginSim();
+}
+window.setFreightBaf = setFreightBaf;
 
 function runCorridorMarginSim() {
   const invInput = document.getElementById('corridor-sim-invoice');
-  const invUsd = parseFloat(invInput ? invInput.value : 75000) || 75000;
+  const invVal = parseFloat(invInput ? invInput.value : 75000) || 75000;
 
   const corridor = GAPS_DATA.corridors.find(c => c.code === activeGapCountry) || GAPS_DATA.corridors[0];
   const gap = (corridor.gaps && corridor.gaps[activeGapIndex]) ? corridor.gaps[activeGapIndex] : (corridor.gaps ? corridor.gaps[0] : {});
 
-  const freightUsd = gap.avg_40ft_freight_usd || 2500;
-  const freightInr = Math.round(freightUsd * 86.5);
-  const rodtepPct = parseFloat(gap.rodtep_rate) || 2.0;
-  const rodtepInr = Math.round(invUsd * 86.5 * (rodtepPct / 100));
+  const fxRate = SIM_FOREX_RATES[activeSimCurrency] || 86.50;
+  const baseFreightUsd = gap.avg_40ft_freight_usd || 2500;
+  const adjustedFreightUsd = Math.round(baseFreightUsd * (1 + (activeFreightBafPct / 100)));
+  const freightInr = Math.round(adjustedFreightUsd * 86.5);
 
-  const ftaSavedUsd = (gap.preferential_fta_duty && gap.preferential_fta_duty.includes('0.0%'))
-    ? Math.round(invUsd * 0.05)
+  const rodtepPct = parseFloat(gap.rodtep_rate) || 2.0;
+  const rodtepInr = Math.round(invVal * fxRate * (rodtepPct / 100));
+
+  const ftaSavedVal = (gap.preferential_fta_duty && gap.preferential_fta_duty.includes('0.0%'))
+    ? Math.round(invVal * 0.05)
     : 0;
-  const ftaSavedInr = Math.round(ftaSavedUsd * 86.5);
+  const ftaSavedInr = Math.round(ftaSavedVal * fxRate);
 
   const freightEl = document.getElementById('corridor-sim-freight');
   const rodtepEl = document.getElementById('corridor-sim-rodtep');
   const ftaEl = document.getElementById('corridor-sim-fta');
 
-  if (freightEl) freightEl.textContent = `$${freightUsd.toLocaleString()} (₹${freightInr.toLocaleString('en-IN')})`;
+  const currSymbol = activeSimCurrency === 'USD' ? '$' : activeSimCurrency === 'EUR' ? '€' : activeSimCurrency === 'AED' ? 'AED ' : '£';
+
+  if (freightEl) freightEl.textContent = `${currSymbol}${Math.round(adjustedFreightUsd * (86.5 / fxRate)).toLocaleString()} (₹${freightInr.toLocaleString('en-IN')})`;
   if (rodtepEl) rodtepEl.textContent = `₹${rodtepInr.toLocaleString('en-IN')} (${gap.rodtep_rate || '2.0%'})`;
   if (ftaEl) {
-    if (ftaSavedUsd > 0) {
-      ftaEl.textContent = `+$${ftaSavedUsd.toLocaleString()} (₹${ftaSavedInr.toLocaleString('en-IN')})`;
-      ftaEl.className = "p-2 rounded-xl border font-mono text-xs font-bold text-cyan-400";
+    if (ftaSavedVal > 0) {
+      ftaEl.textContent = `+${currSymbol}${ftaSavedVal.toLocaleString()} (₹${ftaSavedInr.toLocaleString('en-IN')})`;
+      ftaEl.className = "p-2 rounded-xl border font-mono text-xs font-bold text-cyan-500";
     } else {
       ftaEl.textContent = gap.preferential_fta_duty || 'Standard MFN';
       ftaEl.className = "p-2 rounded-xl border font-mono text-xs font-bold text-slate-300";
@@ -5503,7 +5548,16 @@ function onApedaCommodityChange() {
 }
 
 function onApedaResidueChange(chemicalKey, val) {
-  apedaOverrides[chemicalKey] = parseFloat(val) || 0.0;
+  let parsed = parseFloat(val);
+  if (isNaN(parsed) || parsed < 0) {
+    parsed = 0.0;
+  } else if (parsed > 10.0) {
+    parsed = 10.0;
+    if (typeof showToast === 'function') {
+      showToast('⚠️ Value clamped to statutory maximum limit (10.0 ppm)');
+    }
+  }
+  apedaOverrides[chemicalKey] = parsed;
   runApedaAudit(apedaOverrides);
 }
 
@@ -12349,3 +12403,36 @@ if (document.readyState === 'loading') {
 } else {
   initWorkbench();
 }
+
+
+// ==================== SANDBOX PERSISTENCE & RECOVERY (Gap 10) ====================
+function saveSandboxState() {
+  try {
+    const state = {
+      product: document.getElementById('sim-product-name') ? document.getElementById('sim-product-name').value : '',
+      cbu: document.getElementById('sim-cbu-tax') ? document.getElementById('sim-cbu-tax').value : '',
+      parts: document.getElementById('sim-parts-duty') ? document.getElementById('sim-parts-duty').value : '',
+      cost: document.getElementById('sim-unit-cost') ? document.getElementById('sim-unit-cost').value : '',
+      retail: document.getElementById('sim-retail-price') ? document.getElementById('sim-retail-price').value : '',
+      volume: document.getElementById('sim-monthly-vol') ? document.getElementById('sim-monthly-vol').value : ''
+    };
+    localStorage.setItem('wot_sandbox_state_v1', JSON.stringify(state));
+  } catch (e) {}
+}
+window.saveSandboxState = saveSandboxState;
+
+function restoreSandboxState() {
+  try {
+    const raw = localStorage.getItem('wot_sandbox_state_v1');
+    if (!raw) return;
+    const s = JSON.parse(raw);
+    if (s.product && document.getElementById('sim-product-name')) document.getElementById('sim-product-name').value = s.product;
+    if (s.cbu && document.getElementById('sim-cbu-tax')) document.getElementById('sim-cbu-tax').value = s.cbu;
+    if (s.parts && document.getElementById('sim-parts-duty')) document.getElementById('sim-parts-duty').value = s.parts;
+    if (s.cost && document.getElementById('sim-unit-cost')) document.getElementById('sim-unit-cost').value = s.cost;
+    if (s.retail && document.getElementById('sim-retail-price')) document.getElementById('sim-retail-price').value = s.retail;
+    if (s.volume && document.getElementById('sim-monthly-vol')) document.getElementById('sim-monthly-vol').value = s.volume;
+    if (typeof calculateArbitrageEngine === 'function') calculateArbitrageEngine();
+  } catch (e) {}
+}
+window.restoreSandboxState = restoreSandboxState;
