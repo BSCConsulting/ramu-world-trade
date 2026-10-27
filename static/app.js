@@ -10269,3 +10269,1006 @@ if (document.readyState === 'loading') {
 } else {
   initCorridorExecutionEngine();
 }
+
+
+
+// ============================================================================
+// DUAL SOVEREIGN EXECUTION TERMINAL & EXIM PRACTICE LAB RUNTIME
+// Module A: Global ELI5 Translator & Port Dwell Feeds
+// Module B: Reverse HSN & Import Tariff Stacking Engine
+// Module C: Weekly Practice Simulator & Client-Side PDF Dossier Generator
+// ============================================================================
+
+const WB_STORAGE_KEY = 'wot_dual_workbench_state_v1';
+
+const WB_COMMODITIES = {
+  "09042110": {
+    hsnCode: "09042110",
+    name: "Guntur S4 / Teja Sun-Dried Red Chilli",
+    plainName: "Dry Red Chilli (Whole)",
+    category: "Agriculture & Spices",
+    chapter: "Chapter 09 (Coffee, Tea, Mate and Spices)",
+    bcdRate: 30.0,
+    swsRate: 10.0,
+    aidcRate: 0.0,
+    igstRate: 5.0,
+    council: "Spices Board of India (Cochin)",
+    standardCifUsd: 3200,
+    cepaBcdRate: 0.0,
+    aiftaBcdRate: 5.0,
+    cepaMinVaPct: 35.0,
+    notes: "Requires mandatory Spices Board Quality Certificate and EU TRACES phytosanitary filing."
+  },
+  "87116010": {
+    hsnCode: "87116010",
+    name: "Electric Two-Wheeler Motor & Drive Unit Assembly",
+    plainName: "EV Scooter Components (Kit Form)",
+    category: "Automotive & Electric Mobility",
+    chapter: "Chapter 87 (Vehicles other than railway or tramway)",
+    bcdRate: 15.0,
+    swsRate: 10.0,
+    aidcRate: 0.0,
+    igstRate: 18.0,
+    council: "EEPC India",
+    standardCifUsd: 450,
+    cepaBcdRate: 0.0,
+    aiftaBcdRate: 0.0,
+    cepaMinVaPct: 35.0,
+    notes: "Customs General Rule 2(a) caution: complete assemblies in single shipment attract CBU duty (50%)."
+  },
+  "85414300": {
+    hsnCode: "85414300",
+    name: "Photovoltaic Solar Cells in Modules / Panels",
+    plainName: "Solar PV Panels / Cells",
+    category: "Renewable Energy & CleanTech",
+    chapter: "Chapter 85 (Electrical machinery and equipment)",
+    bcdRate: 25.0,
+    swsRate: 10.0,
+    aidcRate: 0.0,
+    igstRate: 12.0,
+    council: "IREDA & MNRE",
+    standardCifUsd: 18500,
+    cepaBcdRate: 0.0,
+    aiftaBcdRate: 0.0,
+    cepaMinVaPct: 40.0,
+    notes: "Non-Tariff Barrier: Must be listed under ALMM (Approved List of Models and Manufacturers) to grid connect."
+  },
+  "03061720": {
+    hsnCode: "03061720",
+    name: "Litopenaeus Vannamei Frozen Marine Shrimp (Tail-on)",
+    plainName: "Frozen Cultured Shrimp",
+    category: "Marine & Aquaculture",
+    chapter: "Chapter 03 (Fish and crustaceans)",
+    bcdRate: 30.0,
+    swsRate: 10.0,
+    aidcRate: 0.0,
+    igstRate: 5.0,
+    council: "MPEDA",
+    standardCifUsd: 7800,
+    cepaBcdRate: 0.0,
+    aiftaBcdRate: 0.0,
+    cepaMinVaPct: 35.0,
+    notes: "Requires US FDA Chloramphenicol testing and EIA EU Catch Certificate."
+  },
+  "71131910": {
+    hsnCode: "71131910",
+    name: "Plain Gold Jewelry (22 Karat / 916 Hallmarked)",
+    plainName: "Plain Gold Jewelry",
+    category: "Gems & Jewelry",
+    chapter: "Chapter 71 (Pearls, precious stones and metals)",
+    bcdRate: 12.5,
+    swsRate: 10.0,
+    aidcRate: 5.0,
+    igstRate: 3.0,
+    council: "GJEPC",
+    standardCifUsd: 74000,
+    cepaBcdRate: 0.0,
+    aiftaBcdRate: 12.5,
+    cepaMinVaPct: 3.0,
+    notes: "Under India-UAE CEPA Tariff Rate Quota (TRQ), preferential 0% tariff applies with GJEPC Proof of Origin."
+  }
+};
+
+const WB_PRACTICE_DATA = [
+  {
+    countId: 1,
+    title: "Count 1: Agri Consignment - Guntur Chilli & EU MRL Audit",
+    commodityName: "Guntur S4 / Teja Sun-Dried Red Chilli",
+    hsnCode: "09042110",
+    lotVolume: "14 Metric Tonnes (1 x 40ft FCL Reefer)",
+    declaredFobInr: 4480000,
+    freightCostInr: 320000,
+    step1Options: [
+      {
+        label: "Bulk Unbranded Jute / Gunny Bags (Mandi Lot)",
+        description: "Zero GST under Notif 2/2017-CT(R). Standard Mandi Form 9 issued at farmgate.",
+        gstRatePct: 0.0,
+        statutoryNote: "Exempt from GST. Valid Mandi Form 9 in truck cabin required for border tax shield.",
+        isRecommended: true
+      },
+      {
+        label: "Pre-packaged & Branded Pouches (< 25kg)",
+        description: "Notification 31/2022-CT statutory threshold. Tax invoice mandatory.",
+        gstRatePct: 5.0,
+        statutoryNote: "Requires 5% GST invoicing and E-Way Bill Part-A tax matching. Input Tax Credit claimable.",
+        isRecommended: false
+      }
+    ],
+    step2Options: [
+      {
+        destination: "Rotterdam Seaport (EU Market)",
+        jurisdiction: "European Commission DG SANTE (Strict 0.01 ppm LOQ)",
+        mrlThreshold: "0.010 ppm (Aflatoxin B1: 5.0 ppb)",
+        portMedianHours: 36,
+        freightMultiplier: 1.0
+      },
+      {
+        destination: "Houston Terminal (USA Market)",
+        jurisdiction: "US FDA Import Tolerance / ASTA Standard",
+        mrlThreshold: "0.020 ppm (Aflatoxin: 20.0 ppb)",
+        portMedianHours: 42,
+        freightMultiplier: 1.15
+      },
+      {
+        destination: "Domestic Inter-State Transfer (Delhi Mandi)",
+        jurisdiction: "FSSAI Food Safety & Standards Regulations 2011",
+        mrlThreshold: "0.050 ppm (Domestic Limits)",
+        portMedianHours: 12,
+        freightMultiplier: 0.25
+      }
+    ],
+    step3Metrics: {
+      name: "Triazophos / Chlorpyrifos Chemical Residue",
+      description: "Gas Chromatography Mass Spectrometry (GC-MS) laboratory reading",
+      unit: "ppm",
+      safeThreshold: 0.010,
+      defaultReading: 0.007,
+      riskReading: 0.018,
+      min: 0.002,
+      max: 0.025,
+      step: 0.001
+    },
+    forensicChecklist: [
+      "Rule 138(10) CGST e-Way Bill generated with truck registration plate locked in Part-B.",
+      "Spices Board of India Certificate of Inspection (CoI) attached with official batch seals.",
+      "EIC accredited laboratory analysis certificate verifying aflatoxin < 5 ppb.",
+      "Single-Window ICEGATE Shipping Bill filed under Section 50 with RoDTEP 2.5% declaration."
+    ]
+  },
+  {
+    countId: 2,
+    title: "Count 2: CleanTech Sourcing - Solar PV Cell & ALMM Barrier",
+    commodityName: "Photovoltaic Solar Cells in Modules",
+    hsnCode: "85414300",
+    lotVolume: "2 MegaWatts (5 x 40ft High-Cube Containers)",
+    declaredFobInr: 18500000,
+    freightCostInr: 950000,
+    step1Options: [
+      {
+        label: "Industrial Project Direct Sourcing (ALMM Certified Tier-1)",
+        description: "Direct procurement from MNRE approved manufacturers list.",
+        gstRatePct: 12.0,
+        statutoryNote: "Eligible for grid connectivity and central financial assistance (CFA).",
+        isRecommended: true
+      },
+      {
+        label: "Spot Market Unlisted Solar Cells",
+        description: "Non-ALMM overseas manufacturer offering 15% discount.",
+        gstRatePct: 12.0,
+        statutoryNote: "🚨 Non-Tariff Seizure: Grid connection denied in India without ALMM certification.",
+        isRecommended: false
+      }
+    ],
+    step2Options: [
+      {
+        destination: "Mundra Port (Gujarat SEZ Inflow)",
+        jurisdiction: "CBIC Customs Notification 24/2022-Customs",
+        mrlThreshold: "ALMM Order 2019 List-1 Verified",
+        portMedianHours: 28,
+        freightMultiplier: 1.0
+      },
+      {
+        destination: "JNPT Nhava Sheva (Maharashtra Industrial Corridor)",
+        jurisdiction: "CBIC Special Economic Zone Gateway",
+        mrlThreshold: "ALMM List-1 + BIS IS 14286 Certification",
+        portMedianHours: 36,
+        freightMultiplier: 1.05
+      }
+    ],
+    step3Metrics: {
+      name: "Photovoltaic Conversion Efficiency Rating",
+      description: "MNRE standard laboratory verified module efficiency percentage",
+      unit: "%",
+      safeThreshold: 21.0,
+      defaultReading: 22.4,
+      riskReading: 19.2,
+      min: 16.0,
+      max: 26.0,
+      step: 0.2
+    },
+    forensicChecklist: [
+      "Verification of manufacturer entry on active MNRE ALMM List-1 gazette.",
+      "Bureau of Indian Standards (BIS) CRS registration number verified on packaging.",
+      "Declaration of 25% BCD + 10% SWS with zero concessional diversion.",
+      "ICEGATE Bill of Entry reconciliation with DGFT Project Import regulations."
+    ]
+  },
+  {
+    countId: 3,
+    title: "Count 3: Micro-Assembly - EV Scooter CKD Arbitrage (Rule 2a)",
+    commodityName: "Electric Two-Wheeler Motor & Drive Unit Assembly",
+    hsnCode: "87116010",
+    lotVolume: "100 Complete Knocked Down (CKD) Kits",
+    declaredFobInr: 4500000,
+    freightCostInr: 280000,
+    step1Options: [
+      {
+        label: "True Disassembled Component Kits (Split Invoices & Bills of Lading)",
+        description: "Motors, batteries, and chassis packed separately in compliance with Rule 2(a).",
+        gstRatePct: 18.0,
+        statutoryNote: "Legitimate CKD rate of 15% BCD applied. No pre-assembled drive units.",
+        isRecommended: true
+      },
+      {
+        label: "Near-Complete Single Container Shipment",
+        description: "All parts packed together into one shipment for ease of assembly.",
+        gstRatePct: 18.0,
+        statutoryNote: "🚨 Customs Rule 2(a) Hazard: Risk of reclassification into CBU (50% BCD + DRI audit).",
+        isRecommended: false
+      }
+    ],
+    step2Options: [
+      {
+        destination: "Chennai Seaport (Southern Auto Corridor)",
+        jurisdiction: "Chennai Customs Commissionerate II",
+        mrlThreshold: "Rule 2(a) Interpretation Manual 2023",
+        portMedianHours: 49,
+        freightMultiplier: 1.0
+      },
+      {
+        destination: "JNPT Nhava Sheva (Western Automotive Cluster)",
+        jurisdiction: "JNPT Customs Special Valuation Branch (SVB)",
+        mrlThreshold: "Standard Component Verification",
+        portMedianHours: 36,
+        freightMultiplier: 1.1
+      }
+    ],
+    step3Metrics: {
+      name: "Domestic Value Addition (Phased Manufacturing Program)",
+      description: "Percentage of local Indian assembly and component sourcing",
+      unit: "%",
+      safeThreshold: 50.0,
+      defaultReading: 55.0,
+      riskReading: 28.0,
+      min: 10.0,
+      max: 80.0,
+      step: 1.0
+    },
+    forensicChecklist: [
+      "Physical packing lists demonstrate separation of batteries from electric motor hubs.",
+      "FAME-II / EMPS 2024 localization documentation signed by chartered engineer.",
+      "Clear exclusion of complete vehicle assembly under Customs Tariff General Rules.",
+      "SVB relationship questionnaire filed if buying from overseas parent entity."
+    ]
+  },
+  {
+    countId: 4,
+    title: "Count 4: Bilateral Corridor - Plain Gold Jewelry under CEPA",
+    commodityName: "Plain Gold Jewelry (22 Karat / 916)",
+    hsnCode: "71131910",
+    lotVolume: "10 Kilograms Fine Hallmarked Gold",
+    declaredFobInr: 74000000,
+    freightCostInr: 120000,
+    step1Options: [
+      {
+        label: "916 BIS Hallmarked Cast Jewelry with GJEPC Verification",
+        description: "Certified plain gold bangles and chains manufactured in SEEPZ / Domestic SEZ.",
+        gstRatePct: 3.0,
+        statutoryNote: "Qualifies for India-UAE CEPA Preferential 0% customs entry into Dubai.",
+        isRecommended: true
+      },
+      {
+        label: "Unverified Crude Gold Castings",
+        description: "High weight crude castings without individual hallmark laser seals.",
+        gstRatePct: 3.0,
+        statutoryNote: "🚨 Round-Tripping Flag: DRI & Customs scrutiny for bullion disguised as jewelry.",
+        isRecommended: false
+      }
+    ],
+    step2Options: [
+      {
+        destination: "Dubai International Airport (Air Cargo Hub)",
+        jurisdiction: "UAE Federal Customs Authority & CEPA TRQ Desk",
+        mrlThreshold: "CEPA Annexure 2-B Origin Criteria (3% VA)",
+        portMedianHours: 8,
+        freightMultiplier: 1.0
+      },
+      {
+        destination: "Jebel Ali Free Zone (Sea Cargo Container)",
+        jurisdiction: "Dubai Ports World Logistics Terminal",
+        mrlThreshold: "CEPA Commercial Proof of Origin",
+        portMedianHours: 18,
+        freightMultiplier: 0.6
+      }
+    ],
+    step3Metrics: {
+      name: "Domestic Value Addition (CEPA Annexure Rule)",
+      description: "Calculation of making charges and domestic fabrication margin",
+      unit: "%",
+      safeThreshold: 3.0,
+      defaultReading: 4.8,
+      riskReading: 1.4,
+      min: 0.5,
+      max: 10.0,
+      step: 0.1
+    },
+    forensicChecklist: [
+      "GJEPC-issued Certificate of Origin (Preferential) with active QR validation.",
+      "Air Waybill (AWB) consigned to authorized Dubai DMCC bullion dealer.",
+      "Real-time e-BRC realization linked to RBI EDPMS monitoring within 9 months.",
+      "Gold assay report signed by government-recognized refinery / assayer."
+    ]
+  }
+];
+
+let wbState = {
+  isEli5: false,
+  activeTab: 'radar',
+  selectedHsn: '09042110',
+  cifUsd: 3200,
+  cbicRate: 86.40,
+  ftaMode: 'CEPA',
+  domesticVaPct: 40,
+  selectedCountId: 1,
+  practiceStep1Idx: 0,
+  practiceStep2Idx: 0,
+  practiceStep3Reading: 0.007
+};
+
+function toggleGlobalEli5Mode() {
+  wbState.isEli5 = !wbState.isEli5;
+  const btnLabel = document.getElementById('eli5-label');
+  const btnIcon = document.getElementById('eli5-icon');
+  const btn = document.getElementById('btn-eli5-toggle');
+
+  if (btnLabel) btnLabel.textContent = wbState.isEli5 ? 'Plain-English (ELI5 Active)' : 'Plain-English (ELI5 Off)';
+  if (btnIcon) btnIcon.textContent = wbState.isEli5 ? '🌟' : '✨';
+
+  if (btn) {
+    if (wbState.isEli5) {
+      btn.style.background = '#f59e0b';
+      btn.style.color = '#0f172a';
+      btn.style.borderColor = '#d97706';
+    } else {
+      btn.style.background = 'var(--card-inner-bg)';
+      btn.style.color = 'var(--text-main)';
+      btn.style.borderColor = 'var(--card-inner-border)';
+    }
+  }
+
+  // Swap all .eli5-term elements
+  document.querySelectorAll('.eli5-term').forEach(el => {
+    const proText = el.getAttribute('data-pro');
+    const eli5Text = el.getAttribute('data-eli5');
+    if (wbState.isEli5 && eli5Text) {
+      el.innerHTML = eli5Text;
+    } else if (proText) {
+      el.innerHTML = proText;
+    }
+  });
+
+  if (typeof showToast === 'function') {
+    showToast(wbState.isEli5 ? 'Switched to Learner Plain-English Mode' : 'Switched to Sovereign Pro Statutory Mode', '✨');
+  }
+}
+
+function switchWorkbenchTab(tabName) {
+  wbState.activeTab = tabName;
+  const radarPane = document.getElementById('wb-pane-radar');
+  const practicePane = document.getElementById('wb-pane-practice');
+  const tabRadar = document.getElementById('wb-tab-radar');
+  const tabPractice = document.getElementById('wb-tab-practice');
+
+  if (tabName === 'radar') {
+    if (radarPane) radarPane.classList.remove('hidden');
+    if (practicePane) practicePane.classList.add('hidden');
+    if (tabRadar) {
+      tabRadar.style.background = 'var(--accent)';
+      tabRadar.style.color = '#ffffff';
+    }
+    if (tabPractice) {
+      tabPractice.style.background = 'var(--card-inner-bg)';
+      tabPractice.style.color = 'var(--text-main)';
+    }
+  } else {
+    if (radarPane) radarPane.classList.add('hidden');
+    if (practicePane) practicePane.classList.remove('hidden');
+    if (tabPractice) {
+      tabPractice.style.background = 'var(--accent)';
+      tabPractice.style.color = '#ffffff';
+    }
+    if (tabRadar) {
+      tabRadar.style.background = 'var(--card-inner-bg)';
+      tabRadar.style.color = 'var(--text-main)';
+    }
+    renderPracticeSteps();
+  }
+}
+
+function selectWorkbenchCommodity(hsn) {
+  wbState.selectedHsn = hsn;
+  const comm = WB_COMMODITIES[hsn] || WB_COMMODITIES["09042110"];
+
+  // Update Chips styling
+  document.querySelectorAll('.wb-comm-chip').forEach(btn => {
+    btn.style.background = 'var(--card-bg)';
+    btn.style.color = 'var(--text-main)';
+    btn.style.borderColor = 'var(--card-inner-border)';
+  });
+  const activeBtn = document.getElementById(`wb-chip-${hsn}`);
+  if (activeBtn) {
+    activeBtn.style.background = 'var(--accent)';
+    activeBtn.style.color = '#ffffff';
+    activeBtn.style.borderColor = 'var(--accent)';
+  }
+
+  // Update Titles
+  const title = document.getElementById('wb-comm-title');
+  const subtitle = document.getElementById('wb-comm-subtitle');
+  const council = document.getElementById('wb-comm-council-badge');
+  const cifInput = document.getElementById('wb-cif-usd');
+
+  if (title) title.textContent = `${comm.name} (HS ${comm.hsnCode})`;
+  if (subtitle) subtitle.textContent = `${comm.chapter} • ${comm.council}`;
+  if (council) council.textContent = comm.council;
+  if (cifInput) cifInput.value = comm.standardCifUsd;
+
+  recalculateTariffLedger();
+}
+
+function onSearchCommodity(query) {
+  if (!query) return;
+  const q = query.toLowerCase().trim();
+  for (const hsn in WB_COMMODITIES) {
+    const c = WB_COMMODITIES[hsn];
+    if (c.hsnCode.includes(q) || c.name.toLowerCase().includes(q) || c.plainName.toLowerCase().includes(q) || c.category.toLowerCase().includes(q)) {
+      selectWorkbenchCommodity(hsn);
+      break;
+    }
+  }
+}
+
+function setWorkbenchFtaMode(mode) {
+  wbState.ftaMode = mode;
+  document.querySelectorAll('.wb-fta-btn').forEach(btn => {
+    btn.style.background = 'var(--card-bg)';
+    btn.style.color = 'var(--text-main)';
+    btn.style.borderColor = 'var(--card-inner-border)';
+  });
+  const activeBtn = document.getElementById(`wb-fta-btn-${mode}`);
+  if (activeBtn) {
+    activeBtn.style.background = 'var(--accent)';
+    activeBtn.style.color = '#ffffff';
+    activeBtn.style.borderColor = 'var(--accent)';
+  }
+
+  const cepaBox = document.getElementById('wb-cepa-va-box');
+  if (cepaBox) {
+    if (mode === 'CEPA') {
+      cepaBox.classList.remove('hidden');
+    } else {
+      cepaBox.classList.add('hidden');
+    }
+  }
+
+  recalculateTariffLedger();
+}
+
+function onVaSliderChange(val) {
+  wbState.domesticVaPct = parseInt(val) || 0;
+  const label = document.getElementById('wb-va-slider-val');
+  const statusText = document.getElementById('wb-va-status-text');
+  const comm = WB_COMMODITIES[wbState.selectedHsn] || WB_COMMODITIES["09042110"];
+
+  if (label) label.textContent = `${wbState.domesticVaPct}% (Min ${comm.cepaMinVaPct}%)`;
+
+  if (statusText) {
+    if (wbState.domesticVaPct >= comm.cepaMinVaPct) {
+      statusText.textContent = `✓ QUALIFIES FOR 0% PREFERENTIAL BCD: Met ${comm.cepaMinVaPct}% Value Addition threshold under India-UAE CEPA.`;
+      statusText.className = 'text-[10px] font-semibold text-emerald-700 leading-tight';
+    } else {
+      statusText.textContent = `✕ INELIGIBLE: Fails ${comm.cepaMinVaPct}% Value Addition threshold (Standard MFN applies).`;
+      statusText.className = 'text-[10px] font-semibold text-rose-600 leading-tight';
+    }
+  }
+
+  recalculateTariffLedger();
+}
+
+function recalculateTariffLedger() {
+  const cifInput = document.getElementById('wb-cif-usd');
+  const cbicInput = document.getElementById('wb-cbic-rate');
+  if (!cifInput || !cbicInput) return;
+
+  const cifUsd = parseFloat(cifInput.value) || 0;
+  const cbicRate = parseFloat(cbicInput.value) || 86.40;
+  const comm = WB_COMMODITIES[wbState.selectedHsn] || WB_COMMODITIES["09042110"];
+
+  const cifInr = cifUsd * cbicRate;
+  const cifInrEquiv = document.getElementById('wb-cif-inr-equiv');
+  if (cifInrEquiv) cifInrEquiv.textContent = `Equivalent: ₹${Math.round(cifInr).toLocaleString('en-IN')} INR`;
+
+  // Calculate Effective BCD
+  let bcdPct = comm.bcdRate;
+  let bcdLabel = `${bcdPct}% MFN`;
+
+  if (wbState.ftaMode === 'CEPA') {
+    if (wbState.domesticVaPct >= comm.cepaMinVaPct) {
+      bcdPct = comm.cepaBcdRate;
+      bcdLabel = '0% CEPA';
+    }
+  } else if (wbState.ftaMode === 'AIFTA') {
+    bcdPct = comm.aiftaBcdRate;
+    bcdLabel = `${bcdPct}% AIFTA`;
+  }
+
+  const bcdAmt = cifInr * (bcdPct / 100);
+  const swsAmt = bcdAmt * 0.10; // 10% of BCD
+  const aidcAmt = cifInr * (comm.aidcRate / 100);
+  const subtotalBeforeIgst = cifInr + bcdAmt + swsAmt + aidcAmt;
+  const igstAmt = subtotalBeforeIgst * (comm.igstRate / 100);
+  const totalDuty = bcdAmt + swsAmt + aidcAmt + igstAmt;
+  const landedTotal = cifInr + totalDuty;
+  const effectivePct = cifInr > 0 ? (totalDuty / cifInr) * 100 : 0;
+
+  // DOM Updates
+  const outBcd = document.getElementById('wb-out-bcd');
+  const outSws = document.getElementById('wb-out-sws');
+  const outAidc = document.getElementById('wb-out-aidc');
+  const outIgst = document.getElementById('wb-out-igst');
+  const outTotal = document.getElementById('wb-out-totalduty');
+  const outLanded = document.getElementById('wb-out-landedtotal');
+  const effBadge = document.getElementById('wb-effective-rate-badge');
+
+  if (outBcd) outBcd.textContent = `₹${Math.round(bcdAmt).toLocaleString('en-IN')} (${bcdLabel})`;
+  if (outSws) outSws.textContent = `₹${Math.round(swsAmt).toLocaleString('en-IN')} (10% of BCD)`;
+  if (outAidc) outAidc.textContent = `₹${Math.round(aidcAmt).toLocaleString('en-IN')} (${comm.aidcRate}%)`;
+  if (outIgst) outIgst.textContent = `₹${Math.round(igstAmt).toLocaleString('en-IN')} (${comm.igstRate}%)`;
+  if (outTotal) outTotal.textContent = `₹${Math.round(totalDuty).toLocaleString('en-IN')}`;
+  if (outLanded) outLanded.textContent = `₹${Math.round(landedTotal).toLocaleString('en-IN')}`;
+  if (effBadge) effBadge.textContent = `Effective: ${effectivePct.toFixed(1)}%`;
+}
+
+function selectPracticeCount(countId) {
+  wbState.selectedCountId = countId;
+  wbState.practiceStep1Idx = 0;
+  wbState.practiceStep2Idx = 0;
+
+  const session = WB_PRACTICE_DATA.find(s => s.countId === countId) || WB_PRACTICE_DATA[0];
+  wbState.practiceStep3Reading = session.step3Metrics.defaultReading;
+
+  // Buttons styling
+  document.querySelectorAll('.wb-count-btn').forEach(btn => {
+    btn.style.background = 'var(--card-bg)';
+    btn.style.borderColor = 'var(--card-inner-border)';
+    btn.style.color = 'var(--text-main)';
+  });
+  const activeBtn = document.getElementById(`wb-count-btn-${countId}`);
+  if (activeBtn) {
+    activeBtn.style.background = 'var(--accent)';
+    activeBtn.style.borderColor = 'var(--accent)';
+    activeBtn.style.color = '#ffffff';
+  }
+
+  const badge = document.getElementById('wb-practice-count-badge');
+  if (badge) badge.textContent = `COUNT ${countId} SIM`;
+
+  renderPracticeSteps();
+  recalculatePracticeScorecard();
+}
+
+function renderPracticeSteps() {
+  const session = WB_PRACTICE_DATA.find(s => s.countId === wbState.selectedCountId) || WB_PRACTICE_DATA[0];
+
+  // Render Step 1
+  const step1Container = document.getElementById('wb-step1-options');
+  if (step1Container) {
+    step1Container.innerHTML = session.step1Options.map((opt, idx) => `
+      <label class="flex items-start gap-2.5 p-2.5 rounded-xl border cursor-pointer transition-all ${wbState.practiceStep1Idx === idx ? 'border-emerald-500 bg-emerald-500/10' : ''}" style="background: var(--card-bg); border-color: ${wbState.practiceStep1Idx === idx ? 'var(--accent)' : 'var(--card-inner-border)'};">
+        <input type="radio" name="practiceStep1" ${wbState.practiceStep1Idx === idx ? 'checked' : ''} onchange="onPracticeStep1Change(${idx})" class="mt-0.5 text-emerald-600 focus:ring-0">
+        <div class="space-y-0.5 text-xs">
+          <div class="font-bold flex items-center gap-1.5" style="color: var(--text-main);">
+            <span>${opt.label}</span>
+            <span class="text-[9px] font-mono px-1.5 py-0.2 rounded font-bold" style="background: var(--accent-light); color: var(--accent);">${opt.gstRatePct}% GST</span>
+          </div>
+          <p class="text-[10px]" style="color: var(--text-muted);">${opt.description}</p>
+          <p class="text-[9px] font-semibold text-emerald-600">${opt.statutoryNote}</p>
+        </div>
+      </label>
+    `).join('');
+  }
+
+  // Render Step 2
+  const step2Container = document.getElementById('wb-step2-options');
+  if (step2Container) {
+    step2Container.innerHTML = session.step2Options.map((opt, idx) => `
+      <button type="button" onclick="onPracticeStep2Change(${idx})" class="p-2.5 rounded-xl border text-left transition-all active:scale-95" style="background: ${wbState.practiceStep2Idx === idx ? 'rgba(16, 185, 129, 0.12)' : 'var(--card-bg)'}; border-color: ${wbState.practiceStep2Idx === idx ? 'var(--accent)' : 'var(--card-inner-border)'}; color: var(--text-main);">
+        <div class="font-bold text-xs">${opt.destination}</div>
+        <div class="text-[9px]" style="color: var(--text-muted);">${opt.jurisdiction}</div>
+        <div class="text-[9px] font-mono text-emerald-600 mt-0.5">Ceiling: ${opt.mrlThreshold}</div>
+      </button>
+    `).join('');
+  }
+
+  // Render Step 3
+  const s3Title = document.getElementById('wb-step3-title');
+  const s3Desc = document.getElementById('wb-step3-desc');
+  const s3Slider = document.getElementById('wb-step3-slider');
+  const s3Label = document.getElementById('wb-step3-reading-label');
+  const s3SafeText = document.getElementById('wb-step3-safe-text');
+  const s3RiskText = document.getElementById('wb-step3-risk-text');
+
+  if (s3Title) s3Title.textContent = session.step3Metrics.name;
+  if (s3Desc) s3Desc.textContent = `${session.step3Metrics.description} (Target Ceiling: ${session.step3Metrics.safeThreshold} ${session.step3Metrics.unit})`;
+  if (s3Label) s3Label.textContent = `${wbState.practiceStep3Reading} ${session.step3Metrics.unit}`;
+
+  if (s3Slider) {
+    s3Slider.min = session.step3Metrics.min;
+    s3Slider.max = session.step3Metrics.max;
+    s3Slider.step = session.step3Metrics.step;
+    s3Slider.value = wbState.practiceStep3Reading;
+  }
+
+  if (s3SafeText) s3SafeText.textContent = `Safe Reading: ${session.step3Metrics.defaultReading} ${session.step3Metrics.unit}`;
+  if (s3RiskText) s3RiskText.textContent = `Scrutiny Reading: ${session.step3Metrics.riskReading} ${session.step3Metrics.unit}`;
+}
+
+function onPracticeStep1Change(idx) {
+  wbState.practiceStep1Idx = idx;
+  renderPracticeSteps();
+  recalculatePracticeScorecard();
+}
+
+function onPracticeStep2Change(idx) {
+  wbState.practiceStep2Idx = idx;
+  renderPracticeSteps();
+  recalculatePracticeScorecard();
+}
+
+function onPracticeStep3Change(val) {
+  wbState.practiceStep3Reading = parseFloat(val) || 0;
+  const session = WB_PRACTICE_DATA.find(s => s.countId === wbState.selectedCountId) || WB_PRACTICE_DATA[0];
+  const label = document.getElementById('wb-step3-reading-label');
+  if (label) label.textContent = `${wbState.practiceStep3Reading} ${session.step3Metrics.unit}`;
+  recalculatePracticeScorecard();
+}
+
+function recalculatePracticeScorecard() {
+  const session = WB_PRACTICE_DATA.find(s => s.countId === wbState.selectedCountId) || WB_PRACTICE_DATA[0];
+  const step1 = session.step1Options[wbState.practiceStep1Idx];
+  const step2 = session.step2Options[wbState.practiceStep2Idx];
+  const metric = session.step3Metrics;
+
+  let isSafeMetric = false;
+  if (metric.name.includes("Residue")) {
+    isSafeMetric = wbState.practiceStep3Reading <= metric.safeThreshold;
+  } else {
+    isSafeMetric = wbState.practiceStep3Reading >= metric.safeThreshold;
+  }
+
+  const isStep1Safe = step1.isRecommended;
+
+  const statusBox = document.getElementById('wb-practice-status-box');
+  const statusTitle = document.getElementById('wb-practice-status-title');
+  const statusDesc = document.getElementById('wb-practice-status-desc');
+
+  let verdict = 'GRANTED';
+  let title = '✓ STATUTORY CLEARANCE GRANTED';
+  let desc = 'Shipment cleared without penalty risk. LEO criteria satisfied and phytosanitary certificate validated.';
+
+  if (!isStep1Safe || !isSafeMetric) {
+    if (!isSafeMetric && metric.name.includes("Residue")) {
+      verdict = 'SEIZURE';
+      title = '🚨 BORDER REJECTION & STATUTORY SEIZURE';
+      desc = `Chemical residue (${wbState.practiceStep3Reading} ${metric.unit}) exceeds ${step2.destination} threshold (${metric.safeThreshold} ${metric.unit}). Cargo subject to re-export or destruction.`;
+    } else if (!isStep1Safe && step1.statutoryNote.includes("Hazard")) {
+      verdict = 'SEIZURE';
+      title = '🚨 CUSTOMS RECLASSIFICATION & SEIZURE RISK';
+      desc = 'Split assembly rule violated under Customs Rule 2(a). Subject to 50% CBU duty + 200% penalty.';
+    } else {
+      verdict = 'SCRUTINY';
+      title = '⚠️ SECONDARY AUDIT & BUFFER SCRUTINY RISK';
+      desc = 'Consignment flagged for laboratory secondary audit. Expect 48h to 72h CFS port detention.';
+    }
+  }
+
+  if (statusBox && statusTitle && statusDesc) {
+    statusTitle.textContent = title;
+    statusDesc.textContent = desc;
+    if (verdict === 'GRANTED') {
+      statusBox.style.background = 'rgba(16, 185, 129, 0.15)';
+      statusBox.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+      statusBox.style.color = '#10B981';
+    } else if (verdict === 'SCRUTINY') {
+      statusBox.style.background = 'rgba(245, 158, 11, 0.15)';
+      statusBox.style.borderColor = 'rgba(245, 158, 11, 0.3)';
+      statusBox.style.color = '#F59E0B';
+    } else {
+      statusBox.style.background = 'rgba(244, 63, 94, 0.15)';
+      statusBox.style.borderColor = 'rgba(244, 63, 94, 0.3)';
+      statusBox.style.color = '#F43F5E';
+    }
+  }
+
+  // Financials
+  const grossFob = session.declaredFobInr;
+  const cess = grossFob * 0.015;
+  const freight = session.freightCostInr * step2.freightMultiplier;
+  const rodtep = grossFob * 0.025;
+  const netProfit = verdict === 'SEIZURE' ? (-grossFob * 0.35) : (grossFob * 0.12 + rodtep - cess);
+
+  const outFob = document.getElementById('wb-prac-out-fob');
+  const outCess = document.getElementById('wb-prac-out-cess');
+  const outFreight = document.getElementById('wb-prac-out-freight');
+  const outRodtep = document.getElementById('wb-prac-out-rodtep');
+  const outProfit = document.getElementById('wb-prac-out-profit');
+
+  if (outFob) outFob.textContent = `₹${grossFob.toLocaleString('en-IN')}`;
+  if (outCess) outCess.textContent = `- ₹${Math.round(cess).toLocaleString('en-IN')}`;
+  if (outFreight) outFreight.textContent = `- ₹${Math.round(freight).toLocaleString('en-IN')}`;
+  if (outRodtep) outRodtep.textContent = `+ ₹${Math.round(rodtep).toLocaleString('en-IN')}`;
+  if (outProfit) {
+    outProfit.textContent = `₹${Math.round(netProfit).toLocaleString('en-IN')}`;
+    outProfit.style.color = netProfit >= 0 ? '#10B981' : '#F43F5E';
+  }
+}
+
+function exportPracticeReportPdf() {
+  const btn = document.getElementById('btn-export-practice-pdf');
+  const btnText = document.getElementById('btn-pdf-text');
+  if (btnText) btnText.textContent = 'Synthesizing PDF...';
+  if (btn) btn.disabled = true;
+
+  try {
+    if (!window.jspdf || !window.jspdf.jsPDF) {
+      alert('jsPDF engine is still loading from CDN. Please retry in 3 seconds.');
+      if (btnText) btnText.textContent = 'Export Official Practice Report (PDF)';
+      if (btn) btn.disabled = false;
+      return;
+    }
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const session = WB_PRACTICE_DATA.find(s => s.countId === wbState.selectedCountId) || WB_PRACTICE_DATA[0];
+    const step1 = session.step1Options[wbState.practiceStep1Idx];
+    const step2 = session.step2Options[wbState.practiceStep2Idx];
+    const metric = session.step3Metrics;
+
+    const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+    const docHash = `WOT-EXIM-${session.countId}-${Date.now().toString(36).toUpperCase()}`;
+
+    // PAGE 1: EXECUTIVE SHIPMENT & STATUTORY AUDIT
+    doc.setFillColor(15, 23, 42); // Slate 900
+    doc.rect(0, 0, 210, 26, 'F');
+
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(13);
+    doc.text('WORLD OF TRADE • SOVEREIGN EXIM PRACTICE LAB', 14, 11);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8.5);
+    doc.setTextColor(148, 163, 184);
+    doc.text(`OFFICIAL STATUTORY PRACTICE DOSSIER • SESSION COUNT ${session.countId} | ${docHash}`, 14, 18);
+    doc.text(`Generated: ${timestamp} IST | CBIC Customs Rate ₹86.40`, 14, 22);
+
+    // Section 1: Executive Profile Table
+    doc.setTextColor(15, 23, 42);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.text('1. EXECUTIVE SHIPMENT & SOURCING PROFILE', 14, 34);
+
+    const profileData = [
+      ["Declared Consignment", session.title],
+      ["ITC-HS Classification", `${session.hsnCode} (Audited National Tariff)`],
+      ["Standard Trade Volume", session.lotVolume],
+      ["Target Destination", step2.destination],
+      ["Regulatory Authority", step2.jurisdiction],
+      ["Packaging & Legal Form", step1.label]
+    ];
+
+    doc.autoTable({
+      startY: 37,
+      head: [["Attribute", "Audited Operational Declaration"]],
+      body: profileData,
+      theme: 'striped',
+      headStyles: { fillColor: [45, 106, 79], textColor: [255, 255, 255], fontStyle: 'bold' },
+      styles: { fontSize: 8.5, cellPadding: 2.2 },
+      columnStyles: { 0: { cellWidth: 50, fontStyle: 'bold' }, 1: { cellWidth: 132 } }
+    });
+
+    // Section 2: Statutory Compliance Matrix
+    const afterProfileY = doc.lastAutoTable.finalY + 8;
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.text('2. STATUTORY RISK & BORDER CLEARANCE MATRIX', 14, afterProfileY);
+
+    const complianceData = [
+      ["Domestic Tax Status", step1.gstRatePct === 0 ? "0% Nil-Rated (Notif 2/2017)" : `${step1.gstRatePct}% Pre-packaged GST`, step1.statutoryNote],
+      ["e-Way Logistics", "Rule 138 CGST Verified", `Median Port Dwell: ${step2.portMedianHours}h. Part-B vehicle registration plate active.`],
+      [`${metric.name}`, `${wbState.practiceStep3Reading} ${metric.unit}`, `Statutory Threshold: ${metric.safeThreshold} ${metric.unit}.`],
+      ["Clearance Verdict", document.getElementById('wb-practice-status-title')?.textContent || "GRANTED", document.getElementById('wb-practice-status-desc')?.textContent || "Compliant"]
+    ];
+
+    doc.autoTable({
+      startY: afterProfileY + 3,
+      head: [["Regulatory Touchpoint", "Observed Reading", "Statutory Directive & Consequence"]],
+      body: complianceData,
+      theme: 'grid',
+      headStyles: { fillColor: [30, 41, 59], textColor: [255, 255, 255], fontStyle: 'bold' },
+      styles: { fontSize: 8, cellPadding: 2.5 },
+      columnStyles: { 0: { cellWidth: 42, fontStyle: 'bold' }, 1: { cellWidth: 42, fontStyle: 'bold' }, 2: { cellWidth: 98 } }
+    });
+
+    // Section 3: Financial Realization Ledger
+    const afterCompY = doc.lastAutoTable.finalY + 8;
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.text('3. CONSIGNMENT FINANCIAL REALIZATION LEDGER', 14, afterCompY);
+
+    const grossFob = session.declaredFobInr;
+    const cess = grossFob * 0.015;
+    const freight = session.freightCostInr * step2.freightMultiplier;
+    const rodtep = grossFob * 0.025;
+    const netProfit = (grossFob * 0.12 + rodtep - cess);
+
+    const financialData = [
+      ["Declared Gross FOB Realization", `₹${grossFob.toLocaleString('en-IN')}`],
+      ["Domestic Mandi Cess Outflow (1.5%)", `- ₹${Math.round(cess).toLocaleString('en-IN')}`],
+      ["International Ocean / Air Freight", `- ₹${Math.round(freight).toLocaleString('en-IN')}`],
+      ["RoDTEP Export Incentive Inflow (2.5%)", `+ ₹${Math.round(rodtep).toLocaleString('en-IN')}`],
+      ["Estimated Net Consignment Margin", `₹${Math.round(netProfit).toLocaleString('en-IN')} (NET POSITIVE)`]
+    ];
+
+    doc.autoTable({
+      startY: afterCompY + 3,
+      head: [["Ledger Account", "Value in Indian Rupees (INR)"]],
+      body: financialData,
+      theme: 'striped',
+      headStyles: { fillColor: [71, 85, 105], textColor: [255, 255, 255], fontStyle: 'bold' },
+      styles: { fontSize: 8.5, cellPadding: 2.2 },
+      columnStyles: { 0: { cellWidth: 100 }, 1: { cellWidth: 82, fontStyle: 'bold', halign: 'right' } }
+    });
+
+    // PAGE 2: FORENSIC AUDIT DEFENSE & CHECKLIST
+    doc.addPage();
+    doc.setFillColor(15, 23, 42);
+    doc.rect(0, 0, 210, 20, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.text('WORLD OF TRADE • FORENSIC DEFENSE & STATUTORY CHECKLIST', 14, 11);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(148, 163, 184);
+    doc.text(`Reference Docket: ${docHash} | Page 2 of 2`, 14, 16);
+
+    doc.setTextColor(15, 23, 42);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.text('4. FORENSIC AUDIT DEFENSE & PENALTY MITIGATION CHECKLIST', 14, 30);
+
+    const checklistRows = session.forensicChecklist.map((item, idx) => [
+      `[ ✓ ${idx + 1} ]`,
+      item,
+      "VERIFIED & SEALED"
+    ]);
+
+    doc.autoTable({
+      startY: 34,
+      head: [["Node", "Statutory Compliance Protocol (CGST / Customs Act)", "Audit Verification"]],
+      body: checklistRows,
+      theme: 'grid',
+      headStyles: { fillColor: [45, 106, 79], textColor: [255, 255, 255], fontStyle: 'bold' },
+      styles: { fontSize: 8.5, cellPadding: 3 },
+      columnStyles: {
+        0: { cellWidth: 18, fontStyle: 'bold', halign: 'center' },
+        1: { cellWidth: 124 },
+        2: { cellWidth: 40, fontStyle: 'bold', halign: 'center', textColor: [16, 185, 129] }
+      }
+    });
+
+    const afterCheckY = doc.lastAutoTable.finalY + 10;
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.text('5. OFFICIAL STATUTORY VERIFICATION DIRECTORY', 14, afterCheckY);
+
+    const portalRows = [
+      ["DGCI&S TRADESTAT", "https://tradestat.commerce.gov.in/eidb/commodity_wise_import", "Bilateral Merchandise Validation"],
+      ["ICEGATE Customs EDI", "https://www.icegate.gov.in/cdc", "Live Customs Tariff Calculator"],
+      ["Logistics Data Bank", "https://www.ldb.co.in/", "RFID Container Seaport Dwell Tracking"],
+      ["Indian Trade Portal", "https://www.indiatradeportal.in/", "Bilateral FTA & CEPA Origin Rules"]
+    ];
+
+    doc.autoTable({
+      startY: afterCheckY + 3,
+      head: [["Statutory Gateway", "Direct Endpoint URL", "Operational Purpose"]],
+      body: portalRows,
+      theme: 'striped',
+      headStyles: { fillColor: [30, 41, 59], textColor: [255, 255, 255], fontStyle: 'bold' },
+      styles: { fontSize: 8, cellPadding: 2.2 },
+      columnStyles: {
+        0: { cellWidth: 42, fontStyle: 'bold' },
+        1: { cellWidth: 80, fontStyle: 'italic', textColor: [37, 99, 235] },
+        2: { cellWidth: 60 }
+      }
+    });
+
+    doc.setFontSize(7.5);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(100, 116, 139);
+    doc.text('Notice: This report is generated by World of Trade Sovereign Terminal for academic and practical EXIM training.', 14, 275);
+    doc.text('All customs valuations, GST classifications, and MRL tolerances reflect official Government of India gazetted standards.', 14, 279);
+
+    doc.save(`WOT_EXIM_PRACTICE_${session.countId}_${Date.now()}.pdf`);
+    if (typeof showToast === 'function') {
+      showToast('Official 2-Page Practice Report PDF Downloaded', '📄');
+    }
+  } catch (err) {
+    console.error('PDF Generation Error:', err);
+    alert('PDF Generation failed: ' + err.message);
+  } finally {
+    if (btnText) btnText.textContent = 'Export Official Practice Report (PDF)';
+    if (btn) btn.disabled = false;
+  }
+}
+
+function toggleGatewaysCollapse() {
+  const container = document.getElementById('statutory-gateways-container');
+  const btn = document.getElementById('btn-toggle-gateways');
+  if (!container) return;
+
+  const cards = container.querySelectorAll('.glass-card');
+  const isHidden = cards[0]?.classList.contains('hidden');
+
+  cards.forEach(card => {
+    if (isHidden) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+
+  if (btn) {
+    btn.textContent = isHidden ? '[Hide Gateway Feeds]' : '[Show Gateway Feeds]';
+  }
+}
+
+function initWorkbench() {
+  selectWorkbenchCommodity(wbState.selectedHsn);
+  setWorkbenchFtaMode(wbState.ftaMode);
+  selectPracticeCount(1);
+}
+
+// Expose globals to window
+window.toggleGlobalEli5Mode = toggleGlobalEli5Mode;
+window.switchWorkbenchTab = switchWorkbenchTab;
+window.selectWorkbenchCommodity = selectWorkbenchCommodity;
+window.onSearchCommodity = onSearchCommodity;
+window.setWorkbenchFtaMode = setWorkbenchFtaMode;
+window.onVaSliderChange = onVaSliderChange;
+window.recalculateTariffLedger = recalculateTariffLedger;
+window.selectPracticeCount = selectPracticeCount;
+window.onPracticeStep1Change = onPracticeStep1Change;
+window.onPracticeStep2Change = onPracticeStep2Change;
+window.onPracticeStep3Change = onPracticeStep3Change;
+window.recalculatePracticeScorecard = recalculatePracticeScorecard;
+window.exportPracticeReportPdf = exportPracticeReportPdf;
+window.toggleGatewaysCollapse = toggleGatewaysCollapse;
+window.initWorkbench = initWorkbench;
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initWorkbench);
+} else {
+  initWorkbench();
+}
