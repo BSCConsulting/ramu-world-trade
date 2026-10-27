@@ -12710,24 +12710,670 @@ if (document.readyState === 'loading') {
 window.initWorldOfTradeOfflineDB = initWorldOfTradeOfflineDB;
 
 
-// ==================== 95+ TERMINAL EXCELLENCE: COMMAND PALETTE (CMD + K) & DENSITY ====================
-const COMMAND_INDEX = [
-  { id: 'sovereign-steering-matrix', title: 'HS 8542 / 8517 — Electronics & Chips', category: 'Sovereign Steering', desc: 'Predictive 6-Month HSN Duty Forecasts & BIS CRO Scrutiny' },
-  { id: 'sovereign-steering-matrix', title: 'HS 2942 — Active Pharma Ingredients (APIs)', category: 'Sovereign Steering', desc: 'CDSCO Quality Mandate & PLI Schemes' },
-  { id: 'trade-flow-infographic-rail', title: 'Statutory Trade Flow Corridor', category: 'Corridor Telemetry', desc: 'Mandi Form 9 → e-Way Cargo → Nhava Sheva Port → CIF' },
-  { id: 'natural-language-reverse-hsn', title: 'Reverse HSN & Sourcing Intelligence', category: 'Tariff Finder', desc: 'Type any commodity name or search 8-digit ITC-HS tariff' },
-  { id: 'wb-cepa-va-box', title: 'India-UAE CEPA (0% BCD) & CAROTAR Rules', category: 'Rules of Origin', desc: 'Domestic Value Addition (VA%) Slider & Preferential Duty' },
-  { id: 'dgcis-tradestat-explorer', title: 'DGCI&S TradeStat Bilateral Matrix', category: 'Macro Trade', desc: 'USA, UAE, China, Russia, Netherlands Merchandise Flows' },
-  { id: 'apeda-audit-container', title: 'APEDA TraceNet & HPLC Chromatography', category: 'Phytosanitary', desc: 'Tricyclazole, Chlorpyrifos, Isoprothiolane MRL Thresholds' },
-  { id: 'dispatch-engine', title: 'Exporter Decision Tree: Option A, B, C', category: 'Remediation', desc: 'Statutory Referee Re-Test, Secondary Polishing, SFDA Diversion' },
-  { id: 'scn-details-card', title: 'Customs SCN Rebuttal & Legal Rights', category: 'Dispute Law', desc: 'Customs Act Sec 124, Sec 110A Release, Sec 28 Demand Notice' },
-  { id: 'cbic-cir24-thc-auditor', title: 'CBIC Cir 24/2020 Freight THC Auditor', category: 'Port Logistics', desc: 'Prohibited shipping line and freight forwarder terminal fees' },
-  { id: 'trade-chart', title: 'Foreign Trade Balance Chart (Goods vs Services)', category: 'Data Analytics', desc: 'Monthly DGCI&S and RBI balance of payments spread' },
-  { id: 'universal-opportunity-arbitrage-sandbox', title: 'Universal Opportunity & Arbitrage Sandbox', category: 'Assembly Blueprints', desc: 'EV Scooters, Solar Pumps, Agri Drones, Onion Mandi Arbitrage' }
-];
-
+// ==================== UNIVERSAL SPOTLIGHT & OMNI-SEARCH ENGINE (CMD + K) ====================
+let activeCmdCategoryFilter = 'all';
 let activeCmdIndex = 0;
 let filteredCmdItems = [];
+
+const COMMAND_INDEX = [
+  // --- GROUND SCENARIOS & CRISIS CENTRES ---
+  {
+    id: 'scn-details-card',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-scenarios',
+    title: 'Scenario 1: Nhava Sheva Demurrage & Container Detention',
+    category: 'scenarios',
+    badge: '⚡ SCENARIO',
+    badgeBg: 'rgba(245, 158, 11, 0.15)',
+    badgeColor: '#F59E0B',
+    desc: 'Container free-days calculator, detention fee waivers, shipping line dispute protocol',
+    keywords: 'nhava sheva jnpt demurrage detention container free days port congestion terminal yard storage shipping line waiver',
+    action: 'scenario_1'
+  },
+  {
+    id: 'scn-details-card',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-scenarios',
+    title: 'Scenario 2: Red Sea & Cape of Good Hope Suez Rerouting',
+    category: 'scenarios',
+    badge: '⚡ SCENARIO',
+    badgeBg: 'rgba(239, 68, 68, 0.15)',
+    badgeColor: '#EF4444',
+    desc: 'Vessel transit delay +14 days, war risk surcharge +1.2%, bunker fuel adjustment',
+    keywords: 'red sea suez rerouting cape of good hope war risk premium baf transit delay maritime piracy insurance',
+    action: 'scenario_2'
+  },
+  {
+    id: 'scn-details-card',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-scenarios',
+    title: 'Scenario 3: Guntur APMC Mandi Auction & Cold Storage',
+    category: 'scenarios',
+    badge: '⚡ SCENARIO',
+    badgeBg: 'rgba(16, 185, 129, 0.15)',
+    badgeColor: '#10B981',
+    desc: 'Teja S17 chilli arrivals, APMC mandi cess 1%, cold storage moisture retention 10-11%',
+    keywords: 'guntur mandi apmc auction teja s17 chilli cold storage bag arrivals modal rate cess mandi fee spices board',
+    action: 'scenario_3'
+  },
+  {
+    id: 'scn-details-card',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-scenarios',
+    title: 'Scenario 4: Mundra Port Reefer Plug-In Cold Chain Audit',
+    category: 'scenarios',
+    badge: '⚡ SCENARIO',
+    badgeBg: 'rgba(6, 182, 212, 0.15)',
+    badgeColor: '#06B6D4',
+    desc: 'Frozen Vannamei shrimp -18°C datalogger, terminal electrical plug-in fees, thermoking check',
+    keywords: 'mundra reefer plug cold chain frozen shrimp vannamei temperature log datalogger thermoking terminal electric',
+    action: 'scenario_4'
+  },
+  {
+    id: 'scn-details-card',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-scenarios',
+    title: 'Scenario 5: Chittoor EMC 2.0 EV Two-Wheeler Assembly',
+    category: 'scenarios',
+    badge: '⚡ SCENARIO',
+    badgeBg: 'rgba(59, 130, 246, 0.15)',
+    badgeColor: '#3B82F6',
+    desc: 'BOM procurement, battery pack CKD/SKD assembly, Phased Manufacturing Programme (PMP)',
+    keywords: 'chittoor emc ev scooter motorcycle assembly battery lithium ckd skd phased manufacturing pmp bom tariff',
+    action: 'scenario_5'
+  },
+  {
+    id: 'milling-yield-ledger',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-scenarios',
+    title: 'Milling Yield & Broken Rice (Nakku/Khanda) Ledger',
+    category: 'scenarios',
+    badge: '⚡ SCENARIO',
+    badgeBg: 'rgba(139, 92, 246, 0.15)',
+    badgeColor: '#8B5CF6',
+    desc: 'Basmati paddy 66% outturn: 52% head rice, 10% nakku/khanda broken, 4% unpolished bran',
+    keywords: 'milling yield basmati paddy outturn nakku khanda broken rice head rice bran husk rice mill recovery',
+    action: 'focus_milling'
+  },
+  {
+    id: 'apeda-audit-container',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-scenarios',
+    title: 'APEDA TraceNet & HPLC Chromatography Residue Gauges',
+    category: 'scenarios',
+    badge: '⚡ SCENARIO',
+    badgeBg: 'rgba(239, 68, 68, 0.15)',
+    badgeColor: '#EF4444',
+    desc: 'Tricyclazole 0.006 mg/kg & Chlorpyrifos 0.004 mg/kg vs EU 0.01 mg/kg default LOQ',
+    keywords: 'apeda tracenet hplc chromatography tricyclazole chlorpyrifos loq mrl residue pesticide rejection nabl lab testing',
+    action: 'focus_apeda'
+  },
+  {
+    id: 'icegate-edi-matrix',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-scenarios',
+    title: 'ICEGATE EDI Error Code Resolution Matrix',
+    category: 'scenarios',
+    badge: '⚡ SCENARIO',
+    badgeBg: 'rgba(245, 158, 11, 0.15)',
+    badgeColor: '#F59E0B',
+    desc: 'BE301 (Duty mismatch), CT002 (CAROTAR COO), SV003 (Valuation), PA004 (ECL balance)',
+    keywords: 'icegate edi error code be301 ct002 sv003 pa004 bill of entry customs rejected out of charge electronic cash ledger',
+    action: 'focus_edi'
+  },
+  {
+    id: 'cbic-cir24-thc-auditor',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-scenarios',
+    title: 'CBIC Cir 24/2020 Freight THC Zero-Markup Auditor',
+    category: 'scenarios',
+    badge: '⚡ SCENARIO',
+    badgeBg: 'rgba(6, 182, 212, 0.15)',
+    badgeColor: '#06B6D4',
+    desc: 'Strict prohibition on shipping lines marking up terminal handling charges at Indian ports',
+    keywords: 'cbic cir 24 2020 thc terminal handling charge shipping line markup forwarder gouging port tariff legal refund',
+    action: 'focus_thc'
+  },
+
+  // --- 8-DIGIT ITC-HS COMMODITIES ---
+  {
+    id: 'dual-sovereign-workbench',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-arbitrage',
+    title: 'HS 0306.17.20 — Frozen Vannamei Shrimp',
+    category: 'commodities',
+    badge: '📦 ITC-HS',
+    badgeBg: 'rgba(6, 182, 212, 0.15)',
+    badgeColor: '#06B6D4',
+    desc: 'Marine cargo: BCD 30%, US Anti-Dumping 4.13%, EU Catch Certificate, MPEDA ELISA testing',
+    keywords: '03061720 0306 shrimp vannamei frozen prawn seafood marine mpeda catch certificate elisa us anti dumping duty',
+    action: 'commodity_03061720'
+  },
+  {
+    id: 'dual-sovereign-workbench',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-arbitrage',
+    title: 'HS 1006.30.20 — Basmati Rice (Parboiled & Raw)',
+    category: 'commodities',
+    badge: '📦 ITC-HS',
+    badgeBg: 'rgba(245, 158, 11, 0.15)',
+    badgeColor: '#F59E0B',
+    desc: 'MEP abolished, 2.8% RoDTEP cash scrip rebate, APEDA digital Certificate of Inspection (CoI)',
+    keywords: '10063020 1006 basmati rice parboiled raw grain agri export mep minimum export price rodtep apeda',
+    action: 'commodity_10063020'
+  },
+  {
+    id: 'dual-sovereign-workbench',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-arbitrage',
+    title: 'HS 0910.30.20 — Turmeric Powder (Curcuma)',
+    category: 'commodities',
+    badge: '📦 ITC-HS',
+    badgeBg: 'rgba(16, 185, 129, 0.15)',
+    badgeColor: '#10B981',
+    desc: 'Spices Board mandatory sampling, curcumin content >= 3.0%, Ethylene Oxide (ETO) limit 0.1 ppm',
+    keywords: '09103020 0910 turmeric powder curcuma haldi spices board curcumin eto aflatoxin spices',
+    action: 'commodity_09103020'
+  },
+  {
+    id: 'dual-sovereign-workbench',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-arbitrage',
+    title: 'HS 0703.10.19 — Fresh Onions (Nasik / Madhira)',
+    category: 'commodities',
+    badge: '📦 ITC-HS',
+    badgeBg: 'rgba(245, 158, 11, 0.15)',
+    badgeColor: '#F59E0B',
+    desc: 'Export tariff lines, minimum price benchmarks, APMC arrivals, seasonal market swings',
+    keywords: '07031019 0703 onion fresh onions nasik madhira export duty apmc modal rate pyaz',
+    action: 'commodity_07031019'
+  },
+  {
+    id: 'dual-sovereign-workbench',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-arbitrage',
+    title: 'HS 8541.43.00 — Solar Photovoltaic Cells & Modules',
+    category: 'commodities',
+    badge: '📦 ITC-HS',
+    badgeBg: 'rgba(59, 130, 246, 0.15)',
+    badgeColor: '#3B82F6',
+    desc: 'BCD 25%, ALMM approved list mandate, PLI Tranche II domestic content requirement',
+    keywords: '85414300 8541 solar cells pv modules wafer solar power almm domestic content pli bcd 25',
+    action: 'commodity_85414300'
+  },
+  {
+    id: 'dual-sovereign-workbench',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-arbitrage',
+    title: 'HS 8711.60.10 — Electric Motorcycles & Scooters',
+    category: 'commodities',
+    badge: '📦 ITC-HS',
+    badgeBg: 'rgba(59, 130, 246, 0.15)',
+    badgeColor: '#3B82F6',
+    desc: 'Phased Manufacturing Programme (PMP), battery pack assembly, 50% domestic value addition',
+    keywords: '87116010 8711 electric motorcycle ev scooter two wheeler pmp fastev battery motor',
+    action: 'commodity_87116010'
+  },
+  {
+    id: 'dual-sovereign-workbench',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-arbitrage',
+    title: 'HS 7113.19.10 — Gold Jewellery (Plain / Studded)',
+    category: 'commodities',
+    badge: '📦 ITC-HS',
+    badgeBg: 'rgba(245, 158, 11, 0.15)',
+    badgeColor: '#F59E0B',
+    desc: 'India-UAE CEPA 0% duty under TRQ quota, BIS hallmark certification, gold bullion premium',
+    keywords: '71131910 7113 gold jewellery plain studded dubai uae cepa trq quota hallmark bullion',
+    action: 'commodity_71131910'
+  },
+  {
+    id: 'dual-sovereign-workbench',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-arbitrage',
+    title: 'HS 6109.10.00 — Cotton T-Shirts & Knitted Apparel',
+    category: 'commodities',
+    badge: '📦 ITC-HS',
+    badgeBg: 'rgba(16, 185, 129, 0.15)',
+    badgeColor: '#10B981',
+    desc: 'Tiruppur textile cluster, RoSCTL rebate 4.3% FOB, EU MFN import tariff 12%',
+    keywords: '61091000 6109 cotton t shirt garment apparel textile knitwear tiruppur rosctl',
+    action: 'commodity_61091000'
+  },
+  {
+    id: 'dual-sovereign-workbench',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-arbitrage',
+    title: 'HS 3004.90.99 — Pharmaceutical Formulations & APIs',
+    category: 'commodities',
+    badge: '📦 ITC-HS',
+    badgeBg: 'rgba(139, 92, 246, 0.15)',
+    badgeColor: '#8B5CF6',
+    desc: 'CDSCO export NOC, US FDA cGMP 21 CFR Part 211, bulk formulation Chapter 30',
+    keywords: '30049099 3004 pharma medicine formulations tablets capsules api usfda cdsco gmp',
+    action: 'commodity_30049099'
+  },
+  {
+    id: 'dual-sovereign-workbench',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-arbitrage',
+    title: 'HS 7318.15.00 — High-Tensile Steel Bolts & Fasteners',
+    category: 'commodities',
+    badge: '📦 ITC-HS',
+    badgeBg: 'rgba(100, 116, 139, 0.15)',
+    badgeColor: '#64748B',
+    desc: 'EU CBAM carbon border compliance, BIS mandatory quality standard IS 1367',
+    keywords: '73181500 7318 steel bolts fasteners screws nuts cbam carbon carbon border bis is 1367',
+    action: 'commodity_73181500'
+  },
+  {
+    id: 'dual-sovereign-workbench',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-arbitrage',
+    title: 'HS 7418.10.22 — Brass Artware & Handicrafts',
+    category: 'commodities',
+    badge: '📦 ITC-HS',
+    badgeBg: 'rgba(245, 158, 11, 0.15)',
+    badgeColor: '#F59E0B',
+    desc: 'Moradabad metal cluster, Duty Drawback (DBK) 2.4%, GSP preference rules',
+    keywords: '74181022 7418 brass artware handicrafts metal moradabad duty drawback dbk copper',
+    action: 'commodity_74181022'
+  },
+  {
+    id: 'dual-sovereign-workbench',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-arbitrage',
+    title: 'HS 6403.91.90 — Leather Footwear & Upper Shoes',
+    category: 'commodities',
+    badge: '📦 ITC-HS',
+    badgeBg: 'rgba(154, 107, 56, 0.15)',
+    badgeColor: '#9A6B38',
+    desc: 'Agra & Ambur tanning, REACH chemical compliance, BIS Quality Control Order CRO mark',
+    keywords: '64039190 6403 leather footwear shoes boots agra ambur bis qco reach chromium',
+    action: 'commodity_64039190'
+  },
+  {
+    id: 'dual-sovereign-workbench',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-arbitrage',
+    title: 'HS 8517.13.00 — Smartphones & 5G Terminals',
+    category: 'commodities',
+    badge: '📦 ITC-HS',
+    badgeBg: 'rgba(59, 130, 246, 0.15)',
+    badgeColor: '#3B82F6',
+    desc: 'PLI mobile incentive, semiconductor PCBA assembly, Chapter 85 zero-duty ITA-1',
+    keywords: '85171300 8517 smartphone mobile phone 5g terminal pcba electronics assembly pli ita1',
+    action: 'commodity_85171300'
+  },
+
+  // --- STATUTORY LAW, LEGAL SECTIONS & TREATIES ---
+  {
+    id: 'scn-details-card',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-scenarios',
+    title: 'Customs Act Section 14: Valuation & Foreign Exchange',
+    category: 'statutory',
+    badge: '📜 STATUTE',
+    badgeBg: 'rgba(16, 185, 129, 0.15)',
+    badgeColor: '#10B981',
+    desc: 'Notified assessable exchange rates (CBIC), landing charges 1% abolished, transaction value',
+    keywords: 'section 14 customs act valuation assessable exchange rate fbil cbic fx landing charge transaction value',
+    action: 'focus_sec14'
+  },
+  {
+    id: 'scn-details-card',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-scenarios',
+    title: 'Customs Act Section 28: Demand Notices & Recovery',
+    category: 'statutory',
+    badge: '📜 STATUTE',
+    badgeBg: 'rgba(239, 68, 68, 0.15)',
+    badgeColor: '#EF4444',
+    desc: 'Limitation periods (2 years vs 5 years), willful suppression vs inadvertent error',
+    keywords: 'section 28 customs act demand recovery show cause notice limitation period misstatement suppression',
+    action: 'focus_sec28'
+  },
+  {
+    id: 'scn-details-card',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-scenarios',
+    title: 'Customs Act Section 110A: Provisional Release of Goods',
+    category: 'statutory',
+    badge: '📜 STATUTE',
+    badgeBg: 'rgba(59, 130, 246, 0.15)',
+    badgeColor: '#3B82F6',
+    desc: 'Release seized cargo pending chemical test / origin verification against bond & bank guarantee',
+    keywords: 'section 110a customs act provisional release bond bank guarantee seized cargo detention clearance test',
+    action: 'focus_sec110a'
+  },
+  {
+    id: 'scn-details-card',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-scenarios',
+    title: 'Customs Act Section 124: Show Cause Notice (SCN) Rights',
+    category: 'statutory',
+    badge: '📜 STATUTE',
+    badgeBg: 'rgba(139, 92, 246, 0.15)',
+    badgeColor: '#8B5CF6',
+    desc: 'Mandatory principles of natural justice, 30-day rebuttal period, cross-examination rights',
+    keywords: 'section 124 customs act show cause notice scn natural justice personal hearing rebuttal defense adjudication',
+    action: 'focus_sec124'
+  },
+  {
+    id: 'wb-cepa-va-box',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-arbitrage',
+    title: 'CAROTAR 2020: Customs Administration of Rules of Origin',
+    category: 'statutory',
+    badge: '📜 STATUTE',
+    badgeBg: 'rgba(245, 158, 11, 0.15)',
+    badgeColor: '#F59E0B',
+    desc: 'Duty of importer to possess origin documentation, Form I questionnaire, third-country transshipment',
+    keywords: 'carotar 2020 rules of origin coo verification country of origin value addition form 1 duty waiver',
+    action: 'focus_carotar'
+  },
+  {
+    id: 'wb-cepa-va-box',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-arbitrage',
+    title: 'India-UAE Comprehensive Economic Partnership Agreement (CEPA)',
+    category: 'statutory',
+    badge: '📜 TREATY',
+    badgeBg: 'rgba(16, 185, 129, 0.15)',
+    badgeColor: '#10B981',
+    desc: '0% preferential customs duty on 90% lines, Qualifying Value Content (QVC >= 40%), digital COO',
+    keywords: 'cepa india uae dubai free trade agreement 0 duty preferential tariff qvc value addition rules origin',
+    action: 'focus_cepa'
+  },
+  {
+    id: 'sovereign-steering-matrix',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-macro',
+    title: 'BIS Quality Control Orders (QCO Mandates)',
+    category: 'statutory',
+    badge: '📜 STATUTE',
+    badgeBg: 'rgba(239, 68, 68, 0.15)',
+    badgeColor: '#EF4444',
+    desc: 'Mandatory ISI/CRO mark for imports prior to customs clearance under Bureau of Indian Standards',
+    keywords: 'bis qco quality control order isi mark cro certificate mandatory testing compliance footwear steel toys',
+    action: 'focus_bis'
+  },
+  {
+    id: 'apeda-audit-container',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-scenarios',
+    title: 'EU Regulation EC 396/2005: 0.01 mg/kg Default LOQ Mandate',
+    category: 'statutory',
+    badge: '📜 TREATY',
+    badgeBg: 'rgba(239, 68, 68, 0.15)',
+    badgeColor: '#EF4444',
+    desc: 'European maximum residue limits for pesticides in agricultural imports, NABL lab screening',
+    keywords: 'eu regulation ec 396 2005 loq mrl 0.01 mg kg pesticide residue tricyclazole europe rasff testing',
+    action: 'focus_eu396'
+  },
+
+  // --- CALCULATION ENGINES & AUDIT TOOLS ---
+  {
+    id: 'sovereign-live-wire-panel',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-scenarios',
+    title: 'Sovereign Live Telemetry Wire (Continuous Stream)',
+    category: 'tools',
+    badge: '🛠️ AUDIT TOOL',
+    badgeBg: 'rgba(16, 185, 129, 0.15)',
+    badgeColor: '#10B981',
+    desc: 'Live rolling stream of statutory notifications from CBIC, DGFT, RBI, APEDA, Drewry & Agmarknet',
+    keywords: 'live wire sovereign telemetry stream rolling ticker updates cbic dgft rbi apeda rewry agmarknet',
+    action: 'focus_livewire'
+  },
+  {
+    id: 'duty-calc-container',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-arbitrage',
+    title: 'Comprehensive Landed Duty Calculator (BCD + SWS + IGST)',
+    category: 'tools',
+    badge: '🛠️ AUDIT TOOL',
+    badgeBg: 'rgba(139, 92, 246, 0.15)',
+    badgeColor: '#8B5CF6',
+    desc: 'Calculate Assessable Value, Basic Customs Duty, Social Welfare Surcharge (10%), and IGST landed cost',
+    keywords: 'duty calculator bcd sws igst landed cost assessable value customs tax calculation formula',
+    action: 'focus_dutycalc'
+  },
+  {
+    id: 'trade-corridor-execution-engine',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-scenarios',
+    title: '7-Step Trade Corridor Cost & Risk Simulator',
+    category: 'tools',
+    badge: '🛠️ AUDIT TOOL',
+    badgeBg: 'rgba(59, 130, 246, 0.15)',
+    badgeColor: '#3B82F6',
+    desc: 'Farm/factory sourcing -> APMC cess -> inland freight -> port THC -> ocean freight -> foreign customs',
+    keywords: 'corridor execution engine 7 step simulation freight mandi cost ocean shipping route risk assessment',
+    action: 'focus_corridor'
+  },
+  {
+    id: 'natural-language-reverse-hsn',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-macro',
+    title: 'Reverse HSN & Sourcing Intelligence Engine',
+    category: 'tools',
+    badge: '🛠️ AUDIT TOOL',
+    badgeBg: 'rgba(16, 185, 129, 0.15)',
+    badgeColor: '#10B981',
+    desc: 'Describe any goods in natural English to instantly discover 8-digit ITC-HS tariff and statutory requirements',
+    keywords: 'reverse hsn natural language search commodity finder tariff lookup itc hs code description search',
+    action: 'focus_reversehsn'
+  },
+  {
+    id: 'dgcis-tradestat-explorer',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-macro',
+    title: 'DGCI&S TradeStat Bilateral Merchandise Matrix',
+    category: 'tools',
+    badge: '🛠️ AUDIT TOOL',
+    badgeBg: 'rgba(139, 92, 246, 0.15)',
+    badgeColor: '#8B5CF6',
+    desc: 'Bilateral export and import trade stats between India and USA, UAE, China, Russia, EU countries',
+    keywords: 'dgcis tradestat bilateral matrix export import trade balance country statistics merchandise comtrade',
+    action: 'focus_tradestat'
+  },
+  {
+    id: 'trade-chart',
+    tab: 'tab-apps',
+    subPane: 'sub-apps-macro',
+    title: 'Foreign Trade Balance Chart (Goods vs Services BoP)',
+    category: 'tools',
+    badge: '🛠️ AUDIT TOOL',
+    badgeBg: 'rgba(59, 130, 246, 0.15)',
+    badgeColor: '#3B82F6',
+    desc: 'Visual monthly merchandise exports, services exports, and trade deficit trendlines',
+    keywords: 'trade chart bop goods services export import trade deficit macro graph data analytics',
+    action: 'focus_tradechart'
+  },
+  {
+    id: 'universal-opportunity-arbitrage-sandbox',
+    tab: 'tab-sandbox',
+    subPane: 'sub-sandbox-main',
+    title: 'Universal Opportunity & Arbitrage Sandbox',
+    category: 'tools',
+    badge: '🛠️ AUDIT TOOL',
+    badgeBg: 'rgba(245, 158, 11, 0.15)',
+    badgeColor: '#F59E0B',
+    desc: 'Interactive manufacturing models: EV scooters, solar pumps, agricultural drones, onion arbitrage',
+    keywords: 'sandbox arbitrage universal opportunity blueprint ev assembly solar pump agri drone onion trading',
+    action: 'focus_sandbox'
+  },
+
+  // --- 11 DOWNLOADABLE PDF FIELD DOSSIERS ---
+  {
+    id: 'dossier-ev-blueprint',
+    title: 'Dossier 1: EV Two-Wheeler CKD/SKD Assembly Master Blueprint',
+    category: 'dossiers',
+    badge: '📑 DOSSIER',
+    badgeBg: 'rgba(239, 68, 68, 0.15)',
+    badgeColor: '#EF4444',
+    desc: 'Complete factory layout, bill of materials, lithium pack sourcing, and PMP phased compliance',
+    keywords: 'dossier 1 ev blueprint two wheeler ckd skd assembly factory layout pdf download',
+    action: 'open_dossier_ev'
+  },
+  {
+    id: 'dossier-apeda-rice',
+    title: 'Dossier 2: APEDA Basmati Rice Phytosanitary TraceNet Protocol',
+    category: 'dossiers',
+    badge: '📑 DOSSIER',
+    badgeBg: 'rgba(245, 158, 11, 0.15)',
+    badgeColor: '#F59E0B',
+    desc: 'Standard operating procedure for lab sampling, Certificate of Inspection (CoI), and EU tolerance defense',
+    keywords: 'dossier 2 apeda basmati rice tracenet protocol phytosanitary pdf download',
+    action: 'open_dossier_apeda'
+  },
+  {
+    id: 'dossier-guntur-chilli',
+    title: 'Dossier 3: Guntur Teja Chilli APMC Auction & Cold Chain Strategy',
+    category: 'dossiers',
+    badge: '📑 DOSSIER',
+    badgeBg: 'rgba(16, 185, 129, 0.15)',
+    badgeColor: '#10B981',
+    desc: 'Auction bidding mechanics, cold storage warehouse receipts, Spices Board Q-Lab clearance',
+    keywords: 'dossier 3 guntur chilli apmc auction cold chain strategy spices board pdf download',
+    action: 'open_dossier_guntur'
+  },
+  {
+    id: 'dossier-nasik-onion',
+    title: 'Dossier 4: Nasik Fresh Onion Price Parity & Minimum Export Duty',
+    category: 'dossiers',
+    badge: '📑 DOSSIER',
+    badgeBg: 'rgba(139, 92, 246, 0.15)',
+    badgeColor: '#8B5CF6',
+    desc: 'Lasalgaon APMC auction parity, buffer stock procurement, and customs valuation benchmarks',
+    keywords: 'dossier 4 nasik fresh onion price parity export duty lasalgaon pdf download',
+    action: 'open_dossier_onion'
+  },
+  {
+    id: 'dossier-vannamei-shrimp',
+    title: 'Dossier 5: MPEDA Frozen Vannamei Shrimp EU Cold Chain Compliance',
+    category: 'dossiers',
+    badge: '📑 DOSSIER',
+    badgeBg: 'rgba(6, 182, 212, 0.15)',
+    badgeColor: '#06B6D4',
+    desc: 'HACCP cold chain logging, antibiotic screening protocols, and EU catch certification',
+    keywords: 'dossier 5 mpeda frozen vannamei shrimp cold chain eu haccp pdf download',
+    action: 'open_dossier_shrimp'
+  },
+  {
+    id: 'dossier-customs-scn',
+    title: 'Dossier 6: Customs SCN Section 124 & 110A Defense Playbook',
+    category: 'dossiers',
+    badge: '📑 DOSSIER',
+    badgeBg: 'rgba(239, 68, 68, 0.15)',
+    badgeColor: '#EF4444',
+    desc: 'Legal draft templates for responding to Show Cause Notices, demanding personal hearings, and provisional release',
+    keywords: 'dossier 6 customs scn show cause notice section 124 110a legal defense rebuttal pdf download',
+    action: 'open_dossier_scn'
+  },
+  {
+    id: 'dossier-cbic-thc',
+    title: 'Dossier 7: CBIC Cir 24/2020 Port Terminal Handling Audit Ledger',
+    category: 'dossiers',
+    badge: '📑 DOSSIER',
+    badgeBg: 'rgba(6, 182, 212, 0.15)',
+    badgeColor: '#06B6D4',
+    desc: 'Statutory circular text, shipping line fee audit checklist, and grievance filing format',
+    keywords: 'dossier 7 cbic cir 24 2020 terminal handling charge audit shipping line pdf download',
+    action: 'open_dossier_thc'
+  },
+  {
+    id: 'dossier-cepa-origin',
+    title: 'Dossier 8: India-UAE CEPA Domestic Value Addition & CAROTAR Rules',
+    category: 'dossiers',
+    badge: '📑 DOSSIER',
+    badgeBg: 'rgba(16, 185, 129, 0.15)',
+    badgeColor: '#10B981',
+    desc: 'Detailed cost breakdown methodology for proving Qualifying Value Content (QVC >= 40%)',
+    keywords: 'dossier 8 cepa origin carotar value addition uae dubai trade agreement pdf download',
+    action: 'open_dossier_cepa'
+  },
+  {
+    id: 'dossier-icegate-edi',
+    title: 'Dossier 9: ICEGATE 2.0 Customs EDI Error Troubleshooting Manual',
+    category: 'dossiers',
+    badge: '📑 DOSSIER',
+    badgeBg: 'rgba(59, 130, 246, 0.15)',
+    badgeColor: '#3B82F6',
+    desc: 'Comprehensive reference dictionary of all ICEGATE Bill of Entry rejection codes and resolutions',
+    keywords: 'dossier 9 icegate 2.0 edi error troubleshooting manual bill entry rejection pdf download',
+    action: 'open_dossier_edi'
+  },
+  {
+    id: 'dossier-career-a',
+    title: 'Dossier 10: Export Compliance Officer Professional Career Pathway',
+    category: 'dossiers',
+    badge: '📑 DOSSIER',
+    badgeBg: 'rgba(139, 92, 246, 0.15)',
+    badgeColor: '#8B5CF6',
+    desc: 'Certification pathway (WCO, IIFT, FIEO), expected compensation bands, core statutory competencies',
+    keywords: 'dossier 10 career pathway export compliance officer salary certification iift wco pdf download',
+    action: 'open_dossier_career_a'
+  },
+  {
+    id: 'dossier-career-b',
+    title: 'Dossier 11: International Trade Finance & Letter of Credit Specialist',
+    category: 'dossiers',
+    badge: '📑 DOSSIER',
+    badgeBg: 'rgba(16, 185, 129, 0.15)',
+    badgeColor: '#10B981',
+    desc: 'UCP 600 rules, post-shipment export bill discounting, LC discrepancy prevention handbook',
+    keywords: 'dossier 11 trade finance letter of credit ucp 600 specialist bill discounting pdf download',
+    action: 'open_dossier_career_b'
+  },
+
+  // --- PLATFORM ACTIONS & TOGGLES ---
+  {
+    id: 'theme-btn',
+    title: 'Switch Editorial Color Themes',
+    category: 'actions',
+    badge: '⚙️ ACTION',
+    badgeBg: 'rgba(16, 185, 129, 0.15)',
+    badgeColor: '#10B981',
+    desc: 'Cycle between Kyoto Tea Paper, Warm Sand, Oxford Alabaster, and Midnight OLED themes',
+    keywords: 'theme color dark mode light mode kyoto warm sand ivory oled appearance style',
+    action: 'action_theme'
+  },
+  {
+    id: 'density-mode-toggle',
+    title: 'Toggle Terminal Density (Focus View vs Full Audit View)',
+    category: 'actions',
+    badge: '⚙️ ACTION',
+    badgeBg: 'rgba(59, 130, 246, 0.15)',
+    badgeColor: '#3B82F6',
+    desc: 'Collapse auxiliary details for high-speed focused auditing or expand for exhaustive legal analysis',
+    keywords: 'density focus view full audit view layout compact comfortable spacing',
+    action: 'action_density'
+  },
+  {
+    id: 'qj-sync',
+    title: 'Trigger Multi-Device Cloud Sync',
+    category: 'actions',
+    badge: '⚙️ ACTION',
+    badgeBg: 'rgba(16, 185, 129, 0.15)',
+    badgeColor: '#10B981',
+    desc: 'Synchronize calculations, bookmarks, and scenario audits with Supabase cloud backup',
+    keywords: 'sync cloud backup save data account profile restore devices supabase',
+    action: 'action_sync'
+  },
+  {
+    id: 'btn-export-dossier',
+    title: 'Synthesize Statutory Defense Dossier (Download PDF)',
+    category: 'actions',
+    badge: '⚙️ ACTION',
+    badgeBg: 'rgba(239, 68, 68, 0.15)',
+    badgeColor: '#EF4444',
+    desc: 'Generate sealed, audit-ready PDF report of current corridor analysis and legal defense brief',
+    keywords: 'export pdf download report synthesize print document seal audit certificate',
+    action: 'action_export_pdf'
+  }
+];
 
 function openCommandPalette() {
   const modal = document.getElementById('cmd-palette-modal');
@@ -12735,10 +13381,11 @@ function openCommandPalette() {
   if (!modal || !input) return;
 
   modal.classList.remove('hidden');
-  modal.classList.add('active');
+  modal.classList.add('flex');
   input.value = '';
+  activeCmdCategoryFilter = 'all';
   filterCommandPalette('');
-  setTimeout(() => input.focus(), 50);
+  setTimeout(() => input.focus(), 60);
 }
 window.openCommandPalette = openCommandPalette;
 
@@ -12746,21 +13393,43 @@ function closeCommandPalette() {
   const modal = document.getElementById('cmd-palette-modal');
   if (!modal) return;
   modal.classList.add('hidden');
-  modal.classList.remove('active');
+  modal.classList.remove('flex');
 }
 window.closeCommandPalette = closeCommandPalette;
 
-function filterCommandPalette(q) {
-  const container = document.getElementById('cmd-palette-results');
-  if (!container) return;
+function setCmdCategoryFilter(cat, btn) {
+  activeCmdCategoryFilter = cat;
+  document.querySelectorAll('.cmd-cat-btn').forEach(b => {
+    b.style.background = 'var(--card-inner-bg)';
+    b.style.color = 'var(--text-muted)';
+    b.style.border = '1px solid var(--card-inner-border)';
+  });
+  if (btn) {
+    btn.style.background = 'var(--accent)';
+    btn.style.color = '#ffffff';
+    btn.style.border = '1px solid var(--accent)';
+  }
+  const input = document.getElementById('cmd-palette-input');
+  filterCommandPalette(input ? input.value : '');
+}
+window.setCmdCategoryFilter = setCmdCategoryFilter;
 
+function filterCommandPalette(q) {
   const query = (q || '').toLowerCase().trim();
-  filteredCmdItems = COMMAND_INDEX.filter(item => 
-    !query || 
-    item.title.toLowerCase().includes(query) || 
-    item.category.toLowerCase().includes(query) || 
-    item.desc.toLowerCase().includes(query)
-  );
+  const tokens = query.split(/\s+/).filter(Boolean);
+
+  filteredCmdItems = COMMAND_INDEX.filter(item => {
+    // 1. Category Filter Check
+    if (activeCmdCategoryFilter !== 'all' && item.category !== activeCmdCategoryFilter) {
+      return false;
+    }
+
+    // 2. Query tokens match
+    if (tokens.length === 0) return true;
+
+    const searchableText = `${item.title} ${item.desc} ${item.keywords} ${item.category}`.toLowerCase();
+    return tokens.every(token => searchableText.includes(token));
+  });
 
   activeCmdIndex = 0;
   renderCommandResults();
@@ -12769,27 +13438,54 @@ window.filterCommandPalette = filterCommandPalette;
 
 function renderCommandResults() {
   const container = document.getElementById('cmd-palette-results');
+  const countEl = document.getElementById('cmd-stat-count');
   if (!container) return;
 
+  if (countEl) {
+    countEl.textContent = `${filteredCmdItems.length} Components Matching`;
+  }
+
   if (filteredCmdItems.length === 0) {
-    container.innerHTML = `<div class="p-4 text-center text-neutral-400 font-mono text-[11px]">No matching statutory components found. Try "8542", "APEDA", or "JNPT".</div>`;
+    container.innerHTML = `
+      <div class="p-6 text-center space-y-2">
+        <div class="text-2xl">🔍</div>
+        <div class="font-bold text-xs text-neutral-400">No components match your query.</div>
+        <p class="text-[11px] text-neutral-500 font-mono">Try searching for "0306", "basmati", "CEPA", "demurrage", "Section 14", or "dossier".</p>
+      </div>
+    `;
     return;
   }
 
-  container.innerHTML = filteredCmdItems.map((item, idx) => `
-    <div onclick="executeCommandJump('${item.id}')" 
-         class="cmd-item p-2.5 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${idx === activeCmdIndex ? 'selected' : ''}"
-         style="background: ${idx === activeCmdIndex ? 'var(--accent)' : 'var(--card-inner-bg)'}; border-color: var(--card-inner-border); color: ${idx === activeCmdIndex ? '#ffffff' : 'var(--text-main)'};">
-      <div class="space-y-0.5">
-        <div class="flex items-center gap-2">
-          <span class="font-extrabold text-xs">${item.title}</span>
-          <span class="text-[9px] font-mono px-1.5 py-0.2 rounded font-bold uppercase ${idx === activeCmdIndex ? 'bg-white/20 text-white' : 'bg-emerald-500/15 text-emerald-500'}">${item.category}</span>
+  container.innerHTML = filteredCmdItems.map((item, idx) => {
+    const isSelected = idx === activeCmdIndex;
+    return `
+      <div onclick="executeCommandJumpIndex(${idx})" 
+           class="cmd-item p-2.5 sm:p-3 rounded-2xl border flex items-center justify-between cursor-pointer transition-all ${isSelected ? 'selected ring-2 ring-emerald-500' : ''}"
+           style="background: ${isSelected ? 'var(--card-bg)' : 'var(--card-inner-bg)'}; border-color: ${isSelected ? 'var(--accent)' : 'var(--card-inner-border)'};">
+        <div class="space-y-1 min-w-0 pr-2">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="px-1.5 py-0.5 rounded text-[8.5px] font-mono font-black uppercase tracking-wider border shrink-0"
+                  style="background: ${item.badgeBg}; color: ${item.badgeColor}; border-color: ${item.badgeColor}40;">
+              ${item.badge}
+            </span>
+            <span class="font-extrabold text-xs sm:text-[13px] tracking-tight truncate" style="color: var(--text-main);">
+              ${item.title}
+            </span>
+          </div>
+          <p class="text-[10.5px] leading-relaxed line-clamp-1" style="color: var(--text-muted);">
+            ${item.desc}
+          </p>
         </div>
-        <div class="text-[10px] ${idx === activeCmdIndex ? 'text-white/90' : 'text-neutral-400'}">${item.desc}</div>
+        <div class="shrink-0 flex items-center gap-1.5 pl-2">
+          <span class="inline-flex items-center gap-1 px-2 py-1 rounded-lg border text-[10px] font-mono font-bold transition-all shadow-xs"
+                style="background: ${isSelected ? 'var(--accent)' : 'var(--card-bg)'}; color: ${isSelected ? '#ffffff' : 'var(--accent)'}; border-color: var(--accent-border);">
+            <span>Jump</span>
+            <span class="text-xs">↵</span>
+          </span>
+        </div>
       </div>
-      <span class="text-xs font-mono opacity-80">↵</span>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 function handleCommandPaletteKey(e) {
@@ -12798,17 +13494,19 @@ function handleCommandPaletteKey(e) {
     if (filteredCmdItems.length > 0) {
       activeCmdIndex = (activeCmdIndex + 1) % filteredCmdItems.length;
       renderCommandResults();
+      scrollToActiveCmd();
     }
   } else if (e.key === 'ArrowUp') {
     e.preventDefault();
     if (filteredCmdItems.length > 0) {
       activeCmdIndex = (activeCmdIndex - 1 + filteredCmdItems.length) % filteredCmdItems.length;
       renderCommandResults();
+      scrollToActiveCmd();
     }
   } else if (e.key === 'Enter') {
     e.preventDefault();
     if (filteredCmdItems[activeCmdIndex]) {
-      executeCommandJump(filteredCmdItems[activeCmdIndex].id);
+      executeCommandJumpIndex(activeCmdIndex);
     }
   } else if (e.key === 'Escape') {
     e.preventDefault();
@@ -12817,45 +13515,116 @@ function handleCommandPaletteKey(e) {
 }
 window.handleCommandPaletteKey = handleCommandPaletteKey;
 
-function executeCommandJump(targetId) {
+function scrollToActiveCmd() {
+  const container = document.getElementById('cmd-palette-results');
+  const selected = container ? container.querySelector('.cmd-item.selected') : null;
+  if (selected) {
+    selected.scrollIntoView({ block: 'nearest' });
+  }
+}
+
+function executeCommandJumpIndex(idx) {
+  const item = filteredCmdItems[idx];
+  if (!item) return;
+  executeCommandJump(item);
+}
+window.executeCommandJumpIndex = executeCommandJumpIndex;
+
+function executeCommandJump(item) {
   closeCommandPalette();
-  const el = document.getElementById(targetId);
-  if (!el) {
-    if (typeof showToast === 'function') showToast(`Jump target #${targetId} not found in DOM`);
+
+  // 1. Contextual State Activation based on action
+  if (item.action === 'action_theme') {
+    if (typeof toggleThemeDropdown === 'function') toggleThemeDropdown({ stopPropagation: () => {} });
+    return;
+  }
+  if (item.action === 'action_density') {
+    if (typeof toggleDensityMode === 'function') toggleDensityMode();
+    return;
+  }
+  if (item.action === 'action_sync') {
+    if (typeof quickJump === 'function') quickJump('profile');
+    if (typeof showToast === 'function') showToast('☁️ Cloud Sync Initiated');
+    return;
+  }
+  if (item.action === 'action_export_pdf') {
+    if (typeof openExportDossierModal === 'function') openExportDossierModal();
+    return;
+  }
+  if (item.action && item.action.startsWith('open_dossier_')) {
+    if (typeof openBottomSheet === 'function') openBottomSheet('dossiers');
+    if (typeof showToast === 'function') showToast(`📑 ${item.title}`);
     return;
   }
 
-  // Ensure parent tab is visible if hidden
-  const parentSubPane = el.closest('.sub-pane');
-  if (parentSubPane && parentSubPane.classList.contains('hidden')) {
-    parentSubPane.classList.remove('hidden');
-  }
-  const parentTab = el.closest('section[id^="tab-"]');
-  if (parentTab && parentTab.classList.contains('hidden')) {
-    parentTab.classList.remove('hidden');
+  // 2. Parent Tab & Sub-Pane Switching
+  if (item.tab) {
+    const parentTabBtn = document.querySelector(`button[onclick*="'${item.tab}'"]`);
+    if (typeof switchTab === 'function' && parentTabBtn) {
+      switchTab(item.tab, parentTabBtn);
+    } else {
+      const tabEl = document.getElementById(item.tab);
+      if (tabEl) {
+        document.querySelectorAll('section[id^="tab-"]').forEach(s => s.classList.add('hidden'));
+        tabEl.classList.remove('hidden');
+      }
+    }
   }
 
-  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  
-  // Tactical highlight ripple
-  el.classList.add('ring-4', 'ring-emerald-500', 'transition-all');
-  setTimeout(() => el.classList.remove('ring-4', 'ring-emerald-500'), 1800);
-  
+  if (item.subPane) {
+    const parentSubBtn = document.querySelector(`button[onclick*="'${item.subPane}'"]`);
+    if (typeof switchSubTab === 'function' && parentSubBtn && item.tab) {
+      switchSubTab(item.tab, item.subPane, parentSubBtn);
+    } else {
+      const paneEl = document.getElementById(item.subPane);
+      if (paneEl) {
+        document.querySelectorAll('.sub-pane').forEach(p => p.classList.add('hidden'));
+        paneEl.classList.remove('hidden');
+      }
+    }
+  }
+
+  // 3. Commodity Selection & Preset Activation
+  if (item.action && item.action.startsWith('commodity_')) {
+    const code = item.action.replace('commodity_', '');
+    if (typeof selectWorkbenchCommodity === 'function') {
+      selectWorkbenchCommodity(code);
+    }
+  }
+
+  if (item.action && item.action.startsWith('scenario_')) {
+    const scnNum = item.action.replace('scenario_', '');
+    if (typeof setGroundScenarioPreset === 'function') {
+      setGroundScenarioPreset(scnNum);
+    }
+  }
+
+  // 4. Smooth Centered Scroll & Tactical Highlight
+  const el = document.getElementById(item.id);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    el.classList.add('ring-4', 'ring-emerald-500', 'transition-all');
+    setTimeout(() => el.classList.remove('ring-4', 'ring-emerald-500'), 1800);
+  }
+
   if (typeof showToast === 'function') {
-    showToast(`⚡ Focused on ${targetId}`, '⚡');
+    showToast(`⚡ Focused & Activated: ${item.title}`, '⚡');
   }
 }
 window.executeCommandJump = executeCommandJump;
 
-// Global Shortcut Listener for Cmd + K / Ctrl + K
+// Global Shortcut Listener for Cmd + K / Ctrl + K and "/"
 window.addEventListener('keydown', (e) => {
   if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    e.preventDefault();
+    openCommandPalette();
+  } else if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
     e.preventDefault();
     openCommandPalette();
   }
 });
 
-// Viewport Density Switcher (Gap 2)
+// Viewport Density Switcher
 let isFocusDensity = false;
 function toggleDensityMode() {
   isFocusDensity = !isFocusDensity;
@@ -12863,15 +13632,13 @@ function toggleDensityMode() {
   const txt = document.getElementById('density-text');
   const ico = document.getElementById('density-icon');
   if (txt) txt.textContent = isFocusDensity ? 'Full Audit View' : 'Focus View';
-  if (ico) ico.textContent = isFocusDensity ? '📑' : '⚡';
   if (typeof showToast === 'function') {
-    showToast(isFocusDensity ? '⚡ High-Density Focus Mode Active (Explanations Condensed)' : '📑 Full Audit Mode Active (Complete Statutory Texts)', '⚡');
+    showToast(isFocusDensity ? '⚡ Switched to Focus View' : '📑 Switched to Full Audit View');
   }
 }
 window.toggleDensityMode = toggleDensityMode;
 
 
-// ==================== SOVEREIGN LIVE TELEMETRY WIRE ENGINE ====================
 const LIVE_WIRE_FEEDS = [
   {
     id: 'feed-1',

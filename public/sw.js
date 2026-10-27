@@ -4,7 +4,7 @@
  * 100% Native Web Standards (Zero External Libraries)
  */
 
-const CACHE_NAME = 'world-of-trade-v28-half-width-rolling-wire';
+const CACHE_NAME = 'world-of-trade-v29-omni-search';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
