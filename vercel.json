@@ -2,7 +2,15 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api" }
+    { "source": "/api/health", "destination": "/api" },
+    { "source": "/api/history", "destination": "/api" },
+    { "source": "/api/forex", "destination": "/api" },
+    { "source": "/api/cbic-gazette", "destination": "/api" },
+    { "source": "/api/tradestat", "destination": "/api" },
+    { "source": "/api/corridors", "destination": "/api" },
+    { "source": "/api/ingest/corridors", "destination": "/api" },
+    { "source": "/api/query", "destination": "/api" },
+    { "source": "/api/calculate", "destination": "/api" }
   ],
   "headers": [
     {
