@@ -4,7 +4,7 @@
  * 100% Native Web Standards (Zero External Libraries)
  */
 
-const CACHE_NAME = 'world-of-trade-v30-verified-deep-links';
+const CACHE_NAME = 'world-of-trade-v31-search-ui-ux';
 const STATIC_ASSETS = [
   '/',
   '/index.html',

@@ -13378,11 +13378,13 @@ const COMMAND_INDEX = [
 function openCommandPalette() {
   const modal = document.getElementById('cmd-palette-modal');
   const input = document.getElementById('cmd-palette-input');
+  const clearBtn = document.getElementById('cmd-palette-clear-btn');
   if (!modal || !input) return;
 
   modal.classList.remove('hidden');
   modal.classList.add('flex');
   input.value = '';
+  if (clearBtn) clearBtn.classList.add('hidden');
   activeCmdCategoryFilter = 'all';
   filterCommandPalette('');
   setTimeout(() => input.focus(), 60);
@@ -13396,6 +13398,16 @@ function closeCommandPalette() {
   modal.classList.remove('flex');
 }
 window.closeCommandPalette = closeCommandPalette;
+
+function clearCommandPaletteInput() {
+  const input = document.getElementById('cmd-palette-input');
+  if (input) {
+    input.value = '';
+    input.focus();
+  }
+  filterCommandPalette('');
+}
+window.clearCommandPaletteInput = clearCommandPaletteInput;
 
 function setCmdCategoryFilter(cat, btn) {
   activeCmdCategoryFilter = cat;
@@ -13417,6 +13429,15 @@ window.setCmdCategoryFilter = setCmdCategoryFilter;
 function filterCommandPalette(q) {
   const query = (q || '').toLowerCase().trim();
   const tokens = query.split(/\s+/).filter(Boolean);
+
+  const clearBtn = document.getElementById('cmd-palette-clear-btn');
+  if (clearBtn) {
+    if (query.length > 0) {
+      clearBtn.classList.remove('hidden');
+    } else {
+      clearBtn.classList.add('hidden');
+    }
+  }
 
   filteredCmdItems = COMMAND_INDEX.filter(item => {
     // 1. Category Filter Check
@@ -13442,15 +13463,15 @@ function renderCommandResults() {
   if (!container) return;
 
   if (countEl) {
-    countEl.textContent = `${filteredCmdItems.length} Components Matching`;
+    countEl.textContent = `${filteredCmdItems.length} Components Available`;
   }
 
   if (filteredCmdItems.length === 0) {
     container.innerHTML = `
-      <div class="p-6 text-center space-y-2">
-        <div class="text-2xl">🔍</div>
-        <div class="font-bold text-xs text-neutral-400">No components match your query.</div>
-        <p class="text-[11px] text-neutral-500 font-mono">Try searching for "0306", "basmati", "CEPA", "demurrage", "Section 14", or "dossier".</p>
+      <div class="py-10 px-4 text-center space-y-2">
+        <div class="text-3xl opacity-80">🔍</div>
+        <div class="font-black text-xs" style="color: var(--text-main);">No operational components match your query.</div>
+        <p class="text-[11px] font-mono leading-relaxed max-w-sm mx-auto" style="color: var(--text-muted);">Try searching for "0306", "basmati", "CEPA", "demurrage", "Section 14", "APEDA", or "export audit".</p>
       </div>
     `;
     return;
@@ -13458,28 +13479,37 @@ function renderCommandResults() {
 
   container.innerHTML = filteredCmdItems.map((item, idx) => {
     const isSelected = idx === activeCmdIndex;
+    const bgStyle = isSelected 
+      ? 'background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.45); box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.2);'
+      : 'background: var(--card-inner-bg); border-color: var(--card-inner-border);';
+    
     return `
       <div onclick="executeCommandJumpIndex(${idx})" 
-           class="cmd-item p-2.5 sm:p-3 rounded-2xl border flex items-center justify-between cursor-pointer transition-all ${isSelected ? 'selected ring-2 ring-emerald-500' : ''}"
-           style="background: ${isSelected ? 'var(--card-bg)' : 'var(--card-inner-bg)'}; border-color: ${isSelected ? 'var(--accent)' : 'var(--card-inner-border)'};">
-        <div class="space-y-1 min-w-0 pr-2">
-          <div class="flex items-center gap-2 flex-wrap">
-            <span class="px-1.5 py-0.5 rounded text-[8.5px] font-mono font-black uppercase tracking-wider border shrink-0"
-                  style="background: ${item.badgeBg}; color: ${item.badgeColor}; border-color: ${item.badgeColor}40;">
-              ${item.badge}
-            </span>
-            <span class="font-extrabold text-xs sm:text-[13px] tracking-tight truncate" style="color: var(--text-main);">
-              ${item.title}
-            </span>
+           class="cmd-item p-2.5 sm:p-3 rounded-2xl border flex items-center justify-between cursor-pointer transition-all duration-150 group relative ${isSelected ? 'selected' : 'hover:border-neutral-400/40'}"
+           style="${bgStyle}">
+        <div class="flex items-center gap-2.5 min-w-0 pr-2">
+          ${isSelected 
+            ? '<span class="w-1 h-5 rounded-full bg-emerald-500 shrink-0"></span>' 
+            : '<span class="w-1 h-5 rounded-full bg-transparent shrink-0"></span>'}
+          <div class="space-y-0.5 min-w-0">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="px-1.5 py-0.5 rounded text-[8.5px] font-mono font-black uppercase tracking-wider border shrink-0"
+                    style="background: ${item.badgeBg}; color: ${item.badgeColor}; border-color: ${item.badgeColor}40;">
+                ${item.badge}
+              </span>
+              <span class="font-extrabold text-xs sm:text-[13px] tracking-tight truncate" style="color: var(--text-main);">
+                ${item.title}
+              </span>
+            </div>
+            <p class="text-[10.5px] leading-relaxed line-clamp-1" style="color: var(--text-muted);">
+              ${item.desc}
+            </p>
           </div>
-          <p class="text-[10.5px] leading-relaxed line-clamp-1" style="color: var(--text-muted);">
-            ${item.desc}
-          </p>
         </div>
         <div class="shrink-0 flex items-center gap-1.5 pl-2">
-          <span class="inline-flex items-center gap-1 px-2 py-1 rounded-lg border text-[10px] font-mono font-bold transition-all shadow-xs"
+          <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl border text-[10px] font-mono font-bold transition-all ${isSelected ? 'shadow-xs' : 'opacity-70 group-hover:opacity-100'}"
                 style="background: ${isSelected ? 'var(--accent)' : 'var(--card-bg)'}; color: ${isSelected ? '#ffffff' : 'var(--accent)'}; border-color: var(--accent-border);">
-            <span>Jump</span>
+            <span>Open</span>
             <span class="text-xs">↵</span>
           </span>
         </div>
