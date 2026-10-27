@@ -4,7 +4,7 @@
  * 100% Native Web Standards (Zero External Libraries)
  */
 
-const CACHE_NAME = 'world-of-trade-v20-visual-perfection-verified';
+const CACHE_NAME = 'world-of-trade-v21-sovereign-universal-hardening';
 const STATIC_ASSETS = [
   '/',
   '/index.html',

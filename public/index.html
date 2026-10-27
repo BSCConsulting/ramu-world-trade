@@ -1588,6 +1588,34 @@
         </div>
 
 
+      <!-- Dynamic Trade Flow Corridor Infographic (4-Stage Telemetry Rail) -->
+      <div id="trade-flow-infographic-rail" class="p-3.5 rounded-2xl border space-y-2 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <div class="flex items-center justify-between flex-wrap gap-1.5 text-[10px] font-mono">
+          <span class="font-extrabold uppercase tracking-wider text-amber-500 flex items-center gap-1.5">
+            <span>🗺️</span> Statutory Trade Flow Corridor Telemetry
+          </span>
+          <span class="text-emerald-500 font-bold whitespace-nowrap">● Multi-Node Telemetry Active</span>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs font-mono">
+          <div class="p-2 rounded-xl border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-border);">
+            <span class="text-[9px] block uppercase" style="color: var(--text-dim);">1. Origin Cluster</span>
+            <span id="flow-origin" class="font-extrabold text-[11px] block truncate text-amber-500">Indian Clusters</span>
+          </div>
+          <div class="p-2 rounded-xl border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-border);">
+            <span class="text-[9px] block uppercase" style="color: var(--text-dim);">2. Transit Corridor</span>
+            <span id="flow-transit" class="font-extrabold text-[11px] block truncate text-cyan-500">GST Corridor</span>
+          </div>
+          <div class="p-2 rounded-xl border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-border);">
+            <span class="text-[9px] block uppercase" style="color: var(--text-dim);">3. Exit Port (FOB)</span>
+            <span id="flow-port" class="font-extrabold text-[11px] block truncate text-emerald-500">Nhava Sheva Port</span>
+          </div>
+          <div class="p-2 rounded-xl border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-border);">
+            <span class="text-[9px] block uppercase" style="color: var(--text-dim);">4. Destination (CIF)</span>
+            <span id="flow-dest" class="font-extrabold text-[11px] block truncate text-purple-400">Target Market</span>
+          </div>
+        </div>
+      </div>
+
       <!-- Visual Trade Chart Terminal (Chart.js) -->
       <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3">
         <div class="flex items-center justify-between">
@@ -3666,7 +3694,8 @@
               <div><span style="color: var(--text-dim);">Payload:</span> <strong id="fcl-total-payload" style="color: var(--text-main);">24,000 kg / 26,500 kg</strong></div>
               <div><span style="color: var(--text-dim);">Volume Capacity:</span> <strong id="fcl-util-pct" class="text-emerald-500">91%</strong></div>
               <div><span style="color: var(--text-dim);">Blended Freight:</span> <strong id="fcl-blended-freight" class="text-cyan-500">₹9.01 / kg</strong></div>
-              <div><span style="color: var(--text-dim);">Total RoDTEP Yield:</span> <strong id="fcl-total-rodtep" class="text-emerald-500">₹73,840</strong></div>
+              <div><span style="color: var(--text-dim);">Total RoDTEP:</span> <strong id="fcl-total-rodtep" class="text-emerald-500">₹73,840</strong></div>
+              <div><span style="color: var(--text-dim);">Total FOB:</span> <strong id="fcl-total-fob" class="text-amber-500">₹29,80,000</strong></div>
             </div>
             <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
               <div id="fcl-util-bar" class="h-2 rounded-full transition-all duration-300" style="width: 91%; background-color: #10B981;"></div>
@@ -6157,9 +6186,11 @@
 
         <!-- Timer 1 -->
         <div class="p-4 rounded-2xl border space-y-2.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold">🌾 APMC Mandi Auction Session</span>
-            <span class="text-[10px] px-2 py-0.5 rounded-md font-mono font-bold" style="background: var(--accent-light); color: var(--accent);">LIVE</span>
+          <div class="flex items-center justify-between flex-wrap gap-1.5">
+            <span class="text-xs font-bold flex items-center gap-1.5">
+              <span>🌾</span> APMC Mandi Wholesale Auction Session
+            </span>
+            <span id="mandi-live-badge" class="text-[10px] px-2 py-0.5 rounded-md font-mono font-bold uppercase" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">LIVE AUCTION ACTIVE</span>
           </div>
           <div class="text-3xl font-black font-mono tracking-wider" id="mandi-timer">
             02:44:18
@@ -6241,6 +6272,23 @@
               </button>
             </div>
           </div>
+        </div>
+
+        <!-- Timer 3: Port CFS Container Gate-In Cutoff Clock (Gap Resolution) -->
+        <div class="p-4 rounded-2xl border space-y-2.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between flex-wrap gap-1.5">
+            <span class="text-xs font-bold flex items-center gap-1.5">
+              <span>⚓</span> Port CFS Container Gate-In Cutoff Clock (JNPT / Mundra)
+            </span>
+            <span class="text-[10px] px-2 py-0.5 rounded-md font-mono font-bold uppercase" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">LEO ACTIVE</span>
+          </div>
+          <div class="text-3xl font-black font-mono tracking-wider text-emerald-500" id="gate-timer">
+            05:12:45
+          </div>
+          <div class="w-full h-2 rounded-full overflow-hidden" style="background: var(--card-inner-border);">
+            <div class="h-full w-4/5 rounded-full" style="background: #10B981;"></div>
+          </div>
+          <p class="text-[10px]" style="color: var(--text-muted);">Vessel loading cutoff. Containers must clear CFS customs examination and gate-in before deadline to avoid roll-over demurrage.</p>
         </div>
 
         <!-- Provider 3.1: Indian Ports Association (IPA) & PCS 1x Live Port Operations & Vessel Berthing Radar -->
@@ -7191,6 +7239,7 @@
             <p><span class="font-bold" style="color: var(--text-dim);">Operating Model:</span> <span id="cp-model" class="font-medium">Connect verified ODOP district manufacturers with overseas buyers or domestic export houses without holding inventory or taking title.</span></p>
             <p><span class="font-bold" style="color: var(--text-dim);">Protection Shield:</span> <span id="cp-shield" class="font-medium">Execute 1-tap NCNDA + Bank IMFPA before disclosing factory identities or pricing. Commission wired on LC liquidation.</span></p>
             <p><span class="font-bold" style="color: var(--text-dim);">Legal Prerequisites:</span> <span id="cp-legal" class="font-medium">Proprietorship / LLP + GSTIN (for commission invoicing) + Current Bank Account. (No IEC required for domestic brokerage).</span></p>
+            <p><span class="font-bold" style="color: var(--text-dim);">Target Milestone:</span> <span id="cp-milestone" class="font-semibold text-emerald-500">First Commission Deal Closed: 30–45 Days.</span></p>
           </div>
         </div>
       </div>
@@ -8041,13 +8090,30 @@
           <div class="text-[9.5px]" style="color: var(--text-dim);">Gross Weight: 26,000 kg (1 x 40ft HC Container)</div>
         </div>
 
-        <div class="p-2.5 rounded-xl border space-y-1" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-          <div class="text-[9.5px] font-mono uppercase font-bold text-cyan-500">Box 8: Origin Conferring Criteria (Crucial)</div>
+        <div class="p-2.5 rounded-xl border space-y-1.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between flex-wrap gap-1">
+            <span class="text-[9.5px] font-mono uppercase font-bold text-cyan-500">Box 8: Origin Criteria (CAROTAR 2020)</span>
+            <span id="fta-coo-status" class="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">✓ QUALIFIES FOR 0% DUTY</span>
+          </div>
           <div class="font-bold text-[11px] text-emerald-500" id="coo-modal-criteria">
             CTSH + 35% Value Addition (CEPA Operational Rules)
           </div>
-          <div class="text-[9.5px] leading-relaxed" style="color: var(--text-muted);">
-            Conforms to Product-Specific Rules (PSR). Meets non-party input limitation (&lt;65%) and change in tariff classification requirements.
+          <div class="grid grid-cols-3 gap-1.5 text-[9.5px] font-mono pt-1">
+            <div>
+              <span style="color: var(--text-dim);">Non-Originating ($):</span>
+              <input type="number" id="fta-import-val" value="28000" oninput="calculateFtaValueAddition()" class="w-full p-1 rounded border text-[9.5px] font-bold" style="background: var(--input-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+            </div>
+            <div>
+              <span style="color: var(--text-dim);">FOB Export ($):</span>
+              <input type="number" id="fta-export-val" value="75000" oninput="calculateFtaValueAddition()" class="w-full p-1 rounded border text-[9.5px] font-bold" style="background: var(--input-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+            </div>
+            <div>
+              <span style="color: var(--text-dim);">Computed DVA:</span>
+              <div id="fta-dva-pct" class="p-1 rounded border text-[9.5px] font-bold text-center text-emerald-500" style="background: var(--input-bg); border-color: var(--card-inner-border);">62.7% DVA</div>
+            </div>
+          </div>
+          <div class="text-[9px] leading-relaxed pt-0.5" style="color: var(--text-muted);">
+            Meets PSR non-originating input limitation (&lt;65%) and change in tariff classification requirements.
           </div>
         </div>
       </div>

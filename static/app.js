@@ -12436,12 +12436,19 @@ if (document.readyState === 'loading') {
 function saveSandboxState() {
   try {
     const state = {
-      product: document.getElementById('sim-product-name') ? document.getElementById('sim-product-name').value : '',
-      cbu: document.getElementById('sim-cbu-tax') ? document.getElementById('sim-cbu-tax').value : '',
-      parts: document.getElementById('sim-parts-duty') ? document.getElementById('sim-parts-duty').value : '',
-      cost: document.getElementById('sim-unit-cost') ? document.getElementById('sim-unit-cost').value : '',
-      retail: document.getElementById('sim-retail-price') ? document.getElementById('sim-retail-price').value : '',
-      volume: document.getElementById('sim-monthly-vol') ? document.getElementById('sim-monthly-vol').value : ''
+      corridorInvoice: document.getElementById('corridor-sim-invoice')?.value || '75000',
+      activeCurrency: typeof activeSimCurrency !== 'undefined' ? activeSimCurrency : 'USD',
+      activeFreightBaf: typeof activeFreightBafPct !== 'undefined' ? activeFreightBafPct : 0,
+      cbu: document.getElementById('plane-arb-cbu')?.value || '70',
+      ckd: document.getElementById('plane-arb-ckd')?.value || '15',
+      cost: document.getElementById('plane-arb-cost')?.value || '450',
+      vol: document.getElementById('plane-arb-vol')?.value || '500',
+      fcl1Qty: document.getElementById('fcl-item1-qty')?.value || '12000',
+      fcl1Val: document.getElementById('fcl-item1-val')?.value || '85',
+      fcl2Qty: document.getElementById('fcl-item2-qty')?.value || '8000',
+      fcl2Val: document.getElementById('fcl-item2-val')?.value || '120',
+      fcl3Qty: document.getElementById('fcl-item3-qty')?.value || '4000',
+      fcl3Val: document.getElementById('fcl-item3-val')?.value || '250'
     };
     localStorage.setItem('wot_sandbox_state_v1', JSON.stringify(state));
   } catch (e) {}
@@ -12453,13 +12460,29 @@ function restoreSandboxState() {
     const raw = localStorage.getItem('wot_sandbox_state_v1');
     if (!raw) return;
     const s = JSON.parse(raw);
-    if (s.product && document.getElementById('sim-product-name')) document.getElementById('sim-product-name').value = s.product;
-    if (s.cbu && document.getElementById('sim-cbu-tax')) document.getElementById('sim-cbu-tax').value = s.cbu;
-    if (s.parts && document.getElementById('sim-parts-duty')) document.getElementById('sim-parts-duty').value = s.parts;
-    if (s.cost && document.getElementById('sim-unit-cost')) document.getElementById('sim-unit-cost').value = s.cost;
-    if (s.retail && document.getElementById('sim-retail-price')) document.getElementById('sim-retail-price').value = s.retail;
-    if (s.volume && document.getElementById('sim-monthly-vol')) document.getElementById('sim-monthly-vol').value = s.volume;
-    if (typeof calculateArbitrageEngine === 'function') calculateArbitrageEngine();
+    if (s.corridorInvoice && document.getElementById('corridor-sim-invoice')) {
+      document.getElementById('corridor-sim-invoice').value = s.corridorInvoice;
+    }
+    if (s.activeCurrency && typeof setSimCurrency === 'function') {
+      setSimCurrency(s.activeCurrency);
+    }
+    if (s.activeFreightBaf !== undefined && typeof setFreightBaf === 'function') {
+      setFreightBaf(s.activeFreightBaf);
+    }
+    if (s.cbu && document.getElementById('plane-arb-cbu')) document.getElementById('plane-arb-cbu').value = s.cbu;
+    if (s.ckd && document.getElementById('plane-arb-ckd')) document.getElementById('plane-arb-ckd').value = s.ckd;
+    if (s.cost && document.getElementById('plane-arb-cost')) document.getElementById('plane-arb-cost').value = s.cost;
+    if (s.vol && document.getElementById('plane-arb-vol')) document.getElementById('plane-arb-vol').value = s.vol;
+    if (s.fcl1Qty && document.getElementById('fcl-item1-qty')) document.getElementById('fcl-item1-qty').value = s.fcl1Qty;
+    if (s.fcl1Val && document.getElementById('fcl-item1-val')) document.getElementById('fcl-item1-val').value = s.fcl1Val;
+    if (s.fcl2Qty && document.getElementById('fcl-item2-qty')) document.getElementById('fcl-item2-qty').value = s.fcl2Qty;
+    if (s.fcl2Val && document.getElementById('fcl-item2-val')) document.getElementById('fcl-item2-val').value = s.fcl2Val;
+    if (s.fcl3Qty && document.getElementById('fcl-item3-qty')) document.getElementById('fcl-item3-qty').value = s.fcl3Qty;
+    if (s.fcl3Val && document.getElementById('fcl-item3-val')) document.getElementById('fcl-item3-val').value = s.fcl3Val;
+    
+    if (typeof updateArbitrageLive === 'function') updateArbitrageLive();
+    if (typeof updateFclConsolidator === 'function') updateFclConsolidator();
+    if (typeof runCorridorMarginSim === 'function') runCorridorMarginSim();
   } catch (e) {}
 }
 window.restoreSandboxState = restoreSandboxState;
