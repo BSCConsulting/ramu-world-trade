@@ -67,7 +67,16 @@ const THEMES = {
 
 let currentTheme = 'kyoto-tea';
 let currentChart = null;
-let lastChartData = null;
+const DEFAULT_TRADE_DISTRIBUTION = {
+  title: 'India Sovereign Agri & Export Commodity Distribution ($ Million USD)',
+  type: 'bar',
+  labels: ['Basmati Rice', 'Marine / Shrimp', 'Spices & Extracts', 'Buffalo Meat', 'Fresh Fruits & Veg', 'Castor Oil'],
+  datasets: [{
+    label: 'DGCI&S Annual Statutory Outflows ($M)',
+    data: [5420, 7150, 4280, 3620, 1890, 1450]
+  }]
+};
+let lastChartData = DEFAULT_TRADE_DISTRIBUTION;
 let currentTab = 'apps';
 let mandiSecondsLeft = 2 * 3600 + 44 * 60 + 18;
 let ewaySecondsLeft = 18 * 3600 + 32 * 60 + 5;
@@ -243,6 +252,13 @@ window.addEventListener('hashchange', () => {
 // Auto-activate tab from URL hash on load
 if (typeof window !== 'undefined') {
   window.addEventListener('DOMContentLoaded', () => {
+    // Render default trade distribution chart immediately
+    setTimeout(() => {
+      const ctx = document.getElementById('trade-chart');
+      if (ctx && typeof renderChart === 'function') {
+        renderChart(DEFAULT_TRADE_DISTRIBUTION);
+      }
+    }, 100);
     const hash = (window.location.hash || '').replace('#', '').toLowerCase();
     const tabs = ['apps', 'agenda', 'scratchpad', 'timer', 'profile'];
     if (tabs.includes(hash)) {
@@ -710,6 +726,8 @@ function toggleChartType(type) {
 function renderChart(chartData) {
   const ctx = document.getElementById('trade-chart');
   if (!ctx) return;
+  if (!chartData) chartData = DEFAULT_TRADE_DISTRIBUTION;
+  lastChartData = chartData;
 
   if (currentChart) {
     currentChart.destroy();
@@ -5828,12 +5846,12 @@ function renderApedaResults(data) {
       <div class="p-3.5 rounded-2xl border flex flex-col justify-between space-y-2.5 shadow-sm"
            style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
         <div class="space-y-1.5">
-          <div class="flex items-center justify-between">
-            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase"
-                  style="background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.3);">
+          <div class="flex items-center justify-between flex-wrap gap-1.5">
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase whitespace-nowrap shrink-0"
+                  style="background: rgba(16, 185, 129, 0.15); color: #047857; border: 1px solid rgba(16, 185, 129, 0.3);">
               ● Cryptographic Provenance
             </span>
-            <span class="text-[10px] font-mono" style="color: var(--text-dim);">HS ${activePreset.hsCode}</span>
+            <span class="text-[10px] font-mono font-bold whitespace-nowrap shrink-0" style="color: var(--text-muted);">HS ${activePreset.hsCode}</span>
           </div>
           <h4 class="text-xs font-bold uppercase tracking-tight" style="color: var(--text-main);">
             ${escapeHtml(activePreset.engineName)} (HS ${activePreset.hsCode})
@@ -5845,7 +5863,7 @@ function renderApedaResults(data) {
             <span class="font-bold" style="color: var(--text-main);">🛡️ What It Prevents:</span> Prevents illicit adulteration (e.g. blending non-notified grain into GI Basmati) and protects against export license suspension under the APEDA Act.
           </div>
         </div>
-        <div class="pt-2 border-t flex items-center justify-between text-[10px] font-mono font-bold text-emerald-400" style="border-color: var(--card-inner-border);">
+        <div class="pt-2 border-t flex items-center justify-between text-[10px] font-mono font-bold text-emerald-500" style="border-color: var(--card-inner-border);">
           <span>✓ Field / Plot Mapped</span>
           <span>✓ Mandi Form 9 Linked</span>
         </div>
@@ -5855,25 +5873,25 @@ function renderApedaResults(data) {
       <div class="p-3.5 rounded-2xl border flex flex-col justify-between space-y-2.5 shadow-sm"
            style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
         <div class="space-y-1.5">
-          <div class="flex items-center justify-between">
-            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase"
-                  style="background: rgba(59, 130, 246, 0.15); color: #3B82F6; border: 1px solid rgba(59, 130, 246, 0.3);">
+          <div class="flex items-center justify-between flex-wrap gap-1.5">
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase whitespace-nowrap shrink-0"
+                  style="background: rgba(59, 130, 246, 0.15); color: #1D4ED8; border: 1px solid rgba(59, 130, 246, 0.3);">
               ● Statutory Sampling Protocol
             </span>
-            <span class="text-[10px] font-mono text-amber-400 font-bold">High Scrutiny</span>
+            <span class="text-[10px] font-mono text-amber-500 font-bold whitespace-nowrap shrink-0">High Scrutiny</span>
           </div>
           <h4 class="text-xs font-bold uppercase tracking-tight" style="color: var(--text-main);">
             ${escapeHtml(mkt.name)} Stance &amp; Verification
           </h4>
           <div class="space-y-1 pt-0.5 text-[10px] font-mono">
             <div class="p-1.5 rounded border" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-muted);">
-              <span class="text-cyan-400 font-bold">● Pull:</span> Min 10% stratified bags per export lot
+              <span class="text-cyan-600 font-bold">● Pull:</span> Min 10% stratified bags per export lot
             </div>
             <div class="p-1.5 rounded border" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-muted);">
-              <span class="text-cyan-400 font-bold">● Split:</span> 3 Samples (Testing / 6-Mo Dispute Counter / Control)
+              <span class="text-cyan-600 font-bold">● Split:</span> 3 Samples (Testing / 6-Mo Dispute Counter / Control)
             </div>
             <div class="p-1.5 rounded border" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-muted);">
-              <span class="text-cyan-400 font-bold">● Data:</span> Raw chromatogram uploaded directly to TraceNet
+              <span class="text-cyan-600 font-bold">● Data:</span> Raw chromatogram uploaded directly to TraceNet
             </div>
           </div>
         </div>
@@ -5886,34 +5904,34 @@ function renderApedaResults(data) {
       <div class="p-3.5 rounded-2xl border flex flex-col justify-between space-y-2.5 shadow-sm"
            style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
         <div class="space-y-1.5">
-          <div class="flex items-center justify-between">
-            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase"
-                  style="background: rgba(168, 85, 247, 0.15); color: #A855F7; border: 1px solid rgba(168, 85, 247, 0.3);">
+          <div class="flex items-center justify-between flex-wrap gap-1.5">
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase whitespace-nowrap shrink-0"
+                  style="background: rgba(168, 85, 247, 0.15); color: #7E22CE; border: 1px solid rgba(168, 85, 247, 0.3);">
               ● Dual-Agency Clearance Gate
             </span>
-            <span class="text-[10px] font-mono text-purple-400 font-bold">Customs Sec 50</span>
+            <span class="text-[10px] font-mono text-purple-600 font-bold whitespace-nowrap shrink-0">Customs Sec 50</span>
           </div>
           <h4 class="text-xs font-bold uppercase tracking-tight" style="color: var(--text-main);">
             Pre-Shipment Treatment &amp; Release
           </h4>
           <div class="space-y-1 text-[10px]">
             <div class="p-1.5 rounded border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
-              <div class="font-bold text-emerald-400 flex items-center justify-between">
-                <span>1. Biological Gate (DPPQ&amp;S):</span>
-                <span class="font-mono text-[9px]" style="color: var(--text-dim);">Phytosanitary Cert (PSC)</span>
+              <div class="font-bold flex items-center justify-between flex-wrap gap-1 text-[10px]">
+                <span class="text-emerald-500 font-semibold">1. Biological Gate (DPPQ&amp;S):</span>
+                <span class="font-mono text-[9.5px] whitespace-nowrap" style="color: var(--text-muted);">Phytosanitary Cert (PSC)</span>
               </div>
               <div class="mt-0.5" style="color: var(--text-muted);">${escapeHtml(mkt.mandatory_treatment || activePreset.mandatoryTreatment)}</div>
             </div>
             <div class="p-1.5 rounded border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
-              <div class="font-bold text-cyan-400 flex items-center justify-between">
-                <span>2. Chemical Gate (APEDA):</span>
-                <span class="font-mono text-[9px]" style="color: var(--text-dim);">Certificate of Insp (CoI)</span>
+              <div class="font-bold flex items-center justify-between flex-wrap gap-1 text-[10px]">
+                <span class="text-cyan-600 font-semibold">2. Chemical Gate (APEDA):</span>
+                <span class="font-mono text-[9.5px] whitespace-nowrap" style="color: var(--text-muted);">Certificate of Insp (CoI)</span>
               </div>
               <div class="mt-0.5" style="color: var(--text-muted);">${escapeHtml(activePreset.treatmentAuthority)} (&lt;0.01 ppm LOQ)</div>
             </div>
           </div>
         </div>
-        <div class="pt-2 border-t text-[10px] font-mono text-amber-400 p-1.5 rounded border"
+        <div class="pt-2 border-t text-[10px] font-mono text-amber-500 p-1.5 rounded border font-semibold"
              style="background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.25);">
           ⚠️ ICEGATE Section 50 Rule: Customs will NOT grant LEO without BOTH the DPPQ&amp;S PSC and TraceNet CoI.
         </div>
@@ -6115,12 +6133,12 @@ function renderApedaResults(data) {
           <div class="p-3.5 rounded-xl border flex flex-col justify-between space-y-3 transition-all shadow-sm"
                style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
             <div class="space-y-1.5">
-              <div class="flex items-center justify-between">
-                <span class="px-2 py-0.5 rounded text-[9.5px] font-mono font-bold uppercase"
-                      style="background: rgba(59, 130, 246, 0.15); color: #60A5FA; border: 1px solid rgba(59, 130, 246, 0.3);">
+              <div class="flex items-center justify-between flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded text-[9.5px] font-mono font-bold uppercase whitespace-nowrap shrink-0"
+                      style="background: rgba(59, 130, 246, 0.15); color: #1D4ED8; border: 1px solid rgba(59, 130, 246, 0.3);">
                   Option A • Legal Referee
                 </span>
-                <span class="text-[10px] font-mono" style="color: var(--text-dim);">ICAR-NRRI</span>
+                <span class="text-[10px] font-mono font-bold whitespace-nowrap shrink-0" style="color: var(--text-muted);">ICAR-NRRI</span>
               </div>
               <h5 class="font-bold text-xs uppercase tracking-tight" style="color: var(--text-main);">
                 Statutory Referee Re-Testing
@@ -6130,13 +6148,13 @@ function renderApedaResults(data) {
               </p>
               <div class="p-2 rounded-lg border text-[10px]"
                    style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-muted);">
-                <strong class="text-blue-400">Legal Recourse:</strong> Tests variance across certified gas chromatography channels to challenge preliminary LOQ flags.
+                <strong class="text-blue-600">Legal Recourse:</strong> Tests variance across certified gas chromatography channels to challenge preliminary LOQ flags.
               </div>
             </div>
 
             <button type="button" onclick="requestRefereeRetest()"
-                    class="w-full py-2 px-2.5 rounded-lg border font-bold text-[10.5px] uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all active:scale-95"
-                    style="background: rgba(59, 130, 246, 0.1); color: #93C5FA; border-color: rgba(59, 130, 246, 0.3);">
+                    class="w-full py-2.5 px-2.5 rounded-xl border font-extrabold text-[11px] uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all active:scale-95 shadow-sm"
+                    style="background: rgba(59, 130, 246, 0.15); color: #1D4ED8; border-color: rgba(59, 130, 246, 0.4);">
               <span>🧪</span> Request Referee Lab Re-Test
             </button>
           </div>
@@ -6145,12 +6163,12 @@ function renderApedaResults(data) {
           <div class="p-3.5 rounded-xl border flex flex-col justify-between space-y-3 transition-all shadow-sm"
                style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
             <div class="space-y-1.5">
-              <div class="flex items-center justify-between">
-                <span class="px-2 py-0.5 rounded text-[9.5px] font-mono font-bold uppercase"
-                      style="background: rgba(6, 182, 212, 0.15); color: #22D3EE; border: 1px solid rgba(6, 182, 212, 0.3);">
+              <div class="flex items-center justify-between flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded text-[9.5px] font-mono font-bold uppercase whitespace-nowrap shrink-0"
+                      style="background: rgba(6, 182, 212, 0.15); color: #0E7490; border: 1px solid rgba(6, 182, 212, 0.3);">
                   Option B • Physical Remediation
                 </span>
-                <span class="text-[10px] font-mono text-cyan-400 font-bold">-20% to -30%</span>
+                <span class="text-[10px] font-mono text-cyan-600 font-bold whitespace-nowrap shrink-0">-20% to -30%</span>
               </div>
               <h5 class="font-bold text-xs uppercase tracking-tight" style="color: var(--text-main);">
                 Secondary Sorting &amp; De-Braning
@@ -6160,13 +6178,13 @@ function renderApedaResults(data) {
               </p>
               <div class="p-2 rounded-lg border text-[10px]"
                    style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-muted);">
-                <strong class="text-cyan-400">Agronomic Science:</strong> Systemic fungicides bond primarily to outer pericarp/bran layers.
+                <strong class="text-cyan-600">Agronomic Science:</strong> Systemic fungicides bond primarily to outer pericarp/bran layers.
               </div>
             </div>
 
             <button type="button" onclick="simulateSecondaryPolishing()"
-                    class="w-full py-2 px-2.5 rounded-lg border font-bold text-[10.5px] uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all active:scale-95 shadow-sm"
-                    style="background: rgba(6, 182, 212, 0.15); color: #67E8F9; border-color: rgba(6, 182, 212, 0.4);">
+                    class="w-full py-2.5 px-2.5 rounded-xl border font-extrabold text-[11px] uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all active:scale-95 shadow-sm"
+                    style="background: rgba(6, 182, 212, 0.15); color: #0E7490; border-color: rgba(6, 182, 212, 0.4);">
               <span>⚙️</span> Simulate Secondary Polishing (-25%)
             </button>
           </div>
@@ -6175,12 +6193,12 @@ function renderApedaResults(data) {
           <div class="p-3.5 rounded-xl border flex flex-col justify-between space-y-3 transition-all shadow-sm"
                style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
             <div class="space-y-1.5">
-              <div class="flex items-center justify-between">
-                <span class="px-2 py-0.5 rounded text-[9.5px] font-mono font-bold uppercase"
-                      style="background: rgba(245, 158, 11, 0.15); color: #FBBF24; border: 1px solid rgba(245, 158, 11, 0.3);">
+              <div class="flex items-center justify-between flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded text-[9.5px] font-mono font-bold uppercase whitespace-nowrap shrink-0"
+                      style="background: rgba(245, 158, 11, 0.15); color: #B45309; border: 1px solid rgba(245, 158, 11, 0.3);">
                   Option C • Commercial Arbitrage
                 </span>
-                <span class="text-[10px] font-mono text-amber-400 font-bold">1.0 PPM Limit</span>
+                <span class="text-[10px] font-mono text-amber-600 font-bold whitespace-nowrap shrink-0">1.0 PPM Limit</span>
               </div>
               <h5 class="font-bold text-xs uppercase tracking-tight" style="color: var(--text-main);">
                 Immediate High-Seas Rerouting
@@ -6190,12 +6208,12 @@ function renderApedaResults(data) {
               </p>
               <div class="p-2 rounded-lg border text-[10px]"
                    style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-muted);">
-                <strong class="text-amber-400">Capital Protection:</strong> SFDA.FD 382 / Codex allows up to 1.0 mg/kg Tricyclazole, transforming rejection into 100% recovery.
+                <strong class="text-amber-600">Capital Protection:</strong> SFDA.FD 382 / Codex allows up to 1.0 mg/kg Tricyclazole, transforming rejection into 100% recovery.
               </div>
             </div>
 
             <button type="button" onclick="divertConsignmentToGcc()"
-                    class="w-full py-2 px-2.5 rounded-lg text-white font-extrabold text-[10.5px] uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all active:scale-95 shadow-md shadow-rose-950/40"
+                    class="w-full py-2.5 px-2.5 rounded-xl text-white font-extrabold text-[11px] uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all active:scale-95 shadow-md shadow-rose-950/40"
                     style="background: linear-gradient(135deg, #F59E0B, #E11D48); border: none;">
               <span>⚡</span> Divert to GCC / Saudi Arabia (1.0 ppm)
             </button>

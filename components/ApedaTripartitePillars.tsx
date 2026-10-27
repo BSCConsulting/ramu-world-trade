@@ -33,11 +33,11 @@ export const ApedaTripartitePillars: React.FC<TripartitePillarsProps> = ({
       {/* CARD 1: ORIGIN PROVENANCE & GI INTEGRITY */}
       <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between space-y-3 shadow-md hover:border-slate-700 transition-all">
         <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-mono font-bold uppercase">
+          <div className="flex items-center justify-between flex-wrap gap-1.5">
+            <span className="px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-mono font-bold uppercase whitespace-nowrap shrink-0">
               ● Cryptographic Provenance
             </span>
-            <span className="text-[10px] font-mono text-slate-400">
+            <span className="text-[10px] font-mono font-bold text-slate-400 whitespace-nowrap shrink-0">
               HS {hsCode}
             </span>
           </div>
@@ -71,11 +71,11 @@ export const ApedaTripartitePillars: React.FC<TripartitePillarsProps> = ({
       {/* CARD 2: DESTINATION STANCE & SAMPLING AUDIT */}
       <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between space-y-3 shadow-md hover:border-slate-700 transition-all">
         <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="px-2 py-0.5 rounded-md bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-mono font-bold uppercase">
+          <div className="flex items-center justify-between flex-wrap gap-1.5">
+            <span className="px-2 py-0.5 rounded-md bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-mono font-bold uppercase whitespace-nowrap shrink-0">
               ● Statutory Sampling Protocol
             </span>
-            <span className="text-[10px] font-mono text-amber-400 font-bold">
+            <span className="text-[10px] font-mono text-amber-400 font-bold whitespace-nowrap shrink-0">
               High Scrutiny
             </span>
           </div>
@@ -114,11 +114,11 @@ export const ApedaTripartitePillars: React.FC<TripartitePillarsProps> = ({
       {/* CARD 3: DUAL STATUTORY RELEASE GATE (BIO VS. CHEMICAL) */}
       <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between space-y-3 shadow-md hover:border-slate-700 transition-all">
         <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="px-2 py-0.5 rounded-md bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px] font-mono font-bold uppercase">
+          <div className="flex items-center justify-between flex-wrap gap-1.5">
+            <span className="px-2 py-0.5 rounded-md bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px] font-mono font-bold uppercase whitespace-nowrap shrink-0">
               ● Dual-Agency Clearance (LEO Gate)
             </span>
-            <span className="text-[10px] font-mono text-purple-400 font-bold">
+            <span className="text-[10px] font-mono text-purple-400 font-bold whitespace-nowrap shrink-0">
               Customs Sec 50
             </span>
           </div>

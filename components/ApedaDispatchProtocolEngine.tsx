@@ -90,11 +90,11 @@ export const ApedaDispatchProtocolEngine: React.FC<DispatchProtocolEngineProps> 
             {/* Option A: Re-Testing Counter-Sample */}
             <div className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800 flex flex-col justify-between space-y-3 hover:border-slate-700 transition-all shadow-sm">
               <div className="space-y-1.5">
-                <div className="flex items-center justify-between">
-                  <span className="px-2 py-0.5 rounded text-[9.5px] font-mono font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20 uppercase">
+                <div className="flex items-center justify-between flex-wrap gap-1.5">
+                  <span className="px-2 py-0.5 rounded text-[9.5px] font-mono font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20 uppercase whitespace-nowrap shrink-0">
                     Option A • Legal Referee
                   </span>
-                  <span className="text-[10px] font-mono text-slate-400">ICAR-NRRI</span>
+                  <span className="text-[10px] font-mono font-bold text-slate-400 whitespace-nowrap shrink-0">ICAR-NRRI</span>
                 </div>
                 <h5 className="font-bold text-xs text-slate-100 uppercase tracking-tight">
                   Statutory Referee Re-Testing
@@ -120,11 +120,11 @@ export const ApedaDispatchProtocolEngine: React.FC<DispatchProtocolEngineProps> 
             {/* Option B: Secondary Processing & Precision Polishing */}
             <div className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800 flex flex-col justify-between space-y-3 hover:border-slate-700 transition-all shadow-sm">
               <div className="space-y-1.5">
-                <div className="flex items-center justify-between">
-                  <span className="px-2 py-0.5 rounded text-[9.5px] font-mono font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 uppercase">
+                <div className="flex items-center justify-between flex-wrap gap-1.5">
+                  <span className="px-2 py-0.5 rounded text-[9.5px] font-mono font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 uppercase whitespace-nowrap shrink-0">
                     Option B • Physical Remediation
                   </span>
-                  <span className="text-[10px] font-mono text-cyan-400 font-bold">-20% to -30%</span>
+                  <span className="text-[10px] font-mono text-cyan-400 font-bold whitespace-nowrap shrink-0">-20% to -30%</span>
                 </div>
                 <h5 className="font-bold text-xs text-slate-100 uppercase tracking-tight">
                   Secondary Sorting &amp; De-Braning
@@ -150,11 +150,11 @@ export const ApedaDispatchProtocolEngine: React.FC<DispatchProtocolEngineProps> 
             {/* Option C: Commercial Market Diversion */}
             <div className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800 flex flex-col justify-between space-y-3 hover:border-slate-700 transition-all shadow-sm">
               <div className="space-y-1.5">
-                <div className="flex items-center justify-between">
-                  <span className="px-2 py-0.5 rounded text-[9.5px] font-mono font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 uppercase">
+                <div className="flex items-center justify-between flex-wrap gap-1.5">
+                  <span className="px-2 py-0.5 rounded text-[9.5px] font-mono font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 uppercase whitespace-nowrap shrink-0">
                     Option C • Commercial Arbitrage
                   </span>
-                  <span className="text-[10px] font-mono text-amber-400 font-bold">1.0 PPM Limit</span>
+                  <span className="text-[10px] font-mono text-amber-400 font-bold whitespace-nowrap shrink-0">1.0 PPM Limit</span>
                 </div>
                 <h5 className="font-bold text-xs text-slate-100 uppercase tracking-tight">
                   Immediate High-Seas Rerouting
