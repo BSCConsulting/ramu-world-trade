@@ -1011,12 +1011,63 @@
       </div>
       <!-- Sub-Pane 1: Macro Intelligence & Search -->
       <div id="sub-apps-macro" class="sub-pane hidden space-y-4">
+      <!-- Real-Time Sovereign Telemetry Ribbon -->
+      <div id="ask-intel-telemetry-ribbon" class="flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-2xl border text-[10px] font-mono shadow-sm"
+           style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="font-extrabold uppercase tracking-wide" style="color: var(--text-main);">
+            Sovereign Telemetry Link: LIVE
+          </span>
+        </div>
+        <div class="flex items-center gap-3 overflow-x-auto no-scrollbar" style="color: var(--text-muted);">
+          <span class="flex items-center gap-1 text-emerald-400 font-bold">● DGCI&amp;S 8-Digit ITC-HS</span>
+          <span class="flex items-center gap-1 text-blue-400 font-bold">● CBIC Tariff Gazette</span>
+          <span class="flex items-center gap-1 text-amber-400 font-bold">● DGFT Indian Trade Portal</span>
+          <span class="flex items-center gap-1 text-purple-400 font-bold">● ICEGATE Scrip Ledger</span>
+        </div>
+      </div>
             <!-- Return to Command Center Button -->
       <div class="flex items-center justify-between pb-1">
         <button type="button" onclick="switchSubTab('tab-apps', 'sub-apps-scenarios', document.getElementById('sub-btn-scenarios'))" class="px-3.5 py-2 rounded-xl border text-xs font-bold active:scale-95 transition-all flex items-center gap-1.5 shadow-sm" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--accent);">
           <span>&larr; Back to Command Center &amp; Scenarios</span>
         </button>
         <span class="text-[10px] font-mono text-emerald-500 font-bold">Dual-Engine Active</span>
+      </div>
+
+      <!-- 4 Operational Query Mode Switcher -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+        <button type="button" onclick="setQueryMode('tariff')" id="query-mode-tariff"
+                class="query-mode-btn p-2.5 rounded-xl border text-left transition-all active:scale-95"
+                style="background: rgba(245, 158, 11, 0.15); border-color: #F59E0B; color: #F59E0B;">
+          <div class="text-[9.5px] font-mono uppercase tracking-wider font-bold">Mode 01</div>
+          <div class="text-xs font-bold mt-0.5">📋 Tariff &amp; Duty Tree</div>
+          <div class="text-[9.5px] opacity-75 mt-0.5">BCD • SWS • IGST • AIDC</div>
+        </button>
+
+        <button type="button" onclick="setQueryMode('sps')" id="query-mode-sps"
+                class="query-mode-btn p-2.5 rounded-xl border text-left transition-all active:scale-95"
+                style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+          <div class="text-[9.5px] font-mono uppercase tracking-wider font-bold">Mode 02</div>
+          <div class="text-xs font-bold mt-0.5">🛡️ SPS / Quarantine Gate</div>
+          <div class="text-[9.5px] opacity-75 mt-0.5">APEDA • FSSAI • US FDA</div>
+        </button>
+
+        <button type="button" onclick="setQueryMode('mirror')" id="query-mode-mirror"
+                class="query-mode-btn p-2.5 rounded-xl border text-left transition-all active:scale-95"
+                style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+          <div class="text-[9.5px] font-mono uppercase tracking-wider font-bold">Mode 03</div>
+          <div class="text-xs font-bold mt-0.5">🌐 Bilateral &amp; Mirror Spread</div>
+          <div class="text-[9.5px] opacity-75 mt-0.5">FOB vs CIF • Trade Deficit</div>
+        </button>
+
+        <button type="button" onclick="setQueryMode('scn')" id="query-mode-scn"
+                class="query-mode-btn p-2.5 rounded-xl border text-left transition-all active:scale-95"
+                style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+          <div class="text-[9.5px] font-mono uppercase tracking-wider font-bold">Mode 04</div>
+          <div class="text-xs font-bold mt-0.5">⚖️ SCN Rebuttal &amp; Case Law</div>
+          <div class="text-[9.5px] opacity-75 mt-0.5">Sec 28 • Sec 124 • 110A</div>
+        </button>
       </div>
 
       <!-- Native Search Terminal with Glowing Focus -->
@@ -3150,14 +3201,70 @@
         </div>
 
         <!-- Corridor Trade Metrics Summary Bar -->
-        <div class="grid grid-cols-2 gap-2 p-2.5 rounded-xl border text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <!-- Corridor Trade Metrics Summary Bar (3-Column Sovereign Radar) -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 p-3 rounded-2xl border text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
           <div>
-            <span class="text-[10px] block" style="color: var(--text-dim);">Total Bilateral Trade:</span>
-            <span id="gap-corridor-total" class="font-extrabold font-mono text-sm" style="color: var(--accent);">$118.3B</span>
+            <span class="text-[10px] block font-mono uppercase" style="color: var(--text-dim);">Total Bilateral Trade:</span>
+            <span id="gap-corridor-total" class="font-extrabold font-mono text-sm text-amber-400">$118.3B</span>
           </div>
           <div>
-            <span class="text-[10px] block" style="color: var(--text-dim);">India Direct Exports:</span>
+            <span class="text-[10px] block font-mono uppercase" style="color: var(--text-dim);">India Direct Exports:</span>
             <span id="gap-corridor-exports" class="font-extrabold font-mono text-sm" style="color: var(--text-main);">$77.5B</span>
+          </div>
+          <div>
+            <span class="text-[10px] block font-mono uppercase" style="color: var(--text-dim);">Active Trade Treaty:</span>
+            <span id="gap-corridor-treaty" class="font-bold font-mono text-[11px] text-cyan-400 truncate block">TPF &amp; GSP Review Corridor</span>
+          </div>
+        </div>
+
+        <!-- Interactive Consignment Margin & Export Incentive Simulator -->
+        <div class="p-3.5 rounded-2xl border space-y-3" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <span class="text-[10.5px] font-extrabold uppercase tracking-wider text-amber-400 flex items-center gap-1.5 font-mono">
+              <span>🧮</span> Interactive Consignment Margin &amp; Export Incentive Simulator
+            </span>
+            <span id="corridor-sim-target-label" class="text-[10px] font-mono px-2 py-0.5 rounded font-bold"
+                  style="background: rgba(245, 158, 11, 0.15); color: #F59E0B; border: 1px solid rgba(245, 158, 11, 0.3);">
+              Corridor: United States (USA)
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-2.5 items-end text-xs">
+            <div>
+              <label class="text-[10px] font-mono uppercase block mb-1" style="color: var(--text-muted);">
+                FOB Invoice Value (USD):
+              </label>
+              <input type="number" id="corridor-sim-invoice" value="75000" oninput="runCorridorMarginSim()"
+                     class="w-full rounded-xl px-2.5 py-2 font-mono text-xs font-bold border focus:outline-none"
+                     style="background: var(--input-bg); border-color: var(--card-inner-border); color: var(--text-main);" />
+            </div>
+            <div>
+              <span class="text-[10px] font-mono uppercase block mb-1" style="color: var(--text-muted);">
+                Ocean Freight (40ft Container):
+              </span>
+              <div id="corridor-sim-freight" class="p-2 rounded-xl border font-mono text-xs font-bold"
+                   style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                $3,850 (₹3,33,025)
+              </div>
+            </div>
+            <div>
+              <span class="text-[10px] font-mono uppercase block mb-1" style="color: var(--text-muted);">
+                RoDTEP Cash Refund:
+              </span>
+              <div id="corridor-sim-rodtep" class="p-2 rounded-xl border font-mono text-xs font-bold text-emerald-400"
+                   style="background: var(--card-bg); border-color: var(--card-inner-border);">
+                ₹1,81,650 (2.8%)
+              </div>
+            </div>
+            <div>
+              <span class="text-[10px] font-mono uppercase block mb-1" style="color: var(--text-muted);">
+                CEPA / FTA Duty Saved:
+              </span>
+              <div id="corridor-sim-fta" class="p-2 rounded-xl border font-mono text-xs font-bold text-cyan-400"
+                   style="background: var(--card-bg); border-color: var(--card-inner-border);">
+                +$3,750 (₹3,24,375)
+              </div>
+            </div>
           </div>
         </div>
 

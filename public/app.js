@@ -433,6 +433,49 @@ function renderMarkdownSafe(text) {
 }
 
 // 6. MAIN CONVERSATIONAL SEARCH & TRIANGULATION
+
+// ==================== QUERY MODE CONTROLLER ====================
+let activeQueryMode = 'tariff';
+function setQueryMode(mode) {
+  activeQueryMode = mode;
+  const modes = ['tariff', 'sps', 'mirror', 'scn'];
+  modes.forEach(m => {
+    const btn = document.getElementById(`query-mode-${m}`);
+    if (btn) {
+      if (m === mode) {
+        btn.style.background = m === 'tariff' ? 'rgba(245, 158, 11, 0.15)' :
+                               m === 'sps' ? 'rgba(16, 185, 129, 0.15)' :
+                               m === 'mirror' ? 'rgba(59, 130, 246, 0.15)' : 'rgba(239, 68, 68, 0.15)';
+        btn.style.borderColor = m === 'tariff' ? '#F59E0B' :
+                                m === 'sps' ? '#10B981' :
+                                m === 'mirror' ? '#3B82F6' : '#EF4444';
+        btn.style.color = m === 'tariff' ? '#F59E0B' :
+                          m === 'sps' ? '#10B981' :
+                          m === 'mirror' ? '#3B82F6' : '#EF4444';
+      } else {
+        btn.style.background = 'var(--card-inner-bg)';
+        btn.style.borderColor = 'var(--card-inner-border)';
+        btn.style.color = 'var(--text-main)';
+      }
+    }
+  });
+
+  const queryInput = document.getElementById('query-input');
+  if (queryInput) {
+    if (mode === 'tariff') {
+      queryInput.placeholder = "Query BCD, SWS, IGST, AIDC or anti-dumping duty for any ITC-HS code...";
+    } else if (mode === 'sps') {
+      queryInput.placeholder = "Query APEDA, FSSAI, US FDA, EU RASFF MRL tolerances and quarantine rules...";
+    } else if (mode === 'mirror') {
+      queryInput.placeholder = "Query bilateral trade spread, FOB vs CIF mirror valuation and trade deficit...";
+    } else if (mode === 'scn') {
+      queryInput.placeholder = "Query Customs Act Sec 28, 124, 110A Show Cause Notice defense and Supreme Court precedent...";
+    }
+    queryInput.focus();
+  }
+}
+window.setQueryMode = setQueryMode;
+
 async function handleSearch(event) {
   if (event) event.preventDefault();
   const input = document.getElementById('query-input');
@@ -3118,164 +3161,258 @@ const GAPS_DATA = {
     {
       "country": "United States (USA)",
       "code": "US",
-      "flag": "\ud83c\uddfa\ud83c\uddf8",
+      "flag": "🇺🇸",
       "bilateral_trade_usd": "$118.3B",
       "india_exports_usd": "$77.5B",
+      "trade_agreement": "US-India Trade Policy Forum & MTB Duty Exemptions",
       "gaps": [
         {
           "commodity": "Technical Textiles & Geo-Textiles",
           "hs_code": "5911.90.00",
-          "us_total_imports_usd": "$4,200M",
+          "target_imports_usd": "$4,200M",
           "india_share_pct": 3.8,
           "untapped_headroom_usd": "$850M",
-          "odop_districts": "Surat (Gujarat) \u2022 Coimbatore (Tamil Nadu)",
-          "opportunity_rationale": "US supply chain shifts away from non-compliant synthetic fibers; 0% customs duty on select technical fabric items under GSP/MTB.",
-          "nearest_icd": "ICD Sachin / ICD Irugur"
+          "odop_districts": "Surat (Gujarat) • Coimbatore (Tamil Nadu)",
+          "opportunity_rationale": "US supply chain shifts away from non-compliant synthetic fibers; 0% customs duty on select technical fabric items under Miscellaneous Tariff Bill (MTB).",
+          "nearest_icd": "ICD Sachin / ICD Irugur",
+          "standard_mfn_duty": "6.5%",
+          "preferential_fta_duty": "0.0% (MTB Active)",
+          "duty_savings_note": "Save $5,525 per $85,000 container under MTB exemption",
+          "rodtep_rate": "2.8%",
+          "avg_40ft_freight_usd": 3850,
+          "transit_days": 24,
+          "origin_port": "JNPT (Nhava Sheva) / Mundra",
+          "dest_port": "New York / Savannah"
         },
         {
           "commodity": "Dehydrated Garlic & Onion Powder",
           "hs_code": "0712.20.00",
-          "us_total_imports_usd": "$680M",
+          "target_imports_usd": "$680M",
           "india_share_pct": 4.2,
           "untapped_headroom_usd": "$160M",
-          "odop_districts": "Mahuva & Bhavnagar (Gujarat) \u2022 Nashik (Maharashtra)",
+          "odop_districts": "Mahuva & Bhavnagar (Gujarat) • Nashik (Maharashtra)",
           "opportunity_rationale": "India produces 2nd largest global onion harvest; high solids white onion varieties in Mahuva yield superior drying ratio.",
-          "nearest_icd": "ICD Pipavav / ICD Nashik"
+          "nearest_icd": "ICD Pipavav / ICD Nashik",
+          "standard_mfn_duty": "29.8¢/kg",
+          "preferential_fta_duty": "MFN Bound Rate",
+          "duty_savings_note": "US FDA registration & Salmonella zero-tolerance compliance required",
+          "rodtep_rate": "2.5%",
+          "avg_40ft_freight_usd": 4100,
+          "transit_days": 26,
+          "origin_port": "Pipavav / Mundra Port",
+          "dest_port": "Los Angeles / Long Beach"
         },
         {
           "commodity": "Cast Iron Pipe Fittings & Flanges",
           "hs_code": "7307.19.00",
-          "us_total_imports_usd": "$2,100M",
+          "target_imports_usd": "$2,100M",
           "india_share_pct": 4.5,
           "untapped_headroom_usd": "$420M",
-          "odop_districts": "Howrah (West Bengal) \u2022 Coimbatore (Tamil Nadu)",
+          "odop_districts": "Howrah (West Bengal) • Coimbatore (Tamil Nadu)",
           "opportunity_rationale": "US Infrastructure Act mandates domestic or allied casting procurement; Howrah foundries offer 22% lower cost than European suppliers.",
-          "nearest_icd": "Kolkata Port / ICD Irugur"
+          "nearest_icd": "Kolkata Port / ICD Irugur",
+          "standard_mfn_duty": "5.6%",
+          "preferential_fta_duty": "5.6% (Standard)",
+          "duty_savings_note": "Subject to Section 232 Steel Tariffs; verify exclusion list",
+          "rodtep_rate": "1.4%",
+          "avg_40ft_freight_usd": 3600,
+          "transit_days": 28,
+          "origin_port": "Kolkata / Haldia Port",
+          "dest_port": "Houston / Norfolk"
         }
       ]
     },
     {
       "country": "United Arab Emirates (UAE)",
       "code": "AE",
-      "flag": "\ud83c\udde6\ud83c\uddea",
+      "flag": "🇦🇪",
       "bilateral_trade_usd": "$84.0B",
       "india_exports_usd": "$35.6B",
+      "trade_agreement": "India-UAE CEPA (0% Duty Corridor & Digital CoO)",
       "gaps": [
         {
           "commodity": "Curcumin Extracts & High-Oleoresin Turmeric",
           "hs_code": "0910.30.20",
-          "us_total_imports_usd": "$340M",
+          "target_imports_usd": "$340M",
           "india_share_pct": 4.8,
           "untapped_headroom_usd": "$95M",
-          "odop_districts": "Nizamabad (Telangana) \u2022 Erode (Tamil Nadu)",
-          "opportunity_rationale": "India-UAE CEPA grants 0% duty on certified CoO; surging demand in Dubai pharmaceutical and nutra packaging hubs.",
-          "nearest_icd": "ICD Sanathnagar / ICD Erode"
+          "odop_districts": "Nizamabad (Telangana) • Erode (Tamil Nadu)",
+          "opportunity_rationale": "India-UAE CEPA grants immediate 0% customs duty on digital Certificate of Origin; surging demand in Dubai pharmaceutical and nutra packaging hubs.",
+          "nearest_icd": "ICD Sanathnagar / ICD Erode",
+          "standard_mfn_duty": "5.0%",
+          "preferential_fta_duty": "0.0% (CEPA Tariff Line)",
+          "duty_savings_note": "Save ₹3,50,000 duty per $70,000 consignment with digital e-CoO",
+          "rodtep_rate": "1.5%",
+          "avg_40ft_freight_usd": 1450,
+          "transit_days": 4,
+          "origin_port": "JNPT (Nhava Sheva)",
+          "dest_port": "Jebel Ali Port, Dubai"
         },
         {
           "commodity": "Pre-Cooked Frozen Flatbreads (Parathas/Roti)",
           "hs_code": "1905.90.90",
-          "us_total_imports_usd": "$480M",
+          "target_imports_usd": "$480M",
           "india_share_pct": 3.9,
           "untapped_headroom_usd": "$110M",
-          "odop_districts": "Ahmedabad (Gujarat) \u2022 Indore (Madhya Pradesh)",
+          "odop_districts": "Ahmedabad (Gujarat) • Indore (Madhya Pradesh)",
           "opportunity_rationale": "High Indian diaspora & GCC retail food service demand; 100% duty-free under CEPA Annex 2A.",
-          "nearest_icd": "ICD Sabarmati / ICD Tihi"
+          "nearest_icd": "ICD Sabarmati / ICD Tihi",
+          "standard_mfn_duty": "5.0%",
+          "preferential_fta_duty": "0.0% (CEPA Annex 2A)",
+          "duty_savings_note": "Zero customs duty; Dubai Municipality Foodwatch registration required",
+          "rodtep_rate": "2.0%",
+          "avg_40ft_freight_usd": 1650,
+          "transit_days": 4,
+          "origin_port": "Mundra Port",
+          "dest_port": "Jebel Ali Port, Dubai"
         }
       ]
     },
     {
       "country": "Germany",
       "code": "DE",
-      "flag": "\ud83c\udde9\ud83c\uddea",
+      "flag": "🇩🇪",
       "bilateral_trade_usd": "$33.2B",
       "india_exports_usd": "$10.1B",
+      "trade_agreement": "EU-India Bilateral Protocol & Green Deal Compliance",
       "gaps": [
         {
           "commodity": "Architectural Handcrafted Brass & Bronze Fittings",
           "hs_code": "7418.10.22",
-          "us_total_imports_usd": "$780M",
+          "target_imports_usd": "$780M",
           "india_share_pct": 3.1,
           "untapped_headroom_usd": "$140M",
-          "odop_districts": "Moradabad (Uttar Pradesh) \u2022 Jamnagar (Gujarat)",
+          "odop_districts": "Moradabad (Uttar Pradesh) • Jamnagar (Gujarat)",
           "opportunity_rationale": "German green building regulations prioritize recyclable architectural hardware; traditional Indian brassware offers unique artisanal finishes.",
-          "nearest_icd": "ICD Moradabad / ICD Jamnagar"
+          "nearest_icd": "ICD Moradabad / ICD Jamnagar",
+          "standard_mfn_duty": "4.8%",
+          "preferential_fta_duty": "4.8% (GSP Expired)",
+          "duty_savings_note": "EU REACH chemical and heavy metal compliance certificate required",
+          "rodtep_rate": "1.8%",
+          "avg_40ft_freight_usd": 2450,
+          "transit_days": 18,
+          "origin_port": "JNPT (Nhava Sheva)",
+          "dest_port": "Hamburg / Bremerhaven"
         },
         {
           "commodity": "Organic Herbal Infusions & Moringa Powder",
           "hs_code": "1211.90.29",
-          "us_total_imports_usd": "$520M",
+          "target_imports_usd": "$520M",
           "india_share_pct": 4.0,
           "untapped_headroom_usd": "$85M",
-          "odop_districts": "Dindigul (Tamil Nadu) \u2022 Theni (Tamil Nadu)",
+          "odop_districts": "Dindigul (Tamil Nadu) • Theni (Tamil Nadu)",
           "opportunity_rationale": "EU Green Deal organic certification compliance yields 35% premium over conventional tea lines.",
-          "nearest_icd": "ICD Madurai"
+          "nearest_icd": "ICD Madurai",
+          "standard_mfn_duty": "0.0%",
+          "preferential_fta_duty": "0.0% (Zero MFN Tariff)",
+          "duty_savings_note": "EU Regulation 2018/848 organic certification audit mandatory",
+          "rodtep_rate": "2.2%",
+          "avg_40ft_freight_usd": 2600,
+          "transit_days": 19,
+          "origin_port": "Tuticorin / Chennai Port",
+          "dest_port": "Rotterdam / Hamburg"
         }
       ]
     },
     {
       "country": "Saudi Arabia",
       "code": "SA",
-      "flag": "\ud83c\uddf8\ud83c\udde6",
+      "flag": "🇸🇦",
       "bilateral_trade_usd": "$52.8B",
       "india_exports_usd": "$11.5B",
+      "trade_agreement": "GCC Common External Tariff & SFDA Phytosanitary Framework",
       "gaps": [
         {
           "commodity": "Basmati Rice 1121 Steam & Sella",
           "hs_code": "1006.30.20",
-          "us_total_imports_usd": "$1,450M",
+          "target_imports_usd": "$1,450M",
           "india_share_pct": 68.0,
           "untapped_headroom_usd": "$280M",
-          "odop_districts": "Karnal (Haryana) \u2022 Amritsar (Punjab)",
-          "opportunity_rationale": "High direct consumption; expanding packaging from bulk 50kg bags to 5kg retail packs doubles net export margin.",
-          "nearest_icd": "ICD Panipat / ICD Amritsar"
+          "odop_districts": "Karnal (Haryana) • Amritsar (Punjab)",
+          "opportunity_rationale": "High direct consumption; expanding packaging from bulk 50kg bags to 5kg retail packs doubles net export margin under SFDA.FD 382 standards.",
+          "nearest_icd": "ICD Panipat / ICD Amritsar",
+          "standard_mfn_duty": "0.0% (Essential Staple)",
+          "preferential_fta_duty": "0.0% (Zero Tariff)",
+          "duty_savings_note": "SFDA 1.0 ppm Tricyclazole limit allows 100% consignment clearance",
+          "rodtep_rate": "0.0%",
+          "avg_40ft_freight_usd": 1850,
+          "transit_days": 6,
+          "origin_port": "Mundra / Kandla Port",
+          "dest_port": "Dammam / Jeddah Islamic Port"
         },
         {
           "commodity": "Ceramic Glazed Floor & Wall Tiles",
           "hs_code": "6907.21.00",
-          "us_total_imports_usd": "$920M",
+          "target_imports_usd": "$920M",
           "india_share_pct": 4.9,
           "untapped_headroom_usd": "$210M",
           "odop_districts": "Morbi (Gujarat)",
           "opportunity_rationale": "Saudi Vision 2030 giga-projects (NEOM, Red Sea Project) driving multi-million sqm ceramic tile procurement.",
-          "nearest_icd": "Mundra Port (Direct Sea Corridor)"
+          "nearest_icd": "Mundra Port (Direct Sea Corridor)",
+          "standard_mfn_duty": "12.0%",
+          "preferential_fta_duty": "12.0% (SASO Standard)",
+          "duty_savings_note": "SASO Saber platform certification mandatory prior to stuffing",
+          "rodtep_rate": "1.2%",
+          "avg_40ft_freight_usd": 1750,
+          "transit_days": 7,
+          "origin_port": "Mundra Port",
+          "dest_port": "Dammam / Jubail Port"
         }
       ]
     },
     {
       "country": "Vietnam",
       "code": "VN",
-      "flag": "\ud83c\uddfb\ud83c\uddf3",
+      "flag": "🇻🇳",
       "bilateral_trade_usd": "$15.4B",
       "india_exports_usd": "$5.8B",
+      "trade_agreement": "ASEAN-India Free Trade Area (AIFTA) Preferential Line",
       "gaps": [
         {
           "commodity": "Frozen Deboned Buffalo Meat (Halal)",
           "hs_code": "0202.30.00",
-          "us_total_imports_usd": "$850M",
+          "target_imports_usd": "$850M",
           "india_share_pct": 14.2,
           "untapped_headroom_usd": "$240M",
-          "odop_districts": "Aligarh (Uttar Pradesh) \u2022 Hyderabad (Telangana)",
+          "odop_districts": "Aligarh (Uttar Pradesh) • Hyderabad (Telangana)",
           "opportunity_rationale": "Re-export and regional processing hub; certified APEDA-registered abattoirs offer lean, disease-free meat.",
-          "nearest_icd": "ICD Dadri / ICD Hyderabad"
+          "nearest_icd": "ICD Dadri / ICD Hyderabad",
+          "standard_mfn_duty": "14.0%",
+          "preferential_fta_duty": "0.0% (AIFTA Concession)",
+          "duty_savings_note": "Save $11,900 tariff per $85,000 container with AIFTA Form AI",
+          "rodtep_rate": "1.0%",
+          "avg_40ft_freight_usd": 1950,
+          "transit_days": 11,
+          "origin_port": "JNPT / Chennai Port",
+          "dest_port": "Haiphong / Ho Chi Minh Port"
         }
       ]
     },
     {
       "country": "United Kingdom (UK)",
       "code": "GB",
-      "flag": "\ud83c\uddec\ud83c\udde7",
+      "flag": "🇬🇧",
       "bilateral_trade_usd": "$22.5B",
       "india_exports_usd": "$12.9B",
+      "trade_agreement": "Developing Countries Trading Scheme (DCTS) & Post-Brexit Protocol",
       "gaps": [
         {
           "commodity": "Knitted Cotton Apparels & Babywear",
           "hs_code": "6111.20.00",
-          "us_total_imports_usd": "$1,600M",
+          "target_imports_usd": "$1,600M",
           "india_share_pct": 4.4,
           "untapped_headroom_usd": "$290M",
           "odop_districts": "Tirupur (Tamil Nadu)",
           "opportunity_rationale": "RoSCTL rebate of 4.05% + proposed India-UK FTA tariff reductions will unlock level playing field with Bangladesh.",
-          "nearest_icd": "ICD Tirupur"
+          "nearest_icd": "ICD Tirupur",
+          "standard_mfn_duty": "12.0%",
+          "preferential_fta_duty": "8.0% (UK DCTS Concession)",
+          "duty_savings_note": "4% tariff preference under DCTS; full zero-duty targeted under FTA",
+          "rodtep_rate": "4.05% (RoSCTL)",
+          "avg_40ft_freight_usd": 2850,
+          "transit_days": 21,
+          "origin_port": "Chennai / Tuticorin Port",
+          "dest_port": "Felixstowe / London Gateway"
         }
       ]
     }
@@ -3423,7 +3560,14 @@ let activeContainerType = '20ft';
 let currentScnSection = DISPUTE_RULES_DATA.sections[0];
 
 // ==================== 1. BILATERAL OPPORTUNITY ARBITRAGE ====================
+
+let activeGapCountry = 'US';
+let activeGapIndex = 0;
+
 function selectTradeGapCountry(code) {
+  activeGapCountry = code;
+  activeGapIndex = 0;
+
   const buttons = document.querySelectorAll('.gap-corridor-btn');
   buttons.forEach(btn => {
     btn.style.background = 'var(--card-inner-bg)';
@@ -3441,45 +3585,160 @@ function selectTradeGapCountry(code) {
   const corridor = GAPS_DATA.corridors.find(c => c.code === code) || GAPS_DATA.corridors[0];
   const totalEl = document.getElementById('gap-corridor-total');
   const expEl = document.getElementById('gap-corridor-exports');
+  const treatyEl = document.getElementById('gap-corridor-treaty');
+  const simTargetLabel = document.getElementById('corridor-sim-target-label');
+
   if (totalEl) totalEl.textContent = corridor.bilateral_trade_usd;
   if (expEl) expEl.textContent = corridor.india_exports_usd;
+  if (treatyEl) treatyEl.textContent = corridor.trade_agreement || 'Standard MFN';
+  if (simTargetLabel) simTargetLabel.textContent = `Corridor: ${corridor.country}`;
 
+  runCorridorMarginSim();
   renderTradeGaps(corridor.gaps);
 }
+
+function runCorridorMarginSim() {
+  const invInput = document.getElementById('corridor-sim-invoice');
+  const invUsd = parseFloat(invInput ? invInput.value : 75000) || 75000;
+
+  const corridor = GAPS_DATA.corridors.find(c => c.code === activeGapCountry) || GAPS_DATA.corridors[0];
+  const gap = (corridor.gaps && corridor.gaps[activeGapIndex]) ? corridor.gaps[activeGapIndex] : (corridor.gaps ? corridor.gaps[0] : {});
+
+  const freightUsd = gap.avg_40ft_freight_usd || 2500;
+  const freightInr = Math.round(freightUsd * 86.5);
+  const rodtepPct = parseFloat(gap.rodtep_rate) || 2.0;
+  const rodtepInr = Math.round(invUsd * 86.5 * (rodtepPct / 100));
+
+  const ftaSavedUsd = (gap.preferential_fta_duty && gap.preferential_fta_duty.includes('0.0%'))
+    ? Math.round(invUsd * 0.05)
+    : 0;
+  const ftaSavedInr = Math.round(ftaSavedUsd * 86.5);
+
+  const freightEl = document.getElementById('corridor-sim-freight');
+  const rodtepEl = document.getElementById('corridor-sim-rodtep');
+  const ftaEl = document.getElementById('corridor-sim-fta');
+
+  if (freightEl) freightEl.textContent = `$${freightUsd.toLocaleString()} (₹${freightInr.toLocaleString('en-IN')})`;
+  if (rodtepEl) rodtepEl.textContent = `₹${rodtepInr.toLocaleString('en-IN')} (${gap.rodtep_rate || '2.0%'})`;
+  if (ftaEl) {
+    if (ftaSavedUsd > 0) {
+      ftaEl.textContent = `+$${ftaSavedUsd.toLocaleString()} (₹${ftaSavedInr.toLocaleString('en-IN')})`;
+      ftaEl.className = "p-2 rounded-xl border font-mono text-xs font-bold text-cyan-400";
+    } else {
+      ftaEl.textContent = gap.preferential_fta_duty || 'Standard MFN';
+      ftaEl.className = "p-2 rounded-xl border font-mono text-xs font-bold text-slate-300";
+    }
+  }
+}
+window.runCorridorMarginSim = runCorridorMarginSim;
+
+function loadGapIntoSimulator(idx) {
+  activeGapIndex = idx;
+  runCorridorMarginSim();
+  const corridor = GAPS_DATA.corridors.find(c => c.code === activeGapCountry) || GAPS_DATA.corridors[0];
+  renderTradeGaps(corridor.gaps);
+  if (typeof showToast === 'function') {
+    const gap = corridor.gaps[idx];
+    showToast(`🎯 Loaded ${gap.commodity} into Consignment ROI Simulator!`);
+  }
+}
+window.loadGapIntoSimulator = loadGapIntoSimulator;
 
 function renderTradeGaps(gaps) {
   const container = document.getElementById('trade-gaps-container');
   if (!container || !gaps) return;
 
-  container.innerHTML = gaps.map(g => `
-    <div class="p-3.5 rounded-2xl border space-y-2 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+  container.innerHTML = gaps.map((g, idx) => {
+    const isSelected = (idx === activeGapIndex);
+    const borderStyle = isSelected
+      ? "border-color: #F59E0B; box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);"
+      : "border-color: var(--card-inner-border);";
+
+    return `
+    <div class="p-3.5 rounded-2xl border space-y-2.5 text-xs transition-all" style="background: var(--card-inner-bg); ${borderStyle}">
       <div class="flex items-start justify-between gap-2 border-b pb-2" style="border-color: var(--card-border);">
         <div>
-          <span class="text-[9px] font-mono uppercase tracking-wider px-2 py-0.5 rounded border" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">ITC-HS ${g.hs_code}</span>
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="text-[9.5px] font-mono uppercase tracking-wider px-2 py-0.5 rounded border font-bold"
+                  style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">
+              ITC-HS ${g.hs_code}
+            </span>
+            <span class="text-[10px] font-mono" style="color: var(--text-dim);">
+              ⚓ ${g.origin_port || 'JNPT'} ➔ ${g.dest_port || 'Destination'} (${g.transit_days || 14} Days)
+            </span>
+          </div>
           <h4 class="text-xs font-extrabold pt-1" style="color: var(--text-main);">${g.commodity}</h4>
         </div>
-        <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full flex-shrink-0" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">Headroom: ${g.untapped_headroom_usd}</span>
+        <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full flex-shrink-0"
+              style="background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.3);">
+          Headroom: ${g.untapped_headroom_usd}
+        </span>
       </div>
-      <div class="grid grid-cols-2 gap-2 text-[11px]">
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px]">
         <div>
           <span class="text-[10px] block" style="color: var(--text-dim);">Target Market Imports:</span>
-          <span class="font-bold font-mono">${g.us_total_imports_usd || g.uae_total_imports_usd || g.target_imports_usd || '$1,200M+'}</span>
+          <span class="font-bold font-mono" style="color: var(--text-main);">${g.target_imports_usd || '$1,200M+'}</span>
         </div>
         <div>
           <span class="text-[10px] block" style="color: var(--text-dim);">India Market Share:</span>
           <span class="font-extrabold font-mono text-[#EF4444]">${g.india_share_pct}% (Under-penetrated)</span>
         </div>
+        <div>
+          <span class="text-[10px] block" style="color: var(--text-dim);">Preferential Duty / RoDTEP:</span>
+          <span class="font-bold font-mono text-cyan-400">${g.preferential_fta_duty || '0.0%'} • RoDTEP ${g.rodtep_rate || '2.0%'}</span>
+        </div>
       </div>
-      <div class="p-2 rounded-xl border text-[11px]" style="background: var(--card-bg); border-color: var(--card-border);">
-        <span class="font-bold uppercase text-[9px] block" style="color: var(--accent);">ODOP Sourcing Clusters:</span>
-        <span style="color: var(--text-main);">${g.odop_districts} &bull; <span class="font-mono text-[10px]" style="color: var(--text-muted);">${g.nearest_icd}</span></span>
+
+      <div class="p-2.5 rounded-xl border text-[11px] space-y-1" style="background: var(--card-bg); border-color: var(--card-border);">
+        <div class="flex items-center justify-between">
+          <span class="font-bold uppercase text-[9px] text-amber-400">ODOP Sourcing Clusters:</span>
+          <span class="text-[10px] font-mono" style="color: var(--text-dim);">Gateway: ${g.nearest_icd}</span>
+        </div>
+        <div style="color: var(--text-main);">${g.odop_districts}</div>
       </div>
+
       <p class="text-[11px] italic" style="color: var(--text-muted);">${g.opportunity_rationale}</p>
+
+      <!-- 5-Stage Sovereign Corridor Execution SOP -->
+      <div class="pt-2 border-t space-y-1.5" style="border-color: var(--card-border);">
+        <div class="flex items-center justify-between">
+          <span class="text-[9.5px] font-mono uppercase font-bold text-amber-400">
+            5-Stage Sovereign Corridor Execution SOP:
+          </span>
+          <button type="button" onclick="loadGapIntoSimulator(${idx})"
+                  class="px-2.5 py-1 rounded-lg border font-mono text-[9.5px] font-bold active:scale-95 transition-all"
+                  style="background: var(--accent); color: #ffffff; border-color: transparent;">
+            ${isSelected ? '● Active in Simulator' : '⚡ Simulate Consignment'}
+          </button>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-5 gap-1.5 text-[9.5px]">
+          <div class="p-1.5 rounded-lg border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-border);">
+            <div class="font-bold text-slate-200">1. Mandi Sourcing</div>
+            <div class="text-[9px]" style="color: var(--text-dim);">APMC Form 9 / e-NAM pull</div>
+          </div>
+          <div class="p-1.5 rounded-lg border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-border);">
+            <div class="font-bold text-slate-200">2. NABL Testing</div>
+            <div class="text-[9px]" style="color: var(--text-dim);">MRL &amp; phyto gate seal</div>
+          </div>
+          <div class="p-1.5 rounded-lg border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-border);">
+            <div class="font-bold text-slate-200">3. ICEGATE LEO</div>
+            <div class="text-[9px]" style="color: var(--text-dim);">Shipping Bill &amp; e-Scrip</div>
+          </div>
+          <div class="p-1.5 rounded-lg border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-border);">
+            <div class="font-bold text-slate-200">4. Digital e-CoO</div>
+            <div class="text-[9px]" style="color: var(--text-dim);">DGFT CEPA certificate</div>
+          </div>
+          <div class="p-1.5 rounded-lg border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-border);">
+            <div class="font-bold text-slate-200">5. Cash In Bank</div>
+            <div class="text-[9px]" style="color: var(--text-dim);">LC at sight / TReDS</div>
+          </div>
+        </div>
+      </div>
     </div>
-  `).join('');
+  `}).join('');
 }
 
-// ==================== 2. BUYER DUE DILIGENCE & FRAUD SCREENER ====================
 function toggleFraudFlag(el) {
   const cbs = document.querySelectorAll('.fraud-flag-cb');
   const checkedCount = Array.from(cbs).filter(c => c.checked).length;
