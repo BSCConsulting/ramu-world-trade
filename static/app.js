@@ -12876,7 +12876,7 @@ const LIVE_WIRE_FEEDS = [
   {
     id: 'feed-1',
     category: 'customs_dgft',
-    agency: 'CBIC CUSTOMS',
+    agency: 'CBIC CUSTOMS GAZETTE',
     badgeBg: 'rgba(245, 158, 11, 0.15)',
     badgeColor: '#F59E0B',
     timestamp: 'Notified Bi-Weekly',
@@ -12888,7 +12888,7 @@ const LIVE_WIRE_FEEDS = [
   {
     id: 'feed-2',
     category: 'customs_dgft',
-    agency: 'DGFT NOTICE',
+    agency: 'DGFT PUBLIC NOTICE',
     badgeBg: 'rgba(59, 130, 246, 0.15)',
     badgeColor: '#3B82F6',
     timestamp: 'Today 10:15 IST',
@@ -12936,7 +12936,7 @@ const LIVE_WIRE_FEEDS = [
   {
     id: 'feed-6',
     category: 'phyto_mandi',
-    agency: 'SPICES BOARD',
+    agency: 'SPICES BOARD INDIA',
     badgeBg: 'rgba(245, 158, 11, 0.15)',
     badgeColor: '#F59E0B',
     timestamp: 'Mandatory Notice',
@@ -12960,7 +12960,7 @@ const LIVE_WIRE_FEEDS = [
   {
     id: 'feed-8',
     category: 'customs_dgft',
-    agency: 'ICEGATE 2.0',
+    agency: 'ICEGATE 2.0 CUSTOMS',
     badgeBg: 'rgba(59, 130, 246, 0.15)',
     badgeColor: '#3B82F6',
     timestamp: '24x7 Status: NORMAL',
@@ -12995,103 +12995,68 @@ const LIVE_WIRE_FEEDS = [
   }
 ];
 
-let currentWireIndex = 0;
-let activeWireCategory = 'all';
+let activeWireFilter = 'all';
 let isWirePaused = false;
-let wireIntervalTimer = null;
 
-function getFilteredWireFeeds() {
-  if (activeWireCategory === 'all') return LIVE_WIRE_FEEDS;
-  return LIVE_WIRE_FEEDS.filter(item => item.category === activeWireCategory);
+function buildWireCardHtml(item) {
+  return `
+    <a href="${item.url}" target="_blank" rel="noopener noreferrer" 
+       class="wire-card block p-3 rounded-xl border transition-all text-xs space-y-1.5 shadow-xs group cursor-pointer"
+       style="background: var(--card-bg); border-color: var(--card-border);"
+       title="Open official statutory notification in new tab">
+      <div class="flex items-center justify-between flex-wrap gap-1">
+        <div class="flex items-center gap-1.5">
+          <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
+                style="background: ${item.badgeBg}; color: ${item.badgeColor}; border-color: ${item.badgeColor}40;">
+            ${item.agency}
+          </span>
+          <span class="text-[9.5px] font-mono text-neutral-400">• ${item.timestamp}</span>
+          <span class="text-[9.5px] font-mono font-bold text-emerald-500">• ${item.impact}</span>
+        </div>
+        <span class="text-[10px] font-mono font-bold flex items-center gap-0.5 text-accent group-hover:underline" style="color: var(--accent);">
+          <span>Official Gazette</span>
+          <span class="text-xs">↗</span>
+        </span>
+      </div>
+      <div class="font-extrabold text-xs tracking-tight group-hover:text-emerald-500 transition-colors leading-snug" style="color: var(--text-main);">
+        ${item.headline}
+      </div>
+      <p class="text-[10.5px] leading-relaxed line-clamp-2" style="color: var(--text-muted);">
+        ${item.summary}
+      </p>
+    </a>
+  `;
 }
 
-function renderActiveWireCard(animateDirection = 'slide-up') {
-  const stage = document.getElementById('live-wire-stage');
-  const counter = document.getElementById('wire-counter');
-  const feeds = getFilteredWireFeeds();
+function renderLiveWireFeeds(filter = 'all') {
+  activeWireFilter = filter;
+  const track = document.getElementById('live-wire-track');
+  const countEl = document.getElementById('wire-item-count');
+  if (!track) return;
 
-  if (!stage) return;
-  if (!feeds || feeds.length === 0) {
-    stage.innerHTML = '<div class="p-2.5 text-center text-xs font-mono text-neutral-400">No active statutory updates in this category.</div>';
-    if (counter) counter.textContent = '0 / 0';
+  const filtered = LIVE_WIRE_FEEDS.filter(item => filter === 'all' || item.category === filter);
+  if (countEl) countEl.textContent = `${filtered.length} Feeds Active`;
+
+  if (filtered.length === 0) {
+    track.innerHTML = `<div class="p-4 text-center text-neutral-400 font-mono text-xs">No active statutory updates in this category.</div>`;
     return;
   }
 
-  if (currentWireIndex >= feeds.length) currentWireIndex = 0;
-  if (currentWireIndex < 0) currentWireIndex = feeds.length - 1;
-
-  if (counter) counter.textContent = (currentWireIndex + 1) + ' / ' + feeds.length;
-
-  const item = feeds[currentWireIndex];
-
-  // Micro fade and slide animation
-  stage.style.opacity = '0.35';
-  stage.style.transform = animateDirection === 'slide-down' ? 'translateY(-4px)' : 'translateY(4px)';
-
-  setTimeout(() => {
-    stage.innerHTML = `
-      <a href="${item.url}" target="_blank" rel="noopener noreferrer" 
-         class="block space-y-1 focus:outline-none"
-         title="Click to open official Ministry Gazette / Source in a new tab">
-        <div class="flex items-center justify-between gap-2">
-          <div class="flex items-center gap-1.5 min-w-0">
-            <span class="px-1.5 py-0.5 rounded text-[8.5px] font-mono font-black uppercase tracking-wider border shrink-0"
-                  style="background: ${item.badgeBg}; color: ${item.badgeColor}; border-color: ${item.badgeColor}40;">
-              ${item.agency}
-            </span>
-            <span class="text-[9px] font-mono text-neutral-400 truncate hidden xs:inline">• ${item.timestamp}</span>
-            <span class="text-[9px] font-mono font-extrabold text-emerald-500 truncate">• ${item.impact || 'Statutory Live'}</span>
-          </div>
-          <span class="inline-flex items-center gap-0.5 text-[9.5px] font-mono font-extrabold shrink-0 px-2 py-0.5 rounded border group-hover:bg-emerald-500 group-hover:text-white transition-all shadow-xs"
-                style="background: var(--card-bg); border-color: var(--card-border); color: var(--accent);">
-            <span>Gazette</span>
-            <span class="text-xs">↗</span>
-          </span>
-        </div>
-        <div class="font-extrabold text-xs sm:text-[12.5px] leading-snug tracking-tight group-hover:text-emerald-500 transition-colors line-clamp-1" style="color: var(--text-main);">
-          ${item.headline}
-        </div>
-        <div class="flex items-center justify-between text-[10px] leading-snug gap-2" style="color: var(--text-muted);">
-          <span class="line-clamp-1">${item.summary}</span>
-          <span class="text-[9px] font-mono text-neutral-400 shrink-0 hidden sm:inline">Tap to open source ↗</span>
-        </div>
-      </a>
-    `;
-    stage.style.transition = 'opacity 0.18s ease-out, transform 0.18s ease-out';
-    stage.style.opacity = '1';
-    stage.style.transform = 'translateY(0)';
-  }, 40);
-}
-window.renderActiveWireCard = renderActiveWireCard;
-
-// Compatibility alias for existing callers
-function renderLiveWireFeeds(filter = 'all') {
-  activeWireCategory = filter;
-  currentWireIndex = 0;
-  renderActiveWireCard('slide-up');
-  startWireAutoAdvance();
+  // Double items for seamless infinite 60fps vertical rolling ticker loop
+  const loopedItems = [...filtered, ...filtered];
+  track.innerHTML = loopedItems.map(item => buildWireCardHtml(item)).join('');
+  
+  // Reset animation smoothly
+  track.style.animation = 'none';
+  track.offsetHeight; // trigger reflow
+  track.style.animation = 'verticalTickerScroll 36s linear infinite';
+  if (isWirePaused) {
+    track.classList.add('paused');
+  }
 }
 window.renderLiveWireFeeds = renderLiveWireFeeds;
 
-function nextWireFeed() {
-  const feeds = getFilteredWireFeeds();
-  if (feeds.length <= 1) return;
-  currentWireIndex = (currentWireIndex + 1) % feeds.length;
-  renderActiveWireCard('slide-up');
-}
-window.nextWireFeed = nextWireFeed;
-
-function prevWireFeed() {
-  const feeds = getFilteredWireFeeds();
-  if (feeds.length <= 1) return;
-  currentWireIndex = (currentWireIndex - 1 + feeds.length) % feeds.length;
-  renderActiveWireCard('slide-down');
-}
-window.prevWireFeed = prevWireFeed;
-
 function filterLiveWire(category, btn) {
-  activeWireCategory = category;
-  currentWireIndex = 0;
   document.querySelectorAll('.wire-filter-btn').forEach(b => {
     b.style.background = 'transparent';
     b.style.color = 'var(--text-muted)';
@@ -13100,50 +13065,43 @@ function filterLiveWire(category, btn) {
     btn.style.background = 'var(--accent)';
     btn.style.color = '#ffffff';
   }
-  renderActiveWireCard('slide-up');
+  renderLiveWireFeeds(category);
 }
 window.filterLiveWire = filterLiveWire;
 
-function startWireAutoAdvance() {
-  stopWireAutoAdvance();
-  wireIntervalTimer = setInterval(() => {
-    if (!isWirePaused) {
-      nextWireFeed();
-    }
-  }, 4600);
-}
-window.startWireAutoAdvance = startWireAutoAdvance;
-
-function stopWireAutoAdvance() {
-  if (wireIntervalTimer) {
-    clearInterval(wireIntervalTimer);
-    wireIntervalTimer = null;
-  }
-}
-window.stopWireAutoAdvance = stopWireAutoAdvance;
-
 function toggleLiveWireScroll() {
-  const btn = document.getElementById('wire-pause-btn');
+  const track = document.getElementById('live-wire-track');
+  const icon = document.getElementById('wire-pause-icon');
+  const txt = document.getElementById('wire-pause-text');
+  if (!track) return;
+
   isWirePaused = !isWirePaused;
-  if (btn) {
-    btn.textContent = isWirePaused ? '▶' : '⏸';
-    btn.title = isWirePaused ? 'Resume Auto-Advance' : 'Pause Auto-Advance';
-  }
-  if (typeof showToast === 'function') {
-    showToast(isWirePaused ? '⏸️ Statutory Stream Paused' : '▶️ Statutory Stream Resumed');
+  if (isWirePaused) {
+    track.classList.add('paused');
+    if (icon) icon.textContent = '▶️';
+    if (txt) txt.textContent = 'Resume';
+    if (typeof showToast === 'function') showToast('⏸️ Live Wire Scroll Paused');
+  } else {
+    track.classList.remove('paused');
+    if (icon) icon.textContent = '⏸️';
+    if (txt) txt.textContent = 'Pause';
+    if (typeof showToast === 'function') showToast('▶️ Live Wire Scroll Resumed');
   }
 }
 window.toggleLiveWireScroll = toggleLiveWireScroll;
 
 function pauseWireOnHover() {
-  isWirePaused = true;
+  const track = document.getElementById('live-wire-track');
+  if (track && !isWirePaused) {
+    track.style.animationPlayState = 'paused';
+  }
 }
 window.pauseWireOnHover = pauseWireOnHover;
 
 function resumeWireOnHover() {
-  const btn = document.getElementById('wire-pause-btn');
-  if (btn && btn.textContent !== '▶') {
-    isWirePaused = false;
+  const track = document.getElementById('live-wire-track');
+  if (track && !isWirePaused) {
+    track.style.animationPlayState = 'running';
   }
 }
 window.resumeWireOnHover = resumeWireOnHover;
@@ -13151,20 +13109,9 @@ window.resumeWireOnHover = resumeWireOnHover;
 function quickJumpToLiveWire() {
   const el = document.getElementById('sovereign-live-wire-panel');
   if (el) {
-    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     el.classList.add('ring-4', 'ring-emerald-500', 'transition-all');
     setTimeout(() => el.classList.remove('ring-4', 'ring-emerald-500'), 1500);
   }
 }
 window.quickJumpToLiveWire = quickJumpToLiveWire;
-
-// Auto-initialize Live Wire on DOM Content Loaded
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => {
-    renderActiveWireCard('slide-up');
-    startWireAutoAdvance();
-  });
-} else {
-  renderActiveWireCard('slide-up');
-  startWireAutoAdvance();
-}
