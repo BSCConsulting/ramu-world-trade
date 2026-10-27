@@ -7207,6 +7207,7 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js').then((reg) => {
       console.log('[PWA] Sovereign Service Worker active:', reg.scope);
+      reg.update();
     }).catch((err) => {
       console.warn('[PWA] Service Worker registration failed:', err);
     });
