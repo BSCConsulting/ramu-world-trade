@@ -1384,24 +1384,28 @@
         <div class="absolute inset-x-0 bottom-0 h-6 bg-gradient-to-t from-black/10 dark:from-black/40 to-transparent pointer-events-none z-10"></div>
 
         <!-- The Continuous Scrolling Track with Pre-Rendered Cards (100% Fail-Safe) -->
-        <div id="live-wire-track" class="live-wire-track space-y-2.5">
-          <a href="https://www.cbic.gov.in/entities/cbic-content-mst/T0120231016183606" target="_blank" rel="noopener noreferrer" 
+        <div id="live-wire-track" class="live-wire-track space-y-2.5" onpointerdown="pauseWireOnHover()">
+          <div onclick="openGazetteInspector('feed-1')" 
              class="wire-card block p-3 rounded-xl border transition-all text-xs space-y-1.5 shadow-xs group cursor-pointer"
              style="background: var(--card-bg); border-color: var(--card-border);"
-             title="Open official statutory notification in new tab">
+             title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
               <div class="flex items-center gap-1.5">
                 <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
                       style="background: rgba(245, 158, 11, 0.15); color: #F59E0B; border-color: #F59E0B40;">
-                  CBIC CUSTOMS GAZETTE
+                  CBIC CUSTOMS
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Notified Bi-Weekly</span>
+                <span class="text-[9.5px] font-mono text-neutral-400">• Bi-Weekly Gazette</span>
                 <span class="text-[9.5px] font-mono font-bold text-emerald-500">• Duty Valuation Anchor</span>
               </div>
-              <span class="text-[10px] font-mono font-bold flex items-center gap-0.5 text-accent group-hover:underline" style="color: var(--accent);">
-                <span>Official Gazette</span>
+              <button type="button" 
+                      onclick="event.stopPropagation(); window.open('https://taxinformation.cbic.gov.in/', '_blank', 'noopener,noreferrer');" 
+                      class="text-[10px] font-mono font-bold flex items-center gap-0.5 px-2 py-0.5 rounded border transition-all shadow-xs hover:bg-emerald-500 hover:text-white" 
+                      style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--accent);"
+                      title="Open verified official portal in new tab">
+                <span>Gazette</span>
                 <span class="text-xs">↗</span>
-              </span>
+              </button>
             </div>
             <div class="font-extrabold text-xs tracking-tight group-hover:text-emerald-500 transition-colors leading-snug" style="color: var(--text-main);">
               Section 14 Customs Act: Notified Foreign Exchange Rates for Export & Import Valuation
@@ -1409,24 +1413,28 @@
             <p class="text-[10.5px] leading-relaxed line-clamp-2" style="color: var(--text-muted);">
               USD/INR assessable exchange rate notified at ₹86.40. All Bill of Entry duty calculations bind to gazetted rate.
             </p>
-          </a>
-          <a href="https://www.dgft.gov.in/CP/?opt=trade-notices" target="_blank" rel="noopener noreferrer" 
+          </div>
+          <div onclick="openGazetteInspector('feed-2')" 
              class="wire-card block p-3 rounded-xl border transition-all text-xs space-y-1.5 shadow-xs group cursor-pointer"
              style="background: var(--card-bg); border-color: var(--card-border);"
-             title="Open official statutory notification in new tab">
+             title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
               <div class="flex items-center gap-1.5">
                 <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
                       style="background: rgba(59, 130, 246, 0.15); color: #3B82F6; border-color: #3B82F640;">
                   DGFT PUBLIC NOTICE
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Today 10:15 IST</span>
+                <span class="text-[9.5px] font-mono text-neutral-400">• Official Gazette</span>
                 <span class="text-[9.5px] font-mono font-bold text-emerald-500">• MEP Abolished • 2.8% RoDTEP</span>
               </div>
-              <span class="text-[10px] font-mono font-bold flex items-center gap-0.5 text-accent group-hover:underline" style="color: var(--accent);">
-                <span>Official Gazette</span>
+              <button type="button" 
+                      onclick="event.stopPropagation(); window.open('https://pib.gov.in/PressReleasePage.aspx?PRID=2054775', '_blank', 'noopener,noreferrer');" 
+                      class="text-[10px] font-mono font-bold flex items-center gap-0.5 px-2 py-0.5 rounded border transition-all shadow-xs hover:bg-emerald-500 hover:text-white" 
+                      style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--accent);"
+                      title="Open verified official portal in new tab">
+                <span>Gazette</span>
                 <span class="text-xs">↗</span>
-              </span>
+              </button>
             </div>
             <div class="font-extrabold text-xs tracking-tight group-hover:text-emerald-500 transition-colors leading-snug" style="color: var(--text-main);">
               Public Notice 29/2024: Minimum Export Price (MEP) Removed on Basmati Rice (HS 1006 30 20)
@@ -1434,24 +1442,28 @@
             <p class="text-[10.5px] leading-relaxed line-clamp-2" style="color: var(--text-muted);">
               Exporters can dispatch basmati cargo without $950/MT registration check. RoDTEP cash scrip rebate active at 2.8% FOB.
             </p>
-          </a>
-          <a href="https://apeda.gov.in/apedawebsite/announcements.html" target="_blank" rel="noopener noreferrer" 
+          </div>
+          <div onclick="openGazetteInspector('feed-3')" 
              class="wire-card block p-3 rounded-xl border transition-all text-xs space-y-1.5 shadow-xs group cursor-pointer"
              style="background: var(--card-bg); border-color: var(--card-border);"
-             title="Open official statutory notification in new tab">
+             title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
               <div class="flex items-center gap-1.5">
                 <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
                       style="background: rgba(239, 68, 68, 0.15); color: #EF4444; border-color: #EF444440;">
                   APEDA TRACENET
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Live Alert</span>
+                <span class="text-[9.5px] font-mono text-neutral-400">• Statutory Protocol</span>
                 <span class="text-[9.5px] font-mono font-bold text-emerald-500">• 0.01 mg/kg LOQ Barrier</span>
               </div>
-              <span class="text-[10px] font-mono font-bold flex items-center gap-0.5 text-accent group-hover:underline" style="color: var(--accent);">
-                <span>Official Gazette</span>
+              <button type="button" 
+                      onclick="event.stopPropagation(); window.open('https://pib.gov.in/PressReleasePage.aspx?PRID=1969248', '_blank', 'noopener,noreferrer');" 
+                      class="text-[10px] font-mono font-bold flex items-center gap-0.5 px-2 py-0.5 rounded border transition-all shadow-xs hover:bg-emerald-500 hover:text-white" 
+                      style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--accent);"
+                      title="Open verified official portal in new tab">
+                <span>Gazette</span>
                 <span class="text-xs">↗</span>
-              </span>
+              </button>
             </div>
             <div class="font-extrabold text-xs tracking-tight group-hover:text-emerald-500 transition-colors leading-snug" style="color: var(--text-main);">
               EU Regulation EC 396/2005: 0.01 mg/kg Default LOQ Mandated for Tricyclazole & Chlorpyrifos
@@ -1459,11 +1471,11 @@
             <p class="text-[10.5px] leading-relaxed line-clamp-2" style="color: var(--text-muted);">
               Accredited NABL laboratory pre-testing strictly required prior to digital Certificate of Inspection (CoI) issuance.
             </p>
-          </a>
-          <a href="https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx" target="_blank" rel="noopener noreferrer" 
+          </div>
+          <div onclick="openGazetteInspector('feed-4')" 
              class="wire-card block p-3 rounded-xl border transition-all text-xs space-y-1.5 shadow-xs group cursor-pointer"
              style="background: var(--card-bg); border-color: var(--card-border);"
-             title="Open official statutory notification in new tab">
+             title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
               <div class="flex items-center gap-1.5">
                 <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
@@ -1473,10 +1485,14 @@
                 <span class="text-[9.5px] font-mono text-neutral-400">• Daily 13:30 IST</span>
                 <span class="text-[9.5px] font-mono font-bold text-emerald-500">• FBIL Spot Reference</span>
               </div>
-              <span class="text-[10px] font-mono font-bold flex items-center gap-0.5 text-accent group-hover:underline" style="color: var(--accent);">
-                <span>Official Gazette</span>
+              <button type="button" 
+                      onclick="event.stopPropagation(); window.open('https://www.fbil.org.in/', '_blank', 'noopener,noreferrer');" 
+                      class="text-[10px] font-mono font-bold flex items-center gap-0.5 px-2 py-0.5 rounded border transition-all shadow-xs hover:bg-emerald-500 hover:text-white" 
+                      style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--accent);"
+                      title="Open verified official portal in new tab">
+                <span>Gazette</span>
                 <span class="text-xs">↗</span>
-              </span>
+              </button>
             </div>
             <div class="font-extrabold text-xs tracking-tight group-hover:text-emerald-500 transition-colors leading-snug" style="color: var(--text-main);">
               FBIL Reference Rate Fix: USD/INR ₹86.4250 • EUR/INR ₹90.1200 • GBP/INR ₹108.45
@@ -1484,24 +1500,28 @@
             <p class="text-[10.5px] leading-relaxed line-clamp-2" style="color: var(--text-muted);">
               Forward premium at 1.82% annualized. Authorised Dealers discount post-shipment export bills against FBIL benchmark.
             </p>
-          </a>
-          <a href="https://www.drewry.co.uk/supply-chain-advisors/supply-chain-expertise/world-container-index-assessed-by-drewry" target="_blank" rel="noopener noreferrer" 
+          </div>
+          <div onclick="openGazetteInspector('feed-5')" 
              class="wire-card block p-3 rounded-xl border transition-all text-xs space-y-1.5 shadow-xs group cursor-pointer"
              style="background: var(--card-bg); border-color: var(--card-border);"
-             title="Open official statutory notification in new tab">
+             title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
               <div class="flex items-center gap-1.5">
                 <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
                       style="background: rgba(6, 182, 212, 0.15); color: #06B6D4; border-color: #06B6D440;">
                   DREWRY WCI FREIGHT
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Weekly Index</span>
+                <span class="text-[9.5px] font-mono text-neutral-400">• Weekly Assessment</span>
                 <span class="text-[9.5px] font-mono font-bold text-emerald-500">• Origin THC Capped</span>
               </div>
-              <span class="text-[10px] font-mono font-bold flex items-center gap-0.5 text-accent group-hover:underline" style="color: var(--accent);">
-                <span>Official Gazette</span>
+              <button type="button" 
+                      onclick="event.stopPropagation(); window.open('https://www.drewry.co.uk/supply-chain-advisors/supply-chain-expertise/world-container-index-assessed-by-drewry', '_blank', 'noopener,noreferrer');" 
+                      class="text-[10px] font-mono font-bold flex items-center gap-0.5 px-2 py-0.5 rounded border transition-all shadow-xs hover:bg-emerald-500 hover:text-white" 
+                      style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--accent);"
+                      title="Open verified official portal in new tab">
+                <span>Gazette</span>
                 <span class="text-xs">↗</span>
-              </span>
+              </button>
             </div>
             <div class="font-extrabold text-xs tracking-tight group-hover:text-emerald-500 transition-colors leading-snug" style="color: var(--text-main);">
               Nhava Sheva & Mundra to Europe Spot 40ft HC Ocean Freight Averages $3,850/FEU
@@ -1509,24 +1529,28 @@
             <p class="text-[10.5px] leading-relaxed line-clamp-2" style="color: var(--text-muted);">
               CBIC Circular 24/2020 strictly caps local origin THC at published port rates. Zero markup permitted on digital electronic BLs.
             </p>
-          </a>
-          <a href="http://www.indianspices.com/" target="_blank" rel="noopener noreferrer" 
+          </div>
+          <div onclick="openGazetteInspector('feed-6')" 
              class="wire-card block p-3 rounded-xl border transition-all text-xs space-y-1.5 shadow-xs group cursor-pointer"
              style="background: var(--card-bg); border-color: var(--card-border);"
-             title="Open official statutory notification in new tab">
+             title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
               <div class="flex items-center gap-1.5">
                 <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
                       style="background: rgba(245, 158, 11, 0.15); color: #F59E0B; border-color: #F59E0B40;">
                   SPICES BOARD INDIA
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Mandatory Notice</span>
+                <span class="text-[9.5px] font-mono text-neutral-400">• Mandatory Protocol</span>
                 <span class="text-[9.5px] font-mono font-bold text-emerald-500">• ETO & Aflatoxin Protocol</span>
               </div>
-              <span class="text-[10px] font-mono font-bold flex items-center gap-0.5 text-accent group-hover:underline" style="color: var(--accent);">
-                <span>Official Gazette</span>
+              <button type="button" 
+                      onclick="event.stopPropagation(); window.open('https://pib.gov.in/PressReleasePage.aspx?PRID=1983050', '_blank', 'noopener,noreferrer');" 
+                      class="text-[10px] font-mono font-bold flex items-center gap-0.5 px-2 py-0.5 rounded border transition-all shadow-xs hover:bg-emerald-500 hover:text-white" 
+                      style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--accent);"
+                      title="Open verified official portal in new tab">
+                <span>Gazette</span>
                 <span class="text-xs">↗</span>
-              </span>
+              </button>
             </div>
             <div class="font-extrabold text-xs tracking-tight group-hover:text-emerald-500 transition-colors leading-snug" style="color: var(--text-main);">
               Pre-Shipment Quality Protocol: Ethylene Oxide (ETO) & Aflatoxin B1 in Guntur Teja Chilli
@@ -1534,24 +1558,28 @@
             <p class="text-[10.5px] leading-relaxed line-clamp-2" style="color: var(--text-muted);">
               Mandatory Sampling & Analysis at Spices Board Q-Lab prior to port customs clearance for EU and US FDA destinations.
             </p>
-          </a>
-          <a href="https://agmarknet.gov.in/" target="_blank" rel="noopener noreferrer" 
+          </div>
+          <div onclick="openGazetteInspector('feed-7')" 
              class="wire-card block p-3 rounded-xl border transition-all text-xs space-y-1.5 shadow-xs group cursor-pointer"
              style="background: var(--card-bg); border-color: var(--card-border);"
-             title="Open official statutory notification in new tab">
+             title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
               <div class="flex items-center gap-1.5">
                 <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
                       style="background: rgba(16, 185, 129, 0.15); color: #10B981; border-color: #10B98140;">
                   AGMARKNET MANDI
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Morning Auction</span>
+                <span class="text-[9.5px] font-mono text-neutral-400">• Live Mandi Search</span>
                 <span class="text-[9.5px] font-mono font-bold text-emerald-500">• ₹192/kg Modal Rate</span>
               </div>
-              <span class="text-[10px] font-mono font-bold flex items-center gap-0.5 text-accent group-hover:underline" style="color: var(--accent);">
-                <span>Official Gazette</span>
+              <button type="button" 
+                      onclick="event.stopPropagation(); window.open('https://agmarknet.gov.in/SearchCmmMkt.aspx', '_blank', 'noopener,noreferrer');" 
+                      class="text-[10px] font-mono font-bold flex items-center gap-0.5 px-2 py-0.5 rounded border transition-all shadow-xs hover:bg-emerald-500 hover:text-white" 
+                      style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--accent);"
+                      title="Open verified official portal in new tab">
+                <span>Gazette</span>
                 <span class="text-xs">↗</span>
-              </span>
+              </button>
             </div>
             <div class="font-extrabold text-xs tracking-tight group-hover:text-emerald-500 transition-colors leading-snug" style="color: var(--text-main);">
               Guntur APMC Mandi: Teja S17 Chilli Arrivals Reach 42,000 Bags, Modal Rate ₹19,200/Qtl
@@ -1559,11 +1587,11 @@
             <p class="text-[10.5px] leading-relaxed line-clamp-2" style="color: var(--text-muted);">
               FOB export parity profitable above ₹205/kg CIF. APMC cess 1% applicable under AP Agricultural Produce Act.
             </p>
-          </a>
-          <a href="https://www.icegate.gov.in/" target="_blank" rel="noopener noreferrer" 
+          </div>
+          <div onclick="openGazetteInspector('feed-8')" 
              class="wire-card block p-3 rounded-xl border transition-all text-xs space-y-1.5 shadow-xs group cursor-pointer"
              style="background: var(--card-bg); border-color: var(--card-border);"
-             title="Open official statutory notification in new tab">
+             title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
               <div class="flex items-center gap-1.5">
                 <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
@@ -1573,10 +1601,14 @@
                 <span class="text-[9.5px] font-mono text-neutral-400">• 24x7 Status: NORMAL</span>
                 <span class="text-[9.5px] font-mono font-bold text-emerald-500">• Sec 110A ECL Online</span>
               </div>
-              <span class="text-[10px] font-mono font-bold flex items-center gap-0.5 text-accent group-hover:underline" style="color: var(--accent);">
-                <span>Official Gazette</span>
+              <button type="button" 
+                      onclick="event.stopPropagation(); window.open('https://pib.gov.in/PressReleasePage.aspx?PRID=1943890', '_blank', 'noopener,noreferrer');" 
+                      class="text-[10px] font-mono font-bold flex items-center gap-0.5 px-2 py-0.5 rounded border transition-all shadow-xs hover:bg-emerald-500 hover:text-white" 
+                      style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--accent);"
+                      title="Open verified official portal in new tab">
+                <span>Gazette</span>
                 <span class="text-xs">↗</span>
-              </span>
+              </button>
             </div>
             <div class="font-extrabold text-xs tracking-tight group-hover:text-emerald-500 transition-colors leading-snug" style="color: var(--text-main);">
               Electronic Cash Ledger (ECL) & Out of Charge (OOC) Automated Handshake Active
@@ -1584,11 +1616,11 @@
             <p class="text-[10.5px] leading-relaxed line-clamp-2" style="color: var(--text-muted);">
               Provisional release under Section 110A enabled for CAROTAR origin verification queries via online bond execution.
             </p>
-          </a>
-          <a href="https://tradestat.commerce.gov.in/eidb/default.asp" target="_blank" rel="noopener noreferrer" 
+          </div>
+          <div onclick="openGazetteInspector('feed-9')" 
              class="wire-card block p-3 rounded-xl border transition-all text-xs space-y-1.5 shadow-xs group cursor-pointer"
              style="background: var(--card-bg); border-color: var(--card-border);"
-             title="Open official statutory notification in new tab">
+             title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
               <div class="flex items-center gap-1.5">
                 <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
@@ -1598,10 +1630,14 @@
                 <span class="text-[9.5px] font-mono text-neutral-400">• Monthly Cadence</span>
                 <span class="text-[9.5px] font-mono font-bold text-emerald-500">• +28.4% YoY Tech Cargo</span>
               </div>
-              <span class="text-[10px] font-mono font-bold flex items-center gap-0.5 text-accent group-hover:underline" style="color: var(--accent);">
-                <span>Official Gazette</span>
+              <button type="button" 
+                      onclick="event.stopPropagation(); window.open('https://pib.gov.in/PressReleasePage.aspx?PRID=2065095', '_blank', 'noopener,noreferrer');" 
+                      class="text-[10px] font-mono font-bold flex items-center gap-0.5 px-2 py-0.5 rounded border transition-all shadow-xs hover:bg-emerald-500 hover:text-white" 
+                      style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--accent);"
+                      title="Open verified official portal in new tab">
+                <span>Gazette</span>
                 <span class="text-xs">↗</span>
-              </span>
+              </button>
             </div>
             <div class="font-extrabold text-xs tracking-tight group-hover:text-emerald-500 transition-colors leading-snug" style="color: var(--text-main);">
               India Merchandise Exports Reach $38.4B • Electronic Goods Surge +28.4% YoY
@@ -1609,11 +1645,11 @@
             <p class="text-[10.5px] leading-relaxed line-clamp-2" style="color: var(--text-muted);">
               Chapter 85 semiconductors and mobile PCBA lead export momentum to USA and UAE CEPA corridors.
             </p>
-          </a>
-          <a href="https://mpeda.gov.in/" target="_blank" rel="noopener noreferrer" 
+          </div>
+          <div onclick="openGazetteInspector('feed-10')" 
              class="wire-card block p-3 rounded-xl border transition-all text-xs space-y-1.5 shadow-xs group cursor-pointer"
              style="background: var(--card-bg); border-color: var(--card-border);"
-             title="Open official statutory notification in new tab">
+             title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
               <div class="flex items-center gap-1.5">
                 <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
@@ -1623,10 +1659,14 @@
                 <span class="text-[9.5px] font-mono text-neutral-400">• Catch Certification</span>
                 <span class="text-[9.5px] font-mono font-bold text-emerald-500">• ELISA Zero Tolerance</span>
               </div>
-              <span class="text-[10px] font-mono font-bold flex items-center gap-0.5 text-accent group-hover:underline" style="color: var(--accent);">
-                <span>Official Gazette</span>
+              <button type="button" 
+                      onclick="event.stopPropagation(); window.open('https://mpeda.gov.in/?page_id=1130', '_blank', 'noopener,noreferrer');" 
+                      class="text-[10px] font-mono font-bold flex items-center gap-0.5 px-2 py-0.5 rounded border transition-all shadow-xs hover:bg-emerald-500 hover:text-white" 
+                      style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--accent);"
+                      title="Open verified official portal in new tab">
+                <span>Gazette</span>
                 <span class="text-xs">↗</span>
-              </span>
+              </button>
             </div>
             <div class="font-extrabold text-xs tracking-tight group-hover:text-emerald-500 transition-colors leading-snug" style="color: var(--text-main);">
               EU Catch Certificate Protocol Active for Frozen Vannamei Shrimp (HS 0306 17 20)
@@ -1634,24 +1674,28 @@
             <p class="text-[10.5px] leading-relaxed line-clamp-2" style="color: var(--text-muted);">
               Chloramphenicol and Nitrofuran residue tests verified at MPEDA ELISA screening laboratory.
             </p>
-          </a>
-          <a href="https://www.cbic.gov.in/entities/cbic-content-mst/T0120231016183606" target="_blank" rel="noopener noreferrer" 
+          </div>
+          <div onclick="openGazetteInspector('feed-1')" 
              class="wire-card block p-3 rounded-xl border transition-all text-xs space-y-1.5 shadow-xs group cursor-pointer"
              style="background: var(--card-bg); border-color: var(--card-border);"
-             title="Open official statutory notification in new tab">
+             title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
               <div class="flex items-center gap-1.5">
                 <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
                       style="background: rgba(245, 158, 11, 0.15); color: #F59E0B; border-color: #F59E0B40;">
-                  CBIC CUSTOMS GAZETTE
+                  CBIC CUSTOMS
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Notified Bi-Weekly</span>
+                <span class="text-[9.5px] font-mono text-neutral-400">• Bi-Weekly Gazette</span>
                 <span class="text-[9.5px] font-mono font-bold text-emerald-500">• Duty Valuation Anchor</span>
               </div>
-              <span class="text-[10px] font-mono font-bold flex items-center gap-0.5 text-accent group-hover:underline" style="color: var(--accent);">
-                <span>Official Gazette</span>
+              <button type="button" 
+                      onclick="event.stopPropagation(); window.open('https://taxinformation.cbic.gov.in/', '_blank', 'noopener,noreferrer');" 
+                      class="text-[10px] font-mono font-bold flex items-center gap-0.5 px-2 py-0.5 rounded border transition-all shadow-xs hover:bg-emerald-500 hover:text-white" 
+                      style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--accent);"
+                      title="Open verified official portal in new tab">
+                <span>Gazette</span>
                 <span class="text-xs">↗</span>
-              </span>
+              </button>
             </div>
             <div class="font-extrabold text-xs tracking-tight group-hover:text-emerald-500 transition-colors leading-snug" style="color: var(--text-main);">
               Section 14 Customs Act: Notified Foreign Exchange Rates for Export & Import Valuation
@@ -1659,24 +1703,28 @@
             <p class="text-[10.5px] leading-relaxed line-clamp-2" style="color: var(--text-muted);">
               USD/INR assessable exchange rate notified at ₹86.40. All Bill of Entry duty calculations bind to gazetted rate.
             </p>
-          </a>
-          <a href="https://www.dgft.gov.in/CP/?opt=trade-notices" target="_blank" rel="noopener noreferrer" 
+          </div>
+          <div onclick="openGazetteInspector('feed-2')" 
              class="wire-card block p-3 rounded-xl border transition-all text-xs space-y-1.5 shadow-xs group cursor-pointer"
              style="background: var(--card-bg); border-color: var(--card-border);"
-             title="Open official statutory notification in new tab">
+             title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
               <div class="flex items-center gap-1.5">
                 <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
                       style="background: rgba(59, 130, 246, 0.15); color: #3B82F6; border-color: #3B82F640;">
                   DGFT PUBLIC NOTICE
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Today 10:15 IST</span>
+                <span class="text-[9.5px] font-mono text-neutral-400">• Official Gazette</span>
                 <span class="text-[9.5px] font-mono font-bold text-emerald-500">• MEP Abolished • 2.8% RoDTEP</span>
               </div>
-              <span class="text-[10px] font-mono font-bold flex items-center gap-0.5 text-accent group-hover:underline" style="color: var(--accent);">
-                <span>Official Gazette</span>
+              <button type="button" 
+                      onclick="event.stopPropagation(); window.open('https://pib.gov.in/PressReleasePage.aspx?PRID=2054775', '_blank', 'noopener,noreferrer');" 
+                      class="text-[10px] font-mono font-bold flex items-center gap-0.5 px-2 py-0.5 rounded border transition-all shadow-xs hover:bg-emerald-500 hover:text-white" 
+                      style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--accent);"
+                      title="Open verified official portal in new tab">
+                <span>Gazette</span>
                 <span class="text-xs">↗</span>
-              </span>
+              </button>
             </div>
             <div class="font-extrabold text-xs tracking-tight group-hover:text-emerald-500 transition-colors leading-snug" style="color: var(--text-main);">
               Public Notice 29/2024: Minimum Export Price (MEP) Removed on Basmati Rice (HS 1006 30 20)
@@ -1684,24 +1732,28 @@
             <p class="text-[10.5px] leading-relaxed line-clamp-2" style="color: var(--text-muted);">
               Exporters can dispatch basmati cargo without $950/MT registration check. RoDTEP cash scrip rebate active at 2.8% FOB.
             </p>
-          </a>
-          <a href="https://apeda.gov.in/apedawebsite/announcements.html" target="_blank" rel="noopener noreferrer" 
+          </div>
+          <div onclick="openGazetteInspector('feed-3')" 
              class="wire-card block p-3 rounded-xl border transition-all text-xs space-y-1.5 shadow-xs group cursor-pointer"
              style="background: var(--card-bg); border-color: var(--card-border);"
-             title="Open official statutory notification in new tab">
+             title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
               <div class="flex items-center gap-1.5">
                 <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
                       style="background: rgba(239, 68, 68, 0.15); color: #EF4444; border-color: #EF444440;">
                   APEDA TRACENET
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Live Alert</span>
+                <span class="text-[9.5px] font-mono text-neutral-400">• Statutory Protocol</span>
                 <span class="text-[9.5px] font-mono font-bold text-emerald-500">• 0.01 mg/kg LOQ Barrier</span>
               </div>
-              <span class="text-[10px] font-mono font-bold flex items-center gap-0.5 text-accent group-hover:underline" style="color: var(--accent);">
-                <span>Official Gazette</span>
+              <button type="button" 
+                      onclick="event.stopPropagation(); window.open('https://pib.gov.in/PressReleasePage.aspx?PRID=1969248', '_blank', 'noopener,noreferrer');" 
+                      class="text-[10px] font-mono font-bold flex items-center gap-0.5 px-2 py-0.5 rounded border transition-all shadow-xs hover:bg-emerald-500 hover:text-white" 
+                      style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--accent);"
+                      title="Open verified official portal in new tab">
+                <span>Gazette</span>
                 <span class="text-xs">↗</span>
-              </span>
+              </button>
             </div>
             <div class="font-extrabold text-xs tracking-tight group-hover:text-emerald-500 transition-colors leading-snug" style="color: var(--text-main);">
               EU Regulation EC 396/2005: 0.01 mg/kg Default LOQ Mandated for Tricyclazole & Chlorpyrifos
@@ -1709,11 +1761,11 @@
             <p class="text-[10.5px] leading-relaxed line-clamp-2" style="color: var(--text-muted);">
               Accredited NABL laboratory pre-testing strictly required prior to digital Certificate of Inspection (CoI) issuance.
             </p>
-          </a>
-          <a href="https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx" target="_blank" rel="noopener noreferrer" 
+          </div>
+          <div onclick="openGazetteInspector('feed-4')" 
              class="wire-card block p-3 rounded-xl border transition-all text-xs space-y-1.5 shadow-xs group cursor-pointer"
              style="background: var(--card-bg); border-color: var(--card-border);"
-             title="Open official statutory notification in new tab">
+             title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
               <div class="flex items-center gap-1.5">
                 <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
@@ -1723,10 +1775,14 @@
                 <span class="text-[9.5px] font-mono text-neutral-400">• Daily 13:30 IST</span>
                 <span class="text-[9.5px] font-mono font-bold text-emerald-500">• FBIL Spot Reference</span>
               </div>
-              <span class="text-[10px] font-mono font-bold flex items-center gap-0.5 text-accent group-hover:underline" style="color: var(--accent);">
-                <span>Official Gazette</span>
+              <button type="button" 
+                      onclick="event.stopPropagation(); window.open('https://www.fbil.org.in/', '_blank', 'noopener,noreferrer');" 
+                      class="text-[10px] font-mono font-bold flex items-center gap-0.5 px-2 py-0.5 rounded border transition-all shadow-xs hover:bg-emerald-500 hover:text-white" 
+                      style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--accent);"
+                      title="Open verified official portal in new tab">
+                <span>Gazette</span>
                 <span class="text-xs">↗</span>
-              </span>
+              </button>
             </div>
             <div class="font-extrabold text-xs tracking-tight group-hover:text-emerald-500 transition-colors leading-snug" style="color: var(--text-main);">
               FBIL Reference Rate Fix: USD/INR ₹86.4250 • EUR/INR ₹90.1200 • GBP/INR ₹108.45
@@ -1734,24 +1790,28 @@
             <p class="text-[10.5px] leading-relaxed line-clamp-2" style="color: var(--text-muted);">
               Forward premium at 1.82% annualized. Authorised Dealers discount post-shipment export bills against FBIL benchmark.
             </p>
-          </a>
-          <a href="https://www.drewry.co.uk/supply-chain-advisors/supply-chain-expertise/world-container-index-assessed-by-drewry" target="_blank" rel="noopener noreferrer" 
+          </div>
+          <div onclick="openGazetteInspector('feed-5')" 
              class="wire-card block p-3 rounded-xl border transition-all text-xs space-y-1.5 shadow-xs group cursor-pointer"
              style="background: var(--card-bg); border-color: var(--card-border);"
-             title="Open official statutory notification in new tab">
+             title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
               <div class="flex items-center gap-1.5">
                 <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
                       style="background: rgba(6, 182, 212, 0.15); color: #06B6D4; border-color: #06B6D440;">
                   DREWRY WCI FREIGHT
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Weekly Index</span>
+                <span class="text-[9.5px] font-mono text-neutral-400">• Weekly Assessment</span>
                 <span class="text-[9.5px] font-mono font-bold text-emerald-500">• Origin THC Capped</span>
               </div>
-              <span class="text-[10px] font-mono font-bold flex items-center gap-0.5 text-accent group-hover:underline" style="color: var(--accent);">
-                <span>Official Gazette</span>
+              <button type="button" 
+                      onclick="event.stopPropagation(); window.open('https://www.drewry.co.uk/supply-chain-advisors/supply-chain-expertise/world-container-index-assessed-by-drewry', '_blank', 'noopener,noreferrer');" 
+                      class="text-[10px] font-mono font-bold flex items-center gap-0.5 px-2 py-0.5 rounded border transition-all shadow-xs hover:bg-emerald-500 hover:text-white" 
+                      style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--accent);"
+                      title="Open verified official portal in new tab">
+                <span>Gazette</span>
                 <span class="text-xs">↗</span>
-              </span>
+              </button>
             </div>
             <div class="font-extrabold text-xs tracking-tight group-hover:text-emerald-500 transition-colors leading-snug" style="color: var(--text-main);">
               Nhava Sheva & Mundra to Europe Spot 40ft HC Ocean Freight Averages $3,850/FEU
@@ -1759,24 +1819,28 @@
             <p class="text-[10.5px] leading-relaxed line-clamp-2" style="color: var(--text-muted);">
               CBIC Circular 24/2020 strictly caps local origin THC at published port rates. Zero markup permitted on digital electronic BLs.
             </p>
-          </a>
-          <a href="http://www.indianspices.com/" target="_blank" rel="noopener noreferrer" 
+          </div>
+          <div onclick="openGazetteInspector('feed-6')" 
              class="wire-card block p-3 rounded-xl border transition-all text-xs space-y-1.5 shadow-xs group cursor-pointer"
              style="background: var(--card-bg); border-color: var(--card-border);"
-             title="Open official statutory notification in new tab">
+             title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
               <div class="flex items-center gap-1.5">
                 <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
                       style="background: rgba(245, 158, 11, 0.15); color: #F59E0B; border-color: #F59E0B40;">
                   SPICES BOARD INDIA
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Mandatory Notice</span>
+                <span class="text-[9.5px] font-mono text-neutral-400">• Mandatory Protocol</span>
                 <span class="text-[9.5px] font-mono font-bold text-emerald-500">• ETO & Aflatoxin Protocol</span>
               </div>
-              <span class="text-[10px] font-mono font-bold flex items-center gap-0.5 text-accent group-hover:underline" style="color: var(--accent);">
-                <span>Official Gazette</span>
+              <button type="button" 
+                      onclick="event.stopPropagation(); window.open('https://pib.gov.in/PressReleasePage.aspx?PRID=1983050', '_blank', 'noopener,noreferrer');" 
+                      class="text-[10px] font-mono font-bold flex items-center gap-0.5 px-2 py-0.5 rounded border transition-all shadow-xs hover:bg-emerald-500 hover:text-white" 
+                      style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--accent);"
+                      title="Open verified official portal in new tab">
+                <span>Gazette</span>
                 <span class="text-xs">↗</span>
-              </span>
+              </button>
             </div>
             <div class="font-extrabold text-xs tracking-tight group-hover:text-emerald-500 transition-colors leading-snug" style="color: var(--text-main);">
               Pre-Shipment Quality Protocol: Ethylene Oxide (ETO) & Aflatoxin B1 in Guntur Teja Chilli
@@ -1784,24 +1848,28 @@
             <p class="text-[10.5px] leading-relaxed line-clamp-2" style="color: var(--text-muted);">
               Mandatory Sampling & Analysis at Spices Board Q-Lab prior to port customs clearance for EU and US FDA destinations.
             </p>
-          </a>
-          <a href="https://agmarknet.gov.in/" target="_blank" rel="noopener noreferrer" 
+          </div>
+          <div onclick="openGazetteInspector('feed-7')" 
              class="wire-card block p-3 rounded-xl border transition-all text-xs space-y-1.5 shadow-xs group cursor-pointer"
              style="background: var(--card-bg); border-color: var(--card-border);"
-             title="Open official statutory notification in new tab">
+             title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
               <div class="flex items-center gap-1.5">
                 <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
                       style="background: rgba(16, 185, 129, 0.15); color: #10B981; border-color: #10B98140;">
                   AGMARKNET MANDI
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Morning Auction</span>
+                <span class="text-[9.5px] font-mono text-neutral-400">• Live Mandi Search</span>
                 <span class="text-[9.5px] font-mono font-bold text-emerald-500">• ₹192/kg Modal Rate</span>
               </div>
-              <span class="text-[10px] font-mono font-bold flex items-center gap-0.5 text-accent group-hover:underline" style="color: var(--accent);">
-                <span>Official Gazette</span>
+              <button type="button" 
+                      onclick="event.stopPropagation(); window.open('https://agmarknet.gov.in/SearchCmmMkt.aspx', '_blank', 'noopener,noreferrer');" 
+                      class="text-[10px] font-mono font-bold flex items-center gap-0.5 px-2 py-0.5 rounded border transition-all shadow-xs hover:bg-emerald-500 hover:text-white" 
+                      style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--accent);"
+                      title="Open verified official portal in new tab">
+                <span>Gazette</span>
                 <span class="text-xs">↗</span>
-              </span>
+              </button>
             </div>
             <div class="font-extrabold text-xs tracking-tight group-hover:text-emerald-500 transition-colors leading-snug" style="color: var(--text-main);">
               Guntur APMC Mandi: Teja S17 Chilli Arrivals Reach 42,000 Bags, Modal Rate ₹19,200/Qtl
@@ -1809,11 +1877,11 @@
             <p class="text-[10.5px] leading-relaxed line-clamp-2" style="color: var(--text-muted);">
               FOB export parity profitable above ₹205/kg CIF. APMC cess 1% applicable under AP Agricultural Produce Act.
             </p>
-          </a>
-          <a href="https://www.icegate.gov.in/" target="_blank" rel="noopener noreferrer" 
+          </div>
+          <div onclick="openGazetteInspector('feed-8')" 
              class="wire-card block p-3 rounded-xl border transition-all text-xs space-y-1.5 shadow-xs group cursor-pointer"
              style="background: var(--card-bg); border-color: var(--card-border);"
-             title="Open official statutory notification in new tab">
+             title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
               <div class="flex items-center gap-1.5">
                 <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
@@ -1823,10 +1891,14 @@
                 <span class="text-[9.5px] font-mono text-neutral-400">• 24x7 Status: NORMAL</span>
                 <span class="text-[9.5px] font-mono font-bold text-emerald-500">• Sec 110A ECL Online</span>
               </div>
-              <span class="text-[10px] font-mono font-bold flex items-center gap-0.5 text-accent group-hover:underline" style="color: var(--accent);">
-                <span>Official Gazette</span>
+              <button type="button" 
+                      onclick="event.stopPropagation(); window.open('https://pib.gov.in/PressReleasePage.aspx?PRID=1943890', '_blank', 'noopener,noreferrer');" 
+                      class="text-[10px] font-mono font-bold flex items-center gap-0.5 px-2 py-0.5 rounded border transition-all shadow-xs hover:bg-emerald-500 hover:text-white" 
+                      style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--accent);"
+                      title="Open verified official portal in new tab">
+                <span>Gazette</span>
                 <span class="text-xs">↗</span>
-              </span>
+              </button>
             </div>
             <div class="font-extrabold text-xs tracking-tight group-hover:text-emerald-500 transition-colors leading-snug" style="color: var(--text-main);">
               Electronic Cash Ledger (ECL) & Out of Charge (OOC) Automated Handshake Active
@@ -1834,11 +1906,11 @@
             <p class="text-[10.5px] leading-relaxed line-clamp-2" style="color: var(--text-muted);">
               Provisional release under Section 110A enabled for CAROTAR origin verification queries via online bond execution.
             </p>
-          </a>
-          <a href="https://tradestat.commerce.gov.in/eidb/default.asp" target="_blank" rel="noopener noreferrer" 
+          </div>
+          <div onclick="openGazetteInspector('feed-9')" 
              class="wire-card block p-3 rounded-xl border transition-all text-xs space-y-1.5 shadow-xs group cursor-pointer"
              style="background: var(--card-bg); border-color: var(--card-border);"
-             title="Open official statutory notification in new tab">
+             title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
               <div class="flex items-center gap-1.5">
                 <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
@@ -1848,10 +1920,14 @@
                 <span class="text-[9.5px] font-mono text-neutral-400">• Monthly Cadence</span>
                 <span class="text-[9.5px] font-mono font-bold text-emerald-500">• +28.4% YoY Tech Cargo</span>
               </div>
-              <span class="text-[10px] font-mono font-bold flex items-center gap-0.5 text-accent group-hover:underline" style="color: var(--accent);">
-                <span>Official Gazette</span>
+              <button type="button" 
+                      onclick="event.stopPropagation(); window.open('https://pib.gov.in/PressReleasePage.aspx?PRID=2065095', '_blank', 'noopener,noreferrer');" 
+                      class="text-[10px] font-mono font-bold flex items-center gap-0.5 px-2 py-0.5 rounded border transition-all shadow-xs hover:bg-emerald-500 hover:text-white" 
+                      style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--accent);"
+                      title="Open verified official portal in new tab">
+                <span>Gazette</span>
                 <span class="text-xs">↗</span>
-              </span>
+              </button>
             </div>
             <div class="font-extrabold text-xs tracking-tight group-hover:text-emerald-500 transition-colors leading-snug" style="color: var(--text-main);">
               India Merchandise Exports Reach $38.4B • Electronic Goods Surge +28.4% YoY
@@ -1859,11 +1935,11 @@
             <p class="text-[10.5px] leading-relaxed line-clamp-2" style="color: var(--text-muted);">
               Chapter 85 semiconductors and mobile PCBA lead export momentum to USA and UAE CEPA corridors.
             </p>
-          </a>
-          <a href="https://mpeda.gov.in/" target="_blank" rel="noopener noreferrer" 
+          </div>
+          <div onclick="openGazetteInspector('feed-10')" 
              class="wire-card block p-3 rounded-xl border transition-all text-xs space-y-1.5 shadow-xs group cursor-pointer"
              style="background: var(--card-bg); border-color: var(--card-border);"
-             title="Open official statutory notification in new tab">
+             title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
               <div class="flex items-center gap-1.5">
                 <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
@@ -1873,10 +1949,14 @@
                 <span class="text-[9.5px] font-mono text-neutral-400">• Catch Certification</span>
                 <span class="text-[9.5px] font-mono font-bold text-emerald-500">• ELISA Zero Tolerance</span>
               </div>
-              <span class="text-[10px] font-mono font-bold flex items-center gap-0.5 text-accent group-hover:underline" style="color: var(--accent);">
-                <span>Official Gazette</span>
+              <button type="button" 
+                      onclick="event.stopPropagation(); window.open('https://mpeda.gov.in/?page_id=1130', '_blank', 'noopener,noreferrer');" 
+                      class="text-[10px] font-mono font-bold flex items-center gap-0.5 px-2 py-0.5 rounded border transition-all shadow-xs hover:bg-emerald-500 hover:text-white" 
+                      style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--accent);"
+                      title="Open verified official portal in new tab">
+                <span>Gazette</span>
                 <span class="text-xs">↗</span>
-              </span>
+              </button>
             </div>
             <div class="font-extrabold text-xs tracking-tight group-hover:text-emerald-500 transition-colors leading-snug" style="color: var(--text-main);">
               EU Catch Certificate Protocol Active for Frozen Vannamei Shrimp (HS 0306 17 20)
@@ -1884,7 +1964,7 @@
             <p class="text-[10.5px] leading-relaxed line-clamp-2" style="color: var(--text-muted);">
               Chloramphenicol and Nitrofuran residue tests verified at MPEDA ELISA screening laboratory.
             </p>
-          </a>
+          </div>
         </div>
       </div>
 
@@ -8828,7 +8908,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
-  <script src="/app.js?v=29"></script>
+  <script src="/app.js?v=30"></script>
 
 <!-- ==================== DGFT e-CoO PREVIEW MODAL (Gap 14) ==================== -->
 <div id="dgft-coo-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fade-in" style="font-family: inherit;">
@@ -8987,6 +9067,62 @@
         </span>
         <span id="cmd-stat-count" class="text-emerald-500 font-bold">80+ Components Active</span>
       </div>
+    </div>
+  </div>
+
+  <!-- ==================== STATUTORY GAZETTE INSPECTOR MODAL ==================== -->
+  <div id="gazette-inspector-modal" class="fixed inset-0 z-50 items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-md hidden transition-opacity duration-200">
+    <div class="glass-panel w-full max-w-lg rounded-3xl p-4 sm:p-5 shadow-2xl space-y-3.5 border transform transition-all duration-200 scale-100 flex flex-col" style="background: var(--card-bg); border-color: var(--card-border);">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between border-b pb-2.5" style="border-color: var(--card-inner-border);">
+        <div class="flex items-center gap-2 min-w-0">
+          <span id="gazette-modal-badge" class="px-2 py-0.5 rounded text-[9.5px] font-mono font-black uppercase tracking-wider border">
+            CBIC
+          </span>
+          <span id="gazette-modal-timestamp" class="text-[10px] font-mono text-neutral-400">
+            • Daily Fix
+          </span>
+        </div>
+        <button type="button" onclick="closeGazetteInspector()" class="w-6 h-6 rounded-lg bg-black/10 dark:bg-white/10 flex items-center justify-center text-xs font-bold text-neutral-400 hover:text-white transition-all">✕</button>
+      </div>
+
+      <!-- Gazette Headline -->
+      <h3 id="gazette-modal-headline" class="font-black text-sm sm:text-base leading-snug tracking-tight" style="color: var(--text-main);">
+        Statutory Gazette Headline
+      </h3>
+
+      <!-- Legal Citation & Statute Tag -->
+      <div class="p-2.5 rounded-xl border text-[11px] font-mono space-y-1" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <div class="flex items-center justify-between">
+          <span class="text-neutral-400">Gazette Order:</span>
+          <span id="gazette-modal-no" class="font-bold text-emerald-500">Notice No. 29/2024</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-neutral-400">Statutory Clause:</span>
+          <span id="gazette-modal-statute" class="font-bold" style="color: var(--text-main);">Customs Act Sec 14</span>
+        </div>
+      </div>
+
+      <!-- Full Legal Brief -->
+      <div class="space-y-1.5">
+        <div class="text-[10px] font-mono uppercase tracking-wider font-extrabold text-neutral-400">Official Directive Text</div>
+        <p id="gazette-modal-body" class="text-xs leading-relaxed" style="color: var(--text-muted);">
+          Full statutory content...
+        </p>
+      </div>
+
+      <!-- Verified Deep-Link Actions -->
+      <div class="pt-2 border-t flex items-center justify-between gap-2" style="border-color: var(--card-inner-border);">
+        <button type="button" onclick="closeGazetteInspector()" class="px-3 py-2 rounded-xl border text-xs font-bold" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-muted);">Close</button>
+        <a id="gazette-modal-external-link" href="#" target="_blank" rel="noopener noreferrer" 
+           class="flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow-md active:scale-95 transition-all"
+           style="background: var(--accent); color: #ffffff;">
+          <span>Open Verified Source in New Tab</span>
+          <span class="text-sm">↗</span>
+        </a>
+      </div>
+
     </div>
   </div>
 

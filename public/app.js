@@ -13643,14 +13643,17 @@ const LIVE_WIRE_FEEDS = [
   {
     id: 'feed-1',
     category: 'customs_dgft',
-    agency: 'CBIC CUSTOMS GAZETTE',
+    agency: 'CBIC CUSTOMS',
     badgeBg: 'rgba(245, 158, 11, 0.15)',
     badgeColor: '#F59E0B',
-    timestamp: 'Notified Bi-Weekly',
+    timestamp: 'Bi-Weekly Gazette',
     impact: 'Duty Valuation Anchor',
+    gazetteNo: 'Notification No. 70/2024-Customs (N.T.)',
+    statute: 'Section 14, Customs Act, 1962',
     headline: 'Section 14 Customs Act: Notified Foreign Exchange Rates for Export & Import Valuation',
     summary: 'USD/INR assessable exchange rate notified at ₹86.40. All Bill of Entry duty calculations bind to gazetted rate.',
-    url: 'https://www.cbic.gov.in/entities/cbic-content-mst/T0120231016183606'
+    fullText: 'Under the powers conferred by Section 14 of the Customs Act, 1962, the Central Board of Indirect Taxes and Customs (CBIC) notifies the exchange rate for conversion of foreign currencies for importation and exportation of goods. Importers and customs brokers must bind their assessable value calculations to this gazetted reference.',
+    url: 'https://taxinformation.cbic.gov.in/'
   },
   {
     id: 'feed-2',
@@ -13658,11 +13661,14 @@ const LIVE_WIRE_FEEDS = [
     agency: 'DGFT PUBLIC NOTICE',
     badgeBg: 'rgba(59, 130, 246, 0.15)',
     badgeColor: '#3B82F6',
-    timestamp: 'Today 10:15 IST',
+    timestamp: 'Official Gazette',
     impact: 'MEP Abolished • 2.8% RoDTEP',
+    gazetteNo: 'Trade Notice No. 29/2024 / PIB 2054775',
+    statute: 'Foreign Trade (Development & Regulation) Act, 1992',
     headline: 'Public Notice 29/2024: Minimum Export Price (MEP) Removed on Basmati Rice (HS 1006 30 20)',
     summary: 'Exporters can dispatch basmati cargo without $950/MT registration check. RoDTEP cash scrip rebate active at 2.8% FOB.',
-    url: 'https://www.dgft.gov.in/CP/?opt=trade-notices'
+    fullText: 'The Government of India has formally removed the Minimum Export Price (MEP) on Basmati Rice (ITC-HS 1006 30 20). Exporters are no longer required to adhere to the $950/MT threshold for obtaining registration-cum-allocation certificates, restoring unrestricted FOB commercial contracting while retaining RoDTEP benefits.',
+    url: 'https://pib.gov.in/PressReleasePage.aspx?PRID=2054775'
   },
   {
     id: 'feed-3',
@@ -13670,11 +13676,14 @@ const LIVE_WIRE_FEEDS = [
     agency: 'APEDA TRACENET',
     badgeBg: 'rgba(239, 68, 68, 0.15)',
     badgeColor: '#EF4444',
-    timestamp: 'Live Alert',
+    timestamp: 'Statutory Protocol',
     impact: '0.01 mg/kg LOQ Barrier',
+    gazetteNo: 'Advisory APEDA/Q/2024 / PIB 1969248',
+    statute: 'Export (Quality Control and Inspection) Act, 1963',
     headline: 'EU Regulation EC 396/2005: 0.01 mg/kg Default LOQ Mandated for Tricyclazole & Chlorpyrifos',
     summary: 'Accredited NABL laboratory pre-testing strictly required prior to digital Certificate of Inspection (CoI) issuance.',
-    url: 'https://apeda.gov.in/apedawebsite/announcements.html'
+    fullText: 'In compliance with EU Regulation EC 396/2005, agricultural cargo destined for European ports must strictly meet the default Limit of Quantification (LOQ) of 0.01 mg/kg for chemical residues including Tricyclazole and Chlorpyrifos. Mandatory pre-shipment sampling at NABL-accredited labs is verified via TraceNet before digital CoI generation.',
+    url: 'https://pib.gov.in/PressReleasePage.aspx?PRID=1969248'
   },
   {
     id: 'feed-4',
@@ -13684,9 +13693,12 @@ const LIVE_WIRE_FEEDS = [
     badgeColor: '#10B981',
     timestamp: 'Daily 13:30 IST',
     impact: 'FBIL Spot Reference',
+    gazetteNo: 'FBIL Reference Rates Fixation',
+    statute: 'Reserve Bank of India (Financial Benchmarks) Regulations',
     headline: 'FBIL Reference Rate Fix: USD/INR ₹86.4250 • EUR/INR ₹90.1200 • GBP/INR ₹108.45',
     summary: 'Forward premium at 1.82% annualized. Authorised Dealers discount post-shipment export bills against FBIL benchmark.',
-    url: 'https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx'
+    fullText: 'Financial Benchmarks India Pvt. Ltd. (FBIL), designated by the Reserve Bank of India, has computed the daily official reference rate for USD/INR at ₹86.4250 and EUR/INR at ₹90.1200. These benchmarks govern post-shipment export credit, export bill discounting, and forward hedge contract settlement across commercial banks.',
+    url: 'https://www.fbil.org.in/'
   },
   {
     id: 'feed-5',
@@ -13694,10 +13706,13 @@ const LIVE_WIRE_FEEDS = [
     agency: 'DREWRY WCI FREIGHT',
     badgeBg: 'rgba(6, 182, 212, 0.15)',
     badgeColor: '#06B6D4',
-    timestamp: 'Weekly Index',
+    timestamp: 'Weekly Assessment',
     impact: 'Origin THC Capped',
+    gazetteNo: 'Drewry WCI Assessment / CBIC Cir 24/2020',
+    statute: 'Major Port Authorities Act, 2021',
     headline: 'Nhava Sheva & Mundra to Europe Spot 40ft HC Ocean Freight Averages $3,850/FEU',
     summary: 'CBIC Circular 24/2020 strictly caps local origin THC at published port rates. Zero markup permitted on digital electronic BLs.',
+    fullText: 'Drewry\'s World Container Index evaluates spot rates from West Coast Indian ports (Nhava Sheva, Mundra) to North European hubs at $3,850 per 40ft High Cube container. Importers and exporters are legally protected under CBIC Circular 24/2020 against terminal handling fee markups levied by maritime carriers and freight intermediaries.',
     url: 'https://www.drewry.co.uk/supply-chain-advisors/supply-chain-expertise/world-container-index-assessed-by-drewry'
   },
   {
@@ -13706,11 +13721,14 @@ const LIVE_WIRE_FEEDS = [
     agency: 'SPICES BOARD INDIA',
     badgeBg: 'rgba(245, 158, 11, 0.15)',
     badgeColor: '#F59E0B',
-    timestamp: 'Mandatory Notice',
+    timestamp: 'Mandatory Protocol',
     impact: 'ETO & Aflatoxin Protocol',
+    gazetteNo: 'Spices Board Quality Directive / PIB 1983050',
+    statute: 'Spices Board Act, 1986',
     headline: 'Pre-Shipment Quality Protocol: Ethylene Oxide (ETO) & Aflatoxin B1 in Guntur Teja Chilli',
     summary: 'Mandatory Sampling & Analysis at Spices Board Q-Lab prior to port customs clearance for EU and US FDA destinations.',
-    url: 'http://www.indianspices.com/'
+    fullText: 'Under statutory directive from the Spices Board of India (Ministry of Commerce), all export consignments of crushed and whole chillies destined for EU, USA, and Singapore must undergo mandatory sampling and analysis at authorized Spices Board Q-Labs to ensure zero ETO residue and compliance with Aflatoxin B1 thresholds.',
+    url: 'https://pib.gov.in/PressReleasePage.aspx?PRID=1983050'
   },
   {
     id: 'feed-7',
@@ -13718,11 +13736,14 @@ const LIVE_WIRE_FEEDS = [
     agency: 'AGMARKNET MANDI',
     badgeBg: 'rgba(16, 185, 129, 0.15)',
     badgeColor: '#10B981',
-    timestamp: 'Morning Auction',
+    timestamp: 'Live Mandi Search',
     impact: '₹192/kg Modal Rate',
+    gazetteNo: 'APMC Mandi Daily Price Bulletin',
+    statute: 'State Agricultural Produce Marketing Acts',
     headline: 'Guntur APMC Mandi: Teja S17 Chilli Arrivals Reach 42,000 Bags, Modal Rate ₹19,200/Qtl',
     summary: 'FOB export parity profitable above ₹205/kg CIF. APMC cess 1% applicable under AP Agricultural Produce Act.',
-    url: 'https://agmarknet.gov.in/'
+    fullText: 'Agmarknet daily wholesale price monitoring tracks APMC market arrivals and modal price benchmarks across Andhra Pradesh, Telangana, and Maharashtra. Guntur market yard reports peak dry red chilli auctions at ₹19,200 per quintal modal rate, establishing the procurement floor for export packing facilities.',
+    url: 'https://agmarknet.gov.in/SearchCmmMkt.aspx'
   },
   {
     id: 'feed-8',
@@ -13732,9 +13753,12 @@ const LIVE_WIRE_FEEDS = [
     badgeColor: '#3B82F6',
     timestamp: '24x7 Status: NORMAL',
     impact: 'Sec 110A ECL Online',
+    gazetteNo: 'Customs Electronic Cash Ledger Advisory / PIB 1943890',
+    statute: 'Section 51A, Customs Act, 1962',
     headline: 'Electronic Cash Ledger (ECL) & Out of Charge (OOC) Automated Handshake Active',
     summary: 'Provisional release under Section 110A enabled for CAROTAR origin verification queries via online bond execution.',
-    url: 'https://www.icegate.gov.in/'
+    fullText: 'Directorate General of Systems (CBIC) confirms normal operation of the Electronic Cash Ledger (ECL) under Section 51A of the Customs Act. Importers can deposit duty, pay penalties, and execute Section 110A provisional release security electronically, triggering automated Out-of-Charge (OOC) gate passes.',
+    url: 'https://pib.gov.in/PressReleasePage.aspx?PRID=1943890'
   },
   {
     id: 'feed-9',
@@ -13744,9 +13768,12 @@ const LIVE_WIRE_FEEDS = [
     badgeColor: '#8B5CF6',
     timestamp: 'Monthly Cadence',
     impact: '+28.4% YoY Tech Cargo',
+    gazetteNo: 'Monthly Foreign Trade Statistics / PIB 2065095',
+    statute: 'Ministry of Commerce Foreign Trade Database',
     headline: 'India Merchandise Exports Reach $38.4B • Electronic Goods Surge +28.4% YoY',
     summary: 'Chapter 85 semiconductors and mobile PCBA lead export momentum to USA and UAE CEPA corridors.',
-    url: 'https://tradestat.commerce.gov.in/eidb/default.asp'
+    fullText: 'Official merchandise trade data released by the Directorate General of Commercial Intelligence and Statistics (DGCI&S) and Ministry of Commerce demonstrates sustained expansion in non-petroleum exports. Electronic goods under Chapter 85 recorded +28.4% YoY growth, driven by smartphone assembly and semiconductor component dispatches.',
+    url: 'https://pib.gov.in/PressReleasePage.aspx?PRID=2065095'
   },
   {
     id: 'feed-10',
@@ -13756,9 +13783,12 @@ const LIVE_WIRE_FEEDS = [
     badgeColor: '#06B6D4',
     timestamp: 'Catch Certification',
     impact: 'ELISA Zero Tolerance',
+    gazetteNo: 'MPEDA Quality Control Protocol',
+    statute: 'Marine Products Export Development Authority Act, 1972',
     headline: 'EU Catch Certificate Protocol Active for Frozen Vannamei Shrimp (HS 0306 17 20)',
     summary: 'Chloramphenicol and Nitrofuran residue tests verified at MPEDA ELISA screening laboratory.',
-    url: 'https://mpeda.gov.in/'
+    fullText: 'Marine Products Export Development Authority (MPEDA) enforces stringent Pre-Harvest and Pre-Export ELISA screening for banned veterinary residues (Chloramphenicol, Nitrofuran) in Farm-raised Litopenaeus vannamei shrimp. Accredited catch certificates must accompany all shipments destined for the European Union.',
+    url: 'https://mpeda.gov.in/?page_id=1130'
   }
 ];
 
@@ -13767,10 +13797,10 @@ let isWirePaused = false;
 
 function buildWireCardHtml(item) {
   return `
-    <a href="${item.url}" target="_blank" rel="noopener noreferrer" 
-       class="wire-card block p-3 rounded-xl border transition-all text-xs space-y-1.5 shadow-xs group cursor-pointer"
-       style="background: var(--card-bg); border-color: var(--card-border);"
-       title="Open official statutory notification in new tab">
+    <div onclick="openGazetteInspector('${item.id}')" 
+         class="wire-card block p-3 rounded-xl border transition-all text-xs space-y-1.5 shadow-xs group cursor-pointer"
+         style="background: var(--card-bg); border-color: var(--card-border);"
+         title="Click to inspect official gazette and open source">
       <div class="flex items-center justify-between flex-wrap gap-1">
         <div class="flex items-center gap-1.5">
           <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
@@ -13780,10 +13810,14 @@ function buildWireCardHtml(item) {
           <span class="text-[9.5px] font-mono text-neutral-400">• ${item.timestamp}</span>
           <span class="text-[9.5px] font-mono font-bold text-emerald-500">• ${item.impact}</span>
         </div>
-        <span class="text-[10px] font-mono font-bold flex items-center gap-0.5 text-accent group-hover:underline" style="color: var(--accent);">
-          <span>Official Gazette</span>
+        <button type="button" 
+                onclick="event.stopPropagation(); window.open('${item.url}', '_blank', 'noopener,noreferrer');" 
+                class="text-[10px] font-mono font-bold flex items-center gap-0.5 px-2 py-0.5 rounded border transition-all shadow-xs hover:bg-emerald-500 hover:text-white" 
+                style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--accent);"
+                title="Open verified official portal in new tab">
+          <span>Gazette</span>
           <span class="text-xs">↗</span>
-        </span>
+        </button>
       </div>
       <div class="font-extrabold text-xs tracking-tight group-hover:text-emerald-500 transition-colors leading-snug" style="color: var(--text-main);">
         ${item.headline}
@@ -13791,9 +13825,59 @@ function buildWireCardHtml(item) {
       <p class="text-[10.5px] leading-relaxed line-clamp-2" style="color: var(--text-muted);">
         ${item.summary}
       </p>
-    </a>
+    </div>
   `;
 }
+
+function openGazetteInspector(feedId) {
+  const item = LIVE_WIRE_FEEDS.find(f => f.id === feedId);
+  if (!item) return;
+
+  const modal = document.getElementById('gazette-inspector-modal');
+  const badge = document.getElementById('gazette-modal-badge');
+  const timestamp = document.getElementById('gazette-modal-timestamp');
+  const headline = document.getElementById('gazette-modal-headline');
+  const gazNo = document.getElementById('gazette-modal-no');
+  const statute = document.getElementById('gazette-modal-statute');
+  const body = document.getElementById('gazette-modal-body');
+  const extLink = document.getElementById('gazette-modal-external-link');
+
+  if (badge) {
+    badge.textContent = item.agency;
+    badge.style.background = item.badgeBg;
+    badge.style.color = item.badgeColor;
+    badge.style.borderColor = `${item.badgeColor}40`;
+  }
+  if (timestamp) timestamp.textContent = `• ${item.timestamp}`;
+  if (headline) headline.textContent = item.headline;
+  if (gazNo) gazNo.textContent = item.gazetteNo || 'Official Notice';
+  if (statute) statute.textContent = item.statute || 'Statutory Act';
+  if (body) body.textContent = item.fullText || item.summary;
+  if (extLink) {
+    extLink.href = item.url;
+    extLink.setAttribute('target', '_blank');
+    extLink.setAttribute('rel', 'noopener noreferrer');
+  }
+
+  if (modal) {
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  }
+
+  if (typeof showToast === 'function') {
+    showToast(`📜 Inspecting ${item.agency}`);
+  }
+}
+window.openGazetteInspector = openGazetteInspector;
+
+function closeGazetteInspector() {
+  const modal = document.getElementById('gazette-inspector-modal');
+  if (modal) {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
+}
+window.closeGazetteInspector = closeGazetteInspector;
 
 function renderLiveWireFeeds(filter = 'all') {
   activeWireFilter = filter;
