@@ -12708,3 +12708,164 @@ if (document.readyState === 'loading') {
   initWorldOfTradeOfflineDB();
 }
 window.initWorldOfTradeOfflineDB = initWorldOfTradeOfflineDB;
+
+
+// ==================== 95+ TERMINAL EXCELLENCE: COMMAND PALETTE (CMD + K) & DENSITY ====================
+const COMMAND_INDEX = [
+  { id: 'sovereign-steering-matrix', title: 'HS 8542 / 8517 — Electronics & Chips', category: 'Sovereign Steering', desc: 'Predictive 6-Month HSN Duty Forecasts & BIS CRO Scrutiny' },
+  { id: 'sovereign-steering-matrix', title: 'HS 2942 — Active Pharma Ingredients (APIs)', category: 'Sovereign Steering', desc: 'CDSCO Quality Mandate & PLI Schemes' },
+  { id: 'trade-flow-infographic-rail', title: 'Statutory Trade Flow Corridor', category: 'Corridor Telemetry', desc: 'Mandi Form 9 → e-Way Cargo → Nhava Sheva Port → CIF' },
+  { id: 'natural-language-reverse-hsn', title: 'Reverse HSN & Sourcing Intelligence', category: 'Tariff Finder', desc: 'Type any commodity name or search 8-digit ITC-HS tariff' },
+  { id: 'wb-cepa-va-box', title: 'India-UAE CEPA (0% BCD) & CAROTAR Rules', category: 'Rules of Origin', desc: 'Domestic Value Addition (VA%) Slider & Preferential Duty' },
+  { id: 'dgcis-tradestat-explorer', title: 'DGCI&S TradeStat Bilateral Matrix', category: 'Macro Trade', desc: 'USA, UAE, China, Russia, Netherlands Merchandise Flows' },
+  { id: 'apeda-audit-container', title: 'APEDA TraceNet & HPLC Chromatography', category: 'Phytosanitary', desc: 'Tricyclazole, Chlorpyrifos, Isoprothiolane MRL Thresholds' },
+  { id: 'dispatch-engine', title: 'Exporter Decision Tree: Option A, B, C', category: 'Remediation', desc: 'Statutory Referee Re-Test, Secondary Polishing, SFDA Diversion' },
+  { id: 'scn-details-card', title: 'Customs SCN Rebuttal & Legal Rights', category: 'Dispute Law', desc: 'Customs Act Sec 124, Sec 110A Release, Sec 28 Demand Notice' },
+  { id: 'cbic-cir24-thc-auditor', title: 'CBIC Cir 24/2020 Freight THC Auditor', category: 'Port Logistics', desc: 'Prohibited shipping line and freight forwarder terminal fees' },
+  { id: 'trade-chart', title: 'Foreign Trade Balance Chart (Goods vs Services)', category: 'Data Analytics', desc: 'Monthly DGCI&S and RBI balance of payments spread' },
+  { id: 'universal-opportunity-arbitrage-sandbox', title: 'Universal Opportunity & Arbitrage Sandbox', category: 'Assembly Blueprints', desc: 'EV Scooters, Solar Pumps, Agri Drones, Onion Mandi Arbitrage' }
+];
+
+let activeCmdIndex = 0;
+let filteredCmdItems = [];
+
+function openCommandPalette() {
+  const modal = document.getElementById('cmd-palette-modal');
+  const input = document.getElementById('cmd-palette-input');
+  if (!modal || !input) return;
+
+  modal.classList.remove('hidden');
+  modal.classList.add('active');
+  input.value = '';
+  filterCommandPalette('');
+  setTimeout(() => input.focus(), 50);
+}
+window.openCommandPalette = openCommandPalette;
+
+function closeCommandPalette() {
+  const modal = document.getElementById('cmd-palette-modal');
+  if (!modal) return;
+  modal.classList.add('hidden');
+  modal.classList.remove('active');
+}
+window.closeCommandPalette = closeCommandPalette;
+
+function filterCommandPalette(q) {
+  const container = document.getElementById('cmd-palette-results');
+  if (!container) return;
+
+  const query = (q || '').toLowerCase().trim();
+  filteredCmdItems = COMMAND_INDEX.filter(item => 
+    !query || 
+    item.title.toLowerCase().includes(query) || 
+    item.category.toLowerCase().includes(query) || 
+    item.desc.toLowerCase().includes(query)
+  );
+
+  activeCmdIndex = 0;
+  renderCommandResults();
+}
+window.filterCommandPalette = filterCommandPalette;
+
+function renderCommandResults() {
+  const container = document.getElementById('cmd-palette-results');
+  if (!container) return;
+
+  if (filteredCmdItems.length === 0) {
+    container.innerHTML = `<div class="p-4 text-center text-neutral-400 font-mono text-[11px]">No matching statutory components found. Try "8542", "APEDA", or "JNPT".</div>`;
+    return;
+  }
+
+  container.innerHTML = filteredCmdItems.map((item, idx) => `
+    <div onclick="executeCommandJump('${item.id}')" 
+         class="cmd-item p-2.5 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${idx === activeCmdIndex ? 'selected' : ''}"
+         style="background: ${idx === activeCmdIndex ? 'var(--accent)' : 'var(--card-inner-bg)'}; border-color: var(--card-inner-border); color: ${idx === activeCmdIndex ? '#ffffff' : 'var(--text-main)'};">
+      <div class="space-y-0.5">
+        <div class="flex items-center gap-2">
+          <span class="font-extrabold text-xs">${item.title}</span>
+          <span class="text-[9px] font-mono px-1.5 py-0.2 rounded font-bold uppercase ${idx === activeCmdIndex ? 'bg-white/20 text-white' : 'bg-emerald-500/15 text-emerald-500'}">${item.category}</span>
+        </div>
+        <div class="text-[10px] ${idx === activeCmdIndex ? 'text-white/90' : 'text-neutral-400'}">${item.desc}</div>
+      </div>
+      <span class="text-xs font-mono opacity-80">↵</span>
+    </div>
+  `).join('');
+}
+
+function handleCommandPaletteKey(e) {
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    if (filteredCmdItems.length > 0) {
+      activeCmdIndex = (activeCmdIndex + 1) % filteredCmdItems.length;
+      renderCommandResults();
+    }
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    if (filteredCmdItems.length > 0) {
+      activeCmdIndex = (activeCmdIndex - 1 + filteredCmdItems.length) % filteredCmdItems.length;
+      renderCommandResults();
+    }
+  } else if (e.key === 'Enter') {
+    e.preventDefault();
+    if (filteredCmdItems[activeCmdIndex]) {
+      executeCommandJump(filteredCmdItems[activeCmdIndex].id);
+    }
+  } else if (e.key === 'Escape') {
+    e.preventDefault();
+    closeCommandPalette();
+  }
+}
+window.handleCommandPaletteKey = handleCommandPaletteKey;
+
+function executeCommandJump(targetId) {
+  closeCommandPalette();
+  const el = document.getElementById(targetId);
+  if (!el) {
+    if (typeof showToast === 'function') showToast(`Jump target #${targetId} not found in DOM`);
+    return;
+  }
+
+  // Ensure parent tab is visible if hidden
+  const parentSubPane = el.closest('.sub-pane');
+  if (parentSubPane && parentSubPane.classList.contains('hidden')) {
+    parentSubPane.classList.remove('hidden');
+  }
+  const parentTab = el.closest('section[id^="tab-"]');
+  if (parentTab && parentTab.classList.contains('hidden')) {
+    parentTab.classList.remove('hidden');
+  }
+
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  
+  // Tactical highlight ripple
+  el.classList.add('ring-4', 'ring-emerald-500', 'transition-all');
+  setTimeout(() => el.classList.remove('ring-4', 'ring-emerald-500'), 1800);
+  
+  if (typeof showToast === 'function') {
+    showToast(`⚡ Focused on ${targetId}`, '⚡');
+  }
+}
+window.executeCommandJump = executeCommandJump;
+
+// Global Shortcut Listener for Cmd + K / Ctrl + K
+window.addEventListener('keydown', (e) => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    e.preventDefault();
+    openCommandPalette();
+  }
+});
+
+// Viewport Density Switcher (Gap 2)
+let isFocusDensity = false;
+function toggleDensityMode() {
+  isFocusDensity = !isFocusDensity;
+  document.body.classList.toggle('density-focus', isFocusDensity);
+  const txt = document.getElementById('density-text');
+  const ico = document.getElementById('density-icon');
+  if (txt) txt.textContent = isFocusDensity ? 'Full Audit View' : 'Focus View';
+  if (ico) ico.textContent = isFocusDensity ? '📑' : '⚡';
+  if (typeof showToast === 'function') {
+    showToast(isFocusDensity ? '⚡ High-Density Focus Mode Active (Explanations Condensed)' : '📑 Full Audit Mode Active (Complete Statutory Texts)', '⚡');
+  }
+}
+window.toggleDensityMode = toggleDensityMode;
