@@ -4,7 +4,7 @@
  * 100% Native Web Standards (Zero External Libraries)
  */
 
-const CACHE_NAME = 'world-of-trade-v32-iphone15-polish';
+const CACHE_NAME = 'world-of-trade-v33-mobile-tables-clean';
 const STATIC_ASSETS = [
   '/',
   '/index.html',

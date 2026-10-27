@@ -5985,14 +5985,14 @@ function renderApedaResults(data) {
 
     rowsHtml += `
       <tr class="border-b transition-colors" style="border-color: var(--card-inner-border);">
-        <td class="py-2.5 px-3 font-bold" style="color: var(--text-main);">
+        <td class="py-2.5 px-3 font-bold min-w-[150px] whitespace-nowrap" style="color: var(--text-main);">
           <div class="flex items-center gap-1.5">
-            <span>${escapeHtml(item.chemical)}</span>
+            <span class="font-bold text-xs">${escapeHtml(item.chemical)}</span>
             ${isDirectFail ? '<span class="text-rose-400">🛑</span>' : isHoldPrecaution ? '<span class="text-amber-400">⚠️</span>' : ''}
           </div>
-          <div class="text-[9.5px] font-mono font-normal" style="color: var(--text-dim);">${escapeHtml(item.statutory_note || '')}</div>
+          <div class="text-[9.5px] font-mono font-normal max-w-[220px] whitespace-normal" style="color: var(--text-dim);">${escapeHtml(item.statutory_note || '')}</div>
         </td>
-        <td class="py-2.5 px-3 text-center font-mono">
+        <td class="py-2.5 px-3 text-center font-mono whitespace-nowrap">
           <input type="number" step="0.001" value="${item.tested_value}" 
             id="apeda-input-${item.chemical_key}"
             onchange="onApedaResidueChange('${item.chemical_key}', this.value)"
@@ -6002,18 +6002,18 @@ function renderApedaResults(data) {
             <div class="h-full rounded-full transition-all" style="width: ${Math.min(100, Math.max(8, Math.round((tested / (limit || 0.01)) * 50)))}%; background: ${statusColor};"></div>
           </div>
         </td>
-        <td class="py-2.5 px-3 text-center font-mono font-bold" style="color: var(--text-main);">
+        <td class="py-2.5 px-3 text-center font-mono font-bold whitespace-nowrap" style="color: var(--text-main);">
           ${item.statutory_mrl} <span class="text-[9px] font-normal" style="color: var(--text-dim);">${item.unit}</span>
         </td>
-        <td class="py-2.5 px-3 text-center">
-          <span class="inline-block px-2.5 py-0.5 rounded text-[10px] font-bold font-mono border"
+        <td class="py-2.5 px-3 text-center whitespace-nowrap">
+          <span class="inline-block px-2.5 py-0.5 rounded text-[10px] font-bold font-mono border whitespace-nowrap"
                 style="background: ${statusBadgeBg}; color: ${statusColor}; border-color: ${statusColor}40;">
             ${statusText}
           </span>
         </td>
-        <td class="py-2.5 px-3 text-right">
+        <td class="py-2.5 px-3 text-right whitespace-nowrap">
           <button type="button" onclick="toggleApedaDrawer('${item.chemical_key}')"
-                  class="px-2 py-1 rounded text-[10px] font-mono font-semibold border transition-all active:scale-95"
+                  class="px-2 py-1 rounded text-[10px] font-mono font-semibold border transition-all active:scale-95 whitespace-nowrap"
                   style="background: var(--input-bg); border-color: var(--card-inner-border); color: var(--text-main);">
             PHI &amp; Root-Cause ▾
           </button>
@@ -6078,15 +6078,16 @@ function renderApedaResults(data) {
         </div>
       </div>
 
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-xs border-collapse">
+      <div class="overflow-x-auto w-full no-scrollbar pb-1">
+        <div class="sm:hidden text-[9px] font-mono text-neutral-400 mb-1 px-3">← Swipe horizontally to inspect full lab data →</div>
+        <table class="min-w-[620px] w-full text-left text-xs border-collapse">
           <thead>
-            <tr class="border-b text-[10px] uppercase font-bold" style="background: rgba(0,0,0,0.03); border-color: var(--card-inner-border); color: var(--text-dim);">
-              <th class="py-2.5 px-3">Compound / Contaminant</th>
-              <th class="py-2.5 px-3 text-center">Tested Lab Value</th>
-              <th class="py-2.5 px-3 text-center">Statutory MRL</th>
-              <th class="py-2.5 px-3 text-center">Analytical Status</th>
-              <th class="py-2.5 px-3 text-right">Agronomic Defense</th>
+            <tr class="border-b text-[10px] uppercase font-bold whitespace-nowrap" style="background: rgba(0,0,0,0.03); border-color: var(--card-inner-border); color: var(--text-dim);">
+              <th class="py-2.5 px-3 min-w-[150px]">Compound / Contaminant</th>
+              <th class="py-2.5 px-3 text-center min-w-[100px]">Tested Lab Value</th>
+              <th class="py-2.5 px-3 text-center min-w-[100px]">Statutory MRL</th>
+              <th class="py-2.5 px-3 text-center min-w-[160px]">Analytical Status</th>
+              <th class="py-2.5 px-3 text-right min-w-[110px]">Agronomic Defense</th>
             </tr>
           </thead>
           <tbody>
@@ -6438,26 +6439,26 @@ function renderMpedaResults(data) {
 
     rowsHtml += `
       <tr class="border-b" style="border-color: var(--card-inner-border);">
-        <td class="py-2 px-2.5 font-bold">
-          <div>${item.chemical}</div>
-          <div class="text-[9px] font-mono font-normal" style="color: var(--text-dim);">${item.limit_type || ''}</div>
+        <td class="py-2 px-2.5 font-bold min-w-[150px] whitespace-nowrap">
+          <div class="text-xs font-bold">${item.chemical}</div>
+          <div class="text-[9px] font-mono font-normal max-w-[200px] whitespace-normal" style="color: var(--text-dim);">${item.limit_type || ''}</div>
         </td>
-        <td class="py-2 px-2.5 text-center font-mono">
+        <td class="py-2 px-2.5 text-center font-mono whitespace-nowrap">
           <input type="number" step="0.001" value="${item.tested_value}" 
             id="mpeda-input-${item.chemical_key}"
             onchange="onMpedaResidueChange('${item.chemical_key}', this.value)"
             class="w-20 text-center font-bold font-mono border rounded px-1.5 py-1 text-xs focus:outline-none"
             style="background: var(--input-bg); border-color: var(--card-inner-border); color: var(--text-main);" />
         </td>
-        <td class="py-2 px-2.5 text-center font-mono font-bold" style="color: var(--text-main);">
+        <td class="py-2 px-2.5 text-center font-mono font-bold whitespace-nowrap" style="color: var(--text-main);">
           ${item.statutory_mrl} <span class="text-[9px] font-normal" style="color: var(--text-dim);">${item.unit}</span>
         </td>
-        <td class="py-2 px-2.5 text-center">
-          <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold font-mono" style="background: ${rowBg}; color: ${rowColor}; border: 1px solid ${rowColor}40;">
+        <td class="py-2 px-2.5 text-center whitespace-nowrap">
+          <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold font-mono whitespace-nowrap" style="background: ${rowBg}; color: ${rowColor}; border: 1px solid ${rowColor}40;">
             ${item.status === 'PASS' ? '✓ PASS' : '✕ FAIL'}
           </span>
         </td>
-        <td class="py-2 px-2.5 text-[11px]" style="color: var(--text-muted);">
+        <td class="py-2 px-2.5 text-[11px] min-w-[180px]" style="color: var(--text-muted);">
           ${item.action_guidance}
         </td>
       </tr>
@@ -6542,15 +6543,16 @@ function renderMpedaResults(data) {
         <span class="text-[10px] font-mono" style="color: var(--text-dim);">Edit values in table to re-test</span>
       </div>
 
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-xs border-collapse">
+      <div class="overflow-x-auto w-full no-scrollbar pb-1">
+        <div class="sm:hidden text-[9px] font-mono text-neutral-400 mb-1 px-3">← Swipe horizontally to inspect full lab data →</div>
+        <table class="min-w-[620px] w-full text-left text-xs border-collapse">
           <thead>
-            <tr class="border-b text-[10px] uppercase font-bold" style="background: rgba(0,0,0,0.02); border-color: var(--card-inner-border); color: var(--text-dim);">
-              <th class="py-2 px-2.5">Target Substance / Analyte</th>
-              <th class="py-2 px-2.5 text-center">Tested Concentration</th>
-              <th class="py-2 px-2.5 text-center">Statutory MRL</th>
-              <th class="py-2 px-2.5 text-center">Audit Verdict</th>
-              <th class="py-2 px-2.5">Statutory Legal Guidance</th>
+            <tr class="border-b text-[10px] uppercase font-bold whitespace-nowrap" style="background: rgba(0,0,0,0.02); border-color: var(--card-inner-border); color: var(--text-dim);">
+              <th class="py-2 px-2.5 min-w-[150px]">Target Substance / Analyte</th>
+              <th class="py-2 px-2.5 text-center min-w-[100px]">Tested Concentration</th>
+              <th class="py-2 px-2.5 text-center min-w-[100px]">Statutory MRL</th>
+              <th class="py-2 px-2.5 text-center min-w-[120px]">Audit Verdict</th>
+              <th class="py-2 px-2.5 min-w-[180px]">Statutory Legal Guidance</th>
             </tr>
           </thead>
           <tbody>
@@ -6702,26 +6704,26 @@ function renderSpicesResults(data) {
 
     rowsHtml += `
       <tr class="border-b" style="border-color: var(--card-inner-border);">
-        <td class="py-2 px-2.5 font-bold">
-          <div>${item.chemical}</div>
-          <div class="text-[9px] font-mono font-normal" style="color: var(--text-dim);">${item.limit_type || ''}</div>
+        <td class="py-2 px-2.5 font-bold min-w-[150px] whitespace-nowrap">
+          <div class="text-xs font-bold">${item.chemical}</div>
+          <div class="text-[9px] font-mono font-normal max-w-[200px] whitespace-normal" style="color: var(--text-dim);">${item.limit_type || ''}</div>
         </td>
-        <td class="py-2 px-2.5 text-center font-mono">
+        <td class="py-2 px-2.5 text-center font-mono whitespace-nowrap">
           <input type="number" step="0.001" value="${item.tested_value}" 
             id="spices-input-${item.chemical_key}"
             onchange="onSpicesResidueChange('${item.chemical_key}', this.value)"
             class="w-20 text-center font-bold font-mono border rounded px-1.5 py-1 text-xs focus:outline-none"
             style="background: var(--input-bg); border-color: var(--card-inner-border); color: var(--text-main);" />
         </td>
-        <td class="py-2 px-2.5 text-center font-mono font-bold" style="color: var(--text-main);">
+        <td class="py-2 px-2.5 text-center font-mono font-bold whitespace-nowrap" style="color: var(--text-main);">
           ${item.statutory_mrl} <span class="text-[9px] font-normal" style="color: var(--text-dim);">${item.unit}</span>
         </td>
-        <td class="py-2 px-2.5 text-center">
-          <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold font-mono" style="background: ${rowBg}; color: ${rowColor}; border: 1px solid ${rowColor}40;">
+        <td class="py-2 px-2.5 text-center whitespace-nowrap">
+          <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold font-mono whitespace-nowrap" style="background: ${rowBg}; color: ${rowColor}; border: 1px solid ${rowColor}40;">
             ${item.status === 'PASS' ? '✓ PASS' : '✕ FAIL'}
           </span>
         </td>
-        <td class="py-2 px-2.5 text-[11px]" style="color: var(--text-muted);">
+        <td class="py-2 px-2.5 text-[11px] min-w-[180px]" style="color: var(--text-muted);">
           ${item.action_guidance}
         </td>
       </tr>
@@ -6806,15 +6808,16 @@ function renderSpicesResults(data) {
         <span class="text-[10px] font-mono" style="color: var(--text-dim);">Edit values in table to re-test</span>
       </div>
 
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-xs border-collapse">
+      <div class="overflow-x-auto w-full no-scrollbar pb-1">
+        <div class="sm:hidden text-[9px] font-mono text-neutral-400 mb-1 px-3">← Swipe horizontally to inspect full lab data →</div>
+        <table class="min-w-[620px] w-full text-left text-xs border-collapse">
           <thead>
-            <tr class="border-b text-[10px] uppercase font-bold" style="background: rgba(0,0,0,0.02); border-color: var(--card-inner-border); color: var(--text-dim);">
-              <th class="py-2 px-2.5">Target Contaminant / Bioactive</th>
-              <th class="py-2 px-2.5 text-center">Tested Value</th>
-              <th class="py-2 px-2.5 text-center">Statutory Limit</th>
-              <th class="py-2 px-2.5 text-center">Audit Status</th>
-              <th class="py-2 px-2.5">Statutory Legal Guidance</th>
+            <tr class="border-b text-[10px] uppercase font-bold whitespace-nowrap" style="background: rgba(0,0,0,0.02); border-color: var(--card-inner-border); color: var(--text-dim);">
+              <th class="py-2 px-2.5 min-w-[150px]">Target Contaminant / Bioactive</th>
+              <th class="py-2 px-2.5 text-center min-w-[100px]">Tested Value</th>
+              <th class="py-2 px-2.5 text-center min-w-[100px]">Statutory Limit</th>
+              <th class="py-2 px-2.5 text-center min-w-[120px]">Audit Status</th>
+              <th class="py-2 px-2.5 min-w-[180px]">Statutory Legal Guidance</th>
             </tr>
           </thead>
           <tbody>
