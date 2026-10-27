@@ -9344,3 +9344,208 @@ window.resetPlaneSandbox = resetPlaneSandbox;
 window.exportActiveStatutoryState = exportActiveStatutoryState;
 window.generateStatutoryDefenseDossierPdf = generateStatutoryDefenseDossierPdf;
 window.previewStatutoryDefenseDossier = previewStatutoryDefenseDossier;
+
+// =========================================================================
+// SOVEREIGN MACRO STEERING, HSN MATRIX & PLI NAVIGATOR RUNTIME
+// =========================================================================
+
+const hsnSteeringDatabase = {
+  electronics: {
+    deltaBadge: "+5.0% BCD HIKE",
+    currentDuty: "BCD 20% + SWS 10% + IGST 18%",
+    forecastDuty: "BCD raised to 25% on finished CBUs; 0% on bare silicon wafers",
+    rationale: "Policymakers are escalating finished goods tariffs to curb Chapter 85 imports while holding bare components at 0%–5% to incentivize domestic SMT soldering lines.",
+    qcoBadge: "BIS MANDATORY",
+    qcoName: "Electronics & IT Goods Order (CRO 2021/24)",
+    carotarStatus: "CAROTAR 2020 Form 1 Verification (ASEAN route scrutiny)",
+    scrutinyDetail: "Consignments arriving without registered BIS CRS lab marks face immediate border detention under Section 11 of Customs Act. Origin verification enforced against Vietnam transit fraud.",
+    cpiImpactBadge: "HIGH CPI EXPOSURE",
+    householdImpact: "Budget Smartphones & Tablets +6–8% in retail",
+    fxTransmission: "3–4 Month Lag from Port FOB import invoices",
+    cpiRationale: "USD/INR depreciation directly elevates imported bill of materials (BOM), compressing brand margins before retail price increases hit consumers.",
+    pliOutlayBadge: "₹40,951 CR OUTLAY",
+    pliName: "PLI for Large-Scale Electronics & IT Hardware 2.0",
+    pliSlabs: "4% to 6% on Incremental Sales over Base Year",
+    pliLink: "https://www.meity.gov.in/esdm/pli"
+  },
+  ev_battery: {
+    deltaBadge: "+15.0% TARIFF ADVANTAGE",
+    currentDuty: "CBU EV 70%–100% | CKD Parts 15% | ACC Cells 5%",
+    forecastDuty: "Concessional 5% duty extended on lithium carbonate; CBU tariff held at 70%",
+    rationale: "Heavy Industries ministry maintains massive tariff walls on assembled vehicles to force battery module localization and pack assembly inside India.",
+    qcoBadge: "AIS-156 & AIS-038",
+    qcoName: "MoRTH Battery Safety Amendment Phase 2",
+    carotarStatus: "Mandatory ARAI / ICAT Thermal Runaway Testing",
+    scrutinyDetail: "Strict thermal runaway, micro-short circuit and BMS telematics audits mandatory before port customs releases battery shipments.",
+    cpiImpactBadge: "MEDIUM TRANSPORT IMPACT",
+    householdImpact: "Commercial Cargo 3-Wheelers & Last-Mile Deliveries",
+    fxTransmission: "6–8 Weeks Freight & Lithium Spot Pricing Lag",
+    cpiRationale: "Directly drives green mobility cost per km for Swiggy/Zomato/Amazon delivery fleets, keeping last-mile logistics rates resilient.",
+    pliOutlayBadge: "₹18,100 CR OUTLAY",
+    pliName: "PLI for Advanced Chemistry Cell (ACC) Battery Storage",
+    pliSlabs: "Cash subsidies scaling with domestic value addition (up to 20%)",
+    pliLink: "https://heavyindustries.gov.in/national-programme-advanced-chemistry-cell-acc-battery-storage"
+  },
+  pharma_api: {
+    deltaBadge: "ANTI-DUMPING LEVY",
+    currentDuty: "BCD 10% + Anti-Dumping Duty on Chinese APIs (Paracetamol, Amoxicillin)",
+    forecastDuty: "Phased BCD hike to 15% on imported chemical intermediates",
+    rationale: "Department of Pharmaceuticals seeks to eliminate 70% import reliance on China for 53 critical active pharmaceutical ingredients.",
+    qcoBadge: "CDSCO NOC MANDATORY",
+    qcoName: "Sugam Portal Import Registration & GMP Audit",
+    carotarStatus: "Mandatory Certificate of Analysis (CoA) Lab Testing",
+    scrutinyDetail: "Port health officers (PHO) draw random samples at Sea Ports; clearance delayed if chemical purity falls below Indian Pharmacopoeia standards.",
+    cpiImpactBadge: "CRITICAL ESSENTIAL IMPACT",
+    householdImpact: "Over-The-Counter Antibiotics & Fever Formulations +3–5%",
+    fxTransmission: "Immediate Spot Exchange Rate Pass-Through",
+    cpiRationale: "Essential medicines under National List of Essential Medicines (NLEM) have NPPA price caps, squeezing domestic formulation margins.",
+    pliOutlayBadge: "₹6,940 CR OUTLAY",
+    pliName: "PLI for Bulk Drugs & Key Starting Materials (KSMs)",
+    pliSlabs: "5% to 20% on Incremental Sales of 53 Key APIs",
+    pliLink: "https://pharmaceuticals.gov.in/schemes/production-linked-incentive-pli-scheme-bulk-drugs"
+  },
+  edible_oils: {
+    deltaBadge: "+20.0% RECENT LEVY",
+    currentDuty: "Effective duty raised from 5.5% to 27.5% (BCD 20% + AIDC)",
+    forecastDuty: "Dynamic calibration based on domestic soybean/mustard harvest prices",
+    rationale: "Ministry of Consumer Affairs & Finance raised import duty to protect domestic oilseed farmers from cheap Malaysian/Indonesian palm oil dumping.",
+    qcoBadge: "FSSAI IMPORT CLEARANCE",
+    qcoName: "FSSAI Food Safety & Standards Import Regulations 2022",
+    carotarStatus: "Strict Solvent Extraction Residue & Trans-Fat Audits",
+    scrutinyDetail: "Crude edible oil tankers held at Kandla, JNPT, and Chennai for FSSAI lab reports; demurrage accumulates if acid value exceeds limits.",
+    cpiImpactBadge: "EXTREME CPI WEIGHT (~3.8%)",
+    householdImpact: "Direct ₹15–20/liter increase in packaged edible cooking oil",
+    fxTransmission: "Instantaneous 15-day retail grocery transmission",
+    cpiRationale: "Edible oil is one of the highest weighted food items in Consumer Price Index; directly triggers kitchen budget inflation.",
+    pliOutlayBadge: "₹11,040 CR OUTLAY",
+    pliName: "National Mission on Edible Oils – Oil Palm (NMEO-OP)",
+    pliSlabs: "Viability Price Support & Seedling Subsidies",
+    pliLink: "https://agriwelfare.gov.in/en/Major"
+  },
+  petroleum: {
+    deltaBadge: "WINDFALL TAX VOLATILE",
+    currentDuty: "SAED (Special Additional Excise Duty) on crude production & diesel exports",
+    forecastDuty: "Dynamic fortnightly revision linked to Brent crude international benchmarks",
+    rationale: "Curbing private refiner super-profits while insulating domestic pumps from $85+/bbl international price spikes.",
+    qcoBadge: "PESO EXPLOSIVE LICENSING",
+    qcoName: "Petroleum and Explosives Safety Organisation Clearance",
+    carotarStatus: "G7 Price Cap ($60/bbl) Compliance Filings",
+    scrutinyDetail: "Maritime customs scrutinizes tanker P&I club insurance and maritime origin certificates to ensure compliance with international crude sanctions.",
+    cpiImpactBadge: "MAXIMUM 360° MACRO IMPACT",
+    householdImpact: "Diesel prices drive freight on ALL agricultural and industrial goods",
+    fxTransmission: "Immediate forex drain ($12B–$15B / month)",
+    cpiRationale: "A $10/bbl increase in Brent widens India's current account deficit by ~$12-14B and weakens INR by 0.5–1%.",
+    pliOutlayBadge: "₹19,500 CR OUTLAY",
+    pliName: "Strategic Petroleum Reserves & Green Hydrogen Mission",
+    pliSlabs: "Production Incentives for Electrolysers & Renewable Fuel",
+    pliLink: "https://mnre.gov.in/national-green-hydrogen-mission"
+  },
+  it_hardware: {
+    deltaBadge: "IMPORT LICENSING QUEUE",
+    currentDuty: "BCD 0% (ITA-1 WTO binding) | Import Management System Active",
+    forecastDuty: "Strict quota caps on non-trusted source IT hardware imports",
+    rationale: "DGFT instituted the Import Management System to track laptops and servers while incentivizing local assembly under PLI 2.0.",
+    qcoBadge: "TRUSTED SOURCE MANDATE",
+    qcoName: "National Cyber Security Coordinator (NCSC) Trusted Telecom Portal",
+    carotarStatus: "BIS CRS IS 13252 Testing Mandatory",
+    scrutinyDetail: "Customs monitors IMEI and serial registration against DGFT authorized import authorization quantities.",
+    cpiImpactBadge: "CORPORATE & EDUCATION IMPACT",
+    householdImpact: "Enterprise Laptops & Commercial Servers +8–12%",
+    fxTransmission: "Quarterly corporate procurement cycles",
+    cpiRationale: "Pushes HP, Dell, Lenovo, and Apple to assemble motherboards and enclosures locally inside Tamil Nadu, UP, and Maharashtra.",
+    pliOutlayBadge: "₹17,000 CR OUTLAY",
+    pliName: "PLI Scheme 2.0 for IT Hardware",
+    pliSlabs: "Up to 5% incremental sales incentive over 6-year period",
+    pliLink: "https://www.meity.gov.in/esdm/it-hardware-2"
+  },
+  gold_bullion: {
+    deltaBadge: "-9.0% DUTY REDUCTION",
+    currentDuty: "BCD reduced from 15% to 6% in Union Budget 2024 (AIDC 5%)",
+    forecastDuty: "Duty held at 6% to permanently curb hawala and illegal air-cargo smuggling",
+    rationale: "Slashing duty collapsed smuggling margins while bringing gold trade into legitimate banking channels via India International Bullion Exchange (IIBX GIFT City).",
+    qcoBadge: "HALLMARKING MANDATORY",
+    qcoName: "BIS 100% Mandatory Hallmarking Order Phase 4",
+    carotarStatus: "UAE CEPA 1% Tariff Concession Quota Verification",
+    scrutinyDetail: "Customs at Mumbai/Delhi airport cargo scrutinizes nominated bank delivery orders and UAE CEPA origin stamps.",
+    cpiImpactBadge: "SAVINGS & CURRENCY IMPACT",
+    householdImpact: "Gold jewelry prices aligned directly with London Bullion Market",
+    fxTransmission: "Daily spot forex transmission",
+    cpiRationale: "India's second largest import bill ($45B/year). High festive imports directly widen trade deficit in Q3 (Oct–Dec).",
+    pliOutlayBadge: "GIFT CITY IIBX",
+    pliName: "India International Bullion Exchange (IIBX) Pilot Incentives",
+    pliSlabs: "Zero-Customs Port Free-Trade Warehousing Zone (FTWZ)",
+    pliLink: "https://www.iibx.com.in"
+  },
+  steel_metals: {
+    deltaBadge: "SAFEGUARD DUTY PROBE",
+    currentDuty: "BCD 7.5%–10% | Directorate General of Trade Remedies (DGTR) Inquiry",
+    forecastDuty: "Imposition of 12%–15% provisional safeguard duty on Chinese steel dumping",
+    rationale: "Surge in cheap Chinese steel exports due to domestic property slowdown threatens Indian primary producers (Tata, JSW, SAIL).",
+    qcoBadge: "STEEL QUALITY ORDER",
+    qcoName: "Ministry of Steel Quality Control Order (QCO) 2024",
+    carotarStatus: "Mill Test Certificate (MTC) Chemical Verification",
+    scrutinyDetail: "Every coil arriving at ports must possess BIS certification; unstamped imported coils are barred from customs clearance.",
+    cpiImpactBadge: "INFRASTRUCTURE & HOUSING IMPACT",
+    householdImpact: "Automobile body panels, roofing sheets & construction rebar",
+    fxTransmission: "2-Month contract negotiation cycle",
+    cpiRationale: "Higher steel duty protects primary producers but increases input costs for small MSME auto-component manufacturers.",
+    pliOutlayBadge: "₹6,322 CR OUTLAY",
+    pliName: "PLI Scheme for Specialty Steel",
+    pliSlabs: "4% to 12% on coated, high-strength and electrical steel",
+    pliLink: "https://steel.gov.in/pli-scheme"
+  }
+};
+
+function onSelectHsnSteering(sectorKey) {
+  const data = hsnSteeringDatabase[sectorKey];
+  if (!data) return;
+
+  const dutyBadge = document.getElementById('hsn-duty-delta-badge');
+  const currentDuty = document.getElementById('hsn-current-duty');
+  const forecastDuty = document.getElementById('hsn-forecast-duty');
+  const rationale = document.getElementById('hsn-tariff-rationale');
+
+  const qcoBadge = document.getElementById('hsn-qco-badge');
+  const qcoName = document.getElementById('hsn-qco-name');
+  const carotar = document.getElementById('hsn-carotar-status');
+  const scrutinyDetail = document.getElementById('hsn-scrutiny-detail');
+
+  const cpiBadge = document.getElementById('hsn-cpi-impact-badge');
+  const household = document.getElementById('hsn-household-impact');
+  const fxTrans = document.getElementById('hsn-fx-transmission');
+  const cpiRationale = document.getElementById('hsn-cpi-rationale');
+
+  const pliBadge = document.getElementById('hsn-pli-outlay-badge');
+  const pliName = document.getElementById('hsn-pli-name');
+  const pliSlabs = document.getElementById('hsn-pli-slabs');
+  const pliLink = document.getElementById('hsn-pli-link');
+
+  if (dutyBadge) dutyBadge.textContent = data.deltaBadge;
+  if (currentDuty) currentDuty.textContent = data.currentDuty;
+  if (forecastDuty) forecastDuty.textContent = data.forecastDuty;
+  if (rationale) rationale.textContent = data.rationale;
+
+  if (qcoBadge) qcoBadge.textContent = data.qcoBadge;
+  if (qcoName) qcoName.textContent = data.qcoName;
+  if (carotar) carotar.textContent = data.carotarStatus;
+  if (scrutinyDetail) scrutinyDetail.textContent = data.scrutinyDetail;
+
+  if (cpiBadge) cpiBadge.textContent = data.cpiImpactBadge;
+  if (household) household.textContent = data.householdImpact;
+  if (fxTrans) fxTrans.textContent = data.fxTransmission;
+  if (cpiRationale) cpiRationale.textContent = data.cpiRationale;
+
+  if (pliBadge) pliBadge.textContent = data.pliOutlayBadge;
+  if (pliName) pliName.textContent = data.pliName;
+  if (pliSlabs) pliSlabs.textContent = data.pliSlabs;
+  if (pliLink) {
+    pliLink.href = data.pliLink;
+    pliLink.setAttribute('href', data.pliLink);
+  }
+
+  if (typeof showToast === 'function') {
+    showToast(`Loaded ${sectorKey.toUpperCase()} HSN Regulatory Matrix`, '🏛️');
+  }
+}
+
+window.onSelectHsnSteering = onSelectHsnSteering;
