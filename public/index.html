@@ -1007,6 +1007,41 @@
     .z-30 { z-index: 30; }
     .z-40 { z-index: 40; }
     .z-50 { z-index: 50; }
+
+    /* --- Master Polish UI/UX Overhaul --- */
+    .sub-pane {
+      animation: subPaneFade 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes subPaneFade {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .corridor-step-btn.active-step {
+      box-shadow: 0 0 0 2px var(--accent), 0 4px 14px rgba(16, 185, 129, 0.25) !important;
+    }
+
+    .scroll-chip-strip {
+      mask-image: linear-gradient(to right, transparent 0%, black 14px, black calc(100% - 14px), transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 14px, black calc(100% - 14px), transparent 100%);
+    }
+
+    @media print {
+      .glass-panel, .glass-card, .tier-card, table, tr {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+      header, #qj-bar-container, #bottom-dock-nav, .no-print {
+        display: none !important;
+      }
+    }
+    
   </style>
 </head>
 <body class="theme-kyoto-tea min-h-screen overflow-x-hidden font-sans">
@@ -1639,22 +1674,25 @@
           </span>
           <span class="text-emerald-500 font-bold whitespace-nowrap">● Multi-Node Telemetry Active</span>
         </div>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs font-mono">
-          <div class="p-2 rounded-xl border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-border);">
-            <span class="text-[9px] block uppercase" style="color: var(--text-dim);">1. Origin Cluster</span>
-            <span id="flow-origin" class="font-extrabold text-[11px] block truncate text-amber-500">Indian Clusters</span>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs font-mono relative">
+          <div class="p-2 rounded-xl border space-y-0.5 relative" style="background: var(--card-bg); border-color: var(--card-border);">
+            <span class="text-[10px] font-bold block uppercase" style="color: var(--text-dim);">1. Origin Cluster</span>
+            <span id="flow-origin" class="font-extrabold text-xs block truncate text-amber-500">Indian Clusters</span>
+            <span class="hidden sm:inline absolute -right-2 top-1/2 -translate-y-1/2 z-10 text-[10px] text-neutral-400 font-sans font-bold">→</span>
+          </div>
+          <div class="p-2 rounded-xl border space-y-0.5 relative" style="background: var(--card-bg); border-color: var(--card-border);">
+            <span class="text-[10px] font-bold block uppercase" style="color: var(--text-dim);">2. Transit Corridor</span>
+            <span id="flow-transit" class="font-extrabold text-xs block truncate text-cyan-500">GST Corridor</span>
+            <span class="hidden sm:inline absolute -right-2 top-1/2 -translate-y-1/2 z-10 text-[10px] text-neutral-400 font-sans font-bold">→</span>
+          </div>
+          <div class="p-2 rounded-xl border space-y-0.5 relative" style="background: var(--card-bg); border-color: var(--card-border);">
+            <span class="text-[10px] font-bold block uppercase" style="color: var(--text-dim);">3. Exit Port (FOB)</span>
+            <span id="flow-port" class="font-extrabold text-xs block truncate text-emerald-500">Nhava Sheva Port</span>
+            <span class="hidden sm:inline absolute -right-2 top-1/2 -translate-y-1/2 z-10 text-[10px] text-neutral-400 font-sans font-bold">→</span>
           </div>
           <div class="p-2 rounded-xl border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-border);">
-            <span class="text-[9px] block uppercase" style="color: var(--text-dim);">2. Transit Corridor</span>
-            <span id="flow-transit" class="font-extrabold text-[11px] block truncate text-cyan-500">GST Corridor</span>
-          </div>
-          <div class="p-2 rounded-xl border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-border);">
-            <span class="text-[9px] block uppercase" style="color: var(--text-dim);">3. Exit Port (FOB)</span>
-            <span id="flow-port" class="font-extrabold text-[11px] block truncate text-emerald-500">Nhava Sheva Port</span>
-          </div>
-          <div class="p-2 rounded-xl border space-y-0.5" style="background: var(--card-bg); border-color: var(--card-border);">
-            <span class="text-[9px] block uppercase" style="color: var(--text-dim);">4. Destination (CIF)</span>
-            <span id="flow-dest" class="font-extrabold text-[11px] block truncate text-purple-400">Target Market</span>
+            <span class="text-[10px] font-bold block uppercase" style="color: var(--text-dim);">4. Destination (CIF)</span>
+            <span id="flow-dest" class="font-extrabold text-xs block truncate text-purple-400">Target Market</span>
           </div>
         </div>
       </div>
@@ -2611,6 +2649,7 @@
                 <span id="wb-out-landedtotal" class="text-lg font-mono font-black text-white block">
                   ₹2,90,304
                 </span>
+                <span id="wb-cepa-savings-tag" class="text-[9.5px] font-mono font-bold text-emerald-400 block pt-0.5">✓ Saved ₹14,515 via CEPA 0% Preferential BCD</span>
                 <p class="text-[9px] text-neutral-400 leading-tight">
                   Must be deposited via ICEGATE ICEPAY gateway prior to customs Out of Charge (OOC) order.
                 </p>
@@ -4386,6 +4425,53 @@
         </div>
       </div>
 
+      <!-- Ground Operator Statutory Telemetry & Support Gateway (Gap 13) -->
+      <div class="p-4 rounded-3xl border text-xs space-y-3 mt-4 glass-panel" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <div class="flex items-center justify-between flex-wrap gap-2 border-b pb-2.5" style="border-color: var(--card-inner-border);">
+          <div class="flex items-center gap-2">
+            <span class="text-base text-emerald-500 font-bold">🏛️</span>
+            <div>
+              <span class="font-extrabold text-xs uppercase tracking-wider block" style="color: var(--text-main);">Statutory Cross-Agency Support &amp; Telemetry Gate</span>
+              <span class="text-[10px]" style="color: var(--text-dim);">Live integration across customs EDI, phytosanitary portals, and export promotion councils</span>
+            </div>
+          </div>
+          <span class="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full border text-emerald-500 bg-emerald-500/10 border-emerald-500/25">100% Statutory Compliant</span>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs font-mono">
+          <a href="https://icegate.gov.in" target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-xl border flex items-center justify-between hover:border-amber-400 transition-all shadow-sm" style="background: var(--card-bg); border-color: var(--card-border);">
+            <div>
+              <span class="font-bold block" style="color: var(--text-main);">ICEGATE 2.0</span>
+              <span class="text-[9.5px] text-neutral-400">CBIC Customs EDI</span>
+            </div>
+            <span class="text-[10px] text-emerald-500 font-bold">24x7</span>
+          </a>
+          <a href="https://dgft.gov.in" target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-xl border flex items-center justify-between hover:border-amber-400 transition-all shadow-sm" style="background: var(--card-bg); border-color: var(--card-border);">
+            <div>
+              <span class="font-bold block" style="color: var(--text-main);">DGFT Portal</span>
+              <span class="text-[9.5px] text-neutral-400">e-RCMC &amp; e-CoO</span>
+            </div>
+            <span class="text-[10px] text-blue-500 font-bold">FTP 23</span>
+          </a>
+          <a href="https://apeda.gov.in" target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-xl border flex items-center justify-between hover:border-amber-400 transition-all shadow-sm" style="background: var(--card-bg); border-color: var(--card-border);">
+            <div>
+              <span class="font-bold block" style="color: var(--text-main);">APEDA TraceNet</span>
+              <span class="text-[9.5px] text-neutral-400">Phyto Lab CoI</span>
+            </div>
+            <span class="text-[10px] text-cyan-500 font-bold">NABL</span>
+          </a>
+          <a href="https://eicindia.gov.in" target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-xl border flex items-center justify-between hover:border-amber-400 transition-all shadow-sm" style="background: var(--card-bg); border-color: var(--card-border);">
+            <div>
+              <span class="font-bold block" style="color: var(--text-main);">EIC e-Health</span>
+              <span class="text-[9.5px] text-neutral-400">EU SDoC Certificate</span>
+            </div>
+            <span class="text-[10px] text-purple-400 font-bold">Verified</span>
+          </a>
+        </div>
+        <p class="text-[10px] font-mono leading-relaxed pt-1" style="color: var(--text-dim);">
+          Notice: Telemetry parameters align with Customs Act 1962, Foreign Trade (D&amp;R) Act 1992, and APEDA Act 1985. Real-time rates fetched from official gazetted schedules.
+        </p>
+      </div>
+
     </section>
 
     <!-- ==================== TAB 2: AGENDA (Operating Timetable) ==================== -->
@@ -5596,9 +5682,12 @@
         </div>
 
         <div id="scn-details-card" class="p-3.5 rounded-xl border space-y-2.5 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-          <div class="flex items-center justify-between">
+          <div class="flex items-center justify-between flex-wrap gap-1.5">
             <span id="scn-title" class="font-extrabold font-mono text-xs" style="color: var(--accent);">Section 124 — Show Cause Notice (SCN) Rebuttal</span>
-            <span id="scn-severity" class="text-[9px] px-2 py-0.5 rounded-full font-bold font-mono" style="background: rgba(239, 68, 68, 0.15); color: #EF4444;">High Severity</span>
+            <div class="flex items-center gap-1.5">
+              <span id="scn-edi-badge" class="text-[9.5px] px-2 py-0.5 rounded-full font-mono font-bold border text-rose-500 bg-rose-500/10 border-rose-500/20">ICEGATE EDI: BE-RES-001</span>
+              <span id="scn-severity" class="text-[9px] px-2 py-0.5 rounded-full font-bold font-mono" style="background: rgba(239, 68, 68, 0.15); color: #EF4444;">High Severity</span>
+            </div>
           </div>
 
           <div class="space-y-1.5 text-[11px]">

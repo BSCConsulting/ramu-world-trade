@@ -840,6 +840,41 @@
     .z-30 { z-index: 30; }
     .z-40 { z-index: 40; }
     .z-50 { z-index: 50; }
+
+    /* --- Master Polish UI/UX Overhaul --- */
+    .sub-pane {
+      animation: subPaneFade 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes subPaneFade {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .corridor-step-btn.active-step {
+      box-shadow: 0 0 0 2px var(--accent), 0 4px 14px rgba(16, 185, 129, 0.25) !important;
+    }
+
+    .scroll-chip-strip {
+      mask-image: linear-gradient(to right, transparent 0%, black 14px, black calc(100% - 14px), transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 14px, black calc(100% - 14px), transparent 100%);
+    }
+
+    @media print {
+      .glass-panel, .glass-card, .tier-card, table, tr {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+      header, #qj-bar-container, #bottom-dock-nav, .no-print {
+        display: none !important;
+      }
+    }
+    
   </style>
 </head>
 <body class="min-h-full flex flex-col font-sans transition-colors duration-200">

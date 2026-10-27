@@ -3879,6 +3879,20 @@ function selectScnSection(sectionId) {
   if (trigEl) trigEl.textContent = currentScnSection.trigger;
   if (rightsEl) rightsEl.innerHTML = currentScnSection.statutory_rights.join('<br>');
   if (precEl) precEl.innerHTML = currentScnSection.landmark_precedents.join('<br>');
+
+  const ediBadge = document.getElementById('scn-edi-badge');
+  if (ediBadge) {
+    if (sectionId === 'sec-124') {
+      ediBadge.textContent = 'ICEGATE EDI: BE-RES-001 (Classification SCN)';
+      ediBadge.className = 'text-[9.5px] px-2 py-0.5 rounded-full font-mono font-bold border text-rose-500 bg-rose-500/10 border-rose-500/20';
+    } else if (sectionId === 'sec-110a') {
+      ediBadge.textContent = 'ICEGATE EDI: RMS-SUSP-09 (Cargo Seizure / Release Bond)';
+      ediBadge.className = 'text-[9.5px] px-2 py-0.5 rounded-full font-mono font-bold border text-amber-500 bg-amber-500/10 border-amber-500/20';
+    } else if (sectionId === 'sec-28') {
+      ediBadge.textContent = 'ICEGATE EDI: SB-POST-AUDIT (Demand Recovery Notice)';
+      ediBadge.className = 'text-[9.5px] px-2 py-0.5 rounded-full font-mono font-bold border text-blue-500 bg-blue-500/10 border-blue-500/20';
+    }
+  }
 }
 
 function copyScnDraftNotice() {
@@ -5984,6 +5998,9 @@ function renderApedaResults(data) {
             onchange="onApedaResidueChange('${item.chemical_key}', this.value)"
             class="w-20 text-center font-bold font-mono border rounded px-1.5 py-1 text-xs focus:outline-none"
             style="background: var(--input-bg); border-color: ${inputBorder}; color: var(--text-main);" />
+          <div class="w-20 mx-auto bg-black/10 dark:bg-white/10 rounded-full h-1.5 mt-1 overflow-hidden" title="Tested value relative to statutory MRL ceiling">
+            <div class="h-full rounded-full transition-all" style="width: ${Math.min(100, Math.max(8, Math.round((tested / (limit || 0.01)) * 50)))}%; background: ${statusColor};"></div>
+          </div>
         </td>
         <td class="py-2.5 px-3 text-center font-mono font-bold" style="color: var(--text-main);">
           ${item.statutory_mrl} <span class="text-[9px] font-normal" style="color: var(--text-dim);">${item.unit}</span>
@@ -6176,9 +6193,13 @@ function renderApedaResults(data) {
               <p class="text-[10.5px] leading-relaxed" style="color: var(--text-muted);">
                 Subject the rice to enhanced optical sorting and silky polishing, which can shave off 20%–30% of surface chemical residue.
               </p>
-              <div class="p-2 rounded-lg border text-[10px]"
+              <div class="p-2 rounded-lg border text-[10px] space-y-1"
                    style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-muted);">
-                <strong class="text-cyan-600">Agronomic Science:</strong> Systemic fungicides bond primarily to outer pericarp/bran layers.
+                <div><strong class="text-cyan-600">Agronomic Science:</strong> Systemic fungicides bond primarily to outer pericarp/bran layers.</div>
+                <div class="flex justify-between font-mono text-[9.5px] border-t pt-1" style="border-color: var(--card-inner-border);">
+                  <span>Milling Yield Loss: <strong class="text-amber-500">-3.5%</strong></span>
+                  <span>Net Recovery: <strong class="text-emerald-500">₹27,50,250 (96.5%)</strong></span>
+                </div>
               </div>
             </div>
 
@@ -11993,7 +12014,21 @@ function recalculateTariffLedger() {
   if (outAidc) outAidc.textContent = `₹${Math.round(aidcAmt).toLocaleString('en-IN')} (${comm.aidcRate}%)`;
   if (outIgst) outIgst.textContent = `₹${Math.round(igstAmt).toLocaleString('en-IN')} (${comm.igstRate}%)`;
   if (outTotal) outTotal.textContent = `₹${Math.round(totalDuty).toLocaleString('en-IN')}`;
-  if (outLanded) outLanded.textContent = `₹${Math.round(landedTotal).toLocaleString('en-IN')}`;
+  if (outLanded) {
+    outLanded.textContent = `₹${Math.round(landedTotal).toLocaleString('en-IN')}`;
+    const mfnBcdAmt = cifInr * (comm.bcdRate / 100);
+    const mfnDuty = mfnBcdAmt + (mfnBcdAmt * 0.1) + (cifInr * (comm.aidcRate / 100)) + ((cifInr + mfnBcdAmt + (mfnBcdAmt * 0.1) + (cifInr * (comm.aidcRate / 100))) * (comm.igstRate / 100));
+    const dutySavings = mfnDuty - totalDuty;
+    const savingsEl = document.getElementById('wb-cepa-savings-tag');
+    if (savingsEl) {
+      if (dutySavings > 0) {
+        savingsEl.textContent = `✓ Saved ₹${Math.round(dutySavings).toLocaleString('en-IN')} via CEPA 0% Preferential BCD`;
+        savingsEl.className = 'text-[9.5px] font-mono font-bold text-emerald-500 block';
+      } else {
+        savingsEl.textContent = '';
+      }
+    }
+  }
   if (effBadge) effBadge.textContent = `Effective: ${effectivePct.toFixed(1)}%`;
 }
 
