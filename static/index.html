@@ -817,21 +817,26 @@
   <header class="pt-safe-top px-3 sm:px-4 py-2 sm:py-2.5 border-b sticky top-0 z-40 backdrop-blur-xl" style="background: var(--nav-bg); border-color: var(--card-border);">
     <div class="max-w-4xl mx-auto w-full flex items-center justify-between gap-2">
       <!-- Brand & Live Indicator (Single Line, Never Wraps) -->
-      <div class="flex items-center space-x-2 min-w-0">
-        <div class="w-8 h-8 rounded-xl flex items-center justify-center shadow-md shrink-0 active:scale-95 transition-transform" style="background: var(--accent); color: #ffffff;">
-          <svg class="w-4 h-4 font-extrabold" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+      <div class="flex items-center space-x-2.5 min-w-0">
+        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shadow-md shrink-0 active:scale-95 transition-transform" style="background: var(--accent); color: #ffffff;">
+          <svg class="w-5 h-5 font-extrabold" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
           </svg>
         </div>
         <div class="min-w-0">
-          <div class="flex items-center gap-1.5 flex-nowrap">
-            <h1 class="text-sm sm:text-base font-extrabold tracking-tight truncate whitespace-nowrap" style="color: var(--text-main);">World of Trade</h1>
-            <span class="inline-flex items-center px-1.5 py-0.2 rounded border text-[9px] font-bold font-mono tracking-wide uppercase shrink-0" style="background: var(--accent-light); color: var(--accent); border-color: var(--accent-border);">
-              <span class="w-1.5 h-1.5 rounded-full animate-pulse mr-1" style="background: var(--accent);"></span>
-              Live
+          <div class="flex items-center gap-2 flex-nowrap">
+            <h1 class="text-base sm:text-lg font-black tracking-tight truncate whitespace-nowrap" style="color: var(--text-main);">World of Trade</h1>
+            <span class="inline-flex items-center px-1.5 py-0.5 rounded-full border text-[9px] font-bold font-mono tracking-wide uppercase shrink-0" style="background: var(--accent-light); color: var(--accent); border-color: var(--accent-border);" title="Continuous statutory ingestion active • Gathering DGCI&S, RBI & UN Comtrade updates">
+              <span class="relative flex h-2 w-2 mr-1">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style="background: var(--accent);"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2" style="background: var(--accent);"></span>
+              </span>
+              LIVE
             </span>
           </div>
-          <p class="text-[9px] sm:text-[10px] font-medium tracking-tight truncate hidden sm:block" style="color: var(--text-muted);">India Statutory Commerce • 100% Free</p>
+          <p class="text-[9px] sm:text-[10px] font-semibold tracking-tight truncate leading-tight" style="color: var(--text-muted);">
+            <span class="font-bold" style="color: var(--accent);">Ramu’s steps into world of trade.</span> <span class="hidden xs:inline">•</span> Knowledge - Career - Enterprise
+          </p>
         </div>
       </div>
 
@@ -925,17 +930,31 @@
           </div>
         </div>
 
-        <!-- Clean Capture Action (Desktop Only) -->
-        <button onclick="toggleCleanCaptureMode()" id="btn-clean-capture" title="Toggle Clean Capture View" class="hidden md:flex h-9 px-2.5 rounded-xl border text-xs font-bold active:scale-95 transition-all items-center gap-1 shadow-sm" style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);">
-          <span class="text-xs">📷</span>
-          <span class="text-[10px] font-mono uppercase font-bold">Clean</span>
+        <!-- STATUTORY CBIC EXCHANGE RATE (High Utility for Importers/Exporters) -->
+        <button 
+          onclick="openCustomsForexModal()" 
+          id="btn-customs-fx" 
+          title="CBIC Notified Customs Exchange Rates (Sec 14 Customs Act)" 
+          class="hidden md:flex h-9 px-2.5 rounded-xl border text-xs font-bold active:scale-95 transition-all items-center gap-1.5 shadow-sm" 
+          style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);"
+        >
+          <span class="text-xs">💵</span>
+          <span class="text-[11px] font-mono font-bold tracking-tight">USD ₹86.40</span>
+          <span class="text-[8px] px-1 py-0.2 rounded font-mono uppercase font-black" style="background: var(--accent-light); color: var(--accent);">CBIC</span>
         </button>
 
-        <!-- Share Action -->
-        <button onclick="shareOrPrintReport()" title="Export / Share Report" class="h-9 w-9 flex items-center justify-center rounded-xl border active:scale-95 transition-transform shrink-0" style="background: var(--card-bg); border-color: var(--card-border);">
-          <svg class="w-4 h-4" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+        <!-- Consolidated Export & Dossier Action -->
+        <button 
+          onclick="openExportDossierModal()" 
+          id="btn-export-dossier" 
+          title="Consolidated Export & Statutory Defense Dossier" 
+          class="h-9 px-2.5 sm:px-3 rounded-xl border text-xs font-bold active:scale-95 transition-all flex items-center gap-1.5 shadow-sm shrink-0" 
+          style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);"
+        >
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
           </svg>
+          <span class="text-[11px] font-bold hidden sm:inline">Export</span>
         </button>
 
         <!-- Audit Badge -->
@@ -1616,6 +1635,290 @@
     
       <!-- Sub-Pane 3: Ground Scenario Intelligence Engine -->
       <div id="sub-apps-scenarios" class="sub-pane space-y-4">
+        <!-- ========================================================================= -->
+        <!-- 3-PLANE STATUTORY INTELLIGENCE SYSTEM (INGESTION • SANDBOX • PDF ENGINE)   -->
+        <!-- ========================================================================= -->
+        <div class="glass-panel rounded-3xl p-4 sm:p-5 shadow-2xl space-y-4 border relative overflow-hidden" style="background: var(--card-bg); border-color: var(--accent-border);">
+          
+          <!-- System Header & Cryptographic Status Bar -->
+          <div class="flex items-center justify-between flex-wrap gap-2 border-b pb-3" style="border-color: var(--card-inner-border);">
+            <div class="flex items-center gap-2.5">
+              <div class="w-9 h-9 rounded-2xl flex items-center justify-center shrink-0 shadow-md" style="background: var(--accent); color: #ffffff;">
+                <svg class="w-5 h-5 font-black" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                </svg>
+              </div>
+              <div>
+                <div class="flex items-center gap-2 flex-wrap">
+                  <h2 class="text-sm sm:text-base font-black tracking-tight" style="color: var(--text-main);">3-Plane Statutory Intelligence System</h2>
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full border text-[9px] font-mono font-bold uppercase tracking-wide" style="background: var(--accent-light); color: var(--accent); border-color: var(--accent-border);">
+                    <span class="w-1.5 h-1.5 rounded-full animate-ping mr-1" style="background: var(--accent);"></span>
+                    Tripartite Ground Truth
+                  </span>
+                </div>
+                <p class="text-[10px] sm:text-[11px] font-medium" style="color: var(--text-muted);">
+                  Plane 1: Zero-Click Ingestion &bull; Plane 2: Interactive Sandbox &bull; Plane 3: Defense Dossier
+                </p>
+              </div>
+            </div>
+
+            <!-- Single-Click Action Buttons: Extract State (.json) + Generate PDF Dossier -->
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <button 
+                type="button" 
+                onclick="exportActiveStatutoryState()" 
+                id="btn-plane-extract" 
+                title="Single-Click Raw State Extraction (.json)" 
+                class="px-3 py-2 rounded-xl border text-xs font-bold active:scale-95 transition-all flex items-center gap-1.5 shadow-sm" 
+                style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);"
+              >
+                <span class="text-blue-500 font-black">&darr;</span>
+                <span class="text-[11px] font-mono">Extract State (.json)</span>
+              </button>
+              <button 
+                type="button" 
+                onclick="generateStatutoryDefenseDossierPdf()" 
+                id="btn-plane-generate-pdf" 
+                title="Generate Multi-Page Statutory Defense Dossier (PDF)" 
+                class="px-3.5 py-2 rounded-xl text-xs font-extrabold active:scale-95 transition-all flex items-center gap-1.5 shadow-md" 
+                style="background: var(--accent); color: #ffffff;"
+              >
+                <span>📑</span>
+                <span class="text-[11px]">Generate Dossier (PDF)</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- ==================== PLANE 1: ZERO-CLICK STATUTORY INGESTION ==================== -->
+          <div class="p-3.5 rounded-2xl border space-y-3" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-mono px-2 py-0.5 rounded-md font-black uppercase text-amber-500" style="background: rgba(245, 158, 11, 0.12);">PLANE 1</span>
+                <h3 class="text-xs font-black uppercase tracking-wider" style="color: var(--text-main);">Zero-Click Automated Statutory Ingestion</h3>
+              </div>
+              <div class="flex items-center gap-2 text-[10px] font-mono font-bold" style="color: var(--text-muted);">
+                <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>Telemetry Ingestion: LIVE (DGCI&amp;S &bull; RBI &bull; UN Comtrade)</span>
+              </div>
+            </div>
+
+            <!-- Target Corridor Switcher -->
+            <div class="flex gap-1.5 overflow-x-auto no-scrollbar pt-0.5">
+              <button type="button" onclick="selectPlaneCorridor('IN-USA')" id="corridor-btn-IN-USA" class="corridor-tab-btn px-3 py-1.5 rounded-xl border text-xs font-extrabold active:scale-95 transition-all whitespace-nowrap" style="background: var(--accent); color: #ffffff;">🇺🇸 India ➔ USA (Basmati)</button>
+              <button type="button" onclick="selectPlaneCorridor('IN-UAE')" id="corridor-btn-IN-UAE" class="corridor-tab-btn px-3 py-1.5 rounded-xl border text-xs font-bold active:scale-95 transition-all whitespace-nowrap" style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);">🇦🇪 India ➔ UAE (Jewellery)</button>
+              <button type="button" onclick="selectPlaneCorridor('IN-EU')" id="corridor-btn-IN-EU" class="corridor-tab-btn px-3 py-1.5 rounded-xl border text-xs font-bold active:scale-95 transition-all whitespace-nowrap" style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);">🇪🇺 India ➔ EU (Auto Parts)</button>
+              <button type="button" onclick="selectPlaneCorridor('IN-UK')" id="corridor-btn-IN-UK" class="corridor-tab-btn px-3 py-1.5 rounded-xl border text-xs font-bold active:scale-95 transition-all whitespace-nowrap" style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);">🇬🇧 India ➔ UK (Garments)</button>
+            </div>
+
+            <!-- Ingested Tripartite Telemetry Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+              <div class="p-2.5 rounded-xl border" style="background: var(--card-bg); border-color: var(--card-border);">
+                <div class="flex items-center justify-between">
+                  <span class="text-[9px] font-bold uppercase tracking-wider text-amber-500">1. Port Customs FOB</span>
+                  <span class="text-[8px] font-mono text-neutral-400">DGCI&amp;S</span>
+                </div>
+                <div id="plane-fob-val" class="text-base font-black font-mono mt-1" style="color: var(--text-main);">$77.50 B</div>
+                <span id="plane-fob-sub" class="text-[9px] font-mono text-neutral-400 truncate block">Physical Exit Valuation</span>
+              </div>
+
+              <div class="p-2.5 rounded-xl border" style="background: var(--card-bg); border-color: var(--card-border);">
+                <div class="flex items-center justify-between">
+                  <span class="text-[9px] font-bold uppercase tracking-wider text-emerald-500">2. Inward Forex (BOP)</span>
+                  <span class="text-[8px] font-mono text-neutral-400">RBI BPM6</span>
+                </div>
+                <div id="plane-rbi-val" class="text-base font-black font-mono mt-1 text-emerald-500">$76.90 B</div>
+                <span id="plane-rbi-sub" class="text-[9px] font-mono text-neutral-400 truncate block">Banking Settlement</span>
+              </div>
+
+              <div class="p-2.5 rounded-xl border" style="background: var(--card-bg); border-color: var(--card-border);">
+                <div class="flex items-center justify-between">
+                  <span class="text-[9px] font-bold uppercase tracking-wider text-blue-500">3. Partner Mirror CIF</span>
+                  <span class="text-[8px] font-mono text-neutral-400">UN Comtrade</span>
+                </div>
+                <div id="plane-cif-val" class="text-base font-black font-mono mt-1 text-blue-500">$84.20 B</div>
+                <span id="plane-cif-sub" class="text-[9px] font-mono text-neutral-400 truncate block">Destination Import CIF</span>
+              </div>
+
+              <div class="p-2.5 rounded-xl border" style="background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.25);">
+                <div class="flex items-center justify-between">
+                  <span class="text-[9px] font-bold uppercase tracking-wider text-[#10B981]">CIF/FOB Spread</span>
+                  <span id="plane-spread-badge" class="text-[8px] font-mono font-bold px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400">NORMAL</span>
+                </div>
+                <div id="plane-spread-val" class="text-base font-black font-mono mt-1 text-[#10B981]">+8.65%</div>
+                <span id="plane-spread-sub" class="text-[9px] font-mono text-emerald-600 block">Maritime Margin (6%–9%)</span>
+              </div>
+            </div>
+
+            <!-- Auto-Calculated Maritime Anomaly Alert Banner -->
+            <div id="plane-anomaly-banner" class="p-2.5 rounded-xl border text-[11px] leading-relaxed flex items-center justify-between flex-wrap gap-2" style="background: var(--card-bg); border-color: var(--card-border);">
+              <div class="flex items-center gap-2">
+                <span id="plane-anomaly-icon" class="text-base">🛡️</span>
+                <span id="plane-anomaly-text" style="color: var(--text-main);" class="font-semibold">
+                  Tripartite Margin Verified: CIF/FOB freight spread (+8.65%) is strictly aligned with statutory maritime freight &amp; transit insurance standards.
+                </span>
+              </div>
+              <span class="text-[9px] font-mono font-bold px-2 py-0.5 rounded-full" style="background: var(--accent-light); color: var(--accent);">Zero Mispricing</span>
+            </div>
+          </div>
+
+          <!-- ==================== PLANE 2: TACTICAL INTERACTIVE SANDBOX ==================== -->
+          <div class="p-3.5 rounded-2xl border space-y-3.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-mono px-2 py-0.5 rounded-md font-black uppercase text-blue-500" style="background: rgba(59, 130, 246, 0.12);">PLANE 2</span>
+                <h3 class="text-xs font-black uppercase tracking-wider" style="color: var(--text-main);">Tactical Interactive Sandbox &amp; Overrides</h3>
+              </div>
+              <button type="button" onclick="resetPlaneSandbox()" class="text-[10px] font-mono font-bold underline" style="color: var(--text-muted);">Reset Overrides to Baseline</button>
+            </div>
+
+            <!-- Sub-Module 2A: SPS / APEDA Pesticide MRL Laboratory Override -->
+            <div class="p-3 rounded-xl border space-y-2.5" style="background: var(--card-bg); border-color: var(--card-border);">
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="text-[10px] font-black uppercase tracking-wider block" style="color: var(--text-main);">1. APEDA / EU SPS Pesticide Residue MRL Testing</span>
+                  <span class="text-[9px]" style="color: var(--text-muted);">Override Certificate of Analysis (CoA) lab values to simulate import clearance tolerance</span>
+                </div>
+                <span id="mrl-overall-badge" class="text-[9px] font-mono font-extrabold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-500 border border-emerald-500/30">100% COMPLIANT</span>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+                <!-- Molecule 1: Tricyclazole -->
+                <div class="p-2.5 rounded-lg border space-y-1.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+                  <div class="flex items-center justify-between">
+                    <span class="font-bold text-[10px]" style="color: var(--text-main);">Tricyclazole</span>
+                    <span class="text-[8px] font-mono text-neutral-400">Limit: 0.01 PPM</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <input type="range" id="mrl-in-tricyclazole" min="0.001" max="0.030" step="0.001" value="0.006" oninput="updateMrlLive()" class="w-full accent-emerald-600" />
+                    <span id="mrl-val-tricyclazole" class="font-mono text-xs font-black min-w-[50px] text-right">0.006</span>
+                  </div>
+                  <div class="flex items-center justify-between text-[9px] font-mono">
+                    <span id="mrl-status-tricyclazole" class="text-emerald-500 font-bold">PASS (EU/US)</span>
+                  </div>
+                </div>
+
+                <!-- Molecule 2: Chlorpyrifos -->
+                <div class="p-2.5 rounded-lg border space-y-1.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+                  <div class="flex items-center justify-between">
+                    <span class="font-bold text-[10px]" style="color: var(--text-main);">Chlorpyrifos</span>
+                    <span class="text-[8px] font-mono text-neutral-400">Limit: 0.05 PPM</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <input type="range" id="mrl-in-chlorpyrifos" min="0.010" max="0.100" step="0.005" value="0.038" oninput="updateMrlLive()" class="w-full accent-emerald-600" />
+                    <span id="mrl-val-chlorpyrifos" class="font-mono text-xs font-black min-w-[50px] text-right">0.038</span>
+                  </div>
+                  <div class="flex items-center justify-between text-[9px] font-mono">
+                    <span id="mrl-status-chlorpyrifos" class="text-emerald-500 font-bold">PASS (APEDA)</span>
+                  </div>
+                </div>
+
+                <!-- Molecule 3: Isoprothiolane -->
+                <div class="p-2.5 rounded-lg border space-y-1.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+                  <div class="flex items-center justify-between">
+                    <span class="font-bold text-[10px]" style="color: var(--text-main);">Isoprothiolane</span>
+                    <span class="text-[8px] font-mono text-neutral-400">Limit: 0.10 PPM</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <input type="range" id="mrl-in-isoprothiolane" min="0.020" max="0.200" step="0.005" value="0.045" oninput="updateMrlLive()" class="w-full accent-emerald-600" />
+                    <span id="mrl-val-isoprothiolane" class="font-mono text-xs font-black min-w-[50px] text-right">0.045</span>
+                  </div>
+                  <div class="flex items-center justify-between text-[9px] font-mono">
+                    <span id="mrl-status-isoprothiolane" class="text-emerald-500 font-bold">PASS (Codex)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sub-Module 2B: Maritime Logistics Margin Override -->
+            <div class="p-3 rounded-xl border space-y-2" style="background: var(--card-bg); border-color: var(--card-border);">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-black uppercase tracking-wider block" style="color: var(--text-main);">2. Maritime Freight &amp; Insurance Override</span>
+                <span id="plane-custom-spread-pill" class="text-[9px] font-mono font-bold text-blue-500">Spread: +8.65%</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="text-[10px] font-mono text-neutral-400 shrink-0">Freight Spread:</span>
+                <input type="range" id="plane-freight-override" min="2" max="22" step="0.25" value="8.65" oninput="updateFreightOverrideLive(this.value)" class="w-full accent-blue-600" />
+                <span id="plane-freight-override-val" class="text-xs font-mono font-black min-w-[45px] text-right">8.65%</span>
+              </div>
+            </div>
+
+            <!-- Sub-Module 2C: Opportunity Arbitrage Financial Inputs -->
+            <div class="p-3 rounded-xl border space-y-2.5" style="background: var(--card-bg); border-color: var(--card-border);">
+              <span class="text-[10px] font-black uppercase tracking-wider block" style="color: var(--text-main);">3. Opportunity Arbitrage Model: Lithium-Ion EV Cargo Assembly</span>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                <div>
+                  <label class="block text-[9px] font-bold uppercase mb-0.5" style="color: var(--text-dim);">CBU Tariff %</label>
+                  <input type="number" id="plane-arb-cbu" value="70" oninput="updateArbitrageLive()" class="w-full p-2 rounded-lg border font-mono font-bold text-red-500" style="background: var(--input-bg); border-color: var(--input-border);" />
+                </div>
+                <div>
+                  <label class="block text-[9px] font-bold uppercase mb-0.5" style="color: var(--text-dim);">CKD Parts Duty %</label>
+                  <input type="number" id="plane-arb-ckd" value="15" oninput="updateArbitrageLive()" class="w-full p-2 rounded-lg border font-mono font-bold text-emerald-500" style="background: var(--input-bg); border-color: var(--input-border);" />
+                </div>
+                <div>
+                  <label class="block text-[9px] font-bold uppercase mb-0.5" style="color: var(--text-dim);">Unit BOM Cost ($)</label>
+                  <input type="number" id="plane-arb-cost" value="450" oninput="updateArbitrageLive()" class="w-full p-2 rounded-lg border font-mono font-bold" style="background: var(--input-bg); border-color: var(--input-border); color: var(--text-main);" />
+                </div>
+                <div>
+                  <label class="block text-[9px] font-bold uppercase mb-0.5" style="color: var(--text-dim);">Monthly Volume</label>
+                  <input type="number" id="plane-arb-vol" value="500" oninput="updateArbitrageLive()" class="w-full p-2 rounded-lg border font-mono font-bold" style="background: var(--input-bg); border-color: var(--input-border); color: var(--text-main);" />
+                </div>
+              </div>
+
+              <!-- Arbitrage Live Return Metrics -->
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-1 text-xs">
+                <div class="p-2 rounded-lg border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+                  <span class="text-[8px] uppercase font-bold text-emerald-500 block">Tariff Advantage</span>
+                  <span id="plane-arb-out-tariff" class="text-sm font-black font-mono text-emerald-500">+55% Saved</span>
+                </div>
+                <div class="p-2 rounded-lg border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+                  <span class="text-[8px] uppercase font-bold text-blue-500 block">Net Unit Margin</span>
+                  <span id="plane-arb-out-unit" class="text-sm font-black font-mono text-blue-500">₹34,800</span>
+                </div>
+                <div class="p-2 rounded-lg border col-span-2 sm:col-span-1" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3);">
+                  <span class="text-[8px] uppercase font-bold text-[#10B981] block">Monthly Net Realization</span>
+                  <span id="plane-arb-out-monthly" class="text-sm font-black font-mono text-[#10B981]">₹1.74 Crore</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ==================== PLANE 3: CONSOLIDATED DEFENSE DOSSIER ==================== -->
+          <div class="p-3.5 rounded-2xl border space-y-3" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-mono px-2 py-0.5 rounded-md font-black uppercase text-emerald-500" style="background: rgba(16, 185, 129, 0.15);">PLANE 3</span>
+                <h3 class="text-xs font-black uppercase tracking-wider" style="color: var(--text-main);">Consolidated Statutory Defense Dossier</h3>
+              </div>
+              <span class="text-[9px] font-mono px-2 py-0.5 rounded-full font-bold uppercase text-emerald-500" style="background: rgba(16, 185, 129, 0.12);">2-Page Multi-Agency PDF</span>
+            </div>
+
+            <p class="text-xs leading-relaxed" style="color: var(--text-muted);">
+              Consolidates Plane 1 baseline telemetry (<strong style="color: var(--text-main);">DGCI&amp;S FOB + RBI BPM6 + UN Comtrade CIF</strong>) and Plane 2 sandbox overrides (<strong style="color: var(--text-main);">APEDA MRL laboratory ledger + CKD Arbitrage model</strong>) into a legally defensible vector PDF dossier stamped with cryptographic SHA-256 build verification.
+            </p>
+
+            <div class="flex items-center gap-2 flex-wrap pt-1">
+              <button 
+                type="button" 
+                onclick="generateStatutoryDefenseDossierPdf()" 
+                class="flex-1 py-3 px-4 rounded-xl text-xs font-black active:scale-95 transition-transform flex items-center justify-center gap-2 shadow-lg" 
+                style="background: var(--accent); color: #ffffff;"
+              >
+                <span>📑</span>
+                <span>Download Executive Defense Dossier (PDF)</span>
+              </button>
+              <button 
+                type="button" 
+                onclick="previewStatutoryDefenseDossier()" 
+                class="py-3 px-4 rounded-xl border text-xs font-bold active:scale-95 transition-transform flex items-center justify-center gap-1.5 shadow-sm" 
+                style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);"
+              >
+                <span>👁️</span>
+                <span>Preview Document</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
         <!-- ========================================================================= -->
         <!-- DUAL-ENGINE SOVEREIGN COMMAND CENTER: ENGINE 1 (AI) & ENGINE 2 (TACTICAL)   -->
         <!-- ========================================================================= -->
