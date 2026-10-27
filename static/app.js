@@ -12876,23 +12876,25 @@ const LIVE_WIRE_FEEDS = [
   {
     id: 'feed-1',
     category: 'customs_dgft',
-    agency: 'CBIC CUSTOMS GAZETTE',
+    agency: 'CBIC CUSTOMS',
     badgeBg: 'rgba(245, 158, 11, 0.15)',
     badgeColor: '#F59E0B',
     timestamp: 'Notified Bi-Weekly',
+    impact: 'Duty Valuation Anchor',
     headline: 'Section 14 Customs Act: Notified Foreign Exchange Rates for Export & Import Valuation',
-    summary: 'USD/INR assessable exchange rate notified at ₹86.40. All Bill of Entry customs duty calculations must bind to gazetted rate.',
+    summary: 'USD/INR assessable exchange rate notified at ₹86.40. All Bill of Entry duty calculations bind to gazetted rate.',
     url: 'https://www.cbic.gov.in/entities/cbic-content-mst/T0120231016183606'
   },
   {
     id: 'feed-2',
     category: 'customs_dgft',
-    agency: 'DGFT PUBLIC NOTICE',
+    agency: 'DGFT NOTICE',
     badgeBg: 'rgba(59, 130, 246, 0.15)',
     badgeColor: '#3B82F6',
     timestamp: 'Today 10:15 IST',
+    impact: 'MEP Abolished • 2.8% RoDTEP',
     headline: 'Public Notice 29/2024: Minimum Export Price (MEP) Removed on Basmati Rice (HS 1006 30 20)',
-    summary: 'Exporters can dispatch basmati cargo without $950/MT registration check. RoDTEP cash scrip rebate remains 2.8% FOB.',
+    summary: 'Exporters can dispatch basmati cargo without $950/MT registration check. RoDTEP cash scrip rebate active at 2.8% FOB.',
     url: 'https://www.dgft.gov.in/CP/?opt=trade-notices'
   },
   {
@@ -12902,6 +12904,7 @@ const LIVE_WIRE_FEEDS = [
     badgeBg: 'rgba(239, 68, 68, 0.15)',
     badgeColor: '#EF4444',
     timestamp: 'Live Alert',
+    impact: '0.01 mg/kg LOQ Barrier',
     headline: 'EU Regulation EC 396/2005: 0.01 mg/kg Default LOQ Mandated for Tricyclazole & Chlorpyrifos',
     summary: 'Accredited NABL laboratory pre-testing strictly required prior to digital Certificate of Inspection (CoI) issuance.',
     url: 'https://apeda.gov.in/apedawebsite/announcements.html'
@@ -12913,6 +12916,7 @@ const LIVE_WIRE_FEEDS = [
     badgeBg: 'rgba(16, 185, 129, 0.15)',
     badgeColor: '#10B981',
     timestamp: 'Daily 13:30 IST',
+    impact: 'FBIL Spot Reference',
     headline: 'FBIL Reference Rate Fix: USD/INR ₹86.4250 • EUR/INR ₹90.1200 • GBP/INR ₹108.45',
     summary: 'Forward premium at 1.82% annualized. Authorised Dealers discount post-shipment export bills against FBIL benchmark.',
     url: 'https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx'
@@ -12924,6 +12928,7 @@ const LIVE_WIRE_FEEDS = [
     badgeBg: 'rgba(6, 182, 212, 0.15)',
     badgeColor: '#06B6D4',
     timestamp: 'Weekly Index',
+    impact: 'Origin THC Capped',
     headline: 'Nhava Sheva & Mundra to Europe Spot 40ft HC Ocean Freight Averages $3,850/FEU',
     summary: 'CBIC Circular 24/2020 strictly caps local origin THC at published port rates. Zero markup permitted on digital electronic BLs.',
     url: 'https://www.drewry.co.uk/supply-chain-advisors/supply-chain-expertise/world-container-index-assessed-by-drewry'
@@ -12931,10 +12936,11 @@ const LIVE_WIRE_FEEDS = [
   {
     id: 'feed-6',
     category: 'phyto_mandi',
-    agency: 'SPICES BOARD INDIA',
+    agency: 'SPICES BOARD',
     badgeBg: 'rgba(245, 158, 11, 0.15)',
     badgeColor: '#F59E0B',
     timestamp: 'Mandatory Notice',
+    impact: 'ETO & Aflatoxin Protocol',
     headline: 'Pre-Shipment Quality Protocol: Ethylene Oxide (ETO) & Aflatoxin B1 in Guntur Teja Chilli',
     summary: 'Mandatory Sampling & Analysis at Spices Board Q-Lab prior to port customs clearance for EU and US FDA destinations.',
     url: 'http://www.indianspices.com/'
@@ -12946,6 +12952,7 @@ const LIVE_WIRE_FEEDS = [
     badgeBg: 'rgba(16, 185, 129, 0.15)',
     badgeColor: '#10B981',
     timestamp: 'Morning Auction',
+    impact: '₹192/kg Modal Rate',
     headline: 'Guntur APMC Mandi: Teja S17 Chilli Arrivals Reach 42,000 Bags, Modal Rate ₹19,200/Qtl',
     summary: 'FOB export parity profitable above ₹205/kg CIF. APMC cess 1% applicable under AP Agricultural Produce Act.',
     url: 'https://agmarknet.gov.in/'
@@ -12953,10 +12960,11 @@ const LIVE_WIRE_FEEDS = [
   {
     id: 'feed-8',
     category: 'customs_dgft',
-    agency: 'ICEGATE 2.0 CUSTOMS',
+    agency: 'ICEGATE 2.0',
     badgeBg: 'rgba(59, 130, 246, 0.15)',
     badgeColor: '#3B82F6',
     timestamp: '24x7 Status: NORMAL',
+    impact: 'Sec 110A ECL Online',
     headline: 'Electronic Cash Ledger (ECL) & Out of Charge (OOC) Automated Handshake Active',
     summary: 'Provisional release under Section 110A enabled for CAROTAR origin verification queries via online bond execution.',
     url: 'https://www.icegate.gov.in/'
@@ -12968,6 +12976,7 @@ const LIVE_WIRE_FEEDS = [
     badgeBg: 'rgba(139, 92, 246, 0.15)',
     badgeColor: '#8B5CF6',
     timestamp: 'Monthly Cadence',
+    impact: '+28.4% YoY Tech Cargo',
     headline: 'India Merchandise Exports Reach $38.4B • Electronic Goods Surge +28.4% YoY',
     summary: 'Chapter 85 semiconductors and mobile PCBA lead export momentum to USA and UAE CEPA corridors.',
     url: 'https://tradestat.commerce.gov.in/eidb/default.asp'
@@ -12979,62 +12988,110 @@ const LIVE_WIRE_FEEDS = [
     badgeBg: 'rgba(6, 182, 212, 0.15)',
     badgeColor: '#06B6D4',
     timestamp: 'Catch Certification',
+    impact: 'ELISA Zero Tolerance',
     headline: 'EU Catch Certificate Protocol Active for Frozen Vannamei Shrimp (HS 0306 17 20)',
     summary: 'Chloramphenicol and Nitrofuran residue tests verified at MPEDA ELISA screening laboratory.',
     url: 'https://mpeda.gov.in/'
   }
 ];
 
-let activeWireFilter = 'all';
+let currentWireIndex = 0;
+let activeWireCategory = 'all';
 let isWirePaused = false;
+let wireIntervalTimer = null;
 
-function renderLiveWireFeeds(filter = 'all') {
-  activeWireFilter = filter;
-  const track = document.getElementById('live-wire-track');
-  const countEl = document.getElementById('wire-item-count');
-  if (!track) return;
+function getFilteredWireFeeds() {
+  if (activeWireCategory === 'all') return LIVE_WIRE_FEEDS;
+  return LIVE_WIRE_FEEDS.filter(item => item.category === activeWireCategory);
+}
 
-  const filtered = LIVE_WIRE_FEEDS.filter(item => filter === 'all' || item.category === filter);
-  if (countEl) countEl.textContent = `${filtered.length} Feeds Active`;
+function renderActiveWireCard(animateDirection = 'slide-up') {
+  const stage = document.getElementById('live-wire-stage');
+  const counter = document.getElementById('wire-counter');
+  const feeds = getFilteredWireFeeds();
 
-  if (filtered.length === 0) {
-    track.innerHTML = `<div class="p-4 text-center text-neutral-400 font-mono text-xs">No active statutory updates in this category.</div>`;
+  if (!stage) return;
+  if (!feeds || feeds.length === 0) {
+    stage.innerHTML = '<div class="p-2.5 text-center text-xs font-mono text-neutral-400">No active statutory updates in this category.</div>';
+    if (counter) counter.textContent = '0 / 0';
     return;
   }
 
-  // Double the items array so vertical CSS ticker loops seamlessly
-  const loopedItems = [...filtered, ...filtered];
+  if (currentWireIndex >= feeds.length) currentWireIndex = 0;
+  if (currentWireIndex < 0) currentWireIndex = feeds.length - 1;
 
-  track.innerHTML = loopedItems.map(item => `
-    <a href="${item.url}" target="_blank" rel="noopener noreferrer" 
-       class="wire-card block p-3 rounded-xl border transition-all text-xs space-y-1.5 shadow-sm group cursor-pointer"
-       style="background: var(--card-bg); border-color: var(--card-border);"
-       title="Open official statutory notification in new tab">
-      <div class="flex items-center justify-between flex-wrap gap-1">
-        <div class="flex items-center gap-1.5">
-          <span class="px-2 py-0.5 rounded text-[9px] font-mono font-bold uppercase tracking-wide border"
-                style="background: ${item.badgeBg}; color: ${item.badgeColor}; border-color: ${item.badgeColor}40;">
-            ${item.agency}
+  if (counter) counter.textContent = (currentWireIndex + 1) + ' / ' + feeds.length;
+
+  const item = feeds[currentWireIndex];
+
+  // Micro fade and slide animation
+  stage.style.opacity = '0.35';
+  stage.style.transform = animateDirection === 'slide-down' ? 'translateY(-4px)' : 'translateY(4px)';
+
+  setTimeout(() => {
+    stage.innerHTML = `
+      <a href="${item.url}" target="_blank" rel="noopener noreferrer" 
+         class="block space-y-1 focus:outline-none"
+         title="Click to open official Ministry Gazette / Source in a new tab">
+        <div class="flex items-center justify-between gap-2">
+          <div class="flex items-center gap-1.5 min-w-0">
+            <span class="px-1.5 py-0.5 rounded text-[8.5px] font-mono font-black uppercase tracking-wider border shrink-0"
+                  style="background: ${item.badgeBg}; color: ${item.badgeColor}; border-color: ${item.badgeColor}40;">
+              ${item.agency}
+            </span>
+            <span class="text-[9px] font-mono text-neutral-400 truncate hidden xs:inline">• ${item.timestamp}</span>
+            <span class="text-[9px] font-mono font-extrabold text-emerald-500 truncate">• ${item.impact || 'Statutory Live'}</span>
+          </div>
+          <span class="inline-flex items-center gap-0.5 text-[9.5px] font-mono font-extrabold shrink-0 px-2 py-0.5 rounded border group-hover:bg-emerald-500 group-hover:text-white transition-all shadow-xs"
+                style="background: var(--card-bg); border-color: var(--card-border); color: var(--accent);">
+            <span>Gazette</span>
+            <span class="text-xs">↗</span>
           </span>
-          <span class="text-[9.5px] font-mono text-neutral-400">• ${item.timestamp}</span>
         </div>
-        <span class="text-[10px] font-mono font-bold flex items-center gap-0.5 text-accent group-hover:underline" style="color: var(--accent);">
-          <span>Official Gazette</span>
-          <span class="text-xs">↗</span>
-        </span>
-      </div>
-      <div class="font-extrabold text-xs tracking-tight group-hover:text-emerald-500 transition-colors" style="color: var(--text-main);">
-        ${item.headline}
-      </div>
-      <p class="text-[10.5px] leading-relaxed line-clamp-2" style="color: var(--text-muted);">
-        ${item.summary}
-      </p>
-    </a>
-  `).join('');
+        <div class="font-extrabold text-xs sm:text-[12.5px] leading-snug tracking-tight group-hover:text-emerald-500 transition-colors line-clamp-1" style="color: var(--text-main);">
+          ${item.headline}
+        </div>
+        <div class="flex items-center justify-between text-[10px] leading-snug gap-2" style="color: var(--text-muted);">
+          <span class="line-clamp-1">${item.summary}</span>
+          <span class="text-[9px] font-mono text-neutral-400 shrink-0 hidden sm:inline">Tap to open source ↗</span>
+        </div>
+      </a>
+    `;
+    stage.style.transition = 'opacity 0.18s ease-out, transform 0.18s ease-out';
+    stage.style.opacity = '1';
+    stage.style.transform = 'translateY(0)';
+  }, 40);
+}
+window.renderActiveWireCard = renderActiveWireCard;
+
+// Compatibility alias for existing callers
+function renderLiveWireFeeds(filter = 'all') {
+  activeWireCategory = filter;
+  currentWireIndex = 0;
+  renderActiveWireCard('slide-up');
+  startWireAutoAdvance();
 }
 window.renderLiveWireFeeds = renderLiveWireFeeds;
 
+function nextWireFeed() {
+  const feeds = getFilteredWireFeeds();
+  if (feeds.length <= 1) return;
+  currentWireIndex = (currentWireIndex + 1) % feeds.length;
+  renderActiveWireCard('slide-up');
+}
+window.nextWireFeed = nextWireFeed;
+
+function prevWireFeed() {
+  const feeds = getFilteredWireFeeds();
+  if (feeds.length <= 1) return;
+  currentWireIndex = (currentWireIndex - 1 + feeds.length) % feeds.length;
+  renderActiveWireCard('slide-down');
+}
+window.prevWireFeed = prevWireFeed;
+
 function filterLiveWire(category, btn) {
+  activeWireCategory = category;
+  currentWireIndex = 0;
   document.querySelectorAll('.wire-filter-btn').forEach(b => {
     b.style.background = 'transparent';
     b.style.color = 'var(--text-muted)';
@@ -13043,43 +13100,50 @@ function filterLiveWire(category, btn) {
     btn.style.background = 'var(--accent)';
     btn.style.color = '#ffffff';
   }
-  renderLiveWireFeeds(category);
+  renderActiveWireCard('slide-up');
 }
 window.filterLiveWire = filterLiveWire;
 
-function toggleLiveWireScroll() {
-  const track = document.getElementById('live-wire-track');
-  const icon = document.getElementById('wire-pause-icon');
-  const txt = document.getElementById('wire-pause-text');
-  if (!track) return;
+function startWireAutoAdvance() {
+  stopWireAutoAdvance();
+  wireIntervalTimer = setInterval(() => {
+    if (!isWirePaused) {
+      nextWireFeed();
+    }
+  }, 4600);
+}
+window.startWireAutoAdvance = startWireAutoAdvance;
 
+function stopWireAutoAdvance() {
+  if (wireIntervalTimer) {
+    clearInterval(wireIntervalTimer);
+    wireIntervalTimer = null;
+  }
+}
+window.stopWireAutoAdvance = stopWireAutoAdvance;
+
+function toggleLiveWireScroll() {
+  const btn = document.getElementById('wire-pause-btn');
   isWirePaused = !isWirePaused;
-  if (isWirePaused) {
-    track.classList.add('paused');
-    if (icon) icon.textContent = '▶️';
-    if (txt) txt.textContent = 'Resume';
-    if (typeof showToast === 'function') showToast('⏸️ Live Wire Scroll Paused');
-  } else {
-    track.classList.remove('paused');
-    if (icon) icon.textContent = '⏸️';
-    if (txt) txt.textContent = 'Pause';
-    if (typeof showToast === 'function') showToast('▶️ Live Wire Scroll Resumed');
+  if (btn) {
+    btn.textContent = isWirePaused ? '▶' : '⏸';
+    btn.title = isWirePaused ? 'Resume Auto-Advance' : 'Pause Auto-Advance';
+  }
+  if (typeof showToast === 'function') {
+    showToast(isWirePaused ? '⏸️ Statutory Stream Paused' : '▶️ Statutory Stream Resumed');
   }
 }
 window.toggleLiveWireScroll = toggleLiveWireScroll;
 
 function pauseWireOnHover() {
-  const track = document.getElementById('live-wire-track');
-  if (track && !isWirePaused) {
-    track.style.animationPlayState = 'paused';
-  }
+  isWirePaused = true;
 }
 window.pauseWireOnHover = pauseWireOnHover;
 
 function resumeWireOnHover() {
-  const track = document.getElementById('live-wire-track');
-  if (track && !isWirePaused) {
-    track.style.animationPlayState = 'running';
+  const btn = document.getElementById('wire-pause-btn');
+  if (btn && btn.textContent !== '▶') {
+    isWirePaused = false;
   }
 }
 window.resumeWireOnHover = resumeWireOnHover;
@@ -13087,7 +13151,7 @@ window.resumeWireOnHover = resumeWireOnHover;
 function quickJumpToLiveWire() {
   const el = document.getElementById('sovereign-live-wire-panel');
   if (el) {
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     el.classList.add('ring-4', 'ring-emerald-500', 'transition-all');
     setTimeout(() => el.classList.remove('ring-4', 'ring-emerald-500'), 1500);
   }
@@ -13096,7 +13160,11 @@ window.quickJumpToLiveWire = quickJumpToLiveWire;
 
 // Auto-initialize Live Wire on DOM Content Loaded
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => renderLiveWireFeeds('all'));
+  document.addEventListener('DOMContentLoaded', () => {
+    renderActiveWireCard('slide-up');
+    startWireAutoAdvance();
+  });
 } else {
-  renderLiveWireFeeds('all');
+  renderActiveWireCard('slide-up');
+  startWireAutoAdvance();
 }

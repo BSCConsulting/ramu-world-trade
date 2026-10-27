@@ -1088,25 +1088,12 @@
     }
     
 
-    /* --- Sovereign Live Telemetry Wire: Smooth Vertical Ticker --- */
-    @keyframes verticalTickerScroll {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-50%); }
+    /* --- Sovereign Live Telemetry Wire: Compact Step-Ticker --- */
+    #live-wire-stage {
+      transition: opacity 0.18s cubic-bezier(0.16, 1, 0.3, 1), transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.15s ease;
     }
-    .live-wire-track {
-      animation: verticalTickerScroll 42s linear infinite;
-    }
-    .live-wire-track:hover,
-    .live-wire-track:focus-within,
-    .live-wire-track.paused {
-      animation-play-state: paused !important;
-    }
-    .wire-card {
-      transition: transform 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.15), border-color 0.18s ease, box-shadow 0.18s ease;
-    }
-    .wire-card:hover {
-      transform: translateY(-2px) scale(1.005);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    #live-wire-stage:hover {
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
     }
     
   </style>
@@ -1313,71 +1300,51 @@
   <!-- MAIN CONTENT CONTAINER (Unified max-w-4xl grid alignment) -->
   <main class="mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10 py-5 pb-28 sm:pb-32 space-y-6">
 
+        <!-- ========================================================================= -->
+    <!-- SOVEREIGN LIVE TELEMETRY WIRE • COMPACT STATUTORY STEP-TICKER (HALF SIZE) -->
     <!-- ========================================================================= -->
-    <!-- SOVEREIGN LIVE TELEMETRY WIRE • REALTIME STATUTORY INGESTION STREAM      -->
-    <!-- ========================================================================= -->
-    <div id="sovereign-live-wire-panel" class="glass-panel rounded-3xl p-4 sm:p-5 shadow-2xl space-y-3.5 border relative overflow-hidden" style="background: var(--card-bg); border-color: var(--accent-border);">
+    <div id="sovereign-live-wire-panel" class="glass-panel rounded-2xl p-2.5 sm:p-3 shadow-lg border relative overflow-hidden transition-all" style="background: var(--card-bg); border-color: var(--accent-border);">
       
-      <!-- Live Wire Header & Category Filter Controls -->
-      <div class="flex items-center justify-between flex-wrap gap-2.5 border-b pb-3" style="border-color: var(--card-inner-border);">
-        <div class="flex items-center gap-2.5">
-          <div class="w-9 h-9 rounded-2xl flex items-center justify-center shrink-0 shadow-md" style="background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.3);">
-            <span class="text-base font-black">📡</span>
+      <!-- Top Micro-Bar: Feed Header, Filter Pills, Step Navigation & Pause -->
+      <div class="flex items-center justify-between flex-wrap gap-2 border-b pb-2 mb-2 text-xs" style="border-color: var(--card-inner-border);">
+        <div class="flex items-center gap-2 min-w-0">
+          <div class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 shadow-sm" style="background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.3);">
+            <span class="text-xs font-black">📡</span>
           </div>
-          <div>
-            <div class="flex items-center gap-2 flex-wrap">
-              <h2 class="text-sm sm:text-base font-black tracking-tight" style="color: var(--text-main);">
-                Sovereign Live Telemetry Wire
-              </h2>
-              <span class="inline-flex items-center px-2 py-0.5 rounded-full border text-[9.5px] font-mono font-bold uppercase tracking-wide text-emerald-500 bg-emerald-500/10 border-emerald-500/25">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse mr-1"></span>
-                Continuous Statutory Ingestion
-              </span>
-            </div>
-            <p class="text-[10px] sm:text-[11px] font-medium" style="color: var(--text-muted);">
-              Official Gazetted Updates from CBIC, DGFT, RBI, APEDA, Drewry &amp; Agmarknet • Click Any Alert to Open Official Source
-            </p>
+          <div class="flex items-center gap-1.5 min-w-0">
+            <span class="font-black text-[11px] sm:text-xs tracking-tight uppercase" style="color: var(--text-main);">
+              Statutory Live Wire
+            </span>
+            <span class="hidden sm:inline-flex items-center px-1.5 py-0.2 rounded-full border text-[9px] font-mono font-bold uppercase text-emerald-500 bg-emerald-500/10 border-emerald-500/25">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse mr-1"></span>
+              Live Stream
+            </span>
           </div>
         </div>
 
-        <!-- Filter Chips & Scroll Pause Control -->
-        <div class="flex items-center gap-1.5 flex-wrap">
-          <div class="flex items-center gap-1 p-1 rounded-xl border text-[10px] font-mono font-bold" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-            <button type="button" onclick="filterLiveWire('all', this)" class="wire-filter-btn px-2.5 py-1 rounded-lg transition-all" style="background: var(--accent); color: #ffffff;">All</button>
-            <button type="button" onclick="filterLiveWire('customs_dgft', this)" class="wire-filter-btn px-2.5 py-1 rounded-lg transition-all" style="background: transparent; color: var(--text-muted);">Customs &amp; DGFT</button>
-            <button type="button" onclick="filterLiveWire('phyto_mandi', this)" class="wire-filter-btn px-2.5 py-1 rounded-lg transition-all" style="background: transparent; color: var(--text-muted);">Phyto &amp; Mandi</button>
-            <button type="button" onclick="filterLiveWire('forex_shipping', this)" class="wire-filter-btn px-2.5 py-1 rounded-lg transition-all" style="background: transparent; color: var(--text-muted);">Forex &amp; Freight</button>
-          </div>
+        <!-- Category Filter Pills -->
+        <div class="flex items-center gap-1 overflow-x-auto no-scrollbar py-0.5">
+          <button type="button" onclick="filterLiveWire('all', this)" class="wire-filter-btn px-2 py-0.5 rounded-md text-[10px] font-mono font-bold transition-all" style="background: var(--accent); color: #ffffff;">All</button>
+          <button type="button" onclick="filterLiveWire('customs_dgft', this)" class="wire-filter-btn px-2 py-0.5 rounded-md text-[10px] font-mono font-bold transition-all" style="background: transparent; color: var(--text-muted);">Customs</button>
+          <button type="button" onclick="filterLiveWire('phyto_mandi', this)" class="wire-filter-btn px-2 py-0.5 rounded-md text-[10px] font-mono font-bold transition-all" style="background: transparent; color: var(--text-muted);">Mandi</button>
+          <button type="button" onclick="filterLiveWire('forex_shipping', this)" class="wire-filter-btn px-2 py-0.5 rounded-md text-[10px] font-mono font-bold transition-all" style="background: transparent; color: var(--text-muted);">Freight</button>
+        </div>
 
-          <button type="button" onclick="toggleLiveWireScroll()" id="wire-pause-btn" class="px-2.5 py-1.5 rounded-xl border text-[10.5px] font-mono font-bold active:scale-95 transition-all flex items-center gap-1 shadow-sm" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);" title="Pause or Resume Auto-Scroll">
-            <span id="wire-pause-icon">⏸️</span>
-            <span id="wire-pause-text">Pause</span>
-          </button>
+        <!-- Navigation Controls: Prev, Step Indicator, Next, Pause -->
+        <div class="flex items-center gap-1 shrink-0">
+          <button type="button" onclick="prevWireFeed()" class="w-6 h-6 rounded-md border flex items-center justify-center text-xs font-bold active:scale-95 transition-all hover:bg-neutral-500/10" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);" title="Previous statutory update">‹</button>
+          <span id="wire-counter" class="text-[9.5px] font-mono font-bold px-1.5 py-0.5 rounded border" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-muted);">1 / 10</span>
+          <button type="button" onclick="nextWireFeed()" class="w-6 h-6 rounded-md border flex items-center justify-center text-xs font-bold active:scale-95 transition-all hover:bg-neutral-500/10" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);" title="Next statutory update">›</button>
+          <button type="button" onclick="toggleLiveWireScroll()" id="wire-pause-btn" class="w-6 h-6 rounded-md border flex items-center justify-center text-[9px] font-bold active:scale-95 transition-all hover:bg-neutral-500/10" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);" title="Pause or Resume Auto-Advance">⏸</button>
         </div>
       </div>
 
-      <!-- Ticker Viewport Container (Fixed Height with Auto-Scroll & Edge Fade) -->
-      <div id="live-wire-viewport" class="relative h-64 sm:h-72 overflow-hidden rounded-2xl border p-2" 
-           style="background: var(--card-inner-bg); border-color: var(--card-inner-border);"
-           onmouseenter="pauseWireOnHover()" onmouseleave="resumeWireOnHover()">
-        
-        <!-- Top and Bottom Edge Fades for Clean Infinite Ingress/Egress -->
-        <div class="absolute inset-x-0 top-0 h-6 bg-gradient-to-b from-black/10 dark:from-black/40 to-transparent pointer-events-none z-10"></div>
-        <div class="absolute inset-x-0 bottom-0 h-6 bg-gradient-to-t from-black/10 dark:from-black/40 to-transparent pointer-events-none z-10"></div>
-
-        <!-- The Continuous Scrolling Track -->
-        <div id="live-wire-track" class="live-wire-track space-y-2.5">
-          <!-- Populated dynamically by renderLiveWireFeeds() -->
-        </div>
-      </div>
-
-      <!-- Ticker Footer Status & Helper Hint -->
-      <div class="flex items-center justify-between text-[10px] font-mono pt-1 text-neutral-400">
-        <span class="flex items-center gap-1.5">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-          <span>Hover or touch any update to freeze scroll • Click to view official Ministry Gazette in new tab</span>
-        </span>
-        <span id="wire-item-count" class="font-bold text-emerald-500">10 Feeds Active</span>
+      <!-- Compact Active Card Stage (~68px-74px height, Half Size, Fail-Safe Rendering) -->
+      <div id="live-wire-stage" class="relative rounded-xl border p-2 sm:p-2.5 transition-all cursor-pointer group shadow-sm hover:border-emerald-500/40"
+           style="background: var(--card-inner-bg); border-color: var(--card-inner-border); min-height: 64px;"
+           onmouseenter="pauseWireOnHover()" onmouseleave="resumeWireOnHover()"
+           ontouchstart="pauseWireOnHover()" ontouchend="resumeWireOnHover()">
+        <!-- Populated dynamically and fail-safely by renderActiveWireCard() -->
       </div>
     </div>
 

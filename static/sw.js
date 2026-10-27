@@ -4,7 +4,7 @@
  * 100% Native Web Standards (Zero External Libraries)
  */
 
-const CACHE_NAME = 'world-of-trade-v26-live-telemetry-wire';
+const CACHE_NAME = 'world-of-trade-v27-compact-live-wire';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
