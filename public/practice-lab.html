@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>EXIM Practice Lab &amp; Sovereign Duty Terminal | World of Trade</title>
+  <meta name="description" content="Interactive 3-Step EXIM Practice Lab, Natural-Language Reverse HSN Radar, Dynamic Statutory Duty Stacking, and 2-Page Client-Side PDF Dossier Generator." />
+  
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="EXIM Lab" />
+  <meta name="theme-color" content="#2d6a4f" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/tailwind.min.css" />
+
+  <style>
+    /* Universal Focus & Tap Highlight Reset (Eliminates Blue Focus Rings) */
+    *, *::before, *::after {
+      -webkit-tap-highlight-color: transparent !important;
+    }
+    button, input, select, textarea, a {
+      -webkit-tap-highlight-color: transparent !important;
+    }
+    button:focus,
+    button:focus-visible,
+    button:active,
+    a:focus,
+    a:focus-visible,
+    a:active {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none !important;
+      border-color: var(--accent) !important;
+      box-shadow: 0 0 0 2px var(--accent-light) !important;
+    }
+    #bottom-dock-nav button {
+      outline: none !important;
+      box-shadow: none !important;
+      border: none !important;
+      background: transparent !important;
+      -webkit-appearance: none !important;
+      appearance: none !important;
+    }
+    #bottom-dock-nav button:focus,
+    #bottom-dock-nav button:focus-visible,
+    #bottom-dock-nav button:active {
+      outline: none !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
+    :root {
+      --sat: env(safe-area-inset-top, 48px);
+      --sab: env(safe-area-inset-bottom, 20px);
+    }
+
+    /* ==================== 5 LIGHTWEIGHT NATURAL EDITORIAL THEMES ==================== */
+    
+    /* 1. Kyoto Tea Paper (Natural Herbal Matcha & Washi Paper) */
+    body.theme-kyoto-tea {
+      --bg-app: #f2f5ee;
+      --bg-gradient: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(45, 106, 79, 0.12), transparent 70%), #f2f5ee;
+      --header-bg: rgba(242, 245, 238, 0.90);
+      --card-bg: rgba(255, 255, 255, 0.92);
+      --card-inner-bg: rgba(45, 106, 79, 0.04);
+      --card-border: rgba(45, 106, 79, 0.16);
+      --card-inner-border: rgba(45, 106, 79, 0.08);
+      --text-main: #142217;
+      --text-muted: #4e6353;
+      --text-dim: #768a7b;
+      --accent: #2d6a4f;
+      --accent-light: rgba(45, 106, 79, 0.10);
+      --accent-border: rgba(45, 106, 79, 0.28);
+      --input-bg: #ffffff;
+      --input-border: rgba(45, 106, 79, 0.22);
+      --nav-bg: rgba(242, 245, 238, 0.94);
+      --dropdown-bg: #ffffff;
+      --active-row-bg: rgba(45, 106, 79, 0.09);
+      --chart-grid: rgba(45, 106, 79, 0.08);
+      --chart-tick: #4e6353;
+      --shadow-color: rgba(45, 106, 79, 0.06);
+    }
+
+    /* 2. Warm Sand (Sunlit Desert Linen & Terracotta Clay) */
+    body.theme-warm-sand {
+      --bg-app: #f7f4ee;
+      --bg-gradient: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(194, 94, 52, 0.14), transparent 70%), #f7f4ee;
+      --header-bg: rgba(247, 244, 238, 0.90);
+      --card-bg: rgba(255, 255, 255, 0.92);
+      --card-inner-bg: rgba(194, 94, 52, 0.04);
+      --card-border: rgba(194, 94, 52, 0.18);
+      --card-inner-border: rgba(194, 94, 52, 0.08);
+      --text-main: #2a221b;
+      --text-muted: #6b5c51;
+      --text-dim: #94857a;
+      --accent: #c25e34;
+      --accent-light: rgba(194, 94, 52, 0.10);
+      --accent-border: rgba(194, 94, 52, 0.30);
+      --input-bg: #ffffff;
+      --input-border: rgba(194, 94, 52, 0.22);
+      --nav-bg: rgba(247, 244, 238, 0.94);
+      --dropdown-bg: #ffffff;
+      --active-row-bg: rgba(194, 94, 52, 0.09);
+      --chart-grid: rgba(194, 94, 52, 0.08);
+      --chart-tick: #6b5c51;
+      --shadow-color: rgba(194, 94, 52, 0.06);
+    }
+
+    /* 3. Editorial Ivory (Heritage Broadsheet Newspaper & Bordeaux) */
+    body.theme-editorial-ivory {
+      --bg-app: #fbf9f4;
+      --bg-gradient: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(158, 42, 43, 0.11), transparent 70%), #fbf9f4;
+      --header-bg: rgba(251, 249, 244, 0.90);
+      --card-bg: rgba(255, 255, 255, 0.94);
+      --card-inner-bg: rgba(158, 42, 43, 0.03);
+      --card-border: rgba(158, 42, 43, 0.16);
+      --card-inner-border: rgba(0, 0, 0, 0.06);
+      --text-main: #161615;
+      --text-muted: #575553;
+      --text-dim: #84827f;
+      --accent: #9e2a2b;
+      --accent-light: rgba(158, 42, 43, 0.08);
+      --accent-border: rgba(158, 42, 43, 0.28);
+      --input-bg: #ffffff;
+      --input-border: rgba(158, 42, 43, 0.20);
+      --nav-bg: rgba(251, 249, 244, 0.94);
+      --dropdown-bg: #ffffff;
+      --active-row-bg: rgba(158, 42, 43, 0.08);
+      --chart-grid: rgba(0, 0, 0, 0.06);
+      --chart-tick: #575553;
+      --shadow-color: rgba(158, 42, 43, 0.05);
+    }
+
+    /* 4. Oxford Alabaster (Classical Collegiate Stone & Royal Oxford Blue) */
+    body.theme-oxford-alabaster {
+      --bg-app: #f4f6f9;
+      --bg-gradient: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(30, 64, 175, 0.12), transparent 70%), #f4f6f9;
+      --header-bg: rgba(244, 246, 249, 0.90);
+      --card-bg: rgba(255, 255, 255, 0.92);
+      --card-inner-bg: rgba(30, 64, 175, 0.03);
+      --card-border: rgba(30, 64, 175, 0.16);
+      --card-inner-border: rgba(30, 64, 175, 0.08);
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-dim: #64748b;
+      --accent: #1e40af;
+      --accent-light: rgba(30, 64, 175, 0.09);
+      --accent-border: rgba(30, 64, 175, 0.28);
+      --input-bg: #ffffff;
+      --input-border: rgba(30, 64, 175, 0.20);
+      --nav-bg: rgba(244, 246, 249, 0.94);
+      --dropdown-bg: #ffffff;
+      --active-row-bg: rgba(30, 64, 175, 0.08);
+      --chart-grid: rgba(30, 64, 175, 0.08);
+      --chart-tick: #475569;
+      --shadow-color: rgba(30, 64, 175, 0.06);
+    }
+
+    /* 5. Cashmere & Bronze (Warm Roasted Espresso, Oat Wool & Bronze) */
+    body.theme-cashmere-bronze {
+      --bg-app: #f5f2ec;
+      --bg-gradient: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(154, 107, 56, 0.14), transparent 70%), #f5f2ec;
+      --header-bg: rgba(245, 242, 236, 0.90);
+      --card-bg: rgba(255, 255, 255, 0.92);
+      --card-inner-bg: rgba(154, 107, 56, 0.04);
+      --card-border: rgba(154, 107, 56, 0.18);
+      --card-inner-border: rgba(154, 107, 56, 0.08);
+      --text-main: #211b16;
+      --text-muted: #6b5c51;
+      --text-dim: #94857a;
+      --accent: #9a6b38;
+      --accent-light: rgba(154, 107, 56, 0.10);
+      --accent-border: rgba(154, 107, 56, 0.30);
+      --input-bg: #ffffff;
+      --input-border: rgba(154, 107, 56, 0.22);
+      --nav-bg: rgba(245, 242, 236, 0.94);
+      --dropdown-bg: #ffffff;
+      --active-row-bg: rgba(154, 107, 56, 0.09);
+      --chart-grid: rgba(154, 107, 56, 0.08);
+      --chart-tick: #6b5c51;
+      --shadow-color: rgba(154, 107, 56, 0.06);
+    }
+
+    /* 6. Midnight OLED (Deep Dark Pro Terminal) */
+    body.theme-midnight-oled {
+      --bg-app: #08090a;
+      --bg-gradient: radial-gradient(ellipse 80% 40% at 50% -15%, rgba(245, 158, 11, 0.12), transparent 70%), #08090a;
+      --header-bg: rgba(8, 9, 10, 0.85);
+      --card-bg: rgba(22, 23, 28, 0.70);
+      --card-inner-bg: rgba(255, 255, 255, 0.03);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-inner-border: rgba(255, 255, 255, 0.04);
+      --text-main: #ffffff;
+      --text-muted: #a1a1aa;
+      --text-dim: #71717a;
+      --accent: #f59e0b;
+      --accent-light: rgba(245, 158, 11, 0.15);
+      --accent-border: rgba(245, 158, 11, 0.30);
+      --input-bg: rgba(0, 0, 0, 0.60);
+      --input-border: rgba(255, 255, 255, 0.10);
+      --nav-bg: rgba(8, 9, 10, 0.88);
+      --dropdown-bg: #16171c;
+      --active-row-bg: rgba(245, 158, 11, 0.15);
+      --chart-grid: rgba(255, 255, 255, 0.05);
+      --chart-tick: #a1a1aa;
+      --shadow-color: rgba(0, 0, 0, 0.50);
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-touch-callout: none;
+      touch-action: pan-y;
+      overscroll-behavior-y: contain;
+      background: var(--bg-gradient, #f2f5ee);
+      color: var(--text-main, #142217);
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-feature-settings: "tnum" 1, "zero" 1;
+    }
+
+    /* iOS Momentum Scrolling */
+    .ios-scroll {
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .ios-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Surfaces & Panels bound to CSS Theme Variables */
+    header {
+      background: var(--header-bg) !important;
+      border-color: var(--card-border) !important;
+    }
+    nav {
+      background: var(--nav-bg) !important;
+      border-color: var(--card-border) !important;
+    }
+    .glass-panel {
+      background: var(--card-bg) !important;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--card-border) !important;
+      box-shadow: 0 10px 30px -10px var(--shadow-color), inset 0 1px 0 var(--card-inner-border);
+    }
+    .glass-card {
+      background: var(--card-bg) !important;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border) !important;
+      box-shadow: 0 4px 20px -2px var(--shadow-color), inset 0 1px 0 var(--card-inner-border);
+    }
+
+    /* Input & Select Binding */
+    input, select {
+      background: var(--input-bg) !important;
+      color: var(--text-main) !important;
+      border-color: var(--input-border) !important;
+    }
+
+    /* Automatic Dynamic Typography Adaptation for Natural Themes */
+    body:not(.theme-midnight-oled) .text-white {
+      color: var(--text-main) !important;
+    }
+    body:not(.theme-midnight-oled) .text-neutral-400,
+    body:not(.theme-midnight-oled) .text-neutral-500 {
+      color: var(--text-muted) !important;
+    }
+    body:not(.theme-midnight-oled) .text-neutral-300,
+    body:not(.theme-midnight-oled) .text-neutral-200 {
+      color: var(--text-main) !important;
+    }
+    body:not(.theme-midnight-oled) .bg-black\/60,
+    body:not(.theme-midnight-oled) .bg-black\/40 {
+      background: var(--input-bg) !important;
+      border-color: var(--card-inner-border) !important;
+    }
+    body:not(.theme-midnight-oled) .bg-white\/\[0\.03\],
+    body:not(.theme-midnight-oled) .bg-white\/\[0\.05\],
+    body:not(.theme-midnight-oled) .bg-white\/\[0\.06\],
+    body:not(.theme-midnight-oled) .bg-white\/10 {
+      background: var(--card-inner-bg) !important;
+      border-color: var(--card-inner-border) !important;
+    }
+
+    /* Safe Area Insets */
+        /* Apple HIG Touch Standards (44x44pt minimum & tactile response) */
+    button, [role="button"], select, input[type="submit"] {
+      min-height: 44px;
+      touch-action: manipulation;
+    }
+    .active\:scale-95:active {
+      transform: scale(0.95);
+    }
+    html, body {
+      overflow-x: hidden;
+      width: 100%;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: contain;
+    }
+    .pt-safe-top {
+      padding-top: max(env(safe-area-inset-top, 0px), 10px);
+    }
+    .pb-safe-nav {
+      padding-bottom: max(calc(env(safe-area-inset-bottom) + 84px), 110px);
+    }
+    .pb-safe-bottom {
+      padding-bottom: max(env(safe-area-inset-bottom), 24px);
+    }
+    .pb-safe-nav {
+      padding-bottom: max(calc(env(safe-area-inset-bottom) + 80px), 100px);
+    }
+    .pb-safe-bottom {
+      padding-bottom: max(env(safe-area-inset-bottom), 16px);
+    }
+
+    /* Markdown output tables and code */
+    #markdown-output table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    #markdown-output table {
+      width: 100% !important;
+      display: table !important;
+      overflow-x: auto !important;
+      font-size: 0.75rem !important;
+    }
+    #markdown-output th, #markdown-output td {
+      padding: 8px 12px;
+      border: 1px solid var(--card-border);
+      text-align: left;
+      font-size: 0.75rem;
+    }
+    #markdown-output th {
+      background: var(--card-inner-bg);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    #markdown-output th {
+      background: var(--accent-light);
+      color: var(--text-main);
+      font-weight: 700;
+    }
+    #markdown-output pre {
+      background: var(--card-inner-bg) !important;
+      border: 1px solid var(--card-border) !important;
+      color: var(--text-main) !important;
+      border-radius: 14px;
+      padding: 12px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Theme Option Active Highlight */
+    .theme-option-row.active {
+      background-color: var(--active-row-bg) !important;
+      font-weight: 700;
+    }
+
+    /* Floating Toast */
+    #toast {
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ==================== CORE CSS & DEFENSIVE FALLBACKS ==================== */
+    /* Prevents layout collapse if CDN is delayed or during print/PDF export */
+    .hidden {
+      display: none !important;
+    }
+    svg {
+      max-width: 100%;
+      height: auto;
+      box-sizing: border-box;
+    }
+    .w-3 { width: 0.75rem !important; }
+    .h-3 { height: 0.75rem !important; }
+    .w-3\.5 { width: 0.875rem !important; }
+    .h-3\.5 { height: 0.875rem !important; }
+    .w-4 { width: 1rem !important; }
+    .h-4 { height: 1rem !important; }
+    .w-5 { width: 1.25rem !important; }
+    .h-5 { height: 1.25rem !important; }
+    .w-6 { width: 1.5rem !important; }
+    .h-6 { height: 1.5rem !important; }
+    .w-7 { width: 1.75rem !important; }
+    .h-7 { height: 1.75rem !important; }
+    .w-8 { width: 2rem !important; }
+    .h-8 { height: 2rem !important; }
+    .w-9 { width: 2.25rem !important; }
+    .h-9 { height: 2.25rem !important; }
+    .w-10 { width: 2.5rem !important; }
+    .h-10 { height: 2.5rem !important; }
+
+    header svg, nav svg, button svg, form svg {
+      max-width: 24px !important;
+      max-height: 24px !important;
+      flex-shrink: 0;
+    }
+
+    /* Modal Overlay Display Control */
+    #deal-memo-modal.hidden,
+    #entity-dossier-modal.hidden,
+    #invoice-modal.hidden,
+    #titan-infographic-modal.hidden,
+    #consortium-ledger-modal.hidden,
+    #exporter-pitch-modal.hidden,
+    #bottom-sheet.hidden,
+    #bottom-sheet-backdrop.hidden {
+      display: none !important;
+    }
+
+        /* iPhone 15 Super Retina XDR & Safe Area Inset Support */
+    .pt-\[env\(safe-area-inset-top\)\] {
+      padding-top: env(safe-area-inset-top, 48px) !important;
+    }
+    .pb-\[env\(safe-area-inset-bottom\)\] {
+      padding-bottom: env(safe-area-inset-bottom, 20px) !important;
+    }
+    /* Universal Badge & Tag Non-Wrapping Protection */
+    span[class*="rounded"], .badge, .chip, [class*="badge"], [class*="tag"] {
+      white-space: nowrap !important;
+      flex-shrink: 0 !important;
+    }
+    :root {
+      --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Plus Jakarta Sans", system-ui, sans-serif;
+      --font-mono: "SF Mono", "JetBrains Mono", Menlo, Monaco, Consolas, monospace;
+    }
+    .font-mono, .mono-data {
+      font-family: var(--font-mono) !important;
+      font-feature-settings: "tnum" 1, "zero" 1 !important;
+      letter-spacing: -0.01em;
+    }
+
+    /* Apple HIG Tap Target Rule: Minimum 44x44pt on touch devices */
+    @media (max-width: 767px) {
+      .touch-target-44, 
+      button:not(.chip-compact), 
+      select, 
+      input[type="button"], 
+      input[type="submit"] {
+        min-height: 44px;
+      }
+    }
+
+    /* Print & PDF Export Optimization */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        height: auto !important;
+        overflow: visible !important;
+      }
+      header,
+      nav,
+      #bottom-dock-nav,
+      #bottom-nav,
+      #toast,
+      #bottom-sheet,
+      #bottom-sheet-backdrop,
+      #theme-dropdown,
+      .sub-tab-nav,
+      .no-print,
+      #qj-sync,
+      .sticky {
+        display: none !important;
+        visibility: hidden !important;
+        position: static !important;
+        height: 0 !important;
+        max-height: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: hidden !important;
+      }
+      main {
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: visible !important;
+      }
+      #trade-blueprint-modal:not(.hidden) {
+        position: static !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding: 0 !important;
+        display: block !important;
+        max-height: none !important;
+        overflow: visible !important;
+      }
+      #trade-blueprint-modal .glass-panel {
+        max-width: 100% !important;
+        box-shadow: none !important;
+        border: 1px solid #d1d5db !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+        max-height: none !important;
+        overflow: visible !important;
+      }
+      .hidden {
+        display: none !important;
+      }
+      svg {
+        max-width: 20px !important;
+        max-height: 20px !important;
+      }
+    }
+
+        /* ============================================================
+       SOVEREIGN MOBILE-FIRST TYPOGRAPHY & RIGID CONTAINMENT SYSTEM
+       (Tailored for iPhone 15 & Super Retina XDR Viewports)
+       ============================================================ */
+    :root {
+      --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Plus Jakarta Sans", -apple-system-ui-serif, ui-sans-serif, system-ui, sans-serif;
+      --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+    html, body {
+      max-width: 100vw;
+      overflow-x: hidden;
+      width: 100%;
+      box-sizing: border-box;
+      font-family: var(--font-sans) !important;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+    body, button {
+      font-family: var(--font-sans) !important;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      box-sizing: border-box;
+    }
+    input, select, textarea {
+      font-family: var(--font-sans) !important;
+      box-sizing: border-box;
+    }
+    @media (max-width: 767px) {
+      input, select, textarea {
+        font-size: 16px !important; /* Prevents auto-zoom in iOS Safari */
+      }
+      .text-\[8px\] {
+        font-size: 0.625rem !important; /* 10px minimum on mobile */
+        line-height: 0.875rem !important;
+      }
+      .text-\[9px\] {
+        font-size: 0.6875rem !important; /* 11px on mobile for optimal legibility */
+        line-height: 1rem !important;
+      }
+      .text-\[10px\] {
+        font-size: 0.6875rem !important; /* 11px on mobile */
+        line-height: 1rem !important;
+      }
+    }
+    .font-mono, .mono-data {
+      font-family: var(--font-mono) !important;
+      font-feature-settings: "tnum" 1, "zero" 1 !important;
+      letter-spacing: -0.015em;
+    }
+    pre, code, kbd, samp {
+      font-family: var(--font-mono) !important;
+    }
+    main {
+      max-width: 100vw !important;
+      width: 100% !important;
+      overflow-x: hidden !important;
+      box-sizing: border-box !important;
+      padding-bottom: max(calc(env(safe-area-inset-bottom) + 160px), 190px) !important;
+    }
+    main > section, .sub-pane, #tab-apps, #tab-agenda, #tab-scratchpad, #tab-timer, #tab-profile {
+      max-width: 52rem !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+    .glass-panel, .glass-card {
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+      overflow: hidden !important;
+      word-break: break-word;
+      border: 1px solid var(--card-border) !important;
+      box-shadow: 0 4px 20px -2px var(--shadow-color), inset 0 1px 0 var(--card-inner-border);
+    }
+    .border {
+      border-color: var(--card-border) !important;
+    }
+    /* iOS Native Horizontal Scroll Strips with Smooth Edge Fade */
+    
+    /* Sovereign Bottom Dock Navigation (Mobile Only - Thumb Zone) */
+    @media (max-width: 767px) {
+      #bottom-dock-nav {
+        display: block !important;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 40 !important;
+        background: var(--nav-bg) !important;
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
+        border-top: 1px solid var(--card-border) !important;
+      }
+      main {
+        padding-bottom: max(calc(env(safe-area-inset-bottom) + 75px), 95px) !important;
+      }
+    }
+
+    /* Strictly hide bottom dock on Desktop & Tablet viewports (>= 768px) to prevent card obstruction & capture repetition */
+    @media (min-width: 768px) {
+      #bottom-dock-nav {
+        display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        max-height: 0 !important;
+        pointer-events: none !important;
+        position: static !important;
+        overflow: hidden !important;
+      }
+      main {
+        padding-bottom: 2rem !important;
+      }
+    }
+
+    /* Clean Capture & Presentation Mode (Eliminates all sticky/floating overlays for pristine screenshots & PDF exports) */
+    body.clean-capture-active #bottom-dock-nav,
+    body.clean-capture-active header,
+    body.clean-capture-active #qj-bar-container,
+    body.clean-capture-active .sub-tab-nav,
+    body.clean-capture-active #toast {
+      display: none !important;
+      visibility: hidden !important;
+      height: 0 !important;
+    }
+    body.clean-capture-active main {
+      padding-top: 1rem !important;
+      padding-bottom: 1rem !important;
+    }
+    .scroll-chip-strip {
+      display: flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch !important;
+      overscroll-behavior-x: contain !important;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+      padding: 4px 2px 6px 2px !important;
+      max-width: 100% !important;
+      width: 100% !important;
+    }
+    .scroll-chip-strip::-webkit-scrollbar {
+      display: none !important;
+    }
+    .scroll-chip-strip > * {
+      flex-shrink: 0 !important;
+    }
+    .sub-tab-nav {
+      display: flex !important;
+      flex-wrap: nowrap !important;
+      align-items: center !important;
+      gap: 0.35rem !important;
+      padding: 0.35rem !important;
+      border-radius: 1rem !important;
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch !important;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+      position: relative !important;
+      z-index: 10 !important;
+      max-width: 100% !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      background: var(--card-bg) !important;
+      border: 1px solid var(--card-border) !important;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06) !important;
+    }
+    .sub-tab-nav::-webkit-scrollbar {
+      display: none !important;
+    }
+    .sub-tab-btn {
+      white-space: nowrap !important;
+      flex-shrink: 0 !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      text-align: center !important;
+      padding: 0.5rem 0.85rem !important;
+      min-height: 40px !important;
+      font-size: 0.75rem !important;
+      font-weight: 700 !important;
+      border-radius: 0.75rem !important;
+      line-height: 1 !important;
+      letter-spacing: -0.01em !important;
+      transition: all 0.2s ease !important;
+    }
+    @media (min-width: 768px) {
+      .sub-tab-btn {
+        flex: 1 1 0% !important;
+      }
+    }
+    .overflow-x-auto {
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch !important;
+      overscroll-behavior-x: contain !important;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+      max-width: 100% !important;
+    }
+    .overflow-x-auto::-webkit-scrollbar {
+      display: none !important;
+    }
+    /* ============================================================
+       SOVEREIGN CSS FALLBACK CORE (100% Offline & Ad-Blocker Immune)
+       ============================================================ */
+    .hidden {
+      display: none !important;
+    }
+    body {
+      background-color: var(--bg-app);
+      color: var(--text-main);
+    }
+    .flex { display: flex; }
+    .inline-flex { display: inline-flex; }
+    .flex-col { flex-direction: column; }
+    .flex-wrap { flex-wrap: wrap; }
+    .items-center { align-items: center; }
+    .justify-center { justify-content: center; }
+    .justify-between { justify-content: space-between; }
+    .flex-1 { flex: 1 1 0%; }
+    .flex-shrink-0 { flex-shrink: 0; }
+    .w-full { width: 100%; }
+    .h-full { height: 100%; }
+    .space-y-2 > * + * { margin-top: 0.5rem; }
+    .space-y-3 > * + * { margin-top: 0.75rem; }
+    .space-y-4 > * + * { margin-top: 1rem; }
+    .space-x-1 > * + * { margin-left: 0.25rem; }
+    .space-x-2 > * + * { margin-left: 0.5rem; }
+    .gap-1 { gap: 0.25rem; }
+    .gap-2 { gap: 0.5rem; }
+    .gap-3 { gap: 0.75rem; }
+    .gap-4 { gap: 1rem; }
+    .p-2 { padding: 0.5rem; }
+    .p-3 { padding: 0.75rem; }
+    .p-3\.5 { padding: 0.875rem; }
+    .p-4 { padding: 1rem; }
+    .p-5 { padding: 1.25rem; }
+    .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+    .px-4 { padding-left: 1rem; padding-right: 1rem; }
+    .py-1\.5 { padding-top: 0.375rem; padding-bottom: 0.375rem; }
+    .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+    .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+    .py-3\.5 { padding-top: 0.875rem; padding-bottom: 0.875rem; }
+    .rounded-xl { border-radius: 0.75rem; }
+    .rounded-2xl { border-radius: 1rem; }
+    .rounded-3xl { border-radius: 1.5rem; }
+    .rounded-full { border-radius: 9999px; }
+    .border { border-width: 1px; border-style: solid; border-color: var(--card-border); }
+    .border-b { border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: var(--card-border); }
+    .border-t { border-top-width: 1px; border-top-style: solid; border-top-color: var(--card-border); }
+    .shadow-sm { box-shadow: 0 1px 2px 0 var(--shadow-color); }
+    .shadow-lg { box-shadow: 0 10px 15px -3px var(--shadow-color); }
+    .shadow-xl { box-shadow: 0 20px 25px -5px var(--shadow-color); }
+    .shadow-2xl { box-shadow: 0 25px 50px -12px var(--shadow-color); }
+    .text-xs { font-size: 0.75rem; line-height: 1rem; }
+    .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+    .text-base { font-size: 1rem; line-height: 1.5rem; }
+    .font-medium { font-weight: 500; }
+    .font-semibold { font-weight: 600; }
+    .font-bold { font-weight: 700; }
+    .font-extrabold { font-weight: 800; }
+    .font-mono { font-family: var(--font-mono) !important; font-feature-settings: 'tnum' 1, 'zero' 1 !important; }
+    .fixed { position: fixed; }
+    .sticky { position: sticky; }
+    .relative { position: relative; }
+    .absolute { position: absolute; }
+    .inset-0 { inset: 0; }
+    .inset-x-0 { left: 0; right: 0; }
+    .top-0 { top: 0; }
+    .bottom-0 { bottom: 0; }
+    .z-30 { z-index: 30; }
+    .z-40 { z-index: 40; }
+    .z-50 { z-index: 50; }
+  </style>
+</head>
+<body class="min-h-full flex flex-col font-sans transition-colors duration-200">
+
+  <!-- Sovereign Header with Home Back-Link -->
+  <header class="pt-safe-top px-3 sm:px-4 py-2.5 sm:py-3 border-b sticky top-0 z-40 backdrop-blur-xl" style="background: var(--nav-bg); border-color: var(--card-border);">
+    <div class="max-w-6xl mx-auto w-full flex items-center justify-between gap-2">
+      
+      <!-- Back Link & Title -->
+      <div class="flex items-center space-x-2.5 min-w-0">
+        <a 
+          href="/" 
+          title="Return to Main Sovereign Terminal"
+          class="h-9 px-2.5 sm:px-3 rounded-xl border text-xs font-bold active:scale-95 transition-all flex items-center gap-1.5 shadow-sm shrink-0"
+          style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);"
+        >
+          <span class="text-sm">←</span>
+          <span class="text-[11px] font-bold hidden xs:inline">Terminal Home</span>
+        </a>
+
+        <div class="min-w-0">
+          <div class="flex items-center gap-2 flex-nowrap">
+            <h1 class="text-base sm:text-lg font-black tracking-tight truncate whitespace-nowrap" style="color: var(--text-main);">
+              EXIM Practice Lab
+            </h1>
+            <span class="inline-flex items-center px-1.5 py-0.5 rounded-full border text-[9px] font-bold font-mono tracking-wide uppercase shrink-0" style="background: var(--accent-light); color: var(--accent); border-color: var(--accent-border);">
+              Dedicated Workspace
+            </span>
+          </div>
+          <p class="text-[9px] sm:text-[10px] font-semibold tracking-tight truncate leading-tight" style="color: var(--text-muted);">
+            Sovereign Tariff Radar &bull; Practice Simulator &bull; 1-Click PDF Dossier
+          </p>
+        </div>
+      </div>
+
+      <!-- Header Actions -->
+      <div class="flex items-center space-x-1 sm:space-x-1.5 shrink-0">
+        
+        <!-- Theme Trigger Pill -->
+        <div class="relative">
+          <button 
+            onclick="toggleThemeDropdown(event)" 
+            id="theme-btn" 
+            title="Switch Editorial Theme" 
+            class="h-9 px-2 sm:px-2.5 rounded-xl border text-xs font-bold active:scale-95 transition-all flex items-center gap-1 shadow-sm"
+            style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);"
+          >
+            <span id="theme-btn-emoji">🌿</span>
+            <span id="theme-btn-label" class="text-[11px] font-bold hidden sm:inline">Kyoto</span>
+            <svg class="w-3 h-3 opacity-60" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+
+          <!-- Theme Dropdown -->
+          <div 
+            id="theme-dropdown" 
+            class="hidden absolute right-0 mt-2 w-64 rounded-3xl p-3 z-50 shadow-2xl border transition-all duration-200 transform origin-top-right scale-95 opacity-0"
+            style="background-color: var(--dropdown-bg); border-color: var(--card-border); color: var(--text-main);"
+          >
+            <div class="px-2 pt-1 pb-2">
+              <span class="text-[10px] font-extrabold uppercase tracking-widest block" style="color: var(--text-dim);">
+                REFINED EDITORIAL THEMES
+              </span>
+            </div>
+            <div class="h-px w-full my-1" style="background-color: var(--card-border);"></div>
+            <div class="space-y-1 pt-1 text-xs font-medium">
+              <button onclick="selectTheme('warm-sand')" class="theme-option-row w-full flex items-center justify-between px-3 py-2.5 rounded-2xl active:scale-[0.98] transition-all text-left" data-theme="warm-sand">
+                <div class="flex items-center space-x-2.5"><span>🏜️</span><span>Warm Sand</span></div>
+                <span class="w-3 h-3 rounded-full" style="background-color: #c25e34;"></span>
+              </button>
+              <button onclick="selectTheme('kyoto-moss')" class="theme-option-row w-full flex items-center justify-between px-3 py-2.5 rounded-2xl active:scale-[0.98] transition-all text-left active" data-theme="kyoto-moss">
+                <div class="flex items-center space-x-2.5"><span>🌿</span><span>Kyoto Moss</span></div>
+                <span class="w-3 h-3 rounded-full" style="background-color: #2d6a4f;"></span>
+              </button>
+              <button onclick="selectTheme('editorial-ivory')" class="theme-option-row w-full flex items-center justify-between px-3 py-2.5 rounded-2xl active:scale-[0.98] transition-all text-left" data-theme="editorial-ivory">
+                <div class="flex items-center space-x-2.5"><span>📰</span><span>Editorial Ivory</span></div>
+                <span class="w-3 h-3 rounded-full" style="background-color: #9e2a2b;"></span>
+              </button>
+              <button onclick="selectTheme('swiss-minimal')" class="theme-option-row w-full flex items-center justify-between px-3 py-2.5 rounded-2xl active:scale-[0.98] transition-all text-left" data-theme="swiss-minimal">
+                <div class="flex items-center space-x-2.5"><span>🇨🇭</span><span>Swiss Minimal</span></div>
+                <span class="w-3 h-3 rounded-full" style="background-color: #18181b;"></span>
+              </button>
+              <button onclick="selectTheme('nordic-slate')" class="theme-option-row w-full flex items-center justify-between px-3 py-2.5 rounded-2xl active:scale-[0.98] transition-all text-left" data-theme="nordic-slate">
+                <div class="flex items-center space-x-2.5"><span>🏔️</span><span>Nordic Slate</span></div>
+                <span class="w-3 h-3 rounded-full" style="background-color: #475569;"></span>
+              </button>
+              <button onclick="selectTheme('midnight-oled')" class="theme-option-row w-full flex items-center justify-between px-3 py-2.5 rounded-2xl active:scale-[0.98] transition-all text-left" data-theme="midnight-oled">
+                <div class="flex items-center space-x-2.5"><span>🌑</span><span>Midnight OLED</span></div>
+                <span class="w-3 h-3 rounded-full" style="background-color: #3f3f46;"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CBIC Rate Pill -->
+        <div class="hidden sm:flex h-9 px-2.5 rounded-xl border text-xs font-bold items-center gap-1.5 shadow-sm" style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);">
+          <span>💵</span>
+          <span class="text-[11px] font-mono font-bold">USD ₹86.40</span>
+          <span class="text-[8px] px-1 py-0.2 rounded font-mono uppercase font-black" style="background: var(--accent-light); color: var(--accent);">CBIC</span>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Full-Screen Workbench Content -->
+  <main class="flex-1 max-w-6xl mx-auto w-full p-3 sm:p-5 space-y-4">
+    <!-- ========================================================================= -->
+      <!-- DUAL SOVEREIGN EXECUTION TERMINAL & EXIM PRACTICE LAB                     -->
+      <!-- ========================================================================= -->
+      <div id="dual-sovereign-workbench" class="glass-panel rounded-3xl p-4 sm:p-5 shadow-2xl space-y-4 border relative overflow-hidden" style="background: var(--card-bg); border-color: var(--accent-border);">
+        
+        <!-- MODULE A: Header Telemetry & Global ELI5 Translator -->
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b pb-3" style="border-color: var(--card-inner-border);">
+          <div class="flex items-center gap-2.5">
+            <div class="w-10 h-10 rounded-2xl flex items-center justify-center font-black text-xl shadow-md shrink-0" style="background: var(--accent); color: #ffffff;">
+              <span>⚡</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 flex-wrap">
+                <h2 class="text-sm sm:text-base font-black tracking-tight" style="color: var(--text-main);">
+                  Dual Sovereign Execution Terminal &amp; EXIM Practice Lab
+                </h2>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full border text-[9px] font-mono font-bold uppercase tracking-wide" style="background: var(--accent-light); color: var(--accent); border-color: var(--accent-border);">
+                  LIVE BENCH • v2.4
+                </span>
+              </div>
+              <p class="text-[10px] sm:text-[11px] font-medium" style="color: var(--text-muted);">
+                Sovereign Reverse HSN Radar &bull; Dynamic Duty Ledger &bull; Weekly Practice Lab
+              </p>
+            </div>
+          </div>
+
+          <!-- Mode Controls: Sovereign Pro vs Learner Plain-English (ELI5) -->
+          <div class="flex items-center gap-2">
+            <button 
+              type="button" 
+              onclick="toggleGlobalEli5Mode()" 
+              id="btn-eli5-toggle" 
+              class="px-3 py-1.5 rounded-xl border text-xs font-bold transition-all flex items-center gap-1.5 active:scale-95 shadow-sm" 
+              style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);"
+            >
+              <span id="eli5-icon">✨</span>
+              <span id="eli5-label">Plain-English (ELI5 Off)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Live Port Dwell & Gate Telemetry Ticker -->
+        <div class="p-2.5 rounded-2xl border flex items-center gap-2 overflow-x-auto scrollbar-none text-[11px] font-mono whitespace-nowrap" style="background: #121816; color: #ffffff; border-color: rgba(45, 106, 79, 0.35);">
+          <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold flex items-center gap-1">
+            <span>⚓</span>
+            <span>GATE TELEMETRY:</span>
+          </span>
+          <div class="flex items-center gap-3">
+            <span class="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">
+              <strong class="text-white">JNPT (Nhava Sheva):</strong> Dwell 36.4h • <span class="text-emerald-400 font-bold">Normal Gate Clearance</span>
+            </span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">
+              <strong class="text-white">Mundra Port (Adani):</strong> Dwell 28.1h • <span class="text-emerald-400 font-bold">Fast Track Flow</span>
+            </span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">
+              <strong class="text-white">Chennai Seaport:</strong> Dwell 49.2h • <span class="text-rose-400 font-bold">⚠️ Congestion Alert (+12h Risk)</span>
+            </span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">
+              <strong class="text-white">Vizag Port:</strong> Dwell 33.0h • <span class="text-blue-400 font-bold">Normal Inflow</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Workbench Sub-Tabs Navigation -->
+        <div class="flex items-center gap-2 border-b pb-2" style="border-color: var(--card-inner-border);">
+          <button 
+            type="button" 
+            onclick="switchWorkbenchTab('radar')" 
+            id="wb-tab-radar" 
+            class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 active:scale-95 shadow-sm" 
+            style="background: var(--accent); color: #ffffff;"
+          >
+            <span>🔍</span>
+            <span class="eli5-term" data-pro="Reverse HSN &amp; Tariff Radar" data-eli5="Smart Commodity &amp; Import Tax Radar">Reverse HSN &amp; Tariff Radar</span>
+          </button>
+          <button 
+            type="button" 
+            onclick="switchWorkbenchTab('practice')" 
+            id="wb-tab-practice" 
+            class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 active:scale-95 shadow-sm" 
+            style="background: var(--card-inner-bg); color: var(--text-main); border: 1px solid var(--card-inner-border);"
+          >
+            <span>📚</span>
+            <span class="eli5-term" data-pro="Weekly EXIM Practice Lab" data-eli5="Weekly Trade Practice Simulator">Weekly EXIM Practice Lab</span>
+          </button>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- MODULE B: REVERSE HSN & IMPORT TARIFF RADAR PANE                  -->
+        <!-- ================================================================= -->
+        <div id="wb-pane-radar" class="space-y-4">
+          
+          <!-- Search & Chip Select Section -->
+          <div class="p-3.5 rounded-2xl border space-y-2.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="flex flex-wrap items-center justify-between gap-1">
+              <div>
+                <h3 class="text-xs font-black uppercase text-emerald-600 flex items-center gap-1.5">
+                  <span>🎯</span>
+                  <span class="eli5-term" data-pro="Natural-Language Reverse HSN &amp; Sourcing Intelligence" data-eli5="Search Commodity in Everyday English">Natural-Language Reverse HSN &amp; Sourcing Intelligence</span>
+                </h3>
+                <p class="text-[10px]" style="color: var(--text-muted);">
+                  Type any commodity name or click sample chips for instant 8-digit ITC-HS tariff and regulatory mapping.
+                </p>
+              </div>
+              <span class="text-[9px] font-mono font-bold px-2 py-0.5 rounded-full" style="background: var(--accent-light); color: var(--accent);">
+                CBIC Tariff 2024-25
+              </span>
+            </div>
+
+            <!-- Plain-English Search Input -->
+            <div class="relative">
+              <input 
+                type="text" 
+                id="wb-hsn-search" 
+                oninput="onSearchCommodity(this.value)" 
+                placeholder="Search commodity in plain English (e.g. Chilli, EV Scooter, Solar Inverter, Shrimp, Gold)..." 
+                class="w-full pl-9 pr-3 py-2 rounded-xl border text-xs font-semibold focus:outline-none" 
+                style="background: var(--input-bg); border-color: var(--input-border); color: var(--text-main);"
+              />
+              <span class="absolute left-3 top-2 text-xs opacity-50">🔍</span>
+            </div>
+
+            <!-- Quick-Access Commodity Chips -->
+            <div class="flex flex-wrap gap-1.5 pt-1">
+              <button type="button" onclick="selectWorkbenchCommodity('09042110')" id="wb-chip-09042110" class="wb-comm-chip px-2.5 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">
+                🌶️ Guntur Dry Chilli (09042110)
+              </button>
+              <button type="button" onclick="selectWorkbenchCommodity('87116010')" id="wb-chip-87116010" class="wb-comm-chip px-2.5 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                ⚡ EV Scooter Parts (87116010)
+              </button>
+              <button type="button" onclick="selectWorkbenchCommodity('85414300')" id="wb-chip-85414300" class="wb-comm-chip px-2.5 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                ☀️ Solar PV Cells (85414300)
+              </button>
+              <button type="button" onclick="selectWorkbenchCommodity('03061720')" id="wb-chip-03061720" class="wb-comm-chip px-2.5 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                🦐 Frozen Vannamei Shrimp (03061720)
+              </button>
+              <button type="button" onclick="selectWorkbenchCommodity('71131910')" id="wb-chip-71131910" class="wb-comm-chip px-2.5 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                💍 Gold Jewelry (71131910)
+              </button>
+            </div>
+          </div>
+
+          <!-- Live Statutory Duty Ledger Deck -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 text-xs">
+            
+            <!-- Valuation & FTA Benefit Controls -->
+            <div class="lg:col-span-7 p-3.5 rounded-2xl border space-y-3" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              <div class="flex items-center justify-between border-b pb-2" style="border-color: var(--card-inner-border);">
+                <div>
+                  <h4 id="wb-comm-title" class="font-bold text-xs" style="color: var(--text-main);">
+                    Guntur S4 / Teja Sun-Dried Red Chilli (HS 09042110)
+                  </h4>
+                  <p id="wb-comm-subtitle" class="text-[10px]" style="color: var(--text-muted);">
+                    Chapter 09 (Coffee, Tea, Mate and Spices) &bull; Spices Board of India
+                  </p>
+                </div>
+                <span id="wb-comm-council-badge" class="text-[9px] font-mono font-bold px-2 py-0.5 rounded-full" style="background: var(--accent-light); color: var(--accent);">
+                  Spices Board
+                </span>
+              </div>
+
+              <!-- Value & Exchange Rate Inputs -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <div>
+                  <label class="block text-[9px] font-bold uppercase mb-0.5" style="color: var(--text-dim);">
+                    <span class="eli5-term" data-pro="CIF Assessable Value ($ USD)" data-eli5="Landed Value Abroad ($ USD)">CIF Assessable Value ($ USD)</span>
+                  </label>
+                  <input 
+                    type="number" 
+                    id="wb-cif-usd" 
+                    value="3200" 
+                    oninput="recalculateTariffLedger()" 
+                    class="w-full p-2 rounded-xl border text-xs font-mono font-bold" 
+                    style="background: var(--input-bg); border-color: var(--input-border); color: var(--text-main);"
+                  />
+                  <span id="wb-cif-inr-equiv" class="text-[9px] font-mono block mt-0.5" style="color: var(--text-muted);">
+                    Equivalent: ₹2,76,480 INR
+                  </span>
+                </div>
+
+                <div>
+                  <label class="block text-[9px] font-bold uppercase mb-0.5" style="color: var(--text-dim);">
+                    CBIC Customs Exchange Rate (₹/USD)
+                  </label>
+                  <input 
+                    type="number" 
+                    id="wb-cbic-rate" 
+                    value="86.40" 
+                    step="0.05" 
+                    oninput="recalculateTariffLedger()" 
+                    class="w-full p-2 rounded-xl border text-xs font-mono font-bold" 
+                    style="background: var(--input-bg); border-color: var(--input-border); color: var(--text-main);"
+                  />
+                  <span class="text-[9px] font-mono text-emerald-600 block mt-0.5 font-semibold">
+                    Notified Gazette Section 14 Customs Act
+                  </span>
+                </div>
+              </div>
+
+              <!-- FTA Benefit Module -->
+              <div class="space-y-1.5 pt-1 border-t" style="border-color: var(--card-inner-border);">
+                <label class="block text-[9px] font-bold uppercase" style="color: var(--text-dim);">
+                  <span class="eli5-term" data-pro="Free Trade Agreement (FTA) Rules of Origin" data-eli5="Special Trade Deal Tariff Mode">Free Trade Agreement (FTA) Rules of Origin</span>
+                </label>
+                <div class="grid grid-cols-3 gap-2">
+                  <button type="button" onclick="setWorkbenchFtaMode('MFN')" id="wb-fta-btn-MFN" class="wb-fta-btn p-2 rounded-xl border text-[11px] font-bold text-center active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                    MFN Standard
+                  </button>
+                  <button type="button" onclick="setWorkbenchFtaMode('CEPA')" id="wb-fta-btn-CEPA" class="wb-fta-btn p-2 rounded-xl border text-[11px] font-bold text-center active:scale-95 transition-all" style="background: var(--accent); color: #ffffff; border-color: var(--accent);">
+                    India-UAE CEPA (0%)
+                  </button>
+                  <button type="button" onclick="setWorkbenchFtaMode('AIFTA')" id="wb-fta-btn-AIFTA" class="wb-fta-btn p-2 rounded-xl border text-[11px] font-bold text-center active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                    India-ASEAN AIFTA
+                  </button>
+                </div>
+              </div>
+
+              <!-- Domestic Value Addition Slider (For CEPA) -->
+              <div id="wb-cepa-va-box" class="p-2.5 rounded-xl border space-y-1.5" style="background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.25);">
+                <div class="flex justify-between items-center text-[11px]">
+                  <span class="font-bold text-emerald-700">Domestic Value Addition (VA Slider):</span>
+                  <span id="wb-va-slider-val" class="font-mono font-extrabold text-emerald-800">40% (Min 35%)</span>
+                </div>
+                <input 
+                  type="range" 
+                  id="wb-va-slider" 
+                  min="0" 
+                  max="100" 
+                  step="1" 
+                  value="40" 
+                  oninput="onVaSliderChange(this.value)" 
+                  class="w-full accent-emerald-600"
+                />
+                <p id="wb-va-status-text" class="text-[10px] font-semibold text-emerald-700 leading-tight">
+                  ✓ QUALIFIES FOR 0% PREFERENTIAL BCD: Met 35% Value Addition threshold under India-UAE CEPA.
+                </p>
+              </div>
+
+              <!-- Verified Ground Truth Deep Links -->
+              <div class="flex flex-wrap gap-2 pt-1 text-[11px]">
+                <a href="https://tradestat.commerce.gov.in/eidb/commodity_wise_import" target="_blank" rel="noreferrer" class="px-2 py-0.5 rounded-lg border text-blue-600 flex items-center gap-1 hover:underline" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+                  <span>🔗</span>
+                  <span>DGCI&amp;S TRADESTAT</span>
+                </a>
+                <a href="https://www.icegate.gov.in/cdc" target="_blank" rel="noreferrer" class="px-2 py-0.5 rounded-lg border text-emerald-600 flex items-center gap-1 hover:underline" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+                  <span>🔗</span>
+                  <span>ICEGATE Tariff Engine</span>
+                </a>
+                <a href="https://www.ldb.co.in/" target="_blank" rel="noreferrer" class="px-2 py-0.5 rounded-lg border text-purple-600 flex items-center gap-1 hover:underline" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+                  <span>🔗</span>
+                  <span>Logistics Data Bank</span>
+                </a>
+                <a href="https://www.indiatradeportal.in/" target="_blank" rel="noreferrer" class="px-2 py-0.5 rounded-lg border text-amber-600 flex items-center gap-1 hover:underline" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+                  <span>🔗</span>
+                  <span>Indian Trade Portal</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Dynamic Duty Stacking Waterfall Card -->
+            <div class="lg:col-span-5 p-3.5 rounded-2xl border space-y-3 flex flex-col justify-between" style="background: #121816; color: #ffffff; border-color: rgba(45, 106, 79, 0.35);">
+              <div>
+                <div class="flex items-center justify-between border-b pb-2" style="border-color: rgba(255, 255, 255, 0.1);">
+                  <span class="text-xs font-black uppercase text-emerald-400">
+                    <span class="eli5-term" data-pro="Statutory Duty Stacking Ledger" data-eli5="Import Tax Breakdown Ledger">Statutory Duty Stacking Ledger</span>
+                  </span>
+                  <span id="wb-effective-rate-badge" class="text-[9px] font-mono px-2 py-0.5 rounded bg-white/10 text-white font-bold">
+                    Effective: 5.0%
+                  </span>
+                </div>
+
+                <div class="space-y-1.5 pt-2 text-[11px]">
+                  <div class="flex justify-between">
+                    <span class="text-neutral-400">
+                      <span class="eli5-term" data-pro="1. Basic Customs Duty (BCD):" data-eli5="1. Basic Import Tax (BCD):">1. Basic Customs Duty (BCD):</span>
+                    </span>
+                    <span id="wb-out-bcd" class="font-mono font-bold text-white">₹0 (0% CEPA)</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-neutral-400">
+                      <span class="eli5-term" data-pro="2. Social Welfare Surcharge (SWS):" data-eli5="2. 10% Surcharge on Import Tax:">2. Social Welfare Surcharge (SWS):</span>
+                    </span>
+                    <span id="wb-out-sws" class="font-mono font-bold text-white">₹0 (10% of BCD)</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-neutral-400">
+                      <span class="eli5-term" data-pro="3. Agriculture Infra Cess (AIDC):" data-eli5="3. Farm Infrastructure Cess:">3. Agriculture Infra Cess (AIDC):</span>
+                    </span>
+                    <span id="wb-out-aidc" class="font-mono font-bold text-white">₹0 (0%)</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-neutral-400">
+                      <span class="eli5-term" data-pro="4. Integrated GST (IGST):" data-eli5="4. Integrated GST on Landed Cost:">4. Integrated GST (IGST):</span>
+                    </span>
+                    <span id="wb-out-igst" class="font-mono font-bold text-white">₹13,824 (5%)</span>
+                  </div>
+                  <div class="border-t pt-1.5 flex justify-between font-black text-xs" style="border-color: rgba(255, 255, 255, 0.15);">
+                    <span class="text-emerald-400">Total Landed Duty Payable:</span>
+                    <span id="wb-out-totalduty" class="font-mono text-emerald-400 text-sm font-black">₹13,824</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Landed Consignment Cost Total -->
+              <div class="p-2.5 rounded-xl bg-white/5 border border-white/10 space-y-0.5">
+                <span class="text-[8px] uppercase font-bold text-neutral-400 block tracking-wider">
+                  Total Landed Consignment Outflow (CIF + All Taxes):
+                </span>
+                <span id="wb-out-landedtotal" class="text-lg font-mono font-black text-white block">
+                  ₹2,90,304
+                </span>
+                <p class="text-[9px] text-neutral-400 leading-tight">
+                  Must be deposited via ICEGATE ICEPAY gateway prior to customs Out of Charge (OOC) order.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- MODULE C: WEEKLY EXIM PRACTICE LAB PANE                          -->
+        <!-- ================================================================= -->
+        <div id="wb-pane-practice" class="space-y-4 hidden">
+          
+          <!-- Practice Session Selector & PDF Export Action -->
+          <div class="p-3.5 rounded-2xl border space-y-2.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b pb-2" style="border-color: var(--card-inner-border);">
+              <div>
+                <h3 class="text-xs font-black uppercase text-emerald-600 flex items-center gap-1.5">
+                  <span>📚</span>
+                  <span>Weekly EXIM Practice Lab &bull; Structured Ground Scenarios</span>
+                </h3>
+                <p class="text-[10px]" style="color: var(--text-muted);">
+                  Select a practice case count, configure the 3-step statutory wizard, and export an executive 2-page PDF audit report.
+                </p>
+              </div>
+
+              <!-- 1-Click Client-Side PDF Export Button -->
+              <button 
+                type="button" 
+                onclick="exportPracticeReportPdf()" 
+                id="btn-export-practice-pdf" 
+                class="px-3.5 py-1.5 rounded-xl text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-500 active:scale-95 transition-all flex items-center gap-1.5 shadow-md"
+              >
+                <span>📄</span>
+                <span id="btn-pdf-text">Export Official Practice Report (PDF)</span>
+              </button>
+            </div>
+
+            <!-- Count Selector Strip (Counts 1 to 4) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+              <button type="button" onclick="selectPracticeCount(1)" id="wb-count-btn-1" class="wb-count-btn p-2.5 rounded-xl border text-left transition-all active:scale-95" style="background: var(--accent); color: #ffffff; border-color: var(--accent);">
+                <div class="flex justify-between items-center mb-0.5">
+                  <span class="text-[9px] font-mono font-bold opacity-80">COUNT 1</span>
+                  <span class="text-[9px] font-mono font-black px-1.5 py-0.2 rounded bg-black/20 text-white">09042110</span>
+                </div>
+                <div class="text-xs font-black truncate">1. Agri Consignment</div>
+                <div class="text-[9px] opacity-80 truncate">Guntur Chilli &bull; EU MRL</div>
+              </button>
+
+              <button type="button" onclick="selectPracticeCount(2)" id="wb-count-btn-2" class="wb-count-btn p-2.5 rounded-xl border text-left transition-all active:scale-95" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                <div class="flex justify-between items-center mb-0.5">
+                  <span class="text-[9px] font-mono font-bold text-neutral-400">COUNT 2</span>
+                  <span class="text-[9px] font-mono font-black px-1.5 py-0.2 rounded bg-slate-200 text-slate-700">85414300</span>
+                </div>
+                <div class="text-xs font-black truncate">2. CleanTech Sourcing</div>
+                <div class="text-[9px] text-neutral-400 truncate">Solar PV Cells &bull; ALMM</div>
+              </button>
+
+              <button type="button" onclick="selectPracticeCount(3)" id="wb-count-btn-3" class="wb-count-btn p-2.5 rounded-xl border text-left transition-all active:scale-95" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                <div class="flex justify-between items-center mb-0.5">
+                  <span class="text-[9px] font-mono font-bold text-neutral-400">COUNT 3</span>
+                  <span class="text-[9px] font-mono font-black px-1.5 py-0.2 rounded bg-slate-200 text-slate-700">87116010</span>
+                </div>
+                <div class="text-xs font-black truncate">3. Micro-Assembly</div>
+                <div class="text-[9px] text-neutral-400 truncate">EV Scooter &bull; Rule 2(a)</div>
+              </button>
+
+              <button type="button" onclick="selectPracticeCount(4)" id="wb-count-btn-4" class="wb-count-btn p-2.5 rounded-xl border text-left transition-all active:scale-95" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                <div class="flex justify-between items-center mb-0.5">
+                  <span class="text-[9px] font-mono font-bold text-neutral-400">COUNT 4</span>
+                  <span class="text-[9px] font-mono font-black px-1.5 py-0.2 rounded bg-slate-200 text-slate-700">71131910</span>
+                </div>
+                <div class="text-xs font-black truncate">4. Bilateral Corridor</div>
+                <div class="text-[9px] text-neutral-400 truncate">Gold Jewelry &bull; CEPA TRQ</div>
+              </button>
+            </div>
+          </div>
+
+          <!-- 3-Step Guided Execution Wizard & Scorecard -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 text-xs">
+            
+            <!-- Left 7 Columns: 3-Step Wizard Inputs -->
+            <div class="lg:col-span-7 p-3.5 rounded-2xl border space-y-3" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              
+              <!-- Step 1: Packaging & Legal Form -->
+              <div class="space-y-1.5">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-600 flex items-center justify-center text-[9px] font-black">1</span>
+                  <span class="text-xs font-black uppercase tracking-wider" style="color: var(--text-main);">
+                    Step 1: Packaging &amp; Legal Form (Notification 31/2022-CT)
+                  </span>
+                </div>
+                <div id="wb-step1-options" class="space-y-1.5">
+                  <!-- Injected dynamically via renderPracticeSteps -->
+                </div>
+              </div>
+
+              <!-- Step 2: Destination Port & Jurisdiction -->
+              <div class="space-y-1.5 pt-2 border-t" style="border-color: var(--card-inner-border);">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-600 flex items-center justify-center text-[9px] font-black">2</span>
+                  <span class="text-xs font-black uppercase tracking-wider" style="color: var(--text-main);">
+                    Step 2: Destination Port &amp; Regulatory Jurisdiction
+                  </span>
+                </div>
+                <div id="wb-step2-options" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <!-- Injected dynamically via renderPracticeSteps -->
+                </div>
+              </div>
+
+              <!-- Step 3: Critical Lab Test / Compliance Metric -->
+              <div class="space-y-1.5 pt-2 border-t" style="border-color: var(--card-inner-border);">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-600 flex items-center justify-center text-[9px] font-black">3</span>
+                    <span id="wb-step3-title" class="text-xs font-black uppercase tracking-wider" style="color: var(--text-main);">
+                      Triazophos / Chlorpyrifos Chemical Residue
+                    </span>
+                  </div>
+                  <span id="wb-step3-reading-label" class="text-xs font-mono font-black text-emerald-600">
+                    0.007 ppm
+                  </span>
+                </div>
+                <p id="wb-step3-desc" class="text-[10px]" style="color: var(--text-muted);">
+                  Gas Chromatography Mass Spectrometry (GC-MS) laboratory reading (Target Ceiling: 0.010 ppm)
+                </p>
+                <input 
+                  type="range" 
+                  id="wb-step3-slider" 
+                  min="0.002" 
+                  max="0.025" 
+                  step="0.001" 
+                  value="0.007" 
+                  oninput="onPracticeStep3Change(this.value)" 
+                  class="w-full accent-emerald-600"
+                />
+                <div class="flex justify-between text-[9px] font-mono" style="color: var(--text-muted);">
+                  <span id="wb-step3-safe-text">Safe Lab Reading: 0.007 ppm</span>
+                  <span id="wb-step3-risk-text" class="text-rose-500">Hazard Reading: 0.018 ppm</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right 5 Columns: Real-Time Risk & Financial Scorecard -->
+            <div class="lg:col-span-5 p-3.5 rounded-2xl border space-y-3 flex flex-col justify-between" style="background: #121816; color: #ffffff; border-color: rgba(45, 106, 79, 0.35);">
+              <div class="space-y-2.5">
+                <div class="flex items-center justify-between border-b pb-2" style="border-color: rgba(255, 255, 255, 0.1);">
+                  <span class="text-xs font-black uppercase text-emerald-400">
+                    Real-Time Risk &amp; Financial Scorecard
+                  </span>
+                  <span id="wb-practice-count-badge" class="text-[9px] font-mono px-2 py-0.5 rounded bg-white/10 text-white font-bold">
+                    COUNT 1 SIM
+                  </span>
+                </div>
+
+                <!-- Dynamic Clearance Status Banner -->
+                <div id="wb-practice-status-box" class="p-2.5 rounded-xl text-[11px] leading-tight space-y-1" style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); color: #10B981;">
+                  <div id="wb-practice-status-title" class="font-extrabold text-xs flex items-center gap-1">
+                    <span>✓</span>
+                    <span>STATUTORY CLEARANCE GRANTED</span>
+                  </div>
+                  <p id="wb-practice-status-desc" class="opacity-90">
+                    Shipment cleared without penalty risk. LEO criteria satisfied and phytosanitary certificate validated.
+                  </p>
+                </div>
+
+                <!-- Financial Margin Ledger -->
+                <div class="space-y-1.5 text-[11px]">
+                  <div class="flex justify-between text-neutral-300">
+                    <span>Declared Gross FOB Realization:</span>
+                    <span id="wb-prac-out-fob" class="font-mono font-bold text-white">₹44,80,000</span>
+                  </div>
+                  <div class="flex justify-between text-neutral-400">
+                    <span>APMC Mandi Cess Outflow (1.5%):</span>
+                    <span id="wb-prac-out-cess" class="font-mono text-amber-400 font-bold">- ₹67,200</span>
+                  </div>
+                  <div class="flex justify-between text-neutral-400">
+                    <span>Freight &amp; Handling Cost:</span>
+                    <span id="wb-prac-out-freight" class="font-mono text-neutral-300 font-bold">- ₹3,20,000</span>
+                  </div>
+                  <div class="flex justify-between text-neutral-400">
+                    <span>RoDTEP Scroll Cash Inflow (2.5%):</span>
+                    <span id="wb-prac-out-rodtep" class="font-mono text-emerald-400 font-bold">+ ₹1,12,000</span>
+                  </div>
+                  <div class="border-t pt-1.5 flex justify-between font-black text-xs" style="border-color: rgba(255, 255, 255, 0.15);">
+                    <span class="text-white">Estimated Net Consignment Profit:</span>
+                    <span id="wb-prac-out-profit" class="font-mono text-emerald-400 text-sm font-black">₹5,82,400</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action: Download PDF -->
+              <button 
+                type="button" 
+                onclick="exportPracticeReportPdf()" 
+                class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs active:scale-95 transition-all flex items-center justify-center gap-1.5 shadow-md"
+              >
+                <span>📄</span>
+                <span>Download 2-Page Official PDF Dossier</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+  </main>
+
+  <!-- Floating Toast -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 pointer-events-none transform translate-y-20 opacity-0 transition-all duration-300">
+    <div class="glass-panel px-4 py-2.5 rounded-2xl shadow-2xl flex items-center gap-2.5 border" style="background: var(--dropdown-bg); border-color: var(--card-border);">
+      <span id="toast-icon" class="text-base">📋</span>
+      <span id="toast-msg" class="text-xs font-bold" style="color: var(--text-main);">Copied</span>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -10,7 +10,10 @@
     { "source": "/api/corridors", "destination": "/api" },
     { "source": "/api/ingest/corridors", "destination": "/api" },
     { "source": "/api/query", "destination": "/api" },
-    { "source": "/api/calculate", "destination": "/api" }
+    { "source": "/api/calculate", "destination": "/api" },
+    { "source": "/practice-lab", "destination": "/practice-lab.html" },
+    { "source": "/workbench", "destination": "/practice-lab.html" },
+    { "source": "/exim-terminal", "destination": "/practice-lab.html" }
   ],
   "headers": [
     {
