@@ -3439,12 +3439,283 @@
                 +$3,750 (₹3,24,375)
               </div>
             </div>
+            <div>
+              <span class="text-[10px] font-mono uppercase block mb-1" style="color: var(--text-muted);">
+                Ocean Freight 5% IGST (RCM / ITC):
+              </span>
+              <div id="corridor-sim-igst-rcm" class="p-2 rounded-xl border font-mono text-xs font-bold text-cyan-500"
+                   style="background: var(--card-bg); border-color: var(--card-inner-border);">
+                ₹16,651 (Full ITC Available)
+              </div>
+            </div>
+          </div>
+          <div class="pt-2 flex items-center justify-between flex-wrap gap-2">
+            <span class="text-[10px] font-mono" style="color: var(--text-dim);">Preferential Rules of Origin: CTSH + 35% Domestic Value Addition</span>
+            <button type="button" onclick="showDgftCooModal()"
+                    class="px-2.5 py-1 rounded-lg text-xs font-bold border transition-all active:scale-95 flex items-center gap-1.5"
+                    style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+              <span>📜</span> View Official DGFT e-CoO Template
+            </button>
           </div>
         </div>
 
         <!-- Dynamic Opportunity Gap Cards Container -->
         <div id="trade-gaps-container" class="space-y-3 pt-1">
           <!-- Injected via renderTradeGaps() -->
+        </div>
+
+        <!-- ==================== PHASE 3: STATUTORY SOVEREIGN ENGINES ==================== -->
+        <!-- 1. CBIC Circular 24/2020 Freight Forwarder THC Audit Tool (Gap 16) -->
+        <div class="p-4 rounded-2xl border space-y-3" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <div class="flex items-center gap-2">
+              <span class="text-base">🛡️</span>
+              <h3 class="font-extrabold text-xs uppercase tracking-tight" style="color: var(--text-main);">
+                CBIC Circular 24/2020 Freight Forwarder THC &amp; Local Fee Auditor
+              </h3>
+            </div>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded font-bold uppercase"
+                  style="background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.3);">
+              Statutory Protection Active
+            </span>
+          </div>
+          <p class="text-[11px] leading-relaxed" style="color: var(--text-muted);">
+            CBIC Circular 24/2020 strictly prohibits freight forwarders and shipping lines from levying unregulated local charges, seal handling, or documentation markups above published port tariffs.
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+            <div class="p-2.5 rounded-xl border space-y-1" style="background: var(--card-bg); border-color: var(--card-border);">
+              <div class="flex items-center justify-between font-mono text-[10px]">
+                <span style="color: var(--text-dim);">Origin THC (40ft HC):</span>
+                <span class="text-emerald-500 font-bold">Standard: ₹8,500</span>
+              </div>
+              <div class="text-[11px] font-bold" style="color: var(--text-main);">Port Tariff Cap: ₹9,200</div>
+              <div class="text-[9.5px] text-emerald-500">✓ Invoices &gt;₹11,000 are illegal under Cir 24/2020.</div>
+            </div>
+
+            <div class="p-2.5 rounded-xl border space-y-1" style="background: var(--card-bg); border-color: var(--card-border);">
+              <div class="flex items-center justify-between font-mono text-[10px]">
+                <span style="color: var(--text-dim);">BL &amp; Doc Fee Cap:</span>
+                <span class="text-emerald-500 font-bold">Standard: ₹2,500</span>
+              </div>
+              <div class="text-[11px] font-bold" style="color: var(--text-main);">Statutory Zero-Markup Rule</div>
+              <div class="text-[9.5px] text-emerald-500">✓ Digital electronic BL exempt from physical fees.</div>
+            </div>
+
+            <div class="p-2.5 rounded-xl border space-y-1" style="background: var(--card-bg); border-color: var(--card-border);">
+              <div class="flex items-center justify-between font-mono text-[10px]">
+                <span style="color: var(--text-dim);">Prohibited Line Items:</span>
+                <span class="text-rose-500 font-bold">4 Illegal Fees</span>
+              </div>
+              <div class="text-[11px] font-bold text-rose-500">EIS • Cleaning • Seal Surcharge</div>
+              <div class="text-[9.5px]" style="color: var(--text-muted);">Must be disputed before payment via formal legal memo.</div>
+            </div>
+          </div>
+
+          <div class="pt-1 flex items-center justify-between flex-wrap gap-2">
+            <span class="text-[10px] font-mono" style="color: var(--text-dim);">Leakage Protection: ₹15,000 to ₹35,000 per 40ft container saved</span>
+            <button type="button" onclick="generateForwarderRebuttalMemo()"
+                    class="px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95 transition-all text-white shadow-sm flex items-center gap-1.5"
+                    style="background: var(--accent);">
+              <span>📝</span> Copy Circular 24/2020 Legal Rebuttal Memo
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. RBI EDPMS 9-Month Statutory Realization Countdown & e-BRC Tracker (Gap 13) -->
+        <div class="p-4 rounded-2xl border space-y-3" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <div class="flex items-center gap-2">
+              <span class="text-base">⏳</span>
+              <h3 class="font-extrabold text-xs uppercase tracking-tight" style="color: var(--text-main);">
+                RBI EDPMS 9-Month Forex Realization &amp; Caution-Listing Countdown
+              </h3>
+            </div>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded font-bold uppercase"
+                  style="background: rgba(245, 158, 11, 0.15); color: #F59E0B; border: 1px solid rgba(245, 158, 11, 0.3);">
+              FEMA 1999 Sec 7 Active
+            </span>
+          </div>
+          <p class="text-[11px] leading-relaxed" style="color: var(--text-muted);">
+            Under RBI Master Direction, 100% of export proceeds must be realized within <strong>270 days (9 months)</strong> from shipping bill date. Failure triggers automatic RBI Caution-Listing (EDPMS XOS list), blocking all future export clearances and bank LCs.
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 text-xs">
+            <div class="p-2.5 rounded-xl border space-y-1" style="background: var(--card-bg); border-color: var(--card-border);">
+              <div class="text-[10px] font-mono text-emerald-500 font-bold">Days 1 – 180</div>
+              <div class="font-bold text-xs" style="color: var(--text-main);">Standard Realization</div>
+              <div class="text-[9.5px]" style="color: var(--text-muted);">Inward TT credited via Nostro / Vostro account.</div>
+            </div>
+            <div class="p-2.5 rounded-xl border space-y-1" style="background: var(--card-bg); border-color: var(--card-border);">
+              <div class="text-[10px] font-mono text-cyan-500 font-bold">Days 181 – 240</div>
+              <div class="font-bold text-xs" style="color: var(--text-main);">Bank Follow-Up</div>
+              <div class="text-[9.5px]" style="color: var(--text-muted);">AD Bank issues Form 1 reminder notice for e-BRC.</div>
+            </div>
+            <div class="p-2.5 rounded-xl border space-y-1" style="background: var(--card-bg); border-color: var(--card-border);">
+              <div class="text-[10px] font-mono text-amber-500 font-bold">Days 241 – 270</div>
+              <div class="font-bold text-xs text-amber-500">Critical Extension Window</div>
+              <div class="text-[9.5px]" style="color: var(--text-muted);">Must file formal 6-month extension request with AD Bank.</div>
+            </div>
+            <div class="p-2.5 rounded-xl border space-y-1" style="background: var(--card-bg); border-color: var(--card-border);">
+              <div class="text-[10px] font-mono text-rose-500 font-bold">Day 271+</div>
+              <div class="font-bold text-xs text-rose-500">Caution-Listed (XOS)</div>
+              <div class="text-[9.5px]" style="color: var(--text-muted);">IEC flagged on ICEGATE; 100% advance TT mandated.</div>
+            </div>
+          </div>
+        </div>
+
+        
+        <!-- 4. Multi-Commodity FCL Container Packing Consolidator (Gap 18) -->
+        <div class="p-4 rounded-2xl border space-y-3" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <div class="flex items-center gap-2">
+              <span class="text-base">📦</span>
+              <h3 class="font-extrabold text-xs uppercase tracking-tight" style="color: var(--text-main);">
+                Multi-Commodity FCL Container Packing &amp; RoDTEP Consolidator
+              </h3>
+            </div>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded font-bold uppercase"
+                  style="background: rgba(168, 85, 247, 0.15); color: #A855F7; border: 1px solid rgba(168, 85, 247, 0.3);">
+              40ft HC Consolidation Engine
+            </span>
+          </div>
+          <p class="text-[11px] leading-relaxed" style="color: var(--text-muted);">
+            Consolidate up to 3 compatible commodities into a single 40ft High Cube container (Max Payload: 26,500 kg). Dynamically calculates blended ocean freight allocation per kilogram and total aggregate RoDTEP cash yields.
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+            <!-- Commodity 1 -->
+            <div class="p-2.5 rounded-xl border space-y-1.5" style="background: var(--card-bg); border-color: var(--card-border);">
+              <div class="font-bold text-xs text-amber-500">Item 1: Basmati Rice (1006 30 20)</div>
+              <div class="grid grid-cols-3 gap-1 text-[10px] font-mono">
+                <div>
+                  <span style="color: var(--text-dim);">Weight (kg):</span>
+                  <input type="number" id="fcl-item1-qty" value="12000" oninput="updateFclConsolidator()"
+                         class="w-full p-1 rounded border text-[10px] font-bold"
+                         style="background: var(--input-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                </div>
+                <div>
+                  <span style="color: var(--text-dim);">FOB ₹/kg:</span>
+                  <input type="number" id="fcl-item1-val" value="85" oninput="updateFclConsolidator()"
+                         class="w-full p-1 rounded border text-[10px] font-bold"
+                         style="background: var(--input-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                </div>
+                <div>
+                  <span style="color: var(--text-dim);">RoDTEP %:</span>
+                  <input type="number" id="fcl-item1-rodtep" value="2.5" step="0.1" oninput="updateFclConsolidator()"
+                         class="w-full p-1 rounded border text-[10px] font-bold"
+                         style="background: var(--input-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                </div>
+              </div>
+            </div>
+
+            <!-- Commodity 2 -->
+            <div class="p-2.5 rounded-xl border space-y-1.5" style="background: var(--card-bg); border-color: var(--card-border);">
+              <div class="font-bold text-xs text-cyan-500">Item 2: Whole Spices (0910 30 20)</div>
+              <div class="grid grid-cols-3 gap-1 text-[10px] font-mono">
+                <div>
+                  <span style="color: var(--text-dim);">Weight (kg):</span>
+                  <input type="number" id="fcl-item2-qty" value="8000" oninput="updateFclConsolidator()"
+                         class="w-full p-1 rounded border text-[10px] font-bold"
+                         style="background: var(--input-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                </div>
+                <div>
+                  <span style="color: var(--text-dim);">FOB ₹/kg:</span>
+                  <input type="number" id="fcl-item2-val" value="120" oninput="updateFclConsolidator()"
+                         class="w-full p-1 rounded border text-[10px] font-bold"
+                         style="background: var(--input-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                </div>
+                <div>
+                  <span style="color: var(--text-dim);">RoDTEP %:</span>
+                  <input type="number" id="fcl-item2-rodtep" value="1.8" step="0.1" oninput="updateFclConsolidator()"
+                         class="w-full p-1 rounded border text-[10px] font-bold"
+                         style="background: var(--input-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                </div>
+              </div>
+            </div>
+
+            <!-- Commodity 3 -->
+            <div class="p-2.5 rounded-xl border space-y-1.5" style="background: var(--card-bg); border-color: var(--card-border);">
+              <div class="font-bold text-xs text-purple-400">Item 3: Dehydrated Onion (0712 20 00)</div>
+              <div class="grid grid-cols-3 gap-1 text-[10px] font-mono">
+                <div>
+                  <span style="color: var(--text-dim);">Weight (kg):</span>
+                  <input type="number" id="fcl-item3-qty" value="4000" oninput="updateFclConsolidator()"
+                         class="w-full p-1 rounded border text-[10px] font-bold"
+                         style="background: var(--input-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                </div>
+                <div>
+                  <span style="color: var(--text-dim);">FOB ₹/kg:</span>
+                  <input type="number" id="fcl-item3-val" value="250" oninput="updateFclConsolidator()"
+                         class="w-full p-1 rounded border text-[10px] font-bold"
+                         style="background: var(--input-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                </div>
+                <div>
+                  <span style="color: var(--text-dim);">RoDTEP %:</span>
+                  <input type="number" id="fcl-item3-rodtep" value="3.1" step="0.1" oninput="updateFclConsolidator()"
+                         class="w-full p-1 rounded border text-[10px] font-bold"
+                         style="background: var(--input-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Consolidation Telemetry Bar -->
+          <div class="p-3 rounded-xl border space-y-2 text-xs" style="background: var(--card-bg); border-color: var(--card-border);">
+            <div class="flex items-center justify-between font-mono text-[11px] flex-wrap gap-2">
+              <div><span style="color: var(--text-dim);">Payload:</span> <strong id="fcl-total-payload" style="color: var(--text-main);">24,000 kg / 26,500 kg</strong></div>
+              <div><span style="color: var(--text-dim);">Volume Capacity:</span> <strong id="fcl-util-pct" class="text-emerald-500">91%</strong></div>
+              <div><span style="color: var(--text-dim);">Blended Freight:</span> <strong id="fcl-blended-freight" class="text-cyan-500">₹9.01 / kg</strong></div>
+              <div><span style="color: var(--text-dim);">Total RoDTEP Yield:</span> <strong id="fcl-total-rodtep" class="text-emerald-500">₹73,840</strong></div>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+              <div id="fcl-util-bar" class="h-2 rounded-full transition-all duration-300" style="width: 91%; background-color: #10B981;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. DGFT Advance Authorization vs RoDTEP Cash Yield Engine (Gap 12) -->
+        <div class="p-4 rounded-2xl border space-y-3" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <div class="flex items-center gap-2">
+              <span class="text-base">⚖️</span>
+              <h3 class="font-extrabold text-xs uppercase tracking-tight" style="color: var(--text-main);">
+                DGFT Advance Authorization vs. RoDTEP Yield Engine
+              </h3>
+            </div>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded font-bold uppercase"
+                  style="background: rgba(59, 130, 246, 0.15); color: #3B82F6; border: 1px solid rgba(59, 130, 246, 0.3);">
+              FTP 2023 Chapter 4
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+            <div class="p-3 rounded-xl border space-y-2" style="background: var(--card-bg); border-color: var(--card-border);">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-mono font-bold text-cyan-500 uppercase">Route A: Advance Authorization</span>
+                <span class="text-[10px] font-mono text-emerald-500 font-bold">0% BCD + 0% IGST</span>
+              </div>
+              <p class="text-[11px] leading-relaxed" style="color: var(--text-muted);">
+                Import raw materials / packaging duty-free under SION norms. Requires minimum <strong>15% Value Addition (VA)</strong> and fulfillment of export obligation within 18 months.
+              </p>
+              <div class="p-2 rounded-lg border text-[10px] font-mono" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                <strong>Best For:</strong> High-import content products (EV cells, API formulations, technical fabric).
+              </div>
+            </div>
+
+            <div class="p-3 rounded-xl border space-y-2" style="background: var(--card-bg); border-color: var(--card-border);">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-mono font-bold text-amber-500 uppercase">Route B: Standard Export + RoDTEP</span>
+                <span class="text-[10px] font-mono text-amber-500 font-bold">Direct Cash Rebate</span>
+              </div>
+              <p class="text-[11px] leading-relaxed" style="color: var(--text-muted);">
+                Procure inputs domestically with GST credit, pay duty on imported parts, and claim <strong>1.5% to 4.3% RoDTEP / RoSCTL</strong> electronic scrips credited directly to ledger.
+              </p>
+              <div class="p-2 rounded-lg border text-[10px] font-mono" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                <strong>Best For:</strong> Indigenous ODOP commodities (Basmati, spices, tiles, leather footwear).
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -7712,5 +7983,98 @@
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
   <script src="/app.js"></script>
+
+<!-- ==================== DGFT e-CoO PREVIEW MODAL (Gap 14) ==================== -->
+<div id="dgft-coo-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fade-in" style="font-family: inherit;">
+  <div class="w-full max-w-2xl rounded-2xl border shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+       style="background: var(--card-bg); border-color: var(--card-border); color: var(--text-main);">
+    
+    <div class="px-5 py-3.5 border-b flex items-center justify-between"
+         style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+      <div class="flex items-center gap-2.5">
+        <span class="text-xl">📜</span>
+        <div>
+          <div class="flex items-center gap-2">
+            <h3 class="font-extrabold text-xs uppercase tracking-tight" style="color: var(--text-main);">
+              DGFT Digital Certificate of Origin (e-CoO)
+            </h3>
+            <span class="text-[9px] font-mono px-2 py-0.5 rounded font-bold uppercase"
+                  style="background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.3);">
+              Statutory Preferential Format
+            </span>
+          </div>
+          <p class="text-[10px] font-mono" style="color: var(--text-muted);">
+            Common Digital Platform (coo.dgft.gov.in) • Customs Tariff Preference
+          </p>
+        </div>
+      </div>
+      <button type="button" onclick="closeDgftCooModal()" class="p-1 rounded-lg text-sm font-bold opacity-75 hover:opacity-100" style="color: var(--text-main);">✕</button>
+    </div>
+
+    <div class="p-4 space-y-3 overflow-y-auto text-xs font-sans">
+      <div class="p-2.5 rounded-xl border flex items-center justify-between flex-wrap gap-2 text-[10px] font-mono"
+           style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <div><span style="color: var(--text-muted);">Cert No:</span> <strong id="coo-modal-cert-no" class="text-amber-500">IN-AE-2026-COO-884219</strong></div>
+        <div><span style="color: var(--text-muted);">Agreement:</span> <strong id="coo-modal-treaty" class="text-cyan-500">India-UAE CEPA</strong></div>
+        <div><span style="color: var(--text-muted);">Destination:</span> <strong id="coo-modal-dest" class="text-emerald-500">United Arab Emirates (AE)</strong></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 text-xs">
+        <div class="p-2.5 rounded-xl border space-y-1" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="text-[9.5px] font-mono uppercase font-bold text-slate-400">Box 1: Exporter of Record</div>
+          <div class="font-bold text-[11px]" style="color: var(--text-main);">RAMU AGRO EXPORTS PVT LTD</div>
+          <div class="text-[10px]" style="color: var(--text-muted);">IEC: 0518920194 • APEDA REG: R-19842</div>
+          <div class="text-[9.5px]" style="color: var(--text-dim);">APEDA Registered Packhouse, Karnal, Haryana, India</div>
+        </div>
+
+        <div class="p-2.5 rounded-xl border space-y-1" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="text-[9.5px] font-mono uppercase font-bold text-slate-400">Box 2: Consignee Abroad</div>
+          <div class="font-bold text-[11px]" style="color: var(--text-main);">GULF COMMERCE &amp; FOODS LLC</div>
+          <div class="text-[10px]" style="color: var(--text-muted);">P.O. Box 48201, Jebel Ali Free Zone (JAFZA)</div>
+          <div class="text-[9.5px]" style="color: var(--text-dim);">Dubai, United Arab Emirates</div>
+        </div>
+
+        <div class="p-2.5 rounded-xl border space-y-1" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="text-[9.5px] font-mono uppercase font-bold text-slate-400">Box 7: HS Code &amp; Tariff Classification</div>
+          <div class="font-bold font-mono text-[11px] text-amber-500" id="coo-modal-hs">1006 30 20</div>
+          <div class="text-[10px]" style="color: var(--text-muted);">Traditional Indian Milled Basmati Rice</div>
+          <div class="text-[9.5px]" style="color: var(--text-dim);">Gross Weight: 26,000 kg (1 x 40ft HC Container)</div>
+        </div>
+
+        <div class="p-2.5 rounded-xl border space-y-1" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+          <div class="text-[9.5px] font-mono uppercase font-bold text-cyan-500">Box 8: Origin Conferring Criteria (Crucial)</div>
+          <div class="font-bold text-[11px] text-emerald-500" id="coo-modal-criteria">
+            CTSH + 35% Value Addition (CEPA Operational Rules)
+          </div>
+          <div class="text-[9.5px] leading-relaxed" style="color: var(--text-muted);">
+            Conforms to Product-Specific Rules (PSR). Meets non-party input limitation (&lt;65%) and change in tariff classification requirements.
+          </div>
+        </div>
+      </div>
+
+      <div class="p-2.5 rounded-xl border space-y-1 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+        <div class="text-[9.5px] font-mono uppercase font-bold text-slate-400">Box 11 &amp; 12: Statutory Declaration &amp; Certification</div>
+        <p class="text-[10px] leading-relaxed" style="color: var(--text-muted);">
+          I hereby declare that the goods described above comply with the origin requirements specified for those goods in the trade agreement between India and the importing country.
+        </p>
+        <div class="pt-1.5 flex items-center justify-between text-[9.5px] font-mono border-t" style="border-color: var(--card-inner-border); color: var(--text-dim);">
+          <span>Digitally Signed with DGFT Class 3 DSC</span>
+          <span class="text-emerald-500 font-bold">✓ e-Verification QR Attached</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="px-5 py-3 border-t flex items-center justify-between flex-wrap gap-2"
+         style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+      <span class="text-[10px] font-mono" style="color: var(--text-dim);">Format strictly governed by DGFT Trade Notice No. 34/2020-21</span>
+      <button type="button" onclick="closeDgftCooModal()"
+              class="px-4 py-1.5 rounded-xl text-xs font-bold text-white transition-all active:scale-95 shadow-sm"
+              style="background: var(--accent);">
+        Close Certificate Preview
+      </button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
