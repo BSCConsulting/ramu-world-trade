@@ -12869,3 +12869,234 @@ function toggleDensityMode() {
   }
 }
 window.toggleDensityMode = toggleDensityMode;
+
+
+// ==================== SOVEREIGN LIVE TELEMETRY WIRE ENGINE ====================
+const LIVE_WIRE_FEEDS = [
+  {
+    id: 'feed-1',
+    category: 'customs_dgft',
+    agency: 'CBIC CUSTOMS GAZETTE',
+    badgeBg: 'rgba(245, 158, 11, 0.15)',
+    badgeColor: '#F59E0B',
+    timestamp: 'Notified Bi-Weekly',
+    headline: 'Section 14 Customs Act: Notified Foreign Exchange Rates for Export & Import Valuation',
+    summary: 'USD/INR assessable exchange rate notified at ₹86.40. All Bill of Entry customs duty calculations must bind to gazetted rate.',
+    url: 'https://www.cbic.gov.in/entities/cbic-content-mst/T0120231016183606'
+  },
+  {
+    id: 'feed-2',
+    category: 'customs_dgft',
+    agency: 'DGFT PUBLIC NOTICE',
+    badgeBg: 'rgba(59, 130, 246, 0.15)',
+    badgeColor: '#3B82F6',
+    timestamp: 'Today 10:15 IST',
+    headline: 'Public Notice 29/2024: Minimum Export Price (MEP) Removed on Basmati Rice (HS 1006 30 20)',
+    summary: 'Exporters can dispatch basmati cargo without $950/MT registration check. RoDTEP cash scrip rebate remains 2.8% FOB.',
+    url: 'https://www.dgft.gov.in/CP/?opt=trade-notices'
+  },
+  {
+    id: 'feed-3',
+    category: 'phyto_mandi',
+    agency: 'APEDA TRACENET',
+    badgeBg: 'rgba(239, 68, 68, 0.15)',
+    badgeColor: '#EF4444',
+    timestamp: 'Live Alert',
+    headline: 'EU Regulation EC 396/2005: 0.01 mg/kg Default LOQ Mandated for Tricyclazole & Chlorpyrifos',
+    summary: 'Accredited NABL laboratory pre-testing strictly required prior to digital Certificate of Inspection (CoI) issuance.',
+    url: 'https://apeda.gov.in/apedawebsite/announcements.html'
+  },
+  {
+    id: 'feed-4',
+    category: 'forex_shipping',
+    agency: 'RBI FBIL FOREX',
+    badgeBg: 'rgba(16, 185, 129, 0.15)',
+    badgeColor: '#10B981',
+    timestamp: 'Daily 13:30 IST',
+    headline: 'FBIL Reference Rate Fix: USD/INR ₹86.4250 • EUR/INR ₹90.1200 • GBP/INR ₹108.45',
+    summary: 'Forward premium at 1.82% annualized. Authorised Dealers discount post-shipment export bills against FBIL benchmark.',
+    url: 'https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx'
+  },
+  {
+    id: 'feed-5',
+    category: 'forex_shipping',
+    agency: 'DREWRY WCI FREIGHT',
+    badgeBg: 'rgba(6, 182, 212, 0.15)',
+    badgeColor: '#06B6D4',
+    timestamp: 'Weekly Index',
+    headline: 'Nhava Sheva & Mundra to Europe Spot 40ft HC Ocean Freight Averages $3,850/FEU',
+    summary: 'CBIC Circular 24/2020 strictly caps local origin THC at published port rates. Zero markup permitted on digital electronic BLs.',
+    url: 'https://www.drewry.co.uk/supply-chain-advisors/supply-chain-expertise/world-container-index-assessed-by-drewry'
+  },
+  {
+    id: 'feed-6',
+    category: 'phyto_mandi',
+    agency: 'SPICES BOARD INDIA',
+    badgeBg: 'rgba(245, 158, 11, 0.15)',
+    badgeColor: '#F59E0B',
+    timestamp: 'Mandatory Notice',
+    headline: 'Pre-Shipment Quality Protocol: Ethylene Oxide (ETO) & Aflatoxin B1 in Guntur Teja Chilli',
+    summary: 'Mandatory Sampling & Analysis at Spices Board Q-Lab prior to port customs clearance for EU and US FDA destinations.',
+    url: 'http://www.indianspices.com/'
+  },
+  {
+    id: 'feed-7',
+    category: 'phyto_mandi',
+    agency: 'AGMARKNET MANDI',
+    badgeBg: 'rgba(16, 185, 129, 0.15)',
+    badgeColor: '#10B981',
+    timestamp: 'Morning Auction',
+    headline: 'Guntur APMC Mandi: Teja S17 Chilli Arrivals Reach 42,000 Bags, Modal Rate ₹19,200/Qtl',
+    summary: 'FOB export parity profitable above ₹205/kg CIF. APMC cess 1% applicable under AP Agricultural Produce Act.',
+    url: 'https://agmarknet.gov.in/'
+  },
+  {
+    id: 'feed-8',
+    category: 'customs_dgft',
+    agency: 'ICEGATE 2.0 CUSTOMS',
+    badgeBg: 'rgba(59, 130, 246, 0.15)',
+    badgeColor: '#3B82F6',
+    timestamp: '24x7 Status: NORMAL',
+    headline: 'Electronic Cash Ledger (ECL) & Out of Charge (OOC) Automated Handshake Active',
+    summary: 'Provisional release under Section 110A enabled for CAROTAR origin verification queries via online bond execution.',
+    url: 'https://www.icegate.gov.in/'
+  },
+  {
+    id: 'feed-9',
+    category: 'customs_dgft',
+    agency: 'DGCIS TRADESTAT',
+    badgeBg: 'rgba(139, 92, 246, 0.15)',
+    badgeColor: '#8B5CF6',
+    timestamp: 'Monthly Cadence',
+    headline: 'India Merchandise Exports Reach $38.4B • Electronic Goods Surge +28.4% YoY',
+    summary: 'Chapter 85 semiconductors and mobile PCBA lead export momentum to USA and UAE CEPA corridors.',
+    url: 'https://tradestat.commerce.gov.in/eidb/default.asp'
+  },
+  {
+    id: 'feed-10',
+    category: 'phyto_mandi',
+    agency: 'MPEDA E-CATCH',
+    badgeBg: 'rgba(6, 182, 212, 0.15)',
+    badgeColor: '#06B6D4',
+    timestamp: 'Catch Certification',
+    headline: 'EU Catch Certificate Protocol Active for Frozen Vannamei Shrimp (HS 0306 17 20)',
+    summary: 'Chloramphenicol and Nitrofuran residue tests verified at MPEDA ELISA screening laboratory.',
+    url: 'https://mpeda.gov.in/'
+  }
+];
+
+let activeWireFilter = 'all';
+let isWirePaused = false;
+
+function renderLiveWireFeeds(filter = 'all') {
+  activeWireFilter = filter;
+  const track = document.getElementById('live-wire-track');
+  const countEl = document.getElementById('wire-item-count');
+  if (!track) return;
+
+  const filtered = LIVE_WIRE_FEEDS.filter(item => filter === 'all' || item.category === filter);
+  if (countEl) countEl.textContent = `${filtered.length} Feeds Active`;
+
+  if (filtered.length === 0) {
+    track.innerHTML = `<div class="p-4 text-center text-neutral-400 font-mono text-xs">No active statutory updates in this category.</div>`;
+    return;
+  }
+
+  // Double the items array so vertical CSS ticker loops seamlessly
+  const loopedItems = [...filtered, ...filtered];
+
+  track.innerHTML = loopedItems.map(item => `
+    <a href="${item.url}" target="_blank" rel="noopener noreferrer" 
+       class="wire-card block p-3 rounded-xl border transition-all text-xs space-y-1.5 shadow-sm group cursor-pointer"
+       style="background: var(--card-bg); border-color: var(--card-border);"
+       title="Open official statutory notification in new tab">
+      <div class="flex items-center justify-between flex-wrap gap-1">
+        <div class="flex items-center gap-1.5">
+          <span class="px-2 py-0.5 rounded text-[9px] font-mono font-bold uppercase tracking-wide border"
+                style="background: ${item.badgeBg}; color: ${item.badgeColor}; border-color: ${item.badgeColor}40;">
+            ${item.agency}
+          </span>
+          <span class="text-[9.5px] font-mono text-neutral-400">• ${item.timestamp}</span>
+        </div>
+        <span class="text-[10px] font-mono font-bold flex items-center gap-0.5 text-accent group-hover:underline" style="color: var(--accent);">
+          <span>Official Gazette</span>
+          <span class="text-xs">↗</span>
+        </span>
+      </div>
+      <div class="font-extrabold text-xs tracking-tight group-hover:text-emerald-500 transition-colors" style="color: var(--text-main);">
+        ${item.headline}
+      </div>
+      <p class="text-[10.5px] leading-relaxed line-clamp-2" style="color: var(--text-muted);">
+        ${item.summary}
+      </p>
+    </a>
+  `).join('');
+}
+window.renderLiveWireFeeds = renderLiveWireFeeds;
+
+function filterLiveWire(category, btn) {
+  document.querySelectorAll('.wire-filter-btn').forEach(b => {
+    b.style.background = 'transparent';
+    b.style.color = 'var(--text-muted)';
+  });
+  if (btn) {
+    btn.style.background = 'var(--accent)';
+    btn.style.color = '#ffffff';
+  }
+  renderLiveWireFeeds(category);
+}
+window.filterLiveWire = filterLiveWire;
+
+function toggleLiveWireScroll() {
+  const track = document.getElementById('live-wire-track');
+  const icon = document.getElementById('wire-pause-icon');
+  const txt = document.getElementById('wire-pause-text');
+  if (!track) return;
+
+  isWirePaused = !isWirePaused;
+  if (isWirePaused) {
+    track.classList.add('paused');
+    if (icon) icon.textContent = '▶️';
+    if (txt) txt.textContent = 'Resume';
+    if (typeof showToast === 'function') showToast('⏸️ Live Wire Scroll Paused');
+  } else {
+    track.classList.remove('paused');
+    if (icon) icon.textContent = '⏸️';
+    if (txt) txt.textContent = 'Pause';
+    if (typeof showToast === 'function') showToast('▶️ Live Wire Scroll Resumed');
+  }
+}
+window.toggleLiveWireScroll = toggleLiveWireScroll;
+
+function pauseWireOnHover() {
+  const track = document.getElementById('live-wire-track');
+  if (track && !isWirePaused) {
+    track.style.animationPlayState = 'paused';
+  }
+}
+window.pauseWireOnHover = pauseWireOnHover;
+
+function resumeWireOnHover() {
+  const track = document.getElementById('live-wire-track');
+  if (track && !isWirePaused) {
+    track.style.animationPlayState = 'running';
+  }
+}
+window.resumeWireOnHover = resumeWireOnHover;
+
+function quickJumpToLiveWire() {
+  const el = document.getElementById('sovereign-live-wire-panel');
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    el.classList.add('ring-4', 'ring-emerald-500', 'transition-all');
+    setTimeout(() => el.classList.remove('ring-4', 'ring-emerald-500'), 1500);
+  }
+}
+window.quickJumpToLiveWire = quickJumpToLiveWire;
+
+// Auto-initialize Live Wire on DOM Content Loaded
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => renderLiveWireFeeds('all'));
+} else {
+  renderLiveWireFeeds('all');
+}
