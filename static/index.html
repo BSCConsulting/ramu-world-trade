@@ -2015,78 +2015,531 @@
       </div>
 
                   <!-- ========================================================================= -->
-      <!-- EXIM PRACTICE LAB & SOVEREIGN DUTY TERMINAL LAUNCHPAD BANNER              -->
-      <!-- ========================================================================= -->
-      <div id="exim-practice-lab-launchpad" class="glass-panel rounded-3xl p-4 sm:p-5 shadow-2xl border relative overflow-hidden" style="background: var(--card-bg); border-color: var(--accent-border);">
-        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <div class="space-y-1.5 max-w-2xl">
-            <div class="flex items-center gap-2 flex-wrap">
-              <span class="w-8 h-8 rounded-xl flex items-center justify-center font-black text-base shadow-sm shrink-0" style="background: var(--accent); color: #ffffff;">
-                ⚡
-              </span>
-              <h2 class="text-sm sm:text-base font-black tracking-tight" style="color: var(--text-main);">
-                EXIM Practice Lab &amp; Sovereign Duty Terminal
-              </h2>
-              <span class="inline-flex items-center px-2 py-0.5 rounded-full border text-[9px] font-mono font-bold uppercase tracking-wide" style="background: var(--accent-light); color: var(--accent); border-color: var(--accent-border);">
-                DEDICATED FULL-SCREEN WORKSPACE
-              </span>
+      <!-- DUAL SOVEREIGN EXECUTION TERMINAL & EXIM PRACTICE LAB                     -->
+      <div id="dual-sovereign-workbench" class="glass-panel rounded-3xl p-4 sm:p-5 shadow-2xl space-y-4 border relative overflow-hidden" style="background: var(--card-bg); border-color: var(--accent-border);">
+        
+        <!-- MODULE A: Header Telemetry & Global ELI5 Translator -->
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b pb-3" style="border-color: var(--card-inner-border);">
+          <div class="flex items-center gap-2.5">
+            <div class="w-10 h-10 rounded-2xl flex items-center justify-center font-black text-xl shadow-md shrink-0" style="background: var(--accent); color: #ffffff;">
+              <span>⚡</span>
             </div>
-            <p class="text-[11px] sm:text-xs leading-relaxed" style="color: var(--text-muted);">
-              Interactive 3-step compliance simulator across 4 real-world cases (Guntur Chilli, Solar PV, EV CKD, and Gold Jewelry CEPA), live CBIC duty stacking calculator, and client-side 2-page PDF dossier generation.
-            </p>
-            
-            <!-- Quick Feature Tags -->
-            <div class="flex flex-wrap gap-1.5 pt-1 text-[10px]">
-              <span class="px-2 py-0.5 rounded-lg border font-semibold" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
-                ✓ Count 1–4 Case Simulations
-              </span>
-              <span class="px-2 py-0.5 rounded-lg border font-semibold" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
-                ✓ Natural Reverse HSN Radar
-              </span>
-              <span class="px-2 py-0.5 rounded-lg border font-semibold" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
-                ✓ CBIC Stacking (BCD + SWS + AIDC + IGST)
-              </span>
-              <span class="px-2 py-0.5 rounded-lg border font-semibold" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
-                ✓ 2-Page Executive PDF Export
-              </span>
+            <div>
+              <div class="flex items-center gap-2 flex-wrap">
+                <h2 class="text-sm sm:text-base font-black tracking-tight" style="color: var(--text-main);">
+                  Dual Sovereign Execution Terminal &amp; EXIM Practice Lab
+                </h2>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full border text-[9px] font-mono font-bold uppercase tracking-wide" style="background: var(--accent-light); color: var(--accent); border-color: var(--accent-border);">
+                  LIVE BENCH • v2.4
+                </span>
+              </div>
+              <p class="text-[10px] sm:text-[11px] font-medium" style="color: var(--text-muted);">
+                Sovereign Reverse HSN Radar &bull; Dynamic Duty Ledger &bull; Weekly Practice Lab
+              </p>
             </div>
           </div>
 
-          <!-- Launch Button & Deep-Dive Link -->
-          <div class="flex flex-col sm:flex-row md:flex-col items-stretch sm:items-center md:items-end gap-2 w-full md:w-auto shrink-0">
+          <!-- Mode Controls: Sovereign Pro vs Learner Plain-English (ELI5) -->
+          <div class="flex items-center gap-2">
             <a 
               href="/practice-lab" 
-              class="px-5 py-3 rounded-2xl text-xs sm:text-sm font-extrabold text-white text-center shadow-lg active:scale-95 transition-all flex items-center justify-center gap-2"
-              style="background: var(--accent);"
+              target="_blank"
+              title="Open EXIM Practice Lab in Dedicated Full-Screen Page" 
+              class="px-2.5 py-1.5 rounded-xl border text-xs font-bold transition-all flex items-center gap-1 active:scale-95 shadow-sm hover:border-emerald-500" 
+              style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--accent);"
             >
-              <span>🚀 Launch Practice Lab</span>
-              <span>&rarr;</span>
+              <span>↗️</span>
+              <span class="text-[11px] hidden xs:inline">Dedicated Page</span>
             </a>
-            <span class="text-[10px] text-center md:text-right font-mono" style="color: var(--text-dim);">
-              Direct Route: /practice-lab
+            <button 
+              type="button" 
+              onclick="toggleGlobalEli5Mode()" 
+              id="btn-eli5-toggle" 
+              class="px-3 py-1.5 rounded-xl border text-xs font-bold transition-all flex items-center gap-1.5 active:scale-95 shadow-sm" 
+              style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);"
+            >
+              <span id="eli5-icon">✨</span>
+              <span id="eli5-label">Plain-English (ELI5 Off)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Live Port Dwell & Gate Telemetry Ticker -->
+        <div class="p-2.5 rounded-2xl border flex items-center gap-2 overflow-x-auto scrollbar-none text-[11px] font-mono whitespace-nowrap" style="background: #121816; color: #ffffff; border-color: rgba(45, 106, 79, 0.35);">
+          <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold flex items-center gap-1">
+            <span>⚓</span>
+            <span>GATE TELEMETRY:</span>
+          </span>
+          <div class="flex items-center gap-3">
+            <span class="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">
+              <strong class="text-white">JNPT (Nhava Sheva):</strong> Dwell 36.4h • <span class="text-emerald-400 font-bold">Normal Gate Clearance</span>
+            </span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">
+              <strong class="text-white">Mundra Port (Adani):</strong> Dwell 28.1h • <span class="text-emerald-400 font-bold">Fast Track Flow</span>
+            </span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">
+              <strong class="text-white">Chennai Seaport:</strong> Dwell 49.2h • <span class="text-rose-400 font-bold">⚠️ Congestion Alert (+12h Risk)</span>
+            </span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">
+              <strong class="text-white">Vizag Port:</strong> Dwell 33.0h • <span class="text-blue-400 font-bold">Normal Inflow</span>
             </span>
           </div>
         </div>
 
-        <!-- Direct Scenario Fast-Launch Strip -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-3 border-t mt-3" style="border-color: var(--card-inner-border);">
-          <a href="/practice-lab" class="p-2 rounded-xl border text-left transition-all hover:border-emerald-500 active:scale-95 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-            <div class="text-[9px] font-mono font-bold text-emerald-600">COUNT 1</div>
-            <div class="font-bold truncate text-[11px]" style="color: var(--text-main);">Guntur Chilli &bull; EU MRL</div>
-          </a>
-          <a href="/practice-lab" class="p-2 rounded-xl border text-left transition-all hover:border-emerald-500 active:scale-95 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-            <div class="text-[9px] font-mono font-bold text-blue-600">COUNT 2</div>
-            <div class="font-bold truncate text-[11px]" style="color: var(--text-main);">Solar PV &bull; ALMM Barrier</div>
-          </a>
-          <a href="/practice-lab" class="p-2 rounded-xl border text-left transition-all hover:border-emerald-500 active:scale-95 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-            <div class="text-[9px] font-mono font-bold text-amber-600">COUNT 3</div>
-            <div class="font-bold truncate text-[11px]" style="color: var(--text-main);">EV Scooter &bull; Rule 2(a)</div>
-          </a>
-          <a href="/practice-lab" class="p-2 rounded-xl border text-left transition-all hover:border-emerald-500 active:scale-95 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-            <div class="text-[9px] font-mono font-bold text-purple-600">COUNT 4</div>
-            <div class="font-bold truncate text-[11px]" style="color: var(--text-main);">Gold Jewelry &bull; CEPA TRQ</div>
-          </a>
+        <!-- Workbench Sub-Tabs Navigation -->
+        <div class="flex items-center gap-2 border-b pb-2" style="border-color: var(--card-inner-border);">
+          <button 
+            type="button" 
+            onclick="switchWorkbenchTab('radar')" 
+            id="wb-tab-radar" 
+            class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 active:scale-95 shadow-sm" 
+            style="background: var(--accent); color: #ffffff;"
+          >
+            <span>🔍</span>
+            <span class="eli5-term" data-pro="Reverse HSN &amp; Tariff Radar" data-eli5="Smart Commodity &amp; Import Tax Radar">Reverse HSN &amp; Tariff Radar</span>
+          </button>
+          <button 
+            type="button" 
+            onclick="switchWorkbenchTab('practice')" 
+            id="wb-tab-practice" 
+            class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 active:scale-95 shadow-sm" 
+            style="background: var(--card-inner-bg); color: var(--text-main); border: 1px solid var(--card-inner-border);"
+          >
+            <span>📚</span>
+            <span class="eli5-term" data-pro="Weekly EXIM Practice Lab" data-eli5="Weekly Trade Practice Simulator">Weekly EXIM Practice Lab</span>
+          </button>
         </div>
+
+        <!-- ================================================================= -->
+        <!-- MODULE B: REVERSE HSN & IMPORT TARIFF RADAR PANE                  -->
+        <!-- ================================================================= -->
+        <div id="wb-pane-radar" class="space-y-4">
+          
+          <!-- Search & Chip Select Section -->
+          <div class="p-3.5 rounded-2xl border space-y-2.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="flex flex-wrap items-center justify-between gap-1">
+              <div>
+                <h3 class="text-xs font-black uppercase text-emerald-600 flex items-center gap-1.5">
+                  <span>🎯</span>
+                  <span class="eli5-term" data-pro="Natural-Language Reverse HSN &amp; Sourcing Intelligence" data-eli5="Search Commodity in Everyday English">Natural-Language Reverse HSN &amp; Sourcing Intelligence</span>
+                </h3>
+                <p class="text-[10px]" style="color: var(--text-muted);">
+                  Type any commodity name or click sample chips for instant 8-digit ITC-HS tariff and regulatory mapping.
+                </p>
+              </div>
+              <span class="text-[9px] font-mono font-bold px-2 py-0.5 rounded-full" style="background: var(--accent-light); color: var(--accent);">
+                CBIC Tariff 2024-25
+              </span>
+            </div>
+
+            <!-- Plain-English Search Input -->
+            <div class="relative">
+              <input 
+                type="text" 
+                id="wb-hsn-search" 
+                oninput="onSearchCommodity(this.value)" 
+                placeholder="Search commodity in plain English (e.g. Chilli, EV Scooter, Solar Inverter, Shrimp, Gold)..." 
+                class="w-full pl-9 pr-3 py-2 rounded-xl border text-xs font-semibold focus:outline-none" 
+                style="background: var(--input-bg); border-color: var(--input-border); color: var(--text-main);"
+              />
+              <span class="absolute left-3 top-2 text-xs opacity-50">🔍</span>
+            </div>
+
+            <!-- Quick-Access Commodity Chips -->
+            <div class="flex flex-wrap gap-1.5 pt-1">
+              <button type="button" onclick="selectWorkbenchCommodity('09042110')" id="wb-chip-09042110" class="wb-comm-chip px-2.5 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">
+                🌶️ Guntur Dry Chilli (09042110)
+              </button>
+              <button type="button" onclick="selectWorkbenchCommodity('87116010')" id="wb-chip-87116010" class="wb-comm-chip px-2.5 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                ⚡ EV Scooter Parts (87116010)
+              </button>
+              <button type="button" onclick="selectWorkbenchCommodity('85414300')" id="wb-chip-85414300" class="wb-comm-chip px-2.5 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                ☀️ Solar PV Cells (85414300)
+              </button>
+              <button type="button" onclick="selectWorkbenchCommodity('03061720')" id="wb-chip-03061720" class="wb-comm-chip px-2.5 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                🦐 Frozen Vannamei Shrimp (03061720)
+              </button>
+              <button type="button" onclick="selectWorkbenchCommodity('71131910')" id="wb-chip-71131910" class="wb-comm-chip px-2.5 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                💍 Gold Jewelry (71131910)
+              </button>
+            </div>
+          </div>
+
+          <!-- Live Statutory Duty Ledger Deck -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 text-xs">
+            
+            <!-- Valuation & FTA Benefit Controls -->
+            <div class="lg:col-span-7 p-3.5 rounded-2xl border space-y-3" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              <div class="flex items-center justify-between border-b pb-2" style="border-color: var(--card-inner-border);">
+                <div>
+                  <h4 id="wb-comm-title" class="font-bold text-xs" style="color: var(--text-main);">
+                    Guntur S4 / Teja Sun-Dried Red Chilli (HS 09042110)
+                  </h4>
+                  <p id="wb-comm-subtitle" class="text-[10px]" style="color: var(--text-muted);">
+                    Chapter 09 (Coffee, Tea, Mate and Spices) &bull; Spices Board of India
+                  </p>
+                </div>
+                <span id="wb-comm-council-badge" class="text-[9px] font-mono font-bold px-2 py-0.5 rounded-full" style="background: var(--accent-light); color: var(--accent);">
+                  Spices Board
+                </span>
+              </div>
+
+              <!-- Value & Exchange Rate Inputs -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <div>
+                  <label class="block text-[9px] font-bold uppercase mb-0.5" style="color: var(--text-dim);">
+                    <span class="eli5-term" data-pro="CIF Assessable Value ($ USD)" data-eli5="Landed Value Abroad ($ USD)">CIF Assessable Value ($ USD)</span>
+                  </label>
+                  <input 
+                    type="number" 
+                    id="wb-cif-usd" 
+                    value="3200" 
+                    oninput="recalculateTariffLedger()" 
+                    class="w-full p-2 rounded-xl border text-xs font-mono font-bold" 
+                    style="background: var(--input-bg); border-color: var(--input-border); color: var(--text-main);"
+                  />
+                  <span id="wb-cif-inr-equiv" class="text-[9px] font-mono block mt-0.5" style="color: var(--text-muted);">
+                    Equivalent: ₹2,76,480 INR
+                  </span>
+                </div>
+
+                <div>
+                  <label class="block text-[9px] font-bold uppercase mb-0.5" style="color: var(--text-dim);">
+                    CBIC Customs Exchange Rate (₹/USD)
+                  </label>
+                  <input 
+                    type="number" 
+                    id="wb-cbic-rate" 
+                    value="86.40" 
+                    step="0.05" 
+                    oninput="recalculateTariffLedger()" 
+                    class="w-full p-2 rounded-xl border text-xs font-mono font-bold" 
+                    style="background: var(--input-bg); border-color: var(--input-border); color: var(--text-main);"
+                  />
+                  <span class="text-[9px] font-mono text-emerald-600 block mt-0.5 font-semibold">
+                    Notified Gazette Section 14 Customs Act
+                  </span>
+                </div>
+              </div>
+
+              <!-- FTA Benefit Module -->
+              <div class="space-y-1.5 pt-1 border-t" style="border-color: var(--card-inner-border);">
+                <label class="block text-[9px] font-bold uppercase" style="color: var(--text-dim);">
+                  <span class="eli5-term" data-pro="Free Trade Agreement (FTA) Rules of Origin" data-eli5="Special Trade Deal Tariff Mode">Free Trade Agreement (FTA) Rules of Origin</span>
+                </label>
+                <div class="grid grid-cols-3 gap-2">
+                  <button type="button" onclick="setWorkbenchFtaMode('MFN')" id="wb-fta-btn-MFN" class="wb-fta-btn p-2 rounded-xl border text-[11px] font-bold text-center active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                    MFN Standard
+                  </button>
+                  <button type="button" onclick="setWorkbenchFtaMode('CEPA')" id="wb-fta-btn-CEPA" class="wb-fta-btn p-2 rounded-xl border text-[11px] font-bold text-center active:scale-95 transition-all" style="background: var(--accent); color: #ffffff; border-color: var(--accent);">
+                    India-UAE CEPA (0%)
+                  </button>
+                  <button type="button" onclick="setWorkbenchFtaMode('AIFTA')" id="wb-fta-btn-AIFTA" class="wb-fta-btn p-2 rounded-xl border text-[11px] font-bold text-center active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                    India-ASEAN AIFTA
+                  </button>
+                </div>
+              </div>
+
+              <!-- Domestic Value Addition Slider (For CEPA) -->
+              <div id="wb-cepa-va-box" class="p-2.5 rounded-xl border space-y-1.5" style="background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.25);">
+                <div class="flex justify-between items-center text-[11px]">
+                  <span class="font-bold text-emerald-700">Domestic Value Addition (VA Slider):</span>
+                  <span id="wb-va-slider-val" class="font-mono font-extrabold text-emerald-800">40% (Min 35%)</span>
+                </div>
+                <input 
+                  type="range" 
+                  id="wb-va-slider" 
+                  min="0" 
+                  max="100" 
+                  step="1" 
+                  value="40" 
+                  oninput="onVaSliderChange(this.value)" 
+                  class="w-full accent-emerald-600"
+                />
+                <p id="wb-va-status-text" class="text-[10px] font-semibold text-emerald-700 leading-tight">
+                  ✓ QUALIFIES FOR 0% PREFERENTIAL BCD: Met 35% Value Addition threshold under India-UAE CEPA.
+                </p>
+              </div>
+
+              <!-- Verified Ground Truth Deep Links -->
+              <div class="flex flex-wrap gap-2 pt-1 text-[11px]">
+                <a href="https://tradestat.commerce.gov.in/eidb/commodity_wise_import" target="_blank" rel="noreferrer" class="px-2 py-0.5 rounded-lg border text-blue-600 flex items-center gap-1 hover:underline" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+                  <span>🔗</span>
+                  <span>DGCI&amp;S TRADESTAT</span>
+                </a>
+                <a href="https://www.icegate.gov.in/cdc" target="_blank" rel="noreferrer" class="px-2 py-0.5 rounded-lg border text-emerald-600 flex items-center gap-1 hover:underline" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+                  <span>🔗</span>
+                  <span>ICEGATE Tariff Engine</span>
+                </a>
+                <a href="https://www.ldb.co.in/" target="_blank" rel="noreferrer" class="px-2 py-0.5 rounded-lg border text-purple-600 flex items-center gap-1 hover:underline" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+                  <span>🔗</span>
+                  <span>Logistics Data Bank</span>
+                </a>
+                <a href="https://www.indiatradeportal.in/" target="_blank" rel="noreferrer" class="px-2 py-0.5 rounded-lg border text-amber-600 flex items-center gap-1 hover:underline" style="background: var(--card-bg); border-color: var(--card-inner-border);">
+                  <span>🔗</span>
+                  <span>Indian Trade Portal</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Dynamic Duty Stacking Waterfall Card -->
+            <div class="lg:col-span-5 p-3.5 rounded-2xl border space-y-3 flex flex-col justify-between" style="background: #121816; color: #ffffff; border-color: rgba(45, 106, 79, 0.35);">
+              <div>
+                <div class="flex items-center justify-between border-b pb-2" style="border-color: rgba(255, 255, 255, 0.1);">
+                  <span class="text-xs font-black uppercase text-emerald-400">
+                    <span class="eli5-term" data-pro="Statutory Duty Stacking Ledger" data-eli5="Import Tax Breakdown Ledger">Statutory Duty Stacking Ledger</span>
+                  </span>
+                  <span id="wb-effective-rate-badge" class="text-[9px] font-mono px-2 py-0.5 rounded bg-white/10 text-white font-bold">
+                    Effective: 5.0%
+                  </span>
+                </div>
+
+                <div class="space-y-1.5 pt-2 text-[11px]">
+                  <div class="flex justify-between">
+                    <span class="text-neutral-400">
+                      <span class="eli5-term" data-pro="1. Basic Customs Duty (BCD):" data-eli5="1. Basic Import Tax (BCD):">1. Basic Customs Duty (BCD):</span>
+                    </span>
+                    <span id="wb-out-bcd" class="font-mono font-bold text-white">₹0 (0% CEPA)</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-neutral-400">
+                      <span class="eli5-term" data-pro="2. Social Welfare Surcharge (SWS):" data-eli5="2. 10% Surcharge on Import Tax:">2. Social Welfare Surcharge (SWS):</span>
+                    </span>
+                    <span id="wb-out-sws" class="font-mono font-bold text-white">₹0 (10% of BCD)</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-neutral-400">
+                      <span class="eli5-term" data-pro="3. Agriculture Infra Cess (AIDC):" data-eli5="3. Farm Infrastructure Cess:">3. Agriculture Infra Cess (AIDC):</span>
+                    </span>
+                    <span id="wb-out-aidc" class="font-mono font-bold text-white">₹0 (0%)</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-neutral-400">
+                      <span class="eli5-term" data-pro="4. Integrated GST (IGST):" data-eli5="4. Integrated GST on Landed Cost:">4. Integrated GST (IGST):</span>
+                    </span>
+                    <span id="wb-out-igst" class="font-mono font-bold text-white">₹13,824 (5%)</span>
+                  </div>
+                  <div class="border-t pt-1.5 flex justify-between font-black text-xs" style="border-color: rgba(255, 255, 255, 0.15);">
+                    <span class="text-emerald-400">Total Landed Duty Payable:</span>
+                    <span id="wb-out-totalduty" class="font-mono text-emerald-400 text-sm font-black">₹13,824</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Landed Consignment Cost Total -->
+              <div class="p-2.5 rounded-xl bg-white/5 border border-white/10 space-y-0.5">
+                <span class="text-[8px] uppercase font-bold text-neutral-400 block tracking-wider">
+                  Total Landed Consignment Outflow (CIF + All Taxes):
+                </span>
+                <span id="wb-out-landedtotal" class="text-lg font-mono font-black text-white block">
+                  ₹2,90,304
+                </span>
+                <p class="text-[9px] text-neutral-400 leading-tight">
+                  Must be deposited via ICEGATE ICEPAY gateway prior to customs Out of Charge (OOC) order.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- MODULE C: WEEKLY EXIM PRACTICE LAB PANE                          -->
+        <!-- ================================================================= -->
+        <div id="wb-pane-practice" class="space-y-4 hidden">
+          
+          <!-- Practice Session Selector & PDF Export Action -->
+          <div class="p-3.5 rounded-2xl border space-y-2.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b pb-2" style="border-color: var(--card-inner-border);">
+              <div>
+                <h3 class="text-xs font-black uppercase text-emerald-600 flex items-center gap-1.5">
+                  <span>📚</span>
+                  <span>Weekly EXIM Practice Lab &bull; Structured Ground Scenarios</span>
+                </h3>
+                <p class="text-[10px]" style="color: var(--text-muted);">
+                  Select a practice case count, configure the 3-step statutory wizard, and export an executive 2-page PDF audit report.
+                </p>
+              </div>
+
+              <!-- 1-Click Client-Side PDF Export Button -->
+              <button 
+                type="button" 
+                onclick="exportPracticeReportPdf()" 
+                id="btn-export-practice-pdf" 
+                class="px-3.5 py-1.5 rounded-xl text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-500 active:scale-95 transition-all flex items-center gap-1.5 shadow-md"
+              >
+                <span>📄</span>
+                <span id="btn-pdf-text">Export Official Practice Report (PDF)</span>
+              </button>
+            </div>
+
+            <!-- Count Selector Strip (Counts 1 to 4) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+              <button type="button" onclick="selectPracticeCount(1)" id="wb-count-btn-1" class="wb-count-btn p-2.5 rounded-xl border text-left transition-all active:scale-95" style="background: var(--accent); color: #ffffff; border-color: var(--accent);">
+                <div class="flex justify-between items-center mb-0.5">
+                  <span class="text-[9px] font-mono font-bold opacity-80">COUNT 1</span>
+                  <span class="text-[9px] font-mono font-black px-1.5 py-0.2 rounded bg-black/20 text-white">09042110</span>
+                </div>
+                <div class="text-xs font-black truncate">1. Agri Consignment</div>
+                <div class="text-[9px] opacity-80 truncate">Guntur Chilli &bull; EU MRL</div>
+              </button>
+
+              <button type="button" onclick="selectPracticeCount(2)" id="wb-count-btn-2" class="wb-count-btn p-2.5 rounded-xl border text-left transition-all active:scale-95" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                <div class="flex justify-between items-center mb-0.5">
+                  <span class="text-[9px] font-mono font-bold text-neutral-400">COUNT 2</span>
+                  <span class="text-[9px] font-mono font-black px-1.5 py-0.2 rounded bg-slate-200 text-slate-700">85414300</span>
+                </div>
+                <div class="text-xs font-black truncate">2. CleanTech Sourcing</div>
+                <div class="text-[9px] text-neutral-400 truncate">Solar PV Cells &bull; ALMM</div>
+              </button>
+
+              <button type="button" onclick="selectPracticeCount(3)" id="wb-count-btn-3" class="wb-count-btn p-2.5 rounded-xl border text-left transition-all active:scale-95" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                <div class="flex justify-between items-center mb-0.5">
+                  <span class="text-[9px] font-mono font-bold text-neutral-400">COUNT 3</span>
+                  <span class="text-[9px] font-mono font-black px-1.5 py-0.2 rounded bg-slate-200 text-slate-700">87116010</span>
+                </div>
+                <div class="text-xs font-black truncate">3. Micro-Assembly</div>
+                <div class="text-[9px] text-neutral-400 truncate">EV Scooter &bull; Rule 2(a)</div>
+              </button>
+
+              <button type="button" onclick="selectPracticeCount(4)" id="wb-count-btn-4" class="wb-count-btn p-2.5 rounded-xl border text-left transition-all active:scale-95" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                <div class="flex justify-between items-center mb-0.5">
+                  <span class="text-[9px] font-mono font-bold text-neutral-400">COUNT 4</span>
+                  <span class="text-[9px] font-mono font-black px-1.5 py-0.2 rounded bg-slate-200 text-slate-700">71131910</span>
+                </div>
+                <div class="text-xs font-black truncate">4. Bilateral Corridor</div>
+                <div class="text-[9px] text-neutral-400 truncate">Gold Jewelry &bull; CEPA TRQ</div>
+              </button>
+            </div>
+          </div>
+
+          <!-- 3-Step Guided Execution Wizard & Scorecard -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 text-xs">
+            
+            <!-- Left 7 Columns: 3-Step Wizard Inputs -->
+            <div class="lg:col-span-7 p-3.5 rounded-2xl border space-y-3" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+              
+              <!-- Step 1: Packaging & Legal Form -->
+              <div class="space-y-1.5">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-600 flex items-center justify-center text-[9px] font-black">1</span>
+                  <span class="text-xs font-black uppercase tracking-wider" style="color: var(--text-main);">
+                    Step 1: Packaging &amp; Legal Form (Notification 31/2022-CT)
+                  </span>
+                </div>
+                <div id="wb-step1-options" class="space-y-1.5">
+                  <!-- Injected dynamically via renderPracticeSteps -->
+                </div>
+              </div>
+
+              <!-- Step 2: Destination Port & Jurisdiction -->
+              <div class="space-y-1.5 pt-2 border-t" style="border-color: var(--card-inner-border);">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-600 flex items-center justify-center text-[9px] font-black">2</span>
+                  <span class="text-xs font-black uppercase tracking-wider" style="color: var(--text-main);">
+                    Step 2: Destination Port &amp; Regulatory Jurisdiction
+                  </span>
+                </div>
+                <div id="wb-step2-options" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <!-- Injected dynamically via renderPracticeSteps -->
+                </div>
+              </div>
+
+              <!-- Step 3: Critical Lab Test / Compliance Metric -->
+              <div class="space-y-1.5 pt-2 border-t" style="border-color: var(--card-inner-border);">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-600 flex items-center justify-center text-[9px] font-black">3</span>
+                    <span id="wb-step3-title" class="text-xs font-black uppercase tracking-wider" style="color: var(--text-main);">
+                      Triazophos / Chlorpyrifos Chemical Residue
+                    </span>
+                  </div>
+                  <span id="wb-step3-reading-label" class="text-xs font-mono font-black text-emerald-600">
+                    0.007 ppm
+                  </span>
+                </div>
+                <p id="wb-step3-desc" class="text-[10px]" style="color: var(--text-muted);">
+                  Gas Chromatography Mass Spectrometry (GC-MS) laboratory reading (Target Ceiling: 0.010 ppm)
+                </p>
+                <input 
+                  type="range" 
+                  id="wb-step3-slider" 
+                  min="0.002" 
+                  max="0.025" 
+                  step="0.001" 
+                  value="0.007" 
+                  oninput="onPracticeStep3Change(this.value)" 
+                  class="w-full accent-emerald-600"
+                />
+                <div class="flex justify-between text-[9px] font-mono" style="color: var(--text-muted);">
+                  <span id="wb-step3-safe-text">Safe Lab Reading: 0.007 ppm</span>
+                  <span id="wb-step3-risk-text" class="text-rose-500">Hazard Reading: 0.018 ppm</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right 5 Columns: Real-Time Risk & Financial Scorecard -->
+            <div class="lg:col-span-5 p-3.5 rounded-2xl border space-y-3 flex flex-col justify-between" style="background: #121816; color: #ffffff; border-color: rgba(45, 106, 79, 0.35);">
+              <div class="space-y-2.5">
+                <div class="flex items-center justify-between border-b pb-2" style="border-color: rgba(255, 255, 255, 0.1);">
+                  <span class="text-xs font-black uppercase text-emerald-400">
+                    Real-Time Risk &amp; Financial Scorecard
+                  </span>
+                  <span id="wb-practice-count-badge" class="text-[9px] font-mono px-2 py-0.5 rounded bg-white/10 text-white font-bold">
+                    COUNT 1 SIM
+                  </span>
+                </div>
+
+                <!-- Dynamic Clearance Status Banner -->
+                <div id="wb-practice-status-box" class="p-2.5 rounded-xl text-[11px] leading-tight space-y-1" style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); color: #10B981;">
+                  <div id="wb-practice-status-title" class="font-extrabold text-xs flex items-center gap-1">
+                    <span>✓</span>
+                    <span>STATUTORY CLEARANCE GRANTED</span>
+                  </div>
+                  <p id="wb-practice-status-desc" class="opacity-90">
+                    Shipment cleared without penalty risk. LEO criteria satisfied and phytosanitary certificate validated.
+                  </p>
+                </div>
+
+                <!-- Financial Margin Ledger -->
+                <div class="space-y-1.5 text-[11px]">
+                  <div class="flex justify-between text-neutral-300">
+                    <span>Declared Gross FOB Realization:</span>
+                    <span id="wb-prac-out-fob" class="font-mono font-bold text-white">₹44,80,000</span>
+                  </div>
+                  <div class="flex justify-between text-neutral-400">
+                    <span>APMC Mandi Cess Outflow (1.5%):</span>
+                    <span id="wb-prac-out-cess" class="font-mono text-amber-400 font-bold">- ₹67,200</span>
+                  </div>
+                  <div class="flex justify-between text-neutral-400">
+                    <span>Freight &amp; Handling Cost:</span>
+                    <span id="wb-prac-out-freight" class="font-mono text-neutral-300 font-bold">- ₹3,20,000</span>
+                  </div>
+                  <div class="flex justify-between text-neutral-400">
+                    <span>RoDTEP Scroll Cash Inflow (2.5%):</span>
+                    <span id="wb-prac-out-rodtep" class="font-mono text-emerald-400 font-bold">+ ₹1,12,000</span>
+                  </div>
+                  <div class="border-t pt-1.5 flex justify-between font-black text-xs" style="border-color: rgba(255, 255, 255, 0.15);">
+                    <span class="text-white">Estimated Net Consignment Profit:</span>
+                    <span id="wb-prac-out-profit" class="font-mono text-emerald-400 text-sm font-black">₹5,82,400</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action: Download PDF -->
+              <button 
+                type="button" 
+                onclick="exportPracticeReportPdf()" 
+                class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs active:scale-95 transition-all flex items-center justify-center gap-1.5 shadow-md"
+              >
+                <span>📄</span>
+                <span>Download 2-Page Official PDF Dossier</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
       </div>
 
       <!-- Collapsible Container for Legacy Statutory Feeds -->
