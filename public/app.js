@@ -9549,3 +9549,723 @@ function onSelectHsnSteering(sectorKey) {
 }
 
 window.onSelectHsnSteering = onSelectHsnSteering;
+
+
+
+// ============================================================================
+// STATUTORY TRADE CORRIDOR (FLOW 360° EXECUTION ENGINE) RUNTIME
+// Mandi Form 9 • Rule 138 CGST • Port FOB LEO • UN Comtrade Forensic Mirror
+// ============================================================================
+
+const CORRIDOR_STORAGE_KEY = 'wot_corridor_engine_state_v1';
+
+const defaultCorridorState = {
+  activeStage: 1,
+  stage1: {
+    basePriceQuintal: 7500,
+    cessRatePct: 1.5,
+    shrinkagePct: 5.0,
+    isBranded: false
+  },
+  stage2: {
+    distanceKm: 78,
+    elapsedHours: 4,
+    hasTransshipmentMismatch: false,
+    invoiceTaxAmount: 37500
+  },
+  stage3: {
+    sbType: 'RODTEP',
+    portNode: 'JNPT',
+    invoiceFobUsd: 85000,
+    cfsDwellHours: 24,
+    leoPhyto: true,
+    leoBl: true,
+    leoEgm: true
+  },
+  stage4: {
+    indiaFobUsdPerMt: 1120,
+    freightInsuranceUsdPerMt: 95,
+    destCifUsdPerMt: 1215
+  }
+};
+
+let corridorState = (() => {
+  try {
+    const saved = localStorage.getItem(CORRIDOR_STORAGE_KEY);
+    if (saved) return { ...defaultCorridorState, ...JSON.parse(saved) };
+  } catch (e) {
+    console.warn('Could not read corridor engine state from localStorage:', e);
+  }
+  return JSON.parse(JSON.stringify(defaultCorridorState));
+})();
+
+function saveCorridorState() {
+  try {
+    localStorage.setItem(CORRIDOR_STORAGE_KEY, JSON.stringify(corridorState));
+  } catch (e) {
+    console.warn('Could not persist corridor state:', e);
+  }
+}
+
+function switchCorridorStage(stageNum) {
+  corridorState.activeStage = stageNum;
+  saveCorridorState();
+
+  for (let i = 1; i <= 4; i++) {
+    const deck = document.getElementById(`corridor-deck-${i}`);
+    const btn = document.getElementById(`corridor-step-btn-${i}`);
+    if (deck) {
+      if (i === stageNum) {
+        deck.classList.remove('hidden');
+      } else {
+        deck.classList.add('hidden');
+      }
+    }
+    if (btn) {
+      if (i === stageNum) {
+        btn.style.background = 'var(--accent)';
+        btn.style.color = '#ffffff';
+        btn.style.borderColor = 'var(--accent)';
+      } else {
+        btn.style.background = 'var(--card-inner-bg)';
+        btn.style.color = 'var(--text-main)';
+        btn.style.borderColor = 'var(--card-inner-border)';
+      }
+    }
+  }
+}
+
+function recalculateCorridorStage1() {
+  const priceInput = document.getElementById('corr-mandi-price');
+  const cessInput = document.getElementById('corr-mandi-cess');
+  const shrinkInput = document.getElementById('corr-mandi-shrink');
+  const brandInput = document.getElementById('corr-brand-status');
+
+  if (!priceInput || !cessInput || !shrinkInput || !brandInput) return;
+
+  const priceQtl = parseFloat(priceInput.value) || 0;
+  const cessRate = parseFloat(cessInput.value) || 0;
+  const shrinkPct = parseFloat(shrinkInput.value) || 0;
+  const isBranded = brandInput.checked;
+
+  corridorState.stage1 = {
+    basePriceQuintal: priceQtl,
+    cessRatePct: cessRate,
+    shrinkagePct: shrinkPct,
+    isBranded: isBranded
+  };
+  saveCorridorState();
+
+  // Labels
+  const cessLabel = document.getElementById('corr-cess-label');
+  const cessVal = document.getElementById('corr-cess-val');
+  const shrinkLabel = document.getElementById('corr-shrink-label');
+  const shrinkVal = document.getElementById('corr-shrink-val');
+  const gstBadge = document.getElementById('corridor-gst-badge');
+
+  if (cessLabel) cessLabel.textContent = cessRate.toFixed(1);
+  const cessPerQtl = priceQtl * (cessRate / 100);
+  if (cessVal) cessVal.textContent = `₹${cessPerQtl.toFixed(1)}/Qtl`;
+
+  if (shrinkLabel) shrinkLabel.textContent = shrinkPct.toFixed(1);
+  const netKgYield = 100 - (100 * (shrinkPct / 100));
+  if (shrinkVal) shrinkVal.textContent = `${netKgYield.toFixed(1)} kg Net Yield`;
+
+  // GST Notification 31/2022-CT: Pre-packaged / branded = 5% GST; Loose = 0%
+  const gstRate = isBranded ? 0.05 : 0;
+  if (gstBadge) {
+    if (isBranded) {
+      gstBadge.textContent = 'Taxable: 5% Pre-packaged GST (Notif 31/2022)';
+      gstBadge.className = 'text-[9px] font-mono font-bold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-500';
+    } else {
+      gstBadge.textContent = 'Taxable: 0% Nil Exempt (Bulk Mandi)';
+      gstBadge.className = 'text-[9px] font-mono font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600';
+    }
+  }
+
+  // Waterfall calculations
+  const totalCostBeforeYield = (priceQtl + cessPerQtl) * (1 + gstRate);
+  const effectiveCostPerKg = totalCostBeforeYield / netKgYield;
+  const effectiveCostPerQtl = effectiveCostPerKg * 100;
+
+  const outProcure = document.getElementById('corr-out-procure');
+  const outCess = document.getElementById('corr-out-cess');
+  const outNetKg = document.getElementById('corr-out-netkg');
+  const outQtl = document.getElementById('corr-out-qtl');
+  const outKg = document.getElementById('corr-out-kg');
+  const mandiAlert = document.getElementById('corr-mandi-alert');
+  const pillBadge1 = document.getElementById('corridor-pill-badge-1');
+
+  if (outProcure) outProcure.textContent = `₹${priceQtl.toLocaleString('en-IN')}/Qtl`;
+  if (outCess) outCess.textContent = `+₹${cessPerQtl.toFixed(2)}`;
+  if (outNetKg) outNetKg.textContent = `${netKgYield.toFixed(2)} kg Net`;
+  if (outQtl) outQtl.textContent = `₹${effectiveCostPerQtl.toLocaleString('en-IN', { maximumFractionDigits: 2 })}`;
+  if (outKg) outKg.textContent = `₹${effectiveCostPerKg.toFixed(2)} / kg`;
+
+  if (pillBadge1) {
+    pillBadge1.textContent = `₹${effectiveCostPerKg.toFixed(1)}/kg`;
+  }
+
+  if (mandiAlert) {
+    if (isBranded) {
+      mandiAlert.className = 'p-2 rounded-lg text-[10px] leading-tight bg-amber-500/15 text-amber-500 border border-amber-500/25';
+      mandiAlert.innerHTML = `⚠️ <strong>5% GST Applicable:</strong> Goods marked in pre-packaged/branded units fall outside Notification 2/2017-CT. Tax invoice and E-Way Bill must reflect 5% IGST/CGST+SGST.`;
+    } else {
+      mandiAlert.className = 'p-2 rounded-lg text-[10px] leading-tight bg-emerald-500/15 text-emerald-600 border border-emerald-500/25';
+      mandiAlert.innerHTML = `✓ <strong>100% Nil-Rated:</strong> Whole grain bulk commodity qualifies for zero-GST exemption under Notification 2/2017-Central Tax. Keep Mandi Form 9 receipt in truck for border clearance.`;
+    }
+  }
+
+  updateUniversalRadar();
+}
+
+function recalculateCorridorStage2() {
+  const distInput = document.getElementById('corr-ewb-dist');
+  const hoursInput = document.getElementById('corr-ewb-hours');
+  const transInput = document.getElementById('corr-transshipment');
+
+  if (!distInput || !hoursInput || !transInput) return;
+
+  const distKm = parseFloat(distInput.value) || 1;
+  const elapsedHours = parseFloat(hoursInput.value) || 0;
+  const hasTransshipmentMismatch = transInput.checked;
+
+  corridorState.stage2 = {
+    distanceKm: distKm,
+    elapsedHours: elapsedHours,
+    hasTransshipmentMismatch: hasTransshipmentMismatch,
+    invoiceTaxAmount: 37500
+  };
+  saveCorridorState();
+
+  // Rule 138(10): 1 day for every 200 KM or part thereof
+  const validityDays = Math.max(1, Math.ceil(distKm / 200));
+  const validityHours = validityDays * 24;
+  const remainingHours = Math.max(0, validityHours - elapsedHours);
+  const isExpired = elapsedHours > validityHours;
+
+  const ruleNote = document.getElementById('corr-ewb-rule-note');
+  const hoursLabel = document.getElementById('corr-ewb-hours-label');
+  const remainLabel = document.getElementById('corr-ewb-remain-label');
+  const statusBadge = document.getElementById('corr-ewb-status-badge');
+  const outPenalty = document.getElementById('corr-out-penalty');
+  const sec129Alert = document.getElementById('corr-sec129-alert');
+  const pillBadge2 = document.getElementById('corridor-pill-badge-2');
+
+  if (ruleNote) {
+    ruleNote.textContent = `Rule 138(10): 1 Day per 200 KM = ${validityDays} Day (${validityHours}h Window)`;
+  }
+  if (hoursLabel) hoursLabel.textContent = elapsedHours.toString();
+  if (remainLabel) {
+    if (isExpired) {
+      remainLabel.textContent = `EXPIRED: ${Math.abs(validityHours - elapsedHours)}h overdue`;
+      remainLabel.className = 'font-bold text-red-500';
+    } else {
+      remainLabel.textContent = `Remaining: ${remainingHours}h`;
+      remainLabel.className = 'font-bold text-emerald-600';
+    }
+  }
+
+  // Section 129 CGST Penalty Simulator
+  // Section 129(1)(a): 200% penalty on applicable tax if expired or plate mismatch
+  const invTax = 37500;
+  const isBreached = isExpired || hasTransshipmentMismatch;
+  const penalty = isBreached ? (invTax * 2) : 0;
+
+  if (outPenalty) {
+    if (isBreached) {
+      outPenalty.textContent = `₹${penalty.toLocaleString('en-IN')} (CRITICAL DETENTION)`;
+      outPenalty.className = 'font-mono font-bold text-red-500';
+    } else {
+      outPenalty.textContent = '₹0 (Zero Exposure)';
+      outPenalty.className = 'font-mono font-bold text-emerald-600';
+    }
+  }
+
+  if (statusBadge) {
+    if (isBreached) {
+      statusBadge.textContent = 'STATUS: SECTION 129 DETENTION RISK';
+      statusBadge.className = 'text-[9px] font-mono font-bold px-2 py-0.5 rounded-full bg-red-500/15 text-red-500';
+    } else {
+      statusBadge.textContent = 'STATUS: TRANSIT ACTIVE';
+      statusBadge.className = 'text-[9px] font-mono font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600';
+    }
+  }
+
+  if (pillBadge2) {
+    if (isBreached) {
+      pillBadge2.textContent = 'PENALTY ALERT';
+      pillBadge2.className = 'text-[9px] font-mono font-black px-1.5 py-0.2 rounded bg-red-500/20 text-red-500';
+    } else {
+      pillBadge2.textContent = `${remainingHours}h Left`;
+      pillBadge2.className = 'text-[9px] font-mono font-black px-1.5 py-0.2 rounded bg-emerald-500/15 text-emerald-600';
+    }
+  }
+
+  if (sec129Alert) {
+    if (hasTransshipmentMismatch) {
+      sec129Alert.className = 'p-2.5 rounded-lg text-[10px] leading-tight bg-red-500/15 text-red-500 border border-red-500/25';
+      sec129Alert.innerHTML = `🛑 <strong>SEIZURE HAZARD:</strong> Transshipment vehicle number does NOT match Part-B on GST portal. Roaming flying squads can seize truck under Section 129(1) with mandatory 200% penalty (₹75,000). Update Part-B immediately!`;
+    } else if (isExpired) {
+      sec129Alert.className = 'p-2.5 rounded-lg text-[10px] leading-tight bg-red-500/15 text-red-500 border border-red-500/25';
+      sec129Alert.innerHTML = `🛑 <strong>VALIDITY EXPIRED:</strong> e-Way bill expired ${Math.abs(validityHours - elapsedHours)} hours ago. Apply for extension within 8 hours of expiry under Rule 138(10) proviso or face physical detention at border checkpoint.`;
+    } else {
+      sec129Alert.className = 'p-2.5 rounded-lg text-[10px] leading-tight bg-emerald-500/15 text-emerald-600 border border-emerald-500/25';
+      sec129Alert.innerHTML = `✓ <strong>Transit Lock Secure:</strong> Vehicle number matches Part-B on GSTN portal and validity window has ${remainingHours} hours remaining. Zero Section 129 penalty exposure.`;
+    }
+  }
+
+  updateUniversalRadar();
+}
+
+function recalculateCorridorStage3() {
+  const sbTypeSelect = document.getElementById('corr-sb-type');
+  const portSelect = document.getElementById('corr-port-node');
+  const fobInput = document.getElementById('corr-invoice-fob');
+  const dwellInput = document.getElementById('corr-dwell-hours');
+  const phytoCheck = document.getElementById('corr-leo-phyto');
+  const blCheck = document.getElementById('corr-leo-bl');
+  const egmCheck = document.getElementById('corr-leo-egm');
+
+  if (!sbTypeSelect || !portSelect || !fobInput || !dwellInput) return;
+
+  const sbType = sbTypeSelect.value;
+  const port = portSelect.value;
+  const fobUsd = parseFloat(fobInput.value) || 0;
+  const dwellHours = parseInt(dwellInput.value) || 24;
+  const phyto = phytoCheck ? phytoCheck.checked : true;
+  const bl = blCheck ? blCheck.checked : true;
+  const egm = egmCheck ? egmCheck.checked : true;
+
+  corridorState.stage3 = {
+    sbType: sbType,
+    portNode: port,
+    invoiceFobUsd: fobUsd,
+    cfsDwellHours: dwellHours,
+    leoPhyto: phyto,
+    leoBl: bl,
+    leoEgm: egm
+  };
+  saveCorridorState();
+
+  const dwellLabel = document.getElementById('corr-dwell-label');
+  const dwellRiskText = document.getElementById('corr-dwell-risk-text');
+  const gatewayBadge = document.getElementById('corr-gateway-badge');
+  const outFobInr = document.getElementById('corr-out-fobinr');
+  const outScroll = document.getElementById('corr-out-scroll');
+  const pillBadge3 = document.getElementById('corridor-pill-badge-3');
+
+  if (dwellLabel) dwellLabel.textContent = dwellHours.toString();
+
+  const portMedians = { JNPT: 48, MUNDRA: 36, CHENNAI: 40 };
+  const median = portMedians[port] || 48;
+
+  if (gatewayBadge) {
+    gatewayBadge.textContent = `Gateway: ${port} (Median ${median}h)`;
+  }
+
+  if (dwellRiskText) {
+    if (dwellHours > median) {
+      dwellRiskText.textContent = `⚠️ Dwell Delay (> ${median}h median) — CFS Demurrage & Detention Accruing`;
+      dwellRiskText.className = 'text-[9px] font-mono text-red-500 font-bold';
+    } else {
+      dwellRiskText.textContent = `Normal Dwell (< ${median}h median)`;
+      dwellRiskText.className = 'text-[9px] font-mono text-emerald-600';
+    }
+  }
+
+  // RoDTEP / Drawback estimation: 2.5% on FOB
+  const cbicRate = 86.40; // CBIC notified rate
+  const fobInr = fobUsd * cbicRate;
+  const rodtepRate = (sbType === 'RODTEP') ? 0.025 : 0.0;
+  const scrollInflow = fobInr * rodtepRate;
+
+  if (outFobInr) outFobInr.textContent = `₹${Math.round(fobInr).toLocaleString('en-IN')}`;
+  if (outScroll) {
+    if (sbType === 'RODTEP') {
+      outScroll.textContent = `₹${Math.round(scrollInflow).toLocaleString('en-IN')} (2.5% Scroll)`;
+      outScroll.className = 'font-mono font-extrabold text-emerald-600';
+    } else {
+      outScroll.textContent = '₹0 (Zero Duty LUT Export)';
+      outScroll.className = 'font-mono font-extrabold text-neutral-400';
+    }
+  }
+
+  const allLeoDone = phyto && bl && egm;
+  if (pillBadge3) {
+    if (allLeoDone) {
+      pillBadge3.textContent = 'LEO READY';
+      pillBadge3.className = 'text-[9px] font-mono font-black px-1.5 py-0.2 rounded bg-emerald-500/15 text-emerald-600';
+    } else {
+      pillBadge3.textContent = 'LEO PENDING';
+      pillBadge3.className = 'text-[9px] font-mono font-black px-1.5 py-0.2 rounded bg-amber-500/15 text-amber-500';
+    }
+  }
+
+  updateUniversalRadar();
+}
+
+function recalculateCorridorStage4() {
+  const fobInput = document.getElementById('corr-fob-rate');
+  const freightInput = document.getElementById('corr-freight-rate');
+  const cifInput = document.getElementById('corr-cif-rate');
+
+  if (!fobInput || !freightInput || !cifInput) return;
+
+  const fobRate = parseFloat(fobInput.value) || 1;
+  const freightRate = parseFloat(freightInput.value) || 0;
+  const cifRate = parseFloat(cifInput.value) || 1;
+
+  corridorState.stage4 = {
+    indiaFobUsdPerMt: fobRate,
+    freightInsuranceUsdPerMt: freightRate,
+    destCifUsdPerMt: cifRate
+  };
+  saveCorridorState();
+
+  const outFobMt = document.getElementById('corr-out-fobmt');
+  const outCifMt = document.getElementById('corr-out-cifmt');
+  const outSpread = document.getElementById('corr-out-spread');
+  const alertBox = document.getElementById('corr-forensic-alert');
+  const pillBadge4 = document.getElementById('corridor-pill-badge-4');
+
+  if (outFobMt) outFobMt.textContent = `$${fobRate.toLocaleString()}/MT`;
+  if (outCifMt) outCifMt.textContent = `$${cifRate.toLocaleString()}/MT`;
+
+  // Spread Auditor: ((CIF - FOB) / FOB) * 100
+  const spreadPct = ((cifRate - fobRate) / fobRate) * 100;
+  const spreadSign = spreadPct >= 0 ? '+' : '';
+
+  if (outSpread) {
+    outSpread.textContent = `${spreadSign}${spreadPct.toFixed(2)}%`;
+  }
+
+  // Verdict Criteria:
+  // 6% to 14%: Normal maritime ocean spread (Green)
+  // < 4%: Low spread risk (under-invoicing / customs scrutiny)
+  // > 18%: Severe spread risk (Transfer Pricing / DRI / ED alert)
+  let statusClass = 'emerald';
+  let badgeText = `${spreadSign}${spreadPct.toFixed(2)}%`;
+
+  if (spreadPct >= 6 && spreadPct <= 14) {
+    statusClass = 'emerald';
+    if (alertBox) {
+      alertBox.className = 'p-2.5 rounded-lg text-[10px] leading-tight bg-emerald-500/15 text-emerald-600 border border-emerald-500/25';
+      alertBox.innerHTML = `✓ <strong>NORMAL MARITIME SPREAD:</strong> The ${spreadSign}${spreadPct.toFixed(2)}% margin matches empirical ocean transit + marine cover benchmarks (6%–14%). Passable in bilateral customs mirror cross-checks.`;
+    }
+  } else if (spreadPct < 4) {
+    statusClass = 'amber';
+    if (alertBox) {
+      alertBox.className = 'p-2.5 rounded-lg text-[10px] leading-tight bg-amber-500/15 text-amber-500 border border-amber-500/25';
+      alertBox.innerHTML = `⚠️ <strong>LOW SPREAD ALERT (&lt;4%):</strong> Destination CIF closely mirrors India FOB with minimal freight buffer. Indian CBIC and destination customs audit triggers for suspected under-invoicing of ocean freight.`;
+    }
+  } else if (spreadPct > 18) {
+    statusClass = 'red';
+    if (alertBox) {
+      alertBox.className = 'p-2.5 rounded-lg text-[10px] leading-tight bg-red-500/15 text-red-500 border border-red-500/25';
+      alertBox.innerHTML = `🛑 <strong>TRANSFER PRICING / DRI SCRUTINY (>18%):</strong> Disproportionate spread detected between FOB export and foreign CIF declaration. High probability of trade-based money laundering (TBML) or transfer pricing flag under Section 92 Income Tax Act.`;
+    }
+  } else {
+    statusClass = 'amber';
+    if (alertBox) {
+      alertBox.className = 'p-2.5 rounded-lg text-[10px] leading-tight bg-amber-500/15 text-amber-500 border border-amber-500/25';
+      alertBox.innerHTML = `ℹ️ <strong>MODERATE MARGIN VARIANCE:</strong> Spread of ${spreadSign}${spreadPct.toFixed(2)}% slightly deviates from standard 6%–14% maritime corridor. Retain BL freight invoices for reconciliation.`;
+    }
+  }
+
+  if (pillBadge4) {
+    pillBadge4.textContent = badgeText;
+    if (statusClass === 'emerald') {
+      pillBadge4.className = 'text-[9px] font-mono font-black px-1.5 py-0.2 rounded bg-emerald-500/15 text-emerald-600';
+    } else if (statusClass === 'red') {
+      pillBadge4.className = 'text-[9px] font-mono font-black px-1.5 py-0.2 rounded bg-red-500/20 text-red-500';
+    } else {
+      pillBadge4.className = 'text-[9px] font-mono font-black px-1.5 py-0.2 rounded bg-amber-500/15 text-amber-500';
+    }
+  }
+
+  updateUniversalRadar();
+}
+
+function updateUniversalRadar() {
+  const radMandi = document.getElementById('corr-rad-mandi');
+  const radEwb = document.getElementById('corr-rad-ewb');
+  const radRodtep = document.getElementById('corr-rad-rodtep');
+  const radSpread = document.getElementById('corr-rad-spread');
+  const compoundScore = document.getElementById('corr-compound-score');
+
+  if (!radMandi || !radEwb || !radRodtep || !radSpread || !compoundScore) return;
+
+  // 1. Mandi Landed Cost
+  const s1 = corridorState.stage1;
+  const priceQtl = s1.basePriceQuintal;
+  const cess = priceQtl * (s1.cessRatePct / 100);
+  const gstRate = s1.isBranded ? 0.05 : 0;
+  const netKg = 100 - s1.shrinkagePct;
+  const effectiveCostKg = ((priceQtl + cess) * (1 + gstRate)) / netKg;
+  radMandi.textContent = `₹${effectiveCostKg.toFixed(2)} / kg`;
+
+  // 2. e-Way Lock
+  const s2 = corridorState.stage2;
+  const validityDays = Math.max(1, Math.ceil(s2.distanceKm / 200));
+  const validityHours = validityDays * 24;
+  const remainHours = Math.max(0, validityHours - s2.elapsedHours);
+  const isEwbBreached = (s2.elapsedHours > validityHours) || s2.hasTransshipmentMismatch;
+
+  if (isEwbBreached) {
+    radEwb.textContent = 'DETENTION ALERT';
+    radEwb.className = 'font-mono font-bold text-red-400';
+  } else {
+    radEwb.textContent = `${remainHours}h Remaining`;
+    radEwb.className = 'font-mono font-bold text-emerald-400';
+  }
+
+  // 3. RoDTEP Inflow
+  const s3 = corridorState.stage3;
+  const cbicRate = 86.40;
+  const fobInr = s3.invoiceFobUsd * cbicRate;
+  const scrollInflow = (s3.sbType === 'RODTEP') ? (fobInr * 0.025) : 0;
+  radRodtep.textContent = `₹${Math.round(scrollInflow).toLocaleString('en-IN')}`;
+
+  // 4. UN Comtrade Spread
+  const s4 = corridorState.stage4;
+  const spread = ((s4.destCifUsdPerMt - s4.indiaFobUsdPerMt) / s4.indiaFobUsdPerMt) * 100;
+  const spreadSign = spread >= 0 ? '+' : '';
+
+  let spreadRisk = false;
+  if (spread >= 6 && spread <= 14) {
+    radSpread.textContent = `${spreadSign}${spread.toFixed(2)}% (NORMAL)`;
+    radSpread.className = 'font-mono font-bold text-emerald-400';
+  } else if (spread > 18) {
+    radSpread.textContent = `${spreadSign}${spread.toFixed(2)}% (DRI HIGH RISK)`;
+    radSpread.className = 'font-mono font-bold text-red-400';
+    spreadRisk = true;
+  } else {
+    radSpread.textContent = `${spreadSign}${spread.toFixed(2)}% (AUDIT FLAG)`;
+    radSpread.className = 'font-mono font-bold text-amber-400';
+    spreadRisk = true;
+  }
+
+  // Compound Score Calculation (0 to 100)
+  let score = 100;
+  if (s1.isBranded) score -= 5; // Extra scrutiny on packaging declarations
+  if (isEwbBreached) score -= 35; // Immediate roadside seizure risk
+  if (s2.elapsedHours > validityHours - 4 && !isEwbBreached) score -= 10; // Tight window
+  if (!s3.leoPhyto || !s3.leoBl || !s3.leoEgm) score -= 20; // Pending port customs clearance
+  if (s3.cfsDwellHours > 48) score -= 10; // Demurrage exposure
+  if (spreadRisk) score -= 20; // Bilateral mirror discrepancy
+
+  score = Math.max(0, Math.min(100, score));
+
+  if (score >= 85) {
+    compoundScore.textContent = `${score}/100 STATUTORY COMPLIANT`;
+    compoundScore.className = 'text-emerald-400';
+  } else if (score >= 60) {
+    compoundScore.textContent = `${score}/100 SCRUTINY ADVISORY`;
+    compoundScore.className = 'text-amber-400';
+  } else {
+    compoundScore.textContent = `${score}/100 CRITICAL INTERVENTION`;
+    compoundScore.className = 'text-red-400';
+  }
+}
+
+function copyCorridorAuditSummary() {
+  const s1 = corridorState.stage1;
+  const s2 = corridorState.stage2;
+  const s3 = corridorState.stage3;
+  const s4 = corridorState.stage4;
+
+  const priceQtl = s1.basePriceQuintal;
+  const cessPerQtl = priceQtl * (s1.cessRatePct / 100);
+  const gstRate = s1.isBranded ? 5 : 0;
+  const netKg = 100 - s1.shrinkagePct;
+  const effectiveCostKg = ((priceQtl + cessPerQtl) * (1 + gstRate / 100)) / netKg;
+
+  const validityDays = Math.max(1, Math.ceil(s2.distanceKm / 200));
+  const validityHours = validityDays * 24;
+  const remainHours = Math.max(0, validityHours - s2.elapsedHours);
+  const isEwbBreached = (s2.elapsedHours > validityHours) || s2.hasTransshipmentMismatch;
+
+  const cbicRate = 86.40;
+  const fobInr = s3.invoiceFobUsd * cbicRate;
+  const scrollInflow = (s3.sbType === 'RODTEP') ? (fobInr * 0.025) : 0;
+
+  const spread = ((s4.destCifUsdPerMt - s4.indiaFobUsdPerMt) / s4.indiaFobUsdPerMt) * 100;
+
+  const summary = `================================================================================
+RAMU WORLD OF TRADE • STATUTORY TRADE CORRIDOR AUDIT (FLOW 360°)
+Timestamp: ${new Date().toISOString()} | Sovereign Portal Standard
+================================================================================
+
+[STAGE 1: DOMESTIC MANDI & FARMGATE]
+• Mandi Price: ₹${priceQtl.toLocaleString('en-IN')}/Quintal
+• APMC Cess: ${s1.cessRatePct}% (+₹${cessPerQtl.toFixed(2)}/Qtl)
+• Shrinkage Moisture: ${s1.shrinkagePct}% (True Net: ${netKg.toFixed(2)} kg)
+• GST Status: ${s1.isBranded ? '5% Pre-packaged (Notif 31/2022-CT)' : '0% Bulk Nil Exempt (Notif 2/2017-CT)'}
+• Audited Effective Landed Cost: ₹${effectiveCostKg.toFixed(2)} / kg
+
+[STAGE 2: e-WAY LOGISTICS & SECTION 129 DETENTION SHIELD]
+• Corridor Distance: ${s2.distanceKm} KM (Rule 138: ${validityDays} Day / ${validityHours}h window)
+• Transit Progress: ${s2.elapsedHours}h elapsed | ${remainHours}h remaining
+• Vehicle Part-B Mismatch: ${s2.hasTransshipmentMismatch ? 'YES (CRITICAL VIOLATION)' : 'NO (Verified)'}
+• Sec 129(1)(a) Penalty Exposure: ${isEwbBreached ? '₹75,000 (200% Tax Payable)' : '₹0 (Zero Risk)'}
+
+[STAGE 3: PORT FOB EXIT & ICEGATE SCROLL]
+• Port Gateway: ${s3.portNode} | SB Type: ${s3.sbType}
+• Declared FOB: $${s3.invoiceFobUsd.toLocaleString()} USD (₹${Math.round(fobInr).toLocaleString('en-IN')} @ ₹86.40 CBIC)
+• CFS Dwell: ${s3.cfsDwellHours}h
+• RoDTEP / Drawback Scroll Inflow: ₹${Math.round(scrollInflow).toLocaleString('en-IN')}
+• LEO Checkpoints: Phyto/Lab [${s3.leoPhyto ? 'DONE' : 'PENDING'}], MBL Gate-In [${s3.leoBl ? 'DONE' : 'PENDING'}], EGM [${s3.leoEgm ? 'DONE' : 'PENDING'}]
+
+[STAGE 4: UN COMTRADE BILATERAL MIRROR AUDIT]
+• India Export Rate: $${s4.indiaFobUsdPerMt}/MT FOB
+• International Ocean + Ins: $${s4.freightInsuranceUsdPerMt}/MT
+• Destination CIF Rate: $${s4.destCifUsdPerMt}/MT CIF
+• Bilateral Spread: ${spread >= 0 ? '+' : ''}${spread.toFixed(2)}%
+• Forensic Classification: ${spread >= 6 && spread <= 14 ? 'NORMAL (6%-14% Empirical Transit Buffer)' : (spread > 18 ? 'HIGH RISK TRANSFER PRICING (DRI/ED Flag)' : 'CUSTOMS SCRUTINY ALERT')}
+
+RADAR INTEGRITY SCORE: ${document.getElementById('corr-compound-score')?.textContent || '95/100 COMPLIANT'}
+================================================================================
+Generated by World of Trade Engine • Sovereign India Commerce Free Platform`;
+
+  navigator.clipboard.writeText(summary).then(() => {
+    if (typeof showToast === 'function') {
+      showToast('Consignment Audit Summary Copied to Clipboard', '📋');
+    } else {
+      alert('Audit Summary copied to clipboard!');
+    }
+  }).catch(err => {
+    console.error('Clipboard copy error:', err);
+  });
+}
+
+function resetCorridorExecutionEngine() {
+  corridorState = JSON.parse(JSON.stringify(defaultCorridorState));
+  saveCorridorState();
+
+  // Populate inputs
+  const p1 = document.getElementById('corr-mandi-price');
+  const c1 = document.getElementById('corr-mandi-cess');
+  const s1 = document.getElementById('corr-mandi-shrink');
+  const b1 = document.getElementById('corr-brand-status');
+
+  if (p1) p1.value = corridorState.stage1.basePriceQuintal;
+  if (c1) c1.value = corridorState.stage1.cessRatePct;
+  if (s1) s1.value = corridorState.stage1.shrinkagePct;
+  if (b1) b1.checked = corridorState.stage1.isBranded;
+
+  const d2 = document.getElementById('corr-ewb-dist');
+  const h2 = document.getElementById('corr-ewb-hours');
+  const t2 = document.getElementById('corr-transshipment');
+
+  if (d2) d2.value = corridorState.stage2.distanceKm;
+  if (h2) h2.value = corridorState.stage2.elapsedHours;
+  if (t2) t2.checked = corridorState.stage2.hasTransshipmentMismatch;
+
+  const sb3 = document.getElementById('corr-sb-type');
+  const pt3 = document.getElementById('corr-port-node');
+  const fb3 = document.getElementById('corr-invoice-fob');
+  const dw3 = document.getElementById('corr-dwell-hours');
+  const py3 = document.getElementById('corr-leo-phyto');
+  const bl3 = document.getElementById('corr-leo-bl');
+  const eg3 = document.getElementById('corr-leo-egm');
+
+  if (sb3) sb3.value = corridorState.stage3.sbType;
+  if (pt3) pt3.value = corridorState.stage3.portNode;
+  if (fb3) fb3.value = corridorState.stage3.invoiceFobUsd;
+  if (dw3) dw3.value = corridorState.stage3.cfsDwellHours;
+  if (py3) py3.checked = corridorState.stage3.leoPhyto;
+  if (bl3) bl3.checked = corridorState.stage3.leoBl;
+  if (eg3) eg3.checked = corridorState.stage3.leoEgm;
+
+  const f4 = document.getElementById('corr-fob-rate');
+  const fr4 = document.getElementById('corr-freight-rate');
+  const cf4 = document.getElementById('corr-cif-rate');
+
+  if (f4) f4.value = corridorState.stage4.indiaFobUsdPerMt;
+  if (fr4) fr4.value = corridorState.stage4.freightInsuranceUsdPerMt;
+  if (cf4) cf4.value = corridorState.stage4.destCifUsdPerMt;
+
+  switchCorridorStage(1);
+  recalculateCorridorStage1();
+  recalculateCorridorStage2();
+  recalculateCorridorStage3();
+  recalculateCorridorStage4();
+
+  if (typeof showToast === 'function') {
+    showToast('Statutory Corridor Parameters Reset to Sovereign Standard', '🔄');
+  }
+}
+
+function initCorridorExecutionEngine() {
+  // Sync state values into DOM
+  const s1 = corridorState.stage1;
+  const s2 = corridorState.stage2;
+  const s3 = corridorState.stage3;
+  const s4 = corridorState.stage4;
+
+  const p1 = document.getElementById('corr-mandi-price');
+  const c1 = document.getElementById('corr-mandi-cess');
+  const s1_elem = document.getElementById('corr-mandi-shrink');
+  const b1 = document.getElementById('corr-brand-status');
+
+  if (p1) p1.value = s1.basePriceQuintal;
+  if (c1) c1.value = s1.cessRatePct;
+  if (s1_elem) s1_elem.value = s1.shrinkagePct;
+  if (b1) b1.checked = s1.isBranded;
+
+  const d2 = document.getElementById('corr-ewb-dist');
+  const h2 = document.getElementById('corr-ewb-hours');
+  const t2 = document.getElementById('corr-transshipment');
+
+  if (d2) d2.value = s2.distanceKm;
+  if (h2) h2.value = s2.elapsedHours;
+  if (t2) t2.checked = s2.hasTransshipmentMismatch;
+
+  const sb3 = document.getElementById('corr-sb-type');
+  const pt3 = document.getElementById('corr-port-node');
+  const fb3 = document.getElementById('corr-invoice-fob');
+  const dw3 = document.getElementById('corr-dwell-hours');
+  const py3 = document.getElementById('corr-leo-phyto');
+  const bl3 = document.getElementById('corr-leo-bl');
+  const eg3 = document.getElementById('corr-leo-egm');
+
+  if (sb3) sb3.value = s3.sbType;
+  if (pt3) pt3.value = s3.portNode;
+  if (fb3) fb3.value = s3.invoiceFobUsd;
+  if (dw3) dw3.value = s3.cfsDwellHours;
+  if (py3) py3.checked = s3.leoPhyto;
+  if (bl3) bl3.checked = s3.leoBl;
+  if (eg3) eg3.checked = s3.leoEgm;
+
+  const f4 = document.getElementById('corr-fob-rate');
+  const fr4 = document.getElementById('corr-freight-rate');
+  const cf4 = document.getElementById('corr-cif-rate');
+
+  if (f4) f4.value = s4.indiaFobUsdPerMt;
+  if (fr4) fr4.value = s4.freightInsuranceUsdPerMt;
+  if (cf4) cf4.value = s4.destCifUsdPerMt;
+
+  switchCorridorStage(corridorState.activeStage || 1);
+  recalculateCorridorStage1();
+  recalculateCorridorStage2();
+  recalculateCorridorStage3();
+  recalculateCorridorStage4();
+}
+
+// Expose globals
+window.switchCorridorStage = switchCorridorStage;
+window.recalculateCorridorStage1 = recalculateCorridorStage1;
+window.recalculateCorridorStage2 = recalculateCorridorStage2;
+window.recalculateCorridorStage3 = recalculateCorridorStage3;
+window.recalculateCorridorStage4 = recalculateCorridorStage4;
+window.updateUniversalRadar = updateUniversalRadar;
+window.copyCorridorAuditSummary = copyCorridorAuditSummary;
+window.resetCorridorExecutionEngine = resetCorridorExecutionEngine;
+window.initCorridorExecutionEngine = initCorridorExecutionEngine;
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initCorridorExecutionEngine);
+} else {
+  initCorridorExecutionEngine();
+}
