@@ -5066,6 +5066,7 @@ const TRACEABILITY_ECOSYSTEMS = {
 };
 
 let apedaOverrides = {};
+let latestApedaData = null;
 let currentApedaPresetId = 'basmati_rice';
 
 function renderApedaPresetDossier(preset) {
@@ -5275,6 +5276,8 @@ async function runApedaAudit(userOverrides = apedaOverrides) {
 function renderApedaResults(data) {
   const container = document.getElementById('apeda-audit-container');
   if (!container || !data || data.status !== 'success') return;
+
+  latestApedaData = data;
 
   const comm = data.commodity || {};
   const mkt = data.target_market || {};
@@ -5733,23 +5736,196 @@ function renderApedaResults(data) {
             ${rowsHtml}
           </tbody>
         </table>
-      </div>
-
-      <div class="p-3 border-t flex flex-wrap items-center justify-between gap-2 text-xs" style="border-color: var(--card-inner-border);">
+      </div>      <div class="p-3 border-t flex flex-wrap items-center justify-between gap-2 text-xs" style="border-color: var(--card-inner-border);">
         <div class="text-[11px]" style="color: var(--text-muted);">
           <strong style="color: var(--text-main);">Measurement Uncertainty (MU) Directive:</strong> EU SANTE 11312/2021 enforces a 50% analytical MU buffer zone on border testing enforcement.
         </div>
-        <button type="button" onclick="selectApedaCommodity('${comm.hs_code || '10063020'}', '${mkt.code || 'EU'}', '${currentApedaPresetId}')"
-                class="px-3 py-1.5 rounded-lg font-bold text-xs border transition-all active:scale-95"
-                style="background: var(--accent); color: #ffffff; border-color: transparent;">
-          ↺ Reset Lab Values
-        </button>
       </div>
     </div>
   `;
 
-  container.innerHTML = bannerHtml + tripartiteHtml + matrixHtml;
+  // --- SECTION 7: Dispatch Protocol & Reset Engine ---
+  const dispatchEngineHtml = `
+    <div class="rounded-2xl border p-4 shadow-xl space-y-4 text-xs font-sans mt-3"
+         style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+      <!-- Header: APEDA Statutory Packhouse & CoI Dispatch Protocol -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b"
+           style="border-color: var(--card-inner-border);">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <span class="text-base">${isPass ? '📋' : '🛑'}</span>
+            <h4 class="font-extrabold text-xs uppercase tracking-tight flex items-center gap-2" style="color: var(--text-main);">
+              APEDA Statutory Packhouse &amp; CoI Dispatch Protocol
+              <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold uppercase"
+                    style="background: ${badgeBg}; color: ${badgeColor}; border: 1px solid ${badgeBorder};">
+                ${isPass ? '✓ Authorized for Stuffing' : '🛑 Dispatch Intercepted'}
+              </span>
+            </h4>
+          </div>
+          <p class="text-[11px] leading-relaxed" style="color: var(--text-muted);">
+            ${isPass
+              ? 'All chemical and microbiological compounds strictly within destination statutory tolerances. Batch eligible for APEDA digital Certificate of Inspection (CoI) and Export Packhouse stuffing.'
+              : 'Non-compliant batch! Re-testing or crop diversion required. Consignment cannot receive APEDA phyto-clearance.'}
+          </p>
+        </div>
+
+        <button type="button" onclick="resetApedaLabValues()"
+                class="px-3 py-1.5 rounded-lg font-bold text-xs border transition-all active:scale-95 flex items-center justify-center gap-1.5 flex-shrink-0"
+                style="background: var(--input-bg); color: var(--text-main); border-color: var(--card-inner-border);">
+          <span>↺</span> Reset Lab Values
+        </button>
+      </div>
+
+      <!-- The Exporter's Commercial Decision Tree (3-Pronged Remediation Matrix) -->
+      ${!isPass ? `
+      <div class="space-y-2.5 pt-1">
+        <div class="flex items-center justify-between">
+          <span class="text-[11px] font-extrabold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+            <span>✨</span> The Exporter’s Commercial Decision Tree (3-Pronged Remediation Matrix)
+          </span>
+          <span class="text-[10px] font-mono" style="color: var(--text-dim);">
+            Rule 14 APEDA Export Regulations
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <!-- Option A: Re-Testing Counter-Sample -->
+          <div class="p-3.5 rounded-xl border flex flex-col justify-between space-y-3 transition-all shadow-sm"
+               style="background: rgba(0,0,0,0.18); border-color: var(--card-inner-border);">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="px-2 py-0.5 rounded text-[9.5px] font-mono font-bold uppercase"
+                      style="background: rgba(59, 130, 246, 0.15); color: #60A5FA; border: 1px solid rgba(59, 130, 246, 0.3);">
+                  Option A • Legal Referee
+                </span>
+                <span class="text-[10px] font-mono" style="color: var(--text-dim);">ICAR-NRRI</span>
+              </div>
+              <h5 class="font-bold text-xs uppercase tracking-tight" style="color: var(--text-main);">
+                Statutory Referee Re-Testing
+              </h5>
+              <p class="text-[10.5px] leading-relaxed" style="color: var(--text-muted);">
+                Request a statutory re-test of the sealed counter-sample at a separate referee lab (like the National Referral Laboratory at ICAR-NRRI Cuttack or NRC Grapes Pune).
+              </p>
+              <div class="p-2 rounded-lg border text-[10px]"
+                   style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-muted);">
+                <strong class="text-blue-400">Legal Recourse:</strong> Tests variance across certified gas chromatography channels to challenge preliminary LOQ flags.
+              </div>
+            </div>
+
+            <button type="button" onclick="requestRefereeRetest()"
+                    class="w-full py-2 px-2.5 rounded-lg border font-bold text-[10.5px] uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all active:scale-95"
+                    style="background: rgba(59, 130, 246, 0.1); color: #93C5FA; border-color: rgba(59, 130, 246, 0.3);">
+              <span>🧪</span> Request Referee Lab Re-Test
+            </button>
+          </div>
+
+          <!-- Option B: Secondary Processing & Precision Polishing -->
+          <div class="p-3.5 rounded-xl border flex flex-col justify-between space-y-3 transition-all shadow-sm"
+               style="background: rgba(0,0,0,0.18); border-color: var(--card-inner-border);">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="px-2 py-0.5 rounded text-[9.5px] font-mono font-bold uppercase"
+                      style="background: rgba(6, 182, 212, 0.15); color: #22D3EE; border: 1px solid rgba(6, 182, 212, 0.3);">
+                  Option B • Physical Remediation
+                </span>
+                <span class="text-[10px] font-mono text-cyan-400 font-bold">-20% to -30%</span>
+              </div>
+              <h5 class="font-bold text-xs uppercase tracking-tight" style="color: var(--text-main);">
+                Secondary Sorting &amp; De-Braning
+              </h5>
+              <p class="text-[10.5px] leading-relaxed" style="color: var(--text-muted);">
+                Subject the rice to enhanced optical sorting and silky polishing, which can shave off 20%–30% of surface chemical residue.
+              </p>
+              <div class="p-2 rounded-lg border text-[10px]"
+                   style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-muted);">
+                <strong class="text-cyan-400">Agronomic Science:</strong> Systemic fungicides bond primarily to outer pericarp/bran layers.
+              </div>
+            </div>
+
+            <button type="button" onclick="simulateSecondaryPolishing()"
+                    class="w-full py-2 px-2.5 rounded-lg border font-bold text-[10.5px] uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all active:scale-95 shadow-sm"
+                    style="background: rgba(6, 182, 212, 0.15); color: #67E8F9; border-color: rgba(6, 182, 212, 0.4);">
+              <span>⚙️</span> Simulate Secondary Polishing (-25%)
+            </button>
+          </div>
+
+          <!-- Option C: Immediate High-Seas Rerouting -->
+          <div class="p-3.5 rounded-xl border flex flex-col justify-between space-y-3 transition-all shadow-sm"
+               style="background: rgba(0,0,0,0.18); border-color: var(--card-inner-border);">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="px-2 py-0.5 rounded text-[9.5px] font-mono font-bold uppercase"
+                      style="background: rgba(245, 158, 11, 0.15); color: #FBBF24; border: 1px solid rgba(245, 158, 11, 0.3);">
+                  Option C • Commercial Arbitrage
+                </span>
+                <span class="text-[10px] font-mono text-amber-400 font-bold">1.0 PPM Limit</span>
+              </div>
+              <h5 class="font-bold text-xs uppercase tracking-tight" style="color: var(--text-main);">
+                Immediate High-Seas Rerouting
+              </h5>
+              <p class="text-[10.5px] leading-relaxed" style="color: var(--text-muted);">
+                Immediately re-route the shipment away from the European Union. Divert the goods to countries that accept Codex Alimentarius standards (such as Saudi Arabia, UAE, Iraq, or African markets) where Tricyclazole is permitted up to 1.0 ppm or higher.
+              </p>
+              <div class="p-2 rounded-lg border text-[10px]"
+                   style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-muted);">
+                <strong class="text-amber-400">Capital Protection:</strong> SFDA.FD 382 / Codex allows up to 1.0 mg/kg Tricyclazole, transforming rejection into 100% recovery.
+              </div>
+            </div>
+
+            <button type="button" onclick="divertConsignmentToGcc()"
+                    class="w-full py-2 px-2.5 rounded-lg text-white font-extrabold text-[10.5px] uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all active:scale-95 shadow-md shadow-rose-950/40"
+                    style="background: linear-gradient(135deg, #F59E0B, #E11D48); border: none;">
+              <span>⚡</span> Divert to GCC / Saudi Arabia (1.0 ppm)
+            </button>
+          </div>
+        </div>
+      </div>
+      ` : ''}
+    </div>
+  `;
+
+  container.innerHTML = bannerHtml + tripartiteHtml + matrixHtml + dispatchEngineHtml;
 }
+
+
+function simulateSecondaryPolishing() {
+  if (latestApedaData && latestApedaData.chemical_audit_ledger && latestApedaData.chemical_audit_ledger.length > 0) {
+    latestApedaData.chemical_audit_ledger.forEach(item => {
+      const currentVal = (apedaOverrides[item.chemical_key] !== undefined)
+        ? apedaOverrides[item.chemical_key]
+        : item.tested_value;
+      apedaOverrides[item.chemical_key] = +(Math.max(0, currentVal * 0.75).toFixed(4));
+    });
+  } else {
+    for (const k in apedaOverrides) {
+      apedaOverrides[k] = +(Math.max(0, apedaOverrides[k] * 0.75).toFixed(4));
+    }
+  }
+  runApedaAudit(apedaOverrides);
+  if (typeof showToast === 'function') {
+    showToast('⚙️ Secondary Polishing Applied: Surface chemical residue shaved by 25% via silky de-bran polishing. Recalculating compliance...');
+  }
+}
+window.simulateSecondaryPolishing = simulateSecondaryPolishing;
+
+function requestRefereeRetest() {
+  if (typeof showToast === 'function') {
+    showToast('🧪 Statutory Referee Re-Check Requested: Formal dispute counter-sample requisition dispatched to ICAR-NRRI National Referral Laboratory under APEDA Rule 14.');
+  }
+}
+window.requestRefereeRetest = requestRefereeRetest;
+
+function resetApedaLabValues() {
+  const commSelect = document.getElementById('apeda-commodity-select');
+  const marketSelect = document.getElementById('apeda-market-select');
+  const hsCode = commSelect ? commSelect.value : '10063020';
+  const targetMarket = marketSelect ? marketSelect.value : 'EU';
+  selectApedaCommodity(hsCode, targetMarket, currentApedaPresetId || 'basmati_eu');
+  if (typeof showToast === 'function') {
+    showToast('↺ Lab values and sample overrides reset to default statutory benchmark.');
+  }
+}
+window.resetApedaLabValues = resetApedaLabValues;
 
 function divertConsignmentToGcc() {
   const marketSelect = document.getElementById('apeda-market-select');

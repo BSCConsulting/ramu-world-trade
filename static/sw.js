@@ -4,7 +4,7 @@
  * 100% Native Web Standards (Zero External Libraries)
  */
 
-const CACHE_NAME = 'wot-sovereign-v14-apeda-suite';
+const CACHE_NAME = 'world-of-trade-v15-dispatch-engine';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
