@@ -250,6 +250,84 @@
       display: none;
     }
 
+    
+    /* ==================== BULLETPROOF THEME ADAPTATION & ACCESSIBILITY CONTRAST ==================== */
+    body:not(.theme-midnight-oled) .text-emerald-400 {
+      color: #047857 !important; /* Rich deep emerald for high contrast */
+    }
+    body:not(.theme-midnight-oled) .text-rose-400,
+    body:not(.theme-midnight-oled) .text-red-400 {
+      color: #be123c !important; /* Rich deep rose for high contrast */
+    }
+    body:not(.theme-midnight-oled) .text-amber-400 {
+      color: #b45309 !important; /* Rich deep amber for high contrast */
+    }
+    body:not(.theme-midnight-oled) .text-blue-400 {
+      color: #1d4ed8 !important; /* Rich deep royal blue */
+    }
+    body:not(.theme-midnight-oled) .text-cyan-400 {
+      color: #0e7490 !important; /* Rich deep cyan/teal */
+    }
+    body:not(.theme-midnight-oled) .text-purple-400 {
+      color: #7e22ce !important; /* Rich deep purple */
+    }
+
+    /* Adapt dark slate classes seamlessly in light themes */
+    body:not(.theme-midnight-oled) .bg-slate-900,
+    body:not(.theme-midnight-oled) .bg-slate-900\/90,
+    body:not(.theme-midnight-oled) .bg-slate-900\/80,
+    body:not(.theme-midnight-oled) .bg-slate-950,
+    body:not(.theme-midnight-oled) .bg-slate-950\/90,
+    body:not(.theme-midnight-oled) .bg-slate-950\/80,
+    body:not(.theme-midnight-oled) .bg-slate-950\/70,
+    body:not(.theme-midnight-oled) .bg-slate-950\/60,
+    body:not(.theme-midnight-oled) .bg-slate-800 {
+      background: var(--card-bg) !important;
+      color: var(--text-main) !important;
+      border-color: var(--card-border) !important;
+    }
+
+    body:not(.theme-midnight-oled) .bg-slate-900\/40,
+    body:not(.theme-midnight-oled) .bg-slate-950\/40,
+    body:not(.theme-midnight-oled) .bg-slate-950\/50,
+    body:not(.theme-midnight-oled) [style*="background: rgba(0, 0, 0, 0.15)"],
+    body:not(.theme-midnight-oled) [style*="background: rgba(0,0,0,0.18)"],
+    body:not(.theme-midnight-oled) [style*="background: rgba(0, 0, 0, 0.18)"],
+    body:not(.theme-midnight-oled) [style*="background: rgba(0, 0, 0, 0.25)"] {
+      background: var(--card-inner-bg) !important;
+      border-color: var(--card-inner-border) !important;
+      color: var(--text-main) !important;
+    }
+
+    body:not(.theme-midnight-oled) .border-slate-800,
+    body:not(.theme-midnight-oled) .border-slate-700,
+    body:not(.theme-midnight-oled) .border-slate-900 {
+      border-color: var(--card-border) !important;
+    }
+
+    body:not(.theme-midnight-oled) .text-slate-100,
+    body:not(.theme-midnight-oled) .text-slate-200,
+    body:not(.theme-midnight-oled) .text-slate-300 {
+      color: var(--text-main) !important;
+    }
+
+    body:not(.theme-midnight-oled) .text-slate-400,
+    body:not(.theme-midnight-oled) .text-slate-500 {
+      color: var(--text-muted) !important;
+    }
+
+    /* Grid Equal-Height & Card Stretching Standards */
+    .grid > div {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* Table Scrollbar & Minimum Width Standards */
+    table {
+      min-width: 100%;
+    }
+
     /* Surfaces & Panels bound to CSS Theme Variables */
     header {
       background: var(--header-bg) !important;
@@ -815,7 +893,7 @@
 
   <!-- TOP HEADER (Clean, Single-Row, Never Wraps, Clears Dynamic Island) -->
   <header class="pt-safe-top px-3 sm:px-4 py-2 sm:py-2.5 border-b sticky top-0 z-40 backdrop-blur-xl" style="background: var(--nav-bg); border-color: var(--card-border);">
-    <div class="max-w-4xl mx-auto w-full flex items-center justify-between gap-2">
+    <div class="max-w-6xl xl:max-w-7xl mx-auto w-full px-4 sm:px-6 flex items-center justify-between gap-2">
       <!-- Brand & Live Indicator (Single Line, Never Wraps) -->
       <div class="flex items-center space-x-2.5 min-w-0">
         <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shadow-md shrink-0 active:scale-95 transition-transform" style="background: var(--accent); color: #ffffff;">
@@ -970,7 +1048,7 @@
 
     <!-- TOP QUICK-SWITCHER PILL BAR (Effortless 1-Tap Toggle) -->
   <div id="qj-bar-container" class="hidden md:block px-4 pt-1.5 pb-2 border-b backdrop-blur-xl sticky top-[53px] z-30" style="background: var(--nav-bg); border-color: var(--card-border);">
-    <div class="max-w-4xl mx-auto w-full">
+    <div class="max-w-6xl xl:max-w-7xl mx-auto w-full px-4 sm:px-6">
       <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar scroll-smooth py-0.5">
       <button type="button" onclick="quickJump('scenarios')" id="qj-scenarios" class="px-3 py-1.5 rounded-full text-[11px] font-extrabold active:scale-95 transition-all whitespace-nowrap shadow-sm flex items-center gap-1.5" style="background: var(--accent); color: #ffffff;">
         <span>⚡ Scenarios</span>
@@ -999,7 +1077,7 @@
   </div>
 
   <!-- MAIN CONTENT CONTAINER (Unified max-w-4xl grid alignment) -->
-  <main class="max-w-4xl mx-auto w-full px-4 py-5 pb-28 sm:pb-32 space-y-5">
+  <main class="max-w-6xl xl:max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-5 pb-28 sm:pb-32 space-y-6">
 
     <!-- ==================== TAB 1: APPS (Radar & Triangulation) ==================== -->
     <section id="tab-apps" class="space-y-4">
@@ -2030,7 +2108,7 @@
         </div>
 
         <!-- ==================== UNIVERSAL RISK RADAR (CROSS-CORRIDOR AUDITOR) ==================== -->
-        <div class="p-3.5 rounded-2xl border space-y-2.5" style="background: #121816; color: #ffffff; border-color: rgba(45, 106, 79, 0.35);">
+        <div class="p-3.5 rounded-2xl border space-y-2.5" style="background: var(--card-bg); color: var(--text-main); border-color: var(--card-border);">
           <div class="flex items-center justify-between flex-wrap gap-2">
             <div class="flex items-center gap-2">
               <span class="text-emerald-400 font-mono text-xs font-black">● TELEMETRY RADAR</span>
@@ -2116,7 +2194,7 @@
         </div>
 
         <!-- Live Port Dwell & Gate Telemetry Ticker -->
-        <div class="p-2.5 rounded-2xl border flex items-center gap-2 overflow-x-auto scrollbar-none text-[11px] font-mono whitespace-nowrap" style="background: #121816; color: #ffffff; border-color: rgba(45, 106, 79, 0.35);">
+        <div class="p-2.5 rounded-2xl border flex items-center gap-2 overflow-x-auto scrollbar-none text-[11px] font-mono whitespace-nowrap" style="background: var(--card-bg); color: var(--text-main); border-color: var(--card-border);">
           <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold flex items-center gap-1">
             <span>⚓</span>
             <span>GATE TELEMETRY:</span>
@@ -2334,7 +2412,7 @@
             </div>
 
             <!-- Dynamic Duty Stacking Waterfall Card -->
-            <div class="lg:col-span-5 p-3.5 rounded-2xl border space-y-3 flex flex-col justify-between" style="background: #121816; color: #ffffff; border-color: rgba(45, 106, 79, 0.35);">
+            <div class="lg:col-span-5 p-3.5 rounded-2xl border space-y-3 flex flex-col justify-between" style="background: var(--card-bg); color: var(--text-main); border-color: var(--card-border);">
               <div>
                 <div class="flex items-center justify-between border-b pb-2" style="border-color: rgba(255, 255, 255, 0.1);">
                   <span class="text-xs font-black uppercase text-emerald-400">
@@ -2530,7 +2608,7 @@
             </div>
 
             <!-- Right 5 Columns: Real-Time Risk & Financial Scorecard -->
-            <div class="lg:col-span-5 p-3.5 rounded-2xl border space-y-3 flex flex-col justify-between" style="background: #121816; color: #ffffff; border-color: rgba(45, 106, 79, 0.35);">
+            <div class="lg:col-span-5 p-3.5 rounded-2xl border space-y-3 flex flex-col justify-between" style="background: var(--card-bg); color: var(--text-main); border-color: var(--card-border);">
               <div class="space-y-2.5">
                 <div class="flex items-center justify-between border-b pb-2" style="border-color: rgba(255, 255, 255, 0.1);">
                   <span class="text-xs font-black uppercase text-emerald-400">
@@ -2814,7 +2892,7 @@
                 <span style="color: var(--text-dim);">Loss Metric:</span>
                 <span class="text-amber-400 font-bold">₹8,500/day Truck Detention</span>
               </div>
-              <div class="p-2 rounded-lg border" style="background: rgba(0, 0, 0, 0.15); border-color: var(--card-inner-border); color: var(--text-muted);">
+              <div class="p-2 rounded-lg border" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-muted);">
                 <span class="font-bold" style="color: var(--text-main);">SOP:</span> Mandate stuffing only in APEDA packhouse with DPPQ&S inspection endorsement.
               </div>
             </div>
@@ -2839,7 +2917,7 @@
                 <span style="color: var(--text-dim);">Loss Metric:</span>
                 <span class="text-amber-400 font-bold">₹28k Rollover + ₹15k Demurrage</span>
               </div>
-              <div class="p-2 rounded-lg border" style="background: rgba(0, 0, 0, 0.15); border-color: var(--card-inner-border); color: var(--text-muted);">
+              <div class="p-2 rounded-lg border" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-muted);">
                 <span class="font-bold" style="color: var(--text-main);">SOP:</span> Real-time DGFT API schedule verification prior to CHA shipping bill sign-off.
               </div>
             </div>
@@ -2864,7 +2942,7 @@
                 <span style="color: var(--text-dim);">Loss Metric:</span>
                 <span class="text-rose-400 font-bold">100% Export Ban of Batch</span>
               </div>
-              <div class="p-2 rounded-lg border" style="background: rgba(0, 0, 0, 0.15); border-color: var(--card-inner-border); color: var(--text-muted);">
+              <div class="p-2 rounded-lg border" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-muted);">
                 <span class="font-bold" style="color: var(--text-main);">SOP:</span> Barcode reconciliation against accredited testing agency test memo before stuffing.
               </div>
             </div>
@@ -2889,7 +2967,7 @@
                 <span style="color: var(--text-dim);">Loss Metric:</span>
                 <span class="text-rose-400 font-bold">₹18.5L - ₹42L Re-export Loss</span>
               </div>
-              <div class="p-2 rounded-lg border" style="background: rgba(0, 0, 0, 0.15); border-color: var(--card-inner-border); color: var(--text-muted);">
+              <div class="p-2 rounded-lg border" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-muted);">
                 <span class="font-bold" style="color: var(--text-main);">SOP:</span> Multi-residue screening. If LOQ breached, execute statutory diversion to GCC (SFDA GSO 382).
               </div>
               <div id="apeda-stage4-divert-box" class="pt-0.5 hidden">

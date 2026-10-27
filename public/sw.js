@@ -4,7 +4,7 @@
  * 100% Native Web Standards (Zero External Libraries)
  */
 
-const CACHE_NAME = 'world-of-trade-v16-ask-corridor-radar';
+const CACHE_NAME = 'world-of-trade-v17-ui-ux-perfection';
 const STATIC_ASSETS = [
   '/',
   '/index.html',

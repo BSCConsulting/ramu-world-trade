@@ -5632,8 +5632,8 @@ function renderApedaResults(data) {
   let bannerHtml = '';
   if (isPass) {
     bannerHtml = `
-      <div class="rounded-2xl p-4 border shadow-lg backdrop-blur-sm transition-all duration-300"
-           style="background: rgba(6, 78, 59, 0.25); border-color: rgba(16, 185, 129, 0.4);">
+      <div class="rounded-2xl p-4 border shadow-md transition-all duration-300"
+           style="background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.35);">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
           <div class="space-y-1">
             <div class="flex items-center gap-2">
@@ -5663,8 +5663,8 @@ function renderApedaResults(data) {
     `;
   } else {
     bannerHtml = `
-      <div class="rounded-2xl p-4 border-2 shadow-2xl space-y-3.5 backdrop-blur-sm transition-all duration-300"
-           style="background: rgba(136, 19, 55, 0.35); border-color: rgba(225, 29, 72, 0.8);">
+      <div class="rounded-2xl p-4 border-2 shadow-xl space-y-3.5 transition-all duration-300"
+           style="background: rgba(239, 68, 68, 0.08); border-color: rgba(239, 68, 68, 0.4);">
         <div class="flex flex-col md:flex-row md:items-start justify-between gap-2.5">
           <div class="space-y-1">
             <div class="flex items-center gap-2">
@@ -5686,7 +5686,7 @@ function renderApedaResults(data) {
 
         <!-- Live Capital Exposure Radar (3-Column Strip) -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5 pt-1 text-xs">
-          <div class="p-2.5 rounded-xl border space-y-1" style="background: rgba(0, 0, 0, 0.25); border-color: rgba(255, 255, 255, 0.1);">
+          <div class="p-2.5 rounded-xl border space-y-1" style="background: var(--card-bg); border-color: var(--card-border);">
             <div class="flex items-center justify-between text-[10px] font-mono" style="color: var(--text-dim);">
               <span>CFS Demurrage &amp; Detention Risk:</span>
               <span class="text-amber-400">⏱️</span>
@@ -5699,7 +5699,7 @@ function renderApedaResults(data) {
             </div>
           </div>
 
-          <div class="p-2.5 rounded-xl border space-y-1" style="background: rgba(0, 0, 0, 0.25); border-color: rgba(255, 255, 255, 0.1);">
+          <div class="p-2.5 rounded-xl border space-y-1" style="background: var(--card-bg); border-color: var(--card-border);">
             <div class="flex items-center justify-between text-[10px] font-mono" style="color: var(--text-dim);">
               <span>Cargo Capital at Risk:</span>
               <span class="text-rose-400">💵</span>
@@ -5712,7 +5712,7 @@ function renderApedaResults(data) {
             </div>
           </div>
 
-          <div class="p-2.5 rounded-xl border space-y-1" style="background: rgba(0, 0, 0, 0.25); border-color: rgba(255, 255, 255, 0.1);">
+          <div class="p-2.5 rounded-xl border space-y-1" style="background: var(--card-bg); border-color: var(--card-border);">
             <div class="flex items-center justify-between text-[10px] font-mono" style="color: var(--text-dim);">
               <span>Insurance Defense Status:</span>
               <span class="text-rose-400">❌</span>
@@ -5778,7 +5778,7 @@ function renderApedaResults(data) {
           <div class="text-[11px] leading-relaxed" style="color: var(--text-muted);">
             <strong style="color: var(--text-main);">Origin Scope:</strong> ${escapeHtml(activePreset.scope)}
           </div>
-          <div class="p-2 rounded-lg border text-[10px]" style="background: rgba(0, 0, 0, 0.15); border-color: var(--card-inner-border); color: var(--text-muted);">
+          <div class="p-2 rounded-lg border text-[10px]" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-muted);">
             <span class="font-bold" style="color: var(--text-main);">🛡️ What It Prevents:</span> Prevents illicit adulteration (e.g. blending non-notified grain into GI Basmati) and protects against export license suspension under the APEDA Act.
           </div>
         </div>
@@ -5803,13 +5803,13 @@ function renderApedaResults(data) {
             ${escapeHtml(mkt.name)} Stance &amp; Verification
           </h4>
           <div class="space-y-1 pt-0.5 text-[10px] font-mono">
-            <div class="p-1.5 rounded border" style="background: rgba(0, 0, 0, 0.15); border-color: var(--card-inner-border); color: var(--text-muted);">
+            <div class="p-1.5 rounded border" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-muted);">
               <span class="text-cyan-400 font-bold">● Pull:</span> Min 10% stratified bags per export lot
             </div>
-            <div class="p-1.5 rounded border" style="background: rgba(0, 0, 0, 0.15); border-color: var(--card-inner-border); color: var(--text-muted);">
+            <div class="p-1.5 rounded border" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-muted);">
               <span class="text-cyan-400 font-bold">● Split:</span> 3 Samples (Testing / 6-Mo Dispute Counter / Control)
             </div>
-            <div class="p-1.5 rounded border" style="background: rgba(0, 0, 0, 0.15); border-color: var(--card-inner-border); color: var(--text-muted);">
+            <div class="p-1.5 rounded border" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-muted);">
               <span class="text-cyan-400 font-bold">● Data:</span> Raw chromatogram uploaded directly to TraceNet
             </div>
           </div>
@@ -5834,14 +5834,14 @@ function renderApedaResults(data) {
             Pre-Shipment Treatment &amp; Release
           </h4>
           <div class="space-y-1 text-[10px]">
-            <div class="p-1.5 rounded border" style="background: rgba(0, 0, 0, 0.15); border-color: var(--card-inner-border);">
+            <div class="p-1.5 rounded border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
               <div class="font-bold text-emerald-400 flex items-center justify-between">
                 <span>1. Biological Gate (DPPQ&amp;S):</span>
                 <span class="font-mono text-[9px]" style="color: var(--text-dim);">Phytosanitary Cert (PSC)</span>
               </div>
               <div class="mt-0.5" style="color: var(--text-muted);">${escapeHtml(mkt.mandatory_treatment || activePreset.mandatoryTreatment)}</div>
             </div>
-            <div class="p-1.5 rounded border" style="background: rgba(0, 0, 0, 0.15); border-color: var(--card-inner-border);">
+            <div class="p-1.5 rounded border" style="background: var(--card-bg); border-color: var(--card-inner-border);">
               <div class="font-bold text-cyan-400 flex items-center justify-between">
                 <span>2. Chemical Gate (APEDA):</span>
                 <span class="font-mono text-[9px]" style="color: var(--text-dim);">Certificate of Insp (CoI)</span>
@@ -5923,7 +5923,7 @@ function renderApedaResults(data) {
       </tr>
 
       <!-- Expandable Agronomic Defense Drawer -->
-      <tr id="apeda-drawer-${item.chemical_key}" class="hidden border-b" style="background: rgba(0,0,0,0.18); border-color: var(--card-inner-border);">
+      <tr id="apeda-drawer-${item.chemical_key}" class="hidden border-b" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
         <td colspan="5" class="p-3 space-y-2 text-xs">
           <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5 text-xs">
             <div class="p-2 rounded-lg border space-y-0.5" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
@@ -6050,7 +6050,7 @@ function renderApedaResults(data) {
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
           <!-- Option A: Re-Testing Counter-Sample -->
           <div class="p-3.5 rounded-xl border flex flex-col justify-between space-y-3 transition-all shadow-sm"
-               style="background: rgba(0,0,0,0.18); border-color: var(--card-inner-border);">
+               style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
             <div class="space-y-1.5">
               <div class="flex items-center justify-between">
                 <span class="px-2 py-0.5 rounded text-[9.5px] font-mono font-bold uppercase"
@@ -6080,7 +6080,7 @@ function renderApedaResults(data) {
 
           <!-- Option B: Secondary Processing & Precision Polishing -->
           <div class="p-3.5 rounded-xl border flex flex-col justify-between space-y-3 transition-all shadow-sm"
-               style="background: rgba(0,0,0,0.18); border-color: var(--card-inner-border);">
+               style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
             <div class="space-y-1.5">
               <div class="flex items-center justify-between">
                 <span class="px-2 py-0.5 rounded text-[9.5px] font-mono font-bold uppercase"
@@ -6110,7 +6110,7 @@ function renderApedaResults(data) {
 
           <!-- Option C: Immediate High-Seas Rerouting -->
           <div class="p-3.5 rounded-xl border flex flex-col justify-between space-y-3 transition-all shadow-sm"
-               style="background: rgba(0,0,0,0.18); border-color: var(--card-inner-border);">
+               style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
             <div class="space-y-1.5">
               <div class="flex items-center justify-between">
                 <span class="px-2 py-0.5 rounded text-[9.5px] font-mono font-bold uppercase"
