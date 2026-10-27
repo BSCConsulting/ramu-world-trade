@@ -4922,30 +4922,315 @@ async function runTradeFinanceCalc() {
 // ==========================================
 // Provider 5.1: APEDA Phytosanitary Standards & TraceNet Gateway
 // ==========================================
-let apedaOverrides = {};
+const TRACEABILITY_ECOSYSTEMS = {
+  basmati_rice: {
+    id: 'basmati_rice',
+    name: '🌾 Basmati Rice (Pusa 1121 / 1509)',
+    hsCode: '10063020',
+    engineName: 'BasmatiNet',
+    portalUrl: 'https://apeda.gov.in/basmatinet/',
+    authority: 'APEDA & Export Inspection Council (EIC)',
+    scope: 'Mandatory DNA Authenticity (>80% pure) & Pesticide Residue Verification',
+    mandatoryTreatment: 'Multi-Residue Pesticide Screen (Tricyclazole, Chlorpyrifos) & DNA Purity Assay',
+    treatmentAuthority: 'EIC / NABL ISO/IEC 17025 Accredited Laboratories',
+    destinationDefault: 'EU',
+    failureMode: {
+      title: 'EU LOQ Rejection & Rapid Alert (RASFF)',
+      description: 'Tricyclazole residue >0.01 mg/kg triggers automatic vessel refusal, border seizure, and mandatory re-export or cargo incineration at European ports.',
+      alertLevel: 'CRITICAL'
+    },
+    financialShield: {
+      costSaved: '₹22.5 Lakh / 40ft FCL container (Zero port destruction charges, zero high-seas demurrage)',
+      commercialAdvantage: 'Direct CIF Rotterdam clearance at zero duty under EU Basmati Import Quotas'
+    },
+    operationalSop: [
+      'Farm Plot Geotagging & Farmer Ledger Registration on BasmatiNet.',
+      'Representative composite sampling by EIC-authorized NABL agency at mill gate.',
+      'Direct API ingestion of GC-MS/MS & LC-MS/MS residue test memos to APEDA.',
+      'Generation of cryptographic digital Certificate of Inspection (CoI) prior to container stuffing.'
+    ],
+    sampleOverrides: { tricyclazole: 0.018, isoprothiolane: 0.45, chlorpyrifos: 0.005, thiamethoxam: 0.008 }
+  },
+  fresh_grapes: {
+    id: 'fresh_grapes',
+    name: '🍇 Fresh Table Grapes (Thompson Seedless)',
+    hsCode: '08061000',
+    engineName: 'GrapeNet',
+    portalUrl: 'https://apeda.gov.in/grapenet/',
+    authority: 'APEDA & Maharashtra State Horticulture Dept (MSAMB)',
+    scope: 'End-to-End Farm-to-Fork Traceability for 42,000+ Registered Vineyards in Nashik & Sangli',
+    mandatoryTreatment: 'Rapid Pre-Cooling to 0–1°C within 6h + SO2 Pad Integration in Carton Boxes',
+    treatmentAuthority: 'APEDA Recognized Cold-Chain Packhouse & National Referral Lab (NRC Grapes)',
+    destinationDefault: 'EU',
+    failureMode: {
+      title: 'GrapeNet Lot Disconnect & Chlormequat/Imidacloprid Ban',
+      description: 'Unregistered plot harvest or pesticide breach blocks digital Agmark phytosanitary certificate; cargo detained at Rotterdam/Hamburg terminals.',
+      alertLevel: 'CRITICAL'
+    },
+    financialShield: {
+      costSaved: '€35,000 / Reefer Container (Eliminates high-seas dumping & reefer plug-in penalty)',
+      commercialAdvantage: 'Unlocks tier-1 UK/EU supermarket direct vendor contracts (Tesco, Albert Heijn, Carrefour)'
+    },
+    operationalSop: [
+      'Vineyard plot registration with Mahagrapes / State Agmark Directorate.',
+      'NRC Grapes authorized sampling 15 days prior to harvest window.',
+      'Pre-cooling chamber pull-down to 0-1°C within 6 hours of harvest to arrest decay.',
+      'APEDA QR-coded Agmark Phytosanitary Certificate issued via GrapeNet.'
+    ],
+    sampleOverrides: { imidacloprid: 0.006, metalaxyl: 0.35, lambda_cyhalothrin: 0.04, chlormequat: 0.02 }
+  },
+  fresh_mangoes: {
+    id: 'fresh_mangoes',
+    name: '🥭 Fresh Mangoes (Alphonso / Kesar)',
+    hsCode: '08045020',
+    engineName: 'HortiNet',
+    portalUrl: 'https://apeda.gov.in/hortinet/',
+    authority: 'APEDA & DPPQ&S (Joint USDA APHIS / Japan MAFF Protocol)',
+    scope: 'Quarantine Pest Disinfestation (Fruit Fly & Stone Weevil Eradication)',
+    mandatoryTreatment: 'Gamma Irradiation (Min 400 Gray dose) for USA / VHT (47.5°C) for Japan',
+    treatmentAuthority: 'BARC / KRUSHAK (Lasalgaon) or Vashi Irradiation Facility + DPPQ&S Quarantine Officer',
+    destinationDefault: 'USA',
+    failureMode: {
+      title: 'USDA APHIS Port Entry Refusal (Fruit Fly Larvae)',
+      description: 'Non-irradiated or improperly treated cartons face immediate CBP emergency action notification; destroyed at JFK/ORD airport cargo terminals.',
+      alertLevel: 'CRITICAL'
+    },
+    financialShield: {
+      costSaved: '$18,000 / Air Cargo ULD Pallet (Protects high-value perishable air freight)',
+      commercialAdvantage: 'Commands premium $45-$65/box wholesale realization in US diaspora ethnic markets'
+    },
+    operationalSop: [
+      'Orchard registration on HortiNet with fruit fly trap monitoring records.',
+      'Packhouse sorting, hot water washing, and USDA/DPPQ&S joint pre-inspection.',
+      'Gamma irradiation at BARC Krushak (Lasalgaon/Vashi) with dosimeter verification.',
+      'Tamper-evident quarantine security tape sealing prior to airport transfer.'
+    ],
+    sampleOverrides: { carbendazim: 0.08, cypermethrin: 0.05, deltamethrin: 0.02 }
+  },
+  buffalo_meat: {
+    id: 'buffalo_meat',
+    name: '🥩 Boneless Buffalo Meat (Frozen Carcass)',
+    hsCode: '02023000',
+    engineName: 'MeatNet',
+    portalUrl: 'https://apeda.gov.in/meatnet/',
+    authority: 'APEDA & Department of Animal Husbandry and Dairying (DAHD)',
+    scope: 'Integrated Mechanized Abattoir Surveillance & Disease-Free Certification',
+    mandatoryTreatment: 'Antemortem/Postmortem Veterinary Inspection + Blast Freezing (-40°C) + Halal Protocol',
+    treatmentAuthority: 'State Veterinary Officer & SFDA/JAKIM Recognized Halal Certification Body',
+    destinationDefault: 'GCC',
+    failureMode: {
+      title: 'Banned Antibiotic / Microbiological Pathogen Confiscation',
+      description: 'Detection of Salmonella, Nitrofuran (AOZ), or Chloramphenicol triggers blacklisting of Indian abattoir and total countrywide import halt.',
+      alertLevel: 'CRITICAL'
+    },
+    financialShield: {
+      costSaved: '$65,000 / 40ft Reefer Container (Safeguards against destination port rejection and bilateral ban)',
+      commercialAdvantage: 'Uninterrupted green-channel customs clearance at Jeddah, Jebel Ali, and Haiphong'
+    },
+    operationalSop: [
+      'Ante-mortem animal inspection at APEDA-registered integrated meat complex.',
+      'Post-mortem sanitary check, carcass deboning, and deglanding.',
+      'Blast freezing to core temperature of -18°C within 24 hours of slaughter.',
+      'Veterinary Health Certificate generation and digital MeatNet container seal lock.'
+    ],
+    sampleOverrides: { salmonella: 0.0, nitrofuran_aoz: 0.0, chloramphenicol: 0.0 }
+  },
+  peanuts_groundnuts: {
+    id: 'peanuts_groundnuts',
+    name: '🥜 Groundnuts / Peanuts (Java & Bold)',
+    hsCode: '12024200',
+    engineName: 'Peanut.Net / TraceNet',
+    portalUrl: 'https://apeda.gov.in/tracenet/',
+    authority: 'APEDA & Indian Oilseeds and Produce Export Promotion Council (IOPEPC)',
+    scope: 'Aflatoxin Management & Electronic Color Sorting Surveillance',
+    mandatoryTreatment: 'Electronic Sortex Color Sorting & Pre-Shipment Aflatoxin HPLC Certificate',
+    treatmentAuthority: 'APEDA Recognized Peanut Processing Unit & NABL Accredited Laboratory',
+    destinationDefault: 'EU',
+    failureMode: {
+      title: 'Aflatoxin B1 Over-Tolerance Seizure (EU RASFF)',
+      description: 'Aflatoxin B1 >2.0 ppb or Total >4.0 ppb triggers immediate RASFF public alert, cargo rejection, and intensified 50% physical border testing.',
+      alertLevel: 'STRICT'
+    },
+    financialShield: {
+      costSaved: '₹16.8 Lakh / 20ft Dry Container (Avoids mandatory consignment crushing/destruction at Rotterdam)',
+      commercialAdvantage: 'Direct procurement contract eligibility with European confectionery manufacturers'
+    },
+    operationalSop: [
+      'Shelling plant registration and good warehousing practice (GWP) audit.',
+      'Moisture control strictly <7.0% during warehousing to prevent Aspergillus flavus.',
+      'High-resolution optical Sortex scanning to eject moldy and discolored kernels.',
+      'Representative lot sampling under ISO 24333 protocol with HPLC aflatoxin certification.'
+    ],
+    sampleOverrides: { aflatoxin_b1: 0.0015, aflatoxin_total: 0.0032, chlorpyrifos: 0.007 }
+  }
+};
 
-function selectApedaCommodity(hsCode, market) {
+let apedaOverrides = {};
+let currentApedaPresetId = 'basmati_rice';
+
+function renderApedaPresetDossier(preset) {
+  const container = document.getElementById('apeda-preset-dossier');
+  if (!container || !preset) return;
+
+  const alertBadgeColor = preset.failureMode.alertLevel === 'CRITICAL'
+    ? 'rgba(239, 68, 68, 0.15)' : preset.failureMode.alertLevel === 'HIGH'
+    ? 'rgba(245, 158, 11, 0.15)' : 'rgba(168, 85, 247, 0.15)';
+  const alertTextColor = preset.failureMode.alertLevel === 'CRITICAL'
+    ? '#EF4444' : preset.failureMode.alertLevel === 'HIGH'
+    ? '#F59E0B' : '#A855F7';
+
+  const sopHtml = preset.operationalSop.map(step => `
+    <li class="flex items-start gap-1.5 leading-snug">
+      <span class="text-cyan-400 font-mono font-bold text-[10px] flex-shrink-0 mt-0.5">✓</span>
+      <span>${escapeHtml(step)}</span>
+    </li>
+  `).join('');
+
+  container.innerHTML = `
+    <!-- Header Bar -->
+    <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b" style="border-color: var(--card-inner-border);">
+      <div class="flex items-center gap-2 flex-wrap">
+        <span class="px-2.5 py-1 rounded-lg text-xs font-mono font-extrabold uppercase flex items-center gap-1.5"
+              style="background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.3);">
+          ⚡ ${escapeHtml(preset.engineName)} Architecture
+        </span>
+        <span class="text-xs font-bold" style="color: var(--text-main);">
+          ${escapeHtml(preset.name)} (HS ${preset.hsCode})
+        </span>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <span class="text-[11px] font-mono hidden md:inline-block" style="color: var(--text-dim);">
+          ${escapeHtml(preset.authority)}
+        </span>
+        <a href="${preset.portalUrl}" target="_blank" rel="noreferrer" 
+           class="px-2.5 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1 transition-all border"
+           style="background: var(--input-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+          <span>${preset.portalUrl.replace('https://', '').replace('/', '')}</span>
+          <span class="text-cyan-400">↗</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- 3-Column Ground Reality Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+      <!-- Column 1: Non-Negotiable Gate & Failure Mode -->
+      <div class="p-3 rounded-xl border flex flex-col justify-between space-y-2.5" style="background: rgba(0, 0, 0, 0.12); border-color: var(--card-inner-border);">
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-extrabold uppercase tracking-wider flex items-center gap-1" style="color: var(--text-dim);">
+              🛡️ Pre-Shipment Gate
+            </span>
+            <span class="px-2 py-0.5 rounded text-[9.5px] font-mono font-extrabold border"
+                  style="background: ${alertBadgeColor}; color: ${alertTextColor}; border-color: ${alertTextColor}40;">
+              ${preset.failureMode.alertLevel} ALERT
+            </span>
+          </div>
+          <div class="font-bold text-[11.5px] leading-tight" style="color: var(--text-main);">
+            ${escapeHtml(preset.failureMode.title)}
+          </div>
+          <p class="text-[10.5px] leading-relaxed" style="color: var(--text-muted);">
+            ${escapeHtml(preset.failureMode.description)}
+          </p>
+        </div>
+
+        <div class="pt-2 border-t text-[10px] font-mono p-2 rounded-lg border text-rose-400" 
+             style="background: rgba(239, 68, 68, 0.08); border-color: rgba(239, 68, 68, 0.2);">
+          <span class="font-bold">Quarantine Mandate:</span> ${escapeHtml(preset.mandatoryTreatment)}
+        </div>
+      </div>
+
+      <!-- Column 2: Financial Shield & Commercial Impact -->
+      <div class="p-3 rounded-xl border flex flex-col justify-between space-y-2.5" style="background: rgba(0, 0, 0, 0.12); border-color: var(--card-inner-border);">
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-extrabold uppercase tracking-wider flex items-center gap-1" style="color: var(--text-dim);">
+              💼 Financial Shield
+            </span>
+            <span class="px-2 py-0.5 rounded text-[9.5px] font-mono font-extrabold"
+                  style="background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.3);">
+              SHIELD ACTIVE
+            </span>
+          </div>
+          <div class="font-mono font-bold text-[11.5px] leading-tight text-emerald-400">
+            ${escapeHtml(preset.financialShield.costSaved)}
+          </div>
+          <div class="text-[10.5px] leading-relaxed pt-1" style="color: var(--text-muted);">
+            <strong style="color: var(--text-main);">Commercial Moat:</strong> ${escapeHtml(preset.financialShield.commercialAdvantage)}
+          </div>
+        </div>
+
+        <div class="pt-2 border-t text-[10px] font-mono p-2 rounded-lg border" 
+             style="background: rgba(0, 0, 0, 0.2); border-color: var(--card-inner-border); color: var(--text-muted);">
+          <span class="font-bold" style="color: var(--text-main);">Accredited Oversight:</span> ${escapeHtml(preset.treatmentAuthority)}
+        </div>
+      </div>
+
+      <!-- Column 3: Mandatory Physical SOP Protocol -->
+      <div class="p-3 rounded-xl border flex flex-col justify-between space-y-2.5" style="background: rgba(0, 0, 0, 0.12); border-color: var(--card-inner-border);">
+        <div class="space-y-1.5">
+          <span class="text-[10px] font-extrabold uppercase tracking-wider flex items-center gap-1" style="color: var(--text-dim);">
+            ⚙️ Packhouse Execution SOP
+          </span>
+          <ul class="space-y-1.5 text-[10.5px]" style="color: var(--text-muted);">
+            ${sopHtml}
+          </ul>
+        </div>
+
+        <div class="pt-2 border-t flex items-center justify-between text-[10px] font-mono" style="border-color: var(--card-inner-border); color: var(--text-dim);">
+          <span>Default Market: <strong class="text-amber-400">${preset.destinationDefault}</strong></span>
+          <span class="text-cyan-400 font-bold">100% Traceable</span>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function selectApedaCommodity(hsCode, market, presetId) {
+  // 1. Resolve Preset
+  let preset = null;
+  if (presetId && TRACEABILITY_ECOSYSTEMS[presetId]) {
+    preset = TRACEABILITY_ECOSYSTEMS[presetId];
+  } else {
+    preset = Object.values(TRACEABILITY_ECOSYSTEMS).find(p => p.hsCode === hsCode) || TRACEABILITY_ECOSYSTEMS.basmati_rice;
+  }
+  currentApedaPresetId = preset.id;
+
+  // 2. Visual Chip Activation
   document.querySelectorAll('.apeda-comm-chip').forEach(btn => {
     btn.style.background = 'var(--card-inner-bg)';
     btn.style.color = 'var(--text-main)';
     btn.style.borderColor = 'var(--card-inner-border)';
   });
+  document.querySelectorAll('[id^="apeda-indicator-"]').forEach(ind => {
+    ind.classList.add('hidden');
+  });
+
   const chip = document.getElementById(`apeda-chip-${hsCode}`);
   if (chip) {
     chip.style.background = 'var(--accent)';
     chip.style.color = '#ffffff';
     chip.style.borderColor = 'transparent';
   }
+  const ind = document.getElementById(`apeda-indicator-${hsCode}`);
+  if (ind) {
+    ind.classList.remove('hidden');
+    ind.classList.add('inline-block');
+  }
 
+  // 3. Render Preset Dossier Card
+  renderApedaPresetDossier(preset);
+
+  // 4. Downstream Form Rehydration
   const commSelect = document.getElementById('apeda-commodity-select');
   if (commSelect) commSelect.value = hsCode;
 
-  if (market) {
-    const marketSelect = document.getElementById('apeda-market-select');
-    if (marketSelect) marketSelect.value = market;
-  }
+  const targetMarket = market || preset.destinationDefault || 'EU';
+  const marketSelect = document.getElementById('apeda-market-select');
+  if (marketSelect) marketSelect.value = targetMarket;
 
-  apedaOverrides = {};
+  // 5. Apply Preset Overrides and Run Audit
+  apedaOverrides = Object.assign({}, preset.sampleOverrides || {});
   runApedaAudit();
 }
 
@@ -4953,19 +5238,8 @@ function onApedaCommodityChange() {
   const commSelect = document.getElementById('apeda-commodity-select');
   if (!commSelect) return;
   const hsCode = commSelect.value;
-  document.querySelectorAll('.apeda-comm-chip').forEach(btn => {
-    btn.style.background = 'var(--card-inner-bg)';
-    btn.style.color = 'var(--text-main)';
-    btn.style.borderColor = 'var(--card-inner-border)';
-  });
-  const chip = document.getElementById(`apeda-chip-${hsCode}`);
-  if (chip) {
-    chip.style.background = 'var(--accent)';
-    chip.style.color = '#ffffff';
-    chip.style.borderColor = 'transparent';
-  }
-  apedaOverrides = {};
-  runApedaAudit();
+  const preset = Object.values(TRACEABILITY_ECOSYSTEMS).find(p => p.hsCode === hsCode);
+  selectApedaCommodity(hsCode, null, preset ? preset.id : null);
 }
 
 function onApedaResidueChange(chemicalKey, val) {
@@ -5500,6 +5774,8 @@ function renderMpedaResults(data) {
 }
 
 window.selectApedaCommodity = selectApedaCommodity;
+window.TRACEABILITY_ECOSYSTEMS = TRACEABILITY_ECOSYSTEMS;
+window.renderApedaPresetDossier = renderApedaPresetDossier;
 window.onApedaCommodityChange = onApedaCommodityChange;
 window.onApedaResidueChange = onApedaResidueChange;
 window.runApedaAudit = runApedaAudit;

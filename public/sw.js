@@ -1,10 +1,10 @@
 /**
- * World of Trade - Sovereign PWA Service Worker (v12-apeda-telemetry)
+ * World of Trade - Sovereign PWA Service Worker (v13-command-deck)
  * Offline Mandi Packhouse Mode & Runtime Cache with Complete Dossier Offline Pre-Caching
  * 100% Native Web Standards (Zero External Libraries)
  */
 
-const CACHE_NAME = 'wot-sovereign-v12-apeda-telemetry';
+const CACHE_NAME = 'wot-sovereign-v13-command-deck';
 const STATIC_ASSETS = [
   '/',
   '/index.html',

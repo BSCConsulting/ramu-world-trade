@@ -2850,13 +2850,100 @@
           </div>
         </div>
 
-        <!-- Scheduled Agri Commodity Chips -->
-        <div class="scroll-chip-strip">
-          <button type="button" onclick="selectApedaCommodity('10063020', 'EU')" id="apeda-chip-10063020" class="apeda-comm-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">🌾 Basmati Rice (EU)</button>
-          <button type="button" onclick="selectApedaCommodity('08061000', 'EU')" id="apeda-chip-08061000" class="apeda-comm-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🍇 Fresh Grapes (GrapeNet)</button>
-          <button type="button" onclick="selectApedaCommodity('08045020', 'USA')" id="apeda-chip-08045020" class="apeda-comm-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🥭 Fresh Mangoes (USA VHT)</button>
-          <button type="button" onclick="selectApedaCommodity('02023000', 'GCC')" id="apeda-chip-02023000" class="apeda-comm-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🥩 Buffalo Meat (MeatNet)</button>
-          <button type="button" onclick="selectApedaCommodity('12024200', 'EU')" id="apeda-chip-12024200" class="apeda-comm-chip min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">🥜 Groundnuts (Aflatoxin)</button>
+        <!-- Section 2: Sovereign Command Matrix & Traceability Engines -->
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-extrabold uppercase tracking-wider text-main flex items-center gap-1.5">
+                <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                Sovereign Command Matrix: 5 Traceability Engines
+              </span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full font-mono font-bold uppercase" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">
+                Active Preset Controller
+              </span>
+            </div>
+            <span class="text-[11px] font-mono hidden sm:inline-block" style="color: var(--text-dim);">
+              APEDA Act 1985 / Closed-Loop Telemetry
+            </span>
+          </div>
+
+          <!-- 1. Interactive Selector Ribbon -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 text-xs">
+            <button type="button" onclick="selectApedaCommodity('10063020', 'EU', 'basmati_rice')" id="apeda-chip-10063020" class="apeda-comm-chip p-2.5 rounded-xl border text-left transition-all relative overflow-hidden flex flex-col justify-between active:scale-95" style="background: var(--accent); color: #ffffff; border-color: transparent;">
+              <div>
+                <div class="flex items-center justify-between text-[10px] font-mono">
+                  <span class="font-bold opacity-90">HS 10063020</span>
+                  <span class="px-1.5 py-0.5 rounded text-[9px] uppercase font-bold" style="background: rgba(255,255,255,0.2);">BasmatiNet</span>
+                </div>
+                <div class="text-xs font-bold mt-1 leading-snug">🌾 Basmati Rice (EU)</div>
+              </div>
+              <div class="mt-2 pt-1.5 border-t border-white/20 flex items-center justify-between text-[9.5px]">
+                <span>Target: <strong>EU</strong></span>
+                <span id="apeda-indicator-10063020" class="font-bold font-mono">● ACTIVE</span>
+              </div>
+            </button>
+
+            <button type="button" onclick="selectApedaCommodity('08061000', 'EU', 'fresh_grapes')" id="apeda-chip-08061000" class="apeda-comm-chip p-2.5 rounded-xl border text-left transition-all relative overflow-hidden flex flex-col justify-between active:scale-95" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+              <div>
+                <div class="flex items-center justify-between text-[10px] font-mono" style="color: var(--text-dim);">
+                  <span class="font-bold">HS 08061000</span>
+                  <span class="px-1.5 py-0.5 rounded text-[9px] uppercase font-bold" style="background: rgba(0,0,0,0.06);">GrapeNet</span>
+                </div>
+                <div class="text-xs font-bold mt-1 leading-snug">🍇 Fresh Grapes</div>
+              </div>
+              <div class="mt-2 pt-1.5 border-t flex items-center justify-between text-[9.5px]" style="border-color: var(--card-inner-border); color: var(--text-dim);">
+                <span>Target: <strong class="text-amber-400">EU</strong></span>
+                <span id="apeda-indicator-08061000" class="font-bold font-mono hidden text-emerald-400">● ACTIVE</span>
+              </div>
+            </button>
+
+            <button type="button" onclick="selectApedaCommodity('08045020', 'USA', 'fresh_mangoes')" id="apeda-chip-08045020" class="apeda-comm-chip p-2.5 rounded-xl border text-left transition-all relative overflow-hidden flex flex-col justify-between active:scale-95" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+              <div>
+                <div class="flex items-center justify-between text-[10px] font-mono" style="color: var(--text-dim);">
+                  <span class="font-bold">HS 08045020</span>
+                  <span class="px-1.5 py-0.5 rounded text-[9px] uppercase font-bold" style="background: rgba(0,0,0,0.06);">HortiNet</span>
+                </div>
+                <div class="text-xs font-bold mt-1 leading-snug">🥭 Fresh Mangoes</div>
+              </div>
+              <div class="mt-2 pt-1.5 border-t flex items-center justify-between text-[9.5px]" style="border-color: var(--card-inner-border); color: var(--text-dim);">
+                <span>Target: <strong class="text-amber-400">USA</strong></span>
+                <span id="apeda-indicator-08045020" class="font-bold font-mono hidden text-emerald-400">● ACTIVE</span>
+              </div>
+            </button>
+
+            <button type="button" onclick="selectApedaCommodity('02023000', 'GCC', 'buffalo_meat')" id="apeda-chip-02023000" class="apeda-comm-chip p-2.5 rounded-xl border text-left transition-all relative overflow-hidden flex flex-col justify-between active:scale-95" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+              <div>
+                <div class="flex items-center justify-between text-[10px] font-mono" style="color: var(--text-dim);">
+                  <span class="font-bold">HS 02023000</span>
+                  <span class="px-1.5 py-0.5 rounded text-[9px] uppercase font-bold" style="background: rgba(0,0,0,0.06);">MeatNet</span>
+                </div>
+                <div class="text-xs font-bold mt-1 leading-snug">🥩 Buffalo Meat</div>
+              </div>
+              <div class="mt-2 pt-1.5 border-t flex items-center justify-between text-[9.5px]" style="border-color: var(--card-inner-border); color: var(--text-dim);">
+                <span>Target: <strong class="text-amber-400">GCC</strong></span>
+                <span id="apeda-indicator-02023000" class="font-bold font-mono hidden text-emerald-400">● ACTIVE</span>
+              </div>
+            </button>
+
+            <button type="button" onclick="selectApedaCommodity('12024200', 'EU', 'peanuts_groundnuts')" id="apeda-chip-12024200" class="apeda-comm-chip p-2.5 rounded-xl border text-left transition-all relative overflow-hidden flex flex-col justify-between active:scale-95" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+              <div>
+                <div class="flex items-center justify-between text-[10px] font-mono" style="color: var(--text-dim);">
+                  <span class="font-bold">HS 12024200</span>
+                  <span class="px-1.5 py-0.5 rounded text-[9px] uppercase font-bold" style="background: rgba(0,0,0,0.06);">TraceNet</span>
+                </div>
+                <div class="text-xs font-bold mt-1 leading-snug">🥜 Groundnuts</div>
+              </div>
+              <div class="mt-2 pt-1.5 border-t flex items-center justify-between text-[9.5px]" style="border-color: var(--card-inner-border); color: var(--text-dim);">
+                <span>Target: <strong class="text-amber-400">EU</strong></span>
+                <span id="apeda-indicator-12024200" class="font-bold font-mono hidden text-emerald-400">● ACTIVE</span>
+              </div>
+            </button>
+          </div>
+
+          <!-- 2. Selected Preset Dossier Card -->
+          <div id="apeda-preset-dossier" class="rounded-2xl p-4 border shadow-md space-y-3.5 transition-all duration-300" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
+            <!-- Populated dynamically by renderApedaPresetDossier -->
+          </div>
         </div>
 
         <!-- Controls: Commodity, Market & Residue Test Inputs -->
