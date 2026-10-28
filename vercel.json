@@ -92,7 +92,7 @@
   ],
   "crons": [
     {
-      "path": "/api/cron",
+      "path": "/api/ingest/corridors",
       "schedule": "30 23 * * *"
     }
   ]
