@@ -13835,13 +13835,13 @@ function buildWireCardHtml(item) {
          style="background: var(--card-bg); border-color: var(--card-border);"
          title="Click to inspect official gazette and open source">
       <div class="flex items-center justify-between flex-wrap gap-1">
-        <div class="flex items-center gap-1.5">
-          <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
+        <div class="flex items-center flex-wrap gap-1.5">
+          <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border whitespace-nowrap"
                 style="background: ${item.badgeBg}; color: ${item.badgeColor}; border-color: ${item.badgeColor}40;">
             ${item.agency}
           </span>
-          <span class="text-[9.5px] font-mono text-neutral-400">• ${item.timestamp}</span>
-          <span class="text-[9.5px] font-mono font-bold text-emerald-500">• ${item.impact}</span>
+          <span class="text-[9.5px] font-mono text-neutral-400 whitespace-nowrap">• ${item.timestamp}</span>
+          <span class="text-[9.5px] font-mono font-bold text-emerald-500 whitespace-nowrap">• ${item.impact}</span>
         </div>
         <button type="button" 
                 onclick="event.stopPropagation(); window.open('${item.url}', '_blank', 'noopener,noreferrer');" 

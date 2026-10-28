@@ -1110,13 +1110,23 @@
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
     }
     
-  </style>
+  
+    /* iPhone 15 & Mobile Ergonomic Polish */
+    input[type="range"] {
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    .scroll-chip-strip {
+      padding-right: 1.5rem !important;
+      scroll-padding-right: 1.5rem;
+    }
+</style>
 </head>
 <body class="theme-kyoto-tea min-h-screen overflow-x-hidden font-sans">
 
   <!-- TOP HEADER (Clean, Single-Row, Never Wraps, Clears Dynamic Island) -->
-  <header class="pt-safe-top px-3 sm:px-4 py-2 sm:py-2.5 border-b sticky top-0 z-40 backdrop-blur-xl" style="background: var(--nav-bg); border-color: var(--card-border);">
-    <div class="mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-10 flex items-center justify-between gap-2">
+  <header class="pt-safe-top px-2 sm:px-4 py-2 sm:py-2.5 border-b sticky top-0 z-40 backdrop-blur-xl" style="background: var(--nav-bg); border-color: var(--card-border);">
+    <div class="mx-auto w-full px-1.5 sm:px-4 lg:px-8 xl:px-10 flex items-center justify-between gap-1.5 sm:gap-2">
       <!-- Zone 1 (Left): Brand & Live Indicator (Immune to Mobile Truncation) -->
       <div class="flex items-center space-x-1.5 sm:space-x-2.5 shrink-0">
         <div class="w-7 h-7 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shadow-md shrink-0 active:scale-95 transition-transform" style="background: var(--accent); color: #ffffff;">
@@ -1292,10 +1302,10 @@
 
         <!-- Audit Badge -->
         <button onclick="openBottomSheet('audit')" class="h-9 px-2 sm:px-2.5 rounded-xl border text-xs font-bold active:scale-95 transition-transform flex items-center gap-1 shadow-sm shrink-0" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">
-          <svg class="w-3.5 h-3.5" width="14" height="14" fill="currentColor" viewBox="0 0 20 20">
+          <svg class="w-3.5 h-3.5 shrink-0" width="14" height="14" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
           </svg>
-          <span class="text-[11px] font-bold">Seal</span>
+          <span class="text-[11px] font-bold hidden xs:inline">Seal</span>
         </button>
       </div>
     </div>
@@ -1403,13 +1413,13 @@
              style="background: var(--card-bg); border-color: var(--card-border);"
              title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
-              <div class="flex items-center gap-1.5">
-                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
+              <div class="flex items-center flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border whitespace-nowrap"
                       style="background: rgba(245, 158, 11, 0.15); color: #F59E0B; border-color: #F59E0B40;">
                   CBIC CUSTOMS
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Bi-Weekly Gazette</span>
-                <span class="text-[9.5px] font-mono font-bold text-emerald-500">• Duty Valuation Anchor</span>
+                <span class="text-[9.5px] font-mono text-neutral-400 whitespace-nowrap">• Bi-Weekly Gazette</span>
+                <span class="text-[9.5px] font-mono font-bold text-emerald-500 whitespace-nowrap">• Duty Valuation Anchor</span>
               </div>
               <button type="button" 
                       onclick="event.stopPropagation(); window.open('https://taxinformation.cbic.gov.in/', '_blank', 'noopener,noreferrer');" 
@@ -1432,13 +1442,13 @@
              style="background: var(--card-bg); border-color: var(--card-border);"
              title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
-              <div class="flex items-center gap-1.5">
-                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
+              <div class="flex items-center flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border whitespace-nowrap"
                       style="background: rgba(59, 130, 246, 0.15); color: #3B82F6; border-color: #3B82F640;">
                   DGFT PUBLIC NOTICE
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Official Gazette</span>
-                <span class="text-[9.5px] font-mono font-bold text-emerald-500">• MEP Abolished • 2.8% RoDTEP</span>
+                <span class="text-[9.5px] font-mono text-neutral-400 whitespace-nowrap">• Official Gazette</span>
+                <span class="text-[9.5px] font-mono font-bold text-emerald-500 whitespace-nowrap">• MEP Abolished • 2.8% RoDTEP</span>
               </div>
               <button type="button" 
                       onclick="event.stopPropagation(); window.open('https://pib.gov.in/PressReleasePage.aspx?PRID=2054775', '_blank', 'noopener,noreferrer');" 
@@ -1461,13 +1471,13 @@
              style="background: var(--card-bg); border-color: var(--card-border);"
              title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
-              <div class="flex items-center gap-1.5">
-                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
+              <div class="flex items-center flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border whitespace-nowrap"
                       style="background: rgba(239, 68, 68, 0.15); color: #EF4444; border-color: #EF444440;">
                   APEDA TRACENET
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Statutory Protocol</span>
-                <span class="text-[9.5px] font-mono font-bold text-emerald-500">• 0.01 mg/kg LOQ Barrier</span>
+                <span class="text-[9.5px] font-mono text-neutral-400 whitespace-nowrap">• Statutory Protocol</span>
+                <span class="text-[9.5px] font-mono font-bold text-emerald-500 whitespace-nowrap">• 0.01 mg/kg LOQ Barrier</span>
               </div>
               <button type="button" 
                       onclick="event.stopPropagation(); window.open('https://pib.gov.in/PressReleasePage.aspx?PRID=1969248', '_blank', 'noopener,noreferrer');" 
@@ -1490,13 +1500,13 @@
              style="background: var(--card-bg); border-color: var(--card-border);"
              title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
-              <div class="flex items-center gap-1.5">
-                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
+              <div class="flex items-center flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border whitespace-nowrap"
                       style="background: rgba(16, 185, 129, 0.15); color: #10B981; border-color: #10B98140;">
                   RBI FBIL FOREX
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Daily 13:30 IST</span>
-                <span class="text-[9.5px] font-mono font-bold text-emerald-500">• FBIL Spot Reference</span>
+                <span class="text-[9.5px] font-mono text-neutral-400 whitespace-nowrap">• Daily 13:30 IST</span>
+                <span class="text-[9.5px] font-mono font-bold text-emerald-500 whitespace-nowrap">• FBIL Spot Reference</span>
               </div>
               <button type="button" 
                       onclick="event.stopPropagation(); window.open('https://www.fbil.org.in/', '_blank', 'noopener,noreferrer');" 
@@ -1519,13 +1529,13 @@
              style="background: var(--card-bg); border-color: var(--card-border);"
              title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
-              <div class="flex items-center gap-1.5">
-                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
+              <div class="flex items-center flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border whitespace-nowrap"
                       style="background: rgba(6, 182, 212, 0.15); color: #06B6D4; border-color: #06B6D440;">
                   DREWRY WCI FREIGHT
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Weekly Assessment</span>
-                <span class="text-[9.5px] font-mono font-bold text-emerald-500">• Origin THC Capped</span>
+                <span class="text-[9.5px] font-mono text-neutral-400 whitespace-nowrap">• Weekly Assessment</span>
+                <span class="text-[9.5px] font-mono font-bold text-emerald-500 whitespace-nowrap">• Origin THC Capped</span>
               </div>
               <button type="button" 
                       onclick="event.stopPropagation(); window.open('https://www.drewry.co.uk/supply-chain-advisors/supply-chain-expertise/world-container-index-assessed-by-drewry', '_blank', 'noopener,noreferrer');" 
@@ -1548,13 +1558,13 @@
              style="background: var(--card-bg); border-color: var(--card-border);"
              title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
-              <div class="flex items-center gap-1.5">
-                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
+              <div class="flex items-center flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border whitespace-nowrap"
                       style="background: rgba(245, 158, 11, 0.15); color: #F59E0B; border-color: #F59E0B40;">
                   SPICES BOARD INDIA
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Mandatory Protocol</span>
-                <span class="text-[9.5px] font-mono font-bold text-emerald-500">• ETO & Aflatoxin Protocol</span>
+                <span class="text-[9.5px] font-mono text-neutral-400 whitespace-nowrap">• Mandatory Protocol</span>
+                <span class="text-[9.5px] font-mono font-bold text-emerald-500 whitespace-nowrap">• ETO & Aflatoxin Protocol</span>
               </div>
               <button type="button" 
                       onclick="event.stopPropagation(); window.open('https://pib.gov.in/PressReleasePage.aspx?PRID=1983050', '_blank', 'noopener,noreferrer');" 
@@ -1577,13 +1587,13 @@
              style="background: var(--card-bg); border-color: var(--card-border);"
              title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
-              <div class="flex items-center gap-1.5">
-                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
+              <div class="flex items-center flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border whitespace-nowrap"
                       style="background: rgba(16, 185, 129, 0.15); color: #10B981; border-color: #10B98140;">
                   AGMARKNET MANDI
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Live Mandi Search</span>
-                <span class="text-[9.5px] font-mono font-bold text-emerald-500">• ₹192/kg Modal Rate</span>
+                <span class="text-[9.5px] font-mono text-neutral-400 whitespace-nowrap">• Live Mandi Search</span>
+                <span class="text-[9.5px] font-mono font-bold text-emerald-500 whitespace-nowrap">• ₹192/kg Modal Rate</span>
               </div>
               <button type="button" 
                       onclick="event.stopPropagation(); window.open('https://agmarknet.gov.in/SearchCmmMkt.aspx', '_blank', 'noopener,noreferrer');" 
@@ -1606,13 +1616,13 @@
              style="background: var(--card-bg); border-color: var(--card-border);"
              title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
-              <div class="flex items-center gap-1.5">
-                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
+              <div class="flex items-center flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border whitespace-nowrap"
                       style="background: rgba(59, 130, 246, 0.15); color: #3B82F6; border-color: #3B82F640;">
                   ICEGATE 2.0 CUSTOMS
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• 24x7 Status: NORMAL</span>
-                <span class="text-[9.5px] font-mono font-bold text-emerald-500">• Sec 110A ECL Online</span>
+                <span class="text-[9.5px] font-mono text-neutral-400 whitespace-nowrap">• 24x7 Status: NORMAL</span>
+                <span class="text-[9.5px] font-mono font-bold text-emerald-500 whitespace-nowrap">• Sec 110A ECL Online</span>
               </div>
               <button type="button" 
                       onclick="event.stopPropagation(); window.open('https://pib.gov.in/PressReleasePage.aspx?PRID=1943890', '_blank', 'noopener,noreferrer');" 
@@ -1635,13 +1645,13 @@
              style="background: var(--card-bg); border-color: var(--card-border);"
              title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
-              <div class="flex items-center gap-1.5">
-                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
+              <div class="flex items-center flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border whitespace-nowrap"
                       style="background: rgba(139, 92, 246, 0.15); color: #8B5CF6; border-color: #8B5CF640;">
                   DGCIS TRADESTAT
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Monthly Cadence</span>
-                <span class="text-[9.5px] font-mono font-bold text-emerald-500">• +28.4% YoY Tech Cargo</span>
+                <span class="text-[9.5px] font-mono text-neutral-400 whitespace-nowrap">• Monthly Cadence</span>
+                <span class="text-[9.5px] font-mono font-bold text-emerald-500 whitespace-nowrap">• +28.4% YoY Tech Cargo</span>
               </div>
               <button type="button" 
                       onclick="event.stopPropagation(); window.open('https://pib.gov.in/PressReleasePage.aspx?PRID=2065095', '_blank', 'noopener,noreferrer');" 
@@ -1664,13 +1674,13 @@
              style="background: var(--card-bg); border-color: var(--card-border);"
              title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
-              <div class="flex items-center gap-1.5">
-                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
+              <div class="flex items-center flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border whitespace-nowrap"
                       style="background: rgba(6, 182, 212, 0.15); color: #06B6D4; border-color: #06B6D440;">
                   MPEDA E-CATCH
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Catch Certification</span>
-                <span class="text-[9.5px] font-mono font-bold text-emerald-500">• ELISA Zero Tolerance</span>
+                <span class="text-[9.5px] font-mono text-neutral-400 whitespace-nowrap">• Catch Certification</span>
+                <span class="text-[9.5px] font-mono font-bold text-emerald-500 whitespace-nowrap">• ELISA Zero Tolerance</span>
               </div>
               <button type="button" 
                       onclick="event.stopPropagation(); window.open('https://mpeda.gov.in/?page_id=1130', '_blank', 'noopener,noreferrer');" 
@@ -1693,13 +1703,13 @@
              style="background: var(--card-bg); border-color: var(--card-border);"
              title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
-              <div class="flex items-center gap-1.5">
-                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
+              <div class="flex items-center flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border whitespace-nowrap"
                       style="background: rgba(245, 158, 11, 0.15); color: #F59E0B; border-color: #F59E0B40;">
                   CBIC CUSTOMS
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Bi-Weekly Gazette</span>
-                <span class="text-[9.5px] font-mono font-bold text-emerald-500">• Duty Valuation Anchor</span>
+                <span class="text-[9.5px] font-mono text-neutral-400 whitespace-nowrap">• Bi-Weekly Gazette</span>
+                <span class="text-[9.5px] font-mono font-bold text-emerald-500 whitespace-nowrap">• Duty Valuation Anchor</span>
               </div>
               <button type="button" 
                       onclick="event.stopPropagation(); window.open('https://taxinformation.cbic.gov.in/', '_blank', 'noopener,noreferrer');" 
@@ -1722,13 +1732,13 @@
              style="background: var(--card-bg); border-color: var(--card-border);"
              title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
-              <div class="flex items-center gap-1.5">
-                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
+              <div class="flex items-center flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border whitespace-nowrap"
                       style="background: rgba(59, 130, 246, 0.15); color: #3B82F6; border-color: #3B82F640;">
                   DGFT PUBLIC NOTICE
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Official Gazette</span>
-                <span class="text-[9.5px] font-mono font-bold text-emerald-500">• MEP Abolished • 2.8% RoDTEP</span>
+                <span class="text-[9.5px] font-mono text-neutral-400 whitespace-nowrap">• Official Gazette</span>
+                <span class="text-[9.5px] font-mono font-bold text-emerald-500 whitespace-nowrap">• MEP Abolished • 2.8% RoDTEP</span>
               </div>
               <button type="button" 
                       onclick="event.stopPropagation(); window.open('https://pib.gov.in/PressReleasePage.aspx?PRID=2054775', '_blank', 'noopener,noreferrer');" 
@@ -1751,13 +1761,13 @@
              style="background: var(--card-bg); border-color: var(--card-border);"
              title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
-              <div class="flex items-center gap-1.5">
-                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
+              <div class="flex items-center flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border whitespace-nowrap"
                       style="background: rgba(239, 68, 68, 0.15); color: #EF4444; border-color: #EF444440;">
                   APEDA TRACENET
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Statutory Protocol</span>
-                <span class="text-[9.5px] font-mono font-bold text-emerald-500">• 0.01 mg/kg LOQ Barrier</span>
+                <span class="text-[9.5px] font-mono text-neutral-400 whitespace-nowrap">• Statutory Protocol</span>
+                <span class="text-[9.5px] font-mono font-bold text-emerald-500 whitespace-nowrap">• 0.01 mg/kg LOQ Barrier</span>
               </div>
               <button type="button" 
                       onclick="event.stopPropagation(); window.open('https://pib.gov.in/PressReleasePage.aspx?PRID=1969248', '_blank', 'noopener,noreferrer');" 
@@ -1780,13 +1790,13 @@
              style="background: var(--card-bg); border-color: var(--card-border);"
              title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
-              <div class="flex items-center gap-1.5">
-                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
+              <div class="flex items-center flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border whitespace-nowrap"
                       style="background: rgba(16, 185, 129, 0.15); color: #10B981; border-color: #10B98140;">
                   RBI FBIL FOREX
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Daily 13:30 IST</span>
-                <span class="text-[9.5px] font-mono font-bold text-emerald-500">• FBIL Spot Reference</span>
+                <span class="text-[9.5px] font-mono text-neutral-400 whitespace-nowrap">• Daily 13:30 IST</span>
+                <span class="text-[9.5px] font-mono font-bold text-emerald-500 whitespace-nowrap">• FBIL Spot Reference</span>
               </div>
               <button type="button" 
                       onclick="event.stopPropagation(); window.open('https://www.fbil.org.in/', '_blank', 'noopener,noreferrer');" 
@@ -1809,13 +1819,13 @@
              style="background: var(--card-bg); border-color: var(--card-border);"
              title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
-              <div class="flex items-center gap-1.5">
-                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
+              <div class="flex items-center flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border whitespace-nowrap"
                       style="background: rgba(6, 182, 212, 0.15); color: #06B6D4; border-color: #06B6D440;">
                   DREWRY WCI FREIGHT
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Weekly Assessment</span>
-                <span class="text-[9.5px] font-mono font-bold text-emerald-500">• Origin THC Capped</span>
+                <span class="text-[9.5px] font-mono text-neutral-400 whitespace-nowrap">• Weekly Assessment</span>
+                <span class="text-[9.5px] font-mono font-bold text-emerald-500 whitespace-nowrap">• Origin THC Capped</span>
               </div>
               <button type="button" 
                       onclick="event.stopPropagation(); window.open('https://www.drewry.co.uk/supply-chain-advisors/supply-chain-expertise/world-container-index-assessed-by-drewry', '_blank', 'noopener,noreferrer');" 
@@ -1838,13 +1848,13 @@
              style="background: var(--card-bg); border-color: var(--card-border);"
              title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
-              <div class="flex items-center gap-1.5">
-                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
+              <div class="flex items-center flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border whitespace-nowrap"
                       style="background: rgba(245, 158, 11, 0.15); color: #F59E0B; border-color: #F59E0B40;">
                   SPICES BOARD INDIA
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Mandatory Protocol</span>
-                <span class="text-[9.5px] font-mono font-bold text-emerald-500">• ETO & Aflatoxin Protocol</span>
+                <span class="text-[9.5px] font-mono text-neutral-400 whitespace-nowrap">• Mandatory Protocol</span>
+                <span class="text-[9.5px] font-mono font-bold text-emerald-500 whitespace-nowrap">• ETO & Aflatoxin Protocol</span>
               </div>
               <button type="button" 
                       onclick="event.stopPropagation(); window.open('https://pib.gov.in/PressReleasePage.aspx?PRID=1983050', '_blank', 'noopener,noreferrer');" 
@@ -1867,13 +1877,13 @@
              style="background: var(--card-bg); border-color: var(--card-border);"
              title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
-              <div class="flex items-center gap-1.5">
-                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
+              <div class="flex items-center flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border whitespace-nowrap"
                       style="background: rgba(16, 185, 129, 0.15); color: #10B981; border-color: #10B98140;">
                   AGMARKNET MANDI
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Live Mandi Search</span>
-                <span class="text-[9.5px] font-mono font-bold text-emerald-500">• ₹192/kg Modal Rate</span>
+                <span class="text-[9.5px] font-mono text-neutral-400 whitespace-nowrap">• Live Mandi Search</span>
+                <span class="text-[9.5px] font-mono font-bold text-emerald-500 whitespace-nowrap">• ₹192/kg Modal Rate</span>
               </div>
               <button type="button" 
                       onclick="event.stopPropagation(); window.open('https://agmarknet.gov.in/SearchCmmMkt.aspx', '_blank', 'noopener,noreferrer');" 
@@ -1896,13 +1906,13 @@
              style="background: var(--card-bg); border-color: var(--card-border);"
              title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
-              <div class="flex items-center gap-1.5">
-                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
+              <div class="flex items-center flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border whitespace-nowrap"
                       style="background: rgba(59, 130, 246, 0.15); color: #3B82F6; border-color: #3B82F640;">
                   ICEGATE 2.0 CUSTOMS
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• 24x7 Status: NORMAL</span>
-                <span class="text-[9.5px] font-mono font-bold text-emerald-500">• Sec 110A ECL Online</span>
+                <span class="text-[9.5px] font-mono text-neutral-400 whitespace-nowrap">• 24x7 Status: NORMAL</span>
+                <span class="text-[9.5px] font-mono font-bold text-emerald-500 whitespace-nowrap">• Sec 110A ECL Online</span>
               </div>
               <button type="button" 
                       onclick="event.stopPropagation(); window.open('https://pib.gov.in/PressReleasePage.aspx?PRID=1943890', '_blank', 'noopener,noreferrer');" 
@@ -1925,13 +1935,13 @@
              style="background: var(--card-bg); border-color: var(--card-border);"
              title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
-              <div class="flex items-center gap-1.5">
-                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
+              <div class="flex items-center flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border whitespace-nowrap"
                       style="background: rgba(139, 92, 246, 0.15); color: #8B5CF6; border-color: #8B5CF640;">
                   DGCIS TRADESTAT
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Monthly Cadence</span>
-                <span class="text-[9.5px] font-mono font-bold text-emerald-500">• +28.4% YoY Tech Cargo</span>
+                <span class="text-[9.5px] font-mono text-neutral-400 whitespace-nowrap">• Monthly Cadence</span>
+                <span class="text-[9.5px] font-mono font-bold text-emerald-500 whitespace-nowrap">• +28.4% YoY Tech Cargo</span>
               </div>
               <button type="button" 
                       onclick="event.stopPropagation(); window.open('https://pib.gov.in/PressReleasePage.aspx?PRID=2065095', '_blank', 'noopener,noreferrer');" 
@@ -1954,13 +1964,13 @@
              style="background: var(--card-bg); border-color: var(--card-border);"
              title="Click to inspect official gazette and open source">
             <div class="flex items-center justify-between flex-wrap gap-1">
-              <div class="flex items-center gap-1.5">
-                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border"
+              <div class="flex items-center flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-black uppercase tracking-wider border whitespace-nowrap"
                       style="background: rgba(6, 182, 212, 0.15); color: #06B6D4; border-color: #06B6D440;">
                   MPEDA E-CATCH
                 </span>
-                <span class="text-[9.5px] font-mono text-neutral-400">• Catch Certification</span>
-                <span class="text-[9.5px] font-mono font-bold text-emerald-500">• ELISA Zero Tolerance</span>
+                <span class="text-[9.5px] font-mono text-neutral-400 whitespace-nowrap">• Catch Certification</span>
+                <span class="text-[9.5px] font-mono font-bold text-emerald-500 whitespace-nowrap">• ELISA Zero Tolerance</span>
               </div>
               <button type="button" 
                       onclick="event.stopPropagation(); window.open('https://mpeda.gov.in/?page_id=1130', '_blank', 'noopener,noreferrer');" 
@@ -3243,16 +3253,16 @@
             
             <!-- Valuation & FTA Benefit Controls -->
             <div class="lg:col-span-7 p-3.5 rounded-2xl border space-y-3" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-              <div class="flex items-center justify-between border-b pb-2" style="border-color: var(--card-inner-border);">
-                <div>
-                  <h4 id="wb-comm-title" class="font-bold text-xs" style="color: var(--text-main);">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 border-b pb-2" style="border-color: var(--card-inner-border);">
+                <div class="min-w-0 flex-1">
+                  <h4 id="wb-comm-title" class="font-bold text-xs sm:text-sm leading-snug break-words" style="color: var(--text-main);">
                     Guntur S4 / Teja Sun-Dried Red Chilli (HS 09042110)
                   </h4>
-                  <p id="wb-comm-subtitle" class="text-[10px]" style="color: var(--text-muted);">
+                  <p id="wb-comm-subtitle" class="text-[10px] leading-tight" style="color: var(--text-muted);">
                     Chapter 09 (Coffee, Tea, Mate and Spices) &bull; Spices Board of India
                   </p>
                 </div>
-                <span id="wb-comm-council-badge" class="text-[9px] font-mono font-bold px-2 py-0.5 rounded-full" style="background: var(--accent-light); color: var(--accent);">
+                <span id="wb-comm-council-badge" class="self-start sm:self-auto shrink-0 text-[9px] font-mono font-bold px-2 py-0.5 rounded-full whitespace-nowrap" style="background: var(--accent-light); color: var(--accent);">
                   Spices Board
                 </span>
               </div>
@@ -3300,14 +3310,14 @@
                 <label class="block text-[9px] font-bold uppercase" style="color: var(--text-dim);">
                   <span class="eli5-term" data-pro="Free Trade Agreement (FTA) Rules of Origin" data-eli5="Special Trade Deal Tariff Mode">Free Trade Agreement (FTA) Rules of Origin</span>
                 </label>
-                <div class="grid grid-cols-3 gap-2">
-                  <button type="button" onclick="setWorkbenchFtaMode('MFN')" id="wb-fta-btn-MFN" class="wb-fta-btn p-2 rounded-xl border text-[11px] font-bold text-center active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                <div class="grid grid-cols-3 gap-1.5">
+                  <button type="button" onclick="setWorkbenchFtaMode('MFN')" id="wb-fta-btn-MFN" class="wb-fta-btn p-1.5 sm:p-2 rounded-xl border text-[9.5px] sm:text-[11px] font-bold text-center active:scale-95 transition-all leading-tight" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);">
                     MFN Standard
                   </button>
-                  <button type="button" onclick="setWorkbenchFtaMode('CEPA')" id="wb-fta-btn-CEPA" class="wb-fta-btn p-2 rounded-xl border text-[11px] font-bold text-center active:scale-95 transition-all" style="background: var(--accent); color: #ffffff; border-color: var(--accent);">
+                  <button type="button" onclick="setWorkbenchFtaMode('CEPA')" id="wb-fta-btn-CEPA" class="wb-fta-btn p-1.5 sm:p-2 rounded-xl border text-[9.5px] sm:text-[11px] font-bold text-center active:scale-95 transition-all leading-tight" style="background: var(--accent); color: #ffffff; border-color: var(--accent);">
                     India-UAE CEPA (0%)
                   </button>
-                  <button type="button" onclick="setWorkbenchFtaMode('AIFTA')" id="wb-fta-btn-AIFTA" class="wb-fta-btn p-2 rounded-xl border text-[11px] font-bold text-center active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+                  <button type="button" onclick="setWorkbenchFtaMode('AIFTA')" id="wb-fta-btn-AIFTA" class="wb-fta-btn p-1.5 sm:p-2 rounded-xl border text-[9.5px] sm:text-[11px] font-bold text-center active:scale-95 transition-all leading-tight" style="background: var(--card-bg); border-color: var(--card-inner-border); color: var(--text-main);">
                     India-ASEAN AIFTA
                   </button>
                 </div>
@@ -3618,8 +3628,8 @@
 
       <!-- Collapsible Container for Legacy Statutory Feeds -->
       <div id="statutory-gateways-container" class="space-y-4 pt-3 border-t" style="border-color: var(--card-border);">
-        <div class="flex items-center justify-between px-1">
-          <div class="flex items-center gap-2">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 px-1">
+          <div class="flex flex-wrap items-center gap-2">
             <span class="text-xs font-bold uppercase tracking-wider" style="color: var(--text-main);">🏛️ Audited Ministry Feeds &amp; Gateways</span>
             <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full" style="background: var(--accent-light); color: var(--accent);">6 Feeds Active</span>
           </div>
@@ -3651,9 +3661,9 @@
 
         <!-- Dynamic Tradestat Detail Panel -->
         <div id="tradestat-detail-card" class="p-3 rounded-xl border space-y-2 text-xs" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
-          <div class="flex items-center justify-between">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
             <span id="ts-card-title" class="font-bold text-xs sm:text-sm text-main" style="color: var(--accent);">India ↔ USA Bilateral Trade Profile</span>
-            <span id="ts-card-badge" class="text-[10px] font-semibold px-2 py-0.5 rounded-full" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">Surplus: +$35.3B</span>
+            <span id="ts-card-badge" class="self-start sm:self-auto text-[10px] font-semibold px-2 py-0.5 rounded-full shrink-0" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">Surplus: +$35.3B</span>
           </div>
 
           <div class="grid grid-cols-3 gap-1.5 text-center pt-1">
@@ -3943,8 +3953,8 @@
           </div>
 
           <!-- 1. Interactive Selector Ribbon -->
-          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 text-xs">
-            <button type="button" onclick="selectApedaCommodity('10063020', 'EU', 'basmati_rice')" id="apeda-chip-10063020" class="apeda-comm-chip p-2.5 rounded-xl border text-left transition-all relative overflow-hidden flex flex-col justify-between active:scale-95" style="background: var(--accent); color: #ffffff; border-color: transparent;">
+          <div class="flex overflow-x-auto no-scrollbar gap-2 pb-1.5 sm:grid sm:grid-cols-3 lg:grid-cols-5 text-xs">
+            <button type="button" onclick="selectApedaCommodity('10063020', 'EU', 'basmati_rice')" id="apeda-chip-10063020" class="apeda-comm-chip shrink-0 w-[165px] sm:w-auto p-2.5 rounded-xl border text-left transition-all relative overflow-hidden flex flex-col justify-between active:scale-95" style="background: var(--accent); color: #ffffff; border-color: transparent;">
               <div>
                 <div class="flex items-center justify-between text-[10px] font-mono">
                   <span class="font-bold opacity-90">HS 10063020</span>
@@ -3958,7 +3968,7 @@
               </div>
             </button>
 
-            <button type="button" onclick="selectApedaCommodity('08061000', 'EU', 'fresh_grapes')" id="apeda-chip-08061000" class="apeda-comm-chip p-2.5 rounded-xl border text-left transition-all relative overflow-hidden flex flex-col justify-between active:scale-95" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+            <button type="button" onclick="selectApedaCommodity('08061000', 'EU', 'fresh_grapes')" id="apeda-chip-08061000" class="apeda-comm-chip shrink-0 w-[165px] sm:w-auto p-2.5 rounded-xl border text-left transition-all relative overflow-hidden flex flex-col justify-between active:scale-95" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
               <div>
                 <div class="flex items-center justify-between text-[10px] font-mono" style="color: var(--text-dim);">
                   <span class="font-bold">HS 08061000</span>
@@ -3972,7 +3982,7 @@
               </div>
             </button>
 
-            <button type="button" onclick="selectApedaCommodity('08045020', 'USA', 'fresh_mangoes')" id="apeda-chip-08045020" class="apeda-comm-chip p-2.5 rounded-xl border text-left transition-all relative overflow-hidden flex flex-col justify-between active:scale-95" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+            <button type="button" onclick="selectApedaCommodity('08045020', 'USA', 'fresh_mangoes')" id="apeda-chip-08045020" class="apeda-comm-chip shrink-0 w-[165px] sm:w-auto p-2.5 rounded-xl border text-left transition-all relative overflow-hidden flex flex-col justify-between active:scale-95" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
               <div>
                 <div class="flex items-center justify-between text-[10px] font-mono" style="color: var(--text-dim);">
                   <span class="font-bold">HS 08045020</span>
@@ -3986,7 +3996,7 @@
               </div>
             </button>
 
-            <button type="button" onclick="selectApedaCommodity('02023000', 'GCC', 'buffalo_meat')" id="apeda-chip-02023000" class="apeda-comm-chip p-2.5 rounded-xl border text-left transition-all relative overflow-hidden flex flex-col justify-between active:scale-95" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+            <button type="button" onclick="selectApedaCommodity('02023000', 'GCC', 'buffalo_meat')" id="apeda-chip-02023000" class="apeda-comm-chip shrink-0 w-[165px] sm:w-auto p-2.5 rounded-xl border text-left transition-all relative overflow-hidden flex flex-col justify-between active:scale-95" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
               <div>
                 <div class="flex items-center justify-between text-[10px] font-mono" style="color: var(--text-dim);">
                   <span class="font-bold">HS 02023000</span>
@@ -4000,7 +4010,7 @@
               </div>
             </button>
 
-            <button type="button" onclick="selectApedaCommodity('12024200', 'EU', 'peanuts_groundnuts')" id="apeda-chip-12024200" class="apeda-comm-chip p-2.5 rounded-xl border text-left transition-all relative overflow-hidden flex flex-col justify-between active:scale-95" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
+            <button type="button" onclick="selectApedaCommodity('12024200', 'EU', 'peanuts_groundnuts')" id="apeda-chip-12024200" class="apeda-comm-chip shrink-0 w-[165px] sm:w-auto p-2.5 rounded-xl border text-left transition-all relative overflow-hidden flex flex-col justify-between active:scale-95" style="background: var(--card-inner-bg); border-color: var(--card-inner-border); color: var(--text-main);">
               <div>
                 <div class="flex items-center justify-between text-[10px] font-mono" style="color: var(--text-dim);">
                   <span class="font-bold">HS 12024200</span>
@@ -5028,7 +5038,7 @@
             </div>
 
             <!-- Strategy Radio Selector -->
-            <div class="grid grid-cols-3 gap-1.5 pt-1" id="scen-model-buttons">
+            <div class="grid grid-cols-1 xs:grid-cols-3 gap-1.5 pt-1" id="scen-model-buttons">
               <button type="button" onclick="switchScenarioModel(1)" id="scen-btn-model-1" class="p-2 rounded-xl border text-center font-bold text-[10px] active:scale-95 transition-all" style="background: var(--accent); color: #ffffff;">Model A: Micro Retail</button>
               <button type="button" onclick="switchScenarioModel(2)" id="scen-btn-model-2" class="p-2 rounded-xl border text-center font-bold text-[10px] active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border);">Model B: B2B Wholesaler</button>
               <button type="button" onclick="switchScenarioModel(3)" id="scen-btn-model-3" class="p-2 rounded-xl border text-center font-bold text-[10px] active:scale-95 transition-all" style="background: var(--card-bg); border-color: var(--card-inner-border);">Model C: Titan Asymmetric</button>
@@ -5123,7 +5133,7 @@
             </div>
 
             <!-- Cost & Volume Inputs -->
-            <div class="grid grid-cols-3 gap-2">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
               <div>
                 <label class="block text-[10px] font-bold uppercase mb-1" style="color: var(--text-dim);">Total Unit Cost (₹)</label>
                 <input type="number" id="sb-unit-cost" value="24600" oninput="calculateSandboxArbitrage()" class="w-full p-2 rounded-xl border text-xs font-mono font-bold focus:outline-none text-blue-500" style="background: var(--card-bg); border-color: var(--card-inner-border);" />
@@ -5348,7 +5358,7 @@
             </button>
           </div>
 
-          <div class="grid grid-cols-3 gap-1.5">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
             <div>
               <label class="text-[9px] font-bold block mb-0.5" style="color: var(--text-dim);">Currency</label>
               <select id="cbic-calc-currency" onchange="runCbicValuationSim()" class="w-full text-[11px] p-1.5 rounded-lg border font-mono font-bold" style="background: var(--input-bg); border-color: var(--input-border); color: var(--text);">
@@ -6977,7 +6987,7 @@
         </div>
 
         <!-- Interactive Input Controls -->
-        <div class="grid grid-cols-3 gap-2 text-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
           <div>
             <label class="block text-[10px] font-bold mb-1" style="color: var(--text-dim);">No. of Producers:</label>
             <input type="number" id="csm-producer-count" value="50" oninput="calculateConsortiumAggregation()" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-medium focus:outline-none min-h-[42px]" />
@@ -8599,7 +8609,7 @@
         <!-- Packing List Dimensions & Weights -->
         <div class="p-3 rounded-xl border space-y-2" style="background: var(--card-inner-bg); border-color: var(--card-inner-border);">
           <span class="text-[10px] font-bold uppercase tracking-wider block" style="color: var(--text-dim);">4. Packing List &amp; Container Stuffing Summary</span>
-          <div class="grid grid-cols-4 gap-2 text-xs">
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
             <div>
               <span class="text-[9px] block font-bold" style="color: var(--text-muted);">Total Packages:</span>
               <span id="inv-pkg-count" class="font-bold font-mono">200 Cartons</span>
@@ -8763,7 +8773,7 @@
             <span class="text-[9px] font-mono px-2 py-0.5 rounded border font-bold" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">Action Plan</span>
           </div>
 
-          <div class="grid grid-cols-3 gap-2 text-[10px]">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-2 text-[10px]">
             <div class="p-2.5 rounded-xl border space-y-1" style="background: var(--card-bg); border-color: var(--card-border);">
               <span class="font-mono font-bold text-xs block" style="color: var(--accent);">Stage 1: Operator</span>
               <span class="text-[9px] font-bold uppercase block text-[#10B981]">Where We Are Today</span>
@@ -8823,7 +8833,7 @@
             <span id="clm-commodity-name" class="font-extrabold text-xs" style="color: var(--accent);">Guntur S17 Teja Red Chilli</span>
             <span id="clm-gi-badge" class="text-[9px] font-mono px-2 py-0.5 rounded border" style="background: var(--accent-light); border-color: var(--accent-border); color: var(--accent);">GI Tag Verified</span>
           </div>
-          <div class="grid grid-cols-3 gap-2 text-[10px] font-mono">
+          <div class="grid grid-cols-1 xs:grid-cols-3 gap-1.5 text-[10px] font-mono">
             <div>Batch: <span id="clm-total-batch" class="font-bold">14,000 kg</span></div>
             <div>Producers: <span id="clm-farmer-count" class="font-bold">50 Farmers</span></div>
             <div>Avg Lot: <span id="clm-avg-lot" class="font-bold">280 kg</span></div>
