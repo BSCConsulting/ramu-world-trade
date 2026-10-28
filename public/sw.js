@@ -4,7 +4,7 @@
  * 100% Native Web Standards (Zero External Libraries)
  */
 
-const CACHE_NAME = 'world-of-trade-v34-iphone15-mobile-audit';
+const CACHE_NAME = 'world-of-trade-v34-daily-20261028';
 const STATIC_ASSETS = [
   '/',
   '/index.html',

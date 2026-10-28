@@ -1,0 +1,16 @@
+{
+  "status": "SUCCESS",
+  "timestamp_ist": "2026-10-28T11:54:59.354225+05:30",
+  "date_display": "28 October 2026, 11:54:59 AM IST",
+  "modules_updated": [
+    "APMC Morning Mandi Rates (Vijayawada, Guntur, Khammam, Nizamabad)",
+    "CBIC Customs Section 14 Valuation Rates",
+    "RBI FBIL Reference Forex Timestamps",
+    "Drewry World Container Freight Indices",
+    "Port Dwell & Gate Telemetry Strip",
+    "Service Worker PWA Client Cache"
+  ],
+  "total_corridors_active": 4,
+  "arbitrage_highlights_count": 2,
+  "next_scheduled_run": "2026-10-29T05:00:00.354225+05:30"
+}

@@ -24,5 +24,7 @@
       "status": "ARBITRAGE ALERT",
       "action_advice": "Customs Valuation Gazette (\u20b983.75) is lower than Live Bank Remittance Rate (\u20b994.94). Inward remittance realizes +1336.1 bps extra cash margin."
     }
-  }
+  },
+  "last_updated_ist": "2026-10-28T11:54:59.354225+05:30",
+  "sync_date": "2026-10-28"
 }
