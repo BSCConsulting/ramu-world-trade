@@ -177,7 +177,9 @@ class handler(BaseHTTPRequestHandler):
             return
         parsed = urllib.parse.urlparse(self.path)
         path = parsed.path.rstrip("/")
-        if path.endswith("/health"):
+        if path.endswith("/cron") or "cron" in path:
+            self._handle_cron()
+        elif path.endswith("/health"):
             self._send_json({"status": "ok", "app": "World of Trade", "tier": "100% Free", "deployment": "Vercel Serverless"})
         elif path.endswith("/forex"):
             self._handle_forex()
