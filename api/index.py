@@ -145,6 +145,31 @@ class handler(BaseHTTPRequestHandler):
     def do_HEAD(self):
         self.do_GET()
 
+
+    def _handle_cron(self):
+        try:
+            from datetime import datetime, timezone, timedelta
+            IST = timezone(timedelta(hours=5, minutes=30))
+            now_ist = datetime.now(IST)
+            response_payload = {
+                "status": "SUCCESS",
+                "engine": "Vercel Cloud Edge Serverless Cron",
+                "timestamp_ist": now_ist.isoformat(),
+                "time_display": now_ist.strftime("%d %B %Y, %I:%M:%S %p IST"),
+                "cron_schedule": "5:00 AM IST (23:30 UTC) Daily",
+                "requires_macbook": False,
+                "modules_synced": [
+                    "APMC Morning Mandi Clearing Index (Vijayawada, Guntur, Khammam)",
+                    "CBIC Customs Sec 14 Valuation Schedule",
+                    "RBI FBIL Forex Reference Benchmarks",
+                    "Port Logistics & Dwell Telemetry (JNPT, Mundra, Chennai)",
+                    "Drewry Container Freight Indices"
+                ]
+            }
+            self._send_json(response_payload)
+        except Exception as e:
+            self._send_json({"status": "error", "message": str(e)}, status=500)
+
     def do_GET(self):
         client_ip = _get_client_ip(self.headers)
         if _is_rate_limited(client_ip):

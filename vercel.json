@@ -2,32 +2,102 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/api/health", "destination": "/api" },
-    { "source": "/api/history", "destination": "/api" },
-    { "source": "/api/forex", "destination": "/api" },
-    { "source": "/api/cbic-gazette", "destination": "/api" },
-    { "source": "/api/tradestat", "destination": "/api" },
-    { "source": "/api/corridors", "destination": "/api" },
-    { "source": "/api/ingest/corridors", "destination": "/api" },
-    { "source": "/api/query", "destination": "/api" },
-    { "source": "/api/calculate", "destination": "/api" },
-    { "source": "/practice-lab", "destination": "/practice-lab.html" },
-    { "source": "/workbench", "destination": "/practice-lab.html" },
-    { "source": "/exim-terminal", "destination": "/practice-lab.html" }
+    {
+      "source": "/api/cron",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/health",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/history",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/forex",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/cbic-gazette",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/tradestat",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/corridors",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/ingest/corridors",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/query",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/calculate",
+      "destination": "/api"
+    },
+    {
+      "source": "/practice-lab",
+      "destination": "/practice-lab.html"
+    },
+    {
+      "source": "/workbench",
+      "destination": "/practice-lab.html"
+    },
+    {
+      "source": "/exim-terminal",
+      "destination": "/practice-lab.html"
+    }
   ],
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "X-XSS-Protection", "value": "1; mode=block" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), payment=()" },
-        { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" },
-        { "key": "X-Permitted-Cross-Domain-Policies", "value": "none" },
-        { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://cdn.jsdelivr.net blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net blob:; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com data:; worker-src 'self' blob:; connect-src 'self' https://ramu-world-trade.vercel.app https://cdn.jsdelivr.net https://cxzefzyzmmasypyonmek.supabase.co https://*.supabase.co;" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), payment=()"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        },
+        {
+          "key": "X-Permitted-Cross-Domain-Policies",
+          "value": "none"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://cdn.jsdelivr.net blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net blob:; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com data:; worker-src 'self' blob:; connect-src 'self' https://ramu-world-trade.vercel.app https://cdn.jsdelivr.net https://cxzefzyzmmasypyonmek.supabase.co https://*.supabase.co;"
+        }
       ]
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron",
+      "schedule": "30 23 * * *"
     }
   ]
 }
