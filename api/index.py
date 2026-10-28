@@ -206,7 +206,7 @@ class handler(BaseHTTPRequestHandler):
         elif path.endswith("/query"):
             self._handle_query_get(parsed.query)
         else:
-            self._send_json({"status": "ok", "message": "World of Trade API is active"}, status=200)
+            self._send_json({"status": "ok", "message": "World of Trade API is active", "path": self.path, "headers_keys": list(self.headers.keys())}, status=200)
 
     def do_POST(self):
         client_ip = _get_client_ip(self.headers)
